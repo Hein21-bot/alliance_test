@@ -1,0 +1,12 @@
+/* the submit or save button from the below form*/
+.save-btn {
+    display: flex;
+    justify-content: flex-end;
+    width: 84%;
+    margin: auto;
+}
+
+/* only the div element below form */
+.benefits .row .form-group>div {
+    margin-bottom: 20px;
+}

@@ -1,0 +1,1 @@
+*.alliance_frontend_test_server.rar filter=lfs diff=lfs merge=lfs -text

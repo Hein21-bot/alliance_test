@@ -1,0 +1,174 @@
+.mt20 {
+    margin-top:20px
+}
+
+.mt30 {
+  margin-top:30px
+}
+.areaDrop {
+    width: 45em;
+    padding: 15px;
+    border: 1px solid #333;
+    background: rgba(0,0,0,0.7);
+  }
+  #dropZone {
+    border: 2px dashed #bbb;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    padding: 50px;
+    text-align: center;
+    font: 11pt bold arial;
+    color: #bbb;
+  }
+  
+  #advClaimDropZone {
+    border: 2px dashed #bbb;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    padding: 50px;
+    text-align: center;
+    font: 11pt bold arial;
+    color: #bbb;
+  }
+  
+  .dropZone {
+    border: 2px dashed #bbb;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    padding: 50px;
+    text-align: center;
+    font: 11pt bold arial;
+    color: #bbb;
+  }
+
+  #petrol-bm input::-webkit-outer-spin-button,
+  #petrol-bm input::-webkit-inner-spin-button {
+      /* display: none; <- Crashes Chrome on hover */
+      -webkit-appearance: none;
+      margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+  }
+  
+  #petrol-bm input[type=number] {
+      -moz-appearance:textfield; /* Firefox */
+  }
+
+  #petrol-bm .kilo-type{
+    border: none;
+  }
+
+.save-petrol-btn{
+    display: flex;
+
+justify-content: flex-end;
+
+width: 100%;
+
+margin: auto;
+  }
+
+  .header-info1 {
+    background-color: #2f4050;
+    color: white
+}
+.ownpt{
+  padding-top: 15px;
+padding-left: 10px;
+padding-bottom: 75px
+}
+
+.user-style{
+  color: white;
+ text-align: center;
+}
+
+/* report table */
+
+.report-loader{
+  text-align: center;
+}
+
+.report-table > thead:first-child > tr:first-child > th:first-child {
+  min-width: 150px;
+}
+
+.report-table .last-child {
+  min-width: 150px;
+}
+
+.report-table  .ename {
+  text-align: left !important;
+}
+
+.report-table .fa, .report-table .far, .report-table .fas{
+  font-size: 15px !important;
+}
+.report-table  td{
+  text-align: center !important;
+}
+
+.report-table  .title{
+  text-align: left !important;
+}
+
+/* holiday*/
+.holiday{
+  background-color: #f9e9e9;
+}
+
+.leave, .holiday-color{
+  color: #38aef4;
+}
+
+/* td > a > i{
+  color: #337ab7;
+} */
+
+.work-day{
+  color: #337ab7;
+}
+
+.work{
+  color: #1ab394;
+}
+
+.not-check{
+  color: red;
+}
+
+.total{
+  background-color: #f0f0e0 !important;
+}
+
+.unpaid-leave{
+  color: #f9adad;
+}
+
+.add-check{
+  background-color: #959090;
+}
+
+/***Leave Management****/
+.tablinks{
+  width: 100px;
+  height: 40px;
+}
+.leaveTab{
+  background-color: blue;
+}
+.list-group{
+  background-color: white;
+}
+/* hr {
+  height: 2px;
+  background-color: #1ab394;
+} */
+/* .row{
+  margin-top: 20px;
+} */
+.border-class
+{
+  border:1px #1ab394 solid;
+}
+.leave-list-group > .list-group-item:active,.list-group-item:hover, .list-group-item:focus{
+  background-color: #1ab394 !important;
+}

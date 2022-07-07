@@ -1,0 +1,46 @@
+{
+    "data": [
+      {
+        "INVERTER NO": "Sector A",
+        "SPEC": "125",
+        "MPPT": "824.28 kW",
+        "PANELS": "9,912.91 kWh",
+        "CAPACITY": "84%",
+        "OUTPUT": "1",
+        "24 HOURS": "10",
+        "EFFICIENCY": "2",
+        "ALERTS": [{"Info": "3", "Low": "2", "Medium":"0", "High":"0", "Critical":"0"}],
+        "STATUS": "Normal",
+        "PanelRangeStart": "3038",
+        "PanelRangeEnd" : "3467",
+        "PanelID": "3039",
+        "PanelOutput": "31 W",
+        "PanelOutput24": "79.30 kWh",
+        "PanelCurrent": "0.35 A",
+        "PanelVoltage": "13.5 V",
+        "PanelInverterEfficiency": "83%",
+        "Alerts": [{"Time":"2017-11-14 16:23:34", "Message":"Low Alert"},{"Time":"2017-11-15 13:02:43", "Message":"Info Alert"},{"Time":"2017-11-15 18:00:02", "Message":"Info Alert"}, {"Time":"2017-11-15 23:42:58", "Message":"Info Alert"}]
+      },
+      {
+        "INVERTER NO": "Sector B",
+        "SPEC": "125",
+        "MPPT": "824.28 kW",
+        "PANELS": "9,912.91 kWh",
+        "CAPACITY": "84%",
+        "OUTPUT": "1",
+        "24 HOURS": "10",
+        "EFFICIENCY": "2",
+        "ALERTS": [{"Info": "3", "Low": "2", "Medium":"0", "High":"0", "Critical":"0"}],
+        "STATUS": "Normal",
+        "PanelRangeStart": "3038",
+        "PanelRangeEnd" : "3467",
+        "PanelID": "3039",
+        "PanelOutput": "31 W",
+        "PanelOutput24": "79.30 kWh",
+        "PanelCurrent": "0.35 A",
+        "PanelVoltage": "13.5 V",
+        "PanelInverterEfficiency": "83%",
+        "Alerts": [{"Time":"2017-11-14 16:23:34", "Message":"Low Alert"},{"Time":"2017-11-15 13:02:43", "Message":"Info Alert"},{"Time":"2017-11-15 18:00:02", "Message":"Info Alert"}, {"Time":"2017-11-15 23:42:58", "Message":"Info Alert"}]
+      }
+    ]
+}

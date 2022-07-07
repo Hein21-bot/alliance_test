@@ -1,0 +1,102 @@
+.margin-top-20{
+    margin-top: 20px;
+}
+
+.margin-top-10{
+    margin-top: 10px;
+}
+
+.margin-left-10{
+    margin-left: 10px;
+}
+
+.m-r-10{
+    margin-right: 10px;
+}
+.m-b-10{
+    margin-bottom: 10px;
+}
+
+.m-20{
+    margin: 20px 0px;
+}
+/********setup form******/
+
+.staff_loan .full_width {
+    width: 100%;
+}
+
+.container{
+    width: auto;
+}
+
+.f-right{
+    float: right;
+}
+
+.main-container{
+    background: white;
+    margin: 20px 0px;
+}
+
+.title_float_btn{
+    margin-top: 20px;
+    float: right;
+}
+
+.add_new_icon{
+    margin-right: 10px;
+}
+
+
+/******************Button Group*************/
+
+.btn_verified{
+    background-color: #1a7bb9 !important;
+    margin-right: 10px;
+    color: white;
+}
+
+.btn_approved{
+    background-color: #1eacae !important;
+    margin-right: 10px;
+    color: white;
+}
+
+.btn_reject{
+    background-color: #ec4758 !important;
+    margin-right: 10px;
+    color: white;
+}
+
+.btn_verified:hover, .btn_approved:hover, .btn_reject:hover{
+    color: white;
+}
+
+/************Delete Modal Style***********/
+#deleteModal .modal-header{
+    background-color: #ec4758;
+    color: white;
+}
+
+#deleteModal .modal-body > div {
+    display: grid;
+    grid-template-columns: 0.5fr 7fr;
+}
+
+#deleteModal .modal-body > div > div{
+    display: flex;
+    align-items: center;
+}
+
+
+/**********Title Button***************/
+.title_btn_sty{
+    margin-top: 2%;
+}
+
+
+/*************Table Margin**************/
+.tbl_m_10{
+    margin: 10px 0px;
+}

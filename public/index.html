@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+  <link rel="shortcut icon" href="assets/img/logo.jpeg">
+  <title>Alliance</title>
+
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet">
+  <!-- Toastr style -->
+  <link href="assets/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+  <!-- Gritter -->
+
+  <link href="assets/css/animate.css" rel="stylesheet">
+  <link href="assets/css/style.css" rel="stylesheet">
+  <!-- <link href="assets/css/page.css" rel="stylesheet"> -->
+  <link href="assets/css/login.css" rel="stylesheet">
+  <link href="assets/css/react_datatime.css" rel="stylesheet">
+  <link href="assets/css/staff-loan.css" rel="stylesheet">
+  <link href="assets/css/file.css" rel="stylesheet">
+  <link href="assets/css/pretty_checkbox.css" rel="stylesheet">
+  <link href="assets/css/ownstyle.css" rel="stylesheet">
+  
+  <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+  <!-- <link href="../node_modules/react-toastify/dist/ReactToastify.css" rel="stylesheet"> -->
+
+</head>
+
+<body>
+  <div id="root"></div>
+  <script src="https://kit.fontawesome.com/f30b0f0db1.js"></script>
+  <script src="https://cdn.datatables.net/datetime/1.0.3/js/dataTables.dateTime.min.js"></script>
+
+  <!-- Mainly scripts -->
+  <script src="assets/js/jquery-3.1.1.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+  <script src="assets/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+  <!-- Custom and plugin javascript -->
+  <script src="assets/js/inspinia.js"></script>
+  <script src="assets/js/plugins/pace/pace.min.js"></script>
+  <!-- Toastr -->
+  <script src="assets/js/plugins/toastr/toastr.min.js"></script>
+
+  <script src="assets/js/page.js"></script>
+  
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      $(".sidebar .nav-header").addClass("disabled");
+      $('.sidebar ul li').click(function () {
+        $('li').not(this).removeClass('active');
+        $(this).toggleClass('active');
+      });
+
+      var x = location.pathname;
+      if (x === '/dashboard') {
+        $('.sidebar ul li').not(this).removeClass('active');
+        $('.sidebar #dashboard').addClass('active');
+      }
+
+    });
+  </script>
+
+</body>
+
+</html>
