@@ -436,7 +436,6 @@ export default class HelpDeskView
 
 
     render() {
-
         return (
             <div>
                 <div className="form-horizontal mt20" name="demo-form" id="check_form">
@@ -720,9 +719,9 @@ export default class HelpDeskView
                                                             {data.name.split("&@")[1]}
                                                         </a>
                                                     </div>
-                                                    <div className="column-actions">
+                                                    {this.state.data.createdBy == this.state.updatedBy ? <div className="column-actions">
                                                         <a className="fileuploader-action fileuploader-action-remove" onClick={(event) => this.removeOldDocument(index, event)}> <i></i></a>
-                                                    </div>
+                                                    </div> : ""}
                                                 </div>
                                             </li>
                                         </ul>
@@ -745,9 +744,10 @@ export default class HelpDeskView
                                                             {data.name}
                                                         </a>
                                                     </div>
-                                                    <div className="column-actions">
-                                                        <a className="fileuploader-action fileuploader-action-remove" onClick={(event) => this.removeOldDocument(index, event)}> <i></i></a>
-                                                    </div>
+                                                    {this.state.data.createdBy == this.state.updatedBy ?
+                                                        <div className="column-actions">
+                                                            <a className="fileuploader-action fileuploader-action-remove" onClick={(event) => this.removeOldDocument(index, event)}> <i></i></a>
+                                                        </div> : ""}
                                                 </div>
                                             </li>
                                         </ul>
