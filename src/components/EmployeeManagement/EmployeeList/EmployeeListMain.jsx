@@ -6,6 +6,7 @@ import EmployeeListTable from "./EmployeeListTable"
 import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, getPermissionStatus, startSaving } from "../../../utils/CommonFunction";
 import EmployeeListView from './EmployeeListView';
 import EditEmployeeListForm from './EditEmployeeListForm';
+import { useLocation } from 'react-router-dom';
 
 class EmployeeListMain extends Component {
     constructor() {
@@ -255,6 +256,11 @@ class EmployeeListMain extends Component {
         this.getEmployeeList({ regionId, depId, branchId, designId })
 
     }
+
+    handleAddNew = () => {
+        this.props.history.push('./employee_register');
+    }
+
     BackToTable = () => {
         this.setState({
             viewForm: false,
@@ -378,8 +384,12 @@ class EmployeeListMain extends Component {
                                         />
                                     </div>
 
-                                    <div className='col-lg-4 mx-2' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'end', marginTop: 20 }}>
+                                    <div className='col-lg-6 mx-2' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'end', marginTop: 20 }}>
                                         <button onClick={this.handleSearch} className='btn btn-primary' style={{ borderRadius: 10, width: 120 }}>Search</button>
+
+                                    </div>
+                                    <div className='col-lg-6 mx-2' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'end', marginTop: 20 }}>
+                                        <button onClick={this.handleAddNew} className='btn btn-primary' style={{ borderRadius: 10, width: 120 }}>Add New</button>
 
                                     </div>
                                 </div>

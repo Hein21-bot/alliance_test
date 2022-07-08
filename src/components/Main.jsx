@@ -84,6 +84,7 @@ import HospitalizationType from './MasterData/HospitalizationType/Hospitalizatio
 import { Dashboard } from './Dashboard/Dashboard';
 import ConfirmationList from './EmployeeManagement/EmployeeConfirmation/List/ConfirmationList'
 import ConfirmationCheck from './EmployeeManagement/EmployeeConfirmation/Check/ConfirmationCheck';
+import ConfirmationRequestList from './EmployeeManagement/EmployeeConfirmation/ConfirmationRequest/ConfirmationRequestList';
 const Main = () => (
     <Switch>
         <Route path='/allowance' component={TravelRequest} />
@@ -162,7 +163,7 @@ const Main = () => (
         <Route path="/employee_list" component={EmployeeListMain}></Route>
         <Route path="/confirmation_check" component={ConfirmationCheck}></Route>
         <Route path="/confirmation_list" component={ConfirmationList}></Route>
-        
+        <Route path="/confirmation_request_list" component={ConfirmationRequestList}></Route>
 
         
 

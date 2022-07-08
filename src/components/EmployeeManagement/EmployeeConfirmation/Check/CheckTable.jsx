@@ -130,7 +130,7 @@ export default class BenefitChildTable extends Component {
                 status = '<small class="label label-warning" style="background-color:#b33ce0"> Check</small>'
             }
             else if (data[i].status === 2) {
-                status = '<small class="label label-warning" style="background-color:blue"> Confirm</small>'
+                status = '<small class="label label-warning" style="background-color:#0078FF"> Confirm</small>'
             }
             else if (data[i].status === 3) {
                 status = '<small class="label label-warning" style="background-color:#f2a509"> Verify</small>'

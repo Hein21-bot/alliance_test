@@ -1,74 +1,128 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { getCookieData } from '../../utils/CommonFunction'
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { getCookieData } from "../../utils/CommonFunction";
 
 export default class Sidebar extends Component {
+  constructor() {
+    super();
+    this.state = {
+      user: getCookieData("user_info"),
+      pathname: window.location.pathname,
+    };
+  }
 
-    constructor() {
-        super();
-        this.state = {
-            user: getCookieData("user_info"),
-            pathname: window.location.pathname
-        }
+  checkPathName() {
+    const { pathname } = this.state;
+    if (pathname.includes("master_data")) {
+      return "/master_data";
     }
-
-    checkPathName() {
-        const { pathname } = this.state;
-        if (pathname.includes('master_data')) { return '/master_data' }
-        if (pathname.includes('setting')) { return '/setting' }
-        if (pathname.includes('benefit')) { return '/benefit' }
-        if (pathname.includes('staff_loan')) { return '/staff_loan' }
-        if (pathname.includes('helpDesk')) { return '/helpDesk' }
-        if (pathname.includes('staffComplain')) { return '/staffComplain' }
-        if (pathname.includes('leave_management')) { return '/leave_management' }
-        if (pathname.includes('attendance_leave_report')) { return '/attendance_leave_report' }
-        if (pathname.includes('notification')) { return '/notification' }
-        if (pathname.includes('dashboard')) { return '/dashboard' }
-        if (pathname.includes('employee')) { return '/employee_management' }
-        if (pathname.includes('employment')) { return '/employee_management' }
-        if (pathname.includes('confirmation')) { return '/employee_management/confirmation' }
-
-        else return '/allowance';
+    if (pathname.includes("setting")) {
+      return "/setting";
     }
+    if (pathname.includes("benefit")) {
+      return "/benefit";
+    }
+    if (pathname.includes("staff_loan")) {
+      return "/staff_loan";
+    }
+    if (pathname.includes("helpDesk")) {
+      return "/helpDesk";
+    }
+    if (pathname.includes("staffComplain")) {
+      return "/staffComplain";
+    }
+    if (pathname.includes("leave_management")) {
+      return "/leave_management";
+    }
+    if (pathname.includes("attendance_leave_report")) {
+      return "/attendance_leave_report";
+    }
+    if (pathname.includes("notification")) {
+      return "/notification";
+    }
+    if (pathname.includes("dashboard")) {
+      return "/dashboard";
+    }
+    if (pathname.includes("employee")) {
+      return "/employee_management";
+    }
+    if (pathname.includes("employment")) {
+      return "/employee_management";
+    }
+    if (pathname.includes("confirmation")) {
+      return "/employee_management/confirmation";
+    } else return "/allowance";
+  }
 
+  render() {
+    const { pathname } = this.state;
+    console.log("rendering ....");
+    // console.log("this.checkPathName() is ===>", pathname)
 
-    render() {
-        const { pathname } = this.state;
-        console.log('rendering ....')
-        // console.log("this.checkPathName() is ===>", pathname)
-
-        return (
-            <div>
-                <nav className="navbar-default navbar-static-side">
-                    <div className="sidebar-collapse sidebar">
-                        {/* <ul className="nav metismenu" id="side-menu"> */}
-                        <ul className="nav" id="side-menu">
-                            <li className="nav-header">
-                                <div className="dropdown profile-element user-style">
-                                    <img alt="logo" className="logostyle" src="assets/img/team.svg" /><br />
-                                    <label>
-                                        {
-                                            this.state.user ? this.state.user.fullname : ''
-                                        }</label>
-                                </div>
-                                <div className="logo-element">
-                                    {/* Marter */}
-                                    <img class='rounded-circle' src={'assets/img/Alliance_logo_svg.svg'} width="50px" height={"50px"} />
-                                </div>
-                            </li>
-                            {/* <li className={this.checkPathName() === '/dashboard' ? 'active' : ''}>
+    return (
+      <div>
+        <nav className="navbar-default navbar-static-side">
+          <div className="sidebar-collapse sidebar">
+            {/* <ul className="nav metismenu" id="side-menu"> */}
+            <ul className="nav" id="side-menu">
+              <li className="nav-header">
+                <div className="dropdown profile-element user-style">
+                  <img
+                    alt="logo"
+                    className="logostyle"
+                    src="assets/img/team.svg"
+                  />
+                  <br />
+                  <label>
+                    {this.state.user ? this.state.user.fullname : ""}
+                  </label>
+                </div>
+                <div className="logo-element">
+                  {/* Marter */}
+                  <img
+                    class="rounded-circle"
+                    src={"assets/img/Alliance_logo_svg.svg"}
+                    width="50px"
+                    height={"50px"}
+                  />
+                </div>
+              </li>
+              {/* <li className={this.checkPathName() === '/dashboard' ? 'active' : ''}>
                                 <a href="/dashboard" refresh="true"><i className="fa fa-desktop"></i>Dashboard</a>
                             </li> */}
-                            <li className={this.checkPathName() === '/allowance' ? 'active' : ''}>
-                                <a href="" className='sideList'><i className="fas fa-hand-holding-usd sideIcon"></i><span className='sideText'>Allowance</span></a>
-                                <ul className="nav nav-second-level">
-                                    <li className={pathname === '/travelRequest' ? 'active' : ''}><a href="/travelRequest">Travel Request</a></li>
-                                    <li className={pathname === '/trainingRequest' ? 'active' : ''}><a href="/trainingRequest">Training Request</a></li>
-                                    <li className={pathname === '/salary_advance' ? 'active' : ''}><a href="/salary_advance">Salary Advance</a></li>
-                                    <li className={pathname === '/phonebillrequest' ? 'active' : ''}><a href="/phonebillrequest">Phone Bill</a></li>
-                                    <li className={pathname === '/petrolRequest' ? 'active' : ''}><a href="/petrolRequest">Petrol Request</a></li>
-                                </ul>
-                                {/* <ul className="nav nav-second-level">
+              <li
+                className={
+                  this.checkPathName() === "/allowance" ? "active" : ""
+                }
+              >
+                <a href="" className="sideList">
+                  <i className="fas fa-hand-holding-usd sideIcon"></i>
+                  <span className="sideText">Allowance</span>
+                </a>
+                <ul className="nav nav-second-level">
+                  <li className={pathname === "/travelRequest" ? "active" : ""}>
+                    <a href="/travelRequest">Travel Request</a>
+                  </li>
+                  <li
+                    className={pathname === "/trainingRequest" ? "active" : ""}
+                  >
+                    <a href="/trainingRequest">Training Request</a>
+                  </li>
+                  <li
+                    className={pathname === "/salary_advance" ? "active" : ""}
+                  >
+                    <a href="/salary_advance">Salary Advance</a>
+                  </li>
+                  <li
+                    className={pathname === "/phonebillrequest" ? "active" : ""}
+                  >
+                    <a href="/phonebillrequest">Phone Bill</a>
+                  </li>
+                  <li className={pathname === "/petrolRequest" ? "active" : ""}>
+                    <a href="/petrolRequest">Petrol Request</a>
+                  </li>
+                </ul>
+                {/* <ul className="nav nav-second-level">
                                     <li className={pathname === '/travelRequest' ? 'active' : ''}><a href="/travelRequest" refresh="true"><i className="fas fa-plane"></i>Travel Request</a></li>
 
                                 </ul>
@@ -86,151 +140,465 @@ export default class Sidebar extends Component {
                                 <ul className='nav nav-second-level'>
                                     <li className={pathname === '/petrolRequest' ? 'active' : ''}><a href='/petrolRequest' refresh='true'> <i className="fas fa-gas-pump"></i>Petrol Request</a></li>
                                 </ul> */}
-                                {/* {@KPK} */}
+                {/* {@KPK} */}
+              </li>
 
-                            </li>
-
-                            <li className={this.checkPathName() === '/staff_loan' ? 'active' : ''}>
-                                <a href="" className='sideList'><i className="fas fa-landmark sideIcon"></i><span className='sideText'>Staff Loan</span></a>
-                                <ul className="nav nav-second-level">
-                                    <li className={pathname === '/staff_loan' ? 'active' : ''}><a href="/staff_loan"><i className="fas fa-clipboard-list"></i>Staff Loan List</a></li>
-                                    <li className={pathname === '/staff_loan_repayment' ? 'active' : ''}><a href="/staff_loan_repayment"><i className="fa fa-credit-card"></i>Repayment Schedule</a></li>
-                                    <li className={pathname === '/staff_loan_settlement' ? 'active' : ''}><a href="/staff_loan_settlement"><i className="fa fa-calendar"></i>Settlement Sheet</a></li>
-                                </ul>
-                            </li>
-                            {<li className={pathname === '/Announcement' ? 'active' : ''}><a href="/Announcement" className='sideList'><i className="fas fa-atlas sideIcon"></i><span className='sideText'>Announcement Setting</span></a></li>}
-                            {/* <li className={pathname === '/AnnouncementList' ? 'active' : ''}>
+              <li
+                className={
+                  this.checkPathName() === "/staff_loan" ? "active" : ""
+                }
+              >
+                <a href="" className="sideList">
+                  <i className="fas fa-landmark sideIcon"></i>
+                  <span className="sideText">Staff Loan</span>
+                </a>
+                <ul className="nav nav-second-level">
+                  <li className={pathname === "/staff_loan" ? "active" : ""}>
+                    <a href="/staff_loan">
+                      <i className="fas fa-clipboard-list"></i>Staff Loan List
+                    </a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/staff_loan_repayment" ? "active" : ""
+                    }
+                  >
+                    <a href="/staff_loan_repayment">
+                      <i className="fa fa-credit-card"></i>Repayment Schedule
+                    </a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/staff_loan_settlement" ? "active" : ""
+                    }
+                  >
+                    <a href="/staff_loan_settlement">
+                      <i className="fa fa-calendar"></i>Settlement Sheet
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              {
+                <li className={pathname === "/Announcement" ? "active" : ""}>
+                  <a href="/Announcement" className="sideList">
+                    <i className="fas fa-atlas sideIcon"></i>
+                    <span className="sideText">Announcement Setting</span>
+                  </a>
+                </li>
+              }
+              {/* <li className={pathname === '/AnnouncementList' ? 'active' : ''}>
                                 <a href="/AnnouncemetLisr" refresh="true"><i className="fa fa-bell"></i>Announcement List</a>
                             </li> */}
-                            <li className={this.checkPathName() === '/benefit' ? 'active' : ''}>
-                                <a href="" className='sideList'><i className="fas fa-plus-circle sideIcon"></i><span className='sideText'>Benefits</span></a>
-                                <ul className="nav nav-second-level">
-                                    <li className={pathname === '/wedding_benefit' ? 'active' : ''}><a href="/wedding_benefit">Wedding Benefits</a></li>
-                                    <li className={pathname === '/child_benefit' ? 'active' : ''}><a href="/child_benefit">Child Benefit</a></li>
-                                    <li className={pathname === '/funeral_benefit' ? 'active' : ''}><a href="/funeral_benefit">Funeral Benefit</a></li>
-                                    <li className={pathname === '/external_training_benefit' ? 'active' : ''}><a href="/external_training_benefit">External Training</a></li>
-                                    <li className={pathname === '/medical_benefit' ? 'active' : ''}><a href="/medical_benefit">Medical Benefit</a></li>
-                                    <li className={pathname === '/birthday_fund_benefit' ? 'active' : ''}><a href="/birthday_fund_benefit">Birthday Fund</a></li>
-                                    <li className={pathname === '/team_building_benefit' ? 'active' : ''}><a href="/team_building_benefit">Team Building</a></li>
-                                    <li className={pathname === '/hospitalization_benefit' ? 'active' : ''}><a href="/hospitalization_benefit">Hospitalization</a></li>
-                                    <li className={pathname === '/cycle_insurance_benefit' ? 'active' : ''}><a href="/cycle_insurance_benefit">Cycle Insurance</a></li>
-                                    <li className={pathname === '/other_benefit' ? 'active' : ''}><a href="/other_benefit">Other Benefit</a></li>
-
-                                </ul>
-                            </li>
-                            <li className={this.checkPathName() === '/employee_management' ? 'active' : this.checkPathName() === '/employee_management/confirmation' ? 'active' : ''}>
-                                <a href=""><i className="fas fa-user-cog"></i>Employee Management</a>
-                                <ul className="nav nav-second-level">
-                                    <li className={pathname === '/employee_list' ? 'active' : ''}><a href="/employee_list"><i className="fas fa-users"></i>Employee Lists</a></li>
-                                    <li className={pathname === '/employee_register' ? 'active' : ''}><a href="/employee_register"><i className="fas fa-user-edit"></i>Employee Register</a></li>
-                                    <li className={pathname === '/employment_details' ? 'active' : ''}><a href="/employment_details"><i className="fas fa-address-card"></i>Employment Details</a></li>
-                                    <li className={pathname === '/employee_management/confirmation' ? 'active' : pathname === '/confirmation_list' ? 'active' : pathname === '/confirmation_check' ? 'active' : ''}><a href="/employee_management/confirmation"><i className="fa fa-pencil-square-o"></i> Confirmation</a>
-                                        <ul className='nav nav-third-level'>
-                                            <li className={pathname === '/confirmation_list' ? 'active' : ''}><a href="/confirmation_list"><i className="fa fa-list"></i> List</a></li>
-                                            <li className={pathname === '/confirmation_check' ? 'active' : ''}><a href="/confirmation_check"><i className="fa fa-check-square-o"></i>Confirm List</a></li>
-
-                                        </ul>
-                                    </li>
-
-                                </ul>
-                            </li>
-                            <li className={this.checkPathName() === '/helpDesk' ? 'active' : ''}>
-                                <a href="/helpDesk" className='sideList' refresh="true"><i className="fas fa-hands-helping sideIcon"></i><span className='sideText'>Help Desk</span></a>
-                            </li>
-                            <li className={this.checkPathName() === '/staffComplain' ? 'active' : ''}>
-                                <a href="/staffComplain" className='sideList' refresh="true"><i className="fas fa-question-circle sideIcon"></i><span className='sideText'>Staff Complain Box</span></a>
-                            </li>
-                            <li className={this.checkPathName() === '/leave_management' ? 'active' : ''}>
-                                <a href="/leave_management" className='sideList' refresh="true"><i className="far fa-sticky-note sideIcon"></i><span className='sideText'>Leave management</span></a>
-                            </li>
-                            <li className={this.checkPathName() === '/attendance_leave_report' ? 'active' : ''}>
-                                <a href="/attendance_leave_report" className='sideList' refresh="true"><i className="far fa-sticky-note sideIcon"></i><span className='sideText'>Attendance and Leave</span></a>
-                            </li>
-                            <li className={this.checkPathName() === '/notification' ? 'active' : ''}>
-                                <a href="/notification" className='sideList' refresh="true"><i className="fa fa-bell sideIcon"></i><span className='sideText'>Notification</span></a>
-                            </li>
-                            <li className={this.checkPathName() === '/setting' ? 'active' : ''}>
-                                <a href="" className='sideList'><i className="fas fa-cog sideIcon"></i><span className='sideText'>Setting</span></a>
-                                <ul className="nav nav-second-level">
-                                    <li className={pathname === '/attendance_policy_setting' ? 'active' : ''}><a href="/attendance_policy_setting">Attendance Policy</a></li>
-                                    <li className={pathname === '/benefit_setup_setting' ? 'active' : ''}><a href="/benefit_setup_setting">Benefit</a></li>
-                                    <li className={pathname === '/holiday_setting' ? 'active' : ''}><a href="/holiday_setting">Holiday</a></li>
-                                    <li className={pathname === '/salary_template_setting' ? 'active' : ''}><a href="/salary_template_setting">Salary Template</a></li>
-                                    <li className={pathname === '/ssb_rate_setting' ? 'active' : ''}><a href="/ssb_rate_setting">SSB Rate</a></li>
-                                    <li className={pathname === '/career_path_setting' ? 'active' : ''}><a href="/career_path_setting">Career Path</a></li>
-                                    <li className={pathname === '/payroll_setting' ? 'active' : ''}><a href="/payroll_setting">Payroll</a></li>
-                                </ul>
-                            </li>
-                            <li className={this.checkPathName() === '/master_data' ? 'active' : ''}>
-                                <a href="" className='sideList'><i className="fa fa-key sideIcon"></i><span className='sideText'>Master Data</span></a>
-                                <ul className="nav nav-second-level">
-                                    <li className={pathname === '/career_level_master_data' ? 'active' : ''}><a href="/career_level_master_data">
-                                        {/* <i className="fa fa-user"></i> */}
-                                        Career Level</a></li>
-                                    <li className={pathname === '/career_sub_level_master_data' ? 'active' : ''}><a href="/career_sub_level_master_data">
-                                        {/* <i className="fa fa-user-o"></i> */}
-                                        Career Sub Level</a></li>
-                                    <li className={pathname === '/designations_master_data' ? 'active' : ''}><a href="/designations_master_data">
-                                        {/* <i className="fa fa-id-badge"></i> */}
-                                        Designations</a></li>
-                                    <li className={pathname === '/job_title_master_data' ? 'active' : ''}><a href="/job_title_master_data">
-                                        {/* <i className="fa fa-suitcase"></i> */}
-                                        Job Title</a></li>
-                                    <li className={pathname === '/leave_category_master_data' ? 'active' : ''}><a href="/leave_category_master_data">
-                                        {/* <i className="fa fa-calendar-times-o"></i> */}
-                                        Leave Catyegory</a></li>
-                                    <li className={pathname === '/attendance_reason_type_master_data' ? 'active' : ''}><a href="/attendance_reason_type_master_data">
-                                        {/* <i className="fa fa-check-square-o"></i> */}
-                                        Attendance Reason Type</a></li>
-                                    <li className={pathname === '/hospitalization_type_master_data' ? 'active' : ''}><a href="/hospitalization_type_master_data">
-                                        {/* <i className="fa fa-check-square-o"></i> */}
-                                        Hospitalization Type</a></li>
-                                    <li className={pathname === '/ticket_main_category_master_data' ? 'active' : ''}><a href="/ticket_main_category_master_data">
-                                        {/* <i className="fa fa-ticket"></i> */}
-                                        Ticket Main Category</a></li>
-                                    <li className={pathname === '/ticket_sub_category_master_data' ? 'active' : ''}><a href="/ticket_sub_category_master_data">
-                                        {/* <i className="fa fa-tags"></i> */}
-                                        Ticket Sub Category</a></li>
-                                    <li className={pathname === '/tax_rage_master_data' ? 'active' : ''}><a href="/tax_rage_master_data">
-                                        {/* <i className="fa fa-file-text"></i> */}
-                                        Tax Rage</a></li>
-                                    <li className={pathname === '/tax_relief_master_data' ? 'active' : ''}><a href="/tax_relief_master_data">
-                                        {/* <i className="fa fa-level-down"></i> */}
-                                        Tax Relief</a></li>
-                                </ul>
-                            </li>
-                            {/* <li className={pathname === '/notification' ? 'active' : ''}>
+              <li
+                className={this.checkPathName() === "/benefit" ? "active" : ""}
+              >
+                <a href="" className="sideList">
+                  <i className="fas fa-plus-circle sideIcon"></i>
+                  <span className="sideText">Benefits</span>
+                </a>
+                <ul className="nav nav-second-level">
+                  <li
+                    className={pathname === "/wedding_benefit" ? "active" : ""}
+                  >
+                    <a href="/wedding_benefit">Wedding Benefits</a>
+                  </li>
+                  <li className={pathname === "/child_benefit" ? "active" : ""}>
+                    <a href="/child_benefit">Child Benefit</a>
+                  </li>
+                  <li
+                    className={pathname === "/funeral_benefit" ? "active" : ""}
+                  >
+                    <a href="/funeral_benefit">Funeral Benefit</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/external_training_benefit" ? "active" : ""
+                    }
+                  >
+                    <a href="/external_training_benefit">External Training</a>
+                  </li>
+                  <li
+                    className={pathname === "/medical_benefit" ? "active" : ""}
+                  >
+                    <a href="/medical_benefit">Medical Benefit</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/birthday_fund_benefit" ? "active" : ""
+                    }
+                  >
+                    <a href="/birthday_fund_benefit">Birthday Fund</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/team_building_benefit" ? "active" : ""
+                    }
+                  >
+                    <a href="/team_building_benefit">Team Building</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/hospitalization_benefit" ? "active" : ""
+                    }
+                  >
+                    <a href="/hospitalization_benefit">Hospitalization</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/cycle_insurance_benefit" ? "active" : ""
+                    }
+                  >
+                    <a href="/cycle_insurance_benefit">Cycle Insurance</a>
+                  </li>
+                  <li className={pathname === "/other_benefit" ? "active" : ""}>
+                    <a href="/other_benefit">Other Benefit</a>
+                  </li>
+                </ul>
+              </li>
+              <li
+                className={
+                  this.checkPathName() === "/employee_management"
+                    ? "active"
+                    : this.checkPathName() ===
+                      "/employee_management/confirmation"
+                    ? "active"
+                    : ""
+                }
+              >
+                <a href="">
+                  <i className="fas fa-user-cog"></i>Employee Management
+                </a>
+                <ul className="nav nav-second-level">
+                  <li className={pathname === "/employee_list" ? "active" : ""}>
+                    <a href="/employee_list">Employee Lists</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/employment_details" ? "active" : ""
+                    }
+                  >
+                    <a href="/employment_details">Employment Details</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/employee_management/confirmation"
+                        ? "active"
+                        : pathname === "/confirmation_list"
+                        ? "active"
+                        : pathname === "/confirmation_check"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/employee_management/confirmation">Confirmation</a>
+                    <ul className="nav nav-third-level">
+                      <li
+                        className={
+                          pathname === "/confirmation_list" ? "active" : ""
+                        }
+                      >
+                        <a href="/confirmation_list">List</a>
+                      </li>
+                      <li
+                        className={
+                          pathname === "/confirmation_check" ? "active" : ""
+                        }
+                      >
+                        <a href="/confirmation_check">Confirm List</a>
+                      </li>
+                      <li
+                        className={
+                          pathname === "/confirmation_request_list"
+                            ? "active"
+                            : ""
+                        }
+                      >
+                        <a href="/confirmation_request_list">
+                          Confirmation Request List
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li
+                className={this.checkPathName() === "/helpDesk" ? "active" : ""}
+              >
+                <a href="/helpDesk" className="sideList" refresh="true">
+                  <i className="fas fa-hands-helping sideIcon"></i>
+                  <span className="sideText">Help Desk</span>
+                </a>
+              </li>
+              <li
+                className={
+                  this.checkPathName() === "/staffComplain" ? "active" : ""
+                }
+              >
+                <a href="/staffComplain" className="sideList" refresh="true">
+                  <i className="fas fa-question-circle sideIcon"></i>
+                  <span className="sideText">Staff Complain Box</span>
+                </a>
+              </li>
+              <li
+                className={
+                  this.checkPathName() === "/leave_management" ? "active" : ""
+                }
+              >
+                <a href="/leave_management" className="sideList" refresh="true">
+                  <i className="far fa-sticky-note sideIcon"></i>
+                  <span className="sideText">Leave management</span>
+                </a>
+              </li>
+              <li
+                className={
+                  this.checkPathName() === "/attendance_leave_report"
+                    ? "active"
+                    : ""
+                }
+              >
+                <a
+                  href="/attendance_leave_report"
+                  className="sideList"
+                  refresh="true"
+                >
+                  <i className="far fa-sticky-note sideIcon"></i>
+                  <span className="sideText">Attendance and Leave</span>
+                </a>
+              </li>
+              <li
+                className={
+                  this.checkPathName() === "/notification" ? "active" : ""
+                }
+              >
+                <a href="/notification" className="sideList" refresh="true">
+                  <i className="fa fa-bell sideIcon"></i>
+                  <span className="sideText">Notification</span>
+                </a>
+              </li>
+              <li
+                className={this.checkPathName() === "/setting" ? "active" : ""}
+              >
+                <a href="" className="sideList">
+                  <i className="fas fa-cog sideIcon"></i>
+                  <span className="sideText">Setting</span>
+                </a>
+                <ul className="nav nav-second-level">
+                  <li
+                    className={
+                      pathname === "/attendance_policy_setting" ? "active" : ""
+                    }
+                  >
+                    <a href="/attendance_policy_setting">Attendance Policy</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/benefit_setup_setting" ? "active" : ""
+                    }
+                  >
+                    <a href="/benefit_setup_setting">Benefit</a>
+                  </li>
+                  <li
+                    className={pathname === "/holiday_setting" ? "active" : ""}
+                  >
+                    <a href="/holiday_setting">Holiday</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/salary_template_setting" ? "active" : ""
+                    }
+                  >
+                    <a href="/salary_template_setting">Salary Template</a>
+                  </li>
+                  <li
+                    className={pathname === "/ssb_rate_setting" ? "active" : ""}
+                  >
+                    <a href="/ssb_rate_setting">SSB Rate</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/career_path_setting" ? "active" : ""
+                    }
+                  >
+                    <a href="/career_path_setting">Career Path</a>
+                  </li>
+                  <li
+                    className={pathname === "/payroll_setting" ? "active" : ""}
+                  >
+                    <a href="/payroll_setting">Payroll</a>
+                  </li>
+                </ul>
+              </li>
+              <li
+                className={
+                  this.checkPathName() === "/master_data" ? "active" : ""
+                }
+              >
+                <a href="" className="sideList">
+                  <i className="fa fa-key sideIcon"></i>
+                  <span className="sideText">Master Data</span>
+                </a>
+                <ul className="nav nav-second-level">
+                  <li
+                    className={
+                      pathname === "/career_level_master_data" ? "active" : ""
+                    }
+                  >
+                    <a href="/career_level_master_data">
+                      {/* <i className="fa fa-user"></i> */}
+                      Career Level
+                    </a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/career_sub_level_master_data"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/career_sub_level_master_data">
+                      {/* <i className="fa fa-user-o"></i> */}
+                      Career Sub Level
+                    </a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/designations_master_data" ? "active" : ""
+                    }
+                  >
+                    <a href="/designations_master_data">
+                      {/* <i className="fa fa-id-badge"></i> */}
+                      Designations
+                    </a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/job_title_master_data" ? "active" : ""
+                    }
+                  >
+                    <a href="/job_title_master_data">
+                      {/* <i className="fa fa-suitcase"></i> */}
+                      Job Title
+                    </a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/leave_category_master_data" ? "active" : ""
+                    }
+                  >
+                    <a href="/leave_category_master_data">
+                      {/* <i className="fa fa-calendar-times-o"></i> */}
+                      Leave Catyegory
+                    </a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/attendance_reason_type_master_data"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/attendance_reason_type_master_data">
+                      {/* <i className="fa fa-check-square-o"></i> */}
+                      Attendance Reason Type
+                    </a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/hospitalization_type_master_data"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/hospitalization_type_master_data">
+                      {/* <i className="fa fa-check-square-o"></i> */}
+                      Hospitalization Type
+                    </a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/ticket_main_category_master_data"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/ticket_main_category_master_data">
+                      {/* <i className="fa fa-ticket"></i> */}
+                      Ticket Main Category
+                    </a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/ticket_sub_category_master_data"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/ticket_sub_category_master_data">
+                      {/* <i className="fa fa-tags"></i> */}
+                      Ticket Sub Category
+                    </a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/tax_rage_master_data" ? "active" : ""
+                    }
+                  >
+                    <a href="/tax_rage_master_data">
+                      {/* <i className="fa fa-file-text"></i> */}
+                      Tax Rage
+                    </a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/tax_relief_master_data" ? "active" : ""
+                    }
+                  >
+                    <a href="/tax_relief_master_data">
+                      {/* <i className="fa fa-level-down"></i> */}
+                      Tax Relief
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              {/* <li className={pathname === '/notification' ? 'active' : ''}>
                                 <a href="/notification" refresh="true"><i className="fa fa-bell"></i>Notification</a>
                             </li> */}
-                            {
-                                this.state.user && this.state.user.user_id === 1 ?
-                                    <li className="">
-                                        <a href="/workflow" className='sideList' refresh="true"><i className="fa fa-briefcase sideIcon"></i><span className='sideText'>Work Flow</span></a>
-                                    </li> : ''
-                            }
+              {this.state.user && this.state.user.user_id === 1 ? (
+                <li className="">
+                  <a href="/workflow" className="sideList" refresh="true">
+                    <i className="fa fa-briefcase sideIcon"></i>
+                    <span className="sideText">Work Flow</span>
+                  </a>
+                </li>
+              ) : (
+                ""
+              )}
 
-                            {this.state.user && this.state.user.user_id === 1 ?
-                                <li className={pathname === '/permission' ? 'active' : ''}><a href="/permission" className='sideList'><i className="fa fa-key sideIcon"></i><span className='sideText'>Permission</span></a></li>
+              {this.state.user && this.state.user.user_id === 1 ? (
+                <li className={pathname === "/permission" ? "active" : ""}>
+                  <a href="/permission" className="sideList">
+                    <i className="fa fa-key sideIcon"></i>
+                    <span className="sideText">Permission</span>
+                  </a>
+                </li>
+              ) : (
+                // <li className="">
+                //     <a href="">Permission</a>
+                //     <ul className="nav nav-second-level">
+                //         {/* <li className={pathname === '/permission_title' ? 'active' : ''}><a href="/permission_title"><i className="fa fa-calendar"></i>Permission Title</a></li> */}
+                //         {/* <li className={pathname === '/permission_type' ? 'active' : ''}><a href="/permission_type"><i className="fa fa-calendar"></i>Permission Type</a></li > */}
 
-                                // <li className="">
-                                //     <a href="">Permission</a>
-                                //     <ul className="nav nav-second-level">
-                                //         {/* <li className={pathname === '/permission_title' ? 'active' : ''}><a href="/permission_title"><i className="fa fa-calendar"></i>Permission Title</a></li> */}
-                                //         {/* <li className={pathname === '/permission_type' ? 'active' : ''}><a href="/permission_type"><i className="fa fa-calendar"></i>Permission Type</a></li > */}
-
-
-                                //     </ul >
-                                // </li >
-                                : ''
-                            }
-                            {/* <li>
+                //     </ul >
+                // </li >
+                ""
+              )}
+              {/* <li>
                                 <a target="blank" href={php_url}><i className="fa fa-user"></i> <span className="nav-label">Back</span></a>
                             </li> */}
-                        </ul >
-                    </div >
-                </nav >
-
-            </div >
-        )
-    }
+            </ul>
+          </div>
+        </nav>
+      </div>
+    );
+  }
 }
