@@ -8,9 +8,7 @@ import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, get
 
 const ContactDetails = props => {
     const { viewForm, editForm, contactPerson, handlePreviousClick, guaFullNRC, contactPhone, selected_gran_NRC_Id, handleNRC_Id, selected_gran_DistrictCode, districtCodeList, nrcList, handleGranDistrictCode, gran_nrc_number, handleContactDetailInputChange, handleContactDetails, guarantor, guarantorPhone, handleSameWithCtPersonChange, checked } = props
-    const guarantorNRC = (guaFullNRC === null) ? `${selected_gran_NRC_Id ? selected_gran_NRC_Id.label : ''} ${selected_gran_DistrictCode ? selected_gran_DistrictCode.label : ''} ${gran_nrc_number}` : guaFullNRC
-    // console.log("handleSameWithCtPersonChange is ===>", checked)
-    // checked == true ? guarantor = 123 : guarantor
+    const guarantorNRC = guaFullNRC ? guaFullNRC : `${selected_gran_NRC_Id ? selected_gran_NRC_Id.label : ''} ${selected_gran_DistrictCode ? '/' + selected_gran_DistrictCode.label : ''} ${gran_nrc_number ? '(N)/' + gran_nrc_number : ''}`
     return (
         <form onSubmit={handleContactDetails} >
             <div className='white-bg ' style={{
@@ -110,15 +108,15 @@ const ContactDetails = props => {
 
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                
-            <div className='' onClick={handlePreviousClick} style={{ borderRadius: 5, padding: 10, margin: 10, background: '#337ab7', color: 'white', border: 'none', width: 90, textAlign: 'center', cursor: 'pointer' }}>
+
+                <div className='' onClick={handlePreviousClick} style={{ borderRadius: 5, padding: 10, margin: 10, background: '#337ab7', color: 'white', border: 'none', width: 90, textAlign: 'center', cursor: 'pointer' }}>
                     Previous
                 </div>
                 <button type="submit" style={{ borderRadius: 5, padding: 10, margin: 10, background: '#337ab7', color: 'white', border: 'none', width: 90 }}>
                     Next
                 </button>
 
-               
+
             </div>
         </form>
 

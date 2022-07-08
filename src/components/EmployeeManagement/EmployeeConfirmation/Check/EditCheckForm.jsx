@@ -8,8 +8,8 @@ import 'react-calendar/dist/Calendar.css';
 import moment from "moment";
 
 const EditCheckForm = props => {
-    const { handleSubmit, handleEditCheckInputChange, status, onRecommendationChange, handleLetterWarningChange, view, fullname, BackToTable, extensionPeriod, comment, effectiveDate, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, recommendation, date } = props
-    console.log("effective_date date is ===>", effectiveDate)
+    const { handleSubmit, handleEditCheckInputChange, status, onRecommendationChange, handleLetterWarningChange, view, fullname, BackToTable, extensionPeriod, comment, effectiveDate, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, recommendation, date, check_person, verify_person } = props
+    console.log("effective_date date is ===>", status, props.user_id, check_person)
     return (
         <form onSubmit={handleSubmit}>
             <div style={{ padding: 10, justifyContent: 'center', boxShadow: '5px 5px 5px lightgrey' }}>
@@ -198,7 +198,7 @@ const EditCheckForm = props => {
                             </div>
 
                             <div className='col-lg-6 col-md-6 col-sm-6'>
-                                <input type={view ? 'text' : 'date'} placeholder='' name="effectiveDate" value={effectiveDate} onChange={handleEditCheckInputChange} style={{ height: 40, width: 160, boxShadow: '0px 1px 1px 0px lightgrey' }} />
+                                <input type={view ? 'text' : 'date'} placeholder='' name="effectiveDate" value={effectiveDate ? moment(effectiveDate).format('YYYY-MM-DD') : null} onChange={handleEditCheckInputChange} style={{ height: 40, width: 160, boxShadow: '0px 1px 1px 0px lightgrey' }} />
 
                             </div>
                         </div>
@@ -211,10 +211,15 @@ const EditCheckForm = props => {
                             <button onClick={BackToTable} className='btn btn-primary' style={{ borderRadius: 10, width: 120 }}>Back</button>
 
                         </div> :
-                        <div className='w-100 mx-2' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                            <button type='submit' className='btn btn-primary' style={{ borderRadius: 10, width: 120 }}>{props.user_id == 17 ? 'Verify' : 'Submit'} </button>
+                        check_person == props.user_id && status == 0 ? <div className='w-100 mx-2' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                            <button type='submit' className='btn btn-primary' style={{ borderRadius: 10, width: 120 }}>Check </button>
 
-                        </div>
+                        </div> : verify_person == props.user_id && status == 1 ?
+                            <div className='w-100 mx-2' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                                <button type='submit' className='btn btn-primary' style={{ borderRadius: 10, width: 120 }}>Confirm </button> </div> :
+                            props.user_id == 17 && status == 2 ? <div className='w-100 mx-2' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                                <button type='submit' className='btn btn-primary' style={{ borderRadius: 10, width: 120 }}>Verify </button> </div> :
+                                ""
                 }
 
 
@@ -225,3 +230,8 @@ const EditCheckForm = props => {
 }
 
 export default EditCheckForm
+
+    // < div className = 'w-100 mx-2' style = {{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+    //     <button type='submit' className='btn btn-primary' style={{ borderRadius: 10, width: 120 }}>{props.user_id == 17 ? 'Verify' : 'Submit'} </button>
+
+    //                     </div >

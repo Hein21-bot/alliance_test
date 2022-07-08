@@ -41,7 +41,9 @@ class ConfirmationCheck extends Component {
             status: null,
             verify_person_data: null,
             check_person_data: null,
-            ceo_data: null
+            ceo_data: null,
+            checkPerson: null,
+            verifyPerson: null
         }
 
     }
@@ -139,12 +141,14 @@ class ConfirmationCheck extends Component {
     }
 
     goToEditForm = data => {
-        console.log("data is ===>", data)
+        console.log("data is ===>", data.check_person, data.verify_person)
         this.getWarning(data.user_id)
         this.setState({
             edit: true,
             selected_user_id: data.user_id,
             tabel_id: data.table_id,
+            checkPerson: data.check_person,
+            verifyPerson: data.verify_person,
             selectedTableData: data,
             extensionPeriod: data.extension_period ? data.extension_period : '',
             effectiveDate: data.effective_date ? moment(data.effective_date).format('YYYY-MM-DD') : data.effective_date,
@@ -373,7 +377,7 @@ class ConfirmationCheck extends Component {
                     this.setState({
                         edit: false
                     })
-                    window.location.reload();
+                    // window.location.reload();
                 }
                 else toast.error(text);
                 // window.location.replace("/employment_details");
@@ -383,7 +387,7 @@ class ConfirmationCheck extends Component {
     render() {
         let verify_person = this.state.checkListData && (this.state.checkListData[0] ? this.state.checkListData[0].verify_person : null)
         let check_person = this.state.checkListData && (this.state.checkListData[0] ? this.state.checkListData[0].check_person : null)
-        const { selected_checkList, extensionPeriod, comment, effectiveDate, checkedAll, edit, view, selectedTableData, fullname, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, status, recommendation, date } = this.state
+        const { selected_checkList, extensionPeriod, comment, effectiveDate, checkedAll, edit, view, selectedTableData, fullname, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, status, recommendation, date, checkPerson, verifyPerson } = this.state
         console.log('verify person ', effectiveDate)
         return (
             <div className=" border-bottom white-bg dashboard-header">
@@ -422,6 +426,8 @@ class ConfirmationCheck extends Component {
                             selectedTableData={selectedTableData}
                             handleEditCheckInputChange={this.handleEditCheckInputChange}
                             onRecommendationChange={this.onRecommendationChange}
+                            check_person={checkPerson}
+                            verify_person={verifyPerson}
                             fullname={fullname}
                             employment_id={employment_id}
                             designations={designations}
