@@ -24,6 +24,7 @@ const EmploymentDetails = props => {
                     <div className='col-lg-6 col-md-6 col-sm-6' style={{}}>
                         <Select
                             options={employeeStatusList}
+                            isDisabled={true}
                             value={employeeStatus}
                             onChange={handleSelectedEmpStatus}
                             className="react-select-container checkValidate"
@@ -40,6 +41,7 @@ const EmploymentDetails = props => {
                     <div className='col-lg-6 col-md-6 col-sm-6' style={{}}>
                         <Select
                             options={designationList}
+                            isDisabled={true}
                             value={employeeDesignation}
                             onChange={handleSelectedDesignation}
                             className="react-select-container checkValidate"
@@ -54,7 +56,7 @@ const EmploymentDetails = props => {
                         Job Title
                     </div>
                     <div className='col-lg-6 col-md-6 col-sm-6' style={{}}>
-                        <input type='text' placeholder='' required={(viewForm || editForm) ? false : true} name="jobTitle" value={jobTitle} onChange={handleEmploymentDetailInputChange} style={{ width: '100%', height: 40, }} />
+                        <input type='text' placeholder='' required={(viewForm || editForm) ? false : true} name="jobTitle" value={jobTitle} onChange={handleEmploymentDetailInputChange} style={{ width: '100%', height: 40, }} disabled/>
 
                     </div>
 
@@ -67,6 +69,7 @@ const EmploymentDetails = props => {
                     <div className='col-lg-6 col-md-6 col-sm-6' style={{}}>
                         <Select
                             options={level_options}
+                            isDisabled={true}
                             value={carrerLevel}
                             onChange={handleLevelSelectorChange}
                             className="react-select-container checkValidate"
@@ -82,6 +85,7 @@ const EmploymentDetails = props => {
                     <div className='col-lg-6 col-md-6 col-sm-6' style={{}}>
                         <Select
                             options={branchlist}
+                            isDisabled={true}
                             value={employeeDetailBranch}
                             onChange={handleSelectedBranch}
                             className="react-select-container checkValidate"
@@ -95,7 +99,7 @@ const EmploymentDetails = props => {
                         Employed Date
                     </div>
                     <div className='col-lg-6 col-md-6 col-sm-6' style={{}}>
-                        <input type='date' placeholder='' required={(viewForm || editForm) ? false : true} name="employedDate" value={employedDate} onChange={handleEmploymentDetailInputChange} style={{ width: '100%', height: 40, }} />
+                        <input type='date' placeholder='' required={(viewForm || editForm) ? false : true} name="employedDate" value={employedDate} onChange={handleEmploymentDetailInputChange} style={{ width: '100%', height: 40, }} disabled/>
 
                     </div>
 
@@ -107,6 +111,7 @@ const EmploymentDetails = props => {
                     <div className='col-lg-6 col-md-6 col-sm-6' style={{}}>
                         <Select
                             options={disConstatusList}
+                            isDisabled={true}
                             value={disConStatus}
                             onChange={handleSelectedDisConStus}
                             className="react-select-container checkValidate"
@@ -120,7 +125,7 @@ const EmploymentDetails = props => {
                         Discontinuous Date
                     </div>
                     <div className='col-lg-6 col-md-6 col-sm-6' style={{}}>
-                        <input type='date' placeholder='' name="disConDate" value={disConDate} onChange={handleEmploymentDetailInputChange} style={{ width: '100%', height: 40, }} />
+                        <input type='date' placeholder='' name="disConDate" value={disConDate} onChange={handleEmploymentDetailInputChange} style={{ width: '100%', height: 40, }} disabled/>
 
                     </div>
 
