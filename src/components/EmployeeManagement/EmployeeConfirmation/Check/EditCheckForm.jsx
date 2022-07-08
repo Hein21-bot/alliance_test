@@ -126,22 +126,23 @@ const EditCheckForm = props => {
 
                         <div className='col-lg-6 col-md-6 col-sm-6' style={{ alignItems: 'center', display: 'flex' }}>
                             <input type='radio' placeholder='' value="letterWarning" checked={letterWarning} onChange={handleLetterWarningChange} style={{ height: 40, marginRight: 10 }} disabled />
-                            {letterWarning == true ? 'Yes' : 'No'}
+                            {letterWarning == true ? 'Yes' : 'NO'}
                         </div>
                     </div>
                 </div>
-                <div className='w-100' style={{ display: 'flex', justifyContent: 'center', padding: 10 }}>
-                    <div className='col-lg-6 col-md-10 col-sm-12' style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', }}>
-                        <div className='col-lg-6 col-md-6 col-sm-6'>
-                            Letter Warning Date
-                        </div>
+                {letterWarning == true ?
+                    <div className='w-100' style={{ display: 'flex', justifyContent: 'center', padding: 10 }}>
+                        <div className='col-lg-6 col-md-10 col-sm-12' style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', }}>
+                            <div className='col-lg-6 col-md-6 col-sm-6'>
+                                Letter Warning Date
+                            </div>
 
-                        <div className='col-lg-6 col-md-6 col-sm-6'>
-                            <input type={view ? 'text' : 'date'} placeholder='' name="letterWarningDate" value={moment(warningDate).format('YYYY-MM-DD')} onChange={handleEditCheckInputChange} style={{ height: 40, width: 160, boxShadow: '0px 1px 1px 0px lightgrey' }} disabled />
+                            <div className='col-lg-6 col-md-6 col-sm-6'>
+                                <input type={view ? 'text' : 'date'} placeholder='' name="letterWarningDate" value={moment(warningDate).format('YYYY-MM-DD')} onChange={handleEditCheckInputChange} style={{ height: 40, width: 160, boxShadow: '0px 1px 1px 0px lightgrey' }} />
 
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    </div> : ""}
                 <div className='w-100' style={{ display: 'flex', justifyContent: 'center', padding: 10 }}>
                     <div className='col-lg-6 col-md-10 col-sm-12' style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', }}>
                         <div className='col-lg-6 col-md-6 col-sm-6'>
@@ -190,7 +191,7 @@ const EditCheckForm = props => {
                     </div>
                 </div>
                 {
-                     <div className='w-100' style={{ display: 'flex', justifyContent: 'center', padding: 10 }}>
+                    <div className='w-100' style={{ display: 'flex', justifyContent: 'center', padding: 10 }}>
                         <div className='col-lg-6 col-md-10 col-sm-12' style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', }}>
                             <div className='col-lg-6 col-md-6 col-sm-6'>
                                 Confirmation Effective Date
