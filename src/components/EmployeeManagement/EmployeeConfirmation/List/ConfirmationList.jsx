@@ -332,10 +332,10 @@ class ConfirmationList extends Component {
                     .then(text => {
                         if (status === 200) {
                             toast.success(text);
-                            // window.location.reload();
+                            window.location.reload();
                         }
                         else toast.error(text);
-                        // window.location.replace("/confirmation_list");
+                        window.location.replace("/confirmation_list");
 
                     })
 

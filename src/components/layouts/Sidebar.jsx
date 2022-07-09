@@ -261,8 +261,8 @@ export default class Sidebar extends Component {
                     ? "active"
                     : this.checkPathName() ===
                       "/employee_management/confirmation"
-                    ? "active"
-                    : ""
+                      ? "active"
+                      : ""
                 }
               >
                 <a href="">
@@ -284,10 +284,10 @@ export default class Sidebar extends Component {
                       pathname === "/employee_management/confirmation"
                         ? "active"
                         : pathname === "/confirmation_list"
-                        ? "active"
-                        : pathname === "/confirmation_check"
-                        ? "active"
-                        : ""
+                          ? "active"
+                          : pathname === "/confirmation_check"
+                            ? "active"
+                            : ""
                     }
                   >
                     <a href="/employee_management/confirmation">Confirmation</a>
@@ -313,9 +313,7 @@ export default class Sidebar extends Component {
                             : ""
                         }
                       >
-                        <a href="/confirmation_request_list">
-                          Confirmation Request List
-                        </a>
+                        <a href="/confirmation_request_list">Confirmation Request</a>
                       </li>
                     </ul>
                   </li>

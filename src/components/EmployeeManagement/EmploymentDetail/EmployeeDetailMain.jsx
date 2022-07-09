@@ -229,7 +229,7 @@ class EmployeeDetailMain extends Component {
 
         if (status === 200) {
             toast.success(text);
-            // window.location.reload();
+            window.location.reload();
         }
         else {
             startSaving();
@@ -385,6 +385,7 @@ class EmployeeDetailMain extends Component {
         })
     }
     goToEditForm = data => {
+        console.log("department is ===>", data.department, this.state.departmentlist)
         this.setState({
             selectedEmploymentData: data,
             edit: true,
@@ -394,7 +395,7 @@ class EmployeeDetailMain extends Component {
             employeeName: data.employee_name,
             selected_designation: this.state.designationList.find(c => c.label == data.designations),//
             selected_branch: this.state.branchlist.find(c => parseInt(c.branch_id) == (data.branch ? parseInt(data.branch) : data.branch)),
-            selected_department: this.state.departmentlist.find(c => c.label == data.deptname),
+            selected_department: this.state.departmentlist.find(c => parseInt(c.departments_id) == (data.department ? parseInt(data.department) : data.department)),
             selected_status: this.state.statusList.find(v => v.value == parseInt(data.employed_status)),
             selected_exit_status: this.state.exitStatusList.find(v => v.id == parseInt(data.exit_status)),
             employedDate: data.employee_date,
@@ -468,10 +469,10 @@ class EmployeeDetailMain extends Component {
             .then(text => {
                 if (status === 200) {
                     toast.success(text);
-                    // window.location.reload();
+                    window.location.reload();
                 }
                 else toast.error(text);
-                // window.location.replace("/employment_details");
+                window.location.replace("/employment_details");
 
             })
     }
