@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-
-
 import Select from "react-select";
-import Calendar from 'react-calendar';
+import DatePicker from 'react-datetime';
 import 'react-calendar/dist/Calendar.css';
-import moment from "moment";
+import moment from 'moment';
 
 const ListSearchForm = props => {
+
     const { selected_title, titleList, handleDropDown, handleSearch, level_options, sub_level_options, handleLevelSelectorChange, career_level, career_sub_level, selected_branch, handleSelectedRegion, handleSelectedBranch, handleSelectedDeaprtment, selected_department, selected_region, regionList, branchlist, departmentlist, onChange, confirmationMonth, date, dropDownOpen, selected_designation, designationList, handleSelectedDesignation, handleConfirmationListInputChange, handleSelectedLevel, handleSelectedSubLevel, handleSelectedTitle } = props
+    console.log(date)
     return (
 
         <div style={{ padding: 10, display: 'flex', flexWrap: 'wrap' }}>
@@ -17,22 +17,15 @@ const ListSearchForm = props => {
                     Date
                 </div>
                 <div className='col-lg-7 col-md-7 col-sm-8' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div class="btn btn-secondary" onClick={handleDropDown} style={{ border: '1px solid lightgrey', minWidth: 200 }} type="button">
-                        {moment(date).format("DD/MM/YYYY")}
+                    <div style={{ minWidth: 200 }}>
+                        <DatePicker
+                            dateFormat="DD/MM/YYYY"
+                            value={date}
+                            onChange={onChange}
+                            timeFormat={false}
+                        />
                     </div>
-                    {
-                        dropDownOpen ?
-                            <div className='' style={{ position: 'absolute', zIndex: 1, marginTop: 300, marginLeft: -50 }}>
-                                <Calendar onChange={onChange} value={date} />
-                                <div>
-
-                                </div>
-                            </div> : null
-                    }
-
-
                 </div>
-
 
             </div>
 
@@ -62,10 +55,10 @@ const ListSearchForm = props => {
                         <div>
                             Confirmation Month
                         </div>
-                         <div className='col-lg-7 col-md-7 col-sm-8' style={{}}>
-                            <input type='number' name="confirmationMonth" value={confirmationMonth} onChange={ handleConfirmationListInputChange} style={{ minWidth: 200, height: 40, boxShadow: '0px 1px 1px 0px lightgrey' }} />
-                        </div> 
-                        
+                        <div className='col-lg-7 col-md-7 col-sm-8' style={{}}>
+                            <input type='number' name="confirmationMonth" value={confirmationMonth} onChange={handleConfirmationListInputChange} style={{ minWidth: 200, height: 40, boxShadow: '0px 1px 1px 0px lightgrey' }} />
+                        </div>
+
                     </div> : null
             }
 
