@@ -11,11 +11,11 @@ const EmployeeProfile = props => {
     const { onCancelClick, viewForm, editForm } = props
 
 
-    const imgUrl = userImage ?( userImage.includes('localhost') ? userImage : main_url+'confirmation/getProfile/'+userImage): ''
-    let fullNRCNO =fullNRC ? 
-    fullNRC : 
-    `${selected_NRC_Id ? (selected_NRC_Id.label) : ''}${ selected_DistrictCode ?('/'+selected_DistrictCode.label) : ''}${nrc_number ? ('(N)/' + nrc_number) : ''}`
-   
+    const imgUrl = userImage ? (userImage.includes('103.29.91.26') ? userImage : main_url + 'confirmation/getProfile/' + userImage) : ''
+    let fullNRCNO = fullNRC ?
+        fullNRC :
+        `${selected_NRC_Id ? (selected_NRC_Id.label) : ''}${selected_DistrictCode ? ('/' + selected_DistrictCode.label) : ''}${nrc_number ? ('(N)/' + nrc_number) : ''}`
+
     return (
         <form onSubmit={handleProfileSave} >
             <div className='white-bg ' style={{ paddingTop: 20, border: '1px solid lightgrey', display: 'grid', borderTop: 'none', marginTop: -10, paddingBottom: 20, boxShadow: '5px 5px 5px lightgrey' }}>
@@ -24,7 +24,7 @@ const EmployeeProfile = props => {
                         <div style={{ display: 'flex', alignItems: 'center' }}> Profile Photo</div>
                         <div className='col-lg-7 col-md-6 w-100' style={{ display: 'flex', }}>
                             <div style={{ border: '1px solid grey', width: 140, height: 120, borderStyle: 'dashed' }}>
-                                <img src={imgUrl}  alt="" style={{ width: 140, height: 120 }} />
+                                <img src={imgUrl} alt="" style={{ width: 140, height: 120 }} />
                             </div>
                             {
                                 viewForm ? null : <div className='' style={{ display: 'flex', alignItems: 'end', paddingLeft: 10 }}>
@@ -71,7 +71,7 @@ const EmployeeProfile = props => {
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
                                 <div className='w-100' style={{ display: 'flex', paddingBottom: 15 }}>
-                                    <div className='col-lg-2 col-md-2 col-sm-2' style={{ width :'38%',paddingLeft:0,paddingRight : 5 }}>
+                                    <div className='col-lg-2 col-md-2 col-sm-2' style={{ width: '38%', paddingLeft: 0, paddingRight: 5 }}>
                                         <Select
                                             options={nrcList}
                                             value={selected_NRC_Id}
@@ -80,7 +80,7 @@ const EmployeeProfile = props => {
                                             classNamePrefix="react-select"
                                         />
                                     </div>
-                                    <div className='col-lg-2 col-md-2 col-sm-2' style={{width :'62%',paddingLeft:0,paddingRight : 5 }}>
+                                    <div className='col-lg-2 col-md-2 col-sm-2' style={{ width: '62%', paddingLeft: 0, paddingRight: 5 }}>
                                         <Select
                                             options={districtCodeList}
                                             value={selected_DistrictCode}

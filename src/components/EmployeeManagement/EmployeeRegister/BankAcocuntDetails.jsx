@@ -38,7 +38,7 @@ const BankAccountDetails = props => {
                             Account Name
                         </div>
                         <div className='col-lg-5 col-md-6 col-sm-8 col-xs-8' style={{ paddingLeft: 0, }}>
-                            <input type='text' placeholder='' required={(viewForm || editForm) ? false : true} name="accountName" value={accountName} onChange={handleBankDetailInputChange} style={{ width: '100%', height: 40, paddingLeft: 10, }} />
+                            <input type='text' placeholder='' required={(viewForm || editForm) ? false : true} name="accountName" value={accountName.toUpperCase()} onChange={handleBankDetailInputChange} style={{ width: '100%', height: 40, paddingLeft: 10, }} />
 
                         </div>
 

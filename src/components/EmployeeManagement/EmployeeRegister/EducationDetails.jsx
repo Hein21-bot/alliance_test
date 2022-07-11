@@ -134,12 +134,10 @@ const EducationDetails = props => {
                             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
 
 
-                                <div className='col-lg-3 col-md-3 col-sm-6' style={{ fontWeight: 'bold', paddingBottom: 10, margin: 10, }}>
-
+                                <div className='col-lg-3 col-md-3 col-sm-6' style={{ fontWeight: 'bold', paddingBottom: 10, margin: 10 }}>
                                     <MonthYearPicker label="From Month/Year" value={fromMonthYear} onChange={handleFromMonthYear} />
                                 </div>
-                                <div className='col-lg-3 col-md-3 col-sm-6' style={{ fontWeight: 'bold', paddingBottom: 10, margin: 10, }}>
-
+                                <div className='col-lg-3 col-md-3 col-sm-6' style={{ fontWeight: 'bold', paddingBottom: 10, margin: 10 }}>
                                     <MonthYearPicker label="To Month/Year" value={toMonthYear} onChange={handleToMonthYear} />
                                 </div>
 

@@ -263,10 +263,10 @@ class EditEmployeeListForm extends Component {
                 if (status === 200) {
                     toast.success(text);
 
-                    // window.location.reload();
+                    window.location.reload();
                 }
                 else toast.error(text);
-                //  window.location.replace("/employee_list");
+                 window.location.replace("/employee_list");
 
             })
     }
@@ -368,7 +368,7 @@ class EditEmployeeListForm extends Component {
     handleBankDetailInputChange = (e) => {
         if (e.target.name === "accountName") {
             this.setState({
-                accountName: e.target.value
+                accountName: e.target.value.toUpperCase()
             })
         }
         else if (e.target.name === "accountNumber") {
@@ -652,7 +652,7 @@ class EditEmployeeListForm extends Component {
 
     handleEditBankData = data => {
         this.setState({
-            accountName: data.account_name,
+            accountName: data.account_name.toUpperCase(),
             accountNumber: data.account_no,
             bankDataEdit: true,
             selected_bank: this.props.bankList.find(c => c.value === data.id),
@@ -673,7 +673,7 @@ class EditEmployeeListForm extends Component {
                 id: selected_bank.value,
                 account_no: accountNumber,
                 bank_name: selected_bank.label,
-                account_name: accountName
+                account_name: accountName.toUpperCase()
 
             }
             for (var i = 0; i < bankData.length; i++) {
@@ -695,7 +695,7 @@ class EditEmployeeListForm extends Component {
                 id: bankData.length + 1,
                 account_no: accountNumber,
                 bank_name: selected_bank.label,
-                account_name: accountName
+                account_name: accountName.toUpperCase()
 
             }
             this.setState({
@@ -941,6 +941,34 @@ class EditEmployeeListForm extends Component {
         })
     }
 
+    handleRemoveWorkExp = (id) => {
+        const { workExpData } = this.state
+        const newObj = [...workExpData]
+        newObj.splice(id, 1)
+        this.setState({
+            workExpData: newObj
+        })
+    }
+
+    handleRemoveDegreeData = (id) => {
+        const { addedDegreeData } = this.state
+        const newObj = [...addedDegreeData]
+        newObj.splice(id, 1)
+        this.setState({
+            addedDegreeData: newObj
+        })
+
+    }
+
+    handleRemoveQualification = (id) => {
+        const { addedQualitificationData } = this.state
+        const newObj = [...addedQualitificationData]
+        newObj.splice(id, 1)
+        this.setState({
+            addedQualitificationData: newObj
+        })
+    }
+
     cancelEdit = () => {
         this.setState({
             bankDataEdit: false,
@@ -1089,7 +1117,7 @@ class EditEmployeeListForm extends Component {
                                     handleAddQualification={this.handleAddQualification} handleAddWorkExp={this.handleAddWorkExp}
                                     fromMonthYear={fromMonthYear} toMonthYear={toMonthYear} handleFromMonthYear={this.handleFromMonthYear} handleToMonthYear={this.handleToMonthYear}
                                     handleUpdateDegreeData={this.handleUpdateDegreeData}
-                                    handleUpdateQualification={this.handleUpdateQualification} handleUpdateWorkExp={this.handleUpdateWorkExp}
+                                    handleUpdateQualification={this.handleUpdateQualification} handleUpdateWorkExp={this.handleUpdateWorkExp} handleRemoveWorkExp={this.handleRemoveWorkExp} handleRemoveDegreeData={this.handleRemoveDegreeData} handleRemoveQualification={this.handleRemoveQualification}
 
                                 />
                                 : tabIndex === 4 ?
@@ -1119,7 +1147,7 @@ class EditEmployeeListForm extends Component {
                                             handleBankDetailInputChange={this.handleBankDetailInputChange}
                                             handleSelectedBank={this.handleSelectedBank}
                                             onCancelClick={BackToTable}
-                                            accountName={accountName} accountNumber={accountNumber}
+                                            accountName={accountName.toUpperCase()} accountNumber={accountNumber}
                                             bankList={bankList} selected_bank={selected_bank} bankData={bankData}
                                             handleEditBankData={this.handleEditBankData} bankDataEdit={bankDataEdit}
                                             handleAdd_UpdateBankData={this.handleAdd_UpdateBankData}

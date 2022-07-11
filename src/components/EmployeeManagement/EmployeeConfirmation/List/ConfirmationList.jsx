@@ -12,7 +12,6 @@ import ConfirmationListTable from './ConfirmationListTable'
 import ViewConfirmationListForm from './ViewConfirmationListForm';
 
 
-
 class ConfirmationList extends Component {
     constructor() {
         super();
@@ -23,7 +22,7 @@ class ConfirmationList extends Component {
             view: false,
             titleList: [
             ],
-            confirmationMonth: '',
+            confirmationMonth: null,
             date: new Date(),
             dropDownOpen: false,
             selected_designation: null,
@@ -249,6 +248,7 @@ class ConfirmationList extends Component {
             })
     }
 
+
     handleSelectedTitle = (event) => {
         if (event !== null)
             this.setState({
@@ -284,8 +284,11 @@ class ConfirmationList extends Component {
         }
     }
 
-    handleConfirmationListInputChange = () => {
-
+    handleConfirmationListInputChange = (e) => {
+        
+        this.setState({
+            confirmationMonth: (e.target.value)
+        })
     }
 
     handleSearch = e => {
@@ -329,10 +332,10 @@ class ConfirmationList extends Component {
                     .then(text => {
                         if (status === 200) {
                             toast.success(text);
-                            // window.location.reload();
+                            window.location.reload();
                         }
                         else toast.error(text);
-                        // window.location.replace("/confirmation_list");
+                        window.location.replace("/confirmation_list");
 
                     })
 

@@ -199,7 +199,6 @@ class EmployeeDetailMain extends Component {
             .then(res => { if (res.ok) return res.json() })
             .then(data => {
                 if (data.length > 0) {
-                    console.log("data is ===>", data, this.state.statusList)
                     this.setState({
                         selectedEmploymentData: data[0],
                         edit: false,
@@ -230,7 +229,7 @@ class EmployeeDetailMain extends Component {
 
         if (status === 200) {
             toast.success(text);
-            // window.location.reload();
+            window.location.reload();
         }
         else {
             startSaving();
@@ -386,28 +385,29 @@ class EmployeeDetailMain extends Component {
         })
     }
     goToEditForm = data => {
+        console.log("department is ===>", data.department, this.state.departmentlist)
         this.setState({
             selectedEmploymentData: data,
             edit: true,
             addNew: false,
             user_id: data.user_id,
-            selectedEmployeeId: this.state.employeeIdList.find(v => v.user_id === data.user_id),
+            selectedEmployeeId: this.state.employeeIdList.find(v => v.user_id == data.user_id),
             employeeName: data.employee_name,
-            selected_designation: this.state.designationList.find(c => c.label === data.designations),//
-            selected_branch: this.state.branchlist.find(c => parseInt(c.branch_id) === (data.branch ? parseInt(data.branch) : data.branch)),
-            selected_department: this.state.departmentlist.find(c => c.label === data.deptname),
-            selected_status: this.state.statusList.find(v => v.value === parseInt(data.employed_status)),
-            selected_exit_status: this.state.exitStatusList.find(v => v.id === parseInt(data.exit_status)),
+            selected_designation: this.state.designationList.find(c => c.label == data.designations),//
+            selected_branch: this.state.branchlist.find(c => parseInt(c.branch_id) == (data.branch ? parseInt(data.branch) : data.branch)),
+            selected_department: this.state.departmentlist.find(c => parseInt(c.departments_id) == (data.department ? parseInt(data.department) : data.department)),
+            selected_status: this.state.statusList.find(v => v.value == parseInt(data.employed_status)),
+            selected_exit_status: this.state.exitStatusList.find(v => v.id == parseInt(data.exit_status)),
             employedDate: data.employee_date,
             effectiveDate: data.effective_date,
             actualDate: data.actual_date,
             disconDate: data.discontinute_date,
-            selected_disCon_status: this.state.disConStatusList.find(v => v.value === parseInt(data.discontinute_status)) ? this.state.disConStatusList.find(v => v.value === parseInt(data.discontinute_status)) : [{ value: 2, label: 'False' }],
+            selected_disCon_status: this.state.disConStatusList.find(v => v.value == parseInt(data.discontinute_status)) ? this.state.disConStatusList.find(v => v.value == parseInt(data.discontinute_status)) : [{ value: 2, label: 'False' }],
             salary: data.salary,
             resignReason: data.resign_reason,
-            selected_job: this.state.jobList.find(v => v.id === parseInt(data.job_title)),
-            career_level: this.state.level_options.find(v => v.career_level === data.career_level),
-            career_sub_level: this.state.sub_level_options.find(v => v.career_sub_level === data.career_sub_level)
+            selected_job: this.state.jobList.find(v => v.id == parseInt(data.job_title)),
+            career_level: this.state.level_options.find(v => v.career_level == data.career_level),
+            career_sub_level: this.state.sub_level_options.find(v => v.career_sub_level == data.career_sub_level)
         })
     }
 
@@ -469,10 +469,10 @@ class EmployeeDetailMain extends Component {
             .then(text => {
                 if (status === 200) {
                     toast.success(text);
-                    // window.location.reload();
+                    window.location.reload();
                 }
                 else toast.error(text);
-                // window.location.replace("/employment_details");
+                window.location.replace("/employment_details");
 
             })
     }

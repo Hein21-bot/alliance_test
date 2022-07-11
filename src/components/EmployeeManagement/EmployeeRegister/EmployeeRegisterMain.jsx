@@ -287,7 +287,7 @@ class EmployeeRegisterMain extends Component {
                     window.location.reload();
                 }
                 else toast.error(text);
-                //  window.location.replace("/employee_register");
+                 window.location.replace("/employee_register");
 
             })
     }

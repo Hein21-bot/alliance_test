@@ -6,7 +6,7 @@ import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 import 'jspdf-autotable';
 import moment from 'moment'
 import * as jsPDF from 'jspdf';
-import { main_url,getUserId, getMainRole, getInformation, print, fno } from "../../../../utils/CommonFunction";
+import { main_url, getUserId, getMainRole, getInformation, print, fno } from "../../../../utils/CommonFunction";
 const $ = require('jquery');
 const jzip = require('jzip');
 window.JSZip = jzip;
@@ -74,7 +74,7 @@ export default class BenefitChildTable extends Component {
 
         });
 
-        
+
     }
 
     componentDidUpdate(prevProps) {
@@ -88,7 +88,7 @@ export default class BenefitChildTable extends Component {
         }
     }
 
-   
+
 
     search(status) {
         let data = this.state.dataSource;
@@ -96,85 +96,63 @@ export default class BenefitChildTable extends Component {
         this._setTableData(data)
     }
 
-    
+
 
     _setTableData = (data) => {
         var table;
         var l = [];
         var status;
         var permission = this.props.permission;
-        var has_action = permission.isView === 1 || permission.isEdit === 1  ? true : false;
+        var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
         var has_select = permission.isSelect === 1 ? true : false;
-       
+
         for (var i = 0; i < data.length; i++) {
             let result = data[i];
             let obj = [];
-            // if (result.status === 0) {
-            //     status = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
-            // }
-            // else if (result.status === 1) {
-            //     status = '<small class="label label-warning" style="background-color:#b33ce0"> Check  </small>'
-            // }
-            // else if (result.status === 2) {
-            //     status = '<small class="label label-warning" style="background-color:#f2a509"> Verify </small>'
-            // }
-            // else if (result.status === 3) {
-            //     status = '<small class="label label-warning" style="background-color:#29a50a"> Approve  </small>'
-            // }
-            // else if (result.status === 4) {
-
-            //     status = '<small class="label label-warning" style="background-color:#f60e2f"> Reject  </small>'
-            // }
-            // else if (result.status === 5) {
-            //     status = '<small class="label label-warning" style="background-color:#cc0066"> ReferBack </small>'
-            // }
-            console.log("obj is ===>", result)
             obj = {
                 no: i + 1,
-                select : false,
+                select: false,
                 employee_id: data[i].code ? data[i].code : '',
                 employee_name: data[i].fullname ? data[i].fullname : '',
                 position: data[i].designations ? data[i].designations : '-',
                 career_level: data[i].career_level ? data[i].career_level : '-',
-                career_sub_level : data[i].career_sub_level ? data[i].career_sub_level :'-',
-                department : data[i].deptname ? data[i].deptname : '-',
+                career_sub_level: data[i].career_sub_level ? data[i].career_sub_level : '-',
+                department: data[i].deptname ? data[i].deptname : '-',
                 branch: data[i].branch_name ? data[i].branch_name : '-',
-                region : data[i].region_name ? data[i].region_name : '-',
-                employ_date : data[i].employ_date ? data[i].employ_date : '-',
-                last_promotion_date : data[i].last_promotion_date ? data[i].last_promotion_date : '-',
-                date: moment(result.createdAt).format('DD-MM-YYYY'), 
-                service_year : data[i].service_year ? data[i].service_year :'',
+                region: data[i].region_name ? data[i].region_name : '-',
+                employ_date: data[i].employ_date ? data[i].employ_date : '-',
+                last_promotion_date: data[i].last_promotion_date ? data[i].last_promotion_date : '-',
+                date: moment(result.createdAt).format('DD-MM-YYYY'),
+                service_year: data[i].service_year ? data[i].service_year : '',
+                leave: data[i].leave ? data[i].leave : '-',
                 status: status
 
             }
-            if(has_select){
-                obj.select = permission.isSelect === 1 ? '<div style=" alignItems:center" class="btn" id="toSelect" ><input type="checkbox" /><span id="select" class="hidden" >' + JSON.stringify(result) + '</span>  </div>'  : '' //'<div style="margin-right:0px;height:20px;width:20px;border:1px solid red" class="btn" id="toSelect" ><i className="fas fa-address-card" style="color:red"></i><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '';
+            if (has_select) {
+                obj.select = permission.isSelect === 1 ? '<div style=" alignItems:center" class="btn" id="toSelect" ><input type="checkbox" /><span id="select" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '' //'<div style="margin-right:0px;height:20px;width:20px;border:1px solid red" class="btn" id="toSelect" ><i className="fas fa-address-card" style="color:red"></i><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '';
             }
             if (has_action) {
                 if (result.status !== 3) {
                     obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
-                    obj.action += permission.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id ) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
+                    obj.action += permission.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
                 } else {
-                    obj.action = permission.isView === 1 ? 
-                    '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
-                    
+                    obj.action = permission.isView === 1 ?
+                        '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+
                     if (result.print === 1) {
                         obj.action +=
-                          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-                          JSON.stringify(result) +
-                          '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
-                      } else {
+                            '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                            JSON.stringify(result) +
+                            '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
+                    } else {
                         obj.action +=
-                          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-                          JSON.stringify(result) +
-                          '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
-                      }
+                            '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                            JSON.stringify(result) +
+                            '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
+                    }
                 }
             }
-            
-
             l.push(obj)
-
         }
 
         if ($.fn.dataTable.isDataTable('#dataTables-table')) {
@@ -199,6 +177,7 @@ export default class BenefitChildTable extends Component {
             { title: "Service Year", data: "service_year" },
             { title: "Service Year in Current Level", data: "date" },
             { title: "Service Year in Current Sub Level", data: "date" },
+            { title: "Leave", data: "leave" },
             // { title: "Status", data: "status" }
         ]
 
@@ -206,10 +185,9 @@ export default class BenefitChildTable extends Component {
             column.push({ title: "Action", data: "action" })
         }
         if (has_select) {
-            column.splice(1,0,{ title: "Select", data: "select" })
+            column.splice(1, 0, { title: "Select", data: "select" })
         }
         table = $("#dataTables-table").DataTable({
-
             autofill: true,
             bLengthChange: false,
             bInfo: false,
@@ -221,24 +199,30 @@ export default class BenefitChildTable extends Component {
             // buttons: [
             //     'copy', 'csv', 'excel', 'pdf'
             // ],
-            buttons:  [
+            buttons: [
                 // 'copy',
-            // {
-            //         extend: 'csvHtml5',
-            //         title: 'Child Benefit',
-            // },
-            // {
-            //     extend: 'excelHtml5',
-            //     title: 'Child Benefit',
-            // },
-            // {
-            //     extend: 'pdfHtml5',
-            //     title: 'Child Benefit',
-            // }
-        ],
+                // {
+                //         extend: 'csvHtml5',
+                //         title: 'Child Benefit',
+                // },
+                // {
+                //     extend: 'excelHtml5',
+                //     title: 'Child Benefit',
+                // },
+                // {
+                //     extend: 'pdfHtml5',
+                //     title: 'Child Benefit',
+                // }
+            ],
             data: l,
-            columns: column
-            
+            columns: column,
+            createdRow: function (row, data, index) {
+                if (data.leave === true) {
+                    $(row).css('background-color', 'Yellow');
+                }
+            }
+
+
         });
 
     }
@@ -259,7 +243,7 @@ export default class BenefitChildTable extends Component {
                         </div>
                     </div>
                 </div> */}
-                <table width="99%" 
+                <table width="99%"
                     className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
                     id="dataTables-table"
                 />
