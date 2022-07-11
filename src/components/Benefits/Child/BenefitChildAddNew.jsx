@@ -110,14 +110,6 @@ class BenefitChildAddNew extends Component {
                 })
         }
         else {
-            toast.error(alertText, {
-                position: 'top-right',
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true
-            });
             startSaving();
             form_validate = false;
         }

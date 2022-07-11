@@ -212,7 +212,8 @@ class CycleAddNew extends Component {
 
     save() {
         stopSaving();
-        if (validate('check_form') && (this.state.attachment.length > 0 || !Array.isArray(this.state.one_benefit))) {
+        let editData = !Array.isArray(this.state.one_benefit) == true ? (this.state.newDoc.length > 0 || this.state.attachment.length > 0 || this.state.doc.length > 0) && !Array.isArray(this.state.one_benefit) : !Array.isArray(this.state.one_benefit)
+        if (validate('check_form') && (this.state.attachment.length > 0 || editData)) {
             stopSaving();
             var data = {
                 requested_date: moment(this.state.requested_date).format('YYYY-MM-DD'),
@@ -495,7 +496,7 @@ class CycleAddNew extends Component {
                                 </div>
                                 <div>
                                     {
-                                        this.state.newDoc.map((data, index) =>
+                                        Array.isArray(this.state.one_benefit) && this.state.newDoc.map((data, index) =>
 
                                             <div className="fileuploader-items col-md-4"><ul className="fileuploader-items-list">
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ApprovalForm from '../../Common/ApprovalForm';
 import {
-    main_url, validate, getUserId, getActionStatus, havePermission, getWorkFlowStatus,
+    main_url, validate, getUserId, getActionStatus, havePermission, getWorkFlowStatus,alertText,
     stopSaving, startSaving
 } from '../../../utils/CommonFunction';
 import Select from 'react-select';
@@ -216,7 +216,7 @@ class FuneralBenefitEdit extends Component {
 
     save() {
         stopSaving();
-        if (validate('check_form')) {
+        if (validate('check_form') && (this.state.newDoc.length > 0 || this.state.doc.length > 0)) {
             let { status_title, is_main_role } = this.state;
             const formdata = new FormData();
 
@@ -273,7 +273,16 @@ class FuneralBenefitEdit extends Component {
                 })
         } else {
             startSaving();
+            
             form_validate = false;
+            toast.error(alertText, {
+                position: 'top-right',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true
+            });
         }
     }
 
