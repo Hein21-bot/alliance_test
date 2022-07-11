@@ -44,7 +44,7 @@ class SalaryAdvanceMain extends Component {
             isTable: true,
             isView: false
         })
-        window.location.reload();
+        // window.location.reload();
     }
 
     goToViewForm = (data) => {
@@ -84,7 +84,7 @@ class SalaryAdvanceMain extends Component {
         if (status === 200) {
             toast.success(text);
             // alert("Hi hi hi")
-            window.location.reload();
+            // window.location.reload();
         }
         else {
             startSaving();

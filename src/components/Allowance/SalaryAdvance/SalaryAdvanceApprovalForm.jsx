@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ApprovalForm from '../../Common/ApprovalForm';
 import { main_url, getUserId, getActionStatus, validate, stopSaving, startSaving } from '../../../utils/CommonFunction';
 import moment from 'moment';
+import DocumentList from '../../Common/DocumentList';
 
 var form_validate = true;
 export default class SalaryAdvanceApprovalForm extends Component {
@@ -26,14 +27,31 @@ export default class SalaryAdvanceApprovalForm extends Component {
             sataus: 0,
             created_user: getUserId("user_info"),
             status_title: '',
-            comment: ''
+            comment: '',
+            doc: []
         }
     }
 
     componentDidMount() {
+        this.getDocument(this.state.advance_data)
         if (this.state.advance_data !== null) {
             this.getSalaryAdvance(this.state.advance_data);
         }
+    }
+
+    getDocument(data) {
+        fetch(main_url + "salary_advance/getDocument/" + data.salary_advance_id)
+            .then(response => {
+                if (response.ok) return response.json()
+            })
+            .then(res => {
+                if (res) {
+                    this.setState({
+                        doc: res
+                    })
+                }
+            })
+            .catch(error => console.error(`Fetch Error =\n`, error));
     }
 
     componentDidUpdate() {
@@ -98,6 +116,7 @@ export default class SalaryAdvanceApprovalForm extends Component {
             let updatedBy = this.state.created_user;
             let one_advance = this.state.one_advance;
             let { status_title } = this.state;
+            const formdata = new FormData()
             let path = 'saveSalaryAdvance';
             if (!Array.isArray(one_advance)) {
                 path = `editSalaryAdvance/${one_advance.salary_advance_id}`
@@ -106,12 +125,12 @@ export default class SalaryAdvanceApprovalForm extends Component {
                 user_id: one_advance.user_id,
                 requested_amount: this.state.requested_amount,
                 purpose: this.state.purpose,
-                duration: this.state.duration,
+                duration: parseInt(this.state.duration),
                 issue_date: this.state.issue_date,
                 repayment_date: this.state.repayment_date,
                 monthly_installment: this.monthlyInstallment(),
                 // this.state.monthly_installment,
-                approved_amount: this.state.approved_amount,
+                approved_amount: parseInt(this.state.approved_amount),
                 comment: this.state.verifier_comment,
                 updatedBy: updatedBy,
 
@@ -135,13 +154,12 @@ export default class SalaryAdvanceApprovalForm extends Component {
                 data.approved_comment = action.approved_comment;
                 data.status = action.status;
             }
+            formdata.append('advance', JSON.stringify(data))
+            formdata.append('oldDoc', JSON.stringify(this.state.doc))
             let status = 0;
             fetch(`${main_url}salary_advance/${path}`, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
                 method: 'POST',
-                body: `advance= ${JSON.stringify(data)}`
+                body: formdata
             })
                 .then(res => {
                     status = res.status;
@@ -203,7 +221,7 @@ export default class SalaryAdvanceApprovalForm extends Component {
                                             <div className="col-12 col-sm-6 col-lg-6 col-xl-6">
                                                 <label className="col-sm-12">Approved Amount</label>
                                                 <div className="col-sm-10">
-                                                    <input className="form-control input-md " type="number" min="0" step="0.01" value={this.state.approved_amount} onChange={(e) => this.setState({ approved_amount: e.target.value })}></input>
+                                                    <input className="form-control input-md checkValidate" type="number" min="0" step="0.01" value={this.state.approved_amount} onChange={(e) => this.setState({ approved_amount: e.target.value })}></input>
                                                 </div>
                                             </div>
                                         </div>
@@ -211,25 +229,25 @@ export default class SalaryAdvanceApprovalForm extends Component {
                                             <div className="col-12 col-sm-6 col-lg-6 col-xl-6">
                                                 <label className="col-sm-12">Duration</label>
                                                 <div className="col-sm-10">
-                                                    <input className="form-control input-md " type="number" min="0" step="0.01" value={this.state.duration} onChange={(e) => this.setState({ duration: e.target.value })}></input>
+                                                    <input className="form-control input-md checkValidate" type="number" min="0" step="0.01" value={this.state.duration} onChange={(e) => this.setState({ duration: e.target.value })}></input>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-sm-6 col-lg-6 col-xl-6">
                                                 <label className="col-sm-12">Monthly Installment</label>
                                                 <div className="col-sm-10">
-                                                    <input className="form-control input-md " type="number" min="0" step="0.01" value={this.monthlyInstallment()} onChange={(e) => this.setState({ monthly_installment: e.target.value })} ></input>
+                                                    <input className="form-control input-md checkValidate" type="number" min="0" step="0.01" value={this.monthlyInstallment()} onChange={(e) => this.setState({ monthly_installment: e.target.value })} ></input>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="row margin-top-20">
                                             <div className="col-12 col-sm-6 col-lg-6 col-xl-6">
                                                 <label className="col-sm-12">Issue Date</label>
-                                                <div className="col-sm-10"><input className="form-control  input-md" type="date" value={this.state.issue_date} onChange={(e) => this.setState({ issue_date: e.target.value })}></input>
+                                                <div className="col-sm-10"><input className="form-control checkValidate input-md" type="date" value={this.state.issue_date} onChange={(e) => this.setState({ issue_date: e.target.value })}></input>
                                                 </div>
                                             </div>
                                             <div className="col-12 col-sm-6 col-lg-6 col-xl-6">
                                                 <label className="col-sm-12">Repayment Date</label>
-                                                <div className="col-sm-10"><input className="form-control  input-md" min={this.state.issue_date} type="date" value={this.state.repayment_date} onChange={(e) => this.setState({ repayment_date: e.target.value })}></input>
+                                                <div className="col-sm-10"><input className="form-control checkValidate input-md" min={this.state.issue_date} type="date" value={this.state.repayment_date} onChange={(e) => this.setState({ repayment_date: e.target.value })}></input>
                                                 </div>
                                             </div>
                                         </div>
@@ -249,6 +267,13 @@ export default class SalaryAdvanceApprovalForm extends Component {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div className='row'>{
+                                            this.state.doc.length > 0 ? <div className="row document-main">
+                                                <input className="full_width hidden" type="file" id="attach_file" ></input>
+
+                                                <DocumentList title='Salary Advance Document' doc={this.state.doc} path="salary_advance" />
+                                            </div> : <input className="full_width hidden" type="file" id="attach_file" ></input>
+                                        }</div>
                                         <div className="row  m-20 f-right">
                                             <ApprovalForm approvalStatus={this.approvalStatus.bind(this)} status={this.state.one_advance.status} work_flow={this.props.work_flow_status} total_amount={this.state.requested_amount} />
 
