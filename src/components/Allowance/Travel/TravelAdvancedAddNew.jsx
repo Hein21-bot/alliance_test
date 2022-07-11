@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { getUserId, stopSaving, startSaving } from '../../../utils/CommonFunction';
+import { getUserId, stopSaving, startSaving, calculationDate } from '../../../utils/CommonFunction';
 import DatePicker from 'react-datetime';
 import Select from 'react-select';
 import 'datatables.net-buttons-dt/css/buttons.dataTables.css'
@@ -323,6 +323,12 @@ export default class TravelAdvancedAddNew
         this.setState({
             setupData: data,
 
+        }, () => {
+            data.noOfDays = calculationDate(value, data.endDate)
+            data.noOfNights = calculationDate(value, data.endDate) - 1
+            this.setState({
+                setupData: data
+            })
         })
     }
 
@@ -333,6 +339,12 @@ export default class TravelAdvancedAddNew
         this.setState({
             setupData: data,
 
+        }, () => {
+            data.noOfDays = calculationDate(data.startDate, value)
+            data.noOfNights = calculationDate(data.startDate, value) - 1
+            this.setState({
+                setupData: data
+            })
         })
     }
 
