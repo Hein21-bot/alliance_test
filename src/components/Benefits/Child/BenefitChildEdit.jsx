@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import { ToastContainer, toast } from 'react-toastify';
 import {
-    main_url, getUserId, getActionStatus, validate, havePermission, getWorkFlowStatus,
+    main_url, getUserId, getActionStatus, validate, havePermission, getWorkFlowStatus,alertText,
     stopSaving, startSaving
 } from "../../../utils/CommonFunction";
 import ApprovalForm from '../../Common/ApprovalForm';
@@ -124,7 +125,7 @@ class BenefitChildEdit extends Component {
 
     save() {
         stopSaving();
-        if (validate('check_form')) {
+        if (validate('check_form') && (this.state.newDoc.length > 0 || this.state.doc.length > 0)) {
             var { status_title, is_main_role } = this.state;
             var data = {
                 status: this.state.datasource.status == 5 ? 0 : this.state.datasource.status,
@@ -175,7 +176,16 @@ class BenefitChildEdit extends Component {
                 })
         } else {
             startSaving();
+            
             form_validate = false;
+            toast.error(alertText, {
+                position: 'top-right',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true
+            });
         }
     }
 

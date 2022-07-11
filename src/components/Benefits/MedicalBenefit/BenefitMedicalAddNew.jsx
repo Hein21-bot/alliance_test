@@ -197,7 +197,9 @@ class BenefitMedicalAddNew extends Component {
 
     save() {
         stopSaving();
-        if (validate('check_form') && (this.state.attachment.length > 0 || !Array.isArray(this.state.one_benefit))) {
+        
+        let editData = !Array.isArray(this.state.one_benefit) == true ? (this.state.newDoc.length > 0 || this.state.attachment.length > 0 || this.state.doc.length > 0) && !Array.isArray(this.state.one_benefit) : !Array.isArray(this.state.one_benefit)
+        if (validate('check_form') && (this.state.attachment.length > 0 || editData)) {
             stopSaving();
             var data = {
                 user_id: this.state.one_benefit.user_id ? this.state.one_benefit.user_id : this.state.user_id,
@@ -412,7 +414,7 @@ class BenefitMedicalAddNew extends Component {
                                             <div className="ibox float-e-margins">
                                                 <div className="p-md col-md-12" style={{ float: 'left', }}>
 
-                                                    {this.state.doc.map((data, index) =>
+                                                    {Array.isArray(this.state.one_benefit) && this.state.doc.map((data, index) =>
                                                         <div className="fileuploader-items col-md-4"><ul className="fileuploader-items-list">
                                                             <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
                                                                 <div className="columns">

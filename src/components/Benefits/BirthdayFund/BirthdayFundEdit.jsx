@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 import Select from 'react-select';
 import ApprovalForm from '../../Common/ApprovalForm';
 import moment from 'moment';
 import {
-    main_url, getUserId, getActionStatus, validate, havePermission, getWorkFlowStatus, stopSaving,
+    main_url, getUserId, getActionStatus,alertText, validate, havePermission, getWorkFlowStatus, stopSaving,
     startSaving, isRequestedUser
 } from "../../../utils/CommonFunction";
 import 'react-toastify/dist/ReactToastify.min.css'
@@ -133,7 +134,16 @@ export default class BirthdayFundEdit extends Component {
                 })
         } else {
             startSaving();
+            
             form_validate = false;
+            toast.error(alertText, {
+                position: 'top-right',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true
+            });
         }
     }
 

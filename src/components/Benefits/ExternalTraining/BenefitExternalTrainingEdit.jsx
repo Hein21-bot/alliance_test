@@ -3,7 +3,7 @@ import '../../Benefits/Benefits.css';
 import { ToastContainer, toast } from 'react-toastify';
 import {
     main_url, validate, getActionStatus, getUserId, havePermission, getWorkFlowStatus,
-    stopSaving, startSaving, isRequestedUser
+    stopSaving, startSaving, isRequestedUser,alertText
 } from "../../../utils/CommonFunction";
 import ApprovalForm from '../../Common/ApprovalForm';
 import DocumentList from '../../Common/DocumentList';
@@ -79,7 +79,8 @@ class BenefitFuneralAddNew extends Component {
 
     edit() {
         stopSaving();
-        if (validate("check_form")) {
+       
+        if (validate("check_form") && (this.state.newDoc.length > 0 || this.state.doc.length > 0)) {
             var { status_title, is_main_role } = this.state;
             const formdata = new FormData();
 
@@ -142,7 +143,16 @@ class BenefitFuneralAddNew extends Component {
                 })
         } else {
             startSaving();
+            
             form_validate = false;
+            toast.error(alertText, {
+                position: 'top-right',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true
+            });
         }
     }
     removeOldDocument(index, event) {

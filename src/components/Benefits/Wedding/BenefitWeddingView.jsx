@@ -100,7 +100,7 @@ class WeddingBenefitView extends Component {
                             {
                                 this.state.document.length > 0 ?
                                     <DocumentList title='Wedding Benefit Document' doc={this.state.document} path='wedding_benefit' />
-                                    : ''
+                                    : 'hey'
                             }
                         </div>
                         {

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ApprovalInformation from '../../Common/ApprovalInformation';
 import { ToastContainer, toast } from 'react-toastify';
 import { main_url, getUserId, getCookieData, getActionStatus } from '../../../utils/CommonFunction';
+import DocumentList from '../../Common/DocumentList';
 
 export default class SalaryAdvanceRequestForm extends Component {
 
@@ -22,16 +23,35 @@ export default class SalaryAdvanceRequestForm extends Component {
             verifier_comment: '',
             sataus: 0,
             created_user: getUserId("user_info"),
-            status_info: []
+            status_info: [],
+            document: []
         }
     }
+    
 
     componentDidMount() {
+        this.getDocument()
         if (this.state.advance_data !== null) {
             this.getSalaryAdvance(this.state.advance_data);
             this.getStatusInfo();
         }
 
+    }
+
+    getDocument() {
+        fetch(main_url + "salary_advance/getDocument/" + this.state.advance_data.salary_advance_id)
+            .then(response => {
+                if (response.ok) return response.json()
+            })
+            .then(res => {
+                if (res) {
+                    this.setState({
+                        document: res
+                    })
+                    
+                }
+            })
+            .catch(error => console.error(`Fetch Error =\n`, error));
     }
 
     getStatusInfo() {
@@ -78,6 +98,7 @@ export default class SalaryAdvanceRequestForm extends Component {
     }
 
     render() {
+        console.log("document is ===>", this.state.document)
         return (
             <div>
 
@@ -175,7 +196,13 @@ export default class SalaryAdvanceRequestForm extends Component {
                                                 </div>
                                             </div>
                                         </div>
-
+                                        <div className="row document-main">
+                                            {
+                                                this.state.document.length > 0 ?
+                                                    <DocumentList title='Salary Advance Document' doc={this.state.document} path='salary_advance' />
+                                                    : 'hey'
+                                            }
+                                        </div>
                                         <div className="row approval-main">
                                             {
                                                 !Array.isArray(this.state.status_info) ?

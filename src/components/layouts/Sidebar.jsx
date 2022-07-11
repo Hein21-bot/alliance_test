@@ -259,14 +259,12 @@ export default class Sidebar extends Component {
                 className={
                   this.checkPathName() === "/employee_management"
                     ? "active"
-                    : this.checkPathName() ===
-                      "/employee_management/confirmation"
-                      ? "active"
-                      : ""
+                    : ""
                 }
               >
-                <a href="">
-                  <i className="fas fa-user-cog"></i>Employee Management
+                <a href="" className="sideList">
+                  <i className="fas fa-user-cog"></i>
+                  <span className="sideText">Employee Management</span>
                 </a>
                 <ul className="nav nav-second-level">
                   <li className={pathname === "/employee_list" ? "active" : ""}>
