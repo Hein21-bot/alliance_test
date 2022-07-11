@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
 import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, getPermissionStatus, startSaving } from "../../../../utils/CommonFunction";
-
+import Rodal from 'rodal';
 import Select from "react-select";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -48,8 +48,18 @@ class ConfirmationList extends Component {
             verifyPersonList: null,
             selected_verifyPerson: null,
             checkedListData: [],
+            visible: false,
+            modal_visible: false,
+            extension_comment: ''
         }
+    }
 
+    show_Modal() {
+        this.setState({ modal_visible: true });
+    }
+
+    hide_Modal() {
+        this.setState({ modal_visible: false })
     }
 
     async componentDidMount() {
@@ -285,7 +295,7 @@ class ConfirmationList extends Component {
     }
 
     handleConfirmationListInputChange = (e) => {
-        
+
         this.setState({
             confirmationMonth: (e.target.value)
         })
@@ -304,9 +314,48 @@ class ConfirmationList extends Component {
             dropDownOpen: false
         })
     }
-    handleConfirmRequest = () => {
+
+    handleVisible = () => {
+        this.setState({
+            visible: true
+        })
+    }
+
+    handleLeaveExtensionRequest = () => {
         if (this.state.checkedListData.length > 0) {
 
+            let data = {
+                person: getCookieData("user_info").user_id,
+                list: this.state.checkedListData,
+                extension_comment: this.state.extension_comment,
+                status: 4
+            }
+
+            let status = 0;
+            fetch(`${main_url}confirmation/addConfirmation`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `confirmation=${JSON.stringify(data)}`
+            })
+                .then(res => {
+                    status = res.status;
+                    return res.text()
+                })
+                .then(text => {
+                    if (status === 200) {
+                        toast.success(text);
+                        window.location.reload();
+                    }
+                    else toast.error(text);
+                })
+        }
+        else toast.error('Please choose at least one user!')
+    }
+
+    handleConfirmRequest = () => {
+        if (this.state.checkedListData.length > 0) {
 
             if (this.state.selected_checkPerson && this.state.selected_verifyPerson) {
                 let data = {
@@ -420,34 +469,19 @@ class ConfirmationList extends Component {
                             <h3>Confirmation List Table</h3>
 
                         </div>
-                        {/* <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}> */}
+                        {this.state.visible == false ? <div className='col-lg-6 col-md-6 col-sm-12' style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <button onClick={this.handleVisible} className='btn btn-primary' style={{ borderRadius: 10, width: 150 }}>
+                                Request
+                            </button>
+                            <button onClick={this.show_Modal.bind(this)} className='btn btn-danger' style={{ borderRadius: 10, width: 150 }}>
+                                Extension
+                            </button>
+                        </div> : ''}
 
-                        {/* <div className='col-lg-8 col-md-10 col-sm-12' style={{ display: 'flex', alignItems: 'center' }}>
+                        {this.state.visible == false ? '' : <div className='col-lg-12 col-md-12 col-sm-12' style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between', marginTop: '12px' }}>
+                            <div className='col-lg-4 col-md-3 col-sm-12' style={{ display: 'flex', paddingBottom: 10, alignItems: 'center' }}>
 
-                                <div className='col-lg-2 col-md-2 col-sm-2'>
-                                    Check Person
-                                </div>
-                                <div className='col-lg-5 col-md-5 col-sm-6 ' style={{ display: 'flex', justifyContent: 'start' }}>
-                                    <div style={{ minWidth: 250 }}>
-                                        <Select
-                                            options={checkPersonList}
-                                            value={selected_checkPerson}
-                                            onChange={this.handleSelectedCheckPerson}
-                                            className="react-select-container checkValidate"
-                                            classNamePrefix="react-select"
-                                        />
-                                    </div>
-
-                                </div>
-                                <div className='col-lg-2' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', }}>
-                                    <button onClick={this.handleConfirmRequest} className='btn btn-primary' style={{ borderRadius: 10, width: 150 }}>Confirm Request</button>
-
-                                </div>
-                            </div> */}
-                        <div className='w-100' style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-                            <div className='col-lg-5 col-md-4 col-sm-12' style={{ display: 'flex', paddingBottom: 10, alignItems: 'center' }}>
-
-                                <div className='col-lg-4 col-md-4 col-sm-2'>
+                                <div className='col-lg-3 col-md-3 col-sm-2'>
                                     Check Person
                                 </div>
                                 <div className='col-lg-8 col-md-8 col-sm-6 ' style={{ display: 'flex', justifyContent: 'start' }}>
@@ -464,10 +498,10 @@ class ConfirmationList extends Component {
                                 </div>
 
                             </div>
-                            <div className='col-lg-5 col-md-4 col-sm-12' style={{ display: 'flex', paddingBottom: 10, alignItems: 'center' }}>
+                            <div className='col-lg-4 col-md-3 col-sm-12' style={{ display: 'flex', paddingBottom: 10, alignItems: 'center' }}>
 
-                                <div className='col-lg-2 col-md-4 col-sm-2'>
-                                    Verifier
+                                <div className='col-lg-3 col-md-3 col-sm-2'>
+                                    Confirm Person
                                 </div>
                                 <div className='col-lg-8 col-md-8 col-sm-6 ' style={{ display: 'flex', justifyContent: 'start' }}>
                                     <div style={{ minWidth: 250 }}>
@@ -489,8 +523,7 @@ class ConfirmationList extends Component {
                                 </button>
 
                             </div>
-                        </div>
-
+                        </div>}
                     </div>
 
 
@@ -501,6 +534,21 @@ class ConfirmationList extends Component {
                     }} />
 
                 </div>
+                <Rodal width={500} height={150} visible={this.state.modal_visible} onClose={this.hide_Modal.bind(this)} >
+                    <div className="col-md-12 "><h4>Leave Extension Comment  </h4>
+                    </div>
+                    <div className="col-md-12" style={{ marginTop: 30 }}>
+                        <div className="col-md-3">Comment </div>
+                        <div className="col-md-7">
+                            <input type="text" className="full_width" onChange={(e) => this.setState({ extension_comment: e.target.value })}></input>
+                        </div>
+                        <div className="col-md-2 btn-rightend" >
+
+                            <button className="btn btn-primary" onClick={() => this.handleLeaveExtensionRequest()}><span>Submit</span> </button>
+
+                        </div>
+                    </div>
+                </Rodal>
             </div>
         )
 

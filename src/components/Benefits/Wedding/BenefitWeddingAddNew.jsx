@@ -276,7 +276,7 @@ class BenefitWeddingAddNew extends Component {
     }
 
     render() {
-        console.log("data in wedding benefit", this.state.one_benefit.user_id, this.state.user_id)
+        console.log("data in wedding benefit", this.state.doc, this.state.attachment, this.state.newDoc)
         let { one_benefit, is_main_role } = this.state;
         return (
             <div className="container">
@@ -467,7 +467,7 @@ class BenefitWeddingAddNew extends Component {
                     </form>
                 </div>
                 <div>
-                    {this.state.newDoc.map((data, index) =>
+                    {Array.isArray(this.state.one_benefit) && this.state.newDoc.map((data, index) =>
 
                         <div className="fileuploader-items col-md-4"><ul className="fileuploader-items-list">
 

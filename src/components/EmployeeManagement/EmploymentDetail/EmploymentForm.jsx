@@ -9,7 +9,7 @@ import moment from 'moment';
 
 const EmploymentForm = props => {
     const { handleAddFormInputChange, selectedEmployeeId, exitStatusList, selected_exit_status, disConStatusList, selected_disCon_status, handleSelectedDisConStatus, jobList, selected_job, handleSelectedJob, handleSelectedExitStatus, handleSelectedEmployeeId, employeeIdList, handleLevelSelectorChange, career_level, career_sub_level, level_options, sub_level_options, submitAddForm, handleUpdatData, edit, employeeName, statusList, handleFormCancel, resignReason, handleSelectedBranch, disconDate, handleSelectedDeaprtment, effectiveDate, salary, branchlist, selected_branch, departmentlist, selected_department, handleSelectedDesignation, designationList, selected_designation, actualDate, selected_status, handleSelectedStatus, employedDate } = props
-    // console.log('in form ', selectedEmploymentData)
+    let department = selected_department != null && selected_department.length > 0 ? selected_department.filter(d => d.departments_id == selected_designation.departments_id)[0] : selected_department
     return (
         <form >
             <div className='white-bg ' style={{ paddingTop: 20, border: '1px solid lightgrey', display: 'grid', marginTop: 10, paddingBottom: 20, boxShadow: '5px 5px 5px lightgrey' }}>
@@ -94,10 +94,11 @@ const EmploymentForm = props => {
                             <div className='col-lg-7 col-md-5'>
                                 <Select
                                     options={departmentlist}
-                                    value={selected_department}
+                                    value={department}
                                     onChange={handleSelectedDeaprtment}
                                     className="react-select-container checkValidate"
                                     classNamePrefix="react-select"
+                                    isDisabled={true}
                                 />
                             </div>
 

@@ -7,7 +7,7 @@ import 'jspdf-autotable';
 import moment from 'moment'
 import { imgData } from '../../../utils/Global';
 import * as jsPDF from 'jspdf';
-import { main_url,getUserId, getMainRole, getInformation, print, fno } from "../../../utils/CommonFunction";
+import { main_url, getUserId, getMainRole, getInformation, print, fno } from "../../../utils/CommonFunction";
 const $ = require('jquery');
 const jzip = require('jzip');
 window.JSZip = jzip;
@@ -46,6 +46,14 @@ export default class BenefitChildTable extends Component {
 
         });
 
+        $("#dataTables-table").on('click', '#toDetail', function () {
+
+            var data = $(this).find("#detail").text();
+            data = $.parseJSON(data);
+            that.props.goToDetailForm(data);
+
+        });
+
         // $("#dataTables-table").on('click', '#toPrint', function () {
 
         //     fetch(`${main_url}child_benefit/getChildAvailableAmount`)
@@ -79,7 +87,7 @@ export default class BenefitChildTable extends Component {
         }
     }
 
-   
+
 
     search(status) {
         let data = this.state.dataSource;
@@ -87,7 +95,7 @@ export default class BenefitChildTable extends Component {
         this._setTableData(data)
     }
 
-    
+
 
     _setTableData = (data) => {
         var table;
@@ -131,24 +139,25 @@ export default class BenefitChildTable extends Component {
             if (has_action) {
                 if (result.status !== 3) {
                     obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
-                    obj.action += permission.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id ) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
+                    obj.action += permission.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
                 } else {
-                    obj.action = permission.isView === 1 ? 
-                    '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
-                    
+                    obj.action = permission.isView === 1 ?
+                        '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+
                     if (result.print === 1) {
                         obj.action +=
-                          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-                          JSON.stringify(result) +
-                          '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
-                      } else {
+                            '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                            JSON.stringify(result) +
+                            '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
+                    } else {
                         obj.action +=
-                          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-                          JSON.stringify(result) +
-                          '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
-                      }
+                            '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                            JSON.stringify(result) +
+                            '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
+                    }
                 }
             }
+            obj.detail = '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toDetail" ><span id="detail" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Detail</button>'
 
             l.push(obj)
 
@@ -170,6 +179,7 @@ export default class BenefitChildTable extends Component {
             { title: "Branch", data: "branch" },
             { title: "Phone No", data: "phone_no" },
             { title: "Join Date", data: "date" },
+            { title: "Employee Detail", data: "detail" },
             // { title: "Status", data: "status" }
         ]
 
@@ -189,21 +199,21 @@ export default class BenefitChildTable extends Component {
             // buttons: [
             //     'copy', 'csv', 'excel', 'pdf'
             // ],
-            buttons:  [
+            buttons: [
                 // 'copy',
-            // {
-            //         extend: 'csvHtml5',
-            //         title: 'Child Benefit',
-            // },
-            // {
-            //     extend: 'excelHtml5',
-            //     title: 'Child Benefit',
-            // },
-            // {
-            //     extend: 'pdfHtml5',
-            //     title: 'Child Benefit',
-            // }
-        ],
+                // {
+                //         extend: 'csvHtml5',
+                //         title: 'Child Benefit',
+                // },
+                // {
+                //     extend: 'excelHtml5',
+                //     title: 'Child Benefit',
+                // },
+                // {
+                //     extend: 'pdfHtml5',
+                //     title: 'Child Benefit',
+                // }
+            ],
             data: l,
             columns: column
         });

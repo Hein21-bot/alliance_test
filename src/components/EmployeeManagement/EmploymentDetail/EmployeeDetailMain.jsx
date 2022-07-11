@@ -385,7 +385,6 @@ class EmployeeDetailMain extends Component {
         })
     }
     goToEditForm = data => {
-        console.log("department is ===>", data.department, this.state.departmentlist)
         this.setState({
             selectedEmploymentData: data,
             edit: true,
@@ -395,7 +394,7 @@ class EmployeeDetailMain extends Component {
             employeeName: data.employee_name,
             selected_designation: this.state.designationList.find(c => c.label == data.designations),//
             selected_branch: this.state.branchlist.find(c => parseInt(c.branch_id) == (data.branch ? parseInt(data.branch) : data.branch)),
-            selected_department: this.state.departmentlist.find(c => parseInt(c.departments_id) == (data.department ? parseInt(data.department) : data.department)),
+            selected_department: this.state.departmentlist,
             selected_status: this.state.statusList.find(v => v.value == parseInt(data.employed_status)),
             selected_exit_status: this.state.exitStatusList.find(v => v.id == parseInt(data.exit_status)),
             employedDate: data.employee_date,
@@ -530,7 +529,7 @@ class EmployeeDetailMain extends Component {
     render() {
         const { addNew, level_options, sub_level_options, employeeName, jobList, selected_job, statusList, exitStatusList, selected_exit_status, selected_status, employeeIdList, employedDate, disconDate, resignReason, selectedEmployeeId, effectiveDate, actualDate, salary,
             designationList, selected_designation, employmentDataForSingleUser, branchlist, selected_branch, disConStatusList, selected_disCon_status, departmentlist, selected_department, edit, career_level, career_sub_level } = this.state
-        console.log("employee data is ===>", this.state.employeeData)
+        console.log("employee data is ===>", this.state.departmentlist, this.state.designationList)
         return (
             <div className=" border-bottom white-bg dashboard-header">
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />

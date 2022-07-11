@@ -7,6 +7,7 @@ import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, get
 import EmployeeListView from './EmployeeListView';
 import EditEmployeeListForm from './EditEmployeeListForm';
 import { useLocation } from 'react-router-dom';
+import EmploymentForm from '../EmploymentDetail/EmploymentForm';
 
 class EmployeeListMain extends Component {
     constructor() {
@@ -39,6 +40,7 @@ class EmployeeListMain extends Component {
             selectedEmployeeData: null,
             bankList: null,
             degreeList: null,
+            detailForm: false
 
 
         }
@@ -264,8 +266,9 @@ class EmployeeListMain extends Component {
     BackToTable = () => {
         this.setState({
             viewForm: false,
-            editForm : false,
-            selectedEmployeeData: null
+            editForm: false,
+            selectedEmployeeData: null,
+            editForm: false
         })
         const regionId = this.state.selected_region ? this.state.selected_region.region_id : 0
         const depId = this.state.selected_department ? this.state.selected_department.departments_id : 0
@@ -285,6 +288,13 @@ class EmployeeListMain extends Component {
     goToEditForm = data => {
         this.setState({
             editForm: true,
+            selectedEmployeeData: data
+        })
+    }
+
+    goToDetailForm = data => {
+        this.setState({
+            detailForm: true,
             selectedEmployeeData: data
         })
     }
@@ -323,81 +333,83 @@ class EmployeeListMain extends Component {
                 {
                     this.state.viewForm ?
                         <EmployeeListView selectedEmployeeData={this.state.selectedEmployeeData} BackToTable={this.BackToTable} districtCodeList={this.state.districtCodeList}
-                        granDistrictCodeList={this.state.granDistrictCodeList} designationList={this.state.designationList} level_options={this.state.level_options} branchlist={this.state.branchlist}
-                        nrcList={this.state.nrcList} viewForm={true} editForm={false} />
+                            granDistrictCodeList={this.state.granDistrictCodeList} designationList={this.state.designationList} level_options={this.state.level_options} branchlist={this.state.branchlist}
+                            nrcList={this.state.nrcList} viewForm={true} editForm={false} />
                         : this.state.editForm ?
                             <EditEmployeeListForm selectedEmployeeData={this.state.selectedEmployeeData} BackToTable={this.BackToTable} viewForm={false} editForm={true} districtCodeList={this.state.districtCodeList}
-                            granDistrictCodeList={this.state.granDistrictCodeList} designationList={this.state.designationList} level_options={this.state.level_options} branchlist={this.state.branchlist}
-                            nrcList={this.state.nrcList} bankList={this.state.bankList} getGran_NRC_DistrictCode={this.getGran_NRC_DistrictCode} getNRC_DistrictCode={this.getNRC_DistrictCode} degreeList={this.state.degreeList} />
-                            : <>
-                                <div className='' style={{ marginTop: 20, alignItems: 'center', display: 'flex', flexWrap: 'wrap' }}>
-                                    <div className='col-lg-3 col-md-4 col-sm-6' style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}>
-                                        <div style={{ paddingBottom: 10 }}>
-                                            Region
+                                granDistrictCodeList={this.state.granDistrictCodeList} designationList={this.state.designationList} level_options={this.state.level_options} branchlist={this.state.branchlist}
+                                nrcList={this.state.nrcList} bankList={this.state.bankList} getGran_NRC_DistrictCode={this.getGran_NRC_DistrictCode} getNRC_DistrictCode={this.getNRC_DistrictCode} degreeList={this.state.degreeList} />
+                            : this.state.detailForm ?
+                                <EmploymentForm />
+                                : <>
+                                    <div className='' style={{ marginTop: 20, alignItems: 'center', display: 'flex', flexWrap: 'wrap' }}>
+                                        <div className='col-lg-3 col-md-4 col-sm-6' style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}>
+                                            <div style={{ paddingBottom: 10 }}>
+                                                Region
+                                            </div>
+
+                                            <Select
+                                                options={this.state.region}
+                                                value={this.state.selected_region}
+                                                onChange={this.handleSelectedRegion.bind(this)}
+                                                className="react-select-container checkValidate"
+                                                classNamePrefix="react-select"
+                                            />
+                                        </div>
+                                        <div className='col-lg-3 col-md-4 col-sm-6' style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}>
+                                            <div style={{ paddingBottom: 10 }}>
+                                                Department
+                                            </div>
+
+                                            <Select
+                                                options={this.state.departmentlist}
+                                                value={this.state.selected_department}
+                                                onChange={this.handleSelectedDeaprtment.bind(this)}
+                                                className="react-select-container checkValidate"
+                                                classNamePrefix="react-select"
+                                            />
+                                        </div>
+                                        <div className='col-lg-3 col-md-4 col-sm-6' style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}>
+                                            <div style={{ paddingBottom: 10 }}>
+                                                Branch
+                                            </div>
+
+                                            <Select
+                                                options={this.state.branchlist}
+                                                value={this.state.selected_branch}
+                                                onChange={this.handleSelectedBranch.bind(this)}
+                                                className="react-select-container checkValidate"
+                                                classNamePrefix="react-select"
+                                            />
+                                        </div>
+                                        <div className='col-lg-3 col-md-4 col-sm-6' style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}>
+                                            <div style={{ paddingBottom: 10 }}>
+                                                Designation
+                                            </div>
+
+                                            <Select
+                                                options={this.state.designationList}
+                                                value={this.state.selected_designation}
+                                                onChange={this.handleSelectedDesignation.bind(this)}
+                                                className="react-select-container checkValidate"
+                                                classNamePrefix="react-select"
+                                            />
                                         </div>
 
-                                        <Select
-                                            options={this.state.region}
-                                            value={this.state.selected_region}
-                                            onChange={this.handleSelectedRegion.bind(this)}
-                                            className="react-select-container checkValidate"
-                                            classNamePrefix="react-select"
-                                        />
-                                    </div>
-                                    <div className='col-lg-3 col-md-4 col-sm-6' style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}>
-                                        <div style={{ paddingBottom: 10 }}>
-                                            Department
+                                        <div className='col-lg-6 mx-2' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'end', marginTop: 20 }}>
+                                            <button onClick={this.handleSearch} className='btn btn-primary' style={{ borderRadius: 10, width: 120 }}>Search</button>
+
                                         </div>
+                                        <div className='col-lg-6 mx-2' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'end', marginTop: 20 }}>
+                                            <button onClick={this.handleAddNew} className='btn btn-primary' style={{ borderRadius: 10, width: 120 }}>Add New</button>
 
-                                        <Select
-                                            options={this.state.departmentlist}
-                                            value={this.state.selected_department}
-                                            onChange={this.handleSelectedDeaprtment.bind(this)}
-                                            className="react-select-container checkValidate"
-                                            classNamePrefix="react-select"
-                                        />
-                                    </div>
-                                    <div className='col-lg-3 col-md-4 col-sm-6' style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}>
-                                        <div style={{ paddingBottom: 10 }}>
-                                            Branch
                                         </div>
-
-                                        <Select
-                                            options={this.state.branchlist}
-                                            value={this.state.selected_branch}
-                                            onChange={this.handleSelectedBranch.bind(this)}
-                                            className="react-select-container checkValidate"
-                                            classNamePrefix="react-select"
-                                        />
                                     </div>
-                                    <div className='col-lg-3 col-md-4 col-sm-6' style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}>
-                                        <div style={{ paddingBottom: 10 }}>
-                                            Designation
-                                        </div>
-
-                                        <Select
-                                            options={this.state.designationList}
-                                            value={this.state.selected_designation}
-                                            onChange={this.handleSelectedDesignation.bind(this)}
-                                            className="react-select-container checkValidate"
-                                            classNamePrefix="react-select"
-                                        />
-                                    </div>
-
-                                    <div className='col-lg-6 mx-2' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'end', marginTop: 20 }}>
-                                        <button onClick={this.handleSearch} className='btn btn-primary' style={{ borderRadius: 10, width: 120 }}>Search</button>
-
-                                    </div>
-                                    <div className='col-lg-6 mx-2' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'end', marginTop: 20 }}>
-                                        <button onClick={this.handleAddNew} className='btn btn-primary' style={{ borderRadius: 10, width: 120 }}>Add New</button>
-
-                                    </div>
-                                </div>
-                                <EmployeeListTable goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} data={this.state.employeeData ? this.state.employeeData : []} permission={{
-                                    isEdit: 1,
-                                    isView: 1
-                                }} />
-                            </>
+                                    <EmployeeListTable goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} goToDetailForm={this.goToDetailForm} data={this.state.employeeData ? this.state.employeeData : []} permission={{
+                                        isEdit: 1,
+                                        isView: 1
+                                    }} />
+                                </>
                 }
 
             </div>
