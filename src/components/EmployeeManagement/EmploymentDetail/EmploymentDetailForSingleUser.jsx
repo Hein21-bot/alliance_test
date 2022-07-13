@@ -90,6 +90,7 @@ export default class BenefitChildTable extends Component {
     
 
     _setTableData = (data) => {
+        console.log('data is ===>', data)
         var table;
         var l = [];
         var status;

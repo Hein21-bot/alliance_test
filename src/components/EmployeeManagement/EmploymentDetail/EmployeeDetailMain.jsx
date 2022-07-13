@@ -91,6 +91,11 @@ class EmployeeDetailMain extends Component {
             level_options,
             sub_level_options
         })
+
+        if(this.props.data){
+            this.goToViewForm(this.props.data)
+        }
+
     }
 
     getSalaryTemplate() {
@@ -529,7 +534,7 @@ class EmployeeDetailMain extends Component {
     render() {
         const { addNew, level_options, sub_level_options, employeeName, jobList, selected_job, statusList, exitStatusList, selected_exit_status, selected_status, employeeIdList, employedDate, disconDate, resignReason, selectedEmployeeId, effectiveDate, actualDate, salary,
             designationList, selected_designation, employmentDataForSingleUser, branchlist, selected_branch, disConStatusList, selected_disCon_status, departmentlist, selected_department, edit, career_level, career_sub_level } = this.state
-        console.log("employee data is ===>", this.state.departmentlist, this.state.designationList)
+        // console.log("employee data is ===>", this.state.departmentlist, this.state.designationList)
         return (
             <div className=" border-bottom white-bg dashboard-header">
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />

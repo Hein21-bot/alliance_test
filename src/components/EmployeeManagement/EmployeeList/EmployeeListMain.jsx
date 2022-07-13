@@ -7,7 +7,7 @@ import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, get
 import EmployeeListView from './EmployeeListView';
 import EditEmployeeListForm from './EditEmployeeListForm';
 import { useLocation } from 'react-router-dom';
-import EmploymentForm from '../EmploymentDetail/EmploymentForm';
+import EmployeeDetailMain from '../EmploymentDetail/EmployeeDetailMain';
 
 class EmployeeListMain extends Component {
     constructor() {
@@ -300,6 +300,7 @@ class EmployeeListMain extends Component {
     }
 
     render() {
+        console.log("this.state.employeeData", this.state.selectedEmployeeData)
         return (
             <div className=" border-bottom white-bg dashboard-header">
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -340,7 +341,7 @@ class EmployeeListMain extends Component {
                                 granDistrictCodeList={this.state.granDistrictCodeList} designationList={this.state.designationList} level_options={this.state.level_options} branchlist={this.state.branchlist}
                                 nrcList={this.state.nrcList} bankList={this.state.bankList} getGran_NRC_DistrictCode={this.getGran_NRC_DistrictCode} getNRC_DistrictCode={this.getNRC_DistrictCode} degreeList={this.state.degreeList} />
                             : this.state.detailForm ?
-                                <EmploymentForm />
+                                <EmployeeDetailMain data={this.state.selectedEmployeeData} />
                                 : <>
                                     <div className='' style={{ marginTop: 20, alignItems: 'center', display: 'flex', flexWrap: 'wrap' }}>
                                         <div className='col-lg-3 col-md-4 col-sm-6' style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}>
