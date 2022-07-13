@@ -268,7 +268,6 @@ class ConfirmationList extends Component {
 
     handleCheckBoxChange = (data) => {
         const { checkedListData } = this.state
-
         const newData = {
             id: data.user_id
         }
@@ -280,11 +279,12 @@ class ConfirmationList extends Component {
         else if (checkedListData.filter(c => c.id === data.user_id).length > 0) {
             for (var i = 0; i < checkedListData.length; i++) {
                 if (checkedListData[i].id == data.user_id) {
+                    console.log("filter data is ===>", checkedListData[i].id , data.user_id)
                     checkedListData.splice(i, 1)
                 }
             }
             this.setState({
-                checkedListData
+                checkedListData: checkedListData
             })
         }
         else {
@@ -408,6 +408,7 @@ class ConfirmationList extends Component {
     }
 
     render() {
+        console.log("check list dat6a is ===>", this.state.checkedListData)
         const { view, selected_title, titleList, confirmationMonth, verifyPersonList, selected_verifyPerson, date, user_info, level_options, sub_level_options, career_level, career_sub_level, confirmationListData, checkPersonList, selected_checkPerson, dropDownOpen, selected_designation, designationList, subLevelList, levelList, selected_branch, selected_department, selected_region, regionList, branchlist, departmentlist } = this.state
         return (
             <div className=" border-bottom white-bg dashboard-header">
