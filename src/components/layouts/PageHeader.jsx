@@ -4,6 +4,7 @@ export default class PageHeader extends Component {
     constructor(props) {
         super(props);
         this.state = {
+           
             pathname: window.location.pathname
         }
     }
