@@ -3,6 +3,7 @@ import ReactDatePicker from "react-datepicker";
 import EmployeePieChart from "./EmployeePieChart";
 import { getMacAddress, getMacAddress1 } from "./getMac";
 import HeadCountBarChart from "./HeadCountBarChart";
+import LeaveCountBarChart from "./LeaveCountBarChart";
 import { LeaveCalendar } from "./LeaveCalendar";
 import Profile from "./Profile";
 import ThingsTodoTable from "./ThingsTodoTable";
@@ -29,6 +30,7 @@ export class Dashboard extends Component {
     this.setState({ tapButtonTitle: title });
   };
   render() {
+    console.log(">>>>>", this.state.tapButtonTitle);
     return (
       <div>
         {/* <h3>Dashboard</h3> */}
@@ -51,15 +53,29 @@ export class Dashboard extends Component {
             Head Count
           </button>
           <button style={styles.tapButtonStyle}>Attandence</button>
-          <button style={styles.tapButtonStyle}>Leave</button>
+          <button
+            style={styles.tapButtonStyle}
+            onClick={() => this.tapButtonClick("leaveChart")}
+          >
+            Leave
+          </button>
           <button
             style={styles.tapButtonStyle}
             onClick={() => this.tapButtonClick("totalEmployee")}
           >
             Total Employee
           </button>
-          <button style={styles.tapButtonStyle} onClick={()=>this.tapButtonClick('expense')}>Expense</button>
-          <button style={styles.tapButtonStyle} onClick={()=>this.tapButtonClick('benefit')}>Benefit
+          <button
+            style={styles.tapButtonStyle}
+            onClick={() => this.tapButtonClick("expense")}
+          >
+            Expense
+          </button>
+          <button
+            style={styles.tapButtonStyle}
+            onClick={() => this.tapButtonClick("benefit")}
+          >
+           Compansation and Benefit
           </button>
           <button style={styles.tapButtonStyle}>Help Desk</button>
           <button style={styles.tapButtonStyle}>Resign</button>
@@ -68,10 +84,10 @@ export class Dashboard extends Component {
         {this.state.tapButtonTitle == "headCount" ? (
           <div className="row mt-3">
             <div className="col-md-6">
-              <HeadCountBarChart title={'department'} />
+              <HeadCountBarChart title={"department"} />
             </div>
             <div className="col-md-6">
-              <HeadCountBarChart title={'designation'}/>
+              <HeadCountBarChart title={"designation"} />
             </div>
           </div>
         ) : this.state.tapButtonTitle == "totalEmployee" ? (
@@ -80,34 +96,43 @@ export class Dashboard extends Component {
               <EmployeePieChart />
             </div>
           </div>
-        ) : this.state.tapButtonTitle == 'benefit' ? (
-            <div className="row mt-3">
-              <div className="col-md-8">
-                <BenefitBarChart></BenefitBarChart>
-              </div>
-              
+        ) : this.state.tapButtonTitle == "benefit" ? (
+          <div className="row mt-3">
+            <div className="col-md-8">
+              <BenefitBarChart></BenefitBarChart>
             </div>
-          ) : this.state.tapButtonTitle == 'expense' ? (
-            <div className="row mt-3">
-              
-              <div className="col-md-8">
-              <ExpenseBarChart></ExpenseBarChart> 
-              </div>
-              
+          </div>
+        ) : this.state.tapButtonTitle == "expense" ? (
+          <div className="row mt-3">
+            <div className="col-md-8">
+              <ExpenseBarChart></ExpenseBarChart>
             </div>
-          ):(
+          </div>
+        ) : this.state.tapButtonTitle == "leaveChart" ? (
+          <div
+            className="row mt-4"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div className="col-lg-8">
+              <LeaveCountBarChart />
+            </div>
+          </div>
+        ) : (
           <div>
-            <div className="row">
-              <div className="col-md-4">
+            <div className="row" style={{}}>
+              <div className="col-md-6">
                 <ThingsTodoTable />
               </div>
-              <div className="col-md-8">
+              <div className="col-md-6">
                 <LeaveCalendar />
               </div>
             </div>
           </div>
         )}
-        
       </div>
     );
   }

@@ -21,7 +21,7 @@ import {main_url} from '../../utils/CommonFunction'
         this.setChartOption()
         this.getBenefit()
         this.getBranch()
-        this.getDesignation()
+        this.getDepartment()
         
     }
     getBranch = () => {
@@ -50,7 +50,7 @@ import {main_url} from '../../utils/CommonFunction'
         })
         
     }
-    getDesignation = () => {
+    getDepartment = () => {
         fetch(main_url + `main/getDepartment`)
           .then((res) => {
             if (res.ok) return res.json();
@@ -67,9 +67,11 @@ import {main_url} from '../../utils/CommonFunction'
                 type: 'bar',
                 height: '400px',
             },
+            
             title: {
                 text: '',
             },
+           
             xAxis: {
                 categories: this.state.name,
                 title: {
@@ -104,6 +106,7 @@ import {main_url} from '../../utils/CommonFunction'
             },
             series: [{
                 name: 'Benefit Expense',
+                colorByPoint:true,
                 data: this.state.amount
             }]
         }

@@ -37,6 +37,7 @@ class HeadCountBarChart extends Component {
       })
       .then((res1) => {
         this.setState({ branchData: res1 });
+       
       })
       .catch((error) => console.error(`Fetch Error =\n`, error));
   };
@@ -136,6 +137,7 @@ class HeadCountBarChart extends Component {
           var count = [];
           res.map((v, i) => {
             label.push(v.designations);
+           
             count.push(v.count);
           });
           this.setState({ xAxisDesign: label, countDataDesign: count });
@@ -246,7 +248,9 @@ class HeadCountBarChart extends Component {
                 }}
                 placeholder="Branch"
                 options={this.state.branchData}
-                onChange={(val) => this.setState({ branchId: val.value })}
+                onChange={(val) =>{
+                  this.setState({ branchId: val.value })    
+                }}
                 value={this.state.branchId}
                 className="react-select-container"
                 classNamePrefix="react-select"
