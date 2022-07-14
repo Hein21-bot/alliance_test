@@ -13,7 +13,7 @@ export class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tapButtonTitle: '',
+      tapButtonTitle: "",
     };
   }
 
@@ -24,7 +24,7 @@ export class Dashboard extends Component {
   }
 
   tapButtonClick = (title) => {
-    this.setState({tapButtonTitle: title});
+    this.setState({ tapButtonTitle: title });
   };
   render() {
     return (
@@ -50,7 +50,12 @@ export class Dashboard extends Component {
           </button>
           <button style={styles.tapButtonStyle}>Attandence</button>
           <button style={styles.tapButtonStyle}>Leave</button>
-          <button style={styles.tapButtonStyle}>Total Employee</button>
+          <button
+            style={styles.tapButtonStyle}
+            onClick={() => this.tapButtonClick("totalEmployee")}
+          >
+            Total Employee
+          </button>
           <button style={styles.tapButtonStyle}>Expense</button>
           <button style={styles.tapButtonStyle}>
             Compansation and Benefit
@@ -59,28 +64,29 @@ export class Dashboard extends Component {
           <button style={styles.tapButtonStyle}>Resign</button>
         </div>
         <Profile />
-        {this.state.tapButtonTitle == 'headCount' ? (
+        {this.state.tapButtonTitle == "headCount" ? (
           <div className="row mt-3">
             <div className="col-md-6">
-              <HeadCountBarChart />
+              <HeadCountBarChart title={'department'} />
             </div>
             <div className="col-md-6">
-              <HeadCountBarChart />
+              <HeadCountBarChart title={'designation'}/>
+            </div>
+          </div>
+        ) : this.state.tapButtonTitle == "totalEmployee" ? (
+          <div className="row mt-3">
+            <div className="col-md-8">
+              <EmployeePieChart />
             </div>
           </div>
         ) : (
           <div>
-            <div className="row" style={{}}>
-              <div className="col-md-6">
+            <div className="row">
+              <div className="col-md-4">
                 <ThingsTodoTable />
               </div>
-              <div className="col-md-6">
+              <div className="col-md-8">
                 <LeaveCalendar />
-              </div>
-            </div>
-            <div className="row" style={{}}>
-              <div className="col-md-6">
-                <EmployeePieChart />
               </div>
             </div>
           </div>
