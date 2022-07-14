@@ -3,6 +3,7 @@ import ReactDatePicker from "react-datepicker";
 import EmployeePieChart from "./EmployeePieChart";
 import { getMacAddress, getMacAddress1 } from "./getMac";
 import HeadCountBarChart from "./HeadCountBarChart";
+import LeaveCountBarChart from "./LeaveCountBarChart";
 import { LeaveCalendar } from "./LeaveCalendar";
 import Profile from "./Profile";
 import ThingsTodoTable from "./ThingsTodoTable";
@@ -24,9 +25,10 @@ export class Dashboard extends Component {
   }
 
   tapButtonClick = (title) => {
-    this.setState({tapButtonTitle: title});
+    this.setState({ tapButtonTitle: title });
   };
   render() {
+    console.log('>>>>>', this.state.tapButtonTitle)
     return (
       <div>
         {/* <h3>Dashboard</h3> */}
@@ -49,7 +51,7 @@ export class Dashboard extends Component {
             Head Count
           </button>
           <button style={styles.tapButtonStyle}>Attandence</button>
-          <button style={styles.tapButtonStyle}>Leave</button>
+          <button style={styles.tapButtonStyle} onClick={() => this.tapButtonClick("leaveChart")}>Leave</button>
           <button style={styles.tapButtonStyle}>Total Employee</button>
           <button style={styles.tapButtonStyle}>Expense</button>
           <button style={styles.tapButtonStyle}>
@@ -59,7 +61,8 @@ export class Dashboard extends Component {
           <button style={styles.tapButtonStyle}>Resign</button>
         </div>
         <Profile />
-        {this.state.tapButtonTitle == 'headCount' ? (
+        {
+        this.state.tapButtonTitle == 'headCount' ? (
           <div className="row mt-3">
             <div className="col-md-6">
               <HeadCountBarChart />
@@ -68,23 +71,30 @@ export class Dashboard extends Component {
               <HeadCountBarChart />
             </div>
           </div>
-        ) : (
-          <div>
-            <div className="row" style={{}}>
-              <div className="col-md-6">
-                <ThingsTodoTable />
+        ) : this.state.tapButtonTitle == 'leaveChart' ? (
+          <div className="row mt-4" style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
+          
+            <div className="col-lg-8">
+              <LeaveCountBarChart />
+            </div></div>
+            )
+        : (
+            <div>
+              <div className="row" style={{}}>
+                <div className="col-md-6">
+                  <ThingsTodoTable />
+                </div>
+                <div className="col-md-6">
+                  <LeaveCalendar />
+                </div>
               </div>
-              <div className="col-md-6">
-                <LeaveCalendar />
+              <div className="row" style={{}}>
+                <div className="col-md-6">
+                  <EmployeePieChart />
+                </div>
               </div>
             </div>
-            <div className="row" style={{}}>
-              <div className="col-md-6">
-                <EmployeePieChart />
-              </div>
-            </div>
-          </div>
-        )}
+          )}
       </div>
     );
   }
