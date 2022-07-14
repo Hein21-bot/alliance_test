@@ -35,6 +35,7 @@ export default class HelpDeskTable extends Component {
     }
     async componentDidMount() {
         let ticket_status = await getTicketStatus();
+        
         let branch = await getBranch();
         let dept = await getDepartment();
         ticket_status.unshift({ label: 'All', value: 0 })
@@ -123,10 +124,10 @@ export default class HelpDeskTable extends Component {
             .catch(error => console.error(`Fetch Error =\n`, error));
     }
 
-    getDataWithTicketStatus(data, status) {
-        let list = data.filter(function (d) { return d.tick_status_id === status.value });
-        return list;
-    }
+    // getDataWithTicketStatus(data, status) {
+    //     let list = data.filter(function (d) { return d.tick_status_id === status.value });
+    //     return list;
+    // }
 
 
 

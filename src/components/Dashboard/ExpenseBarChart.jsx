@@ -3,7 +3,7 @@ import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import Select from 'react-select'
 
-class HeadCountBarChart extends Component {
+export default class ExpenseBarChart extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -25,7 +25,7 @@ class HeadCountBarChart extends Component {
                 text: '',
             },
             xAxis: {
-                categories: ['Risk', 'Traning', 'Intemal Audit', 'IT', 'Operation', 'Finance', 'Admin', 'HR'],
+                categories: ['Salary Advance', 'Travel'],
                 title: {
                     text: null
                 }
@@ -57,8 +57,8 @@ class HeadCountBarChart extends Component {
                 enabled: false
             },
             series: [{
-                name: 'Head Count by Deapartment',
-                data: [15, 10, 35, 17, 80, 18, 20, 25]
+                name: 'Allowance Expense',
+                data: [15, 10]
             }]
         }
 
@@ -77,14 +77,55 @@ class HeadCountBarChart extends Component {
                     padding: '2px 0px 2px 0px'
                 }}
             >
-                <h3 className='' style={{ padding: '10px 0px 0px 0px' }}>Head Count by Deapartment</h3>
+                <h3 className='' style={{ padding: '10px 0px 0px 0px',marginBottom:'20px' }}>Allowance Expense</h3>
                 <div className='flex-row' style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', margin: '10px 10px 0px 10px' }}>
                     <Select
                         styles={{
                             container: base => ({
                                 ...base,
                                 //   flex: 1
-                                width: 100
+                                width: 120,
+                                marginLeft:10
+                            }),
+                            control: base => ({
+                                ...base,
+                                minHeight: '18px'
+                            })
+                        }}
+                        placeholder="From Date"
+                        options={[]}
+                        onChange={(val) => console.log(val)}
+                        value={null}
+                        className='react-select-container'
+                        classNamePrefix="react-select"
+                    />
+                    <Select
+                        styles={{
+                            container: base => ({
+                                ...base,
+                                //   flex: 1
+                                width: 100,
+                                marginLeft:10
+                            }),
+                            control: base => ({
+                                ...base,
+                                minHeight: '18px'
+                            })
+                        }}
+                        placeholder="To Date"
+                        options={[]}
+                        onChange={(val) => console.log(val)}
+                        value={null}
+                        className='react-select-container'
+                        classNamePrefix="react-select"
+                    />
+                    <Select
+                        styles={{
+                            container: base => ({
+                                ...base,
+                                //   flex: 1
+                                width: 100,
+                                marginLeft:10
                             }),
                             control: base => ({
                                 ...base,
@@ -92,6 +133,27 @@ class HeadCountBarChart extends Component {
                             })
                         }}
                         placeholder="Branch"
+                        options={[]}
+                        onChange={(val) => console.log(val)}
+                        value={null}
+                        className='react-select-container'
+                        classNamePrefix="react-select"
+                    />
+                    <Select
+                        styles={{
+                            
+                            container: base => ({
+                                ...base,
+                                //   flex: 1
+                                width: 100,
+                                marginLeft:10
+                            }),
+                            control: base => ({
+                                ...base,
+                                minHeight: '18px'
+                            })
+                        }}
+                        placeholder="Department"
                         options={[]}
                         onChange={(val) => console.log(val)}
                         value={null}
@@ -111,5 +173,3 @@ class HeadCountBarChart extends Component {
     }
 
 }
-
-export default HeadCountBarChart;
