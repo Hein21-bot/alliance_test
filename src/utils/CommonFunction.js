@@ -415,6 +415,7 @@ async function getLoginUser(id) {
             user = await getUserInfo(id);
             if (user.length > 0) {
                 setCookieData("user_info", JSON.stringify(user[0]));
+                localStorage.setItem('user_id', id);
                 return user[0];
             } else return user;
         } else return user;

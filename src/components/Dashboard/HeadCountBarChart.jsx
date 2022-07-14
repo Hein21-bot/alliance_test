@@ -9,13 +9,17 @@ class HeadCountBarChart extends Component {
     super(props);
     this.state = {
       chartOptions: {},
-      branchId: "1",
+      
+      id: {
+        branchId: {value: "1", label: 'Head Office'},
+        deptId: {value: 1, label: ''},
+      },
       xAxisDept: [],
       countDataDept: [],
       branchData: [],
       xAxisDesign: [],
       countDataDesign: [],
-      deptId: 1,
+      
       deptData: [],
     };
   }
@@ -43,7 +47,7 @@ class HeadCountBarChart extends Component {
   };
 
   getHeadCountbyDepartment = () => {
-    fetch(main_url + `dashboard/headCountByDepartments/${this.state.branchId}`)
+    fetch(main_url + `dashboard/headCountByDepartments/${this.state.id.branchId.value}`)
       .then((response) => {
         if (response.ok) return response.json();
       })
@@ -126,7 +130,7 @@ class HeadCountBarChart extends Component {
   };
 
   getHeadCountbyDesignation = () => {
-    fetch(main_url + `dashboard/headCountByDesignation/${this.state.deptId}`)
+    fetch(main_url + `dashboard/headCountByDesignation/${this.state.id.deptId.value}`)
       .then((response) => {
         if (response.ok) return response.json();
       })
@@ -207,6 +211,22 @@ class HeadCountBarChart extends Component {
     this.getHeadCountbyDesignation();
   }
 
+  handleSelectedBranch = async (event) => {
+    let data = this.state.id
+    data.branchId = event
+    this.setState({
+        id: data
+    })
+}
+handleSelectedDepartment = async (event) => {
+  console.log('id ===>', event)
+    let data = this.state.id
+    data.deptId = event
+    this.setState({
+        id: data
+    })
+}
+
   render() {
     return (
       <div>
@@ -248,10 +268,8 @@ class HeadCountBarChart extends Component {
                 }}
                 placeholder="Branch"
                 options={this.state.branchData}
-                onChange={(val) =>{
-                  this.setState({ branchId: val.value })    
-                }}
-                value={this.state.branchId}
+                onChange={this.handleSelectedBranch}
+                value={this.state.id.branchId}
                 className="react-select-container"
                 classNamePrefix="react-select"
               />
@@ -310,8 +328,8 @@ class HeadCountBarChart extends Component {
                 }}
                 placeholder="Department"
                 options={this.state.deptData}
-                onChange={(val) => this.setState({ deptId: val.value })}
-                value={this.state.deptId}
+                onChange={this.handleSelectedDepartment}
+                value={this.state.id.deptId}
                 className="react-select-container"
                 classNamePrefix="react-select"
               />
