@@ -15,7 +15,7 @@ class LeaveCounrBarChart extends Component {
                 departmentId: 0
             },
             leaveData: [],
-            countData:[],
+            countData: [],
             chartData: []
         }
     }
@@ -23,39 +23,33 @@ class LeaveCounrBarChart extends Component {
 
     async componentDidMount() {
         await this.setChartOption();
-        await this.leaveDashboard()
+        await this.leaveDashboard();
         let branch = await getBranch();
+        branch.unshift({ label: 'All', vlaue: 0 });
         let department = await getDepartment();
+        department.unshift({ label: 'All', vlaue: 0 });
         this.setState({
             branch: branch,
-            department: department
+            department: department,
         })
     }
 
-    // async componentDidUpdate(prevProps, prevState) {
-
-    //     if (preveState.leaveData.length>0 && prevState.leaveData !== this.state.leaveData) {
-    //         // await this.leaveDashboard()
-    //         console.log('ewrwerw',this.state.leaveData)
-    //     }
-    // }
-
     async leaveDashboard() {
-        fetch(`${main_url}dashboard/leaveDashboard/${this.state.data.branchId}/${this.state.data.departmentId} `)
+        fetch(`${main_url}dashboard/leaveDashboard/${this.state.data.branchId.value}/${this.state.data.departmentId.value} `)
             .then(response => {
                 if (response.ok) return response.json()
             })
             .then(res => {
-                console.log('>>>>>>d',res)
+
                 if (res) {
                     var label = [];
                     var count = [];
-                    res.map((v,i) => {
+                    res.map((v, i) => {
                         label.push(v.leave_category);
                         count.push(v.count)
                     })
-                    
-                    this.setState({ leaveData: label, countData:count })
+
+                    this.setState({ leaveData: label, countData: count })
                 }
                 this.setChartOption()
             })
@@ -65,14 +59,14 @@ class LeaveCounrBarChart extends Component {
         const chartOptions = {
             chart: {
                 type: 'bar',
-                height: '250px',
+                height: '350px',
             },
             title: {
                 text: '',
             },
             xAxis: {
                 // categories: ['Leave Without Pay', 'Maternity Leave', 'Paternity Leave', 'Compassionate Leave', 'Medical Leave', 'Earned Leave', 'Casual Leave'],
-                categories:  this.state.leaveData,
+                categories: this.state.leaveData,
                 title: {
                     text: null
                 }
@@ -104,7 +98,8 @@ class LeaveCounrBarChart extends Component {
                 enabled: false
             },
             series: [{
-                name: 'Leave Count by Deapartment',
+                name: 'Leave Count by Category',
+                colorByPoint: true,
                 data: this.state.countData
             }]
         }
@@ -118,6 +113,9 @@ class LeaveCounrBarChart extends Component {
             data: data
         })
     }
+    onClickLeaveCountSearch = () => {
+        this.leaveDashboard();
+    }
     handleSelectedDepartment = async (event) => {
         let data = this.state.data
         data.departmentId = event
@@ -127,6 +125,7 @@ class LeaveCounrBarChart extends Component {
     }
 
     render() {
+        console.log('data is ===>', this.state.data.branchId, this.state.data.departmentId)
         return (
             <div
                 className='text-center margin-y'
@@ -135,11 +134,12 @@ class LeaveCounrBarChart extends Component {
                     color: '#222',
                     boxShadow: '3px 3px 3px #e5e5e5',
                     borderRadius: 6,
-                    padding: '2px 0px 2px 0px'
+                    padding: '2px 0px 2px 0px',
+
                 }}
             >
-                {console.log('drt>>>>',this.state.department)}
-                <h3 className='' style={{ padding: '10px 0px 0px 0px' }}>Leave Count by Deapartment</h3>
+
+                <h3 className='' style={{ padding: '10px 0px 0px 0px' }}>Leave Count by Categorey</h3>
                 <div className='flex-row' style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', margin: '10px 10px 0px 10px' }}>
                     <Select
                         styles={{
@@ -182,7 +182,7 @@ class LeaveCounrBarChart extends Component {
                         className='react-select-container'
                         classNamePrefix="react-select"
                     />
-                    <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={()=>}>Search</button>
+                    <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.onClickLeaveCountSearch()}>Search</button>
                 </div>
                 <HighchartsReact
                     highcharts={Highcharts}
