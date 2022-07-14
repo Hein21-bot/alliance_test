@@ -27,13 +27,12 @@ export class Dashboard extends Component {
   tapButtonClick = (title) => {
     this.setState({ tapButtonTitle: title });
   };
+
   render() {
-    console.log('>>>>>', this.state.tapButtonTitle)
     return (
       <div>
         {/* <h3>Dashboard</h3> */}
         {/* <LeaveCalendar /> */}
-        {console.log("count ===>", this.state.count)}
         <div
           style={{
             width: "100%",
@@ -51,7 +50,12 @@ export class Dashboard extends Component {
             Head Count
           </button>
           <button style={styles.tapButtonStyle}>Attandence</button>
-          <button style={styles.tapButtonStyle} onClick={() => this.tapButtonClick("leaveChart")}>Leave</button>
+          <button
+            style={styles.tapButtonStyle}
+            onClick={() => this.tapButtonClick("leaveChart")}
+          >
+            Leave
+          </button>
           <button
             style={styles.tapButtonStyle}
             onClick={() => this.tapButtonClick("totalEmployee")}
@@ -67,39 +71,54 @@ export class Dashboard extends Component {
         </div>
         <Profile />
         {this.state.tapButtonTitle == "headCount" ? (
-          <div className="row mt-3">
+          <div className="row" style={{marginTop: 15}}>
             <div className="col-md-6">
-              <HeadCountBarChart title={'department'} />
+              <HeadCountBarChart title={"department"} />
             </div>
             <div className="col-md-6">
-              <HeadCountBarChart title={'designation'}/>
+              <HeadCountBarChart title={"designation"} />
             </div>
           </div>
         ) : this.state.tapButtonTitle == "totalEmployee" ? (
-          <div className="row mt-3">
+          <div
+            className="row"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: 15
+            }}
+          >
             <div className="col-md-8">
               <EmployeePieChart />
             </div>
           </div>
-        ) : this.state.tapButtonTitle == 'leaveChart' ? (
-          <div className="row mt-4" style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
-          
+        ) : this.state.tapButtonTitle == "leaveChart" ? (
+          <div
+            className="row mt-4"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: 15
+            }}
+          >
             <div className="col-lg-8">
               <LeaveCountBarChart />
-            </div></div>
-            )
-        : (
-            <div>
-              <div className="row" style={{}}>
-                <div className="col-md-6">
-                  <ThingsTodoTable />
-                </div>
-                <div className="col-md-6">
-                  <LeaveCalendar />
-                </div>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div className="row" style={{marginTop: 15}}>
+              <div className="col-md-4">
+                <ThingsTodoTable />
+              </div>
+              <div className="col-md-8">
+                <LeaveCalendar />
               </div>
             </div>
-          )}
+          </div>
+        )}
       </div>
     );
   }
