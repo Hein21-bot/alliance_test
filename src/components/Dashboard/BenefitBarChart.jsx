@@ -10,7 +10,9 @@ import {main_url} from '../../utils/CommonFunction'
         this.state = {
             chartOptions: {},
             name:[],
-            amount:[]
+            amount:[],
+            branchData:[],
+            deptData:[]
         }
     }
 
@@ -18,8 +20,20 @@ import {main_url} from '../../utils/CommonFunction'
     componentDidMount() {
         this.setChartOption()
         this.getBenefit()
+        this.getBranch()
+        this.getDesignation()
         
     }
+    getBranch = () => {
+        fetch(main_url + `main/getBranch`)
+          .then((res) => {
+            if (res.ok) return res.json();
+          })
+          .then((res1) => {
+            this.setState({ branchData: res1 });
+          })
+          .catch((error) => console.error(`Fetch Error =\n`, error));
+      };
     getBenefit=()=>{
         fetch(main_url+'dashboard/benefitExpense',{
             method:'GET'
@@ -36,6 +50,16 @@ import {main_url} from '../../utils/CommonFunction'
         })
         
     }
+    getDesignation = () => {
+        fetch(main_url + `main/getDepartment`)
+          .then((res) => {
+            if (res.ok) return res.json();
+          })
+          .then((res1) => {
+            this.setState({ deptData: res1 });
+          })
+          .catch((error) => console.error(`Fetch Error =\n`, error));
+      };
 
     setChartOption = () => {
         const chartOptions = {
@@ -156,9 +180,9 @@ import {main_url} from '../../utils/CommonFunction'
                             })
                         }}
                         placeholder="Branch"
-                        options={[]}
-                        onChange={(val) => console.log(val)}
-                        value={null}
+                        options={this.state.branchData}
+                        onChange={(val) => this.setState({ branchId: val.value })}
+                        value={this.state.branchId}
                         className='react-select-container'
                         classNamePrefix="react-select"
                     />
@@ -176,13 +200,13 @@ import {main_url} from '../../utils/CommonFunction'
                             })
                         }}
                         placeholder="Department"
-                        options={[]}
-                        onChange={(val) => console.log(val)}
-                        value={null}
+                        options={this.state.deptData}
+                        onChange={(val) => this.setState({ deptId: val.value})}
+                        value={this.state.deptId}
                         className='react-select-container'
                         classNamePrefix="react-select"
                     />
-                    <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }}>Search</button>
+                    <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} >Search</button>
                 </div>
                 <HighchartsReact
                     highcharts={Highcharts}

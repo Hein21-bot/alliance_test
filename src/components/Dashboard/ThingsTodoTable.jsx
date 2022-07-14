@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+const primary = "#1872ab";
 
 class ThingsTodoTable extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class ThingsTodoTable extends Component {
   render() {
     return (
       <div
-        className=""
+        className="col-md-12"
         style={{
           background: "#fff",
           color: "#222",
@@ -26,55 +27,75 @@ class ThingsTodoTable extends Component {
             className="fa fa-file-text-o"
             aria-hidden="true"
           ></i>
-          <h3 style={{ paddingLeft: 8 }}>Things To Do</h3>
+          <h3 style={{ paddingLeft: 8, color: primary, fontWeight: 'bolder' }}>Things To Do</h3>
         </div>
-        <div style={{ maxHeight: 250, overflowY: "scroll", margin: "5px 0px" }}>
+        <div
+          className="col-md-12"
+          style={{ maxHeight: 400, overflowY: "scroll" }}
+        >
           {dummy_data.map((v, k) => (
-            <div
-              key={k}
-              className="row"
-              style={{
-                boxShadow: "1px 1px 3px 1px #e6e6e6",
-                borderRadius: 4,
-                margin: "5px 10px",
-                padding: "10px",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <div className="col-md-2 text-center text-white">
-                <div
-                  style={{
-                    background: "#1872ab",
-                    borderRadius: 20,
-                    width: 25,
-                    height: 25,
-                    padding: "3.2px 0px",
-                  }}
-                >
-                  {v.count}
+            <>
+              <div
+                key={k}
+                className="row"
+                style={{
+                  // boxShadow: "1px 1px 3px 1px #e6e6e6",
+                  // borderRadius: 4,
+                  margin: "5px 0px",
+                  // padding: "0px",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <div className="col-md-2" style={{ marginLeft: -12 }}>
+                  <div
+                    style={{
+                      border: "1px solid #1872ab",
+                      borderRadius: 5,
+                      width: 25,
+                      height: 25,
+                      // display: 'flex',
+                      // justifyContent: 'center',
+                      // alignItems: 'center'
+                    }}
+                  >
+                    <p
+                      style={{
+                        fontSize: 11,
+                        color: primary,
+                        textAlign: "center",
+                        marginTop: "3px",
+                      }}
+                    >
+                      {v.count}
+                    </p>
+                  </div>
+                </div>
+                <div className="col-md-7" style={{ color: primary }}>
+                  {v.request}
+                </div>
+                <div className="col-md-3">
+                  <button
+                    className="btn text-center"
+                    onClick={() => this.props.history.push(v.link)}
+                    style={{
+                      height: 22,
+                      padding: "0px 5px 0px 5px",
+                      fontSize: 10,
+                    }}
+                  >
+                    More Info
+                    <i
+                      class="fa fa-arrow-circle-right"
+                      style={{ marginLeft: 5 }}
+                      aria-hidden="true"
+                    ></i>
+                  </button>
                 </div>
               </div>
-              <div className="col-md-7">{v.request}</div>
-              <div className="col-md-3">
-                <button
-                  className="btn text-center"
-                  onClick={() => this.props.history.push(v.link)}
-                  style={{
-                    height: 22,
-                    padding: "0px 5px 0px 5px",
-                    fontSize: 12,
-                  }}
-                >
-                  More Info
-                  <i
-                    class="fa fa-arrow-circle-right"
-                    style={{ marginLeft: 5 }}
-                    aria-hidden="true"
-                  ></i>
-                </button>
-              </div>
-            </div>
+              {k != dummy_data.length - 1 && <div style={{width: '100%', height: "0.5px", backgroundColor: 'black'}}/>}
+              
+            </>
           ))}
         </div>
       </div>
