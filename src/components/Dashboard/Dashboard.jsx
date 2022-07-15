@@ -9,7 +9,8 @@ import Profile from "./Profile";
 import ThingsTodoTable from "./ThingsTodoTable";
 import BenefitBarChart from "./BenefitBarChart";
 import ExpenseBarChart from "./ExpenseBarChart";
-
+import AttendenceBarChart from "./AttendenceBarChart";
+import LeaveCalenderone from "./LeaveCalenderone"
 const primary = "#1872ab";
 
 export class Dashboard extends Component {
@@ -51,7 +52,9 @@ export class Dashboard extends Component {
           >
             Head Count
           </button>
-          <button style={styles.tapButtonStyle}>Attandence</button>
+          <button style={styles.tapButtonStyle}
+           onClick={() => this.tapButtonClick("attendenceChart")}
+          >Attandence</button>
           <button
             style={styles.tapButtonStyle}
             onClick={() => this.tapButtonClick("leaveChart")}
@@ -89,7 +92,21 @@ export class Dashboard extends Component {
               <HeadCountBarChart title={"designation"} />
             </div>
           </div>
-        ) : this.state.tapButtonTitle == "totalEmployee" ? (
+        ) : this.state.tapButtonTitle == "attendenceChart" ? (
+          <div
+            className="row mt-4"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: 15
+            }}
+          >
+            <div className="col-lg-8">
+              <AttendenceBarChart />
+            </div>
+          </div>
+        ):this.state.tapButtonTitle == "totalEmployee" ? (
           <div
             className="row"
             style={{
@@ -135,9 +152,9 @@ export class Dashboard extends Component {
               <div className="col-md-4">
                 <ThingsTodoTable />
               </div>
-              <div className="col-md-8">
-                <LeaveCalendar />
-              </div>
+              <div className="col-md-8" >
+                <LeaveCalenderone/>
+              </div> 
             </div>
           </div>
         )}

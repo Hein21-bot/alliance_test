@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+.leavedatepicker input{
+width: 200px;
+border-radius: 30px;
+
+}
