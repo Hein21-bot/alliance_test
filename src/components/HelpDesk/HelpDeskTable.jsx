@@ -7,7 +7,7 @@ import DatePicker from 'react-datetime';
 import Select from 'react-select';
 import moment from 'moment';
 // import { main_url, getUserId, getMainRole, getTicketStatus, getFirstDayOfMonth } from '../../utils/CommonFunction';
-import { main_url, getUserId, getMainRole, getTicketStatus, getFirstDayOfMonth, getBranch, getDepartment, calculationDate } from '../../utils/CommonFunction';
+import { main_url, getUserId, getMainRole, getTicketStatus, getFirstDayOfMonth, getBranch, getDepartment, calculationDate, getTicketMainCategory } from '../../utils/CommonFunction';
 import { duration } from 'moment';
 import { format } from 'crypto-js';
 // window.JSZip = jzip;
@@ -31,15 +31,19 @@ export default class HelpDeskTable extends Component {
             is_main_role: getMainRole(),
             s_date: moment(getFirstDayOfMonth()),
             e_date: moment(),
+            main_category: [],
+            selected_main_category: []
         }
     }
     async componentDidMount() {
+        let main_category = await getTicketMainCategory()
         let ticket_status = await getTicketStatus();
         let branch = await getBranch();
         let dept = await getDepartment();
+        main_category.unshift({ label: 'All', value: 0 })
         ticket_status.unshift({ label: 'All', value: 0 })
         this.search();
-        // this.setState({ ticket_status: ticket_status, selected_ticket_status: ticket_status[0] })
+        this.setState({ main_category: main_category, selected_main_category: main_category[0] })
         this.setState({ ticket_status: ticket_status, selected_ticket_status: ticket_status[0], branch: branch, department: dept })
         let that = this
         $("#dataTables-table").on('click', '#toView', function () {
@@ -58,6 +62,10 @@ export default class HelpDeskTable extends Component {
             that._getHelpDeskEditData(data.helpDesk_ticket_id)
 
         });
+        // that.setState({
+        //     main_category: main_category
+        // })
+
     }
 
     handleStartDate = (event) => {
@@ -75,6 +83,12 @@ export default class HelpDeskTable extends Component {
     handleTicketStatus = (event) => {
         this.setState({
             selected_ticket_status: event
+        })
+    }
+
+    handleTicketMainCategory = (event) => {
+        this.setState({
+            selected_main_category: event
         })
     }
 
@@ -108,9 +122,9 @@ export default class HelpDeskTable extends Component {
             })
             .catch(error => console.error(`Fetch Error =\n`, error));
     }
-    getAllHelpDeskData(s_date, e_date, status) {
+    getAllHelpDeskData(s_date, e_date, status, main_category) {
         let id = this.state.user_id;
-        fetch(`${main_url}helpDesk/getALLHelpDeskData/${id}/${s_date}/${e_date}/${status}`)
+        fetch(`${main_url}helpDesk/getALLHelpDeskData/${id}/${s_date}/${e_date}/${status}/${main_category}`)
             .then(response => {
                 if (response.ok) return response.json()
             })
@@ -123,10 +137,10 @@ export default class HelpDeskTable extends Component {
             .catch(error => console.error(`Fetch Error =\n`, error));
     }
 
-    getDataWithTicketStatus(data, status) {
-        let list = data.filter(function (d) { return d.tick_status_id === status.value });
-        return list;
-    }
+    // getDataWithTicketStatus(data, status) {
+    //     let list = data.filter(function (d) { return d.tick_status_id === status.value });
+    //     return list;
+    // }
 
 
 
@@ -159,7 +173,7 @@ export default class HelpDeskTable extends Component {
         let ticket_status = '';
         for (var i = 0; i < data.length; i++) {
             let result = data[i]
-            console.log("department id is ===>",data[i].branchId)
+            console.log("department id is ===>", data[i].branchId)
             let obj = [];
             var now = result.createdAt
             var then = result.updatedAt
@@ -267,7 +281,9 @@ export default class HelpDeskTable extends Component {
         let e_date = moment(this.state.e_date).format('YYYY-MM-DD');
         let t_status = this.state.selected_ticket_status;
         let status = !Array.isArray(t_status) ? t_status.value : 0;
-        this.getAllHelpDeskData(s_date, e_date, status);
+        let m_category = this.state.selected_main_category
+        let category = !Array.isArray(m_category) ? m_category.value : 0;
+        this.getAllHelpDeskData(s_date, e_date, status, category);
         // if (status > 0) {
         //     data = data.filter(d => { return d.createdAt >= s_date && d.createdAt <= e_date && t_status === d.ticket_status_id })
         // } else {
@@ -277,11 +293,12 @@ export default class HelpDeskTable extends Component {
     }
 
     render() {
+        console.log('main category is ===>', this.state.main_category)
         return (
             <div>
                 <div className="row border-bottom white-bg dashboard-header">
                     <div className="row">
-                        <div className="col-md-3">
+                        <div className="col-md-2">
                             <div><label className="col-sm-12">Start Date</label></div>
                             <div className="col-md-10">
                                 <DatePicker
@@ -292,7 +309,7 @@ export default class HelpDeskTable extends Component {
                                 />
                             </div>
                         </div>
-                        <div className="col-md-3">
+                        <div className="col-md-2">
                             <div><label className="col-sm-12">End Date</label></div>
                             <div className="col-md-10">
                                 <DatePicker
@@ -315,6 +332,16 @@ export default class HelpDeskTable extends Component {
                             </div>
                         </div>
                         <div className="col-md-3">
+                            <div><label className="col-sm-12">Ticket Main Category</label></div>
+                            <div className="col-md-10">
+                                <Select
+                                    options={this.state.main_category}
+                                    value={this.state.selected_main_category}
+                                    onChange={this.handleTicketMainCategory}
+                                />
+                            </div>
+                        </div>
+                        <div className="col-md-2">
                             <div className="col-md-10 margin-top-20">
                                 <button type='button' className='btn btn-primary' onClick={this.search.bind(this)} >Search</button>
                             </div>

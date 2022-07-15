@@ -43,15 +43,36 @@ class ConfirmationCheck extends Component {
             check_person_data: null,
             ceo_data: null,
             checkPerson: null,
-            verifyPerson: null
+            verifyPerson: null,
+            sub_level_options: [],
+            selected_sub_level: []
         }
 
     }
 
-    componentDidMount() {
-        this.getCheckListData()
+    async componentDidMount() {
+        await this.getCheckListData()
+        const sub_level = await this.getCareerSubLevelOptions();
 
+        const sub_level_options = sub_level && sub_level.map(v => (
+            {
+                ...v,
+                label: v.career_sub_level,
+                value: v.career_sub_level
+            }
+        ))
+
+        this.setState({
+            sub_level_options
+        })
     }
+
+    getCareerSubLevelOptions = async () => {
+        var res = await fetch(`${main_url}allowLevel/getCareerSubLevel`);
+        if (res.ok) return res.json();
+        else return [];
+    }
+
 
     getWarning(user_id) {
         fetch(`${main_url}confirmation/getWarning/${user_id}`)
@@ -118,6 +139,12 @@ class ConfirmationCheck extends Component {
         }
     }
 
+    handleSelectedSubLevel = (event) => {
+        this.setState({
+            selected_sub_level: event
+        })
+    }
+
     goToViewForm = data => {
         this.setState({
             view: true,
@@ -141,7 +168,7 @@ class ConfirmationCheck extends Component {
     }
 
     goToEditForm = data => {
-        console.log("data is ===>", data.check_person, data.verify_person)
+        console.log("data is ===>", data)
         this.getWarning(data.user_id)
         this.setState({
             edit: true,
@@ -164,6 +191,7 @@ class ConfirmationCheck extends Component {
             warningDate: data.letter_warning_date ? moment.utc(data.letter_warning_date).format("YYYY-MM-DD") : '-',
             recommendation: data.recommendation,
             date: data.date ? moment.utc(data.date).format("YYYY-MM-DD") : '-',//moment(data.createdAt).format("DD/MM/YYYY"),
+            career_level_id: data.career_level_id
         })
     }
 
@@ -387,8 +415,8 @@ class ConfirmationCheck extends Component {
     render() {
         let verify_person = this.state.checkListData && (this.state.checkListData[0] ? this.state.checkListData[0].verify_person : null)
         let check_person = this.state.checkListData && (this.state.checkListData[0] ? this.state.checkListData[0].check_person : null)
-        const { selected_checkList, extensionPeriod, comment, effectiveDate, checkedAll, edit, view, selectedTableData, fullname, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, status, recommendation, date, checkPerson, verifyPerson } = this.state
-        console.log('verify person ', effectiveDate)
+        const { selected_checkList, extensionPeriod, comment, effectiveDate, checkedAll, edit, view, selectedTableData, fullname, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, status, recommendation, date, checkPerson, verifyPerson, sub_level_options, career_level_id, selected_sub_level } = this.state
+        console.log('filter carrer level is ===>', sub_level_options.filter(d => d.career_level_id == career_level_id))
         return (
             <div className=" border-bottom white-bg dashboard-header">
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -445,6 +473,10 @@ class ConfirmationCheck extends Component {
                             handleSubmit={this.handleSubmit}
                             handleLetterWarningChange={this.handleLetterWarningChange}
                             user_id={this.state.user_id}
+                            sub_level_options={sub_level_options}
+                            career_level_id={career_level_id}
+                            selected_sub_level={selected_sub_level}
+                            handleSelectedSubLevel={this.handleSelectedSubLevel}
                             date={date} />
                         :
                         view ?
@@ -468,6 +500,7 @@ class ConfirmationCheck extends Component {
                                 comment={comment}
                                 effectiveDate={effectiveDate}
                                 handleSubmit={this.handleSubmit}
+                                sub_level_options={sub_level_options}
                                 date={date} />
                             :
                             <div className='white-bg' style={{ boxShadow: '5px 5px 5px lightgrey', paddingTop: 10 }}>

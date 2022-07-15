@@ -11,6 +11,8 @@ import moment from 'moment';
 const EducationDetails = props => {
     const { viewForm, editForm } = props
     const { handleSelectedDegree, handleEducationDetails, workExpData, handlePreviousClick, handleAddWorkExp, handleFromMonthYear, handleToMonthYear, fromMonthYear, toMonthYear, handleAddDegreeData, handleAddQualification, addedDegreeData, addedQualitificationData, onCancelClick, location, degreeList, selected_degree, selected_qualification, designation, organization, handleEduactionInputChange, period, handleWorkExpChange, checked, handleUpdateDegreeData, handleUpdateQualification, handleUpdateWorkExp, handleRemoveQualification, handleRemoveDegreeData, handleRemoveWorkExp } = props
+
+    console.log("selected_qualification is ===>", addedQualitificationData)
     return (
         <>
             <div className='white-bg ' style={{
@@ -134,10 +136,10 @@ const EducationDetails = props => {
                             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
 
 
-                                <div className='col-lg-3 col-md-3 col-sm-6' style={{ fontWeight: 'bold', paddingBottom: 10, margin: 10 }}>
+                                <div className='col-lg-4 col-md-4 col-sm-6' style={{ fontWeight: 'bold', paddingBottom: 10, margin: 10 }}>
                                     <MonthYearPicker label="From Month/Year" value={fromMonthYear} onChange={handleFromMonthYear} />
                                 </div>
-                                <div className='col-lg-3 col-md-3 col-sm-6' style={{ fontWeight: 'bold', paddingBottom: 10, margin: 10 }}>
+                                <div className='col-lg-4 col-md-4 col-sm-6' style={{ fontWeight: 'bold', paddingBottom: 10, margin: 10 }}>
                                     <MonthYearPicker label="To Month/Year" value={toMonthYear} onChange={handleToMonthYear} />
                                 </div>
 

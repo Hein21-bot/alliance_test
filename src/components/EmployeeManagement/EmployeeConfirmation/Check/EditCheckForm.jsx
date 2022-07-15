@@ -8,8 +8,8 @@ import 'react-calendar/dist/Calendar.css';
 import moment from "moment";
 
 const EditCheckForm = props => {
-    const { handleSubmit, handleEditCheckInputChange, status, onRecommendationChange, handleLetterWarningChange, view, fullname, BackToTable, extensionPeriod, comment, effectiveDate, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, recommendation, date, check_person, verify_person } = props
-    console.log("effective_date date is ===>", status, props.user_id, check_person)
+    const { handleSubmit, handleEditCheckInputChange, status, onRecommendationChange, handleLetterWarningChange, view, fullname, BackToTable, extensionPeriod, comment, effectiveDate, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, recommendation, date, check_person, verify_person, sub_level_options, career_level_id, selected_sub_level, handleSelectedSubLevel } = props
+    const filter_sub_level = sub_level_options.filter(v => v.career_level_id == career_level_id || v.career_level_id == career_level_id + 1)
     return (
         <form onSubmit={handleSubmit}>
             <div style={{ padding: 10, justifyContent: 'center', boxShadow: '5px 5px 5px lightgrey' }}>
@@ -89,7 +89,7 @@ const EditCheckForm = props => {
                         </div>
 
                         <div className='col-lg-6 col-md-6 col-sm-6'>
-                            <input type='text' placeholder='' required name="date" value={moment(new Date()).format('YYYY-MM-DD')} onChange={handleEditCheckInputChange} style={{ height: 40, width: 160, boxShadow: '0px 1px 1px 0px lightgrey' }} />
+                            <input type='text' placeholder='' required name="date" value={moment(new Date()).format('YYYY-MM-DD')} onChange={handleEditCheckInputChange} style={{ height: 40, width: 160 }} />
 
                         </div>
                     </div>
@@ -101,7 +101,7 @@ const EditCheckForm = props => {
                         </div>
 
                         <div className='col-lg-6 col-md-6 col-sm-6'>
-                            <input type='number' placeholder='' required name="score" value={score} onChange={handleEditCheckInputChange} style={{ height: 40, boxShadow: '0px 1px 1px 0px lightgrey' }} />
+                            <input type='number' placeholder='' required name="score" value={score} onChange={handleEditCheckInputChange} style={{ height: 40 }} />
 
                         </div>
                     </div>
@@ -113,7 +113,7 @@ const EditCheckForm = props => {
                         </div>
 
                         <div className='col-lg-6 col-md-6 col-sm-6'>
-                            <input type='text' placeholder='' required name="achievement" value={achievement} onChange={handleEditCheckInputChange} style={{ height: 40, boxShadow: '0px 1px 1px 0px lightgrey' }} />
+                            <input type='text' placeholder='' required name="achievement" value={achievement} onChange={handleEditCheckInputChange} style={{ height: 40 }} />
 
                         </div>
                     </div>
@@ -138,7 +138,7 @@ const EditCheckForm = props => {
                             </div>
 
                             <div className='col-lg-6 col-md-6 col-sm-6'>
-                                <input type={view ? 'text' : 'date'} placeholder='' name="letterWarningDate" value={moment(warningDate).format('YYYY-MM-DD')} onChange={handleEditCheckInputChange} style={{ height: 40, width: 160, boxShadow: '0px 1px 1px 0px lightgrey' }} />
+                                <input type={view ? 'text' : 'date'} placeholder='' name="letterWarningDate" value={moment(warningDate).format('YYYY-MM-DD')} onChange={handleEditCheckInputChange} style={{ height: 40, width: 160 }} />
 
                             </div>
                         </div>
@@ -173,8 +173,7 @@ const EditCheckForm = props => {
                         </div>
 
                         <div className='col-lg-6 col-md-6 col-sm-6'>
-                            <input type='text' placeholder='' name="extensionPeriod" value={extensionPeriod} onChange={handleEditCheckInputChange} style={{ height: 40, boxShadow: '0px 1px 1px 0px lightgrey' }} />
-
+                            <input type='text' placeholder='' name="extensionPeriod" value={extensionPeriod} onChange={handleEditCheckInputChange} style={{ height: 40 }} />
                         </div>
                     </div>
                 </div> : ''}
@@ -185,8 +184,27 @@ const EditCheckForm = props => {
                         </div>
 
                         <div className='col-lg-6 col-md-6 col-sm-6'>
-                            <input type='text' placeholder='' required name="comment" value={comment} onChange={handleEditCheckInputChange} style={{ height: 40, boxShadow: '0px 1px 1px 0px lightgrey' }} />
+                            <input type='text' placeholder='' required name="comment" value={comment} onChange={handleEditCheckInputChange} style={{ height: 40 }} />
 
+                        </div>
+                    </div>
+                </div>
+                <div className='w-100' style={{ display: 'flex', justifyContent: 'center', padding: 10 }}>
+                    <div className='col-lg-6 col-md-10 col-sm-12' style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', }}>
+                        <div className='col-lg-6 col-md-6 col-sm-6'>
+                            Recommended Level
+                        </div>
+
+                        <div className='col-lg-6 col-md-6 col-sm-6'>
+                            <div style={{ width: 175 }}>
+                                <Select
+                                    options={filter_sub_level}
+                                    value={selected_sub_level}
+                                    onChange={handleSelectedSubLevel}
+                                    className="react-select-container checkValidate"
+                                    classNamePrefix="react-select"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -198,7 +216,7 @@ const EditCheckForm = props => {
                             </div>
 
                             <div className='col-lg-6 col-md-6 col-sm-6'>
-                                <input type={view ? 'text' : 'date'} placeholder='' name="effectiveDate" value={effectiveDate ? moment(effectiveDate).format('YYYY-MM-DD') : null} onChange={handleEditCheckInputChange} style={{ height: 40, width: 160, boxShadow: '0px 1px 1px 0px lightgrey' }} />
+                                <input type={view ? 'text' : 'date'} placeholder='' name="effectiveDate" value={effectiveDate ? moment(effectiveDate).format('YYYY-MM-DD') : null} onChange={handleEditCheckInputChange} style={{ height: 40, width: 160 }} />
 
                             </div>
                         </div>

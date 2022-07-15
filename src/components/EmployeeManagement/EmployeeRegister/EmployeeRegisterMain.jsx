@@ -743,7 +743,7 @@ class EmployeeRegisterMain extends Component {
     }
 
     handleEditBankData = data => {
-
+        console.log('id is ===>', data)
         this.setState({
             accountName: data.account_name,
             accountNumber: data.account_no,
@@ -1253,6 +1253,7 @@ class EmployeeRegisterMain extends Component {
                                             handleBankAccountDetails={this.handleBankAccountDetails}
                                             cancelEdit={this.cancelEdit}
                                             handlePreviousClick={this.handlePreviousClick}
+                                            employeeNameEng={employeeNameEng}
 
                                         /> : tabIndex === 6 ?
                                             <OtherInfo

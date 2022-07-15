@@ -37,6 +37,7 @@ export default class BenefitChildTable extends Component {
             this._setTableData(this.state.dataSource)
         });
 
+
         let that = this;
         $("#dataTables-table").on('click', '#toView', function () {
 
@@ -73,13 +74,7 @@ export default class BenefitChildTable extends Component {
             var data = $(this).find("#select").text();
             data = $.parseJSON(data);
             that.props.handleCheckBoxChange(data);
-
         });
-
-
-
-
-
     }
 
     componentDidUpdate(prevProps) {
@@ -100,6 +95,8 @@ export default class BenefitChildTable extends Component {
             }
         }
     }
+
+   
 
 
 
@@ -138,7 +135,7 @@ export default class BenefitChildTable extends Component {
             else if (data[i].status === 4) {
                 status = '<small class="label label-warning" style="background-color:#29a50a">Approve</small>'
             }
-        
+
             obj = {
                 no: i + 1,
                 employee_id: data[i].employment_id ? data[i].employment_id : '-',
