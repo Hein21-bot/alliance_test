@@ -398,11 +398,11 @@ class EmployeeListMain extends Component {
                                         </div>
 
                                         <div className='col-lg-6 mx-2' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'end', marginTop: 20 }}>
-                                            <button onClick={this.handleSearch} className='btn btn-primary' style={{ borderRadius: 10, width: 120 }}>Search</button>
+                                            <button onClick={this.handleSearch} className='btn btn-primary' style={{ borderRadius: 3, width: 90 }}>Search</button>
 
                                         </div>
                                         <div className='col-lg-6 mx-2' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'end', marginTop: 20 }}>
-                                            <button onClick={this.handleAddNew} className='btn btn-primary' style={{ borderRadius: 10, width: 120 }}>Add New</button>
+                                            <button onClick={this.handleAddNew} className='btn btn-primary' style={{ borderRadius: 3, width: 90 }}>Add New</button>
 
                                         </div>
                                     </div>
