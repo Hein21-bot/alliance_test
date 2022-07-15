@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import io from 'socket.io-client';
 import { main_url, remote_url, removeCookieData, getUserId } from '../../utils/CommonFunction';
 import { withRouter } from 'react-router-dom';
+import { getCookieData } from "../../utils/CommonFunction";
+
+
 
 
 const id = getUserId("user_info");
@@ -13,6 +16,7 @@ class NavBar extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            user: getCookieData("user_info"),
             noti_count: 0,
             time: '',
             benefit_allownace_noti_count: 0,
@@ -222,55 +226,97 @@ class NavBar extends Component {
                         <div className="navbar-header">
                             <a href="#" className="navbar-minimalize minimalize-styl-2 btn btn-primary" ><i className="fa fa-bars"></i> </a>
                         </div>
-                        <ul className="nav navbar-top-links navbar-right">
-                            <li className="dropdown">
-                                {/* <div className="h1">count: {this.state.benefit_allowance_noti_count}</div> */}
-                                <a className="dropdown-toggle count-info" data-toggle="dropdown" href="#" >
-                                    <i className="fa fa-bell" >
-                                        {
-                                            count1 > 0 ?
+                        <div className=''>
+                       
+                            <ul className="nav navbar-top-links navbar-right" style={{
+                                display:"flex",
+                                justifyContent:"center",
+                                alignItems:"center"
+                            }}>
+                                
+                                <li style={{
+                                    display:"flex",
+                                    justifyContent:"space-between",
+                                    alignItems:"center",
+                                    marginRight:"20px"
+                                }}>
+                                    <img
+                                    alt="logo"
+                                    className="logostyle"
+                                    src="assets/img/team.svg" style={{
+                                        width:"57px"
+                                    }} />
+                                
+                                    <div style={{
+                                        margin:"0",
+                                        padding:"0"
+                                    }}>
+                                    <p style={{
+                                        margin:"0",
+                                        fontSize:"12px",
+                                        fontWeight:"bold"
+                                    }}>
+                                        {this.state.user ? this.state.user.fullname : ""}
+                                    </p>
+                                   
+                                    <p style={{
+                                        margin:"0",
+                                        padding:"0"
+                                    }}>
+                                        {this.state.user ? this.state.user.designations : ""}
+                                    </p>
+                                    </div>
+                            
+                                </li>
+                                <li className="dropdown">
+                                    {/* <div className="h1">count: {this.state.benefit_allowance_noti_count}</div> */}
+                                    <a className="dropdown-toggle count-info" data-toggle="dropdown" href="#" >
+                                        <i className="fa fa-bell" >
+                                            {
+                                                count1 > 0 ?
 
-                                                <span className="label noti_label">{count1}</span>
-                                                : ''
-                                        }
-                                    </i>
-                                </a>
-                                {
-                                    count1 > 0 ?
+                                                    <span className="label noti_label">{count1}</span>
+                                                    : ''
+                                            }
+                                        </i>
+                                    </a>
+                                    {
+                                        count1 > 0 ?
 
-                                        <ul className="dropdown-menu dropdown-alerts">
-                                            <li>
-                                                <a href='/notification'>
-                                                    <div>
-                                                        <i className="fas fa-envelope-open-text"></i>
-                                                        &nbsp;&nbsp;
-                                                You have {this.state.noti_count} help desk message(s).
-                                                <span className="pull-right text-muted small">{this.state.time} ago</span>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
+                                            <ul className="dropdown-menu dropdown-alerts">
+                                                <li>
+                                                    <a href='/notification'>
+                                                        <div>
+                                                            <i className="fas fa-envelope-open-text"></i>
+                                                            &nbsp;&nbsp;
+                                                    You have {this.state.noti_count} help desk message(s).
+                                                    <span className="pull-right text-muted small">{this.state.time} ago</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li>
 
-                                                {/* <a href='/notification' > */}
-                                                <a href='#' onClick={this.readNoti}>
+                                                    {/* <a href='/notification' > */}
+                                                    <a href='#' onClick={this.readNoti}>
 
-                                                    <div>
-                                                        <i className="fas fa-envelope-open-text"></i>
-                                                        &nbsp;&nbsp;
-                                                You have {count} benefit  message(s).
-                                                <span className="pull-right text-muted small">{this.state.benefit_allowance_noti_count} ago</span>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                        </ul> : ''
-                                }
-                            </li>
-                            <li>
-                                <a href={remote_url} onClick={this.logout.bind(this)}>
-                                    <i className="fa fa-sign-out"></i> Log out
-                                 </a>
-                            </li>
-                        </ul>
+                                                        <div>
+                                                            <i className="fas fa-envelope-open-text"></i>
+                                                            &nbsp;&nbsp;
+                                                    You have {count} benefit  message(s).
+                                                    <span className="pull-right text-muted small">{this.state.benefit_allowance_noti_count} ago</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </ul> : ''
+                                    }
+                                </li>
+                                <li>
+                                    <a href={remote_url} onClick={this.logout.bind(this)}>
+                                        <i className="fa fa-sign-out"></i> Log out
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </nav>
                 </div>
             </div>

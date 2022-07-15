@@ -38,6 +38,7 @@ export default class HelpDeskTable extends Component {
     async componentDidMount() {
         let main_category = await getTicketMainCategory()
         let ticket_status = await getTicketStatus();
+        
         let branch = await getBranch();
         let dept = await getDepartment();
         main_category.unshift({ label: 'All', value: 0 })

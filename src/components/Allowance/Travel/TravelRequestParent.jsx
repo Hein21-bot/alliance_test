@@ -417,7 +417,7 @@ export default class TravelRequestParent extends Component {
     }
 
     render() {
-        // console.log("In parent is",this.state.data)
+        console.log("In parent is",this.state.data)
         return (
             <div className="white-bg">
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />

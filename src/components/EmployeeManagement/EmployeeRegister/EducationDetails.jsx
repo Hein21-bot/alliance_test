@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import Select from "react-select";
-
-
 import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, getPermissionStatus, startSaving } from "../../../utils/CommonFunction";
 import MonthYearPicker from './MonthYearPicker';
 import moment from 'moment';
-
+import  DatePicker from 'react-datetime';
 
 const EducationDetails = props => {
     const { viewForm, editForm } = props
@@ -136,11 +134,31 @@ const EducationDetails = props => {
                             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
 
 
+<<<<<<< HEAD
                                 <div className='col-lg-4 col-md-4 col-sm-6' style={{ fontWeight: 'bold', paddingBottom: 10, margin: 10 }}>
                                     <MonthYearPicker label="From Month/Year" value={fromMonthYear} onChange={handleFromMonthYear} />
                                 </div>
                                 <div className='col-lg-4 col-md-4 col-sm-6' style={{ fontWeight: 'bold', paddingBottom: 10, margin: 10 }}>
                                     <MonthYearPicker label="To Month/Year" value={toMonthYear} onChange={handleToMonthYear} />
+=======
+                                <div className='col-lg-3 col-md-3 col-sm-6' style={{ fontWeight: 'bold', paddingBottom: 10, margin: 10 }}>
+                                    {/* <MonthYearPicker label="From Month/Year" value={fromMonthYear} onChange={handleFromMonthYear} /> */}
+                                    <h5 className=''>From Month Year</h5>
+                                    <DatePicker
+                                        dateFormat="MM/YYYY"
+                                        value={fromMonthYear}
+                                        onChange={handleFromMonthYear}
+                                        
+                                    />
+                                </div>
+                                <div className='col-lg-3 col-md-3 col-sm-6' style={{ fontWeight: 'bold', paddingBottom: 10, margin: 10 }}>
+                                    {/* <MonthYearPicker label="To Month/Year" value={toMonthYear} onChange={handleToMonthYear} /> */}
+                                    <h5>To Month Year</h5>
+                                    <DatePicker
+                                        dateFormat="MM/YYYY"
+                                        value={toMonthYear}
+                                        onChange={handleToMonthYear}/>
+>>>>>>> 4e5e7002571036ad50228aab401dd24321d7eb0f
                                 </div>
 
                             </div>
