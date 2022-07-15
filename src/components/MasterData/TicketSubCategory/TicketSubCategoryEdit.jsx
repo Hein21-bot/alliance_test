@@ -84,6 +84,7 @@ class TicketSubCategoryEdit extends Component {
         const selectedMainCategory = main_category_option.find(v => v.main_category_id == data.main_category_id)
         const selectedPriority = getPriorityOption.find(v => v.value == data.priorities_id)
         const selectedSeverity = getSeverityOption.find(v => v.value == data.severity_id)
+        const main_category_option_filter = main_category_option.filter(d => d.departments_id == data.departments_id)
         return (
             <div className="container">
                 <div className='row'>
@@ -106,7 +107,7 @@ class TicketSubCategoryEdit extends Component {
                                 <div className="col-sm-10">
                                     <Select
                                         placeholder="Please Choose Main Category"
-                                        options={main_category_option}
+                                        options={main_category_option_filter}
                                         onChange={(val) => this.handleSelectorChange(val, 'main_category_id')}
                                         value={selectedMainCategory}
                                         className='react-select-container  checkValidate'

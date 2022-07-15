@@ -267,29 +267,36 @@ class ConfirmationList extends Component {
     };
 
     handleCheckBoxChange = (data) => {
-        const { checkedListData } = this.state
+        const { checkedListData } = this.state;
+        const checkedListData_ = [...checkedListData];
+        console.log('data', data.user_id)
         const newData = {
             id: data.user_id
         }
-        if (checkedListData.length === 0) {
+        if (checkedListData_.length === 0) {
+            console.log('1....')
+            checkedListData_.push(newData)
             this.setState({
-                checkedListData: checkedListData.concat(newData)
-            })
+                checkedListData: checkedListData_
+            }, () => console.log(this.state.checkedListData))
         }
-        else if (checkedListData.filter(c => c.id === data.user_id).length > 0) {
-            for (var i = 0; i < checkedListData.length; i++) {
-                if (checkedListData[i].id == data.user_id) {
-                    console.log("filter data is ===>", checkedListData[i].id , data.user_id)
-                    checkedListData.splice(i, 1)
+        else if (checkedListData_.filter(c => c.id === data.user_id).length > 0) {
+            console.log('2....')
+            for (var i = 0; i < checkedListData_.length; i++) {
+                console.log(checkedListData_[i].id, data.user_id)
+                if (checkedListData_[i].id == data.user_id) {
+                    checkedListData_.splice(i, 1)
                 }
             }
             this.setState({
-                checkedListData: checkedListData
+                checkedListData: checkedListData_
             })
         }
         else {
+            console.log('3....')
+            checkedListData_.push(newData)
             this.setState({
-                checkedListData: checkedListData.concat(newData)
+                checkedListData: checkedListData_
             })
         }
     }

@@ -132,7 +132,7 @@ export default class BenefitChildTable extends Component {
                 employee_name: data[i].fullname,
                 position: data[i].designations ? data[i].designations : '-',
                 branch: data[i].branch_name,
-                phone_no: data[i].phone,
+                phone_no: data[i].personal_phone ? data[i].personal_phone : data[i].phone,
                 date: moment(data[i].joining_date).format('DD-MM-YYYY'),
                 status: status
             }

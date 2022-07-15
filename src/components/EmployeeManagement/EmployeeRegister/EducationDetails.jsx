@@ -9,6 +9,8 @@ import  DatePicker from 'react-datetime';
 const EducationDetails = props => {
     const { viewForm, editForm } = props
     const { handleSelectedDegree, handleEducationDetails, workExpData, handlePreviousClick, handleAddWorkExp, handleFromMonthYear, handleToMonthYear, fromMonthYear, toMonthYear, handleAddDegreeData, handleAddQualification, addedDegreeData, addedQualitificationData, onCancelClick, location, degreeList, selected_degree, selected_qualification, designation, organization, handleEduactionInputChange, period, handleWorkExpChange, checked, handleUpdateDegreeData, handleUpdateQualification, handleUpdateWorkExp, handleRemoveQualification, handleRemoveDegreeData, handleRemoveWorkExp } = props
+
+    console.log("selected_qualification is ===>", addedQualitificationData)
     return (
         <>
             <div className='white-bg ' style={{

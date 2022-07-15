@@ -110,6 +110,7 @@ class HeadCountBarChart extends Component {
       series: [
         {
           name: "Head Count by Department",
+          colorByPoint: true,
           data: this.state.countDataDept,
         },
       ],
@@ -195,6 +196,7 @@ class HeadCountBarChart extends Component {
       series: [
         {
           name: "Head Count by Designation",
+          colorByPoint: true,
           data: this.state.countDataDesign,
         },
       ],

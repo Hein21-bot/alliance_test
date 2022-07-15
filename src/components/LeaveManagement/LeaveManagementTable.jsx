@@ -107,8 +107,14 @@ export default class LeaveManagementTable extends Component {
     }
 
     filter() {
-        let year = moment(this.state.year).format('YYYY')
-        this.getAllLeave(year);
+        if (this.state.tab == 2) {
+            let year = moment(this.state.year).format('YYYY')
+            this.getAllLeave(year);
+        } else if (this.state.tab == 0) {
+            let year = moment(this.state.year).format('YYYY')
+            let data = this.state.data.filter(v => moment(v.leave_start_date).format('YYYY') == year)
+            this._setTableData(data)
+        }
     }
 
 
@@ -276,7 +282,7 @@ export default class LeaveManagementTable extends Component {
         // } else {
         return (
             <div>
-                {this.state.tab == 2 ? <div className="row border-bottom white-bg dashboard-header">
+                {this.state.tab == 2 || this.state.tab == 0 ? <div className="row border-bottom white-bg dashboard-header">
                     <div className="row">
                         <div className="col-md-3">
                             <div><label className="col-sm-12">Select Year</label></div>
@@ -299,6 +305,7 @@ export default class LeaveManagementTable extends Component {
                         </div>
                     </div>
                 </div> : ''}
+
                 <div className='row container mt20'>
                     <table width="99%"
                         className="table table-striped table-bordered table-hover nowrap dt-responsive"

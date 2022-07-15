@@ -127,7 +127,7 @@ class EditEmployeeListForm extends Component {
                 if (response.ok) return response.json()
             })
             .then(res => {
-
+                console.log("res is ===>", res[0])
                 if (res) {
                     this.setState({
                         userImage: res[0].avatar,
@@ -651,12 +651,13 @@ class EditEmployeeListForm extends Component {
     }
 
     handleEditBankData = data => {
+        console.log('data is ===>', data, this.props.bankList)
         this.setState({
             accountName: data.account_name.toUpperCase(),
             accountNumber: data.account_no,
             bankDataEdit: true,
-            selected_bank: this.props.bankList.find(c => c.value === data.id),
-            selected_bankRow_Id: data.id
+            selected_bank: this.props.bankList.find(c => c.value === data.bank_id),
+            selected_bankRow_Id: data.bank_id
         })
     }
 
@@ -670,14 +671,14 @@ class EditEmployeeListForm extends Component {
         if (bankDataEdit) {
             // ("Update")
             const newData = {
-                id: selected_bank.value,
+                bank_id: selected_bank.value,
                 account_no: accountNumber,
                 bank_name: selected_bank.label,
                 account_name: accountName.toUpperCase()
 
             }
             for (var i = 0; i < bankData.length; i++) {
-                if (bankData[i].id == selected_bankRow_Id) {
+                if (bankData[i].bank_id == selected_bankRow_Id) {
                     bankData.splice(i, 1)
                 }
             }
@@ -768,7 +769,6 @@ class EditEmployeeListForm extends Component {
 
     handleAddQualification = () => {
         const { selected_qualification, addedQualitificationData, editMode } = this.state
-        console.log("select qual is ===>", selected_qualification)
         if (selected_qualification) {
             if (editMode[0] == 'qualification') {
                 const obj = {

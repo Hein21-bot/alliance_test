@@ -893,13 +893,13 @@ const atten_report = {
 }
 
 async function getAttendancePolicy() {
-    var res = await fetch(`http://103.29.91.26:50092/attendancePolicy/getAttendancePolicy`);
+    var res = await fetch(`${main_url}attendancePolicy/getAttendancePolicy`);
     if (res.ok) return res.json();
     else return [];
 }
 
 async function getDesignationData() {
-    var res = await fetch(`http://103.29.91.26:50092/designation/getDesignation`);
+    var res = await fetch(`${main_url}designation/getDesignation`);
     if (res.ok) return res.json();
     else return [];
 }

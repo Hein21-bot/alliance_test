@@ -8,7 +8,7 @@ import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, get
 
 const BankAccountDetails = props => {
 
-    const { viewForm, editForm, bankDataEdit, handleEditBankData, handlePreviousClick, handleDeleteBankData, cancelEdit, handleBankDetailInputChange, handleSelectedBank, bankData, selected_bank, accountNumber, accountName, bankList, handleAdd_UpdateBankData, handleBankAccountDetails } = props
+    const { viewForm, editForm, bankDataEdit, handleEditBankData, handlePreviousClick, handleDeleteBankData, cancelEdit, handleBankDetailInputChange, handleSelectedBank, bankData, selected_bank, accountNumber, accountName, bankList, handleAdd_UpdateBankData, handleBankAccountDetails, employeeNameEng } = props
     return (
         <form onSubmit={handleAdd_UpdateBankData} >
             <div className='white-bg ' style={{
@@ -38,7 +38,7 @@ const BankAccountDetails = props => {
                             Account Name
                         </div>
                         <div className='col-lg-5 col-md-6 col-sm-8 col-xs-8' style={{ paddingLeft: 0, }}>
-                            <input type='text' placeholder='' required={(viewForm || editForm) ? false : true} name="accountName" value={accountName.toUpperCase()} onChange={handleBankDetailInputChange} style={{ width: '100%', height: 40, paddingLeft: 10, }} />
+                            <input type='text' placeholder='' required={(viewForm || editForm) ? false : true} name="accountName" value={employeeNameEng.toUpperCase()} onChange={handleBankDetailInputChange} style={{ width: '100%', height: 40, paddingLeft: 10, }} />
 
                         </div>
 
@@ -108,7 +108,7 @@ const BankAccountDetails = props => {
                                         {v.bank_name}
                                     </div>
                                     <div className='col-lg-3 col-md-3 col-sm-3'>
-                                        {v.account_name}
+                                        {employeeNameEng}
                                     </div>
                                     <div className='col-lg-3 col-md-3 col-sm-3' style={{}}>
                                         {v.account_no}
