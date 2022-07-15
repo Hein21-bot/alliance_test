@@ -1,18 +1,24 @@
 import React, { Component } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import { data } from "browserslist";
 
 class EmployeePieChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
       chartOptions: {},
+      piename:['user','admin','guest'],
+      piedata:[20,60,30],
+      pielength:3
     };
   }
 
   componentDidMount() {
     this.setChartOption();
   }
+  
+  
 
   setChartOption = () => {
     const chartOptions = {
@@ -54,19 +60,16 @@ class EmployeePieChart extends Component {
 
       series: [
         {
-          data: [
-            {
-              name: "Female",
-              y: 10.57,
-              drilldown: "Female",
-            },
+          // data: [
+          //   {
+          //     name: "male",
+          //     y: this.state.piedata,
+          //     drilldown: this.state.name,
+          //   },
 
-            {
-              name: "Male",
-              y: 62.74,
-              drilldown: "Male",
-            },
-          ],
+           
+          // ],
+          
         },
       ],
     };
