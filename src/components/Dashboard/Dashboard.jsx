@@ -4,13 +4,13 @@ import EmployeePieChart from "./EmployeePieChart";
 import { getMacAddress, getMacAddress1 } from "./getMac";
 import HeadCountBarChart from "./HeadCountBarChart";
 import LeaveCountBarChart from "./LeaveCountBarChart";
-import { LeaveCalendar } from "./LeaveCalendar";
+import { AttendanceCaldendar } from "./AttendanceCaldendar";
 import Profile from "./Profile";
 import ThingsTodoTable from "./ThingsTodoTable";
 import BenefitBarChart from "./BenefitBarChart";
 import ExpenseBarChart from "./ExpenseBarChart";
 import AttendenceBarChart from "./AttendenceBarChart";
-import LeaveCalenderone from "./LeaveCalenderone"
+import LeaveCalendar from "./LeaveCalendar"
 const primary = "#1872ab";
 
 export class Dashboard extends Component {
@@ -147,15 +147,17 @@ export class Dashboard extends Component {
             </div>
           </div>
         ) : (
-          <div>
+          <div> 
             <div className="row" style={{marginTop: 15}}>
               <div className="col-md-4">
                 <ThingsTodoTable />
               </div>
+              <div className="col-8">
               <div className="col-md-8" >
-                <LeaveCalenderone/>
+                <AttendanceCaldendar/>
+                <LeaveCalendar/>
               </div> 
-            </div>
+            </div></div>
           </div>
         )}
       </div>
