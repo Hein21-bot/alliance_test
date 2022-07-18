@@ -239,7 +239,6 @@ export default class NewLeave extends Component {
         var files = document.getElementById("attach_file").files;
         var attachment = [];
         for (let i = 0; i < files.length; i++) {
-            console.log("in file", files)
             attachment.push(files[i])
         }
 

@@ -40,7 +40,6 @@ export default class ApplyForm extends Component {
             relative_list: relative_list
         })
         this.getCheckSalaryAdvance(this.state.salary_advance);
-        //  console.log(this.state.salary_advance);
         this.getOneInfo();
         if (!Array.isArray(this.state.loan_data) && this.state.loan_data !== null) {
             this.getLoanInfo();
@@ -100,7 +99,6 @@ export default class ApplyForm extends Component {
     }
 
     setOneLoanInfo(one) {
-        console.log(one);
         this.setState({
             selected_relative: { value: one.person_type_id, label: one.type_name },
             selected_guarantor: { value: one.guarantor_id, label: one.guarantor_name, nrc: one.guarantor_nrc, employment_id: one.guarantor_employment_id },
@@ -139,7 +137,6 @@ export default class ApplyForm extends Component {
         this.setState({
             selected_relative: event
         })
-        //console.log(e)
     }
 
     handleSelectedGuarantor(e) {

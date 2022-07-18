@@ -47,7 +47,6 @@ export default class HospitalizationTypeTable extends Component {
 
         for (let i = 0; i < data.length; i++) {
             obj = data[i];
-            console.log("obj is ===>", obj)
             one = {
                 no: i + 1,
                 hospitalization_type: obj.hospitalization_type,

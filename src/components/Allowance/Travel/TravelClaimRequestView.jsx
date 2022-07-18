@@ -105,7 +105,6 @@ export default class TravelClaimRequestView extends Component {
         let total_transport = this.state.claimDetailData.map(v => v.transport).reduce((accumulator, currentValue, currentIndex, array) => accumulator + currentValue)
 
         
-        console.log("Actual amount in claim req is ===>", this.state.claimData[0])
         return (
 
             <div className="row wrapper border-bottom white-bg">

@@ -97,7 +97,6 @@ export default class HelpDeskView
 
         // const socket = openSocket('http://localhost:8082');
         // socket.on('helpdesk', data => {
-        //     console.log(data.action, data.helpdesk)
         // })
 
     }

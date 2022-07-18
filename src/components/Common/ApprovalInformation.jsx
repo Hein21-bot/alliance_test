@@ -12,7 +12,6 @@ export default class ApprovalInformation extends Component {
 
     render() {
         let info = this.state.info;
-        console.log("Approval Informatioon >>>> ", info)
         return (
             <div className="main-info">
                 <div className="header-info col-md-12">

@@ -40,12 +40,9 @@ import {main_url} from '../../utils/CommonFunction'
         }).then(res=>
             res.json()
         ).then(data=>{
-            console.log(data)
             let listName = data.map(v=>v.name);
             let listAmt = data.map(v=>v.amount);
             this.setState({name: listName,amount: listAmt})
-            console.log("benefit name==>",this.state.name)
-            console.log('benefit amount==>',this.state.amount)
             this.setChartOption();
         })
         

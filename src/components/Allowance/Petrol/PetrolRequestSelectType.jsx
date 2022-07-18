@@ -41,7 +41,6 @@ class PetrolRequestSelectType extends Component {
             .then(data => data.text())
             .then(data => {
                 if (data === 'success') {
-                    // console.log("Success");
                     this.setState({
 
                         isAddnew: false

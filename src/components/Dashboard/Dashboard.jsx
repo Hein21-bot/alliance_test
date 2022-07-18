@@ -23,7 +23,6 @@ export class Dashboard extends Component {
 
   async componentDidMount() {
     //   const a = await getMacAddress();
-    //   console.log('a', a)
     //   const b = await getMacAddress1();
   }
 

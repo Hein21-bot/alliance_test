@@ -755,7 +755,6 @@ export default class TravelRequestAdvancedTable extends Component {
         view = "ACRView";
         edit = "ACREdit";
       }
-      console.log("result is ===>", result.locationUnder)
       obj = {
         no: i + 1,
         form_no: fno.fno_travel + result.form_no,

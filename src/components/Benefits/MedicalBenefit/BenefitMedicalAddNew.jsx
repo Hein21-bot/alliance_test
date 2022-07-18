@@ -290,7 +290,6 @@ class BenefitMedicalAddNew extends Component {
 
 
     render() {
-        console.log("this.state.one benefit", this.state.one_benefit.createdBy)
         return (
             <div className="benefits benefit-medical">
                 <div className='row'>

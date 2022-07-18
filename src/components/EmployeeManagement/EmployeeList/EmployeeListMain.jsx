@@ -107,7 +107,7 @@ class EmployeeListMain extends Component {
     getLevelOptions() {
         fetch(`${main_url}allowLevel/getLevel`)
             .then(res => { if (res.ok) return res.json() })
-            .then(list => { //console.log("Designation",list)
+            .then(list => { 
                 this.setState({
                     level_options: list.map(v => ({ ...v, label: v.career_level, value: v.career_level_id }))
                 })
@@ -198,9 +198,8 @@ class EmployeeListMain extends Component {
     getDesignationList() {
         fetch(`${main_url}main/getDesignations`)
             .then(res => { if (res.ok) return res.json() })
-            .then(list => { //console.log("Designation",list)
+            .then(list => {
                 let lists = list.unshift({ value: 0, label: 'All' })
-                console.log("list is ===>", list)
                 this.setState({
                     designationList: list//list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
                 })
@@ -300,7 +299,6 @@ class EmployeeListMain extends Component {
     }
 
     render() {
-        console.log("this.state.employeeData", this.state.selectedEmployeeData)
         return (
             <div className=" border-bottom white-bg dashboard-header">
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />

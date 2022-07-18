@@ -27,7 +27,6 @@ export default class LeaveCalendar extends Component {
     }
 
     renderDayContents = (day, date) => {
-        // console.log('date', date)
         const highlight = data.filter(v => format(new Date(v.date), 'dd-MM-yyyy') === format(date, 'dd-MM-yyyy'))
         const tooltipText = `<div style="color:red">Tooltip for date: ${date}</div>`;
         return (

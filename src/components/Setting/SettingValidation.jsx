@@ -13,7 +13,6 @@ export const AttendancePolicyValidation = (data, workingDays) => {
         early_check_out_start,
         early_check_out_allow
     } = data;
-    console.log("data is ===>", data)
     const err = {};
     if (!workingDays) {
         err.workingDaysErr = "Please select working days!"
@@ -48,7 +47,6 @@ export const AttendancePolicyValidation = (data, workingDays) => {
     if (early_check_out_allow === null || early_check_out_allow === undefined) {
         err.earlyCheckOutAllowErr = "Please select Early Check Out Allow!"
     }
-    console.log("err is ===>", err)
     return err;
 }
 

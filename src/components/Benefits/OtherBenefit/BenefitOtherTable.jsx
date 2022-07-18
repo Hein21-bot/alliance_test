@@ -104,7 +104,6 @@ export default class BenefitOtherTable extends Component {
   }
 
   async getPrintData(data) {
-      console.log("Benefit data is",data)
     var info = await getInformation('benefit', data.other_benefit_id)
     var doc = new jsPDF("p", "mm", "a4");
     var col = ["Employee Name", "Description", "Amount",];

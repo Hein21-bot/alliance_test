@@ -144,7 +144,7 @@ class EmployeeRegisterMain extends Component {
     getDesignationList() {
         fetch(`${main_url}main/getDesignations`)
             .then(res => { if (res.ok) return res.json() })
-            .then(list => { //console.log("Designation",list)
+            .then(list => { 
                 this.setState({
                     designationList: list//list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
                 })
@@ -154,7 +154,7 @@ class EmployeeRegisterMain extends Component {
     getLevelOptions() {
         fetch(`${main_url}allowLevel/getLevel`)
             .then(res => { if (res.ok) return res.json() })
-            .then(list => { //console.log("Designation",list)
+            .then(list => { 
                 this.setState({
                     level_options: list.map(v => ({ ...v, label: v.career_level, value: v.career_level_id }))
                 })
@@ -162,7 +162,6 @@ class EmployeeRegisterMain extends Component {
     }
 
     createNewEmployee = () => {
-        console.log('crete new em')
         const { selected_NRC_Id, userImage, userImageUrl, employeeId, employeeNameEng, employeeNameMyan, dateOfBirth, gender, nationality, personalPhone, region, officePhone, selected_DistrictCode, nrc_number, selected_gran_NRC_Id, disConDate, disConStatus,
             addedDegreeData, addedQualitificationData, workExpData, contactPerson, contactPhone, checked, guarantor, guarantorPhone, bankData, address, joinDate, martialStatus, fatherName, motherName, parentCount, siblingCount, childCount, pInLawCount,
             trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo, attachmentUrl, employeeStatus, employeeDesignation, jobTitle, carrerLevel, employeeDetailBranch, employedDate, selected_gran_DistrictCode, gran_nrc_number } = this.state
@@ -358,16 +357,12 @@ class EmployeeRegisterMain extends Component {
     }
 
     handleClick = event => {
-        console.log('handle click ...')
         this.hiddenFileInput.current.click();
     };
 
     handleChange = event => {
-        console.log('in upoad method....')
         const file = event.target.files
         const fileUploaded = file[0];
-
-        console.log("file upload is ====>", fileUploaded)
 
         this.setState({
             userImage: window.URL.createObjectURL(file[0]),
@@ -596,7 +591,6 @@ class EmployeeRegisterMain extends Component {
     };
 
     handleProfileSave = e => {
-        console.log('in handleProfile save....')
         e.preventDefault();
         this.setState({
             tabIndex: this.state.tabIndex + 1
@@ -748,7 +742,6 @@ class EmployeeRegisterMain extends Component {
     }
 
     handleEditBankData = data => {
-        console.log('id is ===>', data)
         this.setState({
             accountName: data.account_name,
             accountNumber: data.account_no,
@@ -1108,7 +1101,6 @@ class EmployeeRegisterMain extends Component {
             employeeId, employeeNameEng, nationality, personalPhone, employeeNameMyan, gender, dateOfBirth, contactPerson, contactPhone, bankData, bankDataEdit, selected_DistrictCode, selected_NRC_Id, districtCodeList, nrcList,
         } = this.state
 
-        console.log('selected_qualification', selected_qualification)
         return (
             <div className=" border-bottom white-bg dashboard-header">
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />

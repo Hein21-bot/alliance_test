@@ -90,7 +90,6 @@ class TaxReliefEdit extends Component {
     render() {
         const { allowance_reason_option } = this.props
         const { data } = this.state;
-        // console.log("data is ===>", data)
         const selectedAllowanceReason = allowance_reason_option.find(v => v.value == Number(data.allowance_reason_id));
         return (
             <div className="container">

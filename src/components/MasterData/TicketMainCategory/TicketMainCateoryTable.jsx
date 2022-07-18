@@ -48,7 +48,6 @@ export default class TicketMainCategoryTable extends Component {
 
         for (let i = 0; i < data.length; i++) {
             obj = data[i];
-            console.log("obj is ===>", obj)
             one = {
                 no: i + 1,
                 category_name: obj.category_name,

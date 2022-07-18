@@ -52,7 +52,6 @@ class CareerSubLevelAddNew extends Component {
             const data = {
                 career_sub_level, career_level, career_level_id, remark, active
             }
-            console.log("add data is ===>", data)
             fetch(`${main_url}careerSubLevel/addCareerSubLevel`, {
                 method: "POST",
                 headers: {
@@ -83,7 +82,6 @@ class CareerSubLevelAddNew extends Component {
     }
     render() {
         // const { career_level,  active } = this.state;
-        // console.log("this.state.data is ====>", this.state.data)
         const { level_options } = this.props;
         const { career_sub_level, career_level, career_level_id, remark, active } = this.state;
         const selectedAllowLevel = level_options.find(v => Number(v.career_level_id) === Number(career_level_id));

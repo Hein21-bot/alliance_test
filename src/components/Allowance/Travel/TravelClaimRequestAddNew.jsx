@@ -96,7 +96,6 @@ export default class TravelClaimRequestAddNew
         })
     }
     changeStartTime(value) {
-        console.log('value ', value)
         let data = this.state.claimData;
         data.start_time = value
         this.setState({
@@ -147,7 +146,6 @@ export default class TravelClaimRequestAddNew
     addData = (e) => {
         if (validate('add_check_form')) {
             var data = this.state.dataSource;
-            console.log('in data', this.state.claimData)
             let claimData = this.state.data;
             var totalAmount = 0
 
@@ -328,8 +326,6 @@ export default class TravelClaimRequestAddNew
     }
 
     render() {
-        //console.log("NewDoc",this.state.newDoc)
-        console.log('this.state.claimData.start_time', this.state.claimData.start_time)
         return (
             <div>
                 <div className="row">

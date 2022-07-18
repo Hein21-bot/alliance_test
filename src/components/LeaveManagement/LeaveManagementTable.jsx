@@ -93,7 +93,6 @@ export default class LeaveManagementTable extends Component {
     }
 
     getAllLeave(year) {
-        // console.log("year          bla", moment(year).format('YYYY'))
         let years = moment(year).format('YYYY')
         this.setState({ loading: true });
         fetch(`${main_url}leave/getAllLeave/${years}/${this.state.user_id}`)

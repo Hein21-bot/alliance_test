@@ -142,7 +142,6 @@ export default class Benefit extends Component {
 
     render() {
         const { benefit_type_options, level_options, doubleSalary, hospitalizationTypeOptions } = this.state;
-        // console.log('hospitalizationTypeOptions >> ', hospitalizationTypeOptions)
         return (
             <div className='benefit-setup border-bottom white-bg dashboard-header'>
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />

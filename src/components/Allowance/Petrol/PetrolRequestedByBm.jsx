@@ -107,12 +107,10 @@ class PetrolRequestByBm extends Component {
         data.fx_name = e.label;
         data.fx_id = e.value;
         var co = this.state.selected_co;
-        //console.log(co)
         if (Array.isArray(co)) {
             var amount = this.getDefaultAmount(e.designations_id);
             if (amount !== null) {
                 data.petrol_charges = amount.default_amount;
-                console.log(amount);
             }
         }
         this.setState({
@@ -153,7 +151,6 @@ class PetrolRequestByBm extends Component {
         var co = this.state.selected_co;
         if (!Array.isArray(co)) {
             var amount = this.getDefaultAmount(co.designations_id);
-            console.log(amount)
             if (amount !== null) {
                 data.petrol_charges = (amount.per_kilo_amount * data.kilo) + amount.default_amount;
             }
@@ -251,7 +248,6 @@ class PetrolRequestByBm extends Component {
         var amount = this.getDefaultAmount(data[index].designations_id);
         if (amount !== null) {
             data[index].petrol_charges = (amount.per_kilo_amount * data[index].kilo) + amount.default_amount;
-            console.log(data[index].petrol_charges);
         }
 
         this.setState({

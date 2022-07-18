@@ -28,7 +28,6 @@ export default class TravelAddNewParent
 
 
     handleSelectedRequestType = event => {
-        console.log("handleselectedRequesttype===>",event)
         if (event.value === 1) {
 
             this.setState({

@@ -97,7 +97,6 @@ class BirthdayFundMain extends Component {
     }
 
     render() {
-        console.log("Designation ID >>",this.state.permission_status)
         return (
             <div className="wedding-benefit border-bottom white-bg dashboard-header">
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />

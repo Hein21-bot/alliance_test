@@ -23,7 +23,6 @@ export default class HelpDeskView
     }
 
     render() {
-        console.log("this.status",this.props)
         return (
             <div>
                 <div className="form-horizontal mt20" name="demo-form">

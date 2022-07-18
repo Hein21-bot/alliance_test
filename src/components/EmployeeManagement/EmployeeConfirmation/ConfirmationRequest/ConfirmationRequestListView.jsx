@@ -7,7 +7,6 @@ import "react-calendar/dist/Calendar.css";
 import moment from "moment";
 
 const ConfirmationRequestListView = (props) => {
-  console.log("props view ===>", props);
   const {
     handleSubmit,
     fullname,

@@ -36,7 +36,6 @@ class DesignationAddNew extends Component {
 
         const setState = {};
         setState[key] = value;
-        // console.log("set state is ===>", setState)
 
         this.setState(setState)
     }

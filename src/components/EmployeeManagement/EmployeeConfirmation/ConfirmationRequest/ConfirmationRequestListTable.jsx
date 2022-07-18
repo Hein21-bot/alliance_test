@@ -35,7 +35,6 @@ export default class ConfirmationRequestListTable extends Component {
   }
   componentDidMount() {
     this.$el = $(this.el);
-    console.log("dataSource ===>", this.props);
     this.setState(
       {
         dataSource: this.props.data,

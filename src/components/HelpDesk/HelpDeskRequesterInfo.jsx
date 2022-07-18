@@ -19,7 +19,6 @@ export default class HelpDeskRequesterInfo extends Component {
         fetch(`${main_url}helpDesk/getRequesterInformation/${id}`)
             .then(res => { if (res.ok) { return res.json() } })
             .then(info => {
-                console.log(info)
                 this.setState({
                     info: info
                 })

@@ -33,7 +33,6 @@ export default class BirthdayFund extends Component {
 
     getBirthdayFunList() {
 
-        // console.log("BranchList>>>>",this.state.branch_id.value,this.state.month.format('M'))
         fetch(`${main_url}birthday_benefit/getBirthdayList/${moment(this.state.data.month).format('M')}/${this.state.data.branch_id}`)
             .then(res => { if (res.ok) return res.json() })
             .then(list => {
@@ -52,7 +51,6 @@ export default class BirthdayFund extends Component {
     };
 
     render() {
-        //console.log(">>>>>>>>>>>>>>>>>>",this.state.data.month.format('M'))
         return (
             <div className="benefits benefits-birthday-fund">
                 <div className='row'>

@@ -166,7 +166,6 @@ export default class Notification extends Component {
                     noti_list: data
                 }, () => this.showTable(data))
             }).catch(error => {
-                console.log(error);
                 this.showTable(this.state.noti_list)
 
             })

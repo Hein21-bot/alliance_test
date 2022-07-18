@@ -62,7 +62,6 @@ class HospitalizationView extends Component {
                 }
             })
             .catch(error => console.error(`Fetch Error =\n`, error));
-        console.log("Rsssss")
     }
 
     getUserDetail() {

@@ -19,7 +19,6 @@ export default class SSBRate extends Component {
 
     async componentDidMount() {
         const datasource = await this.getSSBRate();
-        // console.log('>>', datasource)
         this.setState({
             datasource
         })

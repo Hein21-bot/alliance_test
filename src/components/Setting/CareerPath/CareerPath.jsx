@@ -24,7 +24,6 @@ export default class CareerPath extends Component {
 
     async componentDidMount() {
         const datasource = await this.getCareerPath();
-        console.log('data source ', datasource)
         const level = await this.getLevelOptions();
         const sub_level = await this.getCareerSubLevelOptions();
         const level_options = level.map(v => (

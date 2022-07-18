@@ -27,7 +27,6 @@ class BenefitOtherView extends Component {
                 this.setState({
                     doc: list
                 })
-                console.log("GETDocument", this.state.doc)
             })
         let branch = await getBranch();
         let selected_location = this.getSelectedLocation(branch, this.props.data.withdraw_location);

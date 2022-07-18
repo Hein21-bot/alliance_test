@@ -48,7 +48,6 @@ export default class TaxReliefTable extends Component {
 
         for (let i = 0; i < data.length; i++) {
             obj = data[i];
-            console.log("obj is ===>", obj)
             one = {
                 no: i + 1,
                 date: obj.date != null ? moment(obj.date).format('DD-MM-YYYY') : '',

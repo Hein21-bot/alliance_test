@@ -55,7 +55,6 @@ class AttendanceReasonTypeEdit extends Component {
             })
     }
     render() {
-        console.log("data is ====>", this.state.data)
         const { attendance_type_option } = this.props;
         const { data } = this.state;
         const selectedAttendanceType = attendance_type_option.find(v => Number(v.value) === Number(data.attendance_type_id));

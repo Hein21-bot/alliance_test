@@ -98,7 +98,6 @@ export default class SalaryAdvanceRequestForm extends Component {
     }
 
     render() {
-        console.log("document is ===>", this.state.document)
         return (
             <div>
 

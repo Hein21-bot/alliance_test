@@ -60,7 +60,6 @@ class PhoneBillRequestView extends Component {
     }
 
     _setTableData(data) {
-       // console.log(data);
         var table;
 
         var l = [];

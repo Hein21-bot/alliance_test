@@ -21,7 +21,6 @@ class CycleMain extends Component {
     }  
     async componentDidMount() {
         var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Cycle Insurance', 'Benefit')
-        // console.log("Permission Status",permission_status)
         this._getCycleInsurance();
         // this._getEmployeeId();
         this.setState({
@@ -31,7 +30,6 @@ class CycleMain extends Component {
     _getCycleInsurance() {
         let id = this.state.user_id;
         
-        // console.log('medical Url:', main_url + "medical_benefit/getMedicalBenefit/" + id)
         fetch(main_url + "cycleInsurance/getCycleInsurance/" + id)
             .then(response => {
                 if (response.ok) return response.json()

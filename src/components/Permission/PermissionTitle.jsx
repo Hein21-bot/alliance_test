@@ -44,7 +44,6 @@ export default class PermissionTitle
 
             var data = $(this).find("#edit").text();
             data = $.parseJSON(data);
-            // console.log(data)
             var isPrice = '';
             if (data.isPrice === 1) {
                 isPrice = true;
@@ -71,7 +70,6 @@ export default class PermissionTitle
                 if (response.ok) return response.json()
             })
             .then(res => {
-                // console.log(res)
                 if (res.length > 0) {
 
                     this.setState({ permissionType: res })

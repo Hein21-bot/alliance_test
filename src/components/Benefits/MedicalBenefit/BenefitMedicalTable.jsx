@@ -112,7 +112,6 @@ export default class BenefitMedicalTable extends Component {
 
     async getPrintData(data) {
         var info = await getInformation('medical_benefit', data.medical_benefit_id)
-        console.log("INfo =====",info)
         var doc = new jsPDF("p", "mm", "a4");
         var col = ["Beneficary Person", "Description", "Amount",];
         var rows = [];
@@ -171,7 +170,6 @@ export default class BenefitMedicalTable extends Component {
         var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
         for (var i = 0; i < data.length; i++) {
             let result = data[i];
-            // console.log('index table data', data[i])
             let obj = [];
             if (result.status === 0) {
                 status = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
@@ -205,7 +203,6 @@ export default class BenefitMedicalTable extends Component {
                 date: moment(result.createdAt).format('DD-MM-YYYY'),
                 status: status ? status : ''
             }
-            console.log("result is",moment(result.createdAt).format('DD-MM-YYYY'))
 
             if (has_action) {
                 if (result.status !== 3) {

@@ -168,7 +168,6 @@ class HospitalizationTable extends Component {
         var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
         for (var i = 0; i < data.length; i++) {
             let result = data[i];
-            // console.log('index table data', data[i])
             let obj = [];
             if (result.status === 0) {
                 status = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
@@ -202,7 +201,6 @@ class HospitalizationTable extends Component {
                 date: moment(result.createdAt).format('DD-MM-YYYY'),
                 status: status ? status : ''
             }
-            // console.log("data[i] isss",data[i].createdBy, this.state.user_id)
             if (has_action) {
                 if (result.status !== 3) {
                     obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';

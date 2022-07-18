@@ -39,14 +39,12 @@ export default class BirthdayFundEdit extends Component {
         // $('#check_form').on('change', '#amount', function () {
         //     var index = $(this).next().text();
         //     var value = $(this).val();
-        //     // console.log(value, index);
         //     that.handlerequest_amount(index, value);
         // })
 
     }
     getBirthdayFunList() {
 
-        // console.log("BranchList>>>>",this.state.branch_id.value,this.state.month.format('M'))
         fetch(`${main_url}birthday_benefit/getBirthdayList/${moment(this.state.data.month).format('M')}/${this.state.data.branch_id}`)
             .then(res => { if (res.ok) return res.json() })
             .then(list => {
@@ -186,7 +184,6 @@ export default class BirthdayFundEdit extends Component {
     };
     render() {
         let { is_main_role } = this.state;
-        // console.log("in edit page =====> birthday fun", this.state.updatedBy, this.state.data.createdBy)
         return (
             <div className="benefits benefits-birthday-fund">
                 <div className='row'>

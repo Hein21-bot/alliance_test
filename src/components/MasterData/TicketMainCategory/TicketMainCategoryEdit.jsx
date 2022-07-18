@@ -82,7 +82,6 @@ class TicketMainCategoryEdit extends Component {
     render() {
         const { department_type_option, ticket_type_option } = this.props;
         const { data } = this.state;
-        console.log("data is ===>", data)
         const selectedDepartmentType = department_type_option.find(v => v.value == data.departments_id);
         const selectedTicketType = ticket_type_option.find(v => v.value == data.ticket_category_type_id)
         return (

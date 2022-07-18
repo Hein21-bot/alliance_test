@@ -65,7 +65,6 @@ export default class TravelAdvancedEdit extends Component {
     async componentDidMount() {
         let that = this;
         let branch = await getBranch();
-        // console.log(this.props.data)
         that.setState({
             branch: branch,
             selected_location: { label: this.props.data.withdraw_location_name, value: this.props.data.withdraw_location }

@@ -118,7 +118,7 @@ class BenefitChildView extends Component {
                         </div> */}
 
                         <div className="row document-main">
-                            {console.log("docuemnt is", this.state.doc.length > 0 && this.state.doc),
+                            {
                                 this.state.doc.length > 0 ?
                                     <DocumentList title='Child Benefit Document' doc={this.state.doc} path='child_benefit' />
                                     : ''

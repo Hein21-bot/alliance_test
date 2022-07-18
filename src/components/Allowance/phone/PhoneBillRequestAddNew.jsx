@@ -66,7 +66,6 @@ class PhoneBillRequest extends Component {
             this.setBranch(data);
             this.setOneRequest(data);
         }
-        // console.log(branch);
         this.setState({
             branch: branch,
             work_flow_status: work_flow,
@@ -87,7 +86,6 @@ class PhoneBillRequest extends Component {
         fetch(`${main_url}allowance/getPhoneBillRequestView/${data.phone_bill_id}`)
             .then(res => { if (res.ok) return res.json() })
             .then(list => {
-                console.log(list);
                 this.setState({
                     dataSource: list,
                     PhoneBillRequestData: {
@@ -283,7 +281,6 @@ class PhoneBillRequest extends Component {
             main: info,
             detail: this.state.dataSource
         };
-        // console.log(data);
         let status = 0;
         fetch(`${main_url}allowance/${path}`, {
             method: "POST",
@@ -303,7 +300,6 @@ class PhoneBillRequest extends Component {
 
     render() {
         let { selectedBranch, selectedUser, one_request } = this.state;
-        //console.log(this.state.one_request);
         return (
             <div>
                 <div className="wrapper wrapper-content animated fadeInRight">

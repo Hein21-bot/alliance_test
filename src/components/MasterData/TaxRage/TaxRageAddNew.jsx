@@ -38,7 +38,6 @@ class TaxRageAddNew extends Component {
     }
     // handleSelectorChange = (val, key) => {
     //     const { department_type_option, desiglnation_options } = this.props;
-    //     console.log("department id is ===>", this.state.departments_id)
     //     const value = key == 'departments_id' ?
     //         ((department_type_option.find(v => v.value == val.value)).value) :
     //         ((desiglnation_options.find(v => v.designations_id == Number(val.designations_id))).value);

@@ -47,7 +47,6 @@ export default class JobTitleTable extends Component {
 
         for (let i = 0; i < data.length; i++) {
             obj = data[i];
-            console.log("obj is ===>", obj)
             one = {
                 no: i + 1,
                 department: obj.deptname,

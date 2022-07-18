@@ -38,7 +38,6 @@ class WeddingBenefitMain extends Component {
                 if (response.ok) return response.json()
             })
             .then(res => {
-                // console.log(res)
                 if (res) {
                     this.setState({ datasource: res })
                 }

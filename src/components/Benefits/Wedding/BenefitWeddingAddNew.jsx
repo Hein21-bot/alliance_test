@@ -127,7 +127,6 @@ class BenefitWeddingAddNew extends Component {
   }
 
   handleSpouseName = (event) => {
-    // console.log(event)
     this.setState({
       spouseName: event.target.value,
     });
@@ -200,7 +199,6 @@ class BenefitWeddingAddNew extends Component {
       var getfile = document.querySelector("#attach_file").files[i];
       newDoc.push(getfile);
     }
-    console.log("new doc is ===>", this.state.newDoc, this.state.attachment);
     this.setState({
       attachment: attachment,
     });
@@ -213,7 +211,6 @@ class BenefitWeddingAddNew extends Component {
   save() {
     stopSaving();
     let { one_benefit, status_title, is_main_role, newDoc } = this.state;
-    console.log('!Array.isArray(one_benefit) is ===>', !Array.isArray(one_benefit), this.state.attachment , this.state.doc)
     let editData = !Array.isArray(one_benefit) == true ? (this.state.newDoc.length > 0 || this.state.attachment.length > 0 || this.state.doc.length > 0) && !Array.isArray(one_benefit) : !Array.isArray(one_benefit)
     if (
       validate("check_form") &&
@@ -304,11 +301,6 @@ class BenefitWeddingAddNew extends Component {
   }
 
   render() {
-    console.log(
-      "data in wedding benefit",
-      this.state.one_benefit.user_id,
-      this.state.user_id
-    );
     let { one_benefit, is_main_role } = this.state;
     return (
       <div className="container">

@@ -31,7 +31,6 @@ class MedicalBenefitMain extends Component {
 
     _getMedicalBenefit() {
         let id = this.state.user_id;
-        // console.log('medical Url:', main_url + "medical_benefit/getMedicalBenefit/" + id)
         fetch(main_url + "medical_benefit/getMedicalBenefit/" + id)
             .then(response => {
                 if (response.ok) return response.json()
@@ -43,15 +42,12 @@ class MedicalBenefitMain extends Component {
 
     }
     _getEmployeeId() {
-        // console.log('employee url:', main_url + "benefit/getEmployeeList")
         fetch(main_url + "benefit/getEmployeeList")
             .then(response => {
                 if (response.ok) return response.json()
             })
             .then(res => {
-                // console.log(res, 'emplooyee list::')
                 // var joined = this.state.data.push(res)
-                // console.log("joined data::", joined)
                 this.setState({ data: [...this.state.data, res] })
             })
             .catch(error => console.error(`Fetch Error =\n`, error));

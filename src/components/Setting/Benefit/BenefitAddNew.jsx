@@ -90,7 +90,6 @@ class BenefitAddNew extends Component {
         const selectedBenefitType = benefit_type_options.find(v => Number(v.benefit_type_id) === Number(benefit_type_id));
         const selectedAllowLevel = level_options.find(v => Number(v.career_level_id) === Number(allow_level));
         const selectedHospitalizationType = hospitalizationTypeOptions.find(v => Number(v.hospitalization_id) === Number(hospitalization_id))
-        // console.log("hospitalizationTypeOptions ===>", hospitalizationTypeOptions, benefit_type_options)
         return (
             <div className="container">
                 <div className='row'>

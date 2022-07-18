@@ -62,7 +62,6 @@ const fno = {
 }
 
 async function calculationWorkingExp(startDate, endDate) {
-    console.log("calculation is ===>", moment(startDate).format('YYYY-MM-DD'), moment(endDate).format('YYYY-MM-DD'))
     const date1 = new Date(startDate);
     const date2 = new Date(endDate);
     const diffInMs = Math.abs(date2 - date1);
@@ -477,15 +476,12 @@ function setCookieData(name, value) {
     // var time = now.getTime();
     // time += 3 * 60 * 1000;
     // now.setTime(time);
-    // console.log(now)
     // document.cookie = name + "=" + encrypt_text + ";expires=" + now.toUTCString() + ";path=" + remote_url;
     sessionStorage.setItem(name, encrypt_text);
 }
 
 function getCookieData(name) {
-    console.log("name is ===>", name)
     // var data = cookies.get(name);
-    // // console.log(data)
     // if (data) {
     //     // data.replace('=', '');
     //     // data = JSON.parse(data);
@@ -519,7 +515,6 @@ function getCookieData(name) {
 
 function getUserId(name) {
     let user = getCookieData(name);
-    console.log("user id is ===>", user)
     if (user !== null) {
         let id = user.user_id;
         if (id > 0) {
@@ -785,8 +780,6 @@ function validate(id) {
     }
     if (status === true) {
         return true;
-        // console.log("Scucessful");
-        // } else console.log("Fail");
     } else return false;
 }
 
@@ -852,7 +845,6 @@ function checkAmount(amount) {
 }
 
 function checkLimitAmount(amount) {
-    // console.log("amount is ===>", amount)
     if (amount < limit_amount) return true;
     else return false;
 }

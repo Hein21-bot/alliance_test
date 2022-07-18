@@ -71,7 +71,6 @@ class LeaveManagementView extends Component {
     render() {
         let leave_left = this.state.leaveDetail != null && this.state.leaveDetail[0].leave.filter(v => v.leave_category_id == this.props.data.leave_category_id)
         this.state.max_days = leave_left.length != 0 && leave_left[0] != undefined && leave_left[0].leave_quota - leave_left[0].leave_count
-        console.log("data is ===>", this.props.data)
         return (
             <div className="white-bg" style={{ display: 'flex', justifyContent: 'center' }}>
                 <ToastContainer />

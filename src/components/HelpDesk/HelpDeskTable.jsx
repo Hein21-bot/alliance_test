@@ -174,7 +174,6 @@ export default class HelpDeskTable extends Component {
         let ticket_status = '';
         for (var i = 0; i < data.length; i++) {
             let result = data[i]
-            console.log("department id is ===>", data[i].branchId)
             let obj = [];
             var now = result.createdAt
             var then = result.updatedAt
@@ -294,7 +293,6 @@ export default class HelpDeskTable extends Component {
     }
 
     render() {
-        console.log('main category is ===>', this.state.main_category)
         return (
             <div>
                 <div className="row border-bottom white-bg dashboard-header">
