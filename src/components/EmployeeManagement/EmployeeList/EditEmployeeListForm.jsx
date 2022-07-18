@@ -1155,6 +1155,7 @@ class EditEmployeeListForm extends Component {
                                             handleBankAccountDetails={this.handleBankAccountDetails}
                                             cancelEdit={this.cancelEdit}
                                             handlePreviousClick={this.handlePreviousClick}
+                                            employeeNameEng={employeeNameEng}
 
                                         /> : tabIndex === 6 ?
                                             <OtherInfo

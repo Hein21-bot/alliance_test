@@ -269,21 +269,17 @@ class ConfirmationList extends Component {
     handleCheckBoxChange = (data) => {
         const { checkedListData } = this.state;
         const checkedListData_ = [...checkedListData];
-        console.log('data', data.user_id)
         const newData = {
             id: data.user_id
         }
         if (checkedListData_.length === 0) {
-            console.log('1....')
             checkedListData_.push(newData)
             this.setState({
                 checkedListData: checkedListData_
             }, () => console.log(this.state.checkedListData))
         }
         else if (checkedListData_.filter(c => c.id === data.user_id).length > 0) {
-            console.log('2....')
             for (var i = 0; i < checkedListData_.length; i++) {
-                console.log(checkedListData_[i].id, data.user_id)
                 if (checkedListData_[i].id == data.user_id) {
                     checkedListData_.splice(i, 1)
                 }
@@ -293,7 +289,6 @@ class ConfirmationList extends Component {
             })
         }
         else {
-            console.log('3....')
             checkedListData_.push(newData)
             this.setState({
                 checkedListData: checkedListData_

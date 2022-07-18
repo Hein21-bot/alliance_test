@@ -1,5 +1,6 @@
 import Cookies from 'universal-cookie';
 import $ from 'jquery';
+import moment from 'moment';
 const CryptoJS = require('crypto-js');
 
 //@kpk
@@ -12,8 +13,8 @@ const CryptoJS = require('crypto-js');
 //  const main_url = "http://192.168.:8087/";  
 // server 
 // const main_url = "http://103.29.91.26:8087/";  
-const main_url = "http://192.168.100.30:8082/" // local
-// const main_url = "http://103.29.91.26:50092/"; 
+// const main_url = "http://192.168.100.30:8082/" // local
+const main_url = "http://103.29.91.26:50092/"; 
 
 // test new
 // const main_url = "http://192.168.43.10:50092/";
@@ -61,6 +62,7 @@ const fno = {
 }
 
 async function calculationWorkingExp(startDate, endDate) {
+    console.log("calculation is ===>", moment(startDate).format('YYYY-MM-DD'), moment(endDate).format('YYYY-MM-DD'))
     const date1 = new Date(startDate);
     const date2 = new Date(endDate);
     const diffInMs = Math.abs(date2 - date1);

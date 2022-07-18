@@ -96,6 +96,7 @@ export default class BenefitChildTable extends Component {
         var permission = this.props.permission;
         var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
         for (var i = 0; i < data.length; i++) {
+            console.log("data i is ===>", data[i])
             let result = data[i];
             let obj = [];
             // if (result.status === 0) {
@@ -126,7 +127,7 @@ export default class BenefitChildTable extends Component {
                 position: data[i].designations ? data[i].designations : '-',
                 employee_status: data[i].employed_status ? data[i].employed_status == 1 ? 'Permanent' : data[i].employed_status == 2 ? 'Part-Time' : data[i].employed_status == 3 ? 'Training' : data[i].employed_status : '-',
                 branch: data[i].branch ? data[i].branch : '',
-                date: moment(new Date()).format('DD-MM-YYYY'),
+                date: data[i].employee_date ? moment(data[i].employee_date).format('DD-MM-YYYY') : '-',
                 employed_date: data[i].employee_date ? moment(data[i].employee_date).format('DD-MM-YYYY') : '',
                 effective_date: data[i].effective_date ? moment(data[i].effective_date).format('DD-MM-YYYY') : '',
                 job_title: data[i].job_title ? data[i].job_title : '',

@@ -48,7 +48,7 @@ const BankAccountDetails = props => {
                             Account Number
                         </div>
                         <div className='col-lg-5 col-md-6 col-sm-8 col-xs-8' style={{ paddingLeft: 0, }}>
-                            <input type='text' placeholder='' required={(viewForm || editForm) ? false : true} name="accountNumber" value={accountNumber} onChange={handleBankDetailInputChange} style={{ width: '100%', height: 40, paddingLeft: 10, }} />
+                            <input type='number' inputMode='numeric' pattern='\d*' placeholder='' required={(viewForm || editForm) ? false : true} name="accountNumber" value={accountNumber} onChange={handleBankDetailInputChange} onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} style={{ width: '100%', height: 40, paddingLeft: 10, }} />
                         </div>
 
                     </div>

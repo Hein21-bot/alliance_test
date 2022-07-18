@@ -92,7 +92,7 @@ class EmployeeDetailMain extends Component {
             sub_level_options
         })
 
-        if(this.props.data){
+        if (this.props.data) {
             this.goToViewForm(this.props.data)
         }
 
@@ -226,6 +226,29 @@ class EmployeeDetailMain extends Component {
                         career_level: this.state.level_options.find(v => parseInt(v.career_level_id) === parseInt(data[0].career_level_id)),
                         career_sub_level: this.state.sub_level_options.find(v => v.career_sub_level_id === data[0].career_sub_level_id)
                     })
+                } else {
+                    this.setState({
+                        selectedEmploymentData: null,
+                        edit: false,
+                        addNew: true,
+                        date: moment(new Date()).format('YYYY-MM-DD'),
+                        employeeName: null,
+                        selected_designation: null,//
+                        selected_branch: null,
+                        selected_department: null,
+                        selected_status: null,
+                        selected_exit_status: null,
+                        employedDate: null,
+                        effectiveDate: null,
+                        actualDate: null,
+                        discontinute_date: null,
+                        selected_disCon_status: null,
+                        salary: null,
+                        resignReason: null,
+                        selected_job: null,
+                        career_level: null,
+                        career_sub_level: null,
+                    })
                 }
             })
     }
@@ -272,6 +295,7 @@ class EmployeeDetailMain extends Component {
     };
 
     handleSelectedEmployeeId = (event) => {
+        console.log('event is ==>', event)
         if (event !== null)
             this.getData(event.user_id)
         this.setState({

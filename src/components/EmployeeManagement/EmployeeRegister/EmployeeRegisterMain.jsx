@@ -287,7 +287,7 @@ class EmployeeRegisterMain extends Component {
                     window.location.reload();
                 }
                 else toast.error(text);
-                 window.location.replace("/employee_register");
+                window.location.replace("/employee_register");
 
             })
     }
@@ -401,9 +401,13 @@ class EmployeeRegisterMain extends Component {
             })
         }
         else if (e.target.name === "dateOfBirth") {
-            this.setState({
-                dateOfBirth: e.target.value
-            })
+            if (this.state.nrc_number.length != 6) {
+                toast.error("NRC number should be 6 digit!")
+            } else {
+                this.setState({
+                    dateOfBirth: e.target.value
+                })
+            }
         }
         else if (e.target.name === "nationality") {
             this.setState({
@@ -441,10 +445,11 @@ class EmployeeRegisterMain extends Component {
             })
         }
         else if (e.target.name === "nrc_number" && this.state.selected_NRC_Id && this.state.selected_DistrictCode) {
-
-            this.setState({
-                nrc_number: e.target.value,
-            })
+            if (e.target.value.length < 7) {
+                this.setState({
+                    nrc_number: e.target.value,
+                })
+            }
         }
         else if (e.target.name === "nrc_number" && !this.state.selected_NRC_Id) {
             toast.error("Please Choose Sd code first!")
@@ -1050,7 +1055,7 @@ class EmployeeRegisterMain extends Component {
             toMonthYear: e
         }, async () => {
             this.setState({
-                period: await calculationWorkingExp(e, this.state.toMonthYear)
+                period: await calculationWorkingExp(e, this.state.fromMonthYear)
             })
         })
     }

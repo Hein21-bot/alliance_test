@@ -7,7 +7,7 @@ import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, get
 
 
 const OtherInfo = props => {
-    const { editForm, viewForm, handleOtherInfo, onCancelClick, trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo, handleOtherInfoInputChange } = props
+    const { editForm, viewForm, handleOtherInfo, onCancelClick, trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo, handleOtherInfoInputChange, handlePreviousClick } = props
 
     return (
         <form onSubmit={handleOtherInfo} >
@@ -79,9 +79,9 @@ const OtherInfo = props => {
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
 
-                <button className='' onClick={onCancelClick} style={{ borderRadius: 5, padding: 10, margin: 10, background: 'red', color: 'white', border: 'none', width: 90 }}>
-                    Cancel
-                </button>
+            <div className='' onClick={handlePreviousClick} style={{ borderRadius: 5, padding: 10, margin: 10, background: '#337ab7', color: 'white', border: 'none', width: 90, textAlign: 'center', cursor: 'pointer' }}>
+                    Previous
+                </div>
 
                 <button type="submit" style={{ borderRadius: 5, padding: 10, margin: 10, background: '#337ab7', color: 'white', border: 'none', width: 90 }}>
                     Next
