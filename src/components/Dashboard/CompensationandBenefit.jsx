@@ -2,13 +2,18 @@ import React, { Component } from 'react';
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import Select from 'react-select'
-import {main_url} from '../../utils/CommonFunction' 
-import CompensationandBenefit from './CompensationandBenefit';
+import {main_url,getFirstDayOfMonth} from '../../utils/CommonFunction' 
+import moment from 'moment';
+import  DatePicker from 'react-datetime';
 
- class BenefitBarChart extends Component {
+ class CompensationandBenefit extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            toDate:moment().format('DD-MM-YYYY'),
+            fromDate:  moment(getFirstDayOfMonth()).format('DD-MM-YYYY'),
+            exitToDate:moment().format('DD-MM-YYYY'),
+            exitFromDate:  moment(getFirstDayOfMonth()).format('DD-MM-YYYY'),
             chartOptions: {},
             name:[],
             amount:[],
@@ -35,15 +40,28 @@ import CompensationandBenefit from './CompensationandBenefit';
           })
           .catch((error) => console.error(`Fetch Error =\n`, error));
       };
+      handleToDate = (event) => {
+        this.setState({
+            toDate: event
+        });
+    };
+    handleFromDate = (event) => {
+        this.setState({
+            fromDate: event
+        });
+    };
     getBenefit=()=>{
         fetch(main_url+'dashboard/benefitExpense',{
             method:'GET'
         }).then(res=>
             res.json()
         ).then(data=>{
+            console.log(data)
             let listName = data.map(v=>v.name);
             let listAmt = data.map(v=>v.amount);
             this.setState({name: listName,amount: listAmt})
+            console.log("benefit name==>",this.state.name)
+            console.log('benefit amount==>',this.state.amount)
             this.setChartOption();
         })
         
@@ -62,52 +80,81 @@ import CompensationandBenefit from './CompensationandBenefit';
     setChartOption = () => {
         const chartOptions = {
             chart: {
-                type: 'bar',
+                type: 'line',
                 height: '400px',
             },
             
             title: {
                 text: '',
             },
-           
-            xAxis: {
-                categories: this.state.name,
-                title: {
-                    text: null
-                }
-            },
-            yAxis: {
-                title: {
-                    text: 'Count',
+              
+                subtitle: {
+                  text: ''
                 },
-            },
-            tooltip: {
-                // valueSuffix: ' millions'
-            },
-            plotOptions: {
-                bar: {
-                    dataLabels: {
-                        enabled: true
+                yAxis: {min: 0, max:100,tickInterval: 10,
+                    title: {
+                        text: ""
+                    },
+                    labels: {
+                        format: '{value}%',
                     }
-                }
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'center',
-                verticalAlign: 'top',
-            },
-            boost: {
-                useGPUTranslations: true
-            },
-            credits: {
-                enabled: false
-            },
-            series: [{
-                name: 'Benefit Expense',
-                colorByPoint:true,
-                data: this.state.amount
-            }]
-        }
+                },
+              
+                xAxis: {
+                    categories: ['Payroll', 'Monthly Incentive', 'Quarterly Incentive', 'Benefit','Allowance'],
+                    tickmarkPlacement: 'on',
+                    title: {
+                      enabled: false
+                    }
+                },
+                accessibility: {
+                    point: {
+                      valueDescriptionFormat: '{index}. {point.category}, {point.y:,.0f} millions, {point.percentage:.1f}%.'
+                    }
+                  },
+                legend: {
+                    align: 'center',
+                    verticalAlign: 'bottom',
+                    x: 0,
+                    y: 0
+                },
+                tooltip: {
+                     pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y:,.0f} millions)<br/>',
+                    split: true
+                  },
+                plotOptions: {
+                    area: {
+                      stacking: 'percent',
+                      lineColor: '#ffffff',
+                      lineWidth: 1,
+                      marker: {
+                        lineWidth: 1,
+                        lineColor: '#ffffff'
+                      }
+                    }
+                  },
+              
+                  series: [{
+                    name: 'Jan',
+                    data: [50, 63, 80, 94, 14,]
+                  }, {
+                    name: 'Feb',
+                    data: [10, 17, 11, 33, 22,]
+                  }, {
+                    name: 'March',
+                    data: [16, 23, 26, 48, 57,]
+                  }, {
+                    name: 'Aprial',
+                    data: [18, 31, 54, 56, 33]
+                  }, {
+                    name: 'May',
+                    data: [2, 2, 2, 6, 13, ]
+                  },{
+                    name: 'June',
+                    data: [23,43,54,87,34]
+                  }],
+              
+              };
 
         this.setState({ chartOptions })
        
@@ -115,7 +162,6 @@ import CompensationandBenefit from './CompensationandBenefit';
 
     render() {
         return (
-            <div className='' >
             <div
                 className='text-center margin-y'
                 style={{
@@ -126,49 +172,21 @@ import CompensationandBenefit from './CompensationandBenefit';
                     padding: '2px 0px 2px 0px'
                 }}
             >
-                <h3 className='' style={{ padding: '10px 0px 0px 0px',marginBottom:'20px' }}>Benefit Expense</h3>
+                <h3 className='' style={{ padding: '10px 0px 0px 0px',marginBottom:'20px' }}>Compensation and Benefit</h3>
                 <div className='flex-row' style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', margin: '10px 10px 0px 10px' }}>
-                    <Select
-                        styles={{
-                            container: base => ({
-                                ...base,
-                                //   flex: 1
-                                width: 120,
-                                marginLeft:10
-                            }),
-                            control: base => ({
-                                ...base,
-                                minHeight: '18px'
-                            })
-                        }}
-                        placeholder="From Date"
-                        options={[]}
-                        onChange={(val) => console.log(val)}
-                        value={null}
-                        className='react-select-container'
-                        classNamePrefix="react-select"
-                    />
-                    <Select
-                        styles={{
-                            container: base => ({
-                                ...base,
-                                //   flex: 1
-                                width: 100,
-                                marginLeft:10
-                            }),
-                            control: base => ({
-                                ...base,
-                                minHeight: '18px'
-                            })
-                        }}
-                        placeholder="To Date"
-                        options={[]}
-                        onChange={(val) => console.log(val)}
-                        value={null}
-                        className='react-select-container'
-                        classNamePrefix="react-select"
-                    />
-                    <Select
+                <DatePicker          className='fromdate'
+                                        
+                                        dateFormat="DD/MM/YYYY"
+                                        value={this.state.fromDate}
+                                        onChange={ this.handleFromDate}
+                                        timeFormat={false}/>
+                   < DatePicker         className='fromdate'   
+                                        dateFormat="DD/MM/YYYY"
+                                        value={this.state.toDate}
+                                        onChange={this.handleToDate}
+                                        timeFormat={false}/> 
+                   
+                    {/* <Select
                         styles={{
                             container: base => ({
                                 ...base,
@@ -187,8 +205,8 @@ import CompensationandBenefit from './CompensationandBenefit';
                         value={this.state.branchId}
                         className='react-select-container'
                         classNamePrefix="react-select"
-                    />
-                    <Select
+                    /> */}
+                    {/* <Select
                         styles={{
                             container: base => ({
                                 ...base,
@@ -207,7 +225,7 @@ import CompensationandBenefit from './CompensationandBenefit';
                         value={this.state.deptId}
                         className='react-select-container'
                         classNamePrefix="react-select"
-                    />
+                    /> */}
                     <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} >Search</button>
                 </div>
                 <HighchartsReact
@@ -215,12 +233,9 @@ import CompensationandBenefit from './CompensationandBenefit';
                     options={this.state.chartOptions}
                     containerProps={{ className: "w-100" }} />
             </div>
-            <div>
-                <CompensationandBenefit/>
-            </div>
-            </div>
+
         )
     }
 
 }
-export default BenefitBarChart;
+export default   CompensationandBenefit;

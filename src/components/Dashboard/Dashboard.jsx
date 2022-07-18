@@ -11,6 +11,7 @@ import BenefitBarChart from "./BenefitBarChart";
 import ExpenseBarChart from "./ExpenseBarChart";
 import AttendenceBarChart from "./AttendenceBarChart";
 import LeaveCalendar from "./LeaveCalendar"
+import ResignBarChart from "./ResignBarChart";
 const primary = "#1872ab";
 
 export class Dashboard extends Component {
@@ -79,7 +80,9 @@ export class Dashboard extends Component {
            Compansation and Benefit
           </button>
           <button style={styles.tapButtonStyle}>Help Desk</button>
-          <button style={styles.tapButtonStyle}>Resign</button>
+          <button style={styles.tapButtonStyle}
+           onClick={() => this.tapButtonClick("resign")}
+          >Resign</button>
         </div>
         <Profile />
         {this.state.tapButtonTitle == "headCount" ? (
@@ -145,7 +148,21 @@ export class Dashboard extends Component {
               <LeaveCountBarChart />
             </div>
           </div>
-        ) : (
+        ) :  this.state.tapButtonTitle == "resign" ? (
+          <div
+            className="row mt-4"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: 15
+            }}
+          >
+            <div className="col-lg-8">
+              <ResignBarChart />
+            </div>
+          </div>
+        ):(
           <div> 
             <div className="row" style={{marginTop: 15}}>
               <div className="col-md-4">
