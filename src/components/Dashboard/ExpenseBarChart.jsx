@@ -86,7 +86,7 @@ export default class ExpenseBarChart extends Component {
                             container: base => ({
                                 ...base,
                                 //   flex: 1
-                                width: 1,
+                                width: 100,
                                 marginLeft:10
                             }),
                             control: base => ({

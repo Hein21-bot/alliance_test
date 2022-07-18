@@ -76,7 +76,7 @@ const ContactDetails = props => {
 
                         <div className='col-lg-6 col-md-6 col-sm-6'>
                             <div className='w-100' style={{ display: 'flex', paddingBottom: 15 }}>
-                                <div className='col-lg-2 col-md-2 col-sm-2' style={{ width: '50%', paddingLeft: 0, paddingRight: 5 }}>
+                                <div className='col-lg-2 col-md-2 col-sm-2' style={{ width: '30%', paddingLeft: 0, paddingRight: 5 }}>
                                     <Select
                                         options={nrcList}
                                         value={selected_gran_NRC_Id}

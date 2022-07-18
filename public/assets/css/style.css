@@ -8838,7 +8838,31 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child::
   background-color: white;
   padding: 0px 8px;
 }
-
+.react-datepicker__month{
+  text-align: center;
+  background-color: #efefef;
+  margin: 0 !important;
+}
+.react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header {
+  margin-top: 0;
+  /* color: #000; */
+  font-weight: bold;
+  font-size: 0.944rem;
+  color: white !important;
+}
+.react-datepicker__header{
+  background-color: #1872ab !important;
+}
+.react-datepicker {
+  font-family: "Helvetica Neue", helvetica, arial, sans-serif;
+  font-size: 0.8rem;
+  background-color: #fff;
+  color: #000;
+  border: 0 !important;
+  border-radius: 0.3rem;
+  display: inline-block;
+  position: relative;
+}
 /* reactcalendar style */
 .custom-datePicker{
   width: 100% !important;
@@ -8875,20 +8899,23 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child::
 
 .custom-datePicker .react-datepicker__current-month{
   font-size: 16px !important;
-  text-align: left;
-  margin-left: 27px;
+  /* text-align: left;
+  margin-left: 27px; */
   margin-bottom: 10px;
-  margin-top: -10px;
+  /* margin-top: -10px; */
 }
 
 .custom-datePicker .react-datepicker__header{
   border-bottom: 0px !important;
-  background-color: inherit !important;
-  margin: 0.4rem !important;
+  /* background-color: inherit !important; */
+  /* margin: 0.4rem !important; */
+  /* margin-top: 10px; */
+  
 }
 
 .custom-datePicker .react-datepicker__navigation {
   /* display: none !important; */
+  margin-top: 10px;
 }
 
 table.dataTable thead tr {

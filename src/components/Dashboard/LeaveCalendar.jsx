@@ -3,6 +3,7 @@ import ReactDatePicker, { CalendarContainer } from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 import { getDate, format } from 'date-fns'
 import 'react-toastify/dist/ReactToastify.css';
+import DatePicker from 'react-datetime';
 
 const data = [
     { date: '05-03-2022', leave_count: 4, employees: ['Dave', 'Josh', 'Mary', 'Joh'] },
@@ -10,7 +11,7 @@ const data = [
     { date: '05-22-2022', leave_count: 2, employees: ['West', 'Nancy'] },
 ];
 
-export class LeaveCalendar extends Component {
+export default class LeaveCalendar extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -94,19 +95,69 @@ export class LeaveCalendar extends Component {
                         }
                     </div>
                 </div>
-                <div className="col-md-6 col-6 col-sm-6" style={{ width: 300, position: 'relative' }}>
+                <div className=" " style={{margin:'20px'}}>
+                    <div className="col-md-6 col-6 col-sm-6 ">
+                    <div className="col ">
+                    <h3 style={{ paddingLeft: 8, color:"#1872ab", fontWeight: 'bolder' }}>Leave Calendar</h3>
+
+                      <div style={{display:'flex'}}>
+                     <input  type="radio" name="flexRadioDefault" id="flexRadioDefault1"></input>
+                    <p class="form-check-label" for="flexRadioDefault1"style={{marginLeft:5,display:'inline-block',color:'#1872ab'}}>
+                     Team
+                    </p>
+                     </div>
+                     <div style={{display:'flex'}}>
+                    <input  type="radio" name="flexRadioDefault" id="flexRadioDefault2" ></input>
+                    <p class="form-check-label" for="flexRadioDefault2" style={{marginLeft:5,display:'inline-block',color:'#1872ab'}}>
+                     All
+                    </p>
+                    </div>
+                     <div style={{display:'flex'}}>
+                     <input  type="radio" name="flexRadioDefault" id="flexRadioDefault3"></input>
+                    <p className="form-check-label" for="flexRadioDefault3" style={{marginLeft:5,display:'inline-block',color:'#1872ab'}}>
+                      My Calender
+                    </p>
+                     </div>
+                     </div>
+                     <div className="" style={{display:'flex',marginTop:10}}> 
+                     <div><i class="fa fa-calendar fa-2x" aria-hidden="true" style={{marginRight:'10px',color:'#1872ab'}}></i></div>
+                               
+                              <div style={{
+                                position:"relative"
+                              }}>
+                              <div style={{
+                                position:"absolute",
+                                
+                              }}><DatePicker className="leavedatepicker"
+                                    dateFormat="DD/MM/YYYY"
+                                    value={this.state.s_date}
+                                    onChange={this.handleStartDate}
+                                    timeFormat={false} 
+                                    
+                                >
+                                 </DatePicker><i class="fa fa-search fa-1.5x" aria-hidden="true" style={{color:'#1872ab',
+                                position:"absolute",
+                                right:'20px',
+                                top:'10px'}} /></div> 
+                              </div>
+                     </div>
+                     </div>
+                     <div bu9 className="col-md-6 col-lg-6 col-sm-6">
                     <ReactDatePicker
                         selected={this.state.startDate}
                         onChange={(date) => this.setState({ startDate: date })}
                         renderDayContents={this.renderDayContents}
                         inline
                         calendarClassName="custom-datePicker"
-                        style={{ width: '100%' }}
+                        style={{ width: '50%' }}ssssssss
                         calendarContainer={MyContainer}
                         formatWeekDay={nameOfDay => nameOfDay.substr(0,3)}
-                    />
+                        
+                    /></div>
+                     
+                    </div>
                 </div>
-            </div>
+            
         )
     }
 }
