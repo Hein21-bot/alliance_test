@@ -13,9 +13,9 @@ const EmployeeProfile = props => {
 
     const imgUrl = userImage ? (userImage.includes('103.29.91.26') ? userImage : main_url + 'confirmation/getProfile/' + userImage) : ''
 
-    let fullNRCNO = fullNRC ?
-        fullNRC.split(" ")[0] + '/' + fullNRC.split(" ")[1] + '(N)' + fullNRC.split(" ")[2] :
+    let fullNRCNO = fullNRC ? fullNRC:
         `${selected_NRC_Id ? (selected_NRC_Id.label) : ''}${selected_DistrictCode ? ('/' + selected_DistrictCode.label) : ''}${nrc_number ? ('(N)' + nrc_number) : ''}`
+
     return (
         <form onSubmit={handleProfileSave} >
             <div className='white-bg ' style={{ paddingTop: 20, border: '1px solid lightgrey', display: 'grid', borderTop: 'none', marginTop: -10, paddingBottom: 20, boxShadow: '5px 5px 5px lightgrey' }}>
