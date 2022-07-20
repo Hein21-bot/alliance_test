@@ -134,9 +134,6 @@ class Profile extends Component {
   // work_experience: "1. Account (Beauty Palace Co.,Ltd)
 
   render() {
-    {
-      console.log("profile UserInf ===>", this.state.userInfo);
-    }
     return (
       <div>
         {this.state.userInfo != undefined ? (

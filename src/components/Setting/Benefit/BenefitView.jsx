@@ -9,7 +9,6 @@ class BenefitView extends Component {
         }
     }
     render() {
-        // console.log("props is =====>", this.state.data)
         const { martial_status_options, benefit_type_options, level_options } = this.props;
         const { data } = this.state;
         const selectedMartialStatus = martial_status_options.find(v => Number(v.is_married) === Number(data.is_married));

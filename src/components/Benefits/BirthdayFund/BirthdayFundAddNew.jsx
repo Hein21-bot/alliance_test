@@ -59,7 +59,6 @@ class BirthdayFundAddNew extends Component {
 
     getBirthdayFunList(branch_id, date) {
 
-        // console.log("BranchList>>>>",this.state.branch_id.value,this.state.month.format('M'))
         fetch(`${main_url}birthday_benefit/getBirthdayList/${this.state.month.format('M')}/${this.state.branch_id.value}`)
             .then(res => { if (res.ok) return res.json() })
             .then(list => {

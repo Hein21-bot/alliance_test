@@ -93,7 +93,6 @@ export default class SalaryTemplateAddNew extends Component {
     }
 
     handleEdit = () => {
-        console.log("add data is ===>", this.state.addData)
     }
 
     handleSave = () => {

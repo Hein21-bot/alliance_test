@@ -115,7 +115,6 @@ class StaffComplainEdit extends Component {
     changeCaseDate(value) {
         let data = this.state.complain;
         data.case_date = value
-        console.log(data)
         this.setState({
             complain: data
         })

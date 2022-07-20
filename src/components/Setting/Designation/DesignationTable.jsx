@@ -40,7 +40,6 @@ export default class DesignationTable extends Component {
     }
 
     showTable(data) {
-        console.log(data)
         var table;
         var self = this;
         var list = [];
@@ -112,7 +111,6 @@ export default class DesignationTable extends Component {
         } );
 
         $("#dataTables").on('click', '#Edit', function () {
-            console.log('click')
             var data = $(this).find("#edit").text();
             data = $.parseJSON(data);
             self.props.goToEditForm(data);

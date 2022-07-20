@@ -104,7 +104,6 @@ $(document).ready(function () {
 
     // Minimalize menu
     $('.navbar-minimalize').on('click', function (event) {
-        console.log("click on toggle icon..")
         event.preventDefault();
         $("body").toggleClass("mini-navbar");
         SmoothlyMenu();

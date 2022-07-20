@@ -42,7 +42,6 @@ class WeddingBenefitView extends Component {
     }
 
     render() {
-        console.log(this.state.datasource)
         return (
             <div className="container">
                 <div className='row'>

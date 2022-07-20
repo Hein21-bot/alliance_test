@@ -107,7 +107,6 @@ export default class TravelRequestAddNew
 
     handleSelectedTicketMainCategory = (event) => {
         let data = this.state.data
-        //console.log(data);
         data.mainCategoryId = event
         data.subCategoryId = '';
         data.priority = '';
@@ -124,8 +123,6 @@ export default class TravelRequestAddNew
         let data = this.state.data;
         let ticketType = data.ticketType !== '' ? data.ticketType.value : 0;
         let main = [];
-        // console.log(dept.value)
-        // console.log(deptID)
         if (deptID > 0 || ticketType > 0) {
             let condition = '1';
             if (ticketType > 0) {

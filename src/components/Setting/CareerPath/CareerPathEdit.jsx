@@ -35,7 +35,6 @@ export default class CareerPathEdit extends Component {
         const { data } = this.state;
         const validateErr = CareerPathValidation(data);
         this.setState({ validateErr })
-        console.log(validateErr)
         if (Object.keys(validateErr).length === 0) {
             fetch(`${main_url}careerPathSetting/editCareerPath/${data.id}`, {
                 method: "POST",

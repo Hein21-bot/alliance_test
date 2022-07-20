@@ -80,7 +80,6 @@ class CareerSubLevelEdit extends Component {
         }
     }
     render() {
-        // console.log("this.state.data is ====>", this.state.data)
         const { data } = this.state;
         const { level_options } = this.props;
         const selectedAllowLevel = level_options.find(v => Number(v.career_level_id) === Number(data.career_level_id));

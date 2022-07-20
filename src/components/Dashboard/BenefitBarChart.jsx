@@ -3,6 +3,7 @@ import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import Select from 'react-select'
 import {main_url} from '../../utils/CommonFunction' 
+import CompensationandBenefit from './CompensationandBenefit';
 
  class BenefitBarChart extends Component {
     constructor(props) {
@@ -40,12 +41,9 @@ import {main_url} from '../../utils/CommonFunction'
         }).then(res=>
             res.json()
         ).then(data=>{
-            console.log(data)
             let listName = data.map(v=>v.name);
             let listAmt = data.map(v=>v.amount);
             this.setState({name: listName,amount: listAmt})
-            console.log("benefit name==>",this.state.name)
-            console.log('benefit amount==>',this.state.amount)
             this.setChartOption();
         })
         
@@ -117,6 +115,7 @@ import {main_url} from '../../utils/CommonFunction'
 
     render() {
         return (
+            <div className='' >
             <div
                 className='text-center margin-y'
                 style={{
@@ -216,7 +215,10 @@ import {main_url} from '../../utils/CommonFunction'
                     options={this.state.chartOptions}
                     containerProps={{ className: "w-100" }} />
             </div>
-
+            <div>
+                <CompensationandBenefit/>
+            </div>
+            </div>
         )
     }
 

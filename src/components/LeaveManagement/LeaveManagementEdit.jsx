@@ -534,7 +534,6 @@ class LeaveManagementEdit extends Component {
 
 
     render() {
-        console.log("this.state is ===>", this.props.data.application_status)
         let leave_left = this.state.leaveDetail != null && this.state.leaveDetail[0].leave.filter(v => v.leave_category_id == parseInt(this.state.selectedCategory.value == undefined ? this.props.data.leave_category_id : this.state.selectedCategory.value))
         this.state.max_days = leave_left.length != 0 && leave_left[0] != undefined && leave_left[0].leave_quota - leave_left[0].leave_count
         return (

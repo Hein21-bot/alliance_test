@@ -227,7 +227,6 @@ export default class TravelClaimRequestEdit extends Component {
   }
 
   claimChangeText(index, value) {
-    // console.log("working...");
     var totalAmount = 0;
     const array = this.state.claimDetailData;
     var claimData = this.state.claimData;
@@ -244,7 +243,6 @@ export default class TravelClaimRequestEdit extends Component {
     for (var i = 0; i < array.length; i++) {
       totalAmount += Number(array[i].amount);
     }
-    console.log(totalAmount, array)
     claimData.actual_amount = totalAmount;
     this.setState({
       claimDetailData: array,
@@ -319,7 +317,6 @@ export default class TravelClaimRequestEdit extends Component {
       var data = $(this).find("#edit").text();
       data = $.parseJSON(data);
       var newObj = { ...that.state.claimDetailData[0] }
-      // console.log("new obj is ===>", newObj)
       newObj.purpose = data.purpose
       newObj.actual_date = moment(data.actual_date).format('DD/MM/YYYY')
       newObj.start_location = data.start_location
@@ -380,7 +377,6 @@ export default class TravelClaimRequestEdit extends Component {
         start_time: moment(v.start_time).utc().format('YYYY-MM-DD HH:mm:ss'),
         end_time: moment(v.end_time).utc().format('YYYY-MM-DD HH:mm:ss')
       }))
-      console.log("new data is ====>", newData)
       //	TR22030002
       if (status_title !== "" && is_main_role) {
         var action = getActionStatus(
@@ -418,7 +414,6 @@ export default class TravelClaimRequestEdit extends Component {
       // formdata.append("claimDetail", JSON.stringify(this.state.dataSource));
       formdata.append("claimDetail", JSON.stringify(newData));
       formdata.append("updatedBy", JSON.stringify(info));
-      console.log('form data', formdata)
       let status = 0;
       fetch(
         main_url +
@@ -449,8 +444,6 @@ export default class TravelClaimRequestEdit extends Component {
       var data = this.state.claimDetailData[i];
       data.index = i;
       claimDetail.push(
-        // console.log(data.start_location),
-        // console.log(data.destination),
         {
           actualDate: `<button
                           id='${i}'
@@ -591,7 +584,6 @@ export default class TravelClaimRequestEdit extends Component {
       { title: "Amount", data: "amount" },
       { title: "Purpose", data: "purpose" },
     ];
-    // console.log(column)
     table = $("#claim-table").DataTable({
       autofill: true,
       searching: false,
@@ -609,7 +601,6 @@ export default class TravelClaimRequestEdit extends Component {
     var self = this;
 
     $("#claim-table").on("click", "tbody button", function (e) {
-      //console.log(e.target.innerHTML)
       const dataName = e.target.dataset.name;
       const id = e.target.id;
       const element = document.getElementsByClassName(dataName + e.target.id)[0];
@@ -674,20 +665,6 @@ export default class TravelClaimRequestEdit extends Component {
           claimDetailData: array,
           claimData: claimData,
         }, () => {
-          // console.log("claimDetailData in edit is", self.state.claimDetailData),
-          // console.log("claimData  is ===>", self.state.claimData)
-          // ,()=> {
-          //   if(self.state.initalDataState){
-          //     if (self.state.initalDataState != e.target.dataset.name ){
-          //       console.log("=======> in condition")
-          //       self.setState({initalDataState : e.target.dataset.name})
-          //       self.showClaimData()
-          //     }
-          //   }else{
-          //     console.log("no in condition ")
-          //     self.setState({initalDataState : e.target.dataset.name})
-          //   }
-          // }
         });
       }
     });
@@ -746,7 +723,6 @@ export default class TravelClaimRequestEdit extends Component {
   }
 
   setDataTable(data) {
-    // console.log('sort is ====>', data.sort((a, b) => b.travel_detail_id - a.travel_detail_id))
     var table;
     if ($.fn.dataTable.isDataTable('#dataTables-claimTable')) {
       table = $('#dataTables-claimTable').dataTable();
@@ -814,7 +790,6 @@ export default class TravelClaimRequestEdit extends Component {
 
     array[i][dataName] = new Date(date);
 
-    // console.log("new ", array);
     this.setState({ claimDetailData: array, showPicker: false }, () =>
       this.showClaimData(),
     );
@@ -862,8 +837,6 @@ export default class TravelClaimRequestEdit extends Component {
             accumulator + currentValue
         ) : 0;
     let { is_main_role, selectedPicker, editPosition } = this.state;
-    // console.log("Actual amount in claim req is ===>", this.props.data.claimData)
-    // console.log('selected_location', this.state.selected_location)
     return (
       <div>
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />

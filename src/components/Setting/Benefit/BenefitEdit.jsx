@@ -73,7 +73,6 @@ class BenefitEdit extends Component {
     render() {
         const { martial_status_options, benefit_type_options, level_options, hospitalizationTypeOptions } = this.props;
         const { data } = this.state;
-        // console.log('data ', data)
         const selectedMartialStatus = martial_status_options.find(v => Number(v.is_married) === Number(data.is_married));
         const selectedBenefitType = benefit_type_options.find(v => Number(v.benefit_type_id) === Number(data.benefit_type_id));
         const selectedAllowLevel = level_options.find(v => Number(v.career_level_id) === Number(data.allow_level));

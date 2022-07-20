@@ -126,7 +126,7 @@ export default class BenefitChildTable extends Component {
                 position: data[i].designations ? data[i].designations : '-',
                 employee_status: data[i].employed_status ? data[i].employed_status == 1 ? 'Permanent' : data[i].employed_status == 2 ? 'Part-Time' : data[i].employed_status == 3 ? 'Training' : data[i].employed_status : '-',
                 branch: data[i].branch ? data[i].branch : '',
-                date: moment(new Date()).format('DD-MM-YYYY'),
+                date: data[i].employee_date ? moment(data[i].employee_date).format('DD-MM-YYYY') : '-',
                 employed_date: data[i].employee_date ? moment(data[i].employee_date).format('DD-MM-YYYY') : '',
                 effective_date: data[i].effective_date ? moment(data[i].effective_date).format('DD-MM-YYYY') : '',
                 job_title: data[i].job_title ? data[i].job_title : '',

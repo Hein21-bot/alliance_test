@@ -53,7 +53,6 @@ class TicketMainCategoryAddNew extends Component {
             const data = {
                 category_name, departments_id, ticket_status_id, remark
             }
-            // console.log("data is ===>", data)
             fetch(`${main_url}mainCategory/addMainCategory`, {
                 method: "POST",
                 headers: {

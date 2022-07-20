@@ -35,7 +35,6 @@ export default class ConfirmationRequestListTable extends Component {
   }
   componentDidMount() {
     this.$el = $(this.el);
-    console.log("dataSource ===>", this.props);
     this.setState(
       {
         dataSource: this.props.data,
@@ -104,10 +103,6 @@ export default class ConfirmationRequestListTable extends Component {
           status =
             '<small class="label label-warning" style="background-color:#f60e2f"> Extension  </small>';
         }
-        // else if (result.status === 5) {
-        //     status = '<small class="label label-warning" style="background-color:#cc0066"> ReferBack </small>'
-        // }
-        console.log("obj is ===>", result);
         obj = {
           no: i + 1,
           select: false,
@@ -130,29 +125,12 @@ export default class ConfirmationRequestListTable extends Component {
         };
 
         if (has_action) {
-          // if (result.status !== 3) {
           obj.action =
             permission.isView === 1
               ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' +
-                JSON.stringify(result) +
-                '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>'
+              JSON.stringify(result) +
+              '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>'
               : "";
-          // } else {
-          //     obj.action = permission.isView === 1 ?
-          //     '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
-
-          //     if (result.print === 1) {
-          //         obj.action +=
-          //           '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-          //           JSON.stringify(result) +
-          //           '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
-          //       } else {
-          //         obj.action +=
-          //           '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-          //           JSON.stringify(result) +
-          //           '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
-          //       }
-          // }
         }
 
         l.push(obj);
@@ -178,7 +156,6 @@ export default class ConfirmationRequestListTable extends Component {
       { title: "Employed Date", data: "employ_date" },
       { title: "Last Promtion Date", data: "promotion_date" },
       { title: "Service Year", data: "service_year" },
-      //   { title: "Service Year in Current Level", data: "date" },
       { title: "Service Year in Current Sub Level", data: "date" },
       { title: "Confirm or Not", data: "recommendation" },
       { title: "Status", data: "status" },
@@ -187,9 +164,6 @@ export default class ConfirmationRequestListTable extends Component {
     if (has_action) {
       column.push({ title: "Action", data: "action" });
     }
-    // if (has_select) {
-    //     column.splice(1,0,{ title: "Select", data: "select" })
-    // }
     table = $("#dataTables-table").DataTable({
       autofill: true,
       bLengthChange: false,

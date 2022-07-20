@@ -136,7 +136,6 @@ class HeadCountBarChart extends Component {
         if (response.ok) return response.json();
       })
       .then((res) => {
-        console.log("haha ==>", res.length);
         if (res) {
           var label = [];
           var count = [];
@@ -221,7 +220,6 @@ class HeadCountBarChart extends Component {
     })
 }
 handleSelectedDepartment = async (event) => {
-  console.log('id ===>', event)
     let data = this.state.id
     data.deptId = event
     this.setState({
@@ -232,7 +230,6 @@ handleSelectedDepartment = async (event) => {
   render() {
     return (
       <div>
-        {console.log('deptID ===>', this.state.deptId)}
         {this.props.title == "department" ? (
           <div
             className="text-center margin-y"

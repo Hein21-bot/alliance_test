@@ -79,7 +79,6 @@ export default class StaffLoanList extends Component {
 
                 status = '<small class="label label-warning" style="background-color:#f60e2f"> Reject  </small>'
             }
-            console.log("daTE===>",obj)
             one = {
                 no: i + 1,
                 applicant_name: obj.applicant_name,

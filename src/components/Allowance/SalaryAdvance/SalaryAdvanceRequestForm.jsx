@@ -43,7 +43,6 @@ export default class SalaryAdvanceRequestForm extends Component {
                     this.setState({
                         newDoc: res
                     })
-                    console.log('new doc======'.this.state.newDoc);
                 }
             })
             .catch(error => console.error(`Fetch Error =\n`, error));

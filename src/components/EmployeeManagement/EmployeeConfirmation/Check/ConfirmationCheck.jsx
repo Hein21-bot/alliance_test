@@ -168,7 +168,6 @@ class ConfirmationCheck extends Component {
     }
 
     goToEditForm = data => {
-        console.log("data is ===>", data)
         this.getWarning(data.user_id)
         this.setState({
             edit: true,
@@ -416,7 +415,6 @@ class ConfirmationCheck extends Component {
         let verify_person = this.state.checkListData && (this.state.checkListData[0] ? this.state.checkListData[0].verify_person : null)
         let check_person = this.state.checkListData && (this.state.checkListData[0] ? this.state.checkListData[0].check_person : null)
         const { selected_checkList, extensionPeriod, comment, effectiveDate, checkedAll, edit, view, selectedTableData, fullname, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, status, recommendation, date, checkPerson, verifyPerson, sub_level_options, career_level_id, selected_sub_level } = this.state
-        console.log('filter carrer level is ===>', sub_level_options.filter(d => d.career_level_id == career_level_id))
         return (
             <div className=" border-bottom white-bg dashboard-header">
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />

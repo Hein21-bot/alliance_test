@@ -57,8 +57,6 @@ export default class Sidebar extends Component {
 
   render() {
     const { pathname } = this.state;
-    console.log("rendering ....");
-    // console.log("this.checkPathName() is ===>", pathname)
 
     return (
       <div>

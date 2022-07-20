@@ -24,7 +24,7 @@ const EmployeeProfile = props => {
                         <div style={{ display: 'flex', alignItems: 'center' }}> Profile Photo</div>
                         <div className='col-lg-7 col-md-6 w-100' style={{ display: 'flex', }}>
                             <div style={{ border: '1px solid grey', width: 140, height: 120, borderStyle: 'dashed' }}>
-                                <img src={imgUrl} alt="" style={{ width: 140, height: 120 }} />
+                                <img src={imgUrl} alt="" style={{ width: 140, height: 120, objectFit: 'contain' }} />
                             </div>
                             {
                                 viewForm ? null : <div className='' style={{ display: 'flex', alignItems: 'end', paddingLeft: 10 }}>

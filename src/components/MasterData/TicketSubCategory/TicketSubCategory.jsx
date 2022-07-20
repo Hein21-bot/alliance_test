@@ -128,7 +128,6 @@ export default class TicketSubCategory extends Component {
 
     render() {
         const { datasource, department_type_option, main_category_option, getPriorityOption, getSeverityOption } = this.state;
-        console.log('datasource >> ', this.state.datasource)
         return (
             <div className='benefit-setup border-bottom white-bg dashboard-header'>
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />

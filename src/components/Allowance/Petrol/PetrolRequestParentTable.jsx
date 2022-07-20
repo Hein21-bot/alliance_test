@@ -37,7 +37,6 @@ export default class PetrolRequestParentTable extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.permission_bm !== this.props.permission_bm || prevProps.permission_staff !== this.props.permission_staff) {
-            console.log("hello")
             this.setState({
                 permission_bm: this.props.permission_bm,
                 permission_staff: this.props.permission_staff

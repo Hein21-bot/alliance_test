@@ -253,9 +253,7 @@ export default class TravelRequestParent extends Component {
             advancedClaim: 1,
             withdraw_location: claimData.withdraw_location
         }
-        // console.log(info)
         // var obj = document.querySelector("#travelCRDrop").files;
-        // console.log("obj doc is ====>", newDoc)
         for (var i = 0; i < newDoc.length; i++) {
             var imagedata = newDoc[i];
 
@@ -417,7 +415,6 @@ export default class TravelRequestParent extends Component {
     }
 
     render() {
-        console.log("In parent is",this.state.data)
         return (
             <div className="white-bg">
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />

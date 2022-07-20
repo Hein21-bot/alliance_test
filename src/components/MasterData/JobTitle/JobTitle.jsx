@@ -110,7 +110,6 @@ export default class JobTitle extends Component {
 
     render() {
         const { department_type_option, desiglnation_options } = this.state;
-        // console.log('datasource >> ', this.state.datasource)
         return (
             <div className='benefit-setup border-bottom white-bg dashboard-header'>
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />

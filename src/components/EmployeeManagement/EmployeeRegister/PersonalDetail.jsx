@@ -10,7 +10,6 @@ const PersonalDetail = props => {
     const { viewForm, editForm } = props
     const { fatherName, handlePersonalDetailInputChange, handlePreviousClick, handlePersonalDetail, onStatusChange, martialStatus, motherName, parentCount, siblingCount, childCount, pInLawCount } = props
 
-    console.log("martial status is ===>", martialStatus == 'UnMarried')
     //    const onStatusChange = e =>{
     //        alert(e.target.value)
     //    }

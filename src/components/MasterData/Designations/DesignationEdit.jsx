@@ -80,11 +80,9 @@ class DesignationEdit extends Component {
         }
     }
     render() {
-        // console.log("data is ====>", this.state.data)
         const { department_type_option, level_options } = this.props;
         const { data } = this.state;
         const selectedDepartmentType = (department_type_option.find(v => v.value == data.departments_id));
-        console.log("level option and data", level_options, data.career_level_id)
         const selectedAllowLevel = level_options.find(v => Number(v.career_level_id) === Number(data.career_level_id));
         return (
             <div className="container">

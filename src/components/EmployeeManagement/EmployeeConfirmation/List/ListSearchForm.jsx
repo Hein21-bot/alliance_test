@@ -8,7 +8,6 @@ import moment from 'moment';
 const ListSearchForm = props => {
 
     const { selected_title, titleList, handleDropDown, handleSearch, level_options, sub_level_options, handleLevelSelectorChange, career_level, career_sub_level, selected_branch, handleSelectedRegion, handleSelectedBranch, handleSelectedDeaprtment, selected_department, selected_region, regionList, branchlist, departmentlist, onChange, confirmationMonth, date, dropDownOpen, selected_designation, designationList, handleSelectedDesignation, handleConfirmationListInputChange, handleSelectedLevel, handleSelectedSubLevel, handleSelectedTitle } = props
-    console.log(date)
     return (
 
         <div style={{ padding: 10, display: 'flex', flexWrap: 'wrap' }}>

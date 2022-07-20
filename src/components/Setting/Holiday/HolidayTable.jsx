@@ -115,14 +115,12 @@ export default class HolidayTable extends Component {
         });
 
         $("#dataTables").on('click', '#Edit', function () {
-            console.log('click')
             var data = $(this).find("#edit").text();
             data = $.parseJSON(data);
             self.props.goToEditForm(data);
 
         });
         $("#dataTables").on('click', '#View', function () {
-            console.log('click')
             var data = $(this).find("#view").text();
             data = $.parseJSON(data);
             self.props.goToViewForm(data);

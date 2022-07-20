@@ -87,19 +87,16 @@ export default class TravelAdvancedClaimEdit extends Component {
         $('#claim-table').on('change', '#meal', function () {
             var index = $(this).next().text();
             var value = $(this).val();
-            // console.log(value, index);
             that.handleChangeMeal(index, value);
         })
         $('#claim-table').on('change', '#lodging', function () {
             var index = $(this).next().text();
             var value = $(this).val();
-            // console.log(value, index);
             that.handleChangelodging(index, value);
         })
         $('#claim-table').on('change', '#transport', function () {
             var index = $(this).next().text();
             var value = $(this).val();
-            // console.log(value, index);
             that.handleChangeTransport(index, value);
         })
 
@@ -236,7 +233,6 @@ export default class TravelAdvancedClaimEdit extends Component {
     }
 
     handleChangeMeal(index, value) {
-        // console.log(index, value)
         var array = this.state.claimDetailData;
         var claimData = this.state.claimData;
         var advanced_amount = this.state.advancedData[0].advanced_amount;
@@ -245,7 +241,6 @@ export default class TravelAdvancedClaimEdit extends Component {
         data.meals = value
 
         data.amount = Number(data.meals) + Number(data.transport) + Number(data.lodging)
-        // console.log(data.amount)
         array[index] = data
         for (var i = 0; i < array.length; i++) {
             totalAmount += Number(array[i].amount);
@@ -545,7 +540,6 @@ export default class TravelAdvancedClaimEdit extends Component {
 
             const index = i
             var data = this.state.claimDetailData[i];
-            console.log("travel detail id is", data.travel_detail_id)
             claimDetail.push(
                 {
                     actualDate: moment(data.actual_date).format("DD/MM/YYYY"),

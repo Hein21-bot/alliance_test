@@ -58,7 +58,6 @@ export default class TravelAdvanceClaimView extends Component {
         }
         var l = []
         for (var i = 0; i < data.length; i++) {
-            console.log("data i in advance claim is", data[i])
             const obj = {
                 actualDate: moment(data[i].actual_date).format('DD-MM-YYYY'),
                 startLoc: data[i].start_location,

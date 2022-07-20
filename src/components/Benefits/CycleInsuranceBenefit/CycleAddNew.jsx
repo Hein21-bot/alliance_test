@@ -298,8 +298,6 @@ class CycleAddNew extends Component {
 
 
     render() {
-        console.log('withdraw_location', this.state.withdraw_location)
-        // console.log("REq DATe ", !Array.isArray(this.state.one_benefit))
         return (
             <div className="benefits benefit-medical">
                 <div className='row'>

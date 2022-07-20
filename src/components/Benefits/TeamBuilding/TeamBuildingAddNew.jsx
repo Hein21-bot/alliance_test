@@ -87,8 +87,6 @@ class TeamBuildingAddNew extends Component {
         fetch(`${main_url}main/getEmployeeWithDesignation/0`)
             .then(res => res.json())
             .then(data => {
-                console.log("data is ===>", data)
-                // console.log(data[1].employment_id,'...')
                 // const all = data.map(v => (v.employment_id).trim())
                 this.setState({
                     employeeList: data.map(v => ({ ...v, label: v.employment_id, value: v.value, designation: v.designation, name: v.label })),
@@ -111,7 +109,6 @@ class TeamBuildingAddNew extends Component {
                 this.setState({
                     employee_list: list
                 })
-                // console.log("emp list is", this.state.employee_list)
             })
     }
 
@@ -205,7 +202,6 @@ class TeamBuildingAddNew extends Component {
     };
 
     addEmployeeInList() {
-        // console.log("add employee", this.state.selectedEmployee.value)
         let employee_id = this.state.selectedEmployee.value
         fetch(`${main_url}team_building/getEmployee`, {
             method: "POST",
@@ -232,7 +228,6 @@ class TeamBuildingAddNew extends Component {
             })
     }
     removeEmployeeInList() {
-        // console.log("remove employee", this.state.employee_id)
         let employee_id = this.state.selectedEmployee.value
         fetch(`${main_url}team_building/getEmployee`, {
             method: "POST",
@@ -311,7 +306,6 @@ class TeamBuildingAddNew extends Component {
                 path = `saveTeamBuilding`;
             }
 
-            console.log("data is", JSON.stringify(data))
 
             fetch(`${main_url}team_building/${path}`, {
                 method: "POST",
@@ -319,7 +313,6 @@ class TeamBuildingAddNew extends Component {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body: `benefit=${JSON.stringify(data)}`
-                // body: `${console.log("form data",JSON.stringify(data))}`
 
             })
                 .then(res => {
@@ -336,7 +329,6 @@ class TeamBuildingAddNew extends Component {
     }
 
     render() {
-        console.log("selected employee is ===>", this.state.selectedEmployee)
         this.total_amount = 0;
         return (
             <div className="container">

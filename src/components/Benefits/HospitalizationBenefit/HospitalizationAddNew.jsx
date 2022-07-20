@@ -115,7 +115,6 @@ class HospitalizationAddNew extends Component {
 
             var work_flow = await getWorkFlowStatus(one.employee_id, this.state.user_id, 'Hospitalization Benefit', 'Benefit');
             this.getDocument();
-            // console.log("res.jsoin is ", work_flow)
             this.setState({
                 work_flow_status: work_flow,
                 employee_name: one.fullname,
@@ -398,7 +397,6 @@ class HospitalizationAddNew extends Component {
 
 
     render() {
-        console.log("this.state.status is ===>", this.state.selected_hospital_type)
         return (
             <div className="benefits benefit-medical">
                 <div className='row'>

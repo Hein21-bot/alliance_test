@@ -161,7 +161,6 @@ export default class StaffComplainTable extends Component {
     };
     search() {
         let data = this.state.dataSource;
-        console.log(data)
         let s_date = moment(this.state.s_date).format('YYYY-MM-DD');
         let e_date = moment(this.state.e_date).format('YYYY-MM-DD');
         data = data.filter(d => { return d.case_date >= s_date && d.case_date <= e_date })

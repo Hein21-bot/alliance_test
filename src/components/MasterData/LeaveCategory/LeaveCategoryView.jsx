@@ -10,7 +10,6 @@ class LeaveCategoryView extends Component {
     }
     render() {
         const { data } = this.state;
-        console.log("data is =============>", data)
         return (
             <div className="container">
                 <div className='row'>

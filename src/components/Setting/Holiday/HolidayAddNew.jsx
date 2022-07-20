@@ -43,7 +43,6 @@ export default class HolidayAddNew extends Component {
         }
         const validateErr = HolidayValidation(data);
         this.setState({ validateErr })
-        // console.log("data for start and end date ====>", data)
         if (Object.keys(validateErr).length === 0) {
             fetch(`${main_url}holidaySetup/addHoliday`, {
                 method: "POST",

@@ -12,9 +12,7 @@ class TaxReliefView extends Component {
     render() {
         const { allowance_reason_option } = this.props
         const { data } = this.state;
-        // console.log("data is ===>", data.allowance_reason_id)
         const selectedAllowanceReason = allowance_reason_option.find(v => v.value == Number(data.allowance_reason_id));
-        console.log("selected allowance", selectedAllowanceReason)
         return (
             <div className="container">
                 <div className='row'>

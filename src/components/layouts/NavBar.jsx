@@ -138,7 +138,6 @@ class NavBar extends Component {
         }, 3000);
 
         // const query = queryString.parse(window.location.search)
-        //console.log(window.location.search)
         // if (window.location.pathname !== '/notification') {
 
     }

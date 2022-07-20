@@ -30,7 +30,6 @@ class SalaryAdvanceMain extends Component {
     }
 
     setupForm = () => {
-        // console.log("add new")
         this.setState({
             isAddNew: true,
             isTable: false,

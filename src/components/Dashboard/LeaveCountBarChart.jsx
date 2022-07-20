@@ -125,7 +125,6 @@ class LeaveCounrBarChart extends Component {
     }
 
     render() {
-        console.log('data is ===>', this.state.data.branchId, this.state.data.departmentId)
         return (
             <div
                 className='text-center margin-y'

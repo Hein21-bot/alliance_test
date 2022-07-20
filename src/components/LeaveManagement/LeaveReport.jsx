@@ -146,7 +146,6 @@ export default class LeaveReport extends Component {
             let all = this.state.all;
             let report = this.state.report;
             let pagination = this.state.pagination + length
-            // console.log("pagination111 is", pagination)
             fetch(`${main_url}leave/getLeaveReport/${year}/${pagination}/${this.state.selected_location_value}/${this.state.selected_department_value}/${this.state.selected_region_value}/${this.state.selected_user_value}`)
                 .then(res => res.json())
                 .then(data => {

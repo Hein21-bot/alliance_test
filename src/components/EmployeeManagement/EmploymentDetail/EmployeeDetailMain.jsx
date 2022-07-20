@@ -92,7 +92,7 @@ class EmployeeDetailMain extends Component {
             sub_level_options
         })
 
-        if(this.props.data){
+        if (this.props.data) {
             this.goToViewForm(this.props.data)
         }
 
@@ -111,7 +111,7 @@ class EmployeeDetailMain extends Component {
     getExitStatus() {
         fetch(`${main_url}employee/getExitStatus`)
             .then(res => { if (res.ok) return res.json() })
-            .then(list => { //console.log("Designation",list)
+            .then(list => { 
                 this.setState({
                     exitStatusList: list.map(v => ({ ...v, label: v.status, value: v.id }))
                 })
@@ -131,7 +131,7 @@ class EmployeeDetailMain extends Component {
     getJobList() {
         fetch(`${main_url}employee/getJobTitle`)
             .then(res => { if (res.ok) return res.json() })
-            .then(list => { //console.log("Designation",list)
+            .then(list => { 
                 this.setState({
                     jobList: list.map(v => ({ ...v, label: v.job_title, value: v.id }))
                 })
@@ -170,7 +170,7 @@ class EmployeeDetailMain extends Component {
     getDesignationList() {
         fetch(`${main_url}main/getDesignations`)
             .then(res => { if (res.ok) return res.json() })
-            .then(list => { //console.log("Designation",list)
+            .then(list => { 
                 this.setState({
                     designationList: list//list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
                 })
@@ -225,6 +225,29 @@ class EmployeeDetailMain extends Component {
                         selected_job: this.state.jobList.find(v => v.id === parseInt(data[0].job_title)),
                         career_level: this.state.level_options.find(v => parseInt(v.career_level_id) === parseInt(data[0].career_level_id)),
                         career_sub_level: this.state.sub_level_options.find(v => v.career_sub_level_id === data[0].career_sub_level_id)
+                    })
+                } else {
+                    this.setState({
+                        selectedEmploymentData: null,
+                        edit: false,
+                        addNew: true,
+                        date: moment(new Date()).format('YYYY-MM-DD'),
+                        employeeName: null,
+                        selected_designation: null,//
+                        selected_branch: null,
+                        selected_department: null,
+                        selected_status: null,
+                        selected_exit_status: null,
+                        employedDate: null,
+                        effectiveDate: null,
+                        actualDate: null,
+                        discontinute_date: null,
+                        selected_disCon_status: null,
+                        salary: null,
+                        resignReason: null,
+                        selected_job: null,
+                        career_level: null,
+                        career_sub_level: null,
                     })
                 }
             })
@@ -534,7 +557,6 @@ class EmployeeDetailMain extends Component {
     render() {
         const { addNew, level_options, sub_level_options, employeeName, jobList, selected_job, statusList, exitStatusList, selected_exit_status, selected_status, employeeIdList, employedDate, disconDate, resignReason, selectedEmployeeId, effectiveDate, actualDate, salary,
             designationList, selected_designation, employmentDataForSingleUser, branchlist, selected_branch, disConStatusList, selected_disCon_status, departmentlist, selected_department, edit, career_level, career_sub_level } = this.state
-        // console.log("employee data is ===>", this.state.departmentlist, this.state.designationList)
         return (
             <div className=" border-bottom white-bg dashboard-header">
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />

@@ -127,7 +127,6 @@ class EditEmployeeListForm extends Component {
                 if (response.ok) return response.json()
             })
             .then(res => {
-                console.log("res is ===>", res[0])
                 if (res) {
                     this.setState({
                         userImage: res[0].avatar,
@@ -651,7 +650,6 @@ class EditEmployeeListForm extends Component {
     }
 
     handleEditBankData = data => {
-        console.log('data is ===>', data, this.props.bankList)
         this.setState({
             accountName: data.account_name.toUpperCase(),
             accountNumber: data.account_no,
@@ -732,7 +730,6 @@ class EditEmployeeListForm extends Component {
                 id: selected_degree.id,
                 name: selected_degree.degree
             }
-            console.log("added degree data is ===>", addedDegreeData, selected_degree)
             if (editMode[0] == 'degree') {
                 const newObj = [...addedDegreeData]
                 newObj.splice(editMode[1], 1, deg)
@@ -787,7 +784,6 @@ class EditEmployeeListForm extends Component {
                     id: addedQualitificationData.length + 1,
                     name: selected_qualification
                 }
-                console.log('data is ===>', data)
                 this.setState({
                     addedQualitificationData: addedQualitificationData.concat(data),
                     selected_qualification: ''
@@ -1007,7 +1003,6 @@ class EditEmployeeListForm extends Component {
             employeeId, employeeNameEng, nationality, personalPhone, employeeNameMyan, gender, addedDegreeData, addedQualitificationData, workExpData, fromMonthYear, toMonthYear, location, dateOfBirth, contactPerson, contactPhone, bankData, bankDataEdit, selected_DistrictCode, selected_NRC_Id,
         } = this.state
         const { selectedEmployeeData, level_options, editForm, BackToTable, viewForm, bankList, degreeList, nrcList, districtCodeList, designationList, branchlist, granDistrictCodeList } = this.props
-        console.log('addedDegreeData...', addedQualitificationData)
         return (
             <div className=" border-bottom white-bg dashboard-header">
                 <div className='tabBar col-lg-12 col-md-12 col-sm-12 ' style={{ display: 'flex', paddingLeft: 0, paddingRight: 0, flexDirection: 'row', paddingTop: 20, fontSize: 13, minWidth: 300, overflowX: 'auto', alignItems: 'center' }}>
@@ -1155,6 +1150,7 @@ class EditEmployeeListForm extends Component {
                                             handleBankAccountDetails={this.handleBankAccountDetails}
                                             cancelEdit={this.cancelEdit}
                                             handlePreviousClick={this.handlePreviousClick}
+                                            employeeNameEng={employeeNameEng}
 
                                         /> : tabIndex === 6 ?
                                             <OtherInfo

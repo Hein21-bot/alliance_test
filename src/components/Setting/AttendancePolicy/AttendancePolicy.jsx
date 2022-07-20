@@ -35,7 +35,6 @@ class AttendancePolicy extends Component {
             attendance_policy_data,
             day_modified_date: attendance_policy_data[0].day_modified_date
         }, () => this.getCurrentData(this.state.office_time, null))
-        console.log('day_modified_date ', this.state.day_modified_date)
     }
     getCurrentData = (office_time, working_day) => {
         const data = this.state.attendance_policy_data.filter((v) =>
@@ -127,14 +126,12 @@ class AttendancePolicy extends Component {
     }
     handleSubmit = () => {
         const { current_data, office_time, working_days } = this.state;
-        // console.log(' >>>>> ', current_data, working_days)
         const validateErr = AttendancePolicyValidation(current_data, working_days);
         this.setState({ validateErr });
 
         let status = 0;
 
         if (Object.keys(validateErr).length === 0) {
-            // console.log(' >> ', this.state.current_data, this.state.office_time)
             const days = [
                 { day_name: 'Sunday', day_id: 1 }, { day_name: 'Monday', day_id: 2 },
                 { day_name: 'Tuesday', day_id: 3 }, { day_name: 'Wednesday', day_id: 4 },
