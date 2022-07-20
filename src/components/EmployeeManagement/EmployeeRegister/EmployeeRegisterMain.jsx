@@ -728,8 +728,8 @@ class EmployeeRegisterMain extends Component {
             workExpChecked: !this.state.workExpChecked
         })
     }
-    handleSameWithCtPersonChange = () => {
-        this.setState({
+    handleSameWithCtPersonChange = () => {console.log(this.state.contactPerson)
+         this.setState({
             sameWithCtPerson: !this.state.sameWithCtPerson
         }, () => {
             if (this.state.sameWithCtPerson) {
@@ -738,7 +738,7 @@ class EmployeeRegisterMain extends Component {
                     guarantorPhone: this.state.contactPhone
                 })
             }
-        })
+        })   
     }
 
     handleEditBankData = data => {

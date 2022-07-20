@@ -728,6 +728,18 @@ class EditEmployeeListForm extends Component {
         })
 
     }
+    handleSameWithCtPersonChange = () => {
+        this.setState({
+           sameWithCtPerson: !this.state.sameWithCtPerson
+       }, () => {
+           if (this.state.sameWithCtPerson) {
+               this.setState({
+                   guarantor: this.state.contactPerson,
+                   guarantorPhone: this.state.contactPhone
+               })
+           }
+       })   
+   }
 
     handleAddDegreeData = () => {
         const { selected_degree, addedDegreeData, editMode } = this.state
@@ -1122,25 +1134,22 @@ class EditEmployeeListForm extends Component {
 
                                 />
                                 : tabIndex === 4 ?
-                                    <ContactDetails
-                                        editForm={editForm}
-                                        viewForm={viewForm}
-                                        contactPerson={contactPerson} contactPhone={contactPhone}
-                                        handleContactDetailInputChange={this.handleContactDetailInputChange}
-                                        onCancelClick={BackToTable}
-                                        handleContactDetails={this.handleContactDetails}
-                                        checked={sameWithCtPerson} handleSameWithCtPersonChange={this.handleSameWithCtPersonChange}
-                                        guarantor={guarantor} guarantorPhone={guarantorPhone}
-                                        selected_gran_NRC_Id={selected_gran_NRC_Id}
-                                        selected_gran_DistrictCode={selected_gran_DistrictCode}
-                                        gran_nrc_number={gran_nrc_number}
-                                        guaFullNRC={guaFullNRC}
-                                        districtCodeList={granDistrictCodeList}
-                                        nrcList={selected_gran_NRC_Id ? nrcList.filter(c => c.sd_code == selected_gran_NRC_Id.sd_code) : nrcList}
-                                        handleNRC_Id={this.handleNRC_Id}
-                                        handleGranDistrictCode={this.handleGranDistrictCode}
-                                        handlePreviousClick={this.handlePreviousClick}
-                                    />
+                                <ContactDetails
+                                contactPerson={contactPerson} contactPhone={contactPhone}
+                                handleContactDetailInputChange={this.handleContactDetailInputChange}
+                                onCancelClick={this.clearProfileData}
+                                handleContactDetails={this.handleContactDetails}
+                                checked={sameWithCtPerson} handleSameWithCtPersonChange={this.handleSameWithCtPersonChange}
+                                guarantor={guarantor} guarantorPhone={guarantorPhone}
+                                selected_gran_NRC_Id={selected_gran_NRC_Id}
+                                selected_gran_DistrictCode={selected_gran_DistrictCode}
+                                gran_nrc_number={gran_nrc_number}
+                                districtCodeList={granDistrictCodeList}
+                                nrcList={nrcList}
+                                handleNRC_Id={this.handleNRC_Id}
+                                handleGranDistrictCode={this.handleGranDistrictCode}
+                                handlePreviousClick={this.handlePreviousClick}
+                            />
                                     : tabIndex === 5 ?
                                         <BankAccountDetails
                                             editForm={editForm}
