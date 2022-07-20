@@ -13,6 +13,7 @@ class ThingsTodoTable extends Component {
       <div
         className="col-md-12"
         style={{
+          height: 645,
           background: "#fff",
           color: "#222",
           boxShadow: "3px 3px 3px #e5e5e5",
@@ -31,7 +32,7 @@ class ThingsTodoTable extends Component {
         </div>
         <div
           className="col-md-12"
-          style={{ maxHeight: 400, overflowY: "scroll" }}
+          style={{ maxHeight: 600, overflowY: "scroll"}}
         >
           {dummy_data.map((v, k) => (
             <>
@@ -41,7 +42,7 @@ class ThingsTodoTable extends Component {
                 style={{
                   // boxShadow: "1px 1px 3px 1px #e6e6e6",
                   // borderRadius: 4,
-                  margin: "5px 0px",
+                  margin: "12px 0px",
                   // padding: "0px",
                   display: "flex",
                   alignItems: "center",
