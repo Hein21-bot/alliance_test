@@ -6,14 +6,8 @@ import "datatables.net-buttons-dt/css/buttons.dataTables.css";
 import "jspdf-autotable";
 import moment from "moment";
 import * as jsPDF from "jspdf";
-import {
-  main_url,
-  getUserId,
-  getMainRole,
-  getInformation,
-  print,
-  fno,
-} from "../../../../utils/CommonFunction";
+import { ToastContainer, toast } from 'react-toastify';
+import { main_url, getUserId, getMainRole, getInformation, print, fno, } from "../../../../utils/CommonFunction";
 const $ = require("jquery");
 const jzip = require("jzip");
 window.JSZip = jzip;
@@ -50,6 +44,37 @@ export default class ConfirmationRequestListTable extends Component {
       data = $.parseJSON(data);
       that.props.goToViewForm(data);
     });
+
+    $("#dataTables-table").on('click', '#toEdit', function () {
+
+      var data = $(this).find("#edit").text();
+      data = $.parseJSON(data);
+      that.update(data)
+    });
+  }
+
+  async update(data) {
+    let status = 0;
+    fetch(`${main_url}confirmation/updateConfirmForEmployment/${data.user_id}`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: `employee=${JSON.stringify(data)}`
+    })
+      .then(res => {
+        status = res.status;
+        return res.text()
+      })
+      .then(text => {
+        if (status === 200) {
+          toast.success(text);
+          // window.location.reload();
+        }
+        else toast.error(text);
+        // window.location.replace("/employment_details");
+
+      })
   }
 
   componentDidUpdate(prevProps) {
@@ -131,6 +156,8 @@ export default class ConfirmationRequestListTable extends Component {
               JSON.stringify(result) +
               '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>'
               : "";
+          obj.action += permission.isEdit === 1 && this.props.pathname == '/confirmation_approve_list'
+            ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Update</button>' : '';
         }
 
         l.push(obj);

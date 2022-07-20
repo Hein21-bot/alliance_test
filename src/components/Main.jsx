@@ -164,8 +164,9 @@ const Main = () => (
         <Route path="/confirmation_check" component={ConfirmationCheck}></Route>
         <Route path="/confirmation_list" component={ConfirmationList}></Route>
         <Route path="/confirmation_request_list" component={ConfirmationRequestList}></Route>
+        <Route path="/confirmation_approve_list" component={ConfirmationRequestList}></Route>
 
-        
+
 
         <Route path='/dashboard' component={Dashboard} />
         <Redirect to="/dashboard" />
