@@ -8,9 +8,9 @@ class EmployeePieChart extends Component {
     super(props);
     this.state = {
       chartOptions: {},
-      piename:['user','admin','guest'],
-      piedata:[20,60,30],
-      pielength:3
+      // piename:['user','admin','guest'],
+      // piedata:[20,60,30],
+      // pielength:3
     };
   }
 
@@ -60,15 +60,19 @@ class EmployeePieChart extends Component {
 
       series: [
         {
-          // data: [
-          //   {
-          //     name: "male",
-          //     y: this.state.piedata,
-          //     drilldown: this.state.name,
-          //   },
+          data: [
+            {
+              name: "Male",
+              y: 60.29,
+              drilldown: "Male",
+            },{
+              name:"Female",
+              y:10.29,
+              drilldown:'Female'
+            }
 
            
-          // ],
+          ],
           
         },
       ],

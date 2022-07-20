@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { getCookieData } from "../../utils/CommonFunction";
 
 export default class Sidebar extends Component {
@@ -13,6 +13,7 @@ export default class Sidebar extends Component {
 
   checkPathName() {
     const { pathname } = this.state;
+    console.log("path name==>",this.state.pathname)
     if (pathname.includes("master_data")) {
       return "/master_data";
     }
@@ -112,7 +113,9 @@ export default class Sidebar extends Component {
                     height={"50px"}
                   />
                 </div>
+                
               </li>
+                 
                   <li
                     className={
                       this.checkPathName() === "/allowance" ? "active" : ""
@@ -122,7 +125,7 @@ export default class Sidebar extends Component {
                       <i className="fas fa-hand-holding-usd sideIcon"></i>
                       <span className="sideText">Allowance</span>
                     </a>
-                    <ul className="nav nav-second-level">
+                    <ul className={this.checkPathName()=="/dashboard"?"nav nav-second-level collapse in":"nav nav-second-level collapse"}>
                       <li className={pathname === "/travelRequest" ? "active" : ""}>
                         <a href="/travelRequest">Travel Request</a>
                       </li>
@@ -171,33 +174,34 @@ export default class Sidebar extends Component {
                       this.checkPathName() === "/staff_loan" ? "active" : ""
                     }
                   >
-                    <a href="" className="sideList">
-                      <i className="fas fa-landmark sideIcon"></i>
+                    
+                    <NavLink to="" className="sideList">
+                    <i className="fas fa-landmark sideIcon"></i>
                       <span className="sideText">Staff Loan</span>
-                    </a>
-                    <ul className="nav nav-second-level">
+                    </NavLink>
+                    <ul className={this.checkPathName()=="/dashboard"?"nav nav-second-level collapse in":"nav nav-second-level collapse"}>
                       <li className={pathname === "/staff_loan" ? "active" : ""}>
-                        <a href="/staff_loan">
+                        <NavLink to="/staff_loan">
                           <i className="fas fa-clipboard-list"></i>Staff Loan List
-                        </a>
+                        </NavLink>
                       </li>
                       <li
                         className={
                           pathname === "/staff_loan_repayment" ? "active" : ""
                         }
                       >
-                        <a href="/staff_loan_repayment">
+                        <NavLink to="/staff_loan_repayment">
                           <i className="fa fa-credit-card"></i>Repayment Schedule
-                        </a>
+                        </NavLink>
                       </li>
                       <li
                         className={
                           pathname === "/staff_loan_settlement" ? "active" : ""
                         }
                       >
-                        <a href="/staff_loan_settlement">
+                        <NavLink to="/staff_loan_settlement">
                           <i className="fa fa-calendar"></i>Settlement Sheet
-                        </a>
+                        </NavLink>
                       </li>
                     </ul>
                   </li>
@@ -209,6 +213,15 @@ export default class Sidebar extends Component {
                       </a>
                     </li>
                   }
+                  {
+                    <li className={pathname.includes("dashboard") ? "active" : ""}>
+                      <NavLink to="/dashboard" activeClassName="active" className="sideList">
+                      <i className="fas fa-atlas sideIcon"></i>
+                        <span className="sideText">Dashboard</span>
+                      </NavLink>
+                    </li>
+                  }
+                  
                   {/* <li className={pathname === '/AnnouncementList' ? 'active' : ''}>
                                     <a href="/AnnouncemetLisr" refresh="true"><i className="fa fa-bell"></i>Announcement List</a>
                                 </li> */}
@@ -219,7 +232,7 @@ export default class Sidebar extends Component {
                       <i className="fas fa-plus-circle sideIcon"></i>
                       <span className="sideText">Benefits</span>
                     </a>
-                    <ul className="nav nav-second-level">
+                    <ul className={this.checkPathName()=="/dashboard"?"nav nav-second-level collapse in":"nav nav-second-level collapse"}>
                       <li
                         className={pathname === "/wedding_benefit" ? "active" : ""}
                       >
@@ -289,7 +302,7 @@ export default class Sidebar extends Component {
                       <i className="fas fa-user-cog"></i>
                       <span className="sideText">Employee Management</span>
                     </a>
-                    <ul className="nav nav-second-level">
+                    <ul className={this.checkPathName()=="/dashboard"?"nav nav-second-level collapse in":"nav nav-second-level collapse"}>
                       <li className={pathname === "/employee_list" ? "active" : ""}>
                         <a href="/employee_list">Employee Lists</a>
                       </li>
@@ -401,7 +414,7 @@ export default class Sidebar extends Component {
                       <i className="fas fa-cog sideIcon"></i>
                       <span className="sideText">Setting</span>
                     </a>
-                    <ul className="nav nav-second-level">
+                    <ul className={this.checkPathName()=="/dashboard"?"nav nav-second-level collapse in":"nav nav-second-level collapse"}>
                       <li
                         className={
                           pathname === "/attendance_policy_setting" ? "active" : ""
@@ -456,7 +469,7 @@ export default class Sidebar extends Component {
                       <i className="fa fa-key sideIcon"></i>
                       <span className="sideText">Master Data</span>
                     </a>
-                    <ul className="nav nav-second-level">
+                    <ul className={this.checkPathName()=="/dashboard"?"nav nav-second-level collapse in":"nav nav-second-level collapse"}>
                       <li
                         className={
                           pathname === "/career_level_master_data" ? "active" : ""

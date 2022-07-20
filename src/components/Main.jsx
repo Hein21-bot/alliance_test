@@ -167,7 +167,7 @@ const Main = () => (
 
         
 
-        <Route path='/dashboard' component={Dashboard} />
+        <Route path='/dashboard'  component={Dashboard} ></Route>
         <Redirect to="/dashboard" />
 
     </Switch>

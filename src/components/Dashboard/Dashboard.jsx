@@ -9,6 +9,8 @@ import Profile from "./Profile";
 import ThingsTodoTable from "./ThingsTodoTable";
 import BenefitBarChart from "./BenefitBarChart";
 import ExpenseBarChart from "./ExpenseBarChart";
+import HelpDesk from "./HelpDesk";
+import HelpDeskLineChart from "./HelpDeskLineChart";
 
 const primary = "#1872ab";
 
@@ -76,7 +78,7 @@ export class Dashboard extends Component {
           >
            Compansation and Benefit
           </button>
-          <button style={styles.tapButtonStyle}>Help Desk</button>
+          <button style={styles.tapButtonStyle} onClick={()=>this.tapButtonClick('helpdesk')}>Help Desk</button>
           <button style={styles.tapButtonStyle}>Resign</button>
         </div>
         <Profile />
@@ -114,6 +116,15 @@ export class Dashboard extends Component {
             <div className="col-md-8">
               <ExpenseBarChart></ExpenseBarChart>
             </div>
+          </div>
+        ): this.state.tapButtonTitle == "helpdesk" ? (
+          <div className="row mt-3">
+            <div className="col-md-6">
+              <HelpDesk></HelpDesk>
+            </div>
+            <div className="col-md-6">
+              <HelpDeskLineChart></HelpDeskLineChart>
+              </div> 
           </div>
         ) : this.state.tapButtonTitle == "leaveChart" ? (
           <div
