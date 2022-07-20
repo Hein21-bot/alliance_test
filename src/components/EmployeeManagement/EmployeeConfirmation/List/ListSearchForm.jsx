@@ -176,7 +176,7 @@ const ListSearchForm = props => {
 
             </div>
             <div className='col-lg-4 mx-2' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginTop: 20 }}>
-                <button onClick={handleSearch} className='btn btn-primary' style={{ borderRadius: 10, width: 120 }}>Search</button>
+                <button onClick={handleSearch} className='btn btn-primary' style={{ borderRadius: 3, width: 80 }}>Search</button>
 
             </div>
 

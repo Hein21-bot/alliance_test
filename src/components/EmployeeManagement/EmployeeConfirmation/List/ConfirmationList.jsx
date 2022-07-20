@@ -508,11 +508,10 @@ class ConfirmationList extends Component {
           <>
             <div className="row wrapper white-bg page-heading">
               <div className="col-lg-12">
-                <h2>HR Management System</h2>
                 <ol className="breadcrumb">
-                  <li>Employee</li>
-                  <li>Confirmation</li>
-                  <li>List</li>
+                  <li style={{fontSize: 18}}>Employee</li>
+                  <li style={{fontSize: 18}}>Confirmation</li>
+                  <li style={{fontSize: 18}}>List</li>
                 </ol>
               </div>
             </div>
@@ -565,19 +564,19 @@ class ConfirmationList extends Component {
                 {this.state.visible == false ? (
                   <div
                     className="col-lg-6 col-md-6 col-sm-12"
-                    style={{ display: "flex", justifyContent: "space-between" }}
+                    style={{ display: "flex" }}
                   >
                     <button
                       onClick={() => this.handleVisible('request')}
                       className="btn btn-primary"
-                      style={{ borderRadius: 10, width: 150 }}
+                      style={{ borderRadius: 3, width: 80, marginRight: 15 }}
                     >
                       Request
                     </button>
                     <button
                       onClick={() => this.handleVisible('extension')}
                       className="btn btn-danger"
-                      style={{ borderRadius: 10, width: 150 }}
+                      style={{ borderRadius: 3, width: 90 }}
                     >
                       Extension
                     </button>

@@ -420,15 +420,14 @@ class ConfirmationCheck extends Component {
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />
                 <div className="row wrapper border-bottom white-bg page-heading">
                     <div className="col-lg-12">
-                        <h2>HR Management System</h2>
                         <ol className="breadcrumb">
-                            <li>
+                            <li style={{fontSize: 18}}>
                                 Employee
                             </li>
-                            <li>
+                            <li style={{fontSize: 18}}>
                                 Confirmation
                             </li>
-                            <li>
+                            <li style={{fontSize: 18}}>
                                 Check
                             </li>
 
@@ -516,11 +515,11 @@ class ConfirmationCheck extends Component {
 
                                     <div style={{ display: 'flex', paddingTop: 10, justifyContent: 'flex-start', }}>
 
-                                        {verify_person == this.state.user_id ? <button className='' onClick={() => this.handleConfirmRequest()} style={{ borderRadius: 5, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 130 }} >
+                                        {verify_person == this.state.user_id ? <button className='' onClick={() => this.handleConfirmRequest()} style={{ borderRadius: 3, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 80 }} >
                                             Confirm
-                                        </button> : this.state.user_id == 17 ? <button className='' onClick={() => this.handleVerifyRequest()} style={{ borderRadius: 5, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 130 }}>
+                                        </button> : this.state.user_id == 17 ? <button className='' onClick={() => this.handleVerifyRequest()} style={{ borderRadius: 3, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 80 }}>
                                             Verify
-                                        </button> : this.state.user_id == 921 ? <button className='' onClick={() => this.handleApproveRequest()} style={{ borderRadius: 5, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 130 }}>
+                                        </button> : this.state.user_id == 921 ? <button className='' onClick={() => this.handleApproveRequest()} style={{ borderRadius: 3, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 80 }}>
                                             Approve
                                         </button> : ''}
                                     </div>

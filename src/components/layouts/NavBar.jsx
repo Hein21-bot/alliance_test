@@ -224,7 +224,12 @@ class NavBar extends Component {
                     <nav className="navbar navbar-static-top" role="navigation" >
                         <div className="navbar-header">
                             <a href="#" className="navbar-minimalize minimalize-styl-2 btn btn-primary" ><i className="fa fa-bars"></i> </a>
+                            
                         </div>
+                        <div className='nav  navbar-left'>
+                        <h2 className='font-bold' >HR Management System</h2>
+                        </div>
+                        
                         <div className=''>
                        
                             <ul className="nav navbar-top-links navbar-right" style={{
