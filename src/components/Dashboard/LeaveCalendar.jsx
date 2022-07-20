@@ -148,7 +148,7 @@ export default class LeaveCalendar extends Component {
                         renderDayContents={this.renderDayContents}
                         inline
                         calendarClassName="custom-datePicker"
-                        style={{ width: '50%' }}ssssssss
+                        style={{ width: '50%' }}
                         calendarContainer={MyContainer}
                         formatWeekDay={nameOfDay => nameOfDay.substr(0,3)}
                         
