@@ -232,7 +232,7 @@ const EmploymentForm = props => {
                                 Discontinuous Date
                             </div>
                             <div className='col-lg-7  col-md-5'>
-                                <input type='date' placeholder='' name="disconDate" value={disconDate} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
+                                <input type='date' placeholder='' name="disconDate" value={moment(disconDate).format('YYYY-MM-DD')} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
                             </div>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>

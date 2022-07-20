@@ -8851,8 +8851,15 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child::
   color: white !important;
 }
 .react-datepicker__header{
-  background-color: #1872ab !important;
+  background-color: #21e6c1 !important;
 }
+/* .react-datepicker__navigation-icon{
+  color: white !important;
+  background-color: whie !important;
+}
+.react-datepicker__navigation-icon--previous{
+  color: white !important;
+} */
 .react-datepicker {
   font-family: "Helvetica Neue", helvetica, arial, sans-serif;
   font-size: 0.8rem;
@@ -8879,7 +8886,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child::
 }
 
 .custom-datePicker .react-datepicker__day-name{
-  color: #aaa !important;
+  color: white !important;
   font-size: 12px !important;
   width: 29px !important;
 }
@@ -8912,10 +8919,31 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child::
   /* margin-top: 10px; */
   
 }
+.react-datepicker__day--keyboard-selected{
+  background-color: #21e6c1 !important;
+  color: white;
+}
+
 
 .custom-datePicker .react-datepicker__navigation {
   /* display: none !important; */
   margin-top: 10px;
+ 
+}
+.react-datepicker__navigation-icon::before{
+  border-color: white !important;
+  border-style: solid;
+  border-width: 3px 3px 0 0;
+  content: "";
+  display: block;
+  height: 9px;
+  position: absolute;
+  top: 6px;
+  width: 9px;
+}
+.react-datepicker__day--selected{
+  background-color: #21e6c1 !important;
+  color: white;
 }
 
 table.dataTable thead tr {

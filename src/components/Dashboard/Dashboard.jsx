@@ -9,8 +9,13 @@ import Profile from "./Profile";
 import ThingsTodoTable from "./ThingsTodoTable";
 import BenefitBarChart from "./BenefitBarChart";
 import ExpenseBarChart from "./ExpenseBarChart";
+import HelpDesk from "./HelpDesk";
+import HelpDeskLineChart from "./HelpDeskLineChart";
+import CompensationandBenefit from "./CompensationandBenefit";
+
 import AttendenceBarChart from "./AttendenceBarChart";
 import LeaveCalendar from "./LeaveCalendar"
+import ResignBarChart from "./ResignBarChart";
 const primary = "#1872ab";
 
 export class Dashboard extends Component {
@@ -78,7 +83,7 @@ export class Dashboard extends Component {
           >
            Compansation and Benefit
           </button>
-          <button style={styles.tapButtonStyle}>Help Desk</button>
+          <button style={styles.tapButtonStyle} onClick={()=>this.tapButtonClick('helpdesk')}>Help Desk</button>
           <button style={styles.tapButtonStyle}>Resign</button>
         </div>
         <Profile />
@@ -123,6 +128,7 @@ export class Dashboard extends Component {
           <div className="row mt-3">
             <div className="col-md-8">
               <BenefitBarChart></BenefitBarChart>
+              <CompensationandBenefit></CompensationandBenefit>
             </div>
           </div>
         ) : this.state.tapButtonTitle == "expense" ? (
@@ -130,6 +136,15 @@ export class Dashboard extends Component {
             <div className="col-md-8">
               <ExpenseBarChart></ExpenseBarChart>
             </div>
+          </div>
+        ): this.state.tapButtonTitle == "helpdesk" ? (
+          <div className="row mt-3">
+            <div className="col-md-6">
+              <HelpDesk></HelpDesk>
+            </div>
+            <div className="col-md-6">
+              <HelpDeskLineChart></HelpDeskLineChart>
+              </div> 
           </div>
         ) : this.state.tapButtonTitle == "leaveChart" ? (
           <div
@@ -145,7 +160,21 @@ export class Dashboard extends Component {
               <LeaveCountBarChart />
             </div>
           </div>
-        ) : (
+        ) :  this.state.tapButtonTitle == "resign" ? (
+          <div
+            className="row mt-4"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: 15
+            }}
+          >
+            <div className="col-lg-8">
+              <ResignBarChart />
+            </div>
+          </div>
+        ):(
           <div> 
             <div className="row" style={{marginTop: 15}}>
               <div className="col-md-4">

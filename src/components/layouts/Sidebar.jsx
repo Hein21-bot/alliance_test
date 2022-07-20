@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { getCookieData } from "../../utils/CommonFunction";
 
 export default class Sidebar extends Component {
@@ -13,6 +13,7 @@ export default class Sidebar extends Component {
 
   checkPathName() {
     const { pathname } = this.state;
+    console.log("path name==>",this.state.pathname)
     if (pathname.includes("master_data")) {
       return "/master_data";
     }
@@ -110,6 +111,7 @@ export default class Sidebar extends Component {
                     height={"50px"}
                   />
                 </div>
+                
               </li>
               <li
                 className={
