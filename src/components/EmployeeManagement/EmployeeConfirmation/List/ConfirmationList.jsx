@@ -262,12 +262,12 @@ class ConfirmationList extends Component {
     const value =
       key === "career_level"
         ? level_options.find(
-            (v) => Number(v.career_level_id) === Number(val.career_level_id)
-          )
+          (v) => Number(v.career_level_id) === Number(val.career_level_id)
+        )
         : sub_level_options.find(
-            (v) =>
-              Number(v.career_sub_level_id) === Number(val.career_sub_level_id)
-          );
+          (v) =>
+            Number(v.career_sub_level_id) === Number(val.career_sub_level_id)
+        );
 
     const setState = {};
     setState[key] = value;
@@ -500,34 +500,7 @@ class ConfirmationList extends Component {
   };
 
   render() {
-    const {
-      view,
-      selected_title,
-      titleList,
-      confirmationMonth,
-      verifyPersonList,
-      selected_verifyPerson,
-      date,
-      user_info,
-      level_options,
-      sub_level_options,
-      career_level,
-      career_sub_level,
-      confirmationListData,
-      checkPersonList,
-      selected_checkPerson,
-      dropDownOpen,
-      selected_designation,
-      designationList,
-      subLevelList,
-      levelList,
-      selected_branch,
-      selected_department,
-      selected_region,
-      regionList,
-      branchlist,
-      departmentlist,
-    } = this.state;
+    const { view, selected_title, titleList, confirmationMonth, verifyPersonList, selected_verifyPerson, date, user_info, level_options, sub_level_options, career_level, career_sub_level, confirmationListData, checkPersonList, selected_checkPerson, dropDownOpen, selected_designation, designationList, subLevelList, levelList, selected_branch, selected_department, selected_region, regionList, branchlist, departmentlist, } = this.state;
     return (
       <div className=" border-bottom white-bg dashboard-header">
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -602,7 +575,7 @@ class ConfirmationList extends Component {
                       Request
                     </button>
                     <button
-                      onClick={() =>this.handleVisible('extension')}
+                      onClick={() => this.handleVisible('extension')}
                       className="btn btn-danger"
                       style={{ borderRadius: 10, width: 150 }}
                     >

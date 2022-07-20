@@ -11,6 +11,7 @@ import BenefitBarChart from "./BenefitBarChart";
 import ExpenseBarChart from "./ExpenseBarChart";
 import HelpDesk from "./HelpDesk";
 import HelpDeskLineChart from "./HelpDeskLineChart";
+import CompensationandBenefit from "./CompensationandBenefit";
 
 import AttendenceBarChart from "./AttendenceBarChart";
 import LeaveCalendar from "./LeaveCalendar"
@@ -127,6 +128,7 @@ export class Dashboard extends Component {
           <div className="row mt-3">
             <div className="col-md-8">
               <BenefitBarChart></BenefitBarChart>
+              <CompensationandBenefit></CompensationandBenefit>
             </div>
           </div>
         ) : this.state.tapButtonTitle == "expense" ? (

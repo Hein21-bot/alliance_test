@@ -7,9 +7,10 @@ export default class ConfirmationRequestList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        comfirmationRequestList: [],
-        viewForm: false,
-        selectedConfirmation: null
+      comfirmationRequestList: [],
+      viewForm: false,
+      selectedConfirmation: null,
+      pathname: window.location.pathname,
     }
   }
   async componentDidMount() {
@@ -18,46 +19,39 @@ export default class ConfirmationRequestList extends Component {
 
   getConfirmationRequestList() {
     fetch(`${main_url}confirmation/getConfirmationAllData`)
-            .then(res => { if (res.ok) return res.json() })
-            .then(list => {
-                this.setState({
-                    comfirmationRequestList: list
-                })
-            })
+      .then(res => { if (res.ok) return res.json() })
+      .then(list => {
+        this.setState({
+          comfirmationRequestList: list
+        })
+      })
   }
 
   goToViewForm = data => {
     this.setState({
-        viewForm: true,
-        selectedConfirmation: data
+      viewForm: true,
+      selectedConfirmation: data
     })
-}
-    backToList = (v) => {
-        this.setState({viewForm: v})
-    }
+  }
+  backToList = (v) => {
+    this.setState({ viewForm: v })
+  }
 
   render() {
-    // const {confirmationRequestList} = this.state;
+    let confirmData = this.state.pathname == '/confirmation_approve_list' ? this.state.comfirmationRequestList.filter(v => v.status == 4) : this.state.comfirmationRequestList
     return (
       <div className=" border-bottom white-bg dashboard-header">
         {this.state.viewForm ? (
-            <ConfirmationRequestListView item={this.state.selectedConfirmation} backToList={this.backToList} />
+          <ConfirmationRequestListView item={this.state.selectedConfirmation} backToList={this.backToList} />
         ) : (
-            <ConfirmationRequestListTable
-            //   handleCheckBoxChange={this.handleCheckBoxChange}
-              goToViewForm={this.goToViewForm}
-            //   goToEditForm={null}
-            //   selectedCheckBox={this.state.selectedCheckBox}
-              data={
-                this.state.comfirmationRequestList
-                  
-              }
-              permission={{
-                isView: 1
-            }}
-            />
+          <ConfirmationRequestListTable
+            goToViewForm={this.goToViewForm}
+            data={confirmData}
+            pathname={this.state.pathname}
+            permission={{ isView: 1, isEdit: 1 }}
+          />
         )}
-        
+
       </div>
     );
   }

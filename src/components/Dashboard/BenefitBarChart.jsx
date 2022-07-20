@@ -3,7 +3,7 @@ import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import Select from 'react-select'
 import {main_url} from '../../utils/CommonFunction' 
-import CompensationandBenefit from './CompensationandBenefit';
+
 
  class BenefitBarChart extends Component {
     constructor(props) {
@@ -48,6 +48,7 @@ import CompensationandBenefit from './CompensationandBenefit';
         })
         
     }
+    
     getDepartment = () => {
         fetch(main_url + `main/getDepartment`)
           .then((res) => {
@@ -216,7 +217,7 @@ import CompensationandBenefit from './CompensationandBenefit';
                     containerProps={{ className: "w-100" }} />
             </div>
             <div>
-                <CompensationandBenefit/>
+               
             </div>
             </div>
         )

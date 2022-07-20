@@ -95,6 +95,7 @@ class EmployeeDetailMain extends Component {
         if (this.props.data) {
             this.goToViewForm(this.props.data)
         }
+        
 
     }
 
@@ -206,6 +207,7 @@ class EmployeeDetailMain extends Component {
                 if (data.length > 0) {
                     this.setState({
                         selectedEmploymentData: data[0],
+                       
                         edit: false,
                         addNew: true,
                         date: moment(new Date()).format('YYYY-MM-DD'),
@@ -368,7 +370,7 @@ class EmployeeDetailMain extends Component {
         e.preventDefault();
         const { selected_status, effectiveDate, actualDate, salary, selected_job, selected_disCon_status, disconDate, resignReason, employedDate, career_sub_level, selected_exit_status, selected_branch, career_level, selected_department, selected_designation, employeeName, selectedEmployeeId, user_id } = this.state
         let data = {
-            user_id: user_id,
+            user_id: selectedEmployeeId.user_id,
             employed_status: selected_status ? selected_status.value : null,
             employee_name: employeeName,
             employee_code: selectedEmployeeId ? selectedEmployeeId.label.trim() : null,

@@ -134,7 +134,7 @@ export default class BenefitChildTable extends Component {
                 salary : data[i].salary ? data[i].salary : '',
                 department : data[i].deptname ? data[i].deptname : '',
                 discon_status : data[i].discontinute_status ? data[i].discontinute_status : 'False',
-                discon_date : data[i].discontinute_date ?data[i].discontinute_date :'',
+                discon_date : data[i].discontinute_date ? moment(data[i].discontinute_date).format('DD-MM-YYYY') :'',
                 resign_reason : data[i].resign_reason ? data[i].resign_reason :'',
                 exit_status : data[i].exit_status ? data[i].exit_status : ''
             }
