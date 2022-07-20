@@ -11,11 +11,10 @@ import BenefitBarChart from "./BenefitBarChart";
 import ExpenseBarChart from "./ExpenseBarChart";
 import HelpDesk from "./HelpDesk";
 import HelpDeskLineChart from "./HelpDeskLineChart";
-import CompensationandBenefit from "./CompensationandBenefit";
-
 import AttendenceBarChart from "./AttendenceBarChart";
 import LeaveCalendar from "./LeaveCalendar"
 import ResignBarChart from "./ResignBarChart";
+import CompensationandBenefit from "./CompensationandBenefit";
 const primary = "#1872ab";
 
 export class Dashboard extends Component {
@@ -84,7 +83,8 @@ export class Dashboard extends Component {
            Compansation and Benefit
           </button>
           <button style={styles.tapButtonStyle} onClick={()=>this.tapButtonClick('helpdesk')}>Help Desk</button>
-          <button style={styles.tapButtonStyle}>Resign</button>
+          <button style={styles.tapButtonStyle}onClick={() => this.tapButtonClick("resign")}
+          >Resign</button>
         </div>
         <Profile />
         {this.state.tapButtonTitle == "headCount" ? (

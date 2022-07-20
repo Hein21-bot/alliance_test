@@ -186,46 +186,7 @@ import  DatePicker from 'react-datetime';
                                         onChange={this.handleToDate}
                                         timeFormat={false}/> 
                    
-                    {/* <Select
-                        styles={{
-                            container: base => ({
-                                ...base,
-                                //   flex: 1
-                                width: 100,
-                                marginLeft:10
-                            }),
-                            control: base => ({
-                                ...base,
-                                minHeight: '18px'
-                            })
-                        }}
-                        placeholder="Branch"
-                        options={this.state.branchData}
-                        onChange={(val) => this.setState({ branchId: val.value })}
-                        value={this.state.branchId}
-                        className='react-select-container'
-                        classNamePrefix="react-select"
-                    /> */}
-                    {/* <Select
-                        styles={{
-                            container: base => ({
-                                ...base,
-                                //   flex: 1
-                                width: 100,
-                                marginLeft:10
-                            }),
-                            control: base => ({
-                                ...base,
-                                minHeight: '18px'
-                            })
-                        }}
-                        placeholder="Department"
-                        options={this.state.deptData}
-                        onChange={(val) => this.setState({ deptId: val.value})}
-                        value={this.state.deptId}
-                        className='react-select-container'
-                        classNamePrefix="react-select"
-                    /> */}
+                  
                     <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} >Search</button>
                 </div>
                 <HighchartsReact
