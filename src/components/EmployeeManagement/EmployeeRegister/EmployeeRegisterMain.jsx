@@ -782,19 +782,24 @@ class EmployeeRegisterMain extends Component {
         }
         else {
             //("Add")
-            const newData = {
-                id: bankData.length + 1,
-                account_no: accountNumber,
-                bank_name: selected_bank.label,
-                account_name: accountName
-
+            if (selected_bank == null) {
+                toast.error('Please Choose Bank select box!');
+            } else {
+                const newData = {
+                    id: bankData.length + 1,
+                    account_no: accountNumber,
+                    bank_name: selected_bank.label,
+                    account_name: accountName
+    
+                }
+                this.setState({
+                    bankData: bankData.concat(newData),
+                    accountName: '',
+                    selected_bank: null,
+                    accountNumber: ''
+                })
             }
-            this.setState({
-                bankData: bankData.concat(newData),
-                accountName: '',
-                selected_bank: null,
-                accountNumber: ''
-            })
+           
         }
     }
 

@@ -108,7 +108,7 @@ const BankAccountDetails = props => {
                                         {v.bank_name}
                                     </div>
                                     <div className='col-lg-3 col-md-3 col-sm-3'>
-                                        {employeeNameEng}
+                                        {employeeNameEng.toUpperCase()}
                                     </div>
                                     <div className='col-lg-3 col-md-3 col-sm-3' style={{}}>
                                         {v.account_no}

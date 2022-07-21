@@ -32,7 +32,7 @@ const EducationDetails = props => {
 
                         </div>
 
-                        <button onClick={handleAddDegreeData} style={{ borderRadius: 5, padding: 10, margin: 10, color: 'black', border: 'none', width: 90, border: '1px solid lightgrey' }}>
+                        <button onClick={handleAddDegreeData} style={{ borderRadius: 5, padding: 10, margin: 10, color: 'white', border: 'none', width: 90, border: '1px solid lightgrey', background: "#337ab7" }}>
                             Add
                         </button>
 
@@ -56,7 +56,7 @@ const EducationDetails = props => {
 
                         </div>
 
-                        <div onClick={handleAddQualification} type="submit" style={{ borderRadius: 5, padding: 10, margin: 10, color: 'black', background: 'lightgrey', textAlign: 'center', border: 'none', width: 90, border: '1px solid lightgrey' }}>
+                        <div onClick={handleAddQualification} type="submit" style={{ borderRadius: 5, padding: 10, margin: 10, color: 'white', background: 'lightgrey', textAlign: 'center', border: 'none', width: 90, border: '1px solid lightgrey', background: "#337ab7" }}>
                             Add
                         </div>
 
