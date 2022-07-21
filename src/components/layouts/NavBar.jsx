@@ -228,12 +228,15 @@ class NavBar extends Component {
                         <h2 className='font-bold' >HR Management System</h2>
                         </div>
                         
-                        <div className=''>
+                        <div style={{
+                            marginRight:'40px'
+                        }}>
                        
                             <ul className="nav navbar-top-links navbar-right" style={{
                                 display:"flex",
                                 justifyContent:"center",
-                                alignItems:"center"
+                                alignItems:"center",
+                                
                             }}>
                                 
                                 
