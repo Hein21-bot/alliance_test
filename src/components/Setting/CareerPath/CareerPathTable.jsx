@@ -37,7 +37,31 @@ export default class CareerPathTable extends Component {
             })
         }
     }
+    async componentDidMount() {
+        let that = this;
+        $(document).on('click', '#toRemove', function () {
 
+            var data = $(this).find("#remove").text();
+            data = $.parseJSON(data);
+
+            let newData = that.state.dataSource;
+            newData.splice(data, 1);
+
+            let claimData = that.state.data;
+            var totalAmount = 0
+
+            for (var i = 0; i < newData.length; i++) {
+
+                totalAmount += newData[i].amount;
+            }
+            claimData.actual_amount = totalAmount;
+            that.setState({
+                dataSource: newData,
+                data: claimData
+            }, 
+            () => that.setDataTable(newData))
+        });
+    }
     showTable(data) {
         var table;
         var self = this;
@@ -46,15 +70,18 @@ export default class CareerPathTable extends Component {
         const { level_options,sub_level_options } = this.props;
 
         for (let i = 0; i < data.length; i++) {
+            const index=i
             obj = data[i];
             one = {
                 no: i+1,
                 career_level: ((level_options.find(v=> Number(v.career_level_id)===Number(obj.career_level)) ? level_options.find(v=> Number(v.career_level_id)===Number(obj.career_level)).career_level : '')),
                 career_sub_level: (sub_level_options.find(v=> Number(v.career_sub_level_id)===Number(obj.career_sub_level)) ? sub_level_options.find(v=> Number(v.career_sub_level_id)===Number(obj.career_sub_level)).career_sub_level : '') ,
                 promotion_quota: obj.promotion_quota,
-                action: '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="View" ><span id="view" class="hidden" >' + JSON.stringify(obj) + '</span>&nbsp;View</button><button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="Edit" ><span id="edit" class="hidden" >' + JSON.stringify(obj) + '</span>&nbsp;Edit</button>',
+                //  action: {'<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="View" ><span id="view" class="hidden" >' + JSON.stringify(obj) + '</span>&nbsp;View</button><button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="Edit" ><span id="edit" class="hidden" >' + JSON.stringify(obj) + '</span>&nbsp;Edit</button>',
+                action:
+                '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toRemove" ><span id="remove" class="hidden" >' + index + '</span>  <i className="fa fa-cogs"></i>&nbsp;Remove</button>'
             }
-
+            
             list.push(one);
         }
 
@@ -74,7 +101,8 @@ export default class CareerPathTable extends Component {
             { title: "Career Level", data: 'career_level' },
             { title: "Career Sub Level", data: "career_sub_level", },
             { title: "Promotion Quota", data: "promotion_quota", },
-            { title: "Action", data: 'action' }
+            { title: "Action", data: 'action' },
+            
         ]
         
         table = $("#dataTables").DataTable({

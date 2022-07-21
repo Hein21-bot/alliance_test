@@ -941,7 +941,7 @@ class EditEmployeeListForm extends Component {
             toMonthYear: e
         }, async () => {
             this.setState({
-                period: await calculationWorkingExp(e, this.state.toMonthYear)
+                period: await calculationWorkingExp(e, this.state.fromMonthYear)
             })
         })
     }
