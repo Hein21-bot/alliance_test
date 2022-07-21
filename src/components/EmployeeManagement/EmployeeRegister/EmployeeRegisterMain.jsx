@@ -144,7 +144,7 @@ class EmployeeRegisterMain extends Component {
     getDesignationList() {
         fetch(`${main_url}main/getDesignations`)
             .then(res => { if (res.ok) return res.json() })
-            .then(list => { 
+            .then(list => {
                 this.setState({
                     designationList: list//list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
                 })
@@ -154,7 +154,7 @@ class EmployeeRegisterMain extends Component {
     getLevelOptions() {
         fetch(`${main_url}allowLevel/getLevel`)
             .then(res => { if (res.ok) return res.json() })
-            .then(list => { 
+            .then(list => {
                 this.setState({
                     level_options: list.map(v => ({ ...v, label: v.career_level, value: v.career_level_id }))
                 })
@@ -655,10 +655,11 @@ class EmployeeRegisterMain extends Component {
         }
 
         else if (e.target.name === "gran_nrc_no" && this.state.selected_gran_NRC_Id && this.state.selected_gran_DistrictCode) {
-
-            this.setState({
-                gran_nrc_number: e.target.value,
-            })
+            if (e.target.value.length < 7) {
+                this.setState({
+                    gran_nrc_number: e.target.value,
+                })
+            }
         }
         else if (e.target.name === "gran_nrc_no" && !this.state.selected_gran_NRC_Id) {
             toast.error("Please Choose Sd code first!")
