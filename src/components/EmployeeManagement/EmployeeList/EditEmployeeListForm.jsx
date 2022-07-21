@@ -51,8 +51,8 @@ class EditEmployeeListForm extends Component {
             guarantorNRC: '',
             guarantorNRC_NO: '',
             disConstatusList: [
+                { value: 0, label: 'False' },
                 { value: 1, label: 'True' },
-                { value: 2, label: 'False' },
             ],
             selected_bank: null,
             accountName: '',
@@ -73,7 +73,7 @@ class EditEmployeeListForm extends Component {
             carrerLevel: '',
             employeeDetailBranch: '',
             employedDate: '',
-            disConStatus: '',
+            disConStatus: 2,
             disConDate: '',
             granDistrictCodeList: null,
             nrcList: null,
@@ -169,7 +169,7 @@ class EditEmployeeListForm extends Component {
                         carrerLevel: level_options && level_options.find(c => c.value == res[0].career_level_id) ? level_options.find(c => c.value == res[0].career_level_id) : null,
                         employeeDetailBranch: branchlist && branchlist.find(c => c.value == res[0].branch_name) ? branchlist.find(c => c.value == res[0].branch_name) : null,
                         employedDate: res[0].employ_date,
-                        disConStatus: res[0].discontinued_status == 1 ? disConstatusList.find(c => c.value == 1) : disConstatusList.find(c => c.value == 1),
+                        disConStatus: res[0].discontinued_status == 1 ? disConstatusList.find(c => c.value == 1) : disConstatusList.find(c => c.value == 0),
                         disConDate: res[0].discontinued_date,
                         selected_NRC_Id: nrcList && nrcList.find(c => c.value == res[0].NRC_SD_code) ? nrcList.find(c => c.value == res[0].NRC_SD_code) : null,
                         selected_DistrictCode: districtCodeList && districtCodeList.find(c => c.value == res[0].NRC_District_code) ? districtCodeList.find(c => c.value == res[0].NRC_District_code) : null,////
@@ -575,11 +575,12 @@ class EditEmployeeListForm extends Component {
         }
 
         else if (e.target.name === "gran_nrc_no" && this.state.selected_gran_NRC_Id && this.state.selected_gran_DistrictCode) {
-
-            this.setState({
-                gran_nrc_number: e.target.value,
-                guaFullNRC: this.state.selected_gran_NRC_Id.label + this.state.selected_gran_DistrictCode.label + e.target.value
-            })
+            if (e.target.value.length < 7) {
+                this.setState({
+                    gran_nrc_number: e.target.value,
+                    guaFullNRC: this.state.selected_gran_NRC_Id.label + '/' + this.state.selected_gran_DistrictCode.label + '(N)' + e.target.value
+                })
+            }
         }
         else if (e.target.name === "gran_nrc_no" && !this.state.selected_gran_NRC_Id) {
             toast.error("Please Choose Sd code first!")
@@ -1009,6 +1010,7 @@ class EditEmployeeListForm extends Component {
             employeeId, employeeNameEng, nationality, personalPhone, employeeNameMyan, gender, addedDegreeData, addedQualitificationData, workExpData, fromMonthYear, toMonthYear, location, dateOfBirth, contactPerson, contactPhone, bankData, bankDataEdit, selected_DistrictCode, selected_NRC_Id,
         } = this.state
         const { selectedEmployeeData, level_options, editForm, BackToTable, viewForm, bankList, degreeList, nrcList, districtCodeList, designationList, branchlist, granDistrictCodeList } = this.props
+        console.log("render is ===>", disConStatus)
         return (
             <div className=" border-bottom white-bg dashboard-header">
                 <div className='tabBar col-lg-12 col-md-12 col-sm-12 ' style={{ display: 'flex', paddingLeft: 0, paddingRight: 0, flexDirection: 'row', paddingTop: 20, fontSize: 13, minWidth: 300, overflowX: 'auto', alignItems: 'center' }}>

@@ -11,7 +11,7 @@ const ListSearchForm = props => {
     return (
 
         <div style={{ padding: 10, display: 'flex', flexWrap: 'wrap' }}>
-            <div className='col-lg-4 col-md-6 col-sm-12 ' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className='col-lg-3 col-md-4 col-sm-12 ' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
                 <div className='col-lg-4 col-md-6 col-sm-4' style={{ paddingLeft: 0 }}>
                     Date
                 </div>
@@ -28,7 +28,7 @@ const ListSearchForm = props => {
 
             </div>
 
-            <div className='col-lg-4 col-md-6 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
 
 
                 <div>
@@ -50,18 +50,18 @@ const ListSearchForm = props => {
             </div>
             {
                 (selected_title && !selected_title.value) ?
-                    <div className='col-lg-4 col-md-6 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
                         <div>
                             Confirmation Month
                         </div>
                         <div className='col-lg-7 col-md-7 col-sm-8' style={{}}>
-                            <input type='number' name="confirmationMonth" value={confirmationMonth} onChange={handleConfirmationListInputChange} style={{ minWidth: 200, height: 40, boxShadow: '0px 1px 1px 0px lightgrey' }} />
+                            <input type='number' name="confirmationMonth" value={confirmationMonth} onChange={handleConfirmationListInputChange} style={{ minWidth: 200, height: 40 }} />
                         </div>
 
                     </div> : null
             }
 
-            <div className='col-lg-4 col-md-6 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
 
                 <div>
                     Designation
@@ -80,7 +80,7 @@ const ListSearchForm = props => {
                 </div>
 
             </div>
-            <div className='col-lg-4 col-md-6 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
 
                 <div>
                     Level
@@ -99,7 +99,7 @@ const ListSearchForm = props => {
                 </div>
 
             </div>
-            <div className='col-lg-4 col-md-6 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
 
                 <div>
                     Sub Level
@@ -118,7 +118,7 @@ const ListSearchForm = props => {
                 </div>
 
             </div>
-            <div className='col-lg-4 col-md-6 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
 
                 <div>
                     Region
@@ -137,7 +137,7 @@ const ListSearchForm = props => {
                 </div>
 
             </div>
-            <div className='col-lg-4 col-md-6 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
 
                 <div>
                     Department
@@ -156,7 +156,7 @@ const ListSearchForm = props => {
                 </div>
 
             </div>
-            <div className='col-lg-4 col-md-6 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
 
                 <div>
                     Branch
