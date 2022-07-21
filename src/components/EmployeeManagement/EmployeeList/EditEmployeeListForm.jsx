@@ -127,6 +127,7 @@ class EditEmployeeListForm extends Component {
                 if (response.ok) return response.json()
             })
             .then(res => {
+                console.log('res data is ===>', res[0])
                 if (res) {
                     this.setState({
                         userImage: res[0].avatar,
@@ -163,7 +164,7 @@ class EditEmployeeListForm extends Component {
                         ThaPaYaAccount: res[0].thapyay_account,
                         SSCCardNo: res[0].SSC_card_no,
                         attachmentUrl: res[0].attachment_link,
-                        employeeStatus: '',
+                        employeeStatus: this.state.employeeStatusList.find(c => c.value == res[0].employee_status),
                         employeeDesignation: this.props.designationList.find(c => c.value == res[0].designations_id),
                         jobTitle: res[0].job_title,
                         carrerLevel: level_options && level_options.find(c => c.value == res[0].career_level_id) ? level_options.find(c => c.value == res[0].career_level_id) : null,
@@ -731,16 +732,16 @@ class EditEmployeeListForm extends Component {
     }
     handleSameWithCtPersonChange = () => {
         this.setState({
-           sameWithCtPerson: !this.state.sameWithCtPerson
-       }, () => {
-           if (this.state.sameWithCtPerson) {
-               this.setState({
-                   guarantor: this.state.contactPerson,
-                   guarantorPhone: this.state.contactPhone
-               })
-           }
-       })   
-   }
+            sameWithCtPerson: !this.state.sameWithCtPerson
+        }, () => {
+            if (this.state.sameWithCtPerson) {
+                this.setState({
+                    guarantor: this.state.contactPerson,
+                    guarantorPhone: this.state.contactPhone
+                })
+            }
+        })
+    }
 
     handleAddDegreeData = () => {
         const { selected_degree, addedDegreeData, editMode } = this.state
@@ -1136,22 +1137,23 @@ class EditEmployeeListForm extends Component {
 
                                 />
                                 : tabIndex === 4 ?
-                                <ContactDetails
-                                contactPerson={contactPerson} contactPhone={contactPhone}
-                                handleContactDetailInputChange={this.handleContactDetailInputChange}
-                                onCancelClick={this.clearProfileData}
-                                handleContactDetails={this.handleContactDetails}
-                                checked={sameWithCtPerson} handleSameWithCtPersonChange={this.handleSameWithCtPersonChange}
-                                guarantor={guarantor} guarantorPhone={guarantorPhone}
-                                selected_gran_NRC_Id={selected_gran_NRC_Id}
-                                selected_gran_DistrictCode={selected_gran_DistrictCode}
-                                gran_nrc_number={gran_nrc_number}
-                                districtCodeList={granDistrictCodeList}
-                                nrcList={nrcList}
-                                handleNRC_Id={this.handleNRC_Id}
-                                handleGranDistrictCode={this.handleGranDistrictCode}
-                                handlePreviousClick={this.handlePreviousClick}
-                            />
+                                    <ContactDetails
+                                        contactPerson={contactPerson} contactPhone={contactPhone}
+                                        handleContactDetailInputChange={this.handleContactDetailInputChange}
+                                        onCancelClick={this.clearProfileData}
+                                        handleContactDetails={this.handleContactDetails}
+                                        checked={sameWithCtPerson} handleSameWithCtPersonChange={this.handleSameWithCtPersonChange}
+                                        guarantor={guarantor} guarantorPhone={guarantorPhone}
+                                        selected_gran_NRC_Id={selected_gran_NRC_Id}
+                                        selected_gran_DistrictCode={selected_gran_DistrictCode}
+                                        gran_nrc_number={gran_nrc_number}
+                                        districtCodeList={granDistrictCodeList}
+                                        nrcList={nrcList}
+                                        handleNRC_Id={this.handleNRC_Id}
+                                        handleGranDistrictCode={this.handleGranDistrictCode}
+                                        handlePreviousClick={this.handlePreviousClick}
+                                        guaFullNRC={guaFullNRC}
+                                    />
                                     : tabIndex === 5 ?
                                         <BankAccountDetails
                                             editForm={editForm}
