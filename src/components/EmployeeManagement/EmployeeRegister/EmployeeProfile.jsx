@@ -17,6 +17,12 @@ const EmployeeProfile = props => {
         // fullNRC.split(" ")[0] + '/' + fullNRC.split(" ")[1] + '(N)' + fullNRC.split(" ")[2] :
         `${selected_NRC_Id ? (selected_NRC_Id.label) : ''}${selected_DistrictCode ? ('/' + selected_DistrictCode.label) : ''}${nrc_number ? ('(N)' + nrc_number) : ''}`
 
+    const handleErr = () => {
+        if (nrc_number.length < 6) {
+            toast.error("NRC number should be 6 digit!")
+        }
+    }
+
     return (
         <form onSubmit={handleProfileSave} >
             <div className='white-bg ' style={{ paddingTop: 20, border: '1px solid lightgrey', display: 'grid', borderTop: 'none', marginTop: -10, paddingBottom: 20, boxShadow: '5px 5px 5px lightgrey' }}>
@@ -233,7 +239,7 @@ const EmployeeProfile = props => {
                 <button className='' onClick={onCancelClick} style={{ borderRadius: 5, padding: 10, margin: 10, background: 'red', color: 'white', border: 'none', width: 90 }}>
                     Cancel
                 </button>
-                <button type="submit" style={{ borderRadius: 5, padding: 10, margin: 10, background: '#337ab7', color: 'white', border: 'none', width: 90 }}>
+                <button onClick={() => handleErr()} type="submit" style={{ borderRadius: 5, padding: 10, margin: 10, background: '#337ab7', color: 'white', border: 'none', width: 90 }}>
                     Next
                 </button>
             </div>

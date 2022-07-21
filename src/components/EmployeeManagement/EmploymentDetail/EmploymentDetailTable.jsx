@@ -97,6 +97,7 @@ export default class BenefitChildTable extends Component {
         var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
         for (var i = 0; i < data.length; i++) {
             let result = data[i];
+            console.log('result is ===>', result)
             let obj = [];
             // if (result.status === 0) {
             //     status = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
