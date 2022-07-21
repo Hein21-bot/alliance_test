@@ -509,9 +509,9 @@ class ConfirmationList extends Component {
             <div className="row wrapper white-bg page-heading">
               <div className="col-lg-12">
                 <ol className="breadcrumb">
-                  <li style={{fontSize: 18}}>Employee</li>
-                  <li style={{fontSize: 18}}>Confirmation</li>
-                  <li style={{fontSize: 18}}>List</li>
+                  <li style={{ fontSize: 18 }}>Employee</li>
+                  <li style={{ fontSize: 18 }}>Confirmation</li>
+                  <li style={{ fontSize: 18 }}>List</li>
                 </ol>
               </div>
             </div>
