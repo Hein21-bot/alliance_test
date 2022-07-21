@@ -9,7 +9,8 @@ import moment from 'moment';
 
 const EmploymentForm = props => {
     const { handleAddFormInputChange, selectedEmployeeId, exitStatusList, selected_exit_status, disConStatusList, selected_disCon_status, handleSelectedDisConStatus, jobList, selected_job, handleSelectedJob, handleSelectedExitStatus, handleSelectedEmployeeId, employeeIdList, handleLevelSelectorChange, career_level, career_sub_level, level_options, sub_level_options, submitAddForm, handleUpdatData, edit, employeeName, statusList, handleFormCancel, resignReason, handleSelectedBranch, disconDate, handleSelectedDeaprtment, effectiveDate, salary, branchlist, selected_branch, departmentlist, selected_department, handleSelectedDesignation, designationList, selected_designation, actualDate, selected_status, handleSelectedStatus, employedDate } = props
-    let department = selected_department != null && selected_department.length > 0 ? selected_department.filter(d => d.departments_id == selected_designation.departments_id)[0] : selected_department
+    let department = selected_designation != null && departmentlist.filter(v => v.departments_id == selected_designation.departments_id)[0]
+
 
     let name = employeeName == null ? '' : employeeName
     let temp_salary = salary == null ? 0 : salary

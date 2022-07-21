@@ -170,7 +170,6 @@ class ConfirmationCheck extends Component {
 
     goToEditForm = data => {
         this.getWarning(data.user_id)
-        console.log('data is ===>', data)
         this.setState({
             edit: true,
             selected_user_id: data.user_id,
