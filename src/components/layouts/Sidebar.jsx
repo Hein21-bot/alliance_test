@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
-import { getCookieData } from "../../utils/CommonFunction";
+import { getCookieData,removeCookieData,remote_url } from "../../utils/CommonFunction";
 
 export default class Sidebar extends Component {
   constructor() {
@@ -10,6 +10,9 @@ export default class Sidebar extends Component {
       pathname: window.location.pathname,
     };
   }
+  logout() {
+    removeCookieData("user_info");
+}
 
   checkPathName() {
     const { pathname } = this.state;
@@ -589,6 +592,11 @@ export default class Sidebar extends Component {
                     </a>
                   </li>
                 </ul>
+              </li>
+              <li>
+                  <a href={remote_url} className="sideList" onClick={this.logout.bind(this)}>
+                      <i className="fa fa-sign-out sideIcon"></i> <span className="sideText">Log out</span>
+                  </a>
               </li>
               {/* <li className={pathname === '/notification' ? 'active' : ''}>
                                     <a href="/notification" refresh="true"><i className="fa fa-bell"></i>Notification</a>

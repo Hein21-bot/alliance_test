@@ -26,9 +26,7 @@ class NavBar extends Component {
 
     }
 
-    logout() {
-        removeCookieData("user_info");
-    }
+    
 
     componentDidMount() {
         try {
@@ -238,40 +236,7 @@ class NavBar extends Component {
                                 alignItems:"center"
                             }}>
                                 
-                                <li style={{
-                                    display:"flex",
-                                    justifyContent:"space-between",
-                                    alignItems:"center",
-                                    marginRight:"20px"
-                                }}>
-                                    <img
-                                    alt="logo"
-                                    className="logostyle"
-                                    src="assets/img/team.svg" style={{
-                                        width:"57px"
-                                    }} />
                                 
-                                    <div style={{
-                                        margin:"0",
-                                        padding:"0"
-                                    }}>
-                                    <p style={{
-                                        margin:"0",
-                                        fontSize:"12px",
-                                        fontWeight:"bold"
-                                    }}>
-                                        {this.state.user ? this.state.user.fullname : ""}
-                                    </p>
-                                   
-                                    <p style={{
-                                        margin:"0",
-                                        padding:"0"
-                                    }}>
-                                        {this.state.user ? this.state.user.designations : ""}
-                                    </p>
-                                    </div>
-                            
-                                </li>
                                 <li className="dropdown">
                                     {/* <div className="h1">count: {this.state.benefit_allowance_noti_count}</div> */}
                                     <a className="dropdown-toggle count-info" data-toggle="dropdown" href="#" >
@@ -314,11 +279,41 @@ class NavBar extends Component {
                                             </ul> : ''
                                     }
                                 </li>
-                                <li>
-                                    <a href={remote_url} onClick={this.logout.bind(this)}>
-                                        <i className="fa fa-sign-out"></i> Log out
-                                    </a>
+                                <li style={{
+                                    display:"flex",
+                                    justifyContent:"space-between",
+                                    alignItems:"center",
+                                    marginRight:"20px"
+                                }}>
+                                    <img
+                                    alt="logo"
+                                    className="logostyle"
+                                    src="assets/img/team.svg" style={{
+                                        width:"57px"
+                                    }} />
+                                
+                                    <div style={{
+                                        margin:"0",
+                                        padding:"0"
+                                    }}>
+                                    <p style={{
+                                        margin:"0",
+                                        fontSize:"12px",
+                                        fontWeight:"bold"
+                                    }}>
+                                        {this.state.user ? this.state.user.fullname : ""}
+                                    </p>
+                                   
+                                    <p style={{
+                                        margin:"0",
+                                        padding:"0"
+                                    }}>
+                                        {this.state.user ? this.state.user.designations : ""}
+                                    </p>
+                                    </div>
+                            
                                 </li>
+                                
                             </ul>
                         </div>
                     </nav>
