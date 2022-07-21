@@ -141,7 +141,8 @@ class ConfirmationCheck extends Component {
 
     handleSelectedSubLevel = (event) => {
         this.setState({
-            selected_sub_level: event
+            selected_sub_level: event,
+            recommend_level: event.career_sub_level_id
         })
     }
 
@@ -169,6 +170,7 @@ class ConfirmationCheck extends Component {
 
     goToEditForm = data => {
         this.getWarning(data.user_id)
+        console.log('data is ===>', data)
         this.setState({
             edit: true,
             selected_user_id: data.user_id,
@@ -190,7 +192,9 @@ class ConfirmationCheck extends Component {
             warningDate: data.letter_warning_date ? moment.utc(data.letter_warning_date).format("YYYY-MM-DD") : '-',
             recommendation: data.recommendation,
             date: data.date ? moment.utc(data.date).format("YYYY-MM-DD") : '-',//moment(data.createdAt).format("DD/MM/YYYY"),
-            career_level_id: data.career_level_id
+            career_level_id: data.career_level_id,
+            recommend_level: data.recommend_level,
+            comment: data.comment_overall_performance
         })
     }
 
@@ -257,8 +261,6 @@ class ConfirmationCheck extends Component {
 
     handleConfirmRequest = () => {
         if (this.state.selected_checkList.length > 0) {
-
-
             let data = {
                 person: getCookieData("user_info").user_id,
                 list: this.state.selected_checkList,
@@ -366,7 +368,7 @@ class ConfirmationCheck extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        const { fullname, employment_id, designations, selected_user_id, tabel_id, department, level, letterWarning, score, achievement, warningDate, recommendation, date, extensionPeriod, comment, effectiveDate } = this.state
+        const { fullname, employment_id, designations, selected_user_id, tabel_id, department, level, letterWarning, score, achievement, warningDate, recommendation, date, extensionPeriod, comment, effectiveDate, selected_sub_level } = this.state
         let data = {
             fullname,
             employment_id,
@@ -383,7 +385,9 @@ class ConfirmationCheck extends Component {
             effective_date: effectiveDate,
             user_id: selected_user_id,
             status: this.state.status == 1 ? 2 : this.state.status == 2 ? 3 : 1,
-            confirm_or_not: this.state.status == 1 ? recommendation : null
+            confirm_or_not: this.state.status == 1 ? recommendation : null,
+            confirm_career_sub_level: selected_sub_level.career_sub_level_id,
+            recommend_level: selected_sub_level.career_sub_level_id
         }
 
         let status = 0;
@@ -414,20 +418,20 @@ class ConfirmationCheck extends Component {
     render() {
         let verify_person = this.state.checkListData && (this.state.checkListData[0] ? this.state.checkListData[0].verify_person : null)
         let check_person = this.state.checkListData && (this.state.checkListData[0] ? this.state.checkListData[0].check_person : null)
-        const { selected_checkList, extensionPeriod, comment, effectiveDate, checkedAll, edit, view, selectedTableData, fullname, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, status, recommendation, date, checkPerson, verifyPerson, sub_level_options, career_level_id, selected_sub_level } = this.state
+        const { selected_checkList, extensionPeriod, comment, effectiveDate, checkedAll, edit, view, selectedTableData, fullname, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, status, recommendation, date, checkPerson, verifyPerson, sub_level_options, career_level_id, selected_sub_level, recommend_level } = this.state
         return (
             <div className=" border-bottom white-bg dashboard-header">
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />
                 <div className="row wrapper border-bottom white-bg page-heading">
                     <div className="col-lg-12">
                         <ol className="breadcrumb">
-                            <li style={{fontSize: 18}}>
+                            <li style={{ fontSize: 18 }}>
                                 Employee
                             </li>
-                            <li style={{fontSize: 18}}>
+                            <li style={{ fontSize: 18 }}>
                                 Confirmation
                             </li>
-                            <li style={{fontSize: 18}}>
+                            <li style={{ fontSize: 18 }}>
                                 Check
                             </li>
 
@@ -474,6 +478,7 @@ class ConfirmationCheck extends Component {
                             career_level_id={career_level_id}
                             selected_sub_level={selected_sub_level}
                             handleSelectedSubLevel={this.handleSelectedSubLevel}
+                            recommend_level={recommend_level}
                             date={date} />
                         :
                         view ?
@@ -498,6 +503,7 @@ class ConfirmationCheck extends Component {
                                 effectiveDate={effectiveDate}
                                 handleSubmit={this.handleSubmit}
                                 sub_level_options={sub_level_options}
+                                recommend_level={recommend_level}
                                 date={date} />
                             :
                             <div className='white-bg' style={{ boxShadow: '5px 5px 5px lightgrey', paddingTop: 10 }}>

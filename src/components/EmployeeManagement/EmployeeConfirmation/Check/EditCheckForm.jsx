@@ -8,8 +8,10 @@ import 'react-calendar/dist/Calendar.css';
 import moment from "moment";
 
 const EditCheckForm = props => {
-    const { handleSubmit, handleEditCheckInputChange, status, onRecommendationChange, handleLetterWarningChange, view, fullname, BackToTable, extensionPeriod, comment, effectiveDate, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, recommendation, date, check_person, verify_person, sub_level_options, career_level_id, selected_sub_level, handleSelectedSubLevel } = props
+    const { handleSubmit, handleEditCheckInputChange, status, onRecommendationChange, handleLetterWarningChange, view, fullname, BackToTable, extensionPeriod, comment, effectiveDate, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, recommendation, date, check_person, verify_person, sub_level_options, career_level_id, selected_sub_level, handleSelectedSubLevel, recommend_level } = props
     const filter_sub_level = sub_level_options.filter(v => v.career_level_id == career_level_id)
+    const selected_level = sub_level_options.filter(v => v.career_sub_level_id == recommend_level)
+
     return (
         <form onSubmit={handleSubmit}>
             <div style={{ padding: 10, justifyContent: 'center', boxShadow: '5px 5px 5px lightgrey' }}>
@@ -187,7 +189,7 @@ const EditCheckForm = props => {
                             <div style={{ width: 175 }}>
                                 <Select
                                     options={filter_sub_level}
-                                    value={selected_sub_level}
+                                    value={selected_level}
                                     onChange={handleSelectedSubLevel}
                                     className="react-select-container checkValidate"
                                     classNamePrefix="react-select"
