@@ -550,21 +550,13 @@ class ConfirmationList extends Component {
                 onChange={this.onChange}
                 handleLevelSelectorChange={this.handleLevelSelectorChange}
               />
+              <hr/>
               <div style={{}}>
-                <div
-                  className="dashboard-header "
-                  style={{
-                    alignItems: "center",
-                    borderTop: "1px solid grey",
-                    display: "flex",
-                  }}
-                >
-                  <h3>Confirmation List Table</h3>
-                </div>
+
                 {this.state.visible == false ? (
                   <div
-                    className="col-lg-6 col-md-6 col-sm-12"
-                    style={{ display: "flex" }}
+                    // className="col-lg-12 col-md-12 col-sm-12"
+                    style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginBottom: 5, paddingRight: 5 }}
                   >
                     <button
                       onClick={() => this.handleVisible('request')}
