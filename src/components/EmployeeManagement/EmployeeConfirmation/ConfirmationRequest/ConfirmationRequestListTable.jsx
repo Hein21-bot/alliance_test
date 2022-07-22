@@ -145,6 +145,8 @@ export default class ConfirmationRequestListTable extends Component {
           promotion_date: data[i].promotion_date ? data[i].promotion_date : "-",
           date: moment(result.createdAt).format("DD-MM-YYYY"),
           service_year: data[i].service_year ? data[i].service_year : "",
+          current_sub_level_service_year: data[i].current_sub_level_service_year ? data[i].current_sub_level_service_year:"",
+          
           recommendation: data[i].recommendation ? data[i].recommendation : "",
           status: status,
         };
@@ -183,7 +185,8 @@ export default class ConfirmationRequestListTable extends Component {
       { title: "Employed Date", data: "employ_date" },
       { title: "Last Promtion Date", data: "promotion_date" },
       { title: "Service Year", data: "service_year" },
-      { title: "Service Year in Current Sub Level", data: "date" },
+      {title: "Service Year in Current Level" ,data: "date"  },
+      { title: "Service Year in Current Sub Level", data: "current_sub_level_service_year" },
       { title: "Confirm or Not", data: "recommendation" },
       { title: "Status", data: "status" },
     ];
