@@ -268,7 +268,7 @@ class EmployeeDetailMain extends Component {
             edit: false,
             addNew: true,
             date: moment(new Date()).format("YYYY-MM-DD"),
-            employeeName: data[0].fullname,
+            employeeName: data[0].employee_name,
             selected_designation: this.state.designationList.find((c) => c.value == data[0].designations_id),//
             selected_branch: this.state.branchlist.find((c) => parseInt(c.branch_id) === (data[0].branch_name ? parseInt(data[0].branch_name) : data[0].branch_name)),
             selected_department: this.state.departmentlist.find((c) => c.departments_id == data[0].departments_id),
