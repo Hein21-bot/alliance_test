@@ -11,8 +11,9 @@ class HeadCountBarChart extends Component {
       chartOptions: {},
       
       id: {
-        branchId: {value: "1", label: 'Head Office'},
-        deptId: {value: 1, label: ''},
+        branchId: {value: 1, label: 'All'},
+        deptId: {value: 1, label: 'All'},
+        regionId:{value:1,label:'All'}
       },
       xAxisDept: [],
       countDataDept: [],
@@ -21,6 +22,7 @@ class HeadCountBarChart extends Component {
       countDataDesign: [],
       
       deptData: [],
+      selected_region_value: 0,
     };
   }
 
@@ -31,6 +33,8 @@ class HeadCountBarChart extends Component {
     } else {
       this.getHeadCountbyDesignation();
       this.getDesignation();
+      this.getBranch()
+      this.getRegionList()
     }
   }
 
@@ -45,6 +49,16 @@ class HeadCountBarChart extends Component {
       })
       .catch((error) => console.error(`Fetch Error =\n`, error));
   };
+    getRegionList() {
+      fetch(`${main_url}benefit/getRegionList`)
+          .then(res => { if (res.ok) return res.json() })
+          .then(list => {
+              let lists = list.unshift({ region_id: 0, region_name: 'All' })
+              this.setState({
+                  regionList: list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
+              })
+          })
+  }
 
   getHeadCountbyDepartment = () => {
     fetch(main_url + `dashboard/headCountByDepartments/${this.state.id.branchId.value}`)
@@ -131,7 +145,7 @@ class HeadCountBarChart extends Component {
   };
 
   getHeadCountbyDesignation = () => {
-    fetch(main_url + `dashboard/headCountByDesignation/${this.state.id.deptId.value}`)
+    fetch(main_url + `dashboard/headCountByDesignation/${this.state.id.deptId.value}/${this.state.id.branchId.value}/${this.state.selected_region_value}`)
       .then((response) => {
         if (response.ok) return response.json();
       })
@@ -226,6 +240,13 @@ handleSelectedDepartment = async (event) => {
         id: data
     })
 }
+handleSelectedRegion = (event) => {
+  if (event !== null)
+      this.setState({
+          selected_region: event,
+          selected_region_value: event.value
+      })
+};
 
   render() {
     return (
@@ -318,7 +339,8 @@ handleSelectedDepartment = async (event) => {
                   container: (base) => ({
                     ...base,
                     //   flex: 1
-                    width: 200,
+                    width: 100,
+                    marginRight:10
                   }),
                   control: (base) => ({
                     ...base,
@@ -329,6 +351,45 @@ handleSelectedDepartment = async (event) => {
                 options={this.state.deptData}
                 onChange={this.handleSelectedDepartment}
                 value={this.state.id.deptId}
+                className="react-select-container"
+                classNamePrefix="react-select"
+              />
+              <Select
+                styles={{
+                  container: (base) => ({
+                    ...base,
+                    //   flex: 1
+                    width: 100,
+                    marginRight:10
+                  }),
+                  control: (base) => ({
+                    ...base,
+                    minHeight: "18px",
+                  }),
+                }}
+                placeholder="Region"
+                options={this.state.regionList}
+                onChange={this.handleSelectedRegion.bind(this)}
+                value={this.state.region_id}
+                className="react-select-container"
+                classNamePrefix="react-select"
+              />
+              <Select
+                styles={{
+                  container: (base) => ({
+                    ...base,
+                    //   flex: 1
+                    width: 100,
+                  }),
+                  control: (base) => ({
+                    ...base,
+                    minHeight: "18px",
+                  }),
+                }}
+                placeholder="Branch"
+                options={this.state.branchData}
+                onChange={this.handleSelectedBranch}
+                value={this.state.id.branchId}
                 className="react-select-container"
                 classNamePrefix="react-select"
               />

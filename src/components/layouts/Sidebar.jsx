@@ -60,7 +60,7 @@ export default class Sidebar extends Component {
 
   render() {
     const { pathname, user } = this.state;
-    console.log("user is ===>", pathname == user.user_id, pathname, `${'/'+user.user_id}`, user)
+    
     return (
       <div>
         <nav className="navbar-default navbar-static-side">
