@@ -9,45 +9,64 @@ class HeadCountBarChart extends Component {
     super(props);
     this.state = {
       chartOptions: {},
-      
       id: {
-        branchId: {value: "1", label: 'Head Office'},
-        deptId: {value: 1, label: ''},
+        branchId: 0,        
+        regionId: 0
       },
       xAxisDept: [],
       countDataDept: [],
       branchData: [],
       xAxisDesign: [],
       countDataDesign: [],
-      
+      regionList: [],
       deptData: [],
+      region_id: 0
     };
   }
 
   componentDidMount() {
-    if (this.props.title == "department") {
-      this.getHeadCountbyDepartment();
-      this.getBranch();
-    } else {
-      this.getHeadCountbyDesignation();
-      this.getDesignation();
-    }
+
+    this.setChartOptionDepartment();
+    this.getRegionList()
+    this.getBranch()
+    
+
   }
 
+  getRegionList() {
+    fetch(`${main_url}benefit/getRegionList`)
+      .then(res => { if (res.ok) return res.json() })
+      .then(list => {
+        let lists = list.unshift({ region_id: 0, region_name: 'All' })
+        this.setState({
+          regionList: list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
+        })
+      })
+  }
+
+  handleSelectedRegion = (event) => {
+    if (event !== null)
+      console.log('event is ===>', event)
+    this.setState({
+      selected_region: event,
+      selected_region_value: event.value
+    })
+  };
   getBranch = () => {
+
     fetch(main_url + `main/getBranch`)
       .then((res) => {
         if (res.ok) return res.json();
       })
       .then((res1) => {
         this.setState({ branchData: res1 });
-       
+
       })
       .catch((error) => console.error(`Fetch Error =\n`, error));
   };
 
   getHeadCountbyDepartment = () => {
-    fetch(main_url + `dashboard/headCountByDepartments/${this.state.id.branchId.value}`)
+    fetch(main_url + `dashboard/headCountByDepartments/${this.state.id.branchId.value}/${this.state.region_id}`)
       .then((response) => {
         if (response.ok) return response.json();
       })
@@ -141,7 +160,7 @@ class HeadCountBarChart extends Component {
           var count = [];
           res.map((v, i) => {
             label.push(v.designations);
-           
+
             count.push(v.count);
           });
           this.setState({ xAxisDesign: label, countDataDesign: count });
@@ -216,17 +235,21 @@ class HeadCountBarChart extends Component {
     let data = this.state.id
     data.branchId = event
     this.setState({
-        id: data
+      id: data
     })
-}
-handleSelectedDepartment = async (event) => {
+  }
+  handleSelectedDepartment = async (event) => {
     let data = this.state.id
     data.deptId = event
     this.setState({
-        id: data
+      id: data
     })
-}
-
+  }
+  handleSelectedRegion = async (event) => {
+    this.setState({
+      region_id: event.region_id
+    })
+  }
   render() {
     return (
       <div>
@@ -263,6 +286,28 @@ handleSelectedDepartment = async (event) => {
                   control: (base) => ({
                     ...base,
                     minHeight: "18px",
+                  }),
+                }}
+                options={this.state.regionList}
+                placeholder="Please Choose Region"
+                onChange={this.handleSelectedRegion.bind(this)}
+                value={this.state.selected_region}
+                className='react-select-container checkValidate'
+                classNamePrefix="react-select"
+              />
+              <Select
+                styles={{
+                  marginLeft: '10px',
+                  container: (base) => ({
+                    ...base,
+                    //   flex: 1
+                    width: 200,
+                    marginLeft: 10
+                  }),
+                  control: (base) => ({
+                    ...base,
+                    minHeight: "18px",
+
                   }),
                 }}
                 placeholder="Branch"
