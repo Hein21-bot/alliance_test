@@ -242,7 +242,7 @@ export default class BenefitChildTable extends Component {
         return (
 
             <div>
-                <div className="row border-bottom white-bg dashboard-header">
+                {/* <div className="row border-bottom white-bg dashboard-header"> */}
                     {/* <div className="row"> */}
                         {/* <div class="btn-group-g ">
                             <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
@@ -252,8 +252,7 @@ export default class BenefitChildTable extends Component {
                             <button type="button" class="btn label-reject g" onClick={this.getReject.bind(this)}>Reject</button>
                         </div> */}
                     {/* </div> */}
-                </div>
-                <h3 className="col-md-12">Employment Details Table</h3>
+                {/* </div> */}
                 <table width="99%"
                     className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
                     id="dataTables-table"

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+import Rodal from 'rodal';
 
 import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, getPermissionStatus, startSaving, calculationWorkingExp } from "../../../utils/CommonFunction";
 import Attachment from './Attachment.jsx';
@@ -10,6 +11,7 @@ import EmployeeProfile from './EmployeeProfile.jsx';
 import EmploymentDetails from './EmploymentDetails.jsx';
 import OtherInfo from './OtherInfo.jsx';
 import PersonalDetail from './PersonalDetail.jsx';
+import EmployeeDetailMain from '../EmploymentDetail/EmployeeDetailMain'
 
 
 class EmployeeRegisterMain extends Component {
@@ -102,7 +104,10 @@ class EmployeeRegisterMain extends Component {
             level_options: null,
             branchlist: null,
             employeeStatusList: [{ value: 1, label: 'Permanent' }, { value: 2, label: 'Part-Time' }, { value: 3, label: 'Training' }],
-            editMode: [null, null]
+            editMode: [null, null],
+            visible: false,
+            toDetailForm: false,
+            generateUserId: null
         }
         this.hiddenFileInput = React.createRef();
         this.scroll = React.createRef();
@@ -277,15 +282,22 @@ class EmployeeRegisterMain extends Component {
         })
             .then(res => {
                 status = res.status;
-                return res.text()
-            })
-            .then(text => {
-                if (status === 200) {
-                    toast.success(text);
-                    // window.location.reload();
+                if (status == 400) {
+                    toast.error('Process unsuccessfully!');
+                    return null;
+                } else {
+                    toast.success('Your information is successfully saved!');
+                    return res.json();
                 }
-                else toast.error(text);
-                // window.location.replace("/employee_register");
+                
+                
+            })
+            .then((data) => {
+                if (data) {
+                    this.setState({visible: true, generateUserId: data[0].user_id});
+                }
+                    
+                
 
             })
     }
@@ -1098,6 +1110,18 @@ class EmployeeRegisterMain extends Component {
         })
     }
 
+    okClick = () => {
+        this.setState({toDetailForm: true, visible: false})
+    }
+
+    cancelClick = () => {
+        this.setState({visible: false})
+        window.location.reload()
+    }
+
+    hide() {
+        this.setState({visible: false})
+    }
 
     render() {
         const { tabIndex, userImage, userImageUrl, employeeStatusList, fromMonthYear, toMonthYear, nrc_number, period, level_options, location, designation, workExpChecked, organization, sameWithCtPerson, bankList, selected_bank, trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo,
@@ -1109,187 +1133,207 @@ class EmployeeRegisterMain extends Component {
         console.log('employed date is ===>', joinDate)
 
         return (
-            <div className=" border-bottom white-bg dashboard-header">
-                <ToastContainer position={toast.POSITION.TOP_RIGHT} />
-                <div className="row wrapper border-bottom white-bg page-heading">
-                    <div className="col-lg-12">
-                        <h2>HR Management System</h2>
-                        <ol className="breadcrumb">
-                            <li>
-                                Employee
-                            </li>
-                            <li className="active">
-                                <a href="#"> Employee Register</a>
-                            </li>
-
-                        </ol>
+            <div>
+                {console.log('generateUserId ===>', this.state.generateUserId)}
+                {this.state.toDetailForm ? (
+                    <EmployeeDetailMain id={this.state.generateUserId}></EmployeeDetailMain>
+                ) : (
+                    <div className=" border-bottom white-bg dashboard-header">
+                    <ToastContainer position={toast.POSITION.TOP_RIGHT} />
+                    <div className="row wrapper border-bottom white-bg page-heading">
+                        <div className="col-lg-12">
+                            <ol className="breadcrumb">
+                                <li style={{ fontSize: 18 }}> 
+                                    Employee
+                                </li>
+                                <li className="active" style={{ fontSize: 18 }}>
+                                    <a href="#"> Employee Register</a>
+                                </li>
+    
+                            </ol>
+                        </div>
+    
                     </div>
-
-                </div>
-
-
-                <div className='tabBar col-lg-12 col-md-12 col-sm-12 ' style={{ display: 'flex', paddingLeft: 0, paddingRight: 0, flexDirection: 'row', paddingTop: 20, fontSize: 13, minWidth: 300, overflowX: 'auto', alignItems: 'center' }}>
-                    <div className='col-lg-2 col-md-2 ' onClick={() => this.setState({ tabIndex: 1 })} style={{
-                        paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', cursor: 'pointer', marginBottom: tabIndex === 1 ? 5 : 0, fontWeight: tabIndex === 1 ? 'bold' : 'normal',
-                        minHeight: tabIndex === 1 ? 35 : 30, background: `${tabIndex === 1 ? '#fff' : '#337ab7'}`, paddingLeft: 10, paddingRight: 10, color: tabIndex === 1 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
-                    }}>
-                        Employee Profile
+    
+    
+                    <div className='tabBar col-lg-12 col-md-12 col-sm-12 ' style={{ display: 'flex', paddingLeft: 0, paddingRight: 0, flexDirection: 'row', paddingTop: 20, fontSize: 13, minWidth: 300, overflowX: 'auto', alignItems: 'center' }}>
+                        <div className='col-lg-2 col-md-2 ' onClick={() => this.setState({ tabIndex: 1 })} style={{
+                            paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', cursor: 'pointer', marginBottom: tabIndex === 1 ? 5 : 0, fontWeight: tabIndex === 1 ? 'bold' : 'normal',
+                            minHeight: tabIndex === 1 ? 35 : 30, background: `${tabIndex === 1 ? '#fff' : '#337ab7'}`, paddingLeft: 10, paddingRight: 10, color: tabIndex === 1 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
+                        }}>
+                            Employee Profile
+                        </div>
+                        <div className='col-lg-2 col-md-2' onClick={() => this.setState({ tabIndex: 2 })} style={{
+                            paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', cursor: 'pointer', marginBottom: tabIndex === 2 ? 5 : 0, fontWeight: tabIndex === 2 ? 'bold' : 'normal',
+                            minHeight: tabIndex === 2 ? 35 : 30, background: `${tabIndex === 2 ? '#fff' : '#337ab7'}`, paddingLeft: 10, paddingRight: 10, color: tabIndex === 2 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
+                        }}>
+                            Personal Detail
+                        </div>
+                        <div className='col-lg-2 col-md-2' onClick={() => this.setState({ tabIndex: 3 })} style={{
+                            paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', cursor: 'pointer', marginBottom: tabIndex === 3 ? 5 : 0, fontWeight: tabIndex === 3 ? 'bold' : 'normal',
+                            minHeight: tabIndex === 3 ? 35 : 30, background: `${tabIndex === 3 ? '#fff' : '#337ab7'}`, paddingLeft: 10, paddingRight: 10, color: tabIndex === 3 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
+                        }}>
+                            Education Details
+                        </div>
+                        <div className='col-lg-2 col-md-2' onClick={() => this.setState({ tabIndex: 4 })} style={{
+                            paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', cursor: 'pointer', marginBottom: tabIndex === 4 ? 5 : 0, fontWeight: tabIndex === 4 ? 'bold' : 'normal',
+                            minHeight: tabIndex === 4 ? 35 : 30, background: `${tabIndex === 4 ? '#fff' : '#337ab7'}`, paddingLeft: 10, paddingRight: 10, color: tabIndex === 4 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
+                        }}>
+                            Contact Details
+                        </div>
+                        <div className='col-lg-2 col-md-2' onClick={() => this.setState({ tabIndex: 5 })} style={{
+                            paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', minWidth: 150, cursor: 'pointer', marginBottom: tabIndex === 5 ? 5 : 0, fontWeight: tabIndex === 5 ? 'bold' : 'normal',
+                            minHeight: tabIndex === 5 ? 35 : 30, background: `${tabIndex === 5 ? '#fff' : '#337ab7'}`, paddingLeft: 10, paddingRight: 10, color: tabIndex === 5 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
+                        }}>
+                            Bank Account Details
+                        </div>
+                        <div className='col-lg-2 col-md-2' onClick={() => this.setState({ tabIndex: 6 })} style={{
+                            paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', cursor: 'pointer', marginBottom: tabIndex === 6 ? 5 : 0, fontWeight: tabIndex === 6 ? 'bold' : 'normal',
+                            minHeight: tabIndex === 6 ? 35 : 30, background: `${tabIndex === 6 ? '#fff' : '#337ab7'}`, paddingLeft: 10, paddingRight: 10, color: tabIndex === 6 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
+                        }}>
+                            Other Information
+                        </div>
+                        <div className='col-lg-2 col-md-2' onClick={() => this.setState({ tabIndex: 7 })} style={{
+                            paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', cursor: 'pointer', marginBottom: tabIndex === 7 ? 5 : 0, fontWeight: tabIndex === 7 ? 'bold' : 'normal',
+                            minHeight: tabIndex === 7 ? 35 : 30, background: `${tabIndex === 7 ? '#fff' : '#337ab7'}`, paddingLeft: 10, paddingRight: 10, color: tabIndex === 7 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
+                        }}>
+                            Attachment
+                        </div>
+                        <div className='col-lg-2 col-md-2' onClick={() => this.setState({ tabIndex: 8 })} style={{
+                            paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', minWidth: 130, cursor: 'pointer', marginBottom: tabIndex === 8 ? 5 : 0, fontWeight: tabIndex === 8 ? 'bold' : 'normal',
+                            minHeight: tabIndex === 8 ? 35 : 30, background: `${tabIndex === 8 ? '#fff' : '#337ab7'}`, minWidth: 150, paddingLeft: 10, paddingRight: 10, color: tabIndex === 8 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
+                        }}>
+                            Employment Details
+                        </div>
+    
                     </div>
-                    <div className='col-lg-2 col-md-2' onClick={() => this.setState({ tabIndex: 2 })} style={{
-                        paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', cursor: 'pointer', marginBottom: tabIndex === 2 ? 5 : 0, fontWeight: tabIndex === 2 ? 'bold' : 'normal',
-                        minHeight: tabIndex === 2 ? 35 : 30, background: `${tabIndex === 2 ? '#fff' : '#337ab7'}`, paddingLeft: 10, paddingRight: 10, color: tabIndex === 2 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
-                    }}>
-                        Personal Detail
-                    </div>
-                    <div className='col-lg-2 col-md-2' onClick={() => this.setState({ tabIndex: 3 })} style={{
-                        paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', cursor: 'pointer', marginBottom: tabIndex === 3 ? 5 : 0, fontWeight: tabIndex === 3 ? 'bold' : 'normal',
-                        minHeight: tabIndex === 3 ? 35 : 30, background: `${tabIndex === 3 ? '#fff' : '#337ab7'}`, paddingLeft: 10, paddingRight: 10, color: tabIndex === 3 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
-                    }}>
-                        Education Details
-                    </div>
-                    <div className='col-lg-2 col-md-2' onClick={() => this.setState({ tabIndex: 4 })} style={{
-                        paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', cursor: 'pointer', marginBottom: tabIndex === 4 ? 5 : 0, fontWeight: tabIndex === 4 ? 'bold' : 'normal',
-                        minHeight: tabIndex === 4 ? 35 : 30, background: `${tabIndex === 4 ? '#fff' : '#337ab7'}`, paddingLeft: 10, paddingRight: 10, color: tabIndex === 4 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
-                    }}>
-                        Contact Details
-                    </div>
-                    <div className='col-lg-2 col-md-2' onClick={() => this.setState({ tabIndex: 5 })} style={{
-                        paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', minWidth: 150, cursor: 'pointer', marginBottom: tabIndex === 5 ? 5 : 0, fontWeight: tabIndex === 5 ? 'bold' : 'normal',
-                        minHeight: tabIndex === 5 ? 35 : 30, background: `${tabIndex === 5 ? '#fff' : '#337ab7'}`, paddingLeft: 10, paddingRight: 10, color: tabIndex === 5 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
-                    }}>
-                        Bank Account Details
-                    </div>
-                    <div className='col-lg-2 col-md-2' onClick={() => this.setState({ tabIndex: 6 })} style={{
-                        paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', cursor: 'pointer', marginBottom: tabIndex === 6 ? 5 : 0, fontWeight: tabIndex === 6 ? 'bold' : 'normal',
-                        minHeight: tabIndex === 6 ? 35 : 30, background: `${tabIndex === 6 ? '#fff' : '#337ab7'}`, paddingLeft: 10, paddingRight: 10, color: tabIndex === 6 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
-                    }}>
-                        Other Information
-                    </div>
-                    <div className='col-lg-2 col-md-2' onClick={() => this.setState({ tabIndex: 7 })} style={{
-                        paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', cursor: 'pointer', marginBottom: tabIndex === 7 ? 5 : 0, fontWeight: tabIndex === 7 ? 'bold' : 'normal',
-                        minHeight: tabIndex === 7 ? 35 : 30, background: `${tabIndex === 7 ? '#fff' : '#337ab7'}`, paddingLeft: 10, paddingRight: 10, color: tabIndex === 7 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
-                    }}>
-                        Attachment
-                    </div>
-                    <div className='col-lg-2 col-md-2' onClick={() => this.setState({ tabIndex: 8 })} style={{
-                        paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', minWidth: 130, cursor: 'pointer', marginBottom: tabIndex === 8 ? 5 : 0, fontWeight: tabIndex === 8 ? 'bold' : 'normal',
-                        minHeight: tabIndex === 8 ? 35 : 30, background: `${tabIndex === 8 ? '#fff' : '#337ab7'}`, minWidth: 150, paddingLeft: 10, paddingRight: 10, color: tabIndex === 8 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
-                    }}>
-                        Employment Details
-                    </div>
-
-                </div>
-                {/* </div> */}
-
-                {
-                    tabIndex === 1 ?
-                        <EmployeeProfile
-                            userImage={userImage} handleClick={this.handleClick}
-                            hiddenFileInput={this.hiddenFileInput}
-                            handleChange={this.handleChange} employeeNameEng={employeeNameEng}
-                            employeeId={employeeId} handleInputChange={this.handleInputChange}
-                            employeeNameMyan={employeeNameMyan}
-                            gender={gender} onGenderChange={this.onGenderChange}
-                            dateOfBirth={dateOfBirth} nationality={nationality}
-                            personalPhone={personalPhone} officePhone={officePhone}
-                            region={region} address={address} joinDate={joinDate}
-                            handleProfileSave={this.handleProfileSave}
-                            onCancelClick={this.clearProfileData}
-                            handleSelectedDistrictCode={this.handleSelectedDistrictCode}
-                            handleSelectedNRCId={this.handleSelectedNRCId}
-                            selected_DistrictCode={selected_DistrictCode}
-                            selected_NRC_Id={selected_NRC_Id}
-                            districtCodeList={districtCodeList}
-                            nrcList={nrcList}
-                            nrc_number={nrc_number}
-                        />
-
-                        : tabIndex === 2 ?
-                            <PersonalDetail
-                                fatherName={fatherName} motherName={motherName}
-                                handlePersonalDetailInputChange={this.handlePersonalDetailInputChange}
-                                onStatusChange={this.onStatusChange} handlePreviousClick={this.handlePreviousClick}
-                                martialStatus={martialStatus} parentCount={parentCount}
-                                siblingCount={siblingCount} childCount={childCount} pInLawCount={pInLawCount}
-                                handlePersonalDetail={this.handlePersonalDetail}
-
-                            /> : tabIndex === 3 ?
-                                <EducationDetails
-                                    handleEducationDetails={this.handleEducationDetails}
-                                    handleSelectedDegree={this.handleSelectedDegree}
-                                    degreeList={degreeList} selected_degree={selected_degree} location={location}
-                                    selected_qualification={selected_qualification}
-                                    handleWorkExpChange={this.handleWorkExpChange} checked={workExpChecked}
-                                    handleEduactionInputChange={this.handleEduactionInputChange} period={period} designation={designation} organization={organization}
-                                    onCancelClick={this.clearProfileData} handleAddDegreeData={this.handleAddDegreeData} handleUpdateDegreeData={this.handleUpdateDegreeData} handleRemoveDegreeData={this.handleRemoveDegreeData}
-                                    addedDegreeData={addedDegreeData} addedQualitificationData={addedQualitificationData} handleUpdateQualification={this.handleUpdateQualification} handleRemoveQualification={this.handleRemoveQualification}
-                                    workExpData={workExpData} handlePreviousClick={this.handlePreviousClick}
-                                    handleAddQualification={this.handleAddQualification} handleAddWorkExp={this.handleAddWorkExp}
-                                    fromMonthYear={fromMonthYear} toMonthYear={toMonthYear} handleFromMonthYear={this.handleFromMonthYear} handleToMonthYear={this.handleToMonthYear} handleUpdateWorkExp={this.handleUpdateWorkExp} handleRemoveWorkExp={this.handleRemoveWorkExp}
-                                />
-                                : tabIndex === 4 ?
-                                    <ContactDetails
-                                        contactPerson={contactPerson} contactPhone={contactPhone}
-                                        handleContactDetailInputChange={this.handleContactDetailInputChange}
-                                        onCancelClick={this.clearProfileData}
-                                        handleContactDetails={this.handleContactDetails}
-                                        checked={sameWithCtPerson} handleSameWithCtPersonChange={this.handleSameWithCtPersonChange}
-                                        guarantor={guarantor} guarantorPhone={guarantorPhone}
-                                        selected_gran_NRC_Id={selected_gran_NRC_Id}
-                                        selected_gran_DistrictCode={selected_gran_DistrictCode}
-                                        gran_nrc_number={gran_nrc_number}
-                                        districtCodeList={granDistrictCodeList}
-                                        nrcList={nrcList}
-                                        handleNRC_Id={this.handleNRC_Id}
-                                        handleGranDistrictCode={this.handleGranDistrictCode}
-                                        handlePreviousClick={this.handlePreviousClick}
+                    {/* </div> */}
+    
+                    {
+                        tabIndex === 1 ?
+                            <EmployeeProfile
+                                userImage={userImage} handleClick={this.handleClick}
+                                hiddenFileInput={this.hiddenFileInput}
+                                handleChange={this.handleChange} employeeNameEng={employeeNameEng}
+                                employeeId={employeeId} handleInputChange={this.handleInputChange}
+                                employeeNameMyan={employeeNameMyan}
+                                gender={gender} onGenderChange={this.onGenderChange}
+                                dateOfBirth={dateOfBirth} nationality={nationality}
+                                personalPhone={personalPhone} officePhone={officePhone}
+                                region={region} address={address} joinDate={joinDate}
+                                handleProfileSave={this.handleProfileSave}
+                                onCancelClick={this.clearProfileData}
+                                handleSelectedDistrictCode={this.handleSelectedDistrictCode}
+                                handleSelectedNRCId={this.handleSelectedNRCId}
+                                selected_DistrictCode={selected_DistrictCode}
+                                selected_NRC_Id={selected_NRC_Id}
+                                districtCodeList={districtCodeList}
+                                nrcList={nrcList}
+                                nrc_number={nrc_number}
+                            />
+    
+                            : tabIndex === 2 ?
+                                <PersonalDetail
+                                    fatherName={fatherName} motherName={motherName}
+                                    handlePersonalDetailInputChange={this.handlePersonalDetailInputChange}
+                                    onStatusChange={this.onStatusChange} handlePreviousClick={this.handlePreviousClick}
+                                    martialStatus={martialStatus} parentCount={parentCount}
+                                    siblingCount={siblingCount} childCount={childCount} pInLawCount={pInLawCount}
+                                    handlePersonalDetail={this.handlePersonalDetail}
+    
+                                /> : tabIndex === 3 ?
+                                    <EducationDetails
+                                        handleEducationDetails={this.handleEducationDetails}
+                                        handleSelectedDegree={this.handleSelectedDegree}
+                                        degreeList={degreeList} selected_degree={selected_degree} location={location}
+                                        selected_qualification={selected_qualification}
+                                        handleWorkExpChange={this.handleWorkExpChange} checked={workExpChecked}
+                                        handleEduactionInputChange={this.handleEduactionInputChange} period={period} designation={designation} organization={organization}
+                                        onCancelClick={this.clearProfileData} handleAddDegreeData={this.handleAddDegreeData} handleUpdateDegreeData={this.handleUpdateDegreeData} handleRemoveDegreeData={this.handleRemoveDegreeData}
+                                        addedDegreeData={addedDegreeData} addedQualitificationData={addedQualitificationData} handleUpdateQualification={this.handleUpdateQualification} handleRemoveQualification={this.handleRemoveQualification}
+                                        workExpData={workExpData} handlePreviousClick={this.handlePreviousClick}
+                                        handleAddQualification={this.handleAddQualification} handleAddWorkExp={this.handleAddWorkExp}
+                                        fromMonthYear={fromMonthYear} toMonthYear={toMonthYear} handleFromMonthYear={this.handleFromMonthYear} handleToMonthYear={this.handleToMonthYear} handleUpdateWorkExp={this.handleUpdateWorkExp} handleRemoveWorkExp={this.handleRemoveWorkExp}
                                     />
-                                    : tabIndex === 5 ?
-                                        <BankAccountDetails
-                                            handleBankDetailInputChange={this.handleBankDetailInputChange}
-                                            handleSelectedBank={this.handleSelectedBank}
+                                    : tabIndex === 4 ?
+                                        <ContactDetails
+                                            contactPerson={contactPerson} contactPhone={contactPhone}
+                                            handleContactDetailInputChange={this.handleContactDetailInputChange}
                                             onCancelClick={this.clearProfileData}
-                                            accountName={accountName} accountNumber={accountNumber}
-                                            bankList={bankList} selected_bank={selected_bank} bankData={bankData}
-                                            handleEditBankData={this.handleEditBankData} bankDataEdit={bankDataEdit}
-                                            handleAdd_UpdateBankData={this.handleAdd_UpdateBankData}
-                                            handleDeleteBankData={this.handleDeleteBankData}
-                                            handleBankAccountDetails={this.handleBankAccountDetails}
-                                            cancelEdit={this.cancelEdit}
+                                            handleContactDetails={this.handleContactDetails}
+                                            checked={sameWithCtPerson} handleSameWithCtPersonChange={this.handleSameWithCtPersonChange}
+                                            guarantor={guarantor} guarantorPhone={guarantorPhone}
+                                            selected_gran_NRC_Id={selected_gran_NRC_Id}
+                                            selected_gran_DistrictCode={selected_gran_DistrictCode}
+                                            gran_nrc_number={gran_nrc_number}
+                                            districtCodeList={granDistrictCodeList}
+                                            nrcList={nrcList}
+                                            handleNRC_Id={this.handleNRC_Id}
+                                            handleGranDistrictCode={this.handleGranDistrictCode}
                                             handlePreviousClick={this.handlePreviousClick}
-                                            employeeNameEng={employeeNameEng}
-
-                                        /> : tabIndex === 6 ?
-                                            <OtherInfo
-                                                handleOtherInfo={this.handleOtherInfo} onCancelClick={this.clearProfileData}
-                                                handleOtherInfoInputChange={this.handleOtherInfoInputChange}
+                                        />
+                                        : tabIndex === 5 ?
+                                            <BankAccountDetails
+                                                handleBankDetailInputChange={this.handleBankDetailInputChange}
+                                                handleSelectedBank={this.handleSelectedBank}
+                                                onCancelClick={this.clearProfileData}
+                                                accountName={accountName} accountNumber={accountNumber}
+                                                bankList={bankList} selected_bank={selected_bank} bankData={bankData}
+                                                handleEditBankData={this.handleEditBankData} bankDataEdit={bankDataEdit}
+                                                handleAdd_UpdateBankData={this.handleAdd_UpdateBankData}
+                                                handleDeleteBankData={this.handleDeleteBankData}
+                                                handleBankAccountDetails={this.handleBankAccountDetails}
+                                                cancelEdit={this.cancelEdit}
                                                 handlePreviousClick={this.handlePreviousClick}
-                                                trainingCode={trainingCode} partTimeCode={partTimeCode} customerCode={customerCode} ThaPaYaAccount={ThaPaYaAccount} SSCCardNo={SSCCardNo}
-                                            />
-                                            : tabIndex === 7 ?
-                                                <Attachment
-                                                    handleAttachment={this.handleAttachment}
-                                                    handleAttachmentChange={this.handleAttachmentChange}
-                                                    attachmentUrl={attachmentUrl}
+                                                employeeNameEng={employeeNameEng}
+    
+                                            /> : tabIndex === 6 ?
+                                                <OtherInfo
+                                                    handleOtherInfo={this.handleOtherInfo} onCancelClick={this.clearProfileData}
+                                                    handleOtherInfoInputChange={this.handleOtherInfoInputChange}
                                                     handlePreviousClick={this.handlePreviousClick}
-                                                    onCancelClick={this.clearProfileData}
-                                                /> : tabIndex === 8 ?
-                                                    <EmploymentDetails
-                                                        employeeStatus={employeeStatus} employeeDesignation={employeeDesignation} jobTitle={jobTitle} carrerLevel={carrerLevel} employeeDetailBranch={employeeDetailBranch}
-                                                        employedDate={employedDate} disConStatus={disConStatus} disConDate={disConDate} branchlist={branchlist} employeeStatusList={employeeStatusList}
-                                                        handleEmploymentDetailInputChange={this.handleEmploymentDetailInputChange} disConstatusList={disConstatusList} handleSelectedEmpStatus={this.handleSelectedEmpStatus}
-                                                        handleEmploymentDetail={this.handleEmploymentDetail} level_options={level_options} handleSelectedBranch={this.handleSelectedBranch}
-                                                        onCancelClick={this.clearProfileData} designationList={this.state.designationList} handleLevelSelectorChange={this.handleLevelSelectorChange}
-                                                        handlePreviousClick={this.handlePreviousClick} handleSelectedDesignation={this.handleSelectedDesignation} handleSelectedDisConStus={this.handleSelectedDisConStus}
-                                                        createNewEmployee={this.createNewEmployee}
-                                                    />
-                                                    : null
-                }
+                                                    trainingCode={trainingCode} partTimeCode={partTimeCode} customerCode={customerCode} ThaPaYaAccount={ThaPaYaAccount} SSCCardNo={SSCCardNo}
+                                                />
+                                                : tabIndex === 7 ?
+                                                    <Attachment
+                                                        handleAttachment={this.handleAttachment}
+                                                        handleAttachmentChange={this.handleAttachmentChange}
+                                                        attachmentUrl={attachmentUrl}
+                                                        handlePreviousClick={this.handlePreviousClick}
+                                                        onCancelClick={this.clearProfileData}
+                                                    /> : tabIndex === 8 ?
+                                                        <EmploymentDetails
+                                                            employeeStatus={employeeStatus} employeeDesignation={employeeDesignation} jobTitle={jobTitle} carrerLevel={carrerLevel} employeeDetailBranch={employeeDetailBranch}
+                                                            employedDate={employedDate} disConStatus={disConStatus} disConDate={disConDate} branchlist={branchlist} employeeStatusList={employeeStatusList}
+                                                            handleEmploymentDetailInputChange={this.handleEmploymentDetailInputChange} disConstatusList={disConstatusList} handleSelectedEmpStatus={this.handleSelectedEmpStatus}
+                                                            handleEmploymentDetail={this.handleEmploymentDetail} level_options={level_options} handleSelectedBranch={this.handleSelectedBranch}
+                                                            onCancelClick={this.clearProfileData} designationList={this.state.designationList} handleLevelSelectorChange={this.handleLevelSelectorChange}
+                                                            handlePreviousClick={this.handlePreviousClick} handleSelectedDesignation={this.handleSelectedDesignation} handleSelectedDisConStus={this.handleSelectedDisConStus}
+                                                            createNewEmployee={this.createNewEmployee}
+                                                        />
+                                                        : null
+                    }
+    
+    
+    
+    
+                    
+                </div>
+                )}
+            
+            <Rodal width={400} height={120} visible={this.state.visible} onClose={this.hide.bind(this)} >
+                    <div className="col-md-12 "><h4>Do you want to go to Employment Detail?</h4>
+                    </div>
+                    <div className="col-md-12" style={{ marginTop: 30 , display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
+                    
+
+<button style={{marginRight: 10}}  button className="btn btn-primary" onClick={() => this.okClick()}><span>OK</span> </button>
 
 
+                            <button className="btn btn-danger" onClick={() => this.cancelClick()}><span>Cancel</span> </button>
 
-
-
+                    </div>
+                </Rodal>
             </div>
         )
 
