@@ -10,6 +10,7 @@ const EducationDetails = props => {
     const { viewForm, editForm } = props
     const { handleSelectedDegree, handleEducationDetails, workExpData, handlePreviousClick, handleAddWorkExp, handleFromMonthYear, handleToMonthYear, fromMonthYear, toMonthYear, handleAddDegreeData, handleAddQualification, addedDegreeData, addedQualitificationData, onCancelClick, location, degreeList, selected_degree, selected_qualification, designation, organization, handleEduactionInputChange, period, handleWorkExpChange, checked, handleUpdateDegreeData, handleUpdateQualification, handleUpdateWorkExp, handleRemoveQualification, handleRemoveDegreeData, handleRemoveWorkExp } = props
 
+
     return (
         <>
             <div className='white-bg ' style={{
@@ -157,7 +158,7 @@ const EducationDetails = props => {
                                 <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
                                     <div className='col-lg-2 col-md-3 col-sm-4' style={{ fontWeight: 'bold', paddingBottom: 10, marginLeft: 10, display: 'grid', alignItems: 'center' }}>
                                         Period
-                                        <input type='text' placeholder='' required={(viewForm || editForm) ? false : true} name="period" value={period} onChange={handleEduactionInputChange} style={{ height: 40, }} />
+                                        <input type='text' placeholder='' required={(viewForm || editForm) ? false : true} name="period" value={period} onChange={handleEduactionInputChange} style={{ height: 40, }} disabled/>
 
                                     </div>
                                     <div className='col-lg-2 col-md-3 col-sm-4' style={{ fontWeight: 'bold', paddingBottom: 10, marginLeft: 10, display: 'grid', alignItems: 'center' }}>

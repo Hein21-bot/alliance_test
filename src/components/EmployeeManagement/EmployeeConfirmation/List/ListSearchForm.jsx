@@ -10,12 +10,12 @@ const ListSearchForm = props => {
     const { selected_title, titleList, handleDropDown, handleSearch, level_options, sub_level_options, handleLevelSelectorChange, career_level, career_sub_level, selected_branch, handleSelectedRegion, handleSelectedBranch, handleSelectedDeaprtment, selected_department, selected_region, regionList, branchlist, departmentlist, onChange, confirmationMonth, date, dropDownOpen, selected_designation, designationList, handleSelectedDesignation, handleConfirmationListInputChange, handleSelectedLevel, handleSelectedSubLevel, handleSelectedTitle } = props
     return (
 
-        <div style={{ padding: 10, display: 'flex', flexWrap: 'wrap' }}>
-            <div className='col-lg-3 col-md-4 col-sm-12 ' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
-                <div className='col-lg-4 col-md-4 col-sm-4'>
+        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+            <div className='col-lg-3 col-md-4 col-sm-12 ' style={{ display: 'flex', paddingTop: 10, flexDirection: 'column' }}>
+                <div className='col-12'>
                     Date
                 </div>
-                <div className='col-lg-7 col-md-7 col-sm-8' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div className='col-12' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div style={{ minWidth: 180 }}>
                         <DatePicker
                             dateFormat="DD/MM/YYYY"
@@ -28,13 +28,13 @@ const ListSearchForm = props => {
 
             </div>
 
-            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, flexDirection: 'column' }}>
 
 
-                <div className='col-lg-4 col-md-4 col-sm-4'>
+                <div className='col-12'>
                     Confirmation Title
                 </div>
-                <div className='col-lg-7 col-md-7 col-sm-8 ' style={{ display: 'flex', justifyContent: 'start' }}>
+                <div className='col-12 ' style={{ display: 'flex', justifyContent: 'start' }}>
                     <div style={{ minWidth: 180 }}>
                         <Select
                             options={titleList}
@@ -42,6 +42,7 @@ const ListSearchForm = props => {
                             onChange={handleSelectedTitle}
                             className="react-select-container checkValidate"
                             classNamePrefix="react-select"
+                            
                         />
                     </div>
 
@@ -50,23 +51,23 @@ const ListSearchForm = props => {
             </div>
             {
                 (selected_title && !selected_title.value) ?
-                    <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
-                        <div className='col-lg-4 col-md-4 col-sm-4'>
+                    <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, flexDirection: 'column' }}>
+                        <div className='col-12'>
                             Confirmation Month
                         </div>
-                        <div className='col-lg-7 col-md-7 col-sm-8' style={{}}>
+                        <div className='col-12' style={{}}>
                             <input type='number' name="confirmationMonth" value={confirmationMonth} onChange={handleConfirmationListInputChange} style={{ minWidth: 180, height: 40, boxShadow: '0px 1px 1px 0px lightgrey' }} />
                         </div>
 
                     </div> : null
             }
 
-            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, flexDirection: 'column' }}>
 
-                <div className='col-lg-4 col-md-4 col-sm-4'>
+                <div className='col-12'>
                     Designation
                 </div>
-                <div className='col-lg-7 col-md-7 col-sm-8 ' style={{ display: 'flex', justifyContent: 'start' }}>
+                <div className='col-12 ' style={{ display: 'flex', justifyContent: 'start' }}>
                     <div style={{ minWidth: 180 }}>
                         <Select
                             options={designationList}
@@ -80,12 +81,12 @@ const ListSearchForm = props => {
                 </div>
 
             </div>
-            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, flexDirection: 'column' }}>
 
-                <div className='col-lg-4 col-md-4 col-sm-4'>
+                <div className='col-12'>
                     Level
                 </div>
-                <div className='col-lg-7 col-md-7 col-sm-8 ' style={{ display: 'flex', justifyContent: 'start' }}>
+                <div className='col-12 ' style={{ display: 'flex', justifyContent: 'start' }}>
                     <div style={{ minWidth: 180 }}>
                         <Select
                             options={level_options}
@@ -99,12 +100,12 @@ const ListSearchForm = props => {
                 </div>
 
             </div>
-            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, flexDirection: 'column' }}>
 
-                <div className='col-lg-4 col-md-4 col-sm-4'>
+                <div className='col-12'>
                     Sub Level
                 </div>
-                <div className='col-lg-7 col-md-7 col-sm-8 ' style={{ display: 'flex', justifyContent: 'start' }}>
+                <div className='col-12 ' style={{ display: 'flex', justifyContent: 'start' }}>
                     <div style={{ minWidth: 180 }}>
                         <Select
                             options={career_level ? sub_level_options.filter(c => c.career_level_id == career_level.career_level_id) : sub_level_options}
@@ -118,12 +119,12 @@ const ListSearchForm = props => {
                 </div>
 
             </div>
-            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, flexDirection: 'column' }}>
 
-                <div className='col-lg-4 col-md-4 col-sm-4'>
+                <div className='col-12'>
                     Region
                 </div>
-                <div className='col-lg-7 col-md-7 col-sm-8 ' style={{ display: 'flex', justifyContent: 'start' }}>
+                <div className='col-12 ' style={{ display: 'flex', justifyContent: 'start' }}>
                     <div style={{ minWidth: 180 }}>
                         <Select
                             options={regionList}
@@ -137,12 +138,12 @@ const ListSearchForm = props => {
                 </div>
 
             </div>
-            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, flexDirection: 'column' }}>
 
-                <div className='col-lg-4 col-md-4 col-sm-4'>
+                <div className='col-12'>
                     Department
                 </div>
-                <div className='col-lg-7 col-md-7 col-sm-8 ' style={{ display: 'flex', justifyContent: 'start' }}>
+                <div className='col-12 ' style={{ display: 'flex', justifyContent: 'start' }}>
                     <div style={{ minWidth: 180 }}>
                         <Select
                             options={departmentlist}
@@ -156,12 +157,12 @@ const ListSearchForm = props => {
                 </div>
 
             </div>
-            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, flexDirection: 'column' }}>
 
-                <div className='col-lg-4 col-md-4 col-sm-4'>
+                <div className='col-12'>
                     Branch
                 </div>
-                <div className='col-lg-7 col-md-7 col-sm-8 ' style={{ display: 'flex', justifyContent: 'start' }}>
+                <div className='col-12 ' style={{ display: 'flex', justifyContent: 'start' }}>
                     <div style={{ minWidth: 180 }}>
                         <Select
                             options={branchlist}
@@ -175,7 +176,7 @@ const ListSearchForm = props => {
                 </div>
 
             </div>
-            <div className='col-lg-3 col-md-4 col-sm-12 mx-2' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginTop: 20 }}>
+            <div className='col-lg-12 col-md-12 col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20}}>
                 <button onClick={handleSearch} className='btn btn-primary' style={{ borderRadius: 3, width: 80 }}>Search</button>
 
             </div>
