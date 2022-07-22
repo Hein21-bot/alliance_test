@@ -9,6 +9,8 @@ import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, get
 const ContactDetails = props => {
     const { viewForm, editForm, contactPerson, handlePreviousClick, guaFullNRC, contactPhone, selected_gran_NRC_Id, handleNRC_Id, selected_gran_DistrictCode, districtCodeList, nrcList, handleGranDistrictCode, gran_nrc_number, handleContactDetailInputChange, handleContactDetails, guarantor, guarantorPhone, handleSameWithCtPersonChange, checked } = props
     const guarantorNRC = guaFullNRC ? guaFullNRC : `${selected_gran_NRC_Id ? selected_gran_NRC_Id.label : ''} ${selected_gran_DistrictCode ? '/' + selected_gran_DistrictCode.label : ''} ${gran_nrc_number ? '(N)' + gran_nrc_number : ''}`
+
+    console.log("full nrc is ===>", guaFullNRC)
     return (
         <form onSubmit={handleContactDetails} >
             <div className='white-bg ' style={{

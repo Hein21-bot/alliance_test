@@ -282,11 +282,10 @@ class EmployeeRegisterMain extends Component {
             .then(text => {
                 if (status === 200) {
                     toast.success(text);
-
-                    window.location.reload();
+                    // window.location.reload();
                 }
                 else toast.error(text);
-                window.location.replace("/employee_register");
+                // window.location.replace("/employee_register");
 
             })
     }
@@ -717,7 +716,7 @@ class EmployeeRegisterMain extends Component {
     }
     handleEmploymentDetail = e => {
         e.preventDefault();
-        this.createNewEmployee();
+        // this.createNewEmployee();
         this.setState({
             tabIndex: 1
         })
@@ -1106,6 +1105,8 @@ class EmployeeRegisterMain extends Component {
             selected_gran_DistrictCode, gran_nrc_number, parentCount, siblingCount, childCount, pInLawCount, martialStatus, officePhone, region, address, joinDate, accountName, accountNumber, employeeStatus, employeeDesignation, jobTitle, carrerLevel, employeeDetailBranch, employedDate, disConStatus, disConDate,
             employeeId, employeeNameEng, nationality, personalPhone, employeeNameMyan, gender, dateOfBirth, contactPerson, contactPhone, bankData, bankDataEdit, selected_DistrictCode, selected_NRC_Id, districtCodeList, nrcList,
         } = this.state
+
+        console.log('employed date is ===>', joinDate)
 
         return (
             <div className=" border-bottom white-bg dashboard-header">

@@ -39,6 +39,7 @@ export default class ConfirmationRequestList extends Component {
 
   render() {
     let confirmData = this.state.pathname == '/confirmation_approve_list' ? this.state.comfirmationRequestList.filter(v => v.status == 4) : this.state.comfirmationRequestList
+    console.log("confirm data is ===>", confirmData)
     return (
       <div className=" border-bottom white-bg dashboard-header">
         <div className="row wrapper white-bg page-heading">

@@ -8,7 +8,7 @@ import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, get
 
 const EmploymentDetails = props => {
     const { designationList, branchlist, employeeStatusList, handleSelectedEmpStatus, disConstatusList, viewForm, editForm, level_options, handleLevelSelectorChange, handleEmploymentDetailInputChange, handleSelectedDisConStus, handleEmploymentDetail, onCancelClick, handleSelectedDesignation, employeeStatus, employeeDesignation, jobTitle, carrerLevel, employeeDetailBranch, employedDate, disConStatus, disConDate, handleSelectedBranch, createNewEmployee } = props
-    console.log("discontinute status is ===>", disConStatus)
+    console.log("discontinute status is ===>", employeeStatus, employeeStatusList)
     return (
         <form onSubmit={handleEmploymentDetail} >
             <div className='white-bg ' style={{

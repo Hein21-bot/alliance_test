@@ -239,7 +239,7 @@ class EmployeeDetailMain extends Component {
   }
 
   getData(id) {
-    fetch(`${main_url}employee/getUserDetail/${id}`)
+    fetch(`${main_url}employee/getDetailUser/${id}`)
       .then((res) => {
         if (res.ok) return res.json();
       })
@@ -247,81 +247,51 @@ class EmployeeDetailMain extends Component {
         if (data.length > 0) {
           this.setState({
             selectedEmploymentData: data[0],
-
             edit: false,
             addNew: true,
             date: moment(new Date()).format("YYYY-MM-DD"),
             employeeName: data[0].fullname,
-            selected_designation: this.state.designationList.find(
-              (c) => c.value == data[0].designations_id
-            ), //
-            selected_branch: this.state.branchlist.find(
-              (c) =>
-                parseInt(c.branch_id) ===
-                (data[0].branch_name
-                  ? parseInt(data[0].branch_name)
-                  : data[0].branch_name)
-            ),
-            selected_department: this.state.departmentlist.find(
-              (c) => c.departments_id == data[0].departments_id
-            ),
-            selected_status: this.state.statusList.find(
-              (v) => v.value === parseInt(data[0].employed_status)
-            ),
-            selected_exit_status: this.state.exitStatusList.find(
-              (v) => v.id === parseInt(data[0].exit_status)
-            ),
-            employedDate: data[0].employee_date,
-            effectiveDate: data[0].effective_date,
-            actualDate: data[0].actual_date,
-            discontinute_date: data[0].discontinute_date
-              ? moment(data[0].discontinute_date).format("YYYY-MM-DD")
-              : null,
-            selected_disCon_status: this.state.disConStatusList.find(
-              (v) => v.value === parseInt(data[0].discontinute_status)
-            )
-              ? this.state.disConStatusList.find(
-                  (v) => v.value === parseInt(data[0].discontinute_status)
-                )
-              : [{ value: 2, label: "False" }],
-            salary: data[0].salary,
+            selected_designation: this.state.designationList.find((c) => c.value == data[0].designations_id),//
+            selected_branch: this.state.branchlist.find((c) => parseInt(c.branch_id) === (data[0].branch_name ? parseInt(data[0].branch_name) : data[0].branch_name)),
+            selected_department: this.state.departmentlist.find((c) => c.departments_id == data[0].departments_id),
+            selected_status: this.state.statusList.find((v) => v.value === parseInt(data[0].employee_status)),
+            selected_exit_status: this.state.exitStatusList.find((v) => v.id === parseInt(data[0].exit_status == null ? 0 : data[0].exit_status)),
+            employedDate: data[0].employ_date,
+            effectiveDate: data[0].last_promotion_date,
+            actualDate: data[0].last_promotion_date,
+            discontinute_date: data[0].discontinued_date ? moment(data[0].discontinued_date).format("YYYY-MM-DD") : null,
+            selected_disCon_status: this.state.disConStatusList.find((v) => v.value === parseInt(data[0].discontinued_status)) ? this.state.disConStatusList.find((v) => v.value === parseInt(data[0].discontinued_status)) : [{ value: 0, label: "False" }],
+            salary: data[0].basic_salary,
             resignReason: data[0].resign_reason,
-            selected_job: this.state.jobList.find(
-              (v) => v.id === parseInt(data[0].job_title)
-            ),
-            career_level: this.state.level_options.find(
-              (v) =>
-                parseInt(v.career_level_id) ===
-                parseInt(data[0].career_level_id)
-            ),
-            career_sub_level: this.state.sub_level_options.find(
-              (v) => v.career_sub_level_id === data[0].career_sub_level_id
-            ),
-          });
-        } else {
-          this.setState({
-            selectedEmploymentData: null,
-            edit: false,
-            addNew: true,
-            date: moment(new Date()).format("YYYY-MM-DD"),
-            employeeName: null,
-            selected_designation: null, //
-            selected_branch: null,
-            selected_department: null,
-            selected_status: null,
-            selected_exit_status: null,
-            employedDate: null,
-            effectiveDate: null,
-            actualDate: null,
-            discontinute_date: null,
-            selected_disCon_status: null,
-            salary: null,
-            resignReason: null,
-            selected_job: null,
-            career_level: null,
-            career_sub_level: null,
+            selected_job: this.state.jobList.find((v) => v.id === parseInt(data[0].job_title)),
+            career_level: this.state.level_options.find((v) => parseInt(v.career_level_id) === parseInt(data[0].career_level_id)),
+            career_sub_level: this.state.sub_level_options.find((v) => v.career_sub_level_id === data[0].career_sub_level_id),
           });
         }
+        // else {
+        //   this.setState({
+        //     selectedEmploymentData: null,
+        //     edit: false,
+        //     addNew: true,
+        //     date: moment(new Date()).format("YYYY-MM-DD"),
+        //     employeeName: null,
+        //     selected_designation: null, //
+        //     selected_branch: null,
+        //     selected_department: null,
+        //     selected_status: null,
+        //     selected_exit_status: null,
+        //     employedDate: null,
+        //     effectiveDate: null,
+        //     actualDate: null,
+        //     discontinute_date: null,
+        //     selected_disCon_status: null,
+        //     salary: null,
+        //     resignReason: null,
+        //     selected_job: null,
+        //     career_level: null,
+        //     career_sub_level: null,
+        //   });
+        // }
       });
   }
 
@@ -532,8 +502,8 @@ class EmployeeDetailMain extends Component {
         (v) => v.value == parseInt(data.discontinute_status)
       )
         ? this.state.disConStatusList.find(
-            (v) => v.value == parseInt(data.discontinute_status)
-          )
+          (v) => v.value == parseInt(data.discontinute_status)
+        )
         : [{ value: 2, label: "False" }],
       salary: data.salary,
       resignReason: data.resign_reason,
@@ -660,12 +630,12 @@ class EmployeeDetailMain extends Component {
     const value =
       key === "career_level"
         ? level_options.find(
-            (v) => Number(v.career_level_id) === Number(val.career_level_id)
-          )
+          (v) => Number(v.career_level_id) === Number(val.career_level_id)
+        )
         : sub_level_options.find(
-            (v) =>
-              Number(v.career_sub_level_id) === Number(val.career_sub_level_id)
-          );
+          (v) =>
+            Number(v.career_sub_level_id) === Number(val.career_sub_level_id)
+        );
     const setState = {};
     setState[key] = value;
     this.setState(setState, () => {
