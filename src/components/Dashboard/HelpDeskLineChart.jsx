@@ -21,12 +21,12 @@ class HelpDeskLineChart extends Component {
         fetch(`${main_url}dashboard/helpDeskGraph`)
             .then(res => { if (res.ok) return res.json() })
             .then(list => {
-                console.log('lisst is ===>', list.length > 0 && list.filter(v => v.ticket_status == 'Open'))
+                
                 this.setState({
                     chartData: list,
-                    categories: list.length > 0 && list.map(v => moment(v.createdAt).format('YYYY-MM-DD')),
-                    open_ticket: list.length > 0 && list.filter(v => v.ticket_status == 'Open'),
-                    close_ticket: list.length > 0 && list.filter(v => v.ticket_status == 'Closed')
+                    // categories: list.length > 0 && list.map(v => moment(v.createdAt).format('YYYY-MM-DD')),
+                    // open_ticket: list.length > 0 && list.filter(v => v.ticket_status == 'Open'),
+                    // close_ticket: list.length > 0 && list.filter(v => v.ticket_status == 'Closed')
                 })
                 this.setChartOption()
             })

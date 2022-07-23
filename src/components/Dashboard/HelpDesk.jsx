@@ -23,7 +23,7 @@ class HelpDesk extends Component {
             })
             .then((res1) => {
                 this.setState({ Ticket: res1 });
-                console.log("ticket===>", this.state.Ticket);
+                
 
             })
             .catch((error) => console.error(`Fetch Error =\n`, error));
@@ -35,7 +35,7 @@ class HelpDesk extends Component {
             })
             .then((res1) => {
                 this.setState({ TicketStatus: res1 });
-                console.log("ticketStatus===>", this.state.TicketStatus);
+                
 
             })
             .catch((error) => console.error(`Fetch Error =\n`, error));
@@ -47,7 +47,7 @@ class HelpDesk extends Component {
             })
             .then((res1) => {
                 this.setState({ TicketMainCategory: res1 });
-                console.log("ticketMaincategory===>", this.state.TicketMainCategory);
+                
 
             })
             .catch((error) => console.error(`Fetch Error =\n`, error));
