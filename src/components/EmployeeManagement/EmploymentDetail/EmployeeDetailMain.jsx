@@ -17,8 +17,8 @@ import EmploymentForm from "./EmploymentForm";
 import moment from "moment";
 
 class EmployeeDetailMain extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       isAddNew: false,
       user_info: getCookieData("user_info"),
@@ -28,6 +28,7 @@ class EmployeeDetailMain extends Component {
       isView: false,
       tableView: false,
       isEdit: false,
+      tableEdit: false,
       datasource: [],
       permission_status: {},
       selected_region: null,
@@ -108,6 +109,23 @@ class EmployeeDetailMain extends Component {
 
     if (this.props.data) {
       this.goToViewForm(this.props.data);
+    }
+    console.log('id ===>', this.props.id)
+    if (this.props.id){
+      fetch(`${main_url}employee/getDetailUser/${this.props.id}`)
+      .then((res) => {
+        console.log('res employee detail ===>', res)
+        if (res.ok) return res.json();
+      })
+      .then((data) => {
+        if (data.length > 0) {
+          console.log('data employee detail ===>', data[0]);
+          this.goToEditForm(data[0]);
+            this.setState({tableEdit: true});
+          
+
+        }
+      });
     }
   }
 
@@ -250,7 +268,7 @@ class EmployeeDetailMain extends Component {
             edit: false,
             addNew: true,
             date: moment(new Date()).format("YYYY-MM-DD"),
-            employeeName: data[0].fullname,
+            employeeName: data[0].employee_name,
             selected_designation: this.state.designationList.find((c) => c.value == data[0].designations_id),//
             selected_branch: this.state.branchlist.find((c) => parseInt(c.branch_id) === (data[0].branch_name ? parseInt(data[0].branch_name) : data[0].branch_name)),
             selected_department: this.state.departmentlist.find((c) => c.departments_id == data[0].departments_id),
@@ -469,11 +487,13 @@ class EmployeeDetailMain extends Component {
       addNew: false,
     });
   };
+
   goToEditForm = (data) => {
     this.setState({
       selectedEmploymentData: data,
       edit: true,
       addNew: false,
+
       user_id: data.user_id,
       selectedEmployeeId: this.state.employeeIdList.find(
         (v) => v.user_id == data.user_id
@@ -620,6 +640,7 @@ class EmployeeDetailMain extends Component {
   handleFormCancel = () => {
     this.setState({
       addNew: false,
+      tableEdit: false,    
     });
     this.getEmployeeList();
     this.clearFormData();
@@ -707,6 +728,7 @@ class EmployeeDetailMain extends Component {
       edit,
       career_level,
       career_sub_level,
+      tableEdit
     } = this.state;
     return (
       <div className=" border-bottom white-bg dashboard-header">
@@ -771,7 +793,7 @@ class EmployeeDetailMain extends Component {
           </div>
         ) : (
           <>
-            {addNew || edit ? (
+            {addNew || edit || tableEdit ? (
               <EmploymentForm
                 edit={edit}
                 selectedEmployeeId={selectedEmployeeId}
