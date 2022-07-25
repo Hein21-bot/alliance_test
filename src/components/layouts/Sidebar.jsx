@@ -53,9 +53,10 @@ export default class Sidebar extends Component {
     if (pathname.includes("employment")) {
       return "/employee_management";
     }
-    if (pathname.includes("confirmation")) {
-      return "/employee_management/confirmation";
-    } else return "/dashboard";
+    if(pathname.includes('confirmation')){
+      return "/confirmation";
+    }
+     else return "/dashboard";
   }
 
   render() {
@@ -118,7 +119,7 @@ export default class Sidebar extends Component {
               </li>
               <li className={((pathname === "/dashboard") || (pathname == `${'/'+user.user_id}`) ? 'active':'')} id="dashboard">
                   <a href="/dashboard"  className="sideList">
-                    <i className="fas fa-television sideIcon"></i>
+                    <i className="fa fa-th-large"></i>
                     <span className="sideText">Dashboard</span>
                   </a>
                 </li>
@@ -292,7 +293,7 @@ export default class Sidebar extends Component {
               </li>
               <li
                 className={
-                  this.checkPathName() === "/employee_management" || pathname === "/confirmation_list" || pathname === "/confirmation_check" || pathname === "/confirmation_approve_list" || pathname === "/confirmation_request_list"
+                  this.checkPathName() === "/employee_management"
                     ? "active"
                     : " "
                 }
@@ -312,23 +313,18 @@ export default class Sidebar extends Component {
                   >
                     <a href="/employment_details">Employment Details</a>
                   </li>
-                  <li
-                    className={
-                       this.checkPathName() === "/employee_management/confirmation"
-                        ? "active"
-                        : pathname === "/confirmation_list"
-                          ? "active"
-                          : pathname === "/confirmation_check"
-                            ? "active"
-                            : pathname === "/confirmation_approve_list"
-                              ? "active"
-                              : pathname === "/confirmation_request_list"
-                       
-                    }
-                  >
-                    <a href="/employee_management/confirmation">Confirmation</a>
-                    <ul className="nav nav-third-level">
-                      <li
+                  
+                </ul>
+              </li>
+              <li
+                className={this.checkPathName() === "/confirmation" ? "active" : ""}
+              >
+                <a href="/confirmation_list" className="sideList">
+                  <i className="fas fa-user-check"></i>
+                  <span className="sideText">Confirmation</span>
+                </a>
+                <ul className="nav nav-second-level collapse">
+                <li
                         className={
                           pathname === "/confirmation_list" ? "active" : " "
                         }
@@ -360,8 +356,6 @@ export default class Sidebar extends Component {
                       >
                         <a href="/confirmation_request_list">Confirmation Request</a>
                       </li>
-                    </ul>
-                  </li>
                 </ul>
               </li>
               <li
