@@ -22,6 +22,7 @@ export default class LeaveCalendar extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      startDate: new Date(),
       toDate:new Date(),
       fromDate:  getFirstDayOfMonth(),
       modalData: {},
@@ -143,7 +144,7 @@ export default class LeaveCalendar extends Component {
           <div
             className="modal-dialog modal-dialog-centered"
             role="document"
-            style={{ width: 200, float: "right" }}
+            style={{ width: 200, float: "right", height: 300 }}
           >
             {Object.keys(modalData).length > 0 && (
               <div className="modal-content">
@@ -153,7 +154,7 @@ export default class LeaveCalendar extends Component {
                     id="exampleModalLabel1"
                     style={{ textAlign: "center" }}
                   >
-                    {format(new Date(modalData.date), "dd-MMM-yyyy")}
+                    {modalData.Date}
                   </h5>
                   <button
                     type="button"
