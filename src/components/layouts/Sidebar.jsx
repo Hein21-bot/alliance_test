@@ -119,7 +119,7 @@ export default class Sidebar extends Component {
               </li>
               <li className={((pathname === "/dashboard") || (pathname == `${'/'+user.user_id}`) ? 'active':'')} id="dashboard">
                   <a href="/dashboard"  className="sideList">
-                    <i className="fas fa-television sideIcon"></i>
+                    <i className="fa fa-th-large"></i>
                     <span className="sideText">Dashboard</span>
                   </a>
                 </li>
@@ -313,63 +313,14 @@ export default class Sidebar extends Component {
                   >
                     <a href="/employment_details">Employment Details</a>
                   </li>
-                  {/* <li
-                    className={
-                       this.checkPathName() === "/employee_management/confirmation"
-                        ? "active"
-                        : pathname === "/confirmation_list"
-                          ? "active"
-                          : pathname === "/confirmation_check"
-                            ? "active"
-                            : pathname === "/confirmation_approve_list"
-                              ? "active"
-                              : pathname === "/confirmation_request_list"
-                       
-                    }
-                  >
-                    <a href="/employee_management/confirmation">Confirmation</a>
-                    <ul className="nav nav-third-level">
-                      <li
-                        className={
-                          pathname === "/confirmation_list" ? "active" : " "
-                        }
-                      >
-                        <a href="/confirmation_list">Confirmation Prepare List</a>
-                      </li>
-                      <li
-                        className={
-                          pathname === "/confirmation_check" ? "active" : " "
-                        }
-                      >
-                        <a href="/confirmation_check">Confirm List</a>
-                      </li>
-                      <li
-                        className={
-                          pathname === "/confirmation_approve_list"
-                            ? "active"
-                            : ""
-                        }
-                      >
-                        <a href="/confirmation_approve_list">Approve List</a>
-                      </li>
-                      <li
-                        className={
-                          pathname === "/confirmation_request_list"
-                            ? "active"
-                            : ""
-                        }
-                      >
-                        <a href="/confirmation_request_list">Confirmation Request</a>
-                      </li>
-                    </ul>
-                  </li> */}
+                  
                 </ul>
               </li>
               <li
                 className={this.checkPathName() === "/confirmation" ? "active" : ""}
               >
                 <a href="/confirmation_list" className="sideList">
-                  <i className="fa fa-check-square-o"></i>
+                  <i className="fas fa-user-check"></i>
                   <span className="sideText">Confirmation</span>
                 </a>
                 <ul className="nav nav-second-level collapse">
