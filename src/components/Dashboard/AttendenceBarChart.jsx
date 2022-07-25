@@ -60,20 +60,21 @@ class AttendenceBarChart extends Component {
             chart: {
                 type: 'column',
                 height: '350px',
+                
             },
             title: {
                 text: '',
             },
             xAxis: {
-                // categories: ['Leave Without Pay', 'Maternity Leave', 'Paternity Leave', 'Compassionate Leave', 'Medical Leave', 'Earned Leave', 'Casual Leave'],
-                categories: this.state.leaveData,
+                categories: ['Mandalay', 'Zaycho', 'ChanMyaTharSi', 'PyiGyiDagon', 'Madaya', 'LetPanHa', 'TadaU','AungMyayTharZan','OhnChaw','PyinOoLwin','NaungCho','Sitgaing','Kyaukse','Amarapura','Myint Nge'],
+                // categories: this.state.leaveData,
                 title: {
                     text: null
                 }
             },
             yAxis: {
                 title: {
-                    text: 'Count',
+                    text: '',
                 },
             },
             tooltip: {
@@ -87,7 +88,7 @@ class AttendenceBarChart extends Component {
                 }
             },
             legend: {
-                layout: 'vertical',
+                layout: 'horizontal',
                 align: 'center',
                 verticalAlign: 'top',
             },
@@ -97,11 +98,20 @@ class AttendenceBarChart extends Component {
             credits: {
                 enabled: false
             },
-            series: [{
-                name: 'Leave Count by Category',
-                colorByPoint: true,
-                data: this.state.countData
-            }]
+            series: [
+                    {
+                    name:"Attendance",
+                    data:[10,1,3,4,8,15,1,9,6,23,16,12,14,3,14]
+                    },
+                    {
+                    name:"Late Attendance",
+                    data:[30,2,8,6,32,10,6,13,1,31,11,3,20,14,5]
+                    },
+                    {
+                        name:"Absent",
+                        data:[3,6,1,20,14,6,9,2,3,10,30,7,11,13,20]
+                    },
+            ]
         }
 
         this.setState({ chartOptions })
@@ -138,7 +148,7 @@ class AttendenceBarChart extends Component {
                 }}
             >
 
-                <h3 className='' style={{ padding: '10px 0px 0px 0px' }}>Leave Count by Categorey</h3>
+                <h3 className='' style={{ padding: '10px 0px 0px 0px' }}>Attendance</h3>
                 <div className='flex-row' style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', margin: '10px 10px 0px 10px' }}>
                     <Select
                         styles={{
