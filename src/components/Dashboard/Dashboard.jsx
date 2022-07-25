@@ -89,10 +89,10 @@ export class Dashboard extends Component {
         <Profile />
         {this.state.tapButtonTitle == "headCount" ? (
           <div className="row" style={{marginTop: 15}}>
-            <div className="col-md-6">
+            <div className="col-md-6 col-lg-6 col-sm-12">
               <HeadCountBarChart title={"department"} />
             </div>
-            <div className="col-md-6">
+            <div className="col-md-6 col-lg-6 col-sm-12">
               <HeadCountBarChart title={"designation"} />
             </div>
           </div>
@@ -139,10 +139,10 @@ export class Dashboard extends Component {
           </div>
         ): this.state.tapButtonTitle == "helpdesk" ? (
           <div className="row mt-3">
-            <div className="col-md-6">
+            <div className="col-md-6 col-lg-6 col-sm-12">
               <HelpDesk></HelpDesk>
             </div>
-            <div className="col-md-6">
+            <div className="col-md-6 col-lg-6 col-sm-12">
               <HelpDeskLineChart></HelpDeskLineChart>
               </div> 
           </div>
@@ -177,14 +177,12 @@ export class Dashboard extends Component {
         ):(
           <div> 
             <div className="row" style={{marginTop: 15}}>
-              <div className="col-md-4">
+              <div className="col-md-4 col-lg-4 col-sm-12">
                 <ThingsTodoTable />
               </div>
-              <div className="col-8">
-              <div className="col-md-8" >
+              <div className="col-md-8 col-lg-8 col-sm-12 d-flex column" >
                 <AttendanceCaldendar/>
                 <LeaveCalendar/>
-              </div> 
             </div></div>
           </div>
         )}

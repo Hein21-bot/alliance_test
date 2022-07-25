@@ -1,54 +1,111 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import { thingsToDoController } from "./DashboardApi/ThingsToDoController";
 const primary = "#1872ab";
 
 class ThingsTodoTable extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      birthdayCount: 0,
+      childCount: 0,
+      externalCount: 0,
+      leaveCount: 0,
+      medicalCount: 0,
+      salaryCount: 0,
+      travelCount: 0,
+      weddingCount: 0
+    };
   }
 
+  componentDidMount() {
+    const id = localStorage.getItem("user_id");
+    thingsToDoController.getBirthdayRequest(id, (data) => {
+      this.setState({birthdayCount: data[0].count})
+    });
+    thingsToDoController.getChildRequest(id, (data) => {
+      this.setState({childCount: data[0].count})
+    });
+    thingsToDoController.getExternalRequest(id, (data) => {
+      this.setState({externalCount: data[0].count})
+    });
+    thingsToDoController.getLeaveRequest(id, data => {
+      this.setState({leaveCount: data[0].count})
+    });
+    thingsToDoController.getMedicalRequest(id, data => {
+      this.setState({medicalCount: data[0].count})
+    });
+    thingsToDoController.getSalaryRequest(id, data => {
+      this.setState({salaryCount: data[0].count})
+    });
+    thingsToDoController.getTravelRequest(id, data => {
+      this.setState({travelCount: data[0].count})
+    });
+    thingsToDoController.getWeddingRequest(id, data => {
+      this.setState({weddingCount: data[0].count})
+    })
+  }
+
+  
+
   render() {
+
+    var dummy_data = [
+      { request: "Leave Request", count: this.state.leaveCount, link: "/leave_management" },
+      { request: "Travel Request", count: this.state.travelCount, link: "/travelRequest" },
+      { request: "Medical Request", count: this.state.medicalCount, link: "/medical_benefit" },
+      {
+        request: "External Traning Request",
+        count: this.state.externalCount,
+        link: "/external_training_benefit",
+      },
+      { request: "Wedding Request", count: this.state.weddingCount, link: "/wedding_benefit" },
+      { request: "Child Request", count: this.state.childCount, link: "/child_benefit" },
+      { request: "Salary Advance Request", count: this.state.salaryCount, link: "/salary_advance" },
+      { request: "Phone Bill Request", count: 0, link: "/phonebillrequest" },
+      { request: "Petrol Request", count: 0, link: "/petrolRequest" },
+      { request: "Bithday Fund Request", count: this.state.birthdayCount, link: "/birthday_fund_benefit" },
+    ];
     return (
       <div
         className="col-md-12"
         style={{
-          height: 645,
+          // height: 645,
           background: "#fff",
           color: "#222",
-          boxShadow: "3px 3px 3px #e5e5e5",
-          borderRadius: 6,
+          WebkitBoxShadow: '0px 0px 3px 0px rgba(194,194,194,1)',
+                    boxShadow: '0px 0px 3px 0px rgba(194,194,194,1)',
+                    borderRadius: '0px 20px 20px 20px',
           padding: "2px 0px 2px 0px",
-          margin: "10px 0px",
+          margin: "5px 0px",
         }}
       >
         <div className="" style={{ margin: "10px 15px 0px", display: "flex" }}>
-          <i
+          {/* <i
             style={{ fontSize: 22, color: "#1872ab", fontWeight: "bold" }}
             className="fa fa-file-text-o"
             aria-hidden="true"
-          ></i>
+          ></i> */}
           <h3 style={{ paddingLeft: 8, color: primary, fontWeight: 'bolder' }}>Things To Do</h3>
         </div>
         <div
-          className="col-md-12"
+          className="col-12"
           style={{ maxHeight: 600, overflowY: "scroll"}}
         >
           {dummy_data.map((v, k) => (
             <>
               <div
                 key={k}
-                className="row"
+                className=""
                 style={{
                   // boxShadow: "1px 1px 3px 1px #e6e6e6",
                   // borderRadius: 4,
-                  margin: "12px 0px",
+                  margin: "11px 0px",
                   // padding: "0px",
                   display: "flex",
-                  alignItems: "center",
                 }}
               >
-                <div className="col-md-2" style={{ marginLeft: -12 }}>
+                <div className="col-lg-1 col-md-2 col-sm-2">
                   <div
                     style={{
                       border: "1px solid #1872ab",
@@ -72,10 +129,10 @@ class ThingsTodoTable extends Component {
                     </p>
                   </div>
                 </div>
-                <div className="col-md-7" style={{ color: primary }}>
+                <div className="col-lg-7 col-md-7 col-sm-7" style={{ color: primary, fontSize: 11, marginTop: 5 }}>
                   {v.request}
                 </div>
-                <div className="col-md-3">
+                <div className="col-lg-4 col-md-3 col-sm-3">
                   <button
                     className="btn text-center"
                     onClick={() => this.props.history.push(v.link)}
@@ -94,7 +151,7 @@ class ThingsTodoTable extends Component {
                   </button>
                 </div>
               </div>
-              {k != dummy_data.length - 1 && <div style={{width: '100%', height: "0.5px", backgroundColor: 'black'}}/>}
+              {k != dummy_data.length - 1 && <div style={{width: '95%', height: "0.5px", backgroundColor: 'black', margin: '0px auto'}}/>}
               
             </>
           ))}
@@ -106,19 +163,4 @@ class ThingsTodoTable extends Component {
 
 export default withRouter(ThingsTodoTable);
 
-const dummy_data = [
-  { request: "Leave Request", count: 15, link: "/leave_management" },
-  { request: "Travel Request", count: 10, link: "/travelRequest" },
-  { request: "Medical Request", count: 0, link: "/medical_benefit" },
-  {
-    request: "External Traning Request",
-    count: 8,
-    link: "/external_training_benefit",
-  },
-  { request: "Wedding Request", count: 2, link: "/wedding_benefit" },
-  { request: "Child Request", count: 6, link: "/child_benefit" },
-  { request: "Salary Advance Request", count: 4, link: "/salary_advance" },
-  { request: "Phone Bill Request", count: 1, link: "/phonebillrequest" },
-  { request: "Petrol Request", count: 0, link: "/petrolRequest" },
-  { request: "Bithday Fund Request", count: 9, link: "/birthday_fund_benefit" },
-];
+

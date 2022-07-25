@@ -201,7 +201,7 @@ ul.nav-second-level {
 .minimalize-styl-2 {
   padding: 4px 12px;
   margin: 14px 5px 5px 20px;
-  font-size: 14px;
+  font-size: 10px;
   float: left;
 }
 .navbar-form-custom {
@@ -589,7 +589,7 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   background-color: #27568A;
   color: #fff;
   padding: 6px 12px;
-  font-size: 14px;
+  font-size: 10px;
 }
 .top-navigation .navbar-nav .open .dropdown-menu > li > a,
 .top-navigation .navbar-nav .open .dropdown-menu .dropdown-header {
@@ -632,7 +632,7 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   height: 0;
   
   margin: 0;
-  font-size: 14px;
+  font-size: 10px;
   font-weight: 400;
   line-height: 1.42857143;
   text-align: center;
@@ -8911,25 +8911,27 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child::
 
 .custom-datePicker .react-datepicker__day-name{
   color: white !important;
-  font-size: 12px !important;
-  width: 29px !important;
+  font-size: 10px !important;
+  width: 25px !important;
 }
 
 .custom-datePicker .react-datepicker__week{
   display: flex !important;
   justify-content: space-between !important;
   padding: 1px 5px;
-  height: 33px !important;
+  height: 25px !important;
 }
 
 .custom-datePicker .react-datepicker__day{
   width: 29px !important;
   height: 29px !important;
   border-radius: 50% !important;
+  font-size: 11px;
+  text-align: center;
 }
 
 .custom-datePicker .react-datepicker__current-month{
-  font-size: 16px !important;
+  font-size: 12px !important;
   /* text-align: left;
   margin-left: 27px; */
   margin-bottom: 10px;
@@ -8945,6 +8947,8 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child::
 }
 .react-datepicker__day--keyboard-selected{
   background-color: #21e6c1 !important;
+  width: 25px;
+  height: 25px;
   color: white;
 }
 
