@@ -76,7 +76,22 @@ export default class ConfirmationRequestListTable extends Component {
 
       })
   }
-
+  getRequest() {
+    this.search(0);
+  }
+  getCheck() {
+    this.search(1);
+  }
+  getVerified() {
+    this.search(2);
+  }
+  getConfirm(){
+    this.search(3);
+  }
+  getApprove() {
+    this.search(4);
+  }
+ 
   componentDidUpdate(prevProps) {
     if (prevProps.data !== this.props.data) {
       this.setState(
@@ -229,17 +244,17 @@ export default class ConfirmationRequestListTable extends Component {
   render() {
     return (
       <div>
-        {/* <div className="row  white-bg dashboard-header">
+        <div className="row  white-bg dashboard-header">
                     <div className="row">
                         <div class="btn-group-g ">
                             <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
                             <button type="button" class=" btn label-check g" onClick={this.getCheck.bind(this)}>Check</button>
                             <button type="button" class="btn label-verified g" onClick={this.getVerified.bind(this)}>Verify</button>
                             <button type="button" class="btn label-approve g" onClick={this.getApprove.bind(this)}>Approve</button>
-                            <button type="button" class="btn label-reject g" onClick={this.getReject.bind(this)}>Reject</button>
+                            <button type="button" class="btn label-success g" onClick={this.getConfirm.bind(this)}>Confirm</button>
                         </div>
                     </div>
-                </div> */}
+                </div>
         <table
           width="99%"
           className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
