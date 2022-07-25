@@ -435,7 +435,12 @@ async function getBranch() {
     if (res.ok) return res.json();
     else return [];
 }
-
+async function getRegion() {
+    var res = await fetch(`${main_url}benefit/getRegionList`);
+    if (res.ok) return res.json();
+    else return [];
+  
+}
 async function getPersonType() {
     var res = await fetch(`${main_url}main/getPersonType`);
     if (res.ok) return res.json();
@@ -900,7 +905,7 @@ async function getDesignationData() {
 
 export {
     main_url, remote_url, getUserInfo, setCookieData, getCookieData,
-    getUserId, getActionStatus, getDesignation, getBranch, getTicketCategoryType,
+    getUserId, getActionStatus, getDesignation, getBranch, getTicketCategoryType,getRegion,
     getTrainingVenue, getMainRole, getPermissionStatus, getSeverity, getPersonType,
     getBranchByHelpDesk, getPriority, getTicketStatus, getTicketMainCategory, getTicketSubCategory,
     validate, checkForStaffComplain, getDepartment, getWorkFlowStatus,
