@@ -12,9 +12,9 @@ class HeadCountBarChart extends Component {
       id: {
         branchId: 0,
         deptId: 0,
-        regionId:0
-        
-       
+        regionId: 0
+
+
       },
       xAxisDept: [],
       countDataDept: [],
@@ -23,25 +23,22 @@ class HeadCountBarChart extends Component {
       countDataDesign: [],
       regionList: [],
       deptData: [],
-      selected_region_value: 0,
+
     };
   }
 
   componentDidMount() {
     if (this.props.title == "department") {
       this.getHeadCountbyDepartment();
-      this.getBranch();
     } else {
       this.getHeadCountbyDesignation();
       this.getDesignation();
-      this.getBranch()
-      this.getRegionList()
     }
 
     this.setChartOptionDepartment();
     this.getRegionList()
     this.getBranch()
-    
+
 
   }
 
@@ -56,13 +53,7 @@ class HeadCountBarChart extends Component {
       })
   }
 
-  // handleSelectedRegion = (event) => {
-  //   if (event !== null)
-  //   this.setState({
-  //     selected_region: event,
-  //     selected_region_value: event.value
-  //   })
-  // };
+
   getBranch = () => {
 
     fetch(main_url + `main/getBranch`)
@@ -70,7 +61,7 @@ class HeadCountBarChart extends Component {
         if (res.ok) return res.json();
       })
       .then((res1) => {
-        res1.unshift({label:'All',value: 0})
+        res1.unshift({ label: 'All', value: 0 })
         this.setState({ branchData: res1 });
 
       })
@@ -88,7 +79,7 @@ class HeadCountBarChart extends Component {
   // }
 
   getHeadCountbyDepartment = () => {
-    fetch(main_url + `dashboard/headCountByDepartments/${this.state.id.branchId.value}/${this.state.id.regionId.value}`)
+    fetch(main_url + `dashboard/headCountByDepartments/${this.state.id.branchId.value == undefined ? 1 : this.state.id.branchId.value}/${this.state.id.regionId.value == undefined ? 1 : this.state.id.regionId.value}}`)
       .then((response) => {
         if (response.ok) return response.json();
       })
@@ -166,14 +157,14 @@ class HeadCountBarChart extends Component {
         if (res.ok) return res.json();
       })
       .then((res1) => {
-        res1.unshift({label:"All",value:0})
+        res1.unshift({ label: "All", value: 0 })
         this.setState({ deptData: res1 });
       })
       .catch((error) => console.error(`Fetch Error =\n`, error));
   };
 
   getHeadCountbyDesignation = () => {
-    fetch(main_url + `dashboard/headCountByDesignation/${this.state.id.deptId.value}/${this.state.id.branchId.value}/${this.state.region_id}`)
+    fetch(main_url + `dashboard/headCountByDesignation/${this.state.id.deptId.value == undefined ? 3 : this.state.id.deptId.value}/${this.state.id.branchId.value}/${this.state.region_id}`)
       .then((response) => {
         if (response.ok) return response.json();
       })
@@ -267,16 +258,9 @@ class HeadCountBarChart extends Component {
     this.setState({
       id: data
     })
-}
-// handleSelectedRegion = (event) => {
-//   if (event !== null)
-//       this.setState({
-//           selected_region: event,
-//           selected_region_value: event.value
-//       })
-// };
+  }
 
-  
+
   handleSelectedRegion = async (event) => {
     let data = this.state.id
     data.regionId = event
@@ -284,7 +268,8 @@ class HeadCountBarChart extends Component {
       id: data
     })
   }
-  render() {console.log(">>>",this.state.branchData)
+  render() {
+    console.log(">>>", this.state.branchData)
     return (
       <div>
         {this.props.title == "department" ? (
@@ -311,56 +296,56 @@ class HeadCountBarChart extends Component {
               }}
             >
               <div style={{
-                textAlign:'start'
+                textAlign: 'start'
               }}>
                 <label htmlFor="">Region</label>
-              <Select
-                styles={{
-                  container: (base) => ({
-                    ...base,
-                    //   flex: 1
-                    width: 200,
-                  }),
-                  control: (base) => ({
-                    ...base,
-                    minHeight: "18px",
-                  }),
-                }}
-                options={this.state.regionList}
-                placeholder="All"
-                onChange={this.handleSelectedRegion.bind(this)}
-                value={this.state.id.regionId}
-                className='react-select-container checkValidate'
-                classNamePrefix="react-select"
-              />
+                <Select
+                  styles={{
+                    container: (base) => ({
+                      ...base,
+                      //   flex: 1
+                      width: 150,
+                    }),
+                    control: (base) => ({
+                      ...base,
+                      minHeight: "18px",
+                    }),
+                  }}
+                  options={this.state.regionList}
+                  placeholder="All"
+                  onChange={this.handleSelectedRegion.bind(this)}
+                  value={this.state.id.regionId}
+                  className='react-select-container checkValidate'
+                  classNamePrefix="react-select"
+                />
               </div>
               <div style={{
-                  textAlign:'start',
-                  marginLeft:10                
+                textAlign: 'start',
+                marginLeft: 10
               }}>
                 <label htmlFor="">Branch</label>
                 <Select
-                styles={{
-                  marginLeft: '10px',
-                  container: (base) => ({
-                    ...base,
-                    //   flex: 1
-                    width: 200,
-                    // marginLeft: 10
-                  }),
-                  control: (base) => ({
-                    ...base,
-                    minHeight: "18px",
+                  styles={{
+                    marginLeft: '10px',
+                    container: (base) => ({
+                      ...base,
+                      //   flex: 1
+                      width: 150,
+                      // marginLeft: 10
+                    }),
+                    control: (base) => ({
+                      ...base,
+                      minHeight: "18px",
 
-                  })
-                }}
-                placeholder="All"
-                options={this.state.branchData}
-                onChange={this.handleSelectedBranch}
-                value={this.state.id.branchId}
-                className="react-select-container"
-                classNamePrefix="react-select"
-              />
+                    })
+                  }}
+                  placeholder="All"
+                  options={this.state.branchData}
+                  onChange={this.handleSelectedBranch}
+                  value={this.state.id.branchId}
+                  className="react-select-container"
+                  classNamePrefix="react-select"
+                />
 
               </div>
               <button
@@ -405,80 +390,80 @@ class HeadCountBarChart extends Component {
               }}
             >
               <div style={{
-                textAlign:'start'
+                textAlign: 'start'
               }}>
                 <label htmlFor="">Department</label>
-              <Select
-                styles={{
-                  container: (base) => ({
-                    ...base,
-                    //   flex: 1
-                    width: 100,
-                    marginRight:10
-                  }),
-                  control: (base) => ({
-                    ...base,
-                    minHeight: "18px",
-                  }),
-                }}
-                placeholder="All"
-                options={this.state.deptData}
-                onChange={this.handleSelectedDepartment}
-                value={this.state.id.deptId}
-                className="react-select-container"
-                classNamePrefix="react-select"
-              />
+                <Select
+                  styles={{
+                    container: (base) => ({
+                      ...base,
+                      //   flex: 1
+                      width: 150,
+                      marginRight: 10
+                    }),
+                    control: (base) => ({
+                      ...base,
+                      minHeight: "18px",
+                    }),
+                  }}
+                  placeholder="All"
+                  options={this.state.deptData}
+                  onChange={this.handleSelectedDepartment}
+                  value={this.state.id.deptId}
+                  className="react-select-container"
+                  classNamePrefix="react-select"
+                />
 
               </div>
               <div style={{
-                textAlign:'start'
+                textAlign: 'start'
               }}>
-              <label htmlFor="">Region</label>
-              <Select
-                styles={{
-                  container: (base) => ({
-                    ...base,
-                    //   flex: 1
-                    width: 100,
-                    marginRight:10
-                  }),
-                  control: (base) => ({
-                    ...base,
-                    minHeight: "18px",
-                  }),
-                }}
-               
-                options={this.state.regionList}
-                placeholder="All"
-                onChange={this.handleSelectedRegion.bind(this)}
-                value={this.state.id.regionId}
-                className='react-select-container checkValidate'
-                classNamePrefix="react-select"
-              />
+                <label htmlFor="">Region</label>
+                <Select
+                  styles={{
+                    container: (base) => ({
+                      ...base,
+                      //   flex: 1
+                      width: 150,
+                      marginRight: 10
+                    }),
+                    control: (base) => ({
+                      ...base,
+                      minHeight: "18px",
+                    }),
+                  }}
+
+                  options={this.state.regionList}
+                  placeholder="All"
+                  onChange={this.handleSelectedRegion.bind(this)}
+                  value={this.state.id.regionId}
+                  className='react-select-container checkValidate'
+                  classNamePrefix="react-select"
+                />
               </div>
               <div style={{
-                textAlign:'start'
+                textAlign: 'start'
               }}>
                 <label htmlFor="">Branch</label>
-              <Select
-                styles={{
-                  container: (base) => ({
-                    ...base,
-                    //   flex: 1
-                    width: 100,
-                  }),
-                  control: (base) => ({
-                    ...base,
-                    minHeight: "18px",
-                  }),
-                }}
-                placeholder="All"
-                options={this.state.branchData}
-                onChange={this.handleSelectedBranch}
-                value={this.state.id.branchId}
-                className="react-select-container"
-                classNamePrefix="react-select"
-              />
+                <Select
+                  styles={{
+                    container: (base) => ({
+                      ...base,
+                      //   flex: 1
+                      width: 150,
+                    }),
+                    control: (base) => ({
+                      ...base,
+                      minHeight: "18px",
+                    }),
+                  }}
+                  placeholder="All"
+                  options={this.state.branchData}
+                  onChange={this.handleSelectedBranch}
+                  value={this.state.id.branchId}
+                  className="react-select-container"
+                  classNamePrefix="react-select"
+                />
               </div>
               <button
                 className="btn btn-primary text-center"

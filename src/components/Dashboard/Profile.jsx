@@ -37,7 +37,6 @@ class Profile extends Component {
   }
 
   render() {
-    console.log('user info is ===>', this.state.userInfo)
     return (
       <div>
         {this.state.userInfo != undefined ? (

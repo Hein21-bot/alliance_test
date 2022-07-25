@@ -409,6 +409,10 @@ function getFirstDayOfMonth() {
     return firstDay;
 }
 
+function getLastDayOfMonth(y, m) {
+    return new Date(y, m + 1, 0).getDate();
+}
+
 async function getLoginUser(id) {
     var user = getCookieData("user_info");
     if (user === null) {
@@ -439,7 +443,7 @@ async function getRegion() {
     var res = await fetch(`${main_url}benefit/getRegionList`);
     if (res.ok) return res.json();
     else return [];
-  
+
 }
 async function getPersonType() {
     var res = await fetch(`${main_url}main/getPersonType`);
@@ -905,7 +909,7 @@ async function getDesignationData() {
 
 export {
     main_url, remote_url, getUserInfo, setCookieData, getCookieData,
-    getUserId, getActionStatus, getDesignation, getBranch, getTicketCategoryType,getRegion,
+    getUserId, getActionStatus, getDesignation, getBranch, getTicketCategoryType, getRegion,
     getTrainingVenue, getMainRole, getPermissionStatus, getSeverity, getPersonType,
     getBranchByHelpDesk, getPriority, getTicketStatus, getTicketMainCategory, getTicketSubCategory,
     validate, checkForStaffComplain, getDepartment, getWorkFlowStatus,
@@ -914,5 +918,5 @@ export {
     print, stopSaving, startSaving, fno, getFirstDayOfMonth, checkLimitAmount,
     checkHRManager, checkHRAssistant, checkApprovalStatus, isApprover, havePermissionForAmount,
     calculationDate, isRequestedUser, atten_report, approveAmount, calculationDate1, getAttendancePolicy,
-    getDesignationData, calculationWorkingExp
+    getDesignationData, calculationWorkingExp, getLastDayOfMonth
 }

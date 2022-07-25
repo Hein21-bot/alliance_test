@@ -94,6 +94,7 @@ class EmployeeDetailMain extends Component {
         ...v,
         label: v.career_level,
         value: v.career_level,
+        
       }));
     const sub_level_options =
       sub_level &&
@@ -647,6 +648,7 @@ class EmployeeDetailMain extends Component {
   };
 
   handleLevelSelectorChange = (val, key) => {
+    console.log("value===>",val)
     const { sub_level_options, level_options } = this.state;
     const value =
       key === "career_level"
