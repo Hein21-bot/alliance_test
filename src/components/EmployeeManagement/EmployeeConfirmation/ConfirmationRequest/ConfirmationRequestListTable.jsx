@@ -5,9 +5,11 @@ import "datatables.net-dt/css/jquery.dataTables.css";
 import "datatables.net-buttons-dt/css/buttons.dataTables.css";
 import "jspdf-autotable";
 import moment from "moment";
+import Select from 'react-select'
+import DatePicker from 'react-datetime';
 import * as jsPDF from "jspdf";
 import { ToastContainer, toast } from 'react-toastify';
-import { main_url, getUserId, getMainRole, getInformation, print, fno, } from "../../../../utils/CommonFunction";
+import { main_url, getBranch, getDepartment, getRegion, getLevel, getUserId, getDesignation, getMainRole, getInformation, print, fno, getFirstDayOfMonth } from "../../../../utils/CommonFunction";
 const $ = require("jquery");
 const jzip = require("jzip");
 window.JSZip = jzip;
@@ -23,8 +25,21 @@ export default class ConfirmationRequestListTable extends Component {
     this.state = {
       user_id: getUserId("user_info"),
       dataSource: [],
+      region: [],
+      level: [],
+      branch: [],
+      department: [],
+      designations: [],
+      toDate: moment().format('DD-MM-YYYY'),
+      fromDate: moment(getFirstDayOfMonth()).format('DD-MM-YYYY'),
       selectedRequest: "",
       is_main_role: getMainRole(),
+      branchId: 0,
+      departmentId: 0,
+      regionId: 0,
+      levelStatus: "",
+      designationId: 0,
+      employeeData: []
     };
   }
   componentDidMount() {
@@ -52,6 +67,26 @@ export default class ConfirmationRequestListTable extends Component {
       that.update(data)
     });
   }
+  async componentDidMount() {
+    let level = await getLevel();
+    level.unshift({ label: "All", value: 0 });
+    let designations = await getDesignation();
+    designations.unshift({ label: "All", value: 0 });
+    let region = await getRegion();
+    region.unshift({ region_name: "All", region_id: 0 });
+    let branch = await getBranch();
+    branch.unshift({ label: 'All', vlaue: 0 });
+    let department = await getDepartment();
+    department.unshift({ label: 'All', vlaue: 0 });
+    this.setState({
+      branch: branch,
+      department: department,
+      region: region.map(v => ({ ...v, label: v.region_name, value: v.region_id })),
+      level: level,
+      designations: designations,
+
+    })
+  }
 
   async update(data) {
     let status = 0;
@@ -76,6 +111,22 @@ export default class ConfirmationRequestListTable extends Component {
 
       })
   }
+  getEmployeeList() {console.log(this.state.department.find(v=>v.value==this.state.designations.value))
+    // /${parseInt(this.state.regionId.value)}/${parseInt(this.state.departmentId.value)}/${parseInt(this.state.branchId.value)}/${parseInt(this.state.designationId.value)}
+    fetch(
+      `${main_url}confirmation/getConfirmationAllData`
+    )
+      .then((response) => {
+        if (response.ok) return response.json();
+      })
+      .then((res) => {
+        if (res) {
+          this.setState({ employeeData: res });
+        }
+      })
+      .catch((error) => console.error(`Fetch Error =\n`, error));
+  }
+
   getRequest() {
     this.search(0);
   }
@@ -85,13 +136,13 @@ export default class ConfirmationRequestListTable extends Component {
   getVerified() {
     this.search(2);
   }
-  getConfirm(){
+  getConfirm() {
     this.search(3);
   }
   getApprove() {
     this.search(4);
   }
- 
+
   componentDidUpdate(prevProps) {
     if (prevProps.data !== this.props.data) {
       this.setState(
@@ -104,7 +155,56 @@ export default class ConfirmationRequestListTable extends Component {
       );
     }
   }
+  handleSelectedBranch = async (event) => {
+    let branchId = this.state.branchId
+    branchId = event
+    this.setState({
+      branchId: branchId
+    })
+  }
 
+  handleSelectedlevelStatus = async (event) => {
+    let levelStatus = this.state.levelStatus
+    levelStatus = event
+    this.setState({
+      levelStatus: levelStatus
+    })
+  }
+  handleSelectedDepartment = async (event) => {
+    let departmentId = this.state.departmentId
+    departmentId = event
+    this.setState({
+      departmentId: departmentId
+    })
+  }
+  handleSelectedDesignations = async (event) => {
+    let designationId = this.state.designationId
+    designationId = event
+    this.setState({
+      designationId: designationId
+    })
+  }
+  handleSelectedRegion = async (event) => {
+    let regionId = this.state.regionId
+    regionId = event
+    this.setState({
+      regionId: regionId
+    })
+  }
+  handleSearch = () => {
+    this.getEmployeeList()
+   
+  }
+  handleToDate = (event) => {
+    this.setState({
+      toDate: event
+    });
+  };
+  handleFromDate = (event) => {
+    this.setState({
+      fromDate: event
+    });
+  };
   search(status) {
     let data = this.state.dataSource;
     data = data.filter((d) => {
@@ -160,8 +260,8 @@ export default class ConfirmationRequestListTable extends Component {
           promotion_date: data[i].promotion_date ? data[i].promotion_date : "-",
           date: moment(result.createdAt).format("DD-MM-YYYY"),
           service_year: data[i].service_year ? data[i].service_year : "",
-          current_sub_level_service_year: data[i].current_sub_level_service_year ? data[i].current_sub_level_service_year:"",
-          
+          current_sub_level_service_year: data[i].current_sub_level_service_year ? data[i].current_sub_level_service_year : "",
+
           recommendation: data[i].recommendation ? data[i].recommendation : "",
           status: status,
         };
@@ -200,7 +300,7 @@ export default class ConfirmationRequestListTable extends Component {
       { title: "Employed Date", data: "employ_date" },
       { title: "Last Promtion Date", data: "promotion_date" },
       { title: "Service Year", data: "service_year" },
-      {title: "Service Year in Current Level" ,data: "date"  },
+      { title: "Service Year in Current Level", data: "date" },
       { title: "Service Year in Current Sub Level", data: "current_sub_level_service_year" },
       { title: "Confirm or Not", data: "recommendation" },
       { title: "Status", data: "status" },
@@ -242,19 +342,140 @@ export default class ConfirmationRequestListTable extends Component {
   };
 
   render() {
+    // const selectedDepartmentType=
     return (
       <div>
         <div className="row  white-bg dashboard-header">
-                    <div className="row">
-                        <div class="btn-group-g ">
-                            <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
-                            <button type="button" class=" btn label-check g" onClick={this.getCheck.bind(this)}>Check</button>
-                            <button type="button" class="btn label-verified g" onClick={this.getVerified.bind(this)}>Verify</button>
-                            <button type="button" class="btn label-approve g" onClick={this.getApprove.bind(this)}>Approve</button>
-                            <button type="button" class="btn label-success g" onClick={this.getConfirm.bind(this)}>Confirm</button>
-                        </div>
-                    </div>
-                </div>
+          <div className='flex-row' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
+            <DatePicker className='fromdate'
+
+              dateFormat="DD/MM/YYYY"
+              value={this.state.fromDate}
+              onChange={this.handleFromDate}
+              timeFormat={false} />
+            < DatePicker className='fromdate'
+              dateFormat="DD/MM/YYYY"
+              value={this.state.toDate}
+              onChange={this.handleToDate}
+              timeFormat={false} />
+            <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Branch"
+              options={this.state.branch}
+              onChange={this.handleSelectedBranch}
+              value={this.state.branchId}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+            <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginLeft: 10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Department"
+              options={this.state.department}
+              onChange={this.handleSelectedDepartment}
+              value={this.state.departmentId}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+            <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginLeft: 10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Region"
+              options={this.state.region}
+              onChange={this.handleSelectedRegion}
+              value={this.state.regionId}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+            <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginLeft: 10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Level"
+              options={this.state.level}
+              onChange={this.handleSelectedlevelStatus}
+              value={this.state.levelStatus}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+            <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginLeft: 10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Designation"
+              options={this.state.designations}
+              onChange={this.handleSelectedDesignations}
+              value={this.state.designationId}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+          {/* </div> */}
+          {/* <div className='flex-row' style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', margin: '10px 10px 10px 10px' }}> */}
+            <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearch()}>Search</button>
+          </div>
+          <div className="row">
+            <div class="btn-group-g ">
+              <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
+              <button type="button" class=" btn label-check g" onClick={this.getCheck.bind(this)}>Check</button>
+              <button type="button" class="btn label-success g" onClick={this.getConfirm.bind(this)}>Confirm</button>
+              <button type="button" class="btn label-verified g" onClick={this.getVerified.bind(this)}>Verify</button>
+              <button type="button" class="btn label-approve g" onClick={this.getApprove.bind(this)}>Approve</button>
+            </div>
+          </div>
+        </div>
         <table
           width="99%"
           className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"

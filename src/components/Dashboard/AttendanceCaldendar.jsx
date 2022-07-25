@@ -47,7 +47,9 @@ export class AttendanceCaldendar extends Component {
     };
 
     render() {
+        
         const { modalData } = this.state;
+        console.log('modalData ===>', modalData)
         const MyContainer = ({ className, children }) => {
             return (
                 <div style={{ color: "#fff", fontSize: 14, width: '100%' }}>
@@ -59,19 +61,21 @@ export class AttendanceCaldendar extends Component {
         };
         return (
             <div
-                className='row'
+                className='row col-lg-12 col-md-12 col-sm-12'
                 style={{
                     background: '#fff',
                     color: '#222',
-                    boxShadow: '3px 3px 3px #e5e5e5',
-                    borderRadius: 6,
-                    padding: '20px 10px',
-                    margin: '10px 0px',
+                    WebkitBoxShadow: '0px 0px 3px 0px rgba(194,194,194,1)',
+                    boxShadow: '0px 0px 3px 0px rgba(194,194,194,1)',
+                    borderRadius: '0px 20px 20px 20px',
+                    padding: '5px',
+                    margin: '5px 0px',
                     
                 }}
             >
                 <h3 style={{
-                    marginLeft:"13px"
+                    marginLeft:"13px",
+                    color: primary, fontWeight: 'bolder'
                 }}>Attendance Calendar</h3>
                 <div className="modal fade" id="leave-detail-modal" role="dialog" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
@@ -113,202 +117,211 @@ export class AttendanceCaldendar extends Component {
                         }
                     </div>
                 </div>
-                <div className="col-md-5 col-5 col-sm-5" style={{ width: 300, position: 'relative' }}>
+                <div className="col-md-5 col-lg-5 col-sm-5" style={{ position: 'relative' }}>
                     <ReactDatePicker 
                         selected={this.state.startDate}
                         onChange={(date) => this.setState({ startDate: date })}
                         renderDayContents={this.renderDayContents}
                         inline
                         calendarClassName="custom-datePicker"
-                        style={{ width: '100%' }}
+                        // style={{ width: '100%' }}
                         calendarContainer={MyContainer}
                         formatWeekDay={nameOfDay => nameOfDay.substr(0,3)}
                     />
                 </div>
-                <div className="col-md-5 col-5 col-sm-5">
+                <div className="col-md-5 col-lg-5 col-sm-5">
                         <div style={{
+                            width: '100%',
                             display:'flex',
                             flexDirection:'column',
-                            justifyContent:'center',
-                            alignItems:'center'
                         }}>
                         <div style={{
                                 display:'flex',
+                                width: '100%',
+                                backgroundColor: '#efefef',
                                 marginBottom:'30px',
                         }}>
                                 <div style={{
-                                    width:'280px',
-                                    height:'40px',
-                                    border:'1px solid #efefef',
-                                    borderRadius:'5px',
+                                    width:'80%',
+                                    height:'30px',
+                                    // border:'1px solid #efefef',
+                                    borderRadius:'5px 0px 0px 5px',
                                     backgroundColor:'#efefef',
                                     display:'flex',
                                     justifyContent:'center',
                                     alignItems:'center',
                                     // marginLeft:'20px',
-                                    position:'relative',
+                                    // position:'relative',
                                     color:primary,
                                     fontSize:'12px'
                                 
                                 }}>Total Working Days</div>
                                 <div style={{
-                                    width:'70px',
-                                    height:'40px',
-                                    boder:'1px solid black',
+                                    width:'20%',
+                                    height:'30px',
+                                    // boder:'1px solid black',
                                     borderRadius:'5px',
                                     backgroundColor:primary,
                                     display:"flex",
                                     justifyContent:"center",
                                     alignItems:"center",
-                                    marginRight:'20px',
-                                    position:'absolute',
-                                    right:10,
-                                    fontSize:'20px',
+                                    // marginRight:'20px',
+                                    // position:'absolute',
+                                    // right:10,
+                                    fontSize:'16px',
                                     color:'white'
                                    
                                 }}>21</div>
                             </div>
                             <div style={{
                                 display:'flex',
-                                
-                                alignItems:'center'
-
+                                width: '100%',
+                                alignItems:'center',
+                                justifyContent: 'space-around'
                             }}>
                                 <div style={{
-                                    width:'90px',
+                                    width:'32.5%',
                                     height:'130px',
                                     backgroundColor:secondary,
                                     borderRadius:'10px',
-                                    marginRight:'5px'
+                                    display:'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'space-around',
+                                    alignItems: 'center'
+                                    // marginRight:'5px'
                                 }}>
                                     <p style={{
-                                        fontSize:'40px',
-                                        display:'flex',
-                                        justifyContent:'center',
-                                        alignItems:'center',
+                                        fontSize:'30px',
+                                        
                                         color:'white'
                                         
                                     }}>19</p>
                                     <p style={{
-                                        marginTop:'50px',
-                                        textAlign:'center',
-                                        fontSize:'10px',
-                                        color:'white'
+                                        // marginTop:'40px',
+                                        fontWeight: 'bold',
+                                        fontSize:'9px',
+                                        color:'white',
+                                        textAlign: 'center'
                                        
                                     }}>Attendance Day</p>
                                 </div>
                                 <div style={{
-                                    width:'90px',
+                                    width:'32.5%',
                                     height:'130px',
                                     backgroundColor:primary,
                                     borderRadius:'10px',
-                                    marginRight:'5px'
+                                    display:'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'space-around',
+                                    alignItems: 'center'
+                                    // marginRight:'5px'
                                 }}>
                                     <p style={{
-                                        fontSize:'40px',
-                                        textAlign:'center',
-                                       
+                                        fontSize:'30px',
                                         color:'white'
                                         
                                     }}>02</p>
                                     <p style={{
-                                        marginTop:'50px',
+                                        // marginTop:'40px',
+                                        fontWeight: 'bold',
                                         textAlign:'center',
                                         fontSize:'10px',
                                         color:'white'
                                     }}>Leave Day</p>
                                 </div>
                                 <div style={{
-                                    width:'90px',
+                                    width:'32.5%',
                                     height:'130px',
                                     backgroundColor:darky,
-                                    borderRadius:'10px'
+                                    borderRadius:'10px',
+                                    display:'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'space-around',
+                                    alignItems: 'center'
                                 }}>
                                     <p style={{
-                                        fontSize:'40px',
-                                        textAlign:'center',
-                                       
+                                        fontSize:'30px',
                                         color:'white'
                                         
                                     }}>00</p>
                                     <p style={{
-                                        marginTop:'50px',
+                                        // marginTop:'40px',
+                                        fontWeight: 'bold',
                                         textAlign:'center',
                                         fontSize:'10px',
                                         color:'white'
-                                    }}>Allowance Day</p>
+                                    }}>Absense Day</p>
                                 </div>
                             </div>
                         </div>
                 </div>
-                <div className="col-md-2 col-2 col-sm-2">
+                <div className="col-md-2 col-lg-2 col-sm-2">
                     <div style={{
                        display:'flex',
-                       
-                       alignContent:'center'
+                       width: '100%',
+                    //    justifyContent: 'space-between',
+                       marginBottom: '5px'
                     }}>
                         <div style={{
                             width:'20px',
                             height:'20px',
                             borderRadius:'5px',
-                            marginRight:'10px',
                             backgroundColor:darky,
-                            marginBottom:'20px'
-                        }}>
+                            marginRight: 5}}>
                             
                         </div>
-                        <p>Absense</p>
+                        <p style={{fontSize: '10px', marginTop: 2}}>Absense</p>
                     </div>
                     <div style={{
                        display:'flex',
-                       
-                       alignContent:'center'
+                       width: '100%',
+                    //    justifyContent: 'space-between',
+                       marginBottom: '5px'
                     }}>
                         <div style={{
                             width:'20px',
                             height:'20px',
                             borderRadius:'5px',
-                            marginRight:'10px',
                             backgroundColor:secondary,
-                            marginBottom:'20px'
+                            marginRight: 5,
                         }}>
                             
                         </div>
-                        <p>Attendance</p>
+                        <p style={{fontSize: '10px', marginTop: 2}}>Attendance</p>
                     </div>
                     <div style={{
                        display:'flex',
-                       
-                       alignContent:'center'
+                       width: '100%',
+                    //    justifyContent: 'space-between',
+                       marginBottom: '5px'
                     }}>
                         <div style={{
                             width:'20px',
                             height:'20px',
                             borderRadius:'5px',
-                            marginRight:'10px',
                             backgroundColor:primary,
-                            marginBottom:'20px'
+                            marginRight: 5
                         }}>
                             
                         </div>
-                        <p>Leave</p>
+                        <p style={{fontSize: '10px', marginTop: 2}}>Leave</p>
                     </div>
                     <div style={{
                        display:'flex',
-                       
-                       alignContent:'center'
+                       width: '100%',
+                    //    justifyContent: 'space-between',
+                       marginBottom: '5px'
                     }}>
                         <div style={{
                             width:'20px',
                             height:'20px',
                             borderRadius:'5px',
-                            marginRight:'10px',
                             backgroundColor:softblue,
-                            marginBottom:'20px'
+                            marginRight: 5,
                         }}>
                             
                         </div>
-                        <p>Incomplete <br />Attendance</p>
+                        <p style={{fontSize: '10px', marginTop: 2}}>Incomplete <br />Attendance</p>
                         
                     </div>
                     

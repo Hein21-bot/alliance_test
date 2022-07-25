@@ -10,9 +10,9 @@ class HeadCountBarChart extends Component {
     this.state = {
       chartOptions: {},
       id: {
-        branchId: {value: 1, label: 'All'},
-        deptId: {value: 1, label: 'All'},
-        regionId:{value:1,label:'All'}
+        branchId: 0,
+        deptId: 0,
+        regionId:0
         
        
       },
@@ -48,7 +48,7 @@ class HeadCountBarChart extends Component {
     fetch(`${main_url}benefit/getRegionList`)
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
-        // let lists = list.unshift({ region_id: 1, region_name: 'All' })
+        let lists = list.unshift({ region_id: 0, region_name: 'All' })
         this.setState({
           regionList: list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
         })
@@ -63,6 +63,7 @@ class HeadCountBarChart extends Component {
         if (res.ok) return res.json();
       })
       .then((res1) => {
+        res1.unshift({label:'All',value: 0})
         this.setState({ branchData: res1 });
 
       })
@@ -158,6 +159,7 @@ class HeadCountBarChart extends Component {
         if (res.ok) return res.json();
       })
       .then((res1) => {
+        res1.unshift({label:"All",value:0})
         this.setState({ deptData: res1 });
       })
       .catch((error) => console.error(`Fetch Error =\n`, error));
@@ -268,7 +270,7 @@ class HeadCountBarChart extends Component {
       id: data
     })
   }
-  render() {
+  render() {console.log(">>>",this.state.branchData)
     return (
       <div>
         {this.props.title == "department" ? (
@@ -336,9 +338,9 @@ class HeadCountBarChart extends Component {
                     ...base,
                     minHeight: "18px",
 
-                  }),
+                  })
                 }}
-                placeholder="Branch"
+                placeholder="All"
                 options={this.state.branchData}
                 onChange={this.handleSelectedBranch}
                 value={this.state.id.branchId}
@@ -405,7 +407,7 @@ class HeadCountBarChart extends Component {
                     minHeight: "18px",
                   }),
                 }}
-                placeholder="Department"
+                placeholder="All"
                 options={this.state.deptData}
                 onChange={this.handleSelectedDepartment}
                 value={this.state.id.deptId}
@@ -456,7 +458,7 @@ class HeadCountBarChart extends Component {
                     minHeight: "18px",
                   }),
                 }}
-                placeholder="Branch"
+                placeholder="All"
                 options={this.state.branchData}
                 onChange={this.handleSelectedBranch}
                 value={this.state.id.branchId}

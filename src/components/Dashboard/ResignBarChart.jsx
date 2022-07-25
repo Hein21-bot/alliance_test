@@ -5,29 +5,38 @@ import Select from 'react-select'
 import moment from 'moment';
 import  DatePicker from 'react-datetime';
 import { getBranch, getDepartment, main_url,getFirstDayOfMonth } from '../../utils/CommonFunction';
+
+//resignRegion/branch/department/startDate/endDate
+//resignExitStaff/startDate/endDate 
+
 class ResignBarChart extends Component {
     constructor(props) {
         super(props);
         this.state = {
             chartOptions: {},
-            exitStaffOption:{},
+            exitStaffOptions:{},
             branch: [],
             department: [],
-            toDate:moment().format('DD-MM-YYYY'),
-            fromDate:  moment(getFirstDayOfMonth()).format('DD-MM-YYYY'),
-            exitToDate:moment().format('DD-MM-YYYY'),
-            exitFromDate:  moment(getFirstDayOfMonth()).format('DD-MM-YYYY'),
+            toDate:new Date(),
+            fromDate:  getFirstDayOfMonth(),
+            exitToDate: new Date(),
+            exitFromDate:  getFirstDayOfMonth(),
             data: {
                 branchId: 0,
                 departmentId: 0
-            }
+            },
+            resignData: [],
+            resignCount: [],
+            exitStaffData: [],
+            exitStaffCount: [],
         }
     }
 
 
     async componentDidMount() {
         await this.setChartOption();
-        await this.leaveDashboard();
+        await this.getResignData();
+        await this.getExitStaffData();
         let branch = await getBranch();
         branch.unshift({ label: 'All', vlaue: 0 });
         let department = await getDepartment();
@@ -38,28 +47,52 @@ class ResignBarChart extends Component {
         })
     }
 
-    async leaveDashboard() {
-        fetch(`${main_url}dashboard/leaveDashboard/${this.state.data.branchId.value}/${this.state.data.departmentId.value} `)
+    async getResignData() {
+        fetch(`${main_url}dashboard/resignRegion/${this.state.data.branchId.value}/${this.state.data.departmentId.value}/${moment(this.state.fromDate).format('YYYY-MM-DD')}/${moment(this.state.toDate).format('YYYY-MM-DD')} `)
             .then(response => {
                 if (response.ok) return response.json()
             })
             .then(res => {
-
+                console.log('resignData ===>', res)
                 if (res) {
                     var label = [];
                     var count = [];
                     res.map((v, i) => {
-                        label.push(v.leave_category);
+                        label.push(v.branch_name);
                         count.push(v.count)
                     })
 
-                    this.setState({ leaveData: label, countData: count })
+                    this.setState({ resignData: label, resignCount: count })
                 }
                 this.setChartOption()
+                // this.setExitStaffOption()
+            })
+            .catch(error => console.error(`Fetch Error =\n`, error));
+    }
+
+    async getExitStaffData() {
+        fetch(`${main_url}dashboard/resignExitStaff/${moment(this.state.exitFromDate).format('YYYY-MM-DD')}/${moment(this.state.exitToDate).format('YYYY-MM-DD')}`)
+            .then(response => {
+                if (response.ok) return response.json()
+            })
+            .then(res => {
+                console.log('exitStaffData ===>', res)
+                if (res) {
+                    var label = [];
+                    var count = [];
+                    res.map((v, i) => {
+                        label.push(v.branch_name);
+                        count.push(v.count)
+                    })
+
+                    this.setState({ exitStaffData: label, exitStaffCount: count })
+                }
+                // this.setChartOption()
                 this.setExitStaffOption()
             })
             .catch(error => console.error(`Fetch Error =\n`, error));
     }
+
     setChartOption = async () => {
         const chartOptions = {
             chart: {
@@ -70,7 +103,7 @@ class ResignBarChart extends Component {
                 text: '',
             },
             xAxis: {
-                categories: ['Ye Oo', 'Taung Gyi', 'Shwe Bo', 'Mandalay', 'Taungtwin Gyi', 'Head Office', 'Amarapura'], 
+                categories: this.state.resignData, 
                 title: {
                     text: null
                 }
@@ -101,11 +134,11 @@ class ResignBarChart extends Component {
             },
             series: [{
                 colorByPoint: true,
-                data: [5,3,7,2,8,1,4]
+                data: this.state.resignCount
             }]
         }
 
-        this.setState({ chartOptions })
+        this.setState({ chartOptions: chartOptions })
     }
     setExitStaffOption = async () => {
         const exitStaffOptions = {
@@ -117,7 +150,7 @@ class ResignBarChart extends Component {
                 text: '',
             },
             xAxis: {
-                categories: ['Ye Oo', 'Taung Gyi', 'Shwe Bo', 'Mandalay', 'Taungtwin Gyi', 'Head Office', 'Amarapura'], 
+                categories: this.state.exitStaffData, 
                 title: {
                     text: null
                 }
@@ -151,11 +184,11 @@ class ResignBarChart extends Component {
             },
             series: [{
                 colorByPoint: true,
-                data: [5,3,7,2,8,1,4]
+                data: this.state.exitStaffCount
             }]
         }
 
-        this.setState({ exitStaffOptions })
+        this.setState({ exitStaffOptions: exitStaffOptions })
     }
     handleToDate = (event) => {
         this.setState({
@@ -184,12 +217,7 @@ class ResignBarChart extends Component {
             data: data
         })
     }
-    onClickResignStaffSearch = () => {
-        this.leaveDashboard();
-    }
-    onClickExitStaffSearch = () => {
-        this.leaveDashboard();
-    }
+    
     handleSelectedDepartment = async (event) => {
         let data = this.state.data
         data.departmentId = event
@@ -198,7 +226,12 @@ class ResignBarChart extends Component {
         })
     }
  
-    
+    onClickResignStaffSearch = () => {
+        this.getResignData();
+    }
+    onClickExitStaffSearch = () => {
+        this.getExitStaffData();
+    }
 
     render() {
         console.log('data is ===>', this.state.data.branchId, this.state.data.departmentId)
