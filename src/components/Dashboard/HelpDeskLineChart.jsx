@@ -13,8 +13,52 @@ class HelpDeskLineChart extends Component {
             chartData: [],
             categories: [],
             open_ticket: [],
-            close_ticket: []
+            close_ticket: [],
+            id:{
+                branchId: {value: 1, label: 'All'},
+                deptId: {value: 1, label: 'All'},
+                },
+            branchData:[],
+            xAxisDept: [],
+            countDataDept: [],
+            deptData: [],
         }
+    }
+    getBranch = () => {
+
+        fetch(main_url + `main/getBranch`)
+          .then((res) => {
+            if (res.ok) return res.json();
+          })
+          .then((res1) => {
+            this.setState({ branchData: res1 });
+    
+          })
+          .catch((error) => console.error(`Fetch Error =\n`, error));
+      };
+      handleSelectedBranch = async (event) => {
+        let data = this.state.id
+        data.branchId = event
+        this.setState({
+          id: data
+        })
+      };
+      getDesignation = () => {
+        fetch(main_url + `main/getDepartment`)
+          .then((res) => {
+            if (res.ok) return res.json();
+          })
+          .then((res1) => {
+            this.setState({ deptData: res1 });
+          })
+          .catch((error) => console.error(`Fetch Error =\n`, error));
+      };
+      handleSelectedDepartment = async (event) => {
+        let data = this.state.id
+        data.deptId = event
+        this.setState({
+          id: data
+        })
     }
 
     getHelpDeskGraphData() {
@@ -36,6 +80,8 @@ class HelpDeskLineChart extends Component {
 
     componentDidMount() {
         this.getHelpDeskGraphData()
+        this.getBranch()
+        this.getDesignation()
     }
 
     setChartOption = () => {
@@ -178,10 +224,10 @@ class HelpDeskLineChart extends Component {
                             })
                         }}
                         placeholder="Branch"
-                        options={[]}
-                        onChange={(val) => console.log(val)}
-                        value={null}
-                        className='react-select-container'
+                        options={this.state.branchData}
+                        onChange={this.handleSelectedBranch}
+                        value={this.state.id.branchId}
+                        className="react-select-container"
                         classNamePrefix="react-select"
                     />
                     <Select
@@ -199,10 +245,10 @@ class HelpDeskLineChart extends Component {
                             })
                         }}
                         placeholder="Department"
-                        options={[]}
-                        onChange={(val) => console.log(val)}
-                        value={null}
-                        className='react-select-container'
+                        options={this.state.deptData}
+                        onChange={this.handleSelectedDepartment}
+                        value={this.state.id.deptId}
+                        className="react-select-container"
                         classNamePrefix="react-select"
                     />
 

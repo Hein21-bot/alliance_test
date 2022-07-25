@@ -125,24 +125,40 @@ export class Dashboard extends Component {
             </div>
           </div>
         ) : this.state.tapButtonTitle == "benefit" ? (
-          <div className="row mt-3">
+          <div className="row mt-3" style={{
+            display:'flex',
+            justifyContent:"center",
+            alignItems:'center'
+          }}>
             <div className="col-md-8">
-              <BenefitBarChart></BenefitBarChart>
+              
               <CompensationandBenefit></CompensationandBenefit>
             </div>
           </div>
         ) : this.state.tapButtonTitle == "expense" ? (
           <div className="row mt-3">
-            <div className="col-md-8">
+            <div className="col-12" style={{
+              display:'flex',
+              justifyContent:'center',
+              alignItems:'center'
+            }}>
+            <BenefitBarChart></BenefitBarChart>
+            </div>
+            <div className="col-12" style={{
+                display:'flex',
+                justifyContent:'center',
+                alignItems:'center'              
+            }}>
+            
               <ExpenseBarChart></ExpenseBarChart>
             </div>
           </div>
         ): this.state.tapButtonTitle == "helpdesk" ? (
           <div className="row mt-3">
-            <div className="col-md-6">
+            <div className="col-xl-6 col-lg-7 col-md-12 col-sm-12">
               <HelpDesk></HelpDesk>
             </div>
-            <div className="col-md-6">
+            <div className="col-xl-6 col-lg-5 col-md-12 col-sm-12">
               <HelpDeskLineChart></HelpDeskLineChart>
               </div> 
           </div>
