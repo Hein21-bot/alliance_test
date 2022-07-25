@@ -6,9 +6,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import DatePicker from 'react-datetime';
 
 const data = [
-    { date: '05-03-2022', leave_count: 4, employees: ['Dave', 'Josh', 'Mary', 'Joh'] },
-    { date: '05-19-2022', leave_count: 2, employees: ['Scarlet', 'Peter'] },
-    { date: '05-22-2022', leave_count: 2, employees: ['West', 'Nancy'] },
+    { date: '07-03-2022', leave_count: 4, employees: ['Dave', 'Josh', 'Mary', 'Joh'] },
+    { date: '07-19-2022', leave_count: 2, employees: ['Scarlet', 'Peter'] },
+    { date: '07-22-2022', leave_count: 2, employees: ['West', 'Nancy'] },
 ];
 
 export default class LeaveCalendar extends Component {
