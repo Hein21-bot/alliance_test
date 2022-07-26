@@ -125,12 +125,12 @@ export default class MyLeaveDetail extends Component {
         casualLeaveCount +
         maternityCount +
         paternityCount +
-        annualCount +
+        earnedLeaveCount +
         medicalCount +
         compassionateCount +
         leaveWithoutPay;
 
-      const totalLeaveCount = casualLeaveCount + 120 + 10 + earnedLeaveCount1 + 30 + 5 + 90;
+      const totalLeaveCount = casualLeaveBalance + 120 + 10 + earnedLeaveCount1 + 30 + 5 + 90;
 
       return (
         <div className="col-sm-4 white-bg mt20 border-class">
@@ -151,7 +151,7 @@ export default class MyLeaveDetail extends Component {
             </div>
             <div className="row mt20">
               <div className="col-sm-8">Earned Leave:</div>
-              <div className="col-sm-4">{earnedLeaveCount1}/{earnedLeaveCount}</div>
+              <div className="col-sm-4">{earnedLeaveCount}/{earnedLeaveCount1}</div>
             </div>
             <div className="row mt20">
               <div className="col-sm-8">Medical Leave:</div>
