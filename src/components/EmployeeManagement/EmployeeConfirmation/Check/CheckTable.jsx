@@ -40,7 +40,6 @@ export default class BenefitChildTable extends Component {
 
         let that = this;
         $("#dataTables-table").on('click', '#toView', function () {
-
             var data = $(this).find("#view").text();
             data = $.parseJSON(data);
             that.props.goToViewForm(data);
@@ -96,7 +95,7 @@ export default class BenefitChildTable extends Component {
         }
     }
 
-   
+
 
 
 
@@ -159,11 +158,10 @@ export default class BenefitChildTable extends Component {
             }
             if (has_action) {
                 if (result.status !== 4) {
-                    obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
-                    obj.action += permission.isEdit === 1  ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
+                    obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-view" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+                    obj.action += permission.isEdit === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
                 } else {
-                    obj.action = permission.isView === 1 ?
-                        '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+                    obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
 
                 }
             }

@@ -39,10 +39,12 @@ export default class ConfirmationRequestListTable extends Component {
       regionId: 0,
       levelStatus: "",
       designationId: 0,
-      employeeData: []
+      employeeData: [],
+      filterData: []
     };
   }
-  componentDidMount() {
+
+  async componentDidMount() {
     this.$el = $(this.el);
     this.setState(
       {
@@ -61,13 +63,10 @@ export default class ConfirmationRequestListTable extends Component {
     });
 
     $("#dataTables-table").on('click', '#toEdit', function () {
-
       var data = $(this).find("#edit").text();
       data = $.parseJSON(data);
       that.update(data)
     });
-  }
-  async componentDidMount() {
     let level = await getLevel();
     level.unshift({ label: "All", value: 0 });
     let designations = await getDesignation();
@@ -111,21 +110,7 @@ export default class ConfirmationRequestListTable extends Component {
 
       })
   }
-  getEmployeeList() {console.log(this.state.department.find(v=>v.value==this.state.designations.value))
-    // /${parseInt(this.state.regionId.value)}/${parseInt(this.state.departmentId.value)}/${parseInt(this.state.branchId.value)}/${parseInt(this.state.designationId.value)}
-    fetch(
-      `${main_url}confirmation/getConfirmationAllData`
-    )
-      .then((response) => {
-        if (response.ok) return response.json();
-      })
-      .then((res) => {
-        if (res) {
-          this.setState({ employeeData: res });
-        }
-      })
-      .catch((error) => console.error(`Fetch Error =\n`, error));
-  }
+
 
   getRequest() {
     this.search(0);
@@ -193,7 +178,7 @@ export default class ConfirmationRequestListTable extends Component {
   }
   handleSearch = () => {
     this.getEmployeeList()
-   
+
   }
   handleToDate = (event) => {
     this.setState({
@@ -213,6 +198,14 @@ export default class ConfirmationRequestListTable extends Component {
     this._setTableData(data);
   }
 
+  handleSearchData = (branchId, departmentId, regionId, levelStatus, designationId) => {
+    fetch(`${main_url}confirmation/getConfirmationAllData/${branchId == undefined ? 0 : branchId}/${departmentId == undefined ? 0 : departmentId}/${regionId == undefined ? 0 : regionId}/${levelStatus == undefined ? 0 : levelStatus}/${designationId == undefined ? 0 : designationId}`)
+      .then(res => { if (res.ok) return res.json() })
+      .then(list => {
+        this._setTableData(list);
+      })
+  }
+
   _setTableData = (data) => {
     var table;
     var l = [];
@@ -222,6 +215,7 @@ export default class ConfirmationRequestListTable extends Component {
       permission.isView === 1 || permission.isEdit === 1 ? true : false;
     if (data.length > 0) {
       for (var i = 0; i < data.length; i++) {
+        // console.log('res is ====>', data[i])
         let result = data[i];
         let obj = [];
         if (result.status === 0) {
@@ -269,10 +263,7 @@ export default class ConfirmationRequestListTable extends Component {
         if (has_action) {
           obj.action =
             permission.isView === 1
-              ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' +
-              JSON.stringify(result) +
-              '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>'
-              : "";
+              ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-view" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : "";
           obj.action += permission.isEdit === 1 && this.props.pathname == '/confirmation_approve_list'
             ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Update</button>' : '';
         }
@@ -342,11 +333,11 @@ export default class ConfirmationRequestListTable extends Component {
   };
 
   render() {
-    // const selectedDepartmentType=
+
     return (
       <div>
         <div className="row  white-bg dashboard-header">
-          <div className='flex-row' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
+          <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
             <DatePicker className='fromdate'
 
               dateFormat="DD/MM/YYYY"
@@ -462,9 +453,9 @@ export default class ConfirmationRequestListTable extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
-          {/* </div> */}
-          {/* <div className='flex-row' style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', margin: '10px 10px 10px 10px' }}> */}
-            <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearch()}>Search</button>
+            {/* </div> */}
+            {/* <div className='flex-row' style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', margin: '10px 10px 10px 10px' }}> */}
+            <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData(this.state.branchId.value, this.state.departmentId.value, this.state.regionId.value, this.state.levelStatus.value, this.state.designationId.value)}>Search</button>
           </div>
           <div className="row">
             <div class="btn-group-g ">

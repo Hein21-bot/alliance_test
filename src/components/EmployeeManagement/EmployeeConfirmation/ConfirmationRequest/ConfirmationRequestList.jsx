@@ -18,7 +18,7 @@ export default class ConfirmationRequestList extends Component {
   }
 
   getConfirmationRequestList() {
-    fetch(`${main_url}confirmation/getConfirmationAllData`)
+    fetch(`${main_url}confirmation/getConfirmationAllData/0/0/0/0/0`)
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
         this.setState({
@@ -38,19 +38,19 @@ export default class ConfirmationRequestList extends Component {
   }
 
   render() {
+    console.log('view form is ===>', this.state.viewForm)
     let confirmData = this.state.pathname == '/confirmation_approve_list' ? this.state.comfirmationRequestList.filter(v => v.status == 4) : this.state.comfirmationRequestList
-    console.log("confirm data is ===>", confirmData)
     return (
       <div className=" border-bottom white-bg dashboard-header">
         <div className="row wrapper white-bg page-heading">
-              <div className="col-lg-12">
-                <ol className="breadcrumb">
-                  <li style={{fontSize: 18}}>Employee</li>
-                  <li style={{fontSize: 18}}>Confirmation</li>
-                  <li style={{fontSize: 18}}>{this.state.pathname == '/confirmation_approve_list' ? 'Confirmation Approve List'  : 'Confirmation Request List'}</li>
-                </ol>
-              </div>
-            </div>
+          <div className="col-lg-12">
+            <ol className="breadcrumb">
+              <li style={{ fontSize: 18 }}>Employee</li>
+              <li style={{ fontSize: 18 }}>Confirmation</li>
+              <li style={{ fontSize: 18 }}>{this.state.pathname == '/confirmation_approve_list' ? 'Confirmation Approve List' : 'Confirmation Request List'}</li>
+            </ol>
+          </div>
+        </div>
         {this.state.viewForm ? (
           <ConfirmationRequestListView item={this.state.selectedConfirmation} backToList={this.backToList} />
         ) : (
