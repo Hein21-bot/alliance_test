@@ -125,6 +125,7 @@ export default class BenefitChildTable extends Component {
                 date: moment(result.createdAt).format('DD-MM-YYYY'),
                 service_year: data[i].service_year ? data[i].service_year : '',
                 leave: data[i].leave ? data[i].leave : '-',
+                extension: data[i].extension ? data[i].extension : '-',
                 status: status
 
             }
@@ -178,6 +179,7 @@ export default class BenefitChildTable extends Component {
             { title: "Service Year in Current Level", data: "date" },
             { title: "Service Year in Current Sub Level", data: "date" },
             { title: "Leave", data: "leave" },
+            { title: "Extension", data: "extension" },
             // { title: "Status", data: "status" }
         ]
 
@@ -219,6 +221,9 @@ export default class BenefitChildTable extends Component {
             createdRow: function (row, data, index) {
                 if (data.leave === true) {
                     $(row).css('background-color', 'Yellow');
+                }
+                if (data.extension === true) {
+                    $(row).css('background-color', 'Orange');
                 }
             }
 

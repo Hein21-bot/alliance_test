@@ -510,30 +510,32 @@ class ConfirmationCheck extends Component {
                                 <h3>Confirmation Check Table</h3>
                                 <div className='col-lg-4 col-md-4 col-sm-6' style={{ display: 'flex', alignItems: 'center', marginBottom: -10, justifyContent: 'space-between' }}>
                                     {
-                                        check_person == this.state.user_id ?
-                                            null :
-
+                                        this.state.user_id == 921 ?
                                             <div>
 
                                                 <input type="checkbox" style={{ marginRight: 8 }} checked={checkedAll} onChange={this.handleSelectAllChange} /> <span style={{ marginTop: 5 }}>Select All</span>
-                                            </div>
+                                            </div> :
+
+                                            null
                                     }
 
                                     <div style={{ display: 'flex', paddingTop: 10, justifyContent: 'flex-start', }}>
 
-                                        {verify_person == this.state.user_id ? <button className='' onClick={() => this.handleConfirmRequest()} style={{ borderRadius: 3, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 80 }} >
-                                            Confirm
-                                        </button> : this.state.user_id == 17 ? <button className='' onClick={() => this.handleVerifyRequest()} style={{ borderRadius: 3, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 80 }}>
-                                            Verify
-                                        </button> : this.state.user_id == 921 ? <button className='' onClick={() => this.handleApproveRequest()} style={{ borderRadius: 3, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 80 }}>
-                                            Approve
-                                        </button> : ''}
+                                        {
+                                            // verify_person == this.state.user_id ? <button className='' onClick={() => this.handleConfirmRequest()} style={{ borderRadius: 3, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 80 }} >
+                                            //     Confirm
+                                            // </button> : this.state.user_id == 17 ? <button className='' onClick={() => this.handleVerifyRequest()} style={{ borderRadius: 3, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 80 }}>
+                                            //     Verify
+                                            // </button> : 
+                                            this.state.user_id == 921 ? <button className='' onClick={() => this.handleApproveRequest()} style={{ borderRadius: 3, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 80 }}>
+                                                Approve
+                                            </button> : ''}
                                     </div>
                                 </div>
                                 <CheckTable goToViewForm={this.goToViewForm} checkedAll={checkedAll} handleCheckBoxChange={this.handleCheckBoxChange} goToEditForm={this.goToEditForm} selectedCheckBox={this.state.selectedCheckBox} data={this.state.checkListData ? this.state.checkListData : []} permission={{
                                     isEdit: (this.state.user_id == 921) ? 0 : 1,
                                     isView: 1,
-                                    isSelect: 1
+                                    isSelect: (this.state.user_id == 921) ? 1 : 0,
                                 }} />
                             </div>
                 }
