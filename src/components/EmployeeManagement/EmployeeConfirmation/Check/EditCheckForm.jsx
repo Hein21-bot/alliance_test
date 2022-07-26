@@ -153,15 +153,15 @@ const EditCheckForm = props => {
 
                         <div className='col-lg-6 col-md-6 col-sm-6'>
                             <div style={{ alignItems: 'center', display: 'flex', paddingTop: 10 }}>
-                                <input type='radio' placeholder='' required value="Confirmation" checked={recommendation === "Confirmation"} onChange={onRecommendationChange} style={{ height: 40, marginRight: 10 }} />
+                                <input type='radio' placeholder='' value="Confirmation" checked={recommendation === "Confirmation" || recommendation === null} onChange={onRecommendationChange} style={{ height: 40, marginRight: 10 }} required/>
                                 Confirmation
                             </div>
                             <div style={{ alignItems: 'center', display: 'flex', paddingTop: 10 }}>
-                                <input type='radio' placeholder='' required value="Extensions" checked={recommendation === "Extensions"} onChange={onRecommendationChange} style={{ height: 40, marginRight: 10 }} />
+                                <input type='radio' placeholder='' value="Extensions" checked={recommendation === "Extensions"} onChange={onRecommendationChange} style={{ height: 40, marginRight: 10 }} required />
                                 Extensions
                             </div>
                             <div style={{ alignItems: 'center', display: 'flex', paddingTop: 10 }}>
-                                <input type='radio' placeholder='' required value="Terminations" checked={recommendation === "Terminations"} onChange={onRecommendationChange} style={{ height: 40, marginRight: 10 }} />
+                                <input type='radio' placeholder=''   value="Terminations" checked={recommendation === "Terminations"} onChange={onRecommendationChange} style={{ height: 40, marginRight: 10 }} required/>
                                 Terminations
                             </div>
 
@@ -188,11 +188,13 @@ const EditCheckForm = props => {
                         <div className='col-lg-6 col-md-6 col-sm-6'>
                             <div style={{ width: 175 }}>
                                 <Select
+                                    required
                                     options={filter_sub_level}
                                     value={selected_level}
                                     onChange={handleSelectedSubLevel}
                                     className="react-select-container checkValidate"
                                     classNamePrefix="react-select"
+                                   
                                 />
                             </div>
                         </div>

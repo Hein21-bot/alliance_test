@@ -264,7 +264,7 @@ class ConfirmationCheck extends Component {
                 person: getCookieData("user_info").user_id,
                 list: this.state.selected_checkList,
                 status: 2,
-                confirm_or_not: 'Confirmation'
+                confirm_or_not: this.state.recommendation
             }
 
             let status = 0;
@@ -282,10 +282,10 @@ class ConfirmationCheck extends Component {
                 .then(text => {
                     if (status === 200) {
                         toast.success(text);
-                        window.location.reload();
+                        // window.location.reload();
                     }
                     else toast.error(text);
-                    window.location.replace("/confirmation_list");
+                    // window.location.replace("/confirmation_list");
 
                 })
 
@@ -318,10 +318,10 @@ class ConfirmationCheck extends Component {
                 .then(text => {
                     if (status === 200) {
                         toast.success(text);
-                        window.location.reload();
+                        // window.location.reload();
                     }
                     else toast.error(text);
-                    window.location.replace("/confirmation_list");
+                    // window.location.replace("/confirmation_list");
 
                 })
 
@@ -354,10 +354,10 @@ class ConfirmationCheck extends Component {
                 .then(text => {
                     if (status === 200) {
                         toast.success(text);
-                        window.location.reload();
+                        // window.location.reload();
                     }
                     else toast.error(text);
-                    window.location.replace("/confirmation_list");
+                    // window.location.replace("/confirmation_list");
 
                 })
 
@@ -413,6 +413,7 @@ class ConfirmationCheck extends Component {
                 window.location.replace("/employment_details");
 
             })
+           
     }
     render() {
         let verify_person = this.state.checkListData && (this.state.checkListData[0] ? this.state.checkListData[0].verify_person : null)

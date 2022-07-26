@@ -119,6 +119,7 @@ export default class BenefitChildTable extends Component {
         for (var i = 0; i < data.length; i++) {
             let result = data[i];
             let obj = [];
+            console.log('data i is ===>', data[i])
             if (data[i].status === 0) {
                 status = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
 
@@ -151,7 +152,7 @@ export default class BenefitChildTable extends Component {
                 currentLevelServiceYear: '_',
                 currentSubLevelServiceYear: data[i].current_sub_level_service_year ? data[i].current_sub_level_service_year : '_',
                 status: status,
-                confirmOrNot: data[i].confirm_or_not ? data[i].confirm_or_not : ''
+                confirmOrNot: data[i].recommendation ? data[i].recommendation : ''
             }
 
             if (has_select) {

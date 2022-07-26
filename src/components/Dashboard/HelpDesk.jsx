@@ -212,14 +212,14 @@ class HelpDesk extends Component {
                             boxShadow: "3px 3px 3px #e5e5e5",
                             borderTopRightRadius: 6,
                             borderTopLeftRadius: 6,
-                            width: '200px',
-                            height: '70px',
+                            
 
                             marginTop: '20px'
 
                         }}>
                             <div style={{
-                                padding: '15px'
+                                paddingLeft:'10px',
+                                paddingRight:'10px'
                             }}>
                                 <p style={{
 
@@ -247,8 +247,7 @@ class HelpDesk extends Component {
                         </div>
                         <div>
                             <div style={{
-                                width: '200px',
-                                height: '30px',
+                                
                                 backgroundColor: '#1872ab',
                                 color: 'white',
                                 display: 'flex',
@@ -259,7 +258,7 @@ class HelpDesk extends Component {
                                 <p style={{
                                     display: 'inline',
                                     marginLeft: '10px',
-                                    marginTop: '5px'
+                                    
 
 
                                 }}>Main Category</p>
@@ -268,7 +267,7 @@ class HelpDesk extends Component {
                                     display: 'flex',
                                     justifyContent: 'center',
                                     alignItems: 'center',
-                                    marginTop: '5px',
+                                  
                                     width: '70px',
                                     height: '30px',
                                     borderLeft: '1px solid white',
@@ -281,8 +280,7 @@ class HelpDesk extends Component {
                                     this.state.TicketMainCategory.map(status => (
 
                                         <div style={{
-                                            width: '200px',
-                                            height: '30px',
+                                           
                                             backgroundColor: '#dee1ec',
                                             color: 'white',
                                             display: 'flex',
@@ -293,7 +291,7 @@ class HelpDesk extends Component {
                                             <p style={{
                                                 display: 'inline',
                                                 marginLeft: '10px',
-                                                marginTop: '5px',
+                                                
                                                 color: 'black'
 
 
@@ -305,7 +303,7 @@ class HelpDesk extends Component {
                                                 display: 'flex',
                                                 justifyContent: 'center',
                                                 alignItems: 'center',
-                                                marginTop: '5px',
+                                                
                                                 width: '70px',
                                                 height: '30px',
                                                 color: 'black',
@@ -315,10 +313,60 @@ class HelpDesk extends Component {
                                         </div>
                                     ))
                                 }
-                            {/* <div style={{
-                                width: '200px',
-                                height: '30px',
-                                backgroundColor: '#dee1ec',
+                            
+                        </div>
+                        </div>
+                        <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12" style={{
+                            margin:0,
+                            paddingLeft:'15px',
+                            paddingRight:0
+                           
+                        }}>
+                            <div style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            background: "#fff",
+                            boxShadow: "3px 3px 3px #e5e5e5",
+                            borderTopRightRadius: 6,
+                            borderTopLeftRadius: 6,
+                            
+
+                            marginTop: '20px'
+
+                        }}>
+                            <div style={{
+                                paddingLeft:'10px',
+                                paddingRight:'10px'
+                            }}>
+                                <p style={{
+
+                                }}>TICKET STATUS</p>
+                                <p style={{
+                                    fontWeight: 'bold'
+                                }}>4</p>
+                            </div>
+                            <div style={{
+                                width: '40px',
+                                height: '40px',
+                                backgroundColor: '#9c1de7',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                borderRadius: '50%',
+                                margin: '15px'
+
+                            }}>
+                                <i className='fa fa-bars' style={{
+
+                                    color: 'white'
+                                }}></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div style={{
+                                
+                                backgroundColor: '#1872ab',
                                 color: 'white',
                                 display: 'flex',
                                 justifyContent: 'space-between',
@@ -328,131 +376,23 @@ class HelpDesk extends Component {
                                 <p style={{
                                     display: 'inline',
                                     marginLeft: '10px',
-                                    marginTop: '5px',
-                                    color: 'black'
+                                    
 
 
-                                }}>New</p>
-
-                                <p style={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    marginTop: '5px',
-                                    width: '70px',
-                                    height: '30px',
-                                    borderLeft: '1px solid white',
-                                    color: 'black'
-
-                                }}>5</p>
-                            </div>
-                            <div style={{
-                                width: '200px',
-                                height: '30px',
-                                backgroundColor: 'white',
-                                color: 'black',
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-
-                            }}>
-                                <p style={{
-                                    display: 'inline',
-                                    marginLeft: '10px',
-                                    marginTop: '5px'
-
-
-                                }}>Closed</p>
+                                }}>Main Category</p>
 
                                 <p style={{
                                     display: 'flex',
                                     justifyContent: 'center',
                                     alignItems: 'center',
-                                    marginTop: '5px',
+                                  
                                     width: '70px',
                                     height: '30px',
                                     borderLeft: '1px solid white',
 
-                                }}>3</p>
-                            </div> */}
-
-                        </div>
-                        </div>
-                        <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12" style={{
-                            margin:0,
-                           
-                        }}>
-                            <div style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                background: "#fff",
-                                boxShadow: "3px 3px 3px #e5e5e5",
-                                borderTopRightRadius: 6,
-                                borderTopLeftRadius: 6,
-                                
-
-                                marginTop: '20px'
-
-                            }}>
-                                <div style={{
-                                    paddingLeft: '5px',
-                                    paddingRight:'5px',
-                                    paddingTop:'5px'
-                                }}>
-                                    <p >TICKETS STATUS</p>
-                                    <p style={{
-                                        fontWeight: 'bold'
-                                    }}>4</p>
-                                </div>
-                                <div style={{
-                                    width: '40px',
-                                    height: '40px',
-                                    backgroundColor: '#9c1de7',
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    borderRadius: '50%',
-                                    margin: '10px'
-
-                                }}>
-                                    <i className='fa fa-bars' style={{
-
-                                        color: 'white'
-                                    }}></i>
-                                </div>
+                                }}>Tickets</p>
                             </div>
-                            <div>
-                                <div style={{
-                                    
-                                    backgroundColor: '#1872ab',
-                                    color: 'white',
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    
-
-                                }}>
-                                    <p style={{
-                                        display: 'inline',
-                                        marginLeft: '10px',
-                                        marginTop: '5px'
-
-
-                                    }}>Status</p>
-
-                                    <div style={{
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        marginTop: '5px',
-                                        width: '70px',
-                                        height: '30px',
-                                        borderLeft: '1px solid white',
-
-                                    }}>Tickets</div>
-                                </div>
-                            </div>
+                        </div>
                             <div>
 
                                 {
@@ -471,7 +411,7 @@ class HelpDesk extends Component {
                                             <p style={{
                                                 display: 'inline',
                                                 marginLeft: '10px',
-                                                marginTop: '5px',
+                                               
                                                 color: 'black'
 
 
@@ -483,7 +423,7 @@ class HelpDesk extends Component {
                                                 display: 'flex',
                                                 justifyContent: 'center',
                                                 alignItems: 'center',
-                                                marginTop: '5px',
+                                               
                                                 width: '70px',
                                                 height: '30px',
                                                 color: 'black',

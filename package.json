@@ -44,6 +44,7 @@
     "react-scripts": "3.0.1",
     "react-select": "^3.2.0",
     "react-spinner": "^0.2.7",
+    
     "react-spinners": "^0.8.3",
     "react-toastify": "^5.5.0",
     "redux": "^4.0.5",

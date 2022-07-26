@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import Select from 'react-select'
-import { main_url } from '../../utils/CommonFunction'
-import moment from 'moment';
+import { main_url,getFirstDayOfMonth } from "../../utils/CommonFunction";
+import DatePicker from 'react-datetime';
+import moment from "moment";
+
 
 class HelpDeskLineChart extends Component {
     constructor(props) {
@@ -22,8 +24,34 @@ class HelpDeskLineChart extends Component {
             xAxisDept: [],
             countDataDept: [],
             deptData: [],
+            s_date: moment(getFirstDayOfMonth()),
+            e_date: moment(),
         }
     }
+    handleStartDate = (event) => {
+        this.setState({
+          s_date: event,
+        });
+        
+      };
+    
+      handleEndDate = (event) => {
+        this.setState({
+          e_date: event,
+        });
+       
+      };
+      filter() {
+        let s_date = moment(this.state.s_date).format("YYYY-MM-DD");
+        let e_date = moment(this.state.e_date).format("YYYY-MM-DD");
+        
+        this.getHelpDeskGraphData(
+        s_date,
+        e_date,
+        
+        
+        );
+        }
     getBranch = () => {
 
         fetch(main_url + `main/getBranch`)
@@ -61,27 +89,37 @@ class HelpDeskLineChart extends Component {
         })
     }
 
-    getHelpDeskGraphData() {
-        fetch(`${main_url}dashboard/helpDeskGraph/0/0/2021-04-01/2021-04-30`)
+    getHelpDeskGraphData(s_date,e_date) {
+        // fetch(`${main_url}dashboard/helpDeskGraph/0/0/2021-04-01/2021-04-30`)
+        fetch(main_url +
+            "dashboard/helpDeskGraph/" + this.state.id.branchId.value+ "/"+ this.state.id.deptId.value+"/"+
+            moment(s_date).format('YYYY-MM-DD') +
+            "/" +
+            moment(e_date).format('YYYY-MM-DD')
+            )
             .then(res => { if (res.ok) return res.json() })
-            .then(list => {
-                console.log("list is ===>", list)
-                if (list.length > 0) {
-                    this.setState({
-                        chartData: list,
-                        categories: list.length > 0 && list.map(v => v.createdAt),
-                        open_ticket: list.length > 0 && list.filter(v => v.ticket_status == 'Open'),
-                        close_ticket: list.length > 0 && list.filter(v => v.ticket_status == 'Closed')
-                    })
-                    this.setChartOption()
+            .then((res) => {
+                if (res) {
+                  var label = [];
+                  var count = [];
+                  res.map((v, i) => {
+                    label.push(v.name);
+        
+                    count.push(v.amount);
+                  });
+                  this.setState({ xAxisDept: label, countDataDept: count });
                 }
-            })
+                this.setChartOption();
+              })
+              .catch((error) => console.error(`Fetch Error =\n`, error));
+                
     }
 
     componentDidMount() {
         this.getHelpDeskGraphData()
         this.getBranch()
         this.getDesignation()
+        this.filter()
     }
 
     setChartOption = () => {
@@ -169,54 +207,43 @@ class HelpDeskLineChart extends Component {
                 }}
             >
                 <h3 className='' style={{ padding: '10px 0px 0px 0px', marginBottom: '20px' }}>Tickets By Month</h3>
-                <div className='flex-row' style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', margin: '10px 10px 0px 10px' }}>
+                <div className='flex-row' style={{ display: 'flex', justifyContent: 'end', alignItems: 'end', margin: '10px 10px 0px 10px' }}>
+                    <div style={{
+                        textAlign:'start',
+                        marginRight:'10px'
+                    }}>
+                        <label htmlFor="">Start Date</label>
+                        <DatePicker
+                  dateFormat="DD/MM/YYYY"
+                  value={this.state.s_date}
+                  onChange={this.handleStartDate}
+                  timeFormat={false}
+                />
+                    </div>
+                    <div style={{
+                        textAlign:'start',
+                        marginRight:'10px'
+                    }}>
+                        <label htmlFor="">End Date</label>
+                        <DatePicker
+                  dateFormat="DD/MM/YYYY"
+                  value={this.state.e_date}
+                  onChange={this.handleEndDate}
+                  timeFormat={false}
+                />
+                    </div>
+                    <div style={{
+                        textAlign:'start',
+                        marginRight:'10px'
+                    }}>
+                        <label htmlFor="">Branch</label>
                     <Select
                         styles={{
                             container: base => ({
                                 ...base,
                                 //   flex: 1
                                 width: 100,
-                                marginLeft: 10
-                            }),
-                            control: base => ({
-                                ...base,
-                                minHeight: '18px'
-                            })
-                        }}
-                        placeholder="From Date"
-                        options={[]}
-                        onChange={(val) => console.log(val)}
-                        value={null}
-                        className='react-select-container'
-                        classNamePrefix="react-select"
-                    />
-                    <Select
-                        styles={{
-                            container: base => ({
-                                ...base,
-                                //   flex: 1
-                                width: 100,
-                                marginLeft: 10
-                            }),
-                            control: base => ({
-                                ...base,
-                                minHeight: '18px'
-                            })
-                        }}
-                        placeholder="To Date"
-                        options={[]}
-                        onChange={(val) => console.log(val)}
-                        value={null}
-                        className='react-select-container'
-                        classNamePrefix="react-select"
-                    />
-                    <Select
-                        styles={{
-                            container: base => ({
-                                ...base,
-                                //   flex: 1
-                                width: 100,
-                                marginLeft: 10
+                                
                             }),
                             control: base => ({
                                 ...base,
@@ -230,6 +257,11 @@ class HelpDeskLineChart extends Component {
                         className="react-select-container"
                         classNamePrefix="react-select"
                     />
+                    </div>
+                    <div style={{
+                        textAlign:'start'
+                    }}>
+                        <label htmlFor="">Department</label>
                     <Select
                         styles={{
 
@@ -237,7 +269,7 @@ class HelpDeskLineChart extends Component {
                                 ...base,
                                 //   flex: 1
                                 width: 100,
-                                marginLeft: 10
+                                
                             }),
                             control: base => ({
                                 ...base,
@@ -251,8 +283,9 @@ class HelpDeskLineChart extends Component {
                         className="react-select-container"
                         classNamePrefix="react-select"
                     />
+                    </div>
 
-                    <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }}>Search</button>
+                    <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={this.filter(this)}>Search</button>
                 </div>
                 <HighchartsReact
                     highcharts={Highcharts}
