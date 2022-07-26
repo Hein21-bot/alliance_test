@@ -149,13 +149,13 @@ class AttendenceBarChart extends Component {
             >
 
                 <h3 className='' style={{ padding: '10px 0px 0px 0px' }}>Attendance</h3>
-                <div className='flex-row' style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', margin: '10px 10px 0px 10px' }}>
+                <div className='flex-row' style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', margin: '10px 10px 0px 10px' }}>
                     <Select
                         styles={{
                             container: base => ({
                                 ...base,
                                 //   flex: 1
-                                width: 150
+                                width: 100
                             }),
                             control: base => ({
                                 ...base,
@@ -175,7 +175,7 @@ class AttendenceBarChart extends Component {
                             container: base => ({
                                 ...base,
                                 //   flex: 1
-                                width: 150,
+                                width: 100,
                                 marginLeft: 10
                             }),
                             control: base => ({

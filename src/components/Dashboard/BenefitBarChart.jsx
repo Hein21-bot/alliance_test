@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import Select from 'react-select'
-import { main_url, getFirstDayOfMonth, getBranch } from "../../utils/CommonFunction";
+import { main_url, getFirstDayOfMonth } from "../../utils/CommonFunction";
 import DatePicker from 'react-datetime';
 import moment from "moment";
 
@@ -15,12 +15,14 @@ class BenefitBarChart extends Component {
             id: {
 
                 deptId: { value: 1, label: 'All' },
+                branchId: {value: 1, label: 'All'},
             },
             branch_id: "",
             selected_branch: [],
             xAxisDept: [],
             countDataDept: [],
             deptData: [],
+            branchData:[],
             s_date: moment(getFirstDayOfMonth()),
             e_date: moment(),
         }
@@ -28,14 +30,12 @@ class BenefitBarChart extends Component {
 
 
     async componentDidMount() {
-        let branch = await getBranch();
+        
         this.setChartOption()
         this.getBenefit()
 
         this.filter();
-        this.setState({
-            branch: branch,
-        });
+        this.getBranch()
         this.getDesignation()
 
 
@@ -55,17 +55,33 @@ class BenefitBarChart extends Component {
     };
 
 
-    handleBranch = (event) => {
+    getBranch = () => {
+
+        fetch(main_url + `main/getBranch`)
+          .then((res) => {
+            if (res.ok) return res.json();
+          })
+          .then((res1) => {
+            res1.unshift({ label: 'All', value: 0 })
+            this.setState({ branchData: res1 });
+    
+          })
+          .catch((error) => console.error(`Fetch Error =\n`, error));
+      };
+      handleSelectedBranch = async (event) => {
+        let data = this.state.id
+        data.branchId = event
         this.setState({
-            selected_branch: event,
-        });
-    };
+          id: data
+        })
+      };
     getDesignation = () => {
         fetch(main_url + `main/getDepartment`)
             .then((res) => {
                 if (res.ok) return res.json();
             })
             .then((res1) => {
+                res1.unshift({ label: 'All', value: 0 })
                 this.setState({ deptData: res1 });
             })
             .catch((error) => console.error(`Fetch Error =\n`, error));
@@ -91,9 +107,9 @@ class BenefitBarChart extends Component {
         );
     }
 
-    getBenefit = (s_date, e_date, branch_id) => {
+    getBenefit = (s_date, e_date) => {
         fetch(main_url +
-            "dashboard/benefitExpense/" + branch_id + "/" + this.state.id.deptId.value + "/" +
+            "dashboard/benefitExpense/" + this.state.id.branchId + "/" + this.state.id.deptId.value + "/" +
             moment(s_date).format('YYYY-MM-DD') +
             "/" +
             moment(e_date).format('YYYY-MM-DD')
@@ -202,30 +218,39 @@ class BenefitBarChart extends Component {
                     }}
                 >
                     <h3 className='' style={{ padding: '10px 0px 0px 0px', marginBottom: '20px' }}>Benefit Expense</h3>
-                    <div className='flex-row' style={{ display: 'flex', justifyContent: 'end', alignItems: 'end', margin: '10px 10px 0px 10px' }}>
+                    <div className='flex-row' style={{ display: 'flex', justifyContent: 'start', alignItems: 'end', margin: '10px 10px 0px 10px' }}>
                         <div style={{
                             textAlign: 'start',
                             marginLeft: '10px'
                         }}>
                             <label>Start Date</label>
+                            <div style={{
+                                width:'100px'
+                            }}>
                             <DatePicker
                                 dateFormat="DD/MM/YYYY"
                                 value={this.state.s_date}
                                 onChange={this.handleStartDate}
                                 timeFormat={false}
+                                
                             />
+                            </div>
                         </div>
                         <div style={{
                             textAlign: 'start',
                             marginLeft: '10px'
                         }}>
                             <label htmlFor="">End Date</label>
+                            <div style={{
+                                width:'100px'
+                            }}>
                             <DatePicker
                                 dateFormat="DD/MM/YYYY"
                                 value={this.state.e_date}
                                 onChange={this.handleEndDate}
                                 timeFormat={false}
                             />
+                            </div>
                         </div>
                         <div style={{
                             textAlign: 'start',
@@ -246,10 +271,10 @@ class BenefitBarChart extends Component {
                                     })
                                 }}
                                 placeholder="Branch"
-                                options={this.state.branch}
-                                value={this.state.selected_branch}
-                                onChange={this.handleBranch}
-                                className="react-select-container checkValidate"
+                                options={this.state.branchData}
+                                onChange={this.handleSelectedBranch}
+                                value={this.state.id.branchId}
+                                className="react-select-container"
                                 classNamePrefix="react-select"
                             />
                         </div>
@@ -296,3 +321,8 @@ class BenefitBarChart extends Component {
 
 }
 export default BenefitBarChart;
+const styles={
+    datepicker:{
+        width:"50px !important" 
+    }
+};

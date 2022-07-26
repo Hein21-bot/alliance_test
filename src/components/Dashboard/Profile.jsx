@@ -158,7 +158,7 @@ class Profile extends Component {
                 </p>
               </div>
               {
-                this.state.userInfo.maratial_status !="married" ? <div style={styles.smallContainer}>
+                this.state.userInfo.maratial_status !="unmarried" ? <div style={styles.smallContainer}>
                 <p style={styles.profileLeftText}>Child Count</p>
                 <p style={styles.profileMiddleText}>:</p>
                 <p style={styles.profileRightText}>
