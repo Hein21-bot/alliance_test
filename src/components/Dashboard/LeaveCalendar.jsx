@@ -325,7 +325,7 @@ export default class LeaveCalendar extends Component {
             </div>
           </div>
         </div>
-        <div bu9 className="col-md-5 col-lg-5 col-sm-5">
+        <div bu9 className="col-md-5 col-lg-5 col-sm-5" id={'leave_calendar'}>
           <ReactDatePicker
             selected={this.state.startDate}
             onChange={(date) => this.setState({ startDate: date })}
