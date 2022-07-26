@@ -137,18 +137,10 @@ export class Dashboard extends Component {
           </div>
         ) : this.state.tapButtonTitle == "expense" ? (
           <div className="row mt-3">
-            <div className="col-12" style={{
-              display:'flex',
-              justifyContent:'center',
-              alignItems:'center'
-            }}>
+            <div className="col-lg-6" >
             <BenefitBarChart></BenefitBarChart>
             </div>
-            <div className="col-12" style={{
-                display:'flex',
-                justifyContent:'center',
-                alignItems:'center'              
-            }}>
+            <div className="col-lg-6">
             
               <ExpenseBarChart></ExpenseBarChart>
             </div>

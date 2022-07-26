@@ -37,6 +37,7 @@ class Profile extends Component {
   }
 
   render() {
+    
     return (
       <div>
         {this.state.userInfo != undefined ? (
@@ -156,13 +157,15 @@ class Profile extends Component {
                   {this.state.userInfo.maratial_status}
                 </p>
               </div>
-              <div style={styles.smallContainer}>
+              {
+                this.state.userInfo.maratial_status !="married" ? <div style={styles.smallContainer}>
                 <p style={styles.profileLeftText}>Child Count</p>
                 <p style={styles.profileMiddleText}>:</p>
                 <p style={styles.profileRightText}>
                   {this.state.userInfo.child_count}
                 </p>
-              </div>
+              </div>:''
+              }
             </div>
             <div style={{ width: "0.5%", marginRight: 5 }}>
               <div
