@@ -101,10 +101,8 @@ export default class TravelAdvancedClaimEdit extends Component {
         })
 
         $(document).on('click', '#toRemove', function () {
-
             var data = $(this).find("#remove").text();
             data = $.parseJSON(data);
-
             let newData = that.state.claimDetailData;
             newData.splice(data, 1);
 
