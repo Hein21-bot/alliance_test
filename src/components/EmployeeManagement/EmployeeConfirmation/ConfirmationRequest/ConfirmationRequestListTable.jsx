@@ -106,7 +106,8 @@ export default class ConfirmationRequestListTable extends Component {
           window.location.reload();
         }
         else toast.error(text);
-        window.location.replace("/employment_details");
+        // window.location.replace("/employment_details");
+        window.location.replace('/confirmation_list')
 
       })
   }
@@ -215,7 +216,7 @@ export default class ConfirmationRequestListTable extends Component {
       permission.isView === 1 || permission.isEdit === 1 ? true : false;
     if (data.length > 0) {
       for (var i = 0; i < data.length; i++) {
-        // console.log('res is ====>', data)
+        console.log('res is ====>', data[i])
         let result = data[i];
         let obj = [];
         if (result.status === 0) {
@@ -254,8 +255,8 @@ export default class ConfirmationRequestListTable extends Component {
           promotion_date: data[i].promotion_date ? data[i].promotion_date : "-",
           date: moment(result.createdAt).format("DD-MM-YYYY"),
           service_year: data[i].service_year ? data[i].service_year : "",
-          current_sub_level_service_year: data[i].current_sub_level_service_year ? data[i].current_sub_level_service_year : "",
-
+          current_level_service_year: data[i].current_level_service_year ? data[i].current_level_service_year : '',
+          current_sub_level_service_year: data[i].current_sub_level_service_year ? data[i].current_sub_level_service_year : '',
           recommendation: data[i].recommendation ? data[i].recommendation : "",
           status: status,
         };
@@ -291,7 +292,7 @@ export default class ConfirmationRequestListTable extends Component {
       { title: "Employed Date", data: "employ_date" },
       { title: "Last Promtion Date", data: "promotion_date" },
       { title: "Service Year", data: "service_year" },
-      { title: "Service Year in Current Level", data: "date" },
+      { title: "Service Year in Current Level", data: "current_level_service_year" },
       { title: "Service Year in Current Sub Level", data: "current_sub_level_service_year" },
       { title: "Confirm or Not", data: "recommendation" },
       { title: "Status", data: "status" },
