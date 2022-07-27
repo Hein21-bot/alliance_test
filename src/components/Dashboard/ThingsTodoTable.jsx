@@ -94,7 +94,9 @@ class ThingsTodoTable extends Component {
         >
           {dummy_data.map((v, k) => (
             <>
-              <div
+              {
+                v.count != 0? <>
+                      <div
                 key={k}
                 className=""
                 style={{
@@ -105,6 +107,7 @@ class ThingsTodoTable extends Component {
                   display: "flex",
                 }}
               >
+
                 <div className="col-lg-1 col-md-2 col-sm-2">
                   <div
                     style={{
@@ -126,6 +129,7 @@ class ThingsTodoTable extends Component {
                       }}
                     >
                       {v.count}
+                      
                     </p>
                   </div>
                 </div>
@@ -152,6 +156,9 @@ class ThingsTodoTable extends Component {
                 </div>
               </div>
               {k != dummy_data.length - 1 && <div style={{width: '95%', height: "0.5px", backgroundColor: 'black', margin: '0px auto'}}/>}
+                </> :""
+              }
+              
               
             </>
           ))}

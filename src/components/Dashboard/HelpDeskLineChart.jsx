@@ -213,24 +213,32 @@ class HelpDeskLineChart extends Component {
                         marginRight:'10px'
                     }}>
                         <label htmlFor="">Start Date</label>
-                        <DatePicker
+                        <div style={{
+                            width:'100px'
+                        }}>
+                            <DatePicker
                   dateFormat="DD/MM/YYYY"
                   value={this.state.s_date}
                   onChange={this.handleStartDate}
                   timeFormat={false}
                 />
+                        </div>
                     </div>
                     <div style={{
                         textAlign:'start',
                         marginRight:'10px'
                     }}>
                         <label htmlFor="">End Date</label>
-                        <DatePicker
+                        <div style={{
+                            width:'100px'
+                        }}>
+                            <DatePicker
                   dateFormat="DD/MM/YYYY"
                   value={this.state.e_date}
                   onChange={this.handleEndDate}
                   timeFormat={false}
                 />
+                        </div>
                     </div>
                     <div style={{
                         textAlign:'start',

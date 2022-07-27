@@ -271,7 +271,7 @@ class HeadCountBarChart extends Component {
     })
   }
   render() {
-    console.log(">>>", this.state.branchData)
+
     return (
       <div>
         {this.props.title == "department" ? (
@@ -292,7 +292,7 @@ class HeadCountBarChart extends Component {
               className="flex-row"
               style={{
                 display: "flex",
-                justifyContent: "end",
+                justifyContent: "start",
                 alignItems: "end",
                 margin: "10px 10px 0px 10px",
               }}
@@ -306,7 +306,7 @@ class HeadCountBarChart extends Component {
                     container: (base) => ({
                       ...base,
                       //   flex: 1
-                      width: 150,
+                      width: 100,
                     }),
                     control: (base) => ({
                       ...base,
@@ -332,7 +332,7 @@ class HeadCountBarChart extends Component {
                     container: (base) => ({
                       ...base,
                       //   flex: 1
-                      width: 150,
+                      width: 100,
                       // marginLeft: 10
                     }),
                     control: (base) => ({
@@ -386,7 +386,7 @@ class HeadCountBarChart extends Component {
               className="flex-row"
               style={{
                 display: "flex",
-                justifyContent: "end",
+                justifyContent: "start",
                 alignItems: "end",
                 margin: "10px 10px 0px 10px",
               }}
@@ -400,7 +400,7 @@ class HeadCountBarChart extends Component {
                     container: (base) => ({
                       ...base,
                       //   flex: 1
-                      width: 150,
+                      width: 100,
                       marginRight: 10
                     }),
                     control: (base) => ({
@@ -426,7 +426,7 @@ class HeadCountBarChart extends Component {
                     container: (base) => ({
                       ...base,
                       //   flex: 1
-                      width: 150,
+                      width: 100,
                       marginRight: 10
                     }),
                     control: (base) => ({
@@ -452,7 +452,7 @@ class HeadCountBarChart extends Component {
                     container: (base) => ({
                       ...base,
                       //   flex: 1
-                      width: 150,
+                      width: 100,
                     }),
                     control: (base) => ({
                       ...base,
