@@ -40,7 +40,8 @@ export default class ConfirmationRequestListTable extends Component {
       levelStatus: "",
       designationId: 0,
       employeeData: [],
-      filterData: []
+      filterData: [],
+      recommendation:[]
     };
   }
 
@@ -207,6 +208,7 @@ export default class ConfirmationRequestListTable extends Component {
   }
 
   _setTableData = (data) => {
+    console.log('data===>',data)
     var table;
     var l = [];
     var status;
@@ -251,7 +253,7 @@ export default class ConfirmationRequestListTable extends Component {
           branch: data[i].branch_name ? data[i].branch_name : "-",
           region: data[i].region_name ? data[i].region_name : "-",
           employ_date: data[i].employ_date ? data[i].employ_date : "-",
-          promotion_date: data[i].promotion_date ? data[i].promotion_date : "-",
+          last_promotion_date: data[i].last_promotion_date ? data[i].last_promotion_date : "-",
           date: moment(result.createdAt).format("DD-MM-YYYY"),
           service_year: data[i].service_year ? data[i].service_year : "",
           current_sub_level_service_year: data[i].current_sub_level_service_year ? data[i].current_sub_level_service_year : "",
