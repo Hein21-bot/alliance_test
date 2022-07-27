@@ -124,6 +124,7 @@ export default class BenefitChildTable extends Component {
                 last_promotion_date: data[i].last_promotion_date ? data[i].last_promotion_date : '-',
                 date: moment(result.createdAt).format('DD-MM-YYYY'),
                 service_year: data[i].service_year ? data[i].service_year : '',
+                current_sub_level_service_year: data[i].current_sub_level_service_year ? data[i].current_sub_level_service_year : '',
                 leave: data[i].leave ? data[i].leave : '-',
                 extension: data[i].extension ? data[i].extension : '-',
                 status: status
@@ -177,7 +178,7 @@ export default class BenefitChildTable extends Component {
             { title: "Last Promtion Date", data: "date" },
             { title: "Service Year", data: "service_year" },
             { title: "Service Year in Current Level", data: "date" },
-            { title: "Service Year in Current Sub Level", data: "date" },
+            { title: "Service Year in Current Sub Level", data: "current_sub_level_service_year" },
             { title: "Leave", data: "leave" },
             { title: "Extension", data: "extension" },
             // { title: "Status", data: "status" }
