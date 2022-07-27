@@ -25,7 +25,8 @@ export default class BenefitChildTable extends Component {
             user_id: getUserId("user_info"),
             dataSource: props.data,
             selectedRequest: '',
-            is_main_role: getMainRole()
+            is_main_role: getMainRole(),
+            
         }
     }
     componentDidMount() {
@@ -122,7 +123,7 @@ export default class BenefitChildTable extends Component {
                 no: i + 1,
                 //form_no: fno.fno_child + data[i].form_no,
                 employee_id: data[i].employee_code ? data[i].employee_code : '',
-                employee_name: data[i].employee_name ? data[i].employee_name : '',
+                employee_name: data[i].employee_name ? data[i].employee_name :"",
                 position: data[i].designations ? data[i].designations : '-',
                 employee_status: data[i].employed_status ? data[i].employed_status == 1 ? 'Permanent' : data[i].employed_status == 2 ? 'Part-Time' : data[i].employed_status == 3 ? 'Training' : data[i].employed_status : '-',
                 branch: data[i].branch ? data[i].branch : '',
@@ -177,9 +178,9 @@ export default class BenefitChildTable extends Component {
         var column = [
             { title: "No", data: "no" },
             { title: " Date", data: "date" },
-            { title: "Employee Code", data: "employee_id" },
+            { title: "Employee Code", data: "employee_id",value:"emloyee_id" },
             // { title: "Form No", data: "form_no" },
-            { title: "Employee Name", data: "employee_name" },
+            { title: "Employee Name", data: "employee_name"},
             { title: "Employee Status", data: "employee_status" },
             { title: "Employed Date", data: "employed_date" },
             { title: "Effective Date", data: "effective_date" },

@@ -264,6 +264,23 @@ const ConfirmationRequestListView = (props) => {
           </div>
           <div
             className="w-100"
+            style={{ display: "flex", justifyContent: "center", padding: 10 }}
+          >
+            <div
+              className="col-lg-6 col-md-10 col-sm-12"
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+              }}
+            >
+              <div className="col-lg-5 col-md-5 col-sm-5"> Service year by Current Level</div>
+              <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+              <div className="col-lg-5 col-md-5 col-sm-5">{service_year}</div>
+            </div>
+          </div>
+          <div
+            className="w-100"
             style={{
               display: "flex",
               justifyContent: "center",

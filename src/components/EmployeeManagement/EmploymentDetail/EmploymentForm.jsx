@@ -42,7 +42,7 @@ const EmploymentForm = props => {
                                 Employee Name
                             </div>
                             <div className='col-lg-7 col-md-5'>
-                                <input type='text' placeholder='' required name="employeeName" value={name} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} disabled={edit ? true : false} />
+                                <input type='text' placeholder='' required name="employeeName" value={name.toUpperCase()} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} disabled={edit ? true : false} />
                             </div>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>

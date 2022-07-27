@@ -215,7 +215,7 @@ export default class ConfirmationRequestListTable extends Component {
       permission.isView === 1 || permission.isEdit === 1 ? true : false;
     if (data.length > 0) {
       for (var i = 0; i < data.length; i++) {
-        // console.log('res is ====>', data[i])
+        // console.log('res is ====>', data)
         let result = data[i];
         let obj = [];
         if (result.status === 0) {

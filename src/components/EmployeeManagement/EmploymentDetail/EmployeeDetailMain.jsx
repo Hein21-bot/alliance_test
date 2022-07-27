@@ -583,7 +583,7 @@ class EmployeeDetailMain extends Component {
     let data = {
       user_id: user_id,
       employed_status: selected_status ? selected_status.value : null,
-      employee_name: employeeName,
+      employee_name: employeeName.toUpperCase,
       employee_code: selectedEmployeeId
         ? selectedEmployeeId.label.trim()
         : null,

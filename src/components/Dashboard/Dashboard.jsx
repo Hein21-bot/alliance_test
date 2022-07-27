@@ -16,6 +16,8 @@ import LeaveCalendar from "./LeaveCalendar"
 import ResignBarChart from "./ResignBarChart";
 import CompensationandBenefit from "./CompensationandBenefit";
 const primary = "#1872ab";
+var button = document.querySelector('.button');
+
 
 export class Dashboard extends Component {
   constructor(props) {
@@ -24,7 +26,7 @@ export class Dashboard extends Component {
       tapButtonTitle: "",
     };
   }
-
+  
   async componentDidMount() {
     //   const a = await getMacAddress();
     //   const b = await getMacAddress1();
@@ -32,14 +34,27 @@ export class Dashboard extends Component {
 
   tapButtonClick = (title) => {
     this.setState({ tapButtonTitle: title });
+    
   };
 
   render() {
+
+    const btn = {
+      // backgroundColor:this.state.tapButtonTitle == "title" ? "green" : "blue",
+      color: "white",
+      paddingLeft: 20,
+      paddingRight: 20,
+      paddingTop: 5,
+      paddingBottom: 5,
+      borderRadius: 5,
+      borderColor: "transparent"
+     
+    };
     return (
       <div>
         {/* <h3>Dashboard</h3> */}
         {/* <LeaveCalendar /> */}
-        <div
+        <div className=""
           style={{
             width: "100%",
             display: "flex",
@@ -49,42 +64,42 @@ export class Dashboard extends Component {
             marginBottom: 15,
           }}
         >
-          <button
-            style={styles.tapButtonStyle}
-            onClick={() => this.tapButtonClick("headCount")}
-          >
+          <button className="button"
+          style={{...btn,backgroundColor:this.state.tapButtonTitle == "headCount" ? '#21e6c1' :"#1872ab"}}
+          onClick={() => this.tapButtonClick("headCount")} >
             Head Count
           </button>
-          <button style={styles.tapButtonStyle}
+          <button style={{...btn,backgroundColor:this.state.tapButtonTitle == "attendenceChart" ? '#21e6c1' :"#1872ab"}}
            onClick={() => this.tapButtonClick("attendenceChart")}
           >Attandence</button>
           <button
-            style={styles.tapButtonStyle}
+            style={{...btn,backgroundColor:this.state.tapButtonTitle == "leaveChart" ? '#21e6c1' :"#1872ab"}}
             onClick={() => this.tapButtonClick("leaveChart")}
           >
             Leave
           </button>
           <button
-            style={styles.tapButtonStyle}
+            style={{...btn,backgroundColor:this.state.tapButtonTitle == "totalEmployee" ? '#21e6c1' :"#1872ab"}}
             onClick={() => this.tapButtonClick("totalEmployee")}
           >
             Total Employee
           </button>
           <button
-            style={styles.tapButtonStyle}
+            style={{...btn,backgroundColor:this.state.tapButtonTitle == "expense" ? '#21e6c1' :"#1872ab"}}
             onClick={() => this.tapButtonClick("expense")}
           >
             Expense
           </button>
           <button
-            style={styles.tapButtonStyle}
+            style={{...btn,backgroundColor:this.state.tapButtonTitle == "benefit" ? '#21e6c1' :"#1872ab"}}
             onClick={() => this.tapButtonClick("benefit")}
           >
            Compansation and Benefit
           </button>
-          <button style={styles.tapButtonStyle} onClick={()=>this.tapButtonClick('helpdesk')}>Help Desk</button>
-          <button style={styles.tapButtonStyle}onClick={() => this.tapButtonClick("resign")}
+          <button style={{...btn,backgroundColor:this.state.tapButtonTitle == "helpdesk" ? '#21e6c1' :"#1872ab"}} onClick={()=>this.tapButtonClick('helpdesk')}>Help Desk</button>
+          <button style={{...btn,backgroundColor:this.state.tapButtonTitle == "resign" ? '#21e6c1' :"#1872ab"}}onClick={() => this.tapButtonClick("resign")}
           >Resign</button>
+         
         </div>
         <Profile />
         {this.state.tapButtonTitle == "headCount" ? (
@@ -207,9 +222,12 @@ export class Dashboard extends Component {
   }
 }
 
+
 const styles = {
+  
   tapButtonStyle: {
-    backgroundColor: primary,
+    
+    // backgroundColor:this.state.color,
     color: "white",
     paddingLeft: 20,
     paddingRight: 20,
@@ -217,6 +235,7 @@ const styles = {
     paddingBottom: 5,
     borderRadius: 5,
     borderColor: "transparent",
+   
   },
   smallContainer: {
     width: "100%",
