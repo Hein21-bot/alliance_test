@@ -31,6 +31,18 @@ export default class CareerPathAddNew extends Component {
 
     componentDidMount() {
         this.showTable(this.state.addData)
+        let that = this
+        $(document).on('click', '#toRemove', function () {
+            var data = $(this).find("#remove").text();
+            data = $.parseJSON(data);
+
+            let newData = that.state.addData;
+            newData.splice(data, 1)
+            that.setState({
+                addData: newData
+            }, () => that.showTable(newData))
+
+        });
     }
 
     handleInputChange = (e) => {
@@ -91,31 +103,33 @@ export default class CareerPathAddNew extends Component {
     }
     showTable(data) {
         var table;
-        var self = this;
         var list = [];
         var obj, one = [];
         const { level_options, sub_level_options } = this.props;
 
         for (let i = 0; i < data.length; i++) {
             obj = data[i];
+            const index = i
             one = {
                 no: i + 1,
                 career_level: ((level_options.find(v => Number(v.career_level_id) === Number(obj.career_level)) ? level_options.find(v => Number(v.career_level_id) === Number(obj.career_level)).career_level : '')),
                 career_sub_level: (sub_level_options.find(v => Number(v.career_sub_level_id) === Number(obj.career_sub_level)) ? sub_level_options.find(v => Number(v.career_sub_level_id) === Number(obj.career_sub_level)).career_sub_level : ''),
                 promotion_quota: obj.promotion_quota,
+                action: '<div style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toRemove" ><span id="remove" class="hidden" >' + index + '</span>  <i className="fa fa-cogs"></i>&nbsp;Remove</div>'
             }
 
             list.push(one);
         }
+
 
         if ($.fn.dataTable.isDataTable('#dataTables')) {
             table = $('#dataTables').dataTable({
                 destroy: true,
                 searching: false,
             });
-            // table.fnClearTable();
+            table.fnClearTable();
             table.fnDestroy();
-            // $('#dataTables').empty();
+            $('#dataTables').empty();
         }
 
 
@@ -124,6 +138,7 @@ export default class CareerPathAddNew extends Component {
             { title: "Career Level", data: 'career_level' },
             { title: "Career Sub Level", data: "career_sub_level", },
             { title: "Promotion Quota", data: "promotion_quota", },
+            { title: "Action", data: 'action' },
         ]
 
         table = $("#dataTables").DataTable({
@@ -131,12 +146,22 @@ export default class CareerPathAddNew extends Component {
             bLengthChange: false,
             bInfo: false,
             responsive: true,
-            paging: true,
-            buttons: true,
-            dom: 'Bfrtip',
+            buttons: false,
+            paging: false,
+            // dom: 'Bfrtip',
             buttons: [],
             data: list,
             columns: column
+            // autofill: true,
+            // bLengthChange: false,
+            // bInfo: false,
+            // responsive: true,
+            // paging: true,
+            // buttons: true,
+            // // dom: 'Bfrtip',
+            // buttons: [],
+            // data: list,
+            // columns: column
         })
 
     }
@@ -239,45 +264,45 @@ export default class CareerPathAddNew extends Component {
 }
 
 
-const ShowTable = ({ addData, level_options, sub_level_options }) => {
-    const header = ['Career Level', 'Career Sub Level', 'Promotion Quota']
-    const getCareerLevel = (level) => {
-        return level_options.find(v => Number(v.career_level_id) === Number(level)).career_level;
-    }
-    const getCareerSubLevel = (sub_level) => {
-        return sub_level_options.find(v => Number(v.career_sub_level_id) === Number(sub_level)).career_sub_level;
-    }
-    return (
-        <div className='col-md-10' style={{ margin: '20px 0px 20px 35px' }}>
-            <table style={{ width: '100%', border: '1px solid #aaa', textAlign: 'center' }}>
-                <thead>
-                    <tr>
-                        {
-                            header.map((v, k) =>
-                                <th key={k} style={{ border: '1px solid #aaa', padding: '5px 0px', textAlign: 'center' }}>{v}</th>
-                            )
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        addData.length > 0 ?
-                            (addData.map((v1, k1) =>
-                                <tr key={k1} style={{}}>
-                                    <td style={{ border: '1px solid #aaa' }}>{v1.career_level ? getCareerLevel(v1.career_level) : null}</td>
-                                    <td style={{ border: '1px solid #aaa' }}>{v1.career_sub_level ? getCareerSubLevel(v1.career_sub_level) : null}</td>
-                                    <td style={{ border: '1px solid #aaa' }}>{v1.promotion_quota}</td>
-                                </tr>
-                            ))
-                            :
-                            (<tr style={{}}>
-                                <td style={{ border: '1px solid #aaa' }}>-</td>
-                                <td style={{ border: '1px solid #aaa' }}>-</td>
-                                <td style={{ border: '1px solid #aaa' }}>-</td>
-                            </tr>)
-                    }
-                </tbody>
-            </table>
-        </div>
-    )
-}
+// const ShowTable = ({ addData, level_options, sub_level_options }) => {
+//     const header = ['Career Level', 'Career Sub Level', 'Promotion Quota']
+//     const getCareerLevel = (level) => {
+//         return level_options.find(v => Number(v.career_level_id) === Number(level)).career_level;
+//     }
+//     const getCareerSubLevel = (sub_level) => {
+//         return sub_level_options.find(v => Number(v.career_sub_level_id) === Number(sub_level)).career_sub_level;
+//     }
+//     return (
+//         <div className='col-md-10' style={{ margin: '20px 0px 20px 35px' }}>
+//             <table style={{ width: '100%', border: '1px solid #aaa', textAlign: 'center' }}>
+//                 <thead>
+//                     <tr>
+//                         {
+//                             header.map((v, k) =>
+//                                 <th key={k} style={{ border: '1px solid #aaa', padding: '5px 0px', textAlign: 'center' }}>{v}</th>
+//                             )
+//                         }
+//                     </tr>
+//                 </thead>
+//                 <tbody>
+//                     {
+//                         addData.length > 0 ?
+//                             (addData.map((v1, k1) =>
+//                                 <tr key={k1} style={{}}>
+//                                     <td style={{ border: '1px solid #aaa' }}>{v1.career_level ? getCareerLevel(v1.career_level) : null}</td>
+//                                     <td style={{ border: '1px solid #aaa' }}>{v1.career_sub_level ? getCareerSubLevel(v1.career_sub_level) : null}</td>
+//                                     <td style={{ border: '1px solid #aaa' }}>{v1.promotion_quota}</td>
+//                                 </tr>
+//                             ))
+//                             :
+//                             (<tr style={{}}>
+//                                 <td style={{ border: '1px solid #aaa' }}>-</td>
+//                                 <td style={{ border: '1px solid #aaa' }}>-</td>
+//                                 <td style={{ border: '1px solid #aaa' }}>-</td>
+//                             </tr>)
+//                     }
+//                 </tbody>
+//             </table>
+//         </div>
+//     )
+// }

@@ -19,7 +19,7 @@ const ConfirmationRequestListView = (props) => {
     employ_date,
     current_sub_level_service_year,
     service_year,
-    promotion_date,
+    last_promotion_date,
     confirm_or_not,
     recommendation,
     status,
@@ -44,7 +44,7 @@ const ConfirmationRequestListView = (props) => {
         <button
           onClick={handleClickBack}
           className="btn btn-primary"
-          style={{ borderRadius: 10, width: 120 }}
+          style={{ borderRadius: 5, width: 120 }}
         >
           Back To List
         </button>
@@ -242,7 +242,7 @@ const ConfirmationRequestListView = (props) => {
                 Last Promotion Date
               </div>
               <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">{promotion_date}</div>
+              <div className="col-lg-5 col-md-5 col-sm-5">{last_promotion_date}</div>
             </div>
           </div>
           <div

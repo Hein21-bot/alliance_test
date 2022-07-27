@@ -300,7 +300,8 @@ class ConfirmationCheck extends Component {
             let data = {
                 person: getCookieData("user_info").user_id,
                 list: this.state.selected_checkList,
-                status: 3
+                status: 3,
+                confirm_or_not: this.state.recommendation
             }
 
             let status = 0;
@@ -336,7 +337,8 @@ class ConfirmationCheck extends Component {
             let data = {
                 person: getCookieData("user_info").user_id,
                 list: this.state.selected_checkList,
-                status: 4
+                status: 4,
+                confirm_or_not: this.state.recommendation
             }
 
             let status = 0;
