@@ -367,6 +367,28 @@ class HeadCountBarChart extends Component {
               options={this.state.chartOptions}
               containerProps={{ className: "w-100" }}
             />
+            <div style={{
+              display:'flex',
+              justifyContent:'end',
+              alignItems:'center',
+              marginRight:'10px',
+              marginBottom:'10px'
+
+            }}>
+            <div style={{
+              backgroundColor:'#1872ab',
+              width:'100px',
+              height:'50px',
+              
+              borderRadius:'5px'
+            }}>
+              <p style={{marginBottom:0,textAlign:'center',
+            paddingTop:'5px',color:'white'}}>Male-50</p>
+              <p style={{marginBottom:0,textAlign:'center',color:'white'}}>Female-20</p>
+            </div>
+            </div>
+            
+            
           </div>
         ) : (
           <div
@@ -484,7 +506,28 @@ class HeadCountBarChart extends Component {
               options={this.state.chartOptions}
               containerProps={{ className: "w-100" }}
             />
+            <div style={{
+              display:'flex',
+              justifyContent:'end',
+              alignItems:'center',
+              marginRight:'10px',
+              marginBottom:'10px'
+
+            }}>
+            <div style={{
+              backgroundColor:'#1872ab',
+              width:'100px',
+              height:'50px',
+              
+              borderRadius:'5px'
+            }}>
+              <p style={{marginBottom:0,textAlign:'center',
+            paddingTop:'5px',color:'white'}}>Male-50</p>
+              <p style={{marginBottom:0,textAlign:'center',color:'white'}}>Female-20</p>
+            </div>
+            </div>
           </div>
+          
         )}
       </div>
     );

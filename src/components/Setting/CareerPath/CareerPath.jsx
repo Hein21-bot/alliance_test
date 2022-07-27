@@ -43,7 +43,7 @@ export default class CareerPath extends Component {
         this.setState({
             datasource,
             level_options,
-            sub_level_options
+            sub_level_options,
         })
     }
 
@@ -79,7 +79,7 @@ export default class CareerPath extends Component {
             isEdit: false,
             isTable: true
         })
-        window.location.reload();
+        // window.location.reload();
     }
 
     goToEditForm = (data) => {
@@ -115,6 +115,7 @@ export default class CareerPath extends Component {
     }
 
     render() {
+        console.log("this.state is ===>", this.state.isTable, this.state.isEdit, this.state.isAddNew)
         const { level_options, sub_level_options } = this.state;
         return (
             <div className='career-path border-bottom white-bg dashboard-header'>

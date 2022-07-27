@@ -91,7 +91,7 @@ const EmployeeProfile = props => {
                                         />
                                     </div>
                                     <div className='col-lg-6 col-md-6 col-sm-6' style={{ paddingRight: 0, paddingLeft: 0 }}>
-                                        <input type='number' placeholder='' required={(viewForm) ? false : true} name="nrc_number" value={nrc_number} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
+                                        <input type='number' placeholder='' required={(viewForm) || fullNRCNO !=null ? false : true} name="nrc_number" value={nrc_number} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
 
                                     </div>
                                 </div>
