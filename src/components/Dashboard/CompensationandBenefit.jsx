@@ -124,6 +124,8 @@ class CompensationandBenefit extends Component {
         split: true
       },
       plotOptions: {
+      
+
         area: {
           stacking: 'percent',
           lineColor: '#ffffff',
@@ -134,23 +136,30 @@ class CompensationandBenefit extends Component {
           }
         }
       },
-
+      // colorByPoint: true,
+      // colors: ['#1f4545', '#3d86dy', '#193759', '#419191', '#9bcece', '#59c5c5', '#7ea8d9', '#344545', '#5c7c9f', '#59c5c5'],
       series: [{
+        color:'#1f4545',
         name: 'Jan',
         data: [50, 63, 80, 94, 14,]
       }, {
+        color:'#344545',
         name: 'Feb',
-        data: [10, 17, 11, 33, 22,]
+        data: [10, 17, 11, 33, 22]
       }, {
+        color:'#193759',
         name: 'March',
         data: [16, 23, 26, 48, 57,]
       }, {
+        color:'#419191',
         name: 'Aprial',
         data: [18, 31, 54, 56, 33]
       }, {
+        color:'#59c5c5',
         name: 'May',
         data: [2, 2, 2, 6, 13,]
       }, {
+        color:'#5c7c9f',
         name: 'June',
         data: [23, 43, 54, 87, 34]
       }],

@@ -142,7 +142,8 @@ export default class ExpenseBarChart extends Component {
             series: [{
                 name: 'Allowance Expense',
                 colorByPoint: true,
-                data: [15, 10, 20, 6]
+                data: [15, 10, 20, 6],
+                colors: ['#1f4545', '#3d86dy', '#193759', '#419191', '#9bcece', '#59c5c5', '#7ea8d9', '#344545', '#5c7c9f', '#59c5c5']
             }]
         }
 

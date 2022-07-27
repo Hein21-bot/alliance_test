@@ -29,9 +29,18 @@ class EmployeePieChart extends Component {
           enabled: true,
           alpha: 180,
         },
+      
       },
       title: {
-        text: "",
+        text: ''
+      },
+      tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+      },
+      accessibility: {
+        point: {
+          valueSuffix: '%'
+        }
       },
       plotOptions: {
         pie: {
@@ -39,20 +48,23 @@ class EmployeePieChart extends Component {
           depth: 45,
           cursor: "pointer",
           showInLegend: true,
-        },
-        series: {
           dataLabels: {
             enabled: true,
-            format: "{point.name}: {point.y:.1f}%",
-          },
+            format: '<b>{point.name}</b>: {point.y} '}
         },
+        // series: {
+        //   dataLabels: {
+        //     enabled: true,
+        //     // format: "{point.name}: {point.y}"
+        //   },
+        // },
       },
 
-      tooltip: {
-        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-        pointFormat:
-          '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>',
-      },
+      // tooltip: {
+      //   headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+      //   pointFormat:
+      //     '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.1f}%</b> of total<br/>',
+      // },
 
       credits: {
         enabled: false,
@@ -63,11 +75,13 @@ class EmployeePieChart extends Component {
           data: [
             {
               name: "Male",
-              y: 60.29,
+              color:'#193759',
+              y:200,
               drilldown: "Male",
             },{
               name:"Female",
-              y:10.29,
+              color:'#1f4545',
+              y:150,
               drilldown:'Female'
             }
 
