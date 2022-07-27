@@ -41,7 +41,7 @@ export default class ConfirmationRequestListTable extends Component {
       designationId: 0,
       employeeData: [],
       filterData: [],
-      recommendation:[]
+      recommendation: []
     };
   }
 
@@ -209,7 +209,7 @@ export default class ConfirmationRequestListTable extends Component {
   }
 
   _setTableData = (data) => {
-    console.log('data===>',data)
+    console.log('data===>', data)
     var table;
     var l = [];
     var status;
@@ -254,7 +254,7 @@ export default class ConfirmationRequestListTable extends Component {
           branch: data[i].branch_name ? data[i].branch_name : "-",
           region: data[i].region_name ? data[i].region_name : "-",
           employ_date: data[i].employ_date ? data[i].employ_date : "-",
-          last_promotion_date: data[i].last_promotion_date ? data[i].last_promotion_date : "-",
+          last_promotion_date: data[i].last_promotion_date ? moment(data[i].last_promotion_date).format('YYYY-MM-DD') : "-",
           date: moment(result.createdAt).format("DD-MM-YYYY"),
           service_year: data[i].service_year ? data[i].service_year : "",
           current_level_service_year: data[i].current_level_service_year ? data[i].current_level_service_year : '',
@@ -292,7 +292,7 @@ export default class ConfirmationRequestListTable extends Component {
       { title: "Branch", data: "branch" },
       { title: "Region", data: "region" },
       { title: "Employed Date", data: "employ_date" },
-      { title: "Last Promtion Date", data: "promotion_date" },
+      { title: "Last Promtion Date", data: "last_promotion_date" },
       { title: "Service Year", data: "service_year" },
       { title: "Service Year in Current Level", data: "current_level_service_year" },
       { title: "Service Year in Current Sub Level", data: "current_sub_level_service_year" },
