@@ -9,13 +9,11 @@ class HeadCountBarChart extends Component {
     super(props);
     this.state = {
       chartOptions: {},
-      id: {
-        branchId: 0,
-        deptId: 0,
-        regionId: 0
-
-
-      },
+      dep_regionId: 0,
+      dep_branchId: 0,
+      des_depId: 0,
+      des_regionId: 0,
+      des_branchId: 0,
       xAxisDept: [],
       countDataDept: [],
       branchData: [],
@@ -33,9 +31,9 @@ class HeadCountBarChart extends Component {
 
   componentDidMount() {
     if (this.props.title == "department") {
-      this.getHeadCountbyDepartment();
+      this.getHeadCountbyDepartment(1, 1);
     } else {
-      this.getHeadCountbyDesignation();
+      this.getHeadCountbyDesignation(3, 1, 1);
       this.getDesignation();
     }
 
@@ -71,20 +69,10 @@ class HeadCountBarChart extends Component {
       })
       .catch((error) => console.error(`Fetch Error =\n`, error));
   };
-  //   getRegionList() {
-  //     fetch(`${main_url}benefit/getRegionList`)
-  //         .then(res => { if (res.ok) return res.json() })
-  //         .then(list => {
-  //             let lists = list.unshift({ region_id: 0, region_name: 'All' })
-  //             this.setState({
-  //                 regionList: list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
-  //             })
-  //         })
-  // }
 
-  getHeadCountbyDepartment = () => {
+  getHeadCountbyDepartment = (branchId, regionId) => {
 
-    fetch(main_url + `dashboard/headCountByDepartments/${this.state.id.branchId.value == undefined ? 1 : this.state.id.branchId.value}/${this.state.id.regionId.value == undefined ? 1 : this.state.id.regionId.value}`)
+    fetch(main_url + `dashboard/headCountByDepartments/${branchId}/${regionId}`)
       .then((response) => {
         if (response.ok) return response.json();
       })
@@ -173,8 +161,8 @@ class HeadCountBarChart extends Component {
       .catch((error) => console.error(`Fetch Error =\n`, error));
   };
 
-  getHeadCountbyDesignation = () => {
-    fetch(main_url + `dashboard/headCountByDesignation/${this.state.id.deptId.value == undefined ? 3 : this.state.id.deptId.value}/${this.state.id.branchId.value == undefined ? 1 : this.state.branchId.value}/${this.state.region_id == undefined ? 1 : this.state.region_id}`)
+  getHeadCountbyDesignation = (deptId, branchId, regionId) => {
+    fetch(main_url + `dashboard/headCountByDesignation/${deptId}/${branchId}/${regionId}`)
       .then((response) => {
         if (response.ok) return response.json();
       })
@@ -252,36 +240,50 @@ class HeadCountBarChart extends Component {
   };
 
   onClickDeptSearch = () => {
-    this.getHeadCountbyDepartment();
+    this.getHeadCountbyDepartment(this.state.dep_regionId.region_id, this.state.dep_branchId.value);
   }
 
   onClickDesignSearch = () => {
-    this.getHeadCountbyDesignation();
+    this.getHeadCountbyDesignation(this.state.des_branchId.value, this.state.des_regionId.region_id, this.state.des_branchId.value);
   }
 
-  handleSelectedBranch = async (event) => {
-    let data = this.state.id
-    data.branchId = event
-    this.setState({
-      id: data
-    })
-  }
+
+  // Designation handle change start
   handleSelectedDepartment = async (event) => {
-    let data = this.state.id
-    data.deptId = event
     this.setState({
-      id: data
+      des_depId: event
     })
   }
 
+  handleSelectedRegionDesignation = async (event) => {
+    this.setState({
+      des_regionId: event
+    })
+  }
+
+  handleSelectedBranchDesignation = async (event) => {
+    this.setState({
+      des_branchId: event
+    })
+  }
+
+  // designation end
+
+  // Department handle chagne start 
+  handleSelectedBranch = async (event) => {
+    this.setState({
+      dep_branchId: event
+    })
+  }
 
   handleSelectedRegion = async (event) => {
-    let data = this.state.id
-    data.regionId = event
     this.setState({
-      id: data
+      dep_regionId: event
     })
   }
+  // Dep end
+
+
   render() {
     return (
       <div>
@@ -327,7 +329,7 @@ class HeadCountBarChart extends Component {
                   options={this.state.regionList}
                   placeholder="All"
                   onChange={this.handleSelectedRegion.bind(this)}
-                  value={this.state.id.regionId}
+                  value={this.state.dep_regionId}
                   className='react-select-container checkValidate'
                   classNamePrefix="react-select"
                 />
@@ -355,7 +357,7 @@ class HeadCountBarChart extends Component {
                   placeholder="All"
                   options={this.state.branchData}
                   onChange={this.handleSelectedBranch}
-                  value={this.state.id.branchId}
+                  value={this.state.dep_branchId}
                   className="react-select-container"
                   classNamePrefix="react-select"
                 />
@@ -446,7 +448,7 @@ class HeadCountBarChart extends Component {
                   placeholder="All"
                   options={this.state.deptData}
                   onChange={this.handleSelectedDepartment}
-                  value={this.state.id.deptId}
+                  value={this.state.des_depId}
                   className="react-select-container"
                   classNamePrefix="react-select"
                 />
@@ -472,8 +474,8 @@ class HeadCountBarChart extends Component {
 
                   options={this.state.regionList}
                   placeholder="All"
-                  onChange={this.handleSelectedRegion.bind(this)}
-                  value={this.state.id.regionId}
+                  onChange={this.handleSelectedRegionDesignation.bind(this)}
+                  value={this.state.des_regionId}
                   className='react-select-container checkValidate'
                   classNamePrefix="react-select"
                 />
@@ -496,8 +498,8 @@ class HeadCountBarChart extends Component {
                   }}
                   placeholder="All"
                   options={this.state.branchData}
-                  onChange={this.handleSelectedBranch}
-                  value={this.state.id.branchId}
+                  onChange={this.handleSelectedBranchDesignation}
+                  value={this.state.des_branchId}
                   className="react-select-container"
                   classNamePrefix="react-select"
                 />

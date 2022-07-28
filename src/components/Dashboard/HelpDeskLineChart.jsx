@@ -118,7 +118,7 @@ class HelpDeskLineChart extends Component {
     }
 
     componentDidMount() {
-        // this.getHelpDeskGraphData()
+        this.getHelpDeskGraphData()
         this.getBranch()
         this.getDesignation()
         // this.filter()
