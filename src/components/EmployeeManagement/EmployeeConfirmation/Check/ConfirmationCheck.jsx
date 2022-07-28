@@ -165,6 +165,9 @@ class ConfirmationCheck extends Component {
             warningDate: data.letter_warning_date ? moment.utc(data.letter_warning_date).format("YYYY-MM-DD") : '-',
             recommendation: data.recommendation,
             date: data.date ? moment.utc(data.date).format("YYYY-MM-DD") : '-',//moment(data.createdAt).format("DD/MM/YYYY"),
+            career_level_id: data.career_level_id,
+            recommend_level: data.recommend_level,
+            comment: data.comment_overall_performance
         })
     }
 
