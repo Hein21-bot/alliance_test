@@ -115,7 +115,7 @@ export default class CareerPath extends Component {
     }
 
     render() {
-        console.log("this.state is ===>", this.state.isTable, this.state.isEdit, this.state.isAddNew)
+        
         const { level_options, sub_level_options } = this.state;
         return (
             <div className='career-path border-bottom white-bg dashboard-header'>

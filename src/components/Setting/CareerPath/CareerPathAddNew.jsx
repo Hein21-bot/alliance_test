@@ -35,8 +35,10 @@ export default class CareerPathAddNew extends Component {
         $(document).on('click', '#toRemove', function () {
             var data = $(this).find("#remove").text();
             data = $.parseJSON(data);
+            
 
             let newData = that.state.addData;
+         
             newData.splice(data, 1)
             that.setState({
                 addData: newData

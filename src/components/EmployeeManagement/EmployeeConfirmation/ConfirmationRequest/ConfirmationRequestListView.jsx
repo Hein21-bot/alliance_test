@@ -17,6 +17,7 @@ const ConfirmationRequestListView = (props) => {
     designations,
     deptname,
     employ_date,
+    current_level_service_year,
     current_sub_level_service_year,
     service_year,
     last_promotion_date,
@@ -276,7 +277,7 @@ const ConfirmationRequestListView = (props) => {
             >
               <div className="col-lg-5 col-md-5 col-sm-5"> Service year by Current Level</div>
               <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">{service_year}</div>
+              <div className="col-lg-5 col-md-5 col-sm-5">{current_level_service_year}</div>
             </div>
           </div>
           <div
