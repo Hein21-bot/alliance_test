@@ -11,8 +11,10 @@ export default class ExpenseBarChart extends Component {
         super(props);
         this.state = {
             chartOptions: {},
-            branchId: 0,
-            depId: 0,
+            id: {
+                branchId: { value: 1, label: 'All' },
+                deptId: { value: 1, label: 'All' },
+            },
             branchData: [],
             xAxisDept: [],
             countDataDept: [],
@@ -41,6 +43,7 @@ export default class ExpenseBarChart extends Component {
     };
 
     getBranch = () => {
+
         fetch(main_url + `main/getBranch`)
             .then((res) => {
                 if (res.ok) return res.json();
@@ -52,7 +55,13 @@ export default class ExpenseBarChart extends Component {
             })
             .catch((error) => console.error(`Fetch Error =\n`, error));
     };
-
+    handleSelectedBranch = async (event) => {
+        let data = this.state.id
+        data.branchId = event
+        this.setState({
+            id: data
+        })
+    };
     getDesignation = () => {
         fetch(main_url + `main/getDepartment`)
             .then((res) => {
@@ -65,17 +74,12 @@ export default class ExpenseBarChart extends Component {
             .catch((error) => console.error(`Fetch Error =\n`, error));
     };
     handleSelectedDepartment = async (event) => {
-        console.log('event is ===>', event)
-        // this.setState({
-        //     id: data
-        // })
+        let data = this.state.id
+        data.deptId = event
+        this.setState({
+            id: data
+        })
     }
-    handleSelectedBranch = async (event) => {
-        console.log('event branch is ===>', event)
-        // this.setState({
-        //     id: data
-        // })
-    };
     getExpense() {
 
     }
@@ -147,7 +151,6 @@ export default class ExpenseBarChart extends Component {
     }
 
     render() {
-        console.log("here ====>")
         return (
             <div
                 className='text-center margin-y'
@@ -216,7 +219,7 @@ export default class ExpenseBarChart extends Component {
                             placeholder="Branch"
                             options={this.state.branchData}
                             onChange={this.handleSelectedBranch}
-                            value={this.state.branchId}
+                            value={this.state.id.branchId}
                             className="react-select-container"
                             classNamePrefix="react-select"
                         />
@@ -243,7 +246,7 @@ export default class ExpenseBarChart extends Component {
                             placeholder="Department"
                             options={this.state.deptData}
                             onChange={this.handleSelectedDepartment}
-                            value={this.state.depId}
+                            value={this.state.id.deptId}
                             className="react-select-container"
                             classNamePrefix="react-select"
                         />

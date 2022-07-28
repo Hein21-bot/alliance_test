@@ -12,17 +12,13 @@ class BenefitBarChart extends Component {
         super(props);
         this.state = {
             chartOptions: {},
-            id: {
-
-                deptId: { value: 1, label: 'All' },
-                branchId: {value: 1, label: 'All'},
-            },
-            branch_id: "",
+            depId: 0,
+            branchId: 0,
             selected_branch: [],
             xAxisDept: [],
             countDataDept: [],
             deptData: [],
-            branchData:[],
+            branchData: [],
             s_date: moment(getFirstDayOfMonth()),
             e_date: moment(),
         }
@@ -30,51 +26,24 @@ class BenefitBarChart extends Component {
 
 
     async componentDidMount() {
-        
         this.setChartOption()
-        this.getBenefit()
-
-        this.filter();
+        this.getBenefit(this.state.branchId, this.state.depId, this.state.s_date, this.state.e_date)
         this.getBranch()
         this.getDesignation()
-
-
     }
-    handleStartDate = (event) => {
-        this.setState({
-            s_date: event,
-        });
-
-    };
-
-    handleEndDate = (event) => {
-        this.setState({
-            e_date: event,
-        });
-
-    };
-
 
     getBranch = () => {
-
         fetch(main_url + `main/getBranch`)
-          .then((res) => {
-            if (res.ok) return res.json();
-          })
-          .then((res1) => {
-            res1.unshift({ label: 'All', value: 0 })
-            this.setState({ branchData: res1 });
-    
-          })
-          .catch((error) => console.error(`Fetch Error =\n`, error));
-      };
-      handleSelectedBranch = async (event) => {
-        let data = this.state.id
-        data.branchId = event
-        this.setState({
-          id: data
-        })
-      };
+            .then((res) => {
+                if (res.ok) return res.json();
+            })
+            .then((res1) => {
+                res1.unshift({ label: 'All', value: 0 })
+                this.setState({ branchData: res1 });
+            })
+            .catch((error) => console.error(`Fetch Error =\n`, error));
+    };
+
     getDesignation = () => {
         fetch(main_url + `main/getDepartment`)
             .then((res) => {
@@ -86,34 +55,37 @@ class BenefitBarChart extends Component {
             })
             .catch((error) => console.error(`Fetch Error =\n`, error));
     };
-    handleSelectedDepartment = async (event) => {
-        let data = this.state.id
-        data.deptId = event
+
+    handleStartDate = (event) => {
         this.setState({
-            id: data
+            s_date: event,
+        });
+    };
+
+    handleEndDate = (event) => {
+        this.setState({
+            e_date: event,
+        });
+    };
+
+    handleSelectedBranch = async (event) => {
+        console.log('event is ===> branch', event)
+        this.setState({
+            branchId: event
+        })
+    };
+    handleSelectedDepartment = async (event) => {
+        console.log('event is ===> dep', event)
+        this.setState({
+            depId: event
         })
     }
     filter() {
-        let s_date = moment(this.state.s_date).format("YYYY-MM-DD");
-        let e_date = moment(this.state.e_date).format("YYYY-MM-DD");
-        let branch_id = Array.isArray(this.state.selected_branch)
-            ? 0
-            : this.state.selected_branch.value;
-        this.getBenefit(
-            s_date,
-            e_date,
-
-            branch_id
-        );
+        this.getBenefit(this.state.branchId.value, this.state.depId.value, this.state.s_date, this.state.e_date);
     }
 
-    getBenefit = (s_date, e_date) => {
-        fetch(main_url +
-            "dashboard/benefitExpense/" + this.state.id.branchId + "/" + this.state.id.deptId.value + "/" +
-            moment(s_date).format('YYYY-MM-DD') +
-            "/" +
-            moment(e_date).format('YYYY-MM-DD')
-        )
+    getBenefit = (branchId, depId, s_date, e_date) => {
+        fetch(main_url + "dashboard/benefitExpense/" + branchId + "/" + depId + "/" + moment(s_date).format('YYYY-MM-DD') + "/" + moment(e_date).format('YYYY-MM-DD'))
             .then((response) => {
                 if (response.ok) return response.json();
             })
@@ -225,15 +197,15 @@ class BenefitBarChart extends Component {
                         }}>
                             <label>Start Date</label>
                             <div style={{
-                                width:'100px'
+                                width: '100px'
                             }}>
-                            <DatePicker
-                                dateFormat="DD/MM/YYYY"
-                                value={this.state.s_date}
-                                onChange={this.handleStartDate}
-                                timeFormat={false}
-                                
-                            />
+                                <DatePicker
+                                    dateFormat="DD/MM/YYYY"
+                                    value={this.state.s_date}
+                                    onChange={this.handleStartDate}
+                                    timeFormat={false}
+
+                                />
                             </div>
                         </div>
                         <div style={{
@@ -242,14 +214,14 @@ class BenefitBarChart extends Component {
                         }}>
                             <label htmlFor="">End Date</label>
                             <div style={{
-                                width:'100px'
+                                width: '100px'
                             }}>
-                            <DatePicker
-                                dateFormat="DD/MM/YYYY"
-                                value={this.state.e_date}
-                                onChange={this.handleEndDate}
-                                timeFormat={false}
-                            />
+                                <DatePicker
+                                    dateFormat="DD/MM/YYYY"
+                                    value={this.state.e_date}
+                                    onChange={this.handleEndDate}
+                                    timeFormat={false}
+                                />
                             </div>
                         </div>
                         <div style={{
@@ -273,7 +245,7 @@ class BenefitBarChart extends Component {
                                 placeholder="Branch"
                                 options={this.state.branchData}
                                 onChange={this.handleSelectedBranch}
-                                value={this.state.id.branchId}
+                                value={this.state.branchId}
                                 className="react-select-container"
                                 classNamePrefix="react-select"
                             />
@@ -300,7 +272,7 @@ class BenefitBarChart extends Component {
                                 placeholder="Department"
                                 options={this.state.deptData}
                                 onChange={this.handleSelectedDepartment}
-                                value={this.state.id.deptId}
+                                value={this.state.depId}
                                 className="react-select-container"
                                 classNamePrefix="react-select"
                             />
@@ -321,8 +293,8 @@ class BenefitBarChart extends Component {
 
 }
 export default BenefitBarChart;
-const styles={
-    datepicker:{
-        width:"50px !important" 
+const styles = {
+    datepicker: {
+        width: "50px !important"
     }
 };
