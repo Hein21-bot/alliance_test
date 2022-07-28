@@ -41,6 +41,7 @@ export default class ConfirmationRequestListTable extends Component {
       designationId: 0,
       employeeData: [],
       filterData: [],
+      extension:[],
       recommendation: []
     };
   }
@@ -121,10 +122,10 @@ export default class ConfirmationRequestListTable extends Component {
     this.search(1);
   }
   getVerified() {
-    this.search(2);
+    this.search(3);
   }
   getConfirm() {
-    this.search(3);
+    this.search(2);
   }
   getApprove() {
     this.search(4);
@@ -259,7 +260,8 @@ export default class ConfirmationRequestListTable extends Component {
           service_year: data[i].service_year ? data[i].service_year : "",
           current_level_service_year: data[i].current_level_service_year ? data[i].current_level_service_year : '',
           current_sub_level_service_year: data[i].current_sub_level_service_year ? data[i].current_sub_level_service_year : '',
-          recommendation: data[i].recommendation ? data[i].recommendation : "",
+          recommendation: data[i].recommendation ? data[i].recommendation : "-",
+          extension_comment:data[i].extension_comment ? data[i].extension_comment : "-",
           status: status,
         };
 
@@ -297,6 +299,7 @@ export default class ConfirmationRequestListTable extends Component {
       { title: "Service Year in Current Level", data: "current_level_service_year" },
       { title: "Service Year in Current Sub Level", data: "current_sub_level_service_year" },
       { title: "Confirm or Not", data: "recommendation" },
+      { title: "Extension Comment", data: "extension_comment"},
       { title: "Status", data: "status" },
     ];
 

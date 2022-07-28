@@ -222,7 +222,7 @@ class EmployeePieChart extends Component {
                 Attendance
               </div>
               <div className="text-right" style={{ width: "100%" }}>
-                350
+                849
               </div>
             </div>
           </div>
@@ -279,7 +279,7 @@ class EmployeePieChart extends Component {
                 Field Attendance
               </div>
               <div className="text-right" style={{ width: "100%" }}>
-                350
+                783
               </div>
             </div>
           </div>
