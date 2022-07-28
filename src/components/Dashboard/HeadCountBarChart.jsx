@@ -23,6 +23,10 @@ class HeadCountBarChart extends Component {
       countDataDesign: [],
       regionList: [],
       deptData: [],
+      department_male: [],
+      department_female: [],
+      designation_male: [],
+      designation_female: []
 
     };
   }
@@ -79,7 +83,8 @@ class HeadCountBarChart extends Component {
   // }
 
   getHeadCountbyDepartment = () => {
-    fetch(main_url + `dashboard/headCountByDepartments/${this.state.id.branchId.value == undefined ? 1 : this.state.id.branchId.value}/${this.state.id.regionId.value == undefined ? 1 : this.state.id.regionId.value}}`)
+
+    fetch(main_url + `dashboard/headCountByDepartments/${this.state.id.branchId.value == undefined ? 1 : this.state.id.branchId.value}/${this.state.id.regionId.value == undefined ? 1 : this.state.id.regionId.value}`)
       .then((response) => {
         if (response.ok) return response.json();
       })
@@ -87,11 +92,15 @@ class HeadCountBarChart extends Component {
         if (res) {
           var label = [];
           var count = [];
+          var department_male = [];
+          var department_female = [];
           res.map((v, i) => {
             label.push(v.deptname);
             count.push(v.count);
+            department_male.push(v.department_male)
+            department_female.push(v.department_female)
           });
-          this.setState({ xAxisDept: label, countDataDept: count });
+          this.setState({ xAxisDept: label, countDataDept: count, department_male: department_male, department_female: department_female });
         }
         this.setChartOptionDepartment();
       })
@@ -165,7 +174,7 @@ class HeadCountBarChart extends Component {
   };
 
   getHeadCountbyDesignation = () => {
-    fetch(main_url + `dashboard/headCountByDesignation/${this.state.id.deptId.value == undefined ? 3 : this.state.id.deptId.value}/${this.state.id.branchId.value}/${this.state.region_id}`)
+    fetch(main_url + `dashboard/headCountByDesignation/${this.state.id.deptId.value == undefined ? 3 : this.state.id.deptId.value}/${this.state.id.branchId.value == undefined ? 1 : this.state.branchId.value}/${this.state.region_id == undefined ? 1 : this.state.region_id}`)
       .then((response) => {
         if (response.ok) return response.json();
       })
@@ -173,12 +182,15 @@ class HeadCountBarChart extends Component {
         if (res) {
           var label = [];
           var count = [];
+          var designation_male = []
+          var designation_female = []
           res.map((v, i) => {
             label.push(v.designations);
-
             count.push(v.count);
+            designation_male.push(v.designation_male)
+            designation_female.push(v.designation_female)
           });
-          this.setState({ xAxisDesign: label, countDataDesign: count });
+          this.setState({ xAxisDesign: label, countDataDesign: count, designation_male: designation_male, designation_female: designation_female });
         }
         this.setChartOptionDesignation();
       })
@@ -271,7 +283,6 @@ class HeadCountBarChart extends Component {
     })
   }
   render() {
-
     return (
       <div>
         {this.props.title == "department" ? (
@@ -368,27 +379,29 @@ class HeadCountBarChart extends Component {
               containerProps={{ className: "w-100" }}
             />
             <div style={{
-              display:'flex',
-              justifyContent:'end',
-              alignItems:'center',
-              marginRight:'10px',
-              marginBottom:'10px'
+              display: 'flex',
+              justifyContent: 'end',
+              alignItems: 'center',
+              marginRight: '10px',
+              marginBottom: '10px'
 
             }}>
-            <div style={{
-              backgroundColor:'#1872ab',
-              width:'100px',
-              height:'50px',
-              
-              borderRadius:'5px'
-            }}>
-              <p style={{marginBottom:0,textAlign:'center',
-            paddingTop:'5px',color:'white'}}>Male-50</p>
-              <p style={{marginBottom:0,textAlign:'center',color:'white'}}>Female-20</p>
+              <div style={{
+                backgroundColor: '#1872ab',
+                width: '100px',
+                height: '50px',
+
+                borderRadius: '5px'
+              }}>
+                <p style={{
+                  marginBottom: 0, textAlign: 'center',
+                  paddingTop: '5px', color: 'white'
+                }}>Male-{this.state.department_male.map(v => v != undefined && v)}</p>
+                <p style={{ marginBottom: 0, textAlign: 'center', color: 'white' }}>Female-{this.state.department_female.map(v => v != undefined && v)}</p>
+              </div>
             </div>
-            </div>
-            
-            
+
+
           </div>
         ) : (
           <div
@@ -507,27 +520,29 @@ class HeadCountBarChart extends Component {
               containerProps={{ className: "w-100" }}
             />
             <div style={{
-              display:'flex',
-              justifyContent:'end',
-              alignItems:'center',
-              marginRight:'10px',
-              marginBottom:'10px'
+              display: 'flex',
+              justifyContent: 'end',
+              alignItems: 'center',
+              marginRight: '10px',
+              marginBottom: '10px'
 
             }}>
-            <div style={{
-              backgroundColor:'#1872ab',
-              width:'100px',
-              height:'50px',
-              
-              borderRadius:'5px'
-            }}>
-              <p style={{marginBottom:0,textAlign:'center',
-            paddingTop:'5px',color:'white'}}>Male-50</p>
-              <p style={{marginBottom:0,textAlign:'center',color:'white'}}>Female-20</p>
-            </div>
+              <div style={{
+                backgroundColor: '#1872ab',
+                width: '100px',
+                height: '50px',
+
+                borderRadius: '5px'
+              }}>
+                <p style={{
+                  marginBottom: 0, textAlign: 'center',
+                  paddingTop: '5px', color: 'white'
+                }}>Male-{this.state.designation_male.map(v => v != undefined && v)}</p>
+                <p style={{ marginBottom: 0, textAlign: 'center', color: 'white' }}>Female-{this.state.designation_female.map(v => v != undefined && v)}</p>
+              </div>
             </div>
           </div>
-          
+
         )}
       </div>
     );
