@@ -2,25 +2,56 @@ import React, { Component } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { data } from "browserslist";
+import { main_url } from "../../utils/CommonFunction";
 
 class EmployeePieChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
       chartOptions: {},
+      total_count: 0,
+      male_count: 0,
+      female_count: 0
+      // attendenceCount:"",
+      // fieldAttendenceCount:"",
+      // absenceCount:"",
+      // leaveCount:""
+
       // piename:['user','admin','guest'],
       // piedata:[20,60,30],
       // pielength:3
+      
     };
   }
 
-  componentDidMount() {
-    this.setChartOption();
+  async componentDidMount() {
+    await this.setChartOption();
+    await this.totalEmployeeDashboard();
   }
-  
-  
 
-  setChartOption = () => {
+  async totalEmployeeDashboard() {
+    fetch(`${main_url}dashboard/totalEmployee`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((res) => {
+        let total = []
+        let male = []
+        let female = []
+        res.map((v, i) => {
+          total.push(v.count);
+          female.push(v.female);
+          male.push(v.male);
+        })
+        this.setState({ total_count: total[0], male_count: male[2], female_count: female[1] });
+        this.setChartOption()
+      })  
+      .catch((error) => console.error(`Fetch Error =\n`, error));
+  };
+
+
+
+  setChartOption = async () => {
     const chartOptions = {
       chart: {
         type: "pie",
@@ -29,7 +60,7 @@ class EmployeePieChart extends Component {
           enabled: true,
           alpha: 180,
         },
-      
+
       },
       title: {
         text: ''
@@ -50,7 +81,8 @@ class EmployeePieChart extends Component {
           showInLegend: true,
           dataLabels: {
             enabled: true,
-            format: '<b>{point.name}</b>: {point.y} '}
+            format: '<b>{point.name}</b>: {point.y} '
+          }
         },
         // series: {
         //   dataLabels: {
@@ -75,19 +107,19 @@ class EmployeePieChart extends Component {
           data: [
             {
               name: "Male",
-              color:'#193759',
-              y:200,
+              color: '#193759',
+              y: this.state.male_count,
               drilldown: "Male",
-            },{
-              name:"Female",
-              color:'#1f4545',
-              y:150,
-              drilldown:'Female'
+            }, {
+              name: "Female",
+              color: '#1f4545',
+              y: this.state.female_count,
+              drilldown: 'Female'
             }
 
-           
+
           ],
-          
+
         },
       ],
     };
@@ -96,6 +128,7 @@ class EmployeePieChart extends Component {
   };
 
   render() {
+    
     return (
       <div
         className=" margin-y"
@@ -126,7 +159,7 @@ class EmployeePieChart extends Component {
             }}
           >
             <h4>Total Employees</h4>
-            <h3>368</h3>
+            <h3>{this.state.total_count}</h3>
           </div>
           <HighchartsReact
             highcharts={Highcharts}
