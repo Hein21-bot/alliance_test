@@ -286,7 +286,7 @@ class ResignBarChart extends Component {
                 >
                     <h3 className='' style={{ padding: '10px 0px 0px 0px' }}>Resign Graph</h3>
 
-                    <div className='flex-row' style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', margin: '10px 10px 0px 10px' }}>
+                    <div className='flex-row' style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', margin: '10px 10px 0px 10px' }}>
                         <DatePicker className='fromdate'
 
                             dateFormat="DD/MM/YYYY"
@@ -359,7 +359,7 @@ class ResignBarChart extends Component {
                 >
                     <h3 className='' style={{ padding: '10px 0px 0px 0px' }}>No of Exit Staff</h3>
 
-                    <div className='flex-row' style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', margin: '10px 10px 0px 10px' }}>
+                    <div className='flex-row' style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', margin: '10px 10px 0px 10px' }}>
                         <DatePicker className='fromdate'
 
                             dateFormat="DD/MM/YYYY"

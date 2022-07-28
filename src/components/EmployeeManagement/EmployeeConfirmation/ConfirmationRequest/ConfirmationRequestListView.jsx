@@ -22,10 +22,13 @@ const ConfirmationRequestListView = (props) => {
     service_year,
     last_promotion_date,
     confirm_or_not,
+    extension_comment,
     recommendation,
     status,
   } = props.item;
+ 
 
+  
   const handleClickBack = () => {
     props.backToList(false);
   };
@@ -320,6 +323,23 @@ const ConfirmationRequestListView = (props) => {
               <div className="col-lg-5 col-md-5 col-sm-5">Confirm or Not</div>
               <div className="col-lg-2 col-md-2 col-sm-2">:</div>
               <div className="col-lg-5 col-md-5 col-sm-5">{recommendation}</div>
+            </div>
+          </div>
+          <div
+            className="w-100"
+            style={{ display: "flex", justifyContent: "center", padding: 10 }}
+          >
+            <div
+              className="col-lg-6 col-md-10 col-sm-12"
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+              }}
+            >
+              <div className="col-lg-5 col-md-5 col-sm-5">Extension Comment</div>
+              <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+              <div className="col-lg-5 col-md-5 col-sm-5">{extension_comment}</div>
             </div>
           </div>
           <div

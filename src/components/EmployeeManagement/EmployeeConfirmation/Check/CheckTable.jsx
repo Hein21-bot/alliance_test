@@ -96,6 +96,21 @@ export default class BenefitChildTable extends Component {
     }
 
 
+    getRequest() {
+        this.search(0);
+      }
+      getCheck() {
+        this.search(1);
+      }
+      getVerify() {
+        this.search(3);
+      }
+      getConfirm() {
+        this.search(2);
+      }
+      getApprove() {
+        this.search(4);
+      }
 
 
 
@@ -244,17 +259,17 @@ export default class BenefitChildTable extends Component {
         return (
 
             <div>
-                {/* <div className="row  white-bg dashboard-header">
+                <div className="row  white-bg dashboard-header">
                     <div className="row">
                         <div class="btn-group-g ">
-                            <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
-                            <button type="button" class=" btn label-check g" onClick={this.getCheck.bind(this)}>Check</button>
-                            <button type="button" class="btn label-verified g" onClick={this.getVerified.bind(this)}>Verify</button>
-                            <button type="button" class="btn label-approve g" onClick={this.getApprove.bind(this)}>Approve</button>
-                            <button type="button" class="btn label-reject g" onClick={this.getReject.bind(this)}>Reject</button>
+                            <button type="button" class="btn label-request g"onClick={this.getRequest.bind(this)} >Request</button>
+                            <button type="button" class=" btn label-check g"onClick={this.getCheck.bind(this)} >Check</button>
+                            <button type="button" class="btn label-success g"onClick={this.getConfirm.bind(this)} >Confim</button>
+                            <button type="button" class="btn label-verified g"onClick={this.getVerify.bind(this)} >Verify</button>
+                            <button type="button" class="btn label-approve g"onClick={this.getApprove.bind(this)}>Approve</button>
                         </div>
                     </div>
-                </div> */}
+                </div>
                 {/* <h3 style={{  }}>Confirmation Check Table</h3> */}
                 <table width="99%"
                     className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
