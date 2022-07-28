@@ -59,6 +59,7 @@ class HelpDeskLineChart extends Component {
             if (res.ok) return res.json();
           })
           .then((res1) => {
+            res1.unshift({ label: 'All', value: 0 })
             this.setState({ branchData: res1 });
     
           })
@@ -77,6 +78,7 @@ class HelpDeskLineChart extends Component {
             if (res.ok) return res.json();
           })
           .then((res1) => {
+            res1.unshift({ label: 'All', value: 0 })
             this.setState({ deptData: res1 });
           })
           .catch((error) => console.error(`Fetch Error =\n`, error));
@@ -116,10 +118,10 @@ class HelpDeskLineChart extends Component {
     }
 
     componentDidMount() {
-        this.getHelpDeskGraphData()
+        // this.getHelpDeskGraphData()
         this.getBranch()
         this.getDesignation()
-        this.filter()
+        // this.filter()
     }
 
     setChartOption = () => {
@@ -192,8 +194,7 @@ class HelpDeskLineChart extends Component {
         this.setState({ chartOptions })
     }
     render() {
-        // console.log("open ticket is ===>", this.state.open_ticket.mao)
-        // console.log('chart data is ===>', this.state.chartData.length > 0 && this.state.chartData.map(v => moment(v.createdAt).format('YYYY-MM-DD')))
+        
         return (
             <div
                 className='text-center margin-y'
@@ -293,7 +294,7 @@ class HelpDeskLineChart extends Component {
                     />
                     </div>
 
-                    <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={this.filter(this)}>Search</button>
+                    <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={this.filter.bind(this)}>Search</button>
                 </div>
                 <HighchartsReact
                     highcharts={Highcharts}
