@@ -71,11 +71,7 @@ async function calculationWorkingExp(startDate, endDate) {
     let months = Math.floor(noOfDays % 365 / 30);
     let days = Math.floor(noOfDays % 365 % 30);
     let formatMonth = Math.floor(noOfDays / 30)
-<<<<<<< HEAD
-    let formatYear = years == 0 ? months  + ' months ' : years + ' years ' + months  + ' months '
-=======
     let formatYear = years == 0 ? months + ' months ' : years + ' years ' + parseInt(months)  + ' months '
->>>>>>> a0cdb5249a3ab950dfe286217a6f105fdb9c2efa
     let returnData = formatYear
     return returnData;
 }
