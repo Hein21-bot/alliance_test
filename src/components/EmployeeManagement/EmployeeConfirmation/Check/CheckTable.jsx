@@ -244,7 +244,7 @@ export default class BenefitChildTable extends Component {
                 date: data[i].date ? moment(data[i].date).format('DD-MM-YYYY') : '',
                 promotionDate: data[i].promotion_date ? moment(data[i].promotion_date).format('DD-MM-YYYY') : moment(data[i].date).format('DD-MM-YYYY'),
                 serviceYear: data[i].service_year,
-                currentLevelServiceYear: '_',
+                currentLevelServiceYear: data[i].current_level_service_year ? data[i].current_level_service_year : '',
                 currentSubLevelServiceYear: data[i].current_sub_level_service_year ? data[i].current_sub_level_service_year : '_',
                 status: status,
                 confirmOrNot: data[i].recommendation ? data[i].recommendation : ''
