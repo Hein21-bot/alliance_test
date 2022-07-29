@@ -111,16 +111,13 @@ class EmployeeDetailMain extends Component {
     if (this.props.data) {
       this.goToViewForm(this.props.data);
     }
-    console.log('id ===>', this.props.id)
     if (this.props.id){
       fetch(`${main_url}employee/getDetailUser/${this.props.id}`)
       .then((res) => {
-        console.log('res employee detail ===>', res)
         if (res.ok) return res.json();
       })
       .then((data) => {
         if (data.length > 0) {
-          console.log('data employee detail ===>', data[0]);
           this.goToEditForm(data[0]);
             this.setState({tableEdit: true});
           
@@ -490,6 +487,7 @@ class EmployeeDetailMain extends Component {
   };
 
   goToEditForm = (data) => {
+    console.log("data is ===>", data)
     this.setState({
       selectedEmploymentData: data,
       edit: true,
@@ -518,7 +516,7 @@ class EmployeeDetailMain extends Component {
       employedDate: data.employee_date,
       effectiveDate: data.effective_date,
       actualDate: data.actual_date,
-      disconDate: data.discontinute_date,
+      disconDate: data.discontinute_date != null ? data.discontinute_date : '',
       selected_disCon_status: this.state.disConStatusList.find(
         (v) => v.value == parseInt(data.discontinute_status)
       )
@@ -579,6 +577,7 @@ class EmployeeDetailMain extends Component {
       selectedEmployeeId,
       user_id,
     } = this.state;
+
 
     let data = {
       user_id: user_id,
@@ -648,7 +647,6 @@ class EmployeeDetailMain extends Component {
   };
 
   handleLevelSelectorChange = (val, key) => {
-    console.log("value===>",val)
     const { sub_level_options, level_options } = this.state;
     const value =
       key === "career_level"

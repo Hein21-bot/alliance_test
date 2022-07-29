@@ -346,6 +346,7 @@ class EmployeeListView extends Component {
                                             editForm={editForm}
                                             handleBankDetailInputChange={() => null}
                                             handleSelectedBank={() => null}
+                                            employeeNameEng={employeeNameEng}
                                             accountName={accountName} accountNumber={accountNumber}
                                             bankList={bankList} selected_bank={selected_bank} bankData={bankData}
                                             handleEditBankData={() => null} bankDataEdit={bankDataEdit}

@@ -41,8 +41,9 @@ export default class ConfirmationRequestListTable extends Component {
       designationId: 0,
       employeeData: [],
       filterData: [],
-      extension:[],
-      recommendation: []
+      extension: [],
+      recommendation: [],
+      effective_date: []
     };
   }
 
@@ -51,6 +52,7 @@ export default class ConfirmationRequestListTable extends Component {
     this.setState(
       {
         dataSource: this.props.data,
+
       },
       () => {
         this._setTableData(this.state.dataSource);
@@ -261,10 +263,10 @@ export default class ConfirmationRequestListTable extends Component {
           current_level_service_year: data[i].current_level_service_year ? data[i].current_level_service_year : '',
           current_sub_level_service_year: data[i].current_sub_level_service_year ? data[i].current_sub_level_service_year : '',
           recommendation: data[i].recommendation ? data[i].recommendation : "-",
-          extension_comment:data[i].extension_comment ? data[i].extension_comment : "-",
-          status: status,
+          effective_date: data[i].effective_date ? moment(data[i].effective_date).format('YYYY-MM-DD') : "-",
+          extension_comment: data[i].extension_comment ? data[i].extension_comment : "-",
+          status: status
         };
-
         if (has_action) {
           obj.action =
             permission.isView === 1
@@ -299,7 +301,8 @@ export default class ConfirmationRequestListTable extends Component {
       { title: "Service Year in Current Level", data: "current_level_service_year" },
       { title: "Service Year in Current Sub Level", data: "current_sub_level_service_year" },
       { title: "Confirm or Not", data: "recommendation" },
-      { title: "Extension Comment", data: "extension_comment"},
+      { title: "Extension Comment", data: "extension_comment" },
+      { title: "Effective Date", data: "effective_date" },
       { title: "Status", data: "status" },
     ];
 
