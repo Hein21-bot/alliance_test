@@ -173,7 +173,8 @@ export default class ConfirmationRequest extends Component {
             flexWrap: "wrap",
             justifyContent: "space-between",
             marginTop: "12px",
-            marginBottom: '10px'
+            marginBottom: '10px',
+            padding:0
           }}
         >
           {this.props.title == "request" ? (
@@ -227,19 +228,28 @@ export default class ConfirmationRequest extends Component {
                 </div>
               </div>
               <div
-            className="col-lg-2 col-md-1 col-sm-12"
+            className="col-lg-3 col-md-2 col-sm-12"
             style={{
               display: "flex",
               flexDirection: "row",
               paddingBottom: 10,
-              justifyContent: "flex-start",
+             
+              justifyContent: "flex-end",
+              margin:0,
               alignItems: "center",
             }}
           >
             <button
               onClick={this.props.handleConfirmRequest}
               className="btn btn-primary"
-              style={{ borderRadius: 10, width: 150 }}
+              style={{ borderRadius: 3, width: 80,marginRight:10 }}
+            >
+              Back
+            </button>
+            <button
+              onClick={this.props.handleConfirmRequest}
+              className="btn btn-primary"
+              style={{ borderRadius: 3, width: 80 }}
             >
               Submit
             </button>
@@ -274,7 +284,7 @@ export default class ConfirmationRequest extends Component {
             </>
           )}
           
-        </div>
+        </div >
         {/* <div className="row  white-bg dashboard-header">
                     <div className="row">
                         <div class="btn-group-g ">
@@ -286,11 +296,13 @@ export default class ConfirmationRequest extends Component {
                         </div>
                     </div>
                 </div> */}
+        <div className="col-12">
         <table
           width="99%"
           className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
           id="dataTables-table"
         />
+        </div>
       </div>
     );
   }
