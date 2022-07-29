@@ -127,7 +127,7 @@ class EditEmployeeListForm extends Component {
                 if (response.ok) return response.json()
             })
             .then(res => {
-               
+
                 if (res) {
                     this.setState({
                         userImage: res[0].avatar,
@@ -697,20 +697,24 @@ class EditEmployeeListForm extends Component {
             })
         }
         else {
-            //("Add")
-            const newData = {
-                id: bankData.length + 1,
-                account_no: accountNumber,
-                bank_name: selected_bank.label,
-                account_name: accountName.toUpperCase()
+            if (selected_bank == null) {
+                toast.error('Please Choose Bank select box!');
+            } else {
+                //("Add")
+                const newData = {
+                    id: bankData.length + 1,
+                    account_no: accountNumber,
+                    bank_name: selected_bank.label,
+                    account_name: accountName.toUpperCase()
 
+                }
+                this.setState({
+                    bankData: bankData.concat(newData),
+                    accountName: '',
+                    selected_bank: null,
+                    accountNumber: ''
+                })
             }
-            this.setState({
-                bankData: bankData.concat(newData),
-                accountName: '',
-                selected_bank: null,
-                accountNumber: ''
-            })
         }
     }
 

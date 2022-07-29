@@ -4,7 +4,7 @@ import Select from "react-select";
 import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, getPermissionStatus, startSaving } from "../../../utils/CommonFunction";
 import MonthYearPicker from './MonthYearPicker';
 import moment from 'moment';
-import  DatePicker from 'react-datetime';
+import DatePicker from 'react-datetime';
 
 const EducationDetails = props => {
     const { viewForm, editForm } = props
@@ -80,9 +80,9 @@ const EducationDetails = props => {
                                                 <div key={v.id} style={{ color: ' black', padding: 10 }}>
                                                     {v.degree || v.name}
                                                 </div>
-                                                <button style={{ borderRadius: 5, color: 'gray', border: 'none', border: '1px solid lightgrey' }} onClick={() => handleRemoveDegreeData(k)}>
+                                                {viewForm ? null : <button style={{ borderRadius: 5, color: 'gray', border: 'none', border: '1px solid lightgrey' }} onClick={() => handleRemoveDegreeData(k)}>
                                                     <i class="fa-solid fa-xmark">Remove</i>
-                                                </button>
+                                                </button>}
                                                 {/* <button style={{ borderRadius: 5, color: 'gray', border: 'none', border: '1px solid lightgrey' }} onClick={() => handleUpdateDegreeData(v, k)}>
                                                     Edit
                                                 </button> */}
@@ -108,9 +108,9 @@ const EducationDetails = props => {
                                                 <div key={k} style={{ color: ' black', padding: 10 }}>
                                                     {viewForm || editForm ? v.name : v.qualification}
                                                 </div>
-                                                <button style={{ borderRadius: 5, color: 'gray', border: 'none', border: '1px solid lightgrey' }} onClick={() => handleRemoveQualification(k)}>
+                                                {viewForm ? null : <button style={{ borderRadius: 5, color: 'gray', border: 'none', border: '1px solid lightgrey' }} onClick={() => handleRemoveQualification(k)}>
                                                     <i class="fa-solid fa-xmark">Remove</i>
-                                                </button>
+                                                </button>}
                                                 {/* <button style={{ borderRadius: 5, color: 'gray', border: 'none', border: '1px solid lightgrey' }} onClick={() => handleUpdateQualification(v, k)}>
                                                     Edit
                                                 </button> */}
@@ -141,7 +141,7 @@ const EducationDetails = props => {
                                         dateFormat="MM/YYYY"
                                         value={fromMonthYear}
                                         onChange={handleFromMonthYear}
-                                        
+
                                     />
                                 </div>
                                 <div className='col-lg-3 col-md-3 col-sm-6' style={{ fontWeight: 'bold', paddingBottom: 10, margin: 10 }}>
@@ -150,7 +150,7 @@ const EducationDetails = props => {
                                     <DatePicker
                                         dateFormat="MM/YYYY"
                                         value={toMonthYear}
-                                        onChange={handleToMonthYear}/>
+                                        onChange={handleToMonthYear} />
                                 </div>
 
                             </div>
@@ -158,7 +158,7 @@ const EducationDetails = props => {
                                 <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
                                     <div className='col-lg-2 col-md-3 col-sm-4' style={{ fontWeight: 'bold', paddingBottom: 10, marginLeft: 10, display: 'grid', alignItems: 'center' }}>
                                         Period
-                                        <input type='text' placeholder='' required={(viewForm || editForm) ? false : true} name="period" value={period} onChange={handleEduactionInputChange} style={{ height: 40, }} disabled/>
+                                        <input type='text' placeholder='' required={(viewForm || editForm) ? false : true} name="period" value={period} onChange={handleEduactionInputChange} style={{ height: 40, }} disabled />
 
                                     </div>
                                     <div className='col-lg-2 col-md-3 col-sm-4' style={{ fontWeight: 'bold', paddingBottom: 10, marginLeft: 10, display: 'grid', alignItems: 'center' }}>
@@ -207,9 +207,9 @@ const EducationDetails = props => {
                                 <div className='col-lg-2 col-md-3 col-sm-2' style={{ color: 'blue', fontWeight: 'bold' }}>
                                     Location
                                 </div>
-                                <div className='col-lg-2 col-md-3 col-sm-2' style={{ color: 'blue', fontWeight: 'bold' }}>
+                                {viewForm ? null : <div className='col-lg-2 col-md-3 col-sm-2' style={{ color: 'blue', fontWeight: 'bold' }}>
                                     Remove
-                                </div>
+                                </div>}
 
                             </div>
                             {
@@ -237,9 +237,9 @@ const EducationDetails = props => {
                                                 {v.location}
                                             </div>
                                             <div className='col-lg-2 col-md-3 col-sm-2' style={{}}>
-                                                <button style={{ borderRadius: 5, color: 'gray', border: 'none', border: '1px solid lightgrey' }} onClick={() => handleRemoveWorkExp(k)}>
+                                                {viewForm ? null : <button style={{ borderRadius: 5, color: 'gray', border: 'none', border: '1px solid lightgrey' }} onClick={() => handleRemoveWorkExp(k)}>
                                                     Remove
-                                                </button>
+                                                </button>}
                                             </div>
 
                                         </div>)

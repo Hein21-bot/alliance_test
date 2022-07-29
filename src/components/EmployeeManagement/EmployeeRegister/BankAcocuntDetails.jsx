@@ -9,7 +9,7 @@ import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, get
 const BankAccountDetails = props => {
 
     const { viewForm, editForm, bankDataEdit, handleEditBankData, handlePreviousClick, handleDeleteBankData, cancelEdit, handleBankDetailInputChange, handleSelectedBank, bankData, selected_bank, accountNumber, accountName, bankList, handleAdd_UpdateBankData, handleBankAccountDetails, employeeNameEng } = props
-   
+
     return (
         <form onSubmit={handleAdd_UpdateBankData} >
             <div className='white-bg ' style={{
@@ -49,7 +49,7 @@ const BankAccountDetails = props => {
                             Account Number
                         </div>
                         <div className='col-lg-5 col-md-6 col-sm-8 col-xs-8' style={{ paddingLeft: 0, }}>
-                            <input type='number' inputMode='numeric' pattern='\d*' placeholder='' required={(viewForm || editForm) ? false : true} name="accountNumber" value={accountNumber} onChange={handleBankDetailInputChange} onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} style={{ width: '100%', height: 40, paddingLeft: 10, }} />
+                            <input type='number' inputMode='numeric' pattern='\d*' placeholder='' required={(viewForm) ? false : true} name="accountNumber" value={accountNumber} onChange={handleBankDetailInputChange} onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} style={{ width: '100%', height: 40, paddingLeft: 10, }} />
                         </div>
 
                     </div>
@@ -62,10 +62,7 @@ const BankAccountDetails = props => {
                             <div style={{ display: 'flex', justifyContent: 'end' }}>
 
                                 <button type="submit" style={{ borderRadius: 5, padding: 10, margin: 10, marginBottom: 0, color: 'white', background: '#337ab7', border: 'none', width: 90, border: '1px solid lightgrey', textAlign: 'center' }}>
-                                    Save
-                                </button>
-                                <button onClick={cancelEdit} style={{ borderRadius: 5, padding: 10, margin: 10, marginBottom: 0, color: 'white', background: 'red', border: 'none', width: 90, border: '1px solid lightgrey', textAlign: 'center' }}>
-                                    Cancel
+                                    Update
                                 </button>
 
                             </div> :

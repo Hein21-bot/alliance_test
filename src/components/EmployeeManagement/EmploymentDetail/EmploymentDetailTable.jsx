@@ -26,9 +26,10 @@ export default class BenefitChildTable extends Component {
             dataSource: props.data,
             selectedRequest: '',
             is_main_role: getMainRole(),
-            
+
         }
     }
+
     componentDidMount() {
         this.$el = $(this.el);
 
@@ -123,7 +124,7 @@ export default class BenefitChildTable extends Component {
                 no: i + 1,
                 //form_no: fno.fno_child + data[i].form_no,
                 employee_id: data[i].employee_code ? data[i].employee_code : '',
-                employee_name: data[i].employee_name ? data[i].employee_name :"",
+                employee_name: data[i].employee_name ? data[i].employee_name : "",
                 position: data[i].designations ? data[i].designations : '-',
                 employee_status: data[i].employed_status ? data[i].employed_status == 1 ? 'Permanent' : data[i].employed_status == 2 ? 'Part-Time' : data[i].employed_status == 3 ? 'Training' : data[i].employed_status : '-',
                 branch: data[i].branch ? data[i].branch : '',
@@ -136,9 +137,9 @@ export default class BenefitChildTable extends Component {
                 salary: data[i].salary ? data[i].salary : '',
                 department: data[i].deptname ? data[i].deptname : '',
                 discon_status: data[i].discontinute_status ? data[i].discontinute_status : 'False',
-                discon_date: data[i].discontinute_date ? data[i].discontinute_date : '',
+                discon_date: data[i].discontinute_date ? moment(data[i].discontinute_date).format('YYYY-MM-DD') : '',
                 resign_reason: data[i].resign_reason ? data[i].resign_reason : '',
-                exit_status: data[i].exit_status ? data[i].exit_status : '',
+                exit_status: data[i].status ? data[i].status : '',
                 actual_date: data[i].actual_date ? moment(data[i].actual_date).format('DD-MM-YYYY') : '',
             }
             if (has_action) {
@@ -178,9 +179,9 @@ export default class BenefitChildTable extends Component {
         var column = [
             { title: "No", data: "no" },
             { title: " Date", data: "date" },
-            { title: "Employee Code", data: "employee_id",value:"emloyee_id" },
+            { title: "Employee Code", data: "employee_id", value: "emloyee_id" },
             // { title: "Form No", data: "form_no" },
-            { title: "Employee Name", data: "employee_name"},
+            { title: "Employee Name", data: "employee_name" },
             { title: "Employee Status", data: "employee_status" },
             { title: "Employed Date", data: "employed_date" },
             { title: "Effective Date", data: "effective_date" },
@@ -244,15 +245,15 @@ export default class BenefitChildTable extends Component {
 
             <div>
                 {/* <div className="row border-bottom white-bg dashboard-header"> */}
-                    {/* <div className="row"> */}
-                        {/* <div class="btn-group-g ">
+                {/* <div className="row"> */}
+                {/* <div class="btn-group-g ">
                             <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
                             <button type="button" class=" btn label-check g" onClick={this.getCheck.bind(this)}>Check</button>
                             <button type="button" class="btn label-verified g" onClick={this.getVerified.bind(this)}>Verify</button>
                             <button type="button" class="btn label-approve g" onClick={this.getApprove.bind(this)}>Approve</button>
                             <button type="button" class="btn label-reject g" onClick={this.getReject.bind(this)}>Reject</button>
                         </div> */}
-                    {/* </div> */}
+                {/* </div> */}
                 {/* </div> */}
                 <table width="99%"
                     className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"

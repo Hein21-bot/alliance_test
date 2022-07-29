@@ -117,6 +117,10 @@ class EmployeeListView extends Component {
 
     }
 
+    handlePreviousClick = () => {
+        this.setState({ tabIndex: this.state.tabIndex - 1 })
+    }
+
 
     getEmployeeDetailsData() {
         // confirmation/getOneDetail/:user_id
@@ -129,10 +133,10 @@ class EmployeeListView extends Component {
             })
             .then(res => {
 
-              
+
 
                 if (res) {
-                    
+
                     this.setState({
                         userImage: res[0].avatar,
                         userImageUrl: res[0].avatar,
@@ -302,6 +306,7 @@ class EmployeeListView extends Component {
                                 onStatusChange={() => null}
                                 handlePersonalDetail={this.handleNext}
                                 onCancelClick={BackToTable}
+                                handlePreviousClick={this.handlePreviousClick}
                             /> : tabIndex === 3 ?
                                 <EducationDetails
                                     degreeList={degreeList} selected_degree={selected_degree}
