@@ -129,7 +129,10 @@ class EmployeeListView extends Component {
             })
             .then(res => {
 
+              
+
                 if (res) {
+                    
                     this.setState({
                         userImage: res[0].avatar,
                         userImageUrl: res[0].avatar,

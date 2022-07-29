@@ -615,7 +615,7 @@ class EmployeeDetailMain extends Component {
     };
     let status = 0;
     fetch(
-      `${main_url}employee/updateEmploymentDetail/${selectedEmploymentData.id}`,
+      `${main_url}employee/updateEmploymentDetail/${selectedEmploymentData.id == undefined ? this.props.id : selectedEmploymentData.id}`,
       {
         method: "POST",
         headers: {

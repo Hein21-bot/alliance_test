@@ -91,7 +91,7 @@ const EmployeeProfile = props => {
                                         />
                                     </div>
                                     <div className='col-lg-6 col-md-6 col-sm-6' style={{ paddingRight: 0, paddingLeft: 0 }}>
-                                        <input type='number' placeholder='' required={(viewForm) || fullNRCNO !=null ? false : true} name="nrc_number" value={nrc_number} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
+                                        <input type='number' placeholder='' required={(viewForm) || fullNRCNO !=null ? false : true} name="nrc_number" value={nrc_number} onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
 
                                     </div>
                                 </div>
@@ -165,7 +165,7 @@ const EmployeeProfile = props => {
                                 Personal Phone
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
-                                <input type='number' placeholder='' required={(viewForm) ? false : true} name="personalPhone" value={personalPhone} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
+                                <input type='number' placeholder='' required={(viewForm) ? false : true} name="personalPhone" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={personalPhone} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
 
 
                             </div>
@@ -191,7 +191,7 @@ const EmployeeProfile = props => {
                                 Office Phone
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
-                                <input type='number' placeholder='' required={(viewForm) ? false : true} name="officePhone" value={officePhone} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
+                                <input type='number' placeholder='' required={(viewForm) ? false : true} name="officePhone" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={officePhone} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
 
 
                             </div>
