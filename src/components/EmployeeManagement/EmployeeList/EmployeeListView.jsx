@@ -129,7 +129,10 @@ class EmployeeListView extends Component {
             })
             .then(res => {
 
+              
+
                 if (res) {
+                    
                     this.setState({
                         userImage: res[0].avatar,
                         userImageUrl: res[0].avatar,
@@ -346,6 +349,7 @@ class EmployeeListView extends Component {
                                             editForm={editForm}
                                             handleBankDetailInputChange={() => null}
                                             handleSelectedBank={() => null}
+                                            employeeNameEng={employeeNameEng}
                                             accountName={accountName} accountNumber={accountNumber}
                                             bankList={bankList} selected_bank={selected_bank} bankData={bankData}
                                             handleEditBankData={() => null} bankDataEdit={bankDataEdit}

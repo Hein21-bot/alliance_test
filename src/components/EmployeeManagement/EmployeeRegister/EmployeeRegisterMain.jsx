@@ -223,6 +223,7 @@ class EmployeeRegisterMain extends Component {
             same_with_CT_person: this.state.sameWithCtPerson ? 1 : 0
 
         }
+        
         const formdata = new FormData();
         formdata.append('data', JSON.stringify(data))
         formdata.append('uploadProfile', userImageUrl)
@@ -512,11 +513,14 @@ class EmployeeRegisterMain extends Component {
 
     }
     handleEmploymentDetailInputChange = (e) => {
-
+        
         if (e.target.name === "jobTitle") {
+            
             this.setState({
-                jobTitle: e.target.value
+               
+                jobTitle: e.target.name
             })
+           
         }
 
         else if (e.target.name === "employedDate") {
@@ -1128,6 +1132,64 @@ class EmployeeRegisterMain extends Component {
         this.setState({ visible: false })
     }
 
+    onTapClick = (number, prevNum) => {
+        const { tabIndex, userImage, userImageUrl, employeeStatusList, fromMonthYear, toMonthYear, nrc_number, period, level_options, location, designation, workExpChecked, organization, sameWithCtPerson, bankList, selected_bank, trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo,
+            fatherName, degreeList, disConstatusList, branchlist, selected_qualification, selected_degree, motherName, guarantor, guarantorPhone, attachmentUrl, selected_gran_NRC_Id, granDistrictCodeList, addedDegreeData, addedQualitificationData, workExpData,
+            selected_gran_DistrictCode, gran_nrc_number, parentCount, siblingCount, childCount, pInLawCount, martialStatus, officePhone, region, address, joinDate, accountName, accountNumber, employeeStatus, employeeDesignation, jobTitle, carrerLevel, employeeDetailBranch, employedDate, disConStatus, disConDate,
+            employeeId, employeeNameEng, nationality, personalPhone, employeeNameMyan, gender, dateOfBirth, contactPerson, contactPhone, bankData, bankDataEdit, selected_DistrictCode, selected_NRC_Id, districtCodeList, nrcList,
+        } = this.state;
+        if (number == 1) {
+            this.setState({ tabIndex: 1 });
+        } else if (number == 2) {
+            if (employeeId != '' && employeeNameEng != '' && selected_NRC_Id != null && selected_DistrictCode != null && nrc_number != null && employeeNameMyan != '' && dateOfBirth != '' && gender != '' && nationality != '' && personalPhone !='' && region != '' && officePhone != '' && address != '' && joinDate !='') {
+                this.setState({ tabIndex: 2 });
+            } else {
+                toast.error('Please fill all information!');
+            }
+        } else if (number == 3) {
+            if (martialStatus != "" && fatherName != '' && motherName != '' && parentCount != '' && siblingCount != '' && ((martialStatus == 'UnMarried' && childCount == '') || (martialStatus == 'Married' && childCount != '')) && ((martialStatus == 'UnMarried' && pInLawCount == '') || (martialStatus == 'Married' && pInLawCount != ''))) {
+                this.setState({ tabIndex: 3 });
+            } else {
+                toast.error('Please fill all information!');
+                
+            }
+        } else if (number == 4) {
+            if ( addedDegreeData.length > 0 && addedQualitificationData.length > 0) {
+                this.setState({ tabIndex: 4 });
+            } else {
+                toast.error('Please fill all information!');
+            }
+        } else if (number == 5) {
+            if (contactPerson != "" && contactPhone != '' && guarantor != '' && guarantorPhone != '' && selected_gran_NRC_Id != null && selected_gran_DistrictCode != null && gran_nrc_number != '') {
+                this.setState({ tabIndex: 5 });
+            } else {
+                toast.error('Please fill all information!');
+            }
+        } else if (number == 6) {
+            if (accountNumber != '' && bankData.length > 0){
+                this.setState({ tabIndex: 6 });
+            } else {
+                toast.error('Please fill all information!');
+            }
+        } else if (number == 7) {
+            if (employeeId != '' && employeeNameEng != '' && selected_NRC_Id != null && selected_DistrictCode != null && nrc_number != null && employeeNameMyan != '' && dateOfBirth != '' && gender != '' && nationality != '' && personalPhone !='' && region != '' && officePhone != '' && address != '' && joinDate !=''
+                && martialStatus != "" && fatherName != '' && motherName != '' && parentCount != '' && siblingCount != '' && ((martialStatus == 'UnMarried' && childCount == '') || (martialStatus == 'Married' && childCount != '')) && ((martialStatus == 'UnMarried' && pInLawCount == '') || (martialStatus == 'Married' && pInLawCount != ''))
+                 && addedDegreeData.length > 0 && addedQualitificationData.length > 0 && contactPerson != "" && contactPhone != '' && guarantor != '' && guarantorPhone != '' && selected_gran_NRC_Id != null && selected_gran_DistrictCode != null && gran_nrc_number != ''
+                  && accountNumber != '' && bankData.length > 0) {
+                    this.setState({ tabIndex: 7 });
+                    toast.error('Please fill all information!');
+                  }
+            
+        } else if (number == 8) {
+            if (attachmentUrl != '') {
+                this.setState({ tabIndex: 8});
+            } else {
+                toast.error('Please fill all information!');
+                
+            }
+        }
+    }
+
     render() {
         const { tabIndex, userImage, userImageUrl, employeeStatusList, fromMonthYear, toMonthYear, nrc_number, period, level_options, location, designation, workExpChecked, organization, sameWithCtPerson, bankList, selected_bank, trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo,
             fatherName, degreeList, disConstatusList, branchlist, selected_qualification, selected_degree, motherName, guarantor, guarantorPhone, attachmentUrl, selected_gran_NRC_Id, granDistrictCodeList, addedDegreeData, addedQualitificationData, workExpData,
@@ -1137,7 +1199,7 @@ class EmployeeRegisterMain extends Component {
 
         return (
             <div>
-                {console.log('generateUserId ===>', this.state.generateUserId)}
+               
                 {this.state.toDetailForm ? (
                     <EmployeeDetailMain id={this.state.generateUserId}></EmployeeDetailMain>
                 ) : (
@@ -1160,49 +1222,49 @@ class EmployeeRegisterMain extends Component {
 
 
                         <div className='tabBar col-lg-12 col-md-12 col-sm-12 ' style={{ display: 'flex', paddingLeft: 0, paddingRight: 0, flexDirection: 'row', paddingTop: 20, fontSize: 13, minWidth: 300, overflowX: 'auto', alignItems: 'center' }}>
-                            <div className='col-lg-2 col-md-2 ' onClick={() => this.setState({ tabIndex: 1 })} style={{
+                            <div className='col-lg-2 col-md-2 ' onClick={() => this.onTapClick(1, tabIndex)} style={{
                                 paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', cursor: 'pointer', marginBottom: tabIndex === 1 ? 5 : 0, fontWeight: tabIndex === 1 ? 'bold' : 'normal',
                                 minHeight: tabIndex === 1 ? 35 : 30, background: `${tabIndex === 1 ? '#fff' : '#337ab7'}`, paddingLeft: 10, paddingRight: 10, color: tabIndex === 1 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
                             }}>
                                 Employee Profile
                             </div>
-                            <div className='col-lg-2 col-md-2' onClick={() => this.setState({ tabIndex: 2 })} style={{
+                            <div className='col-lg-2 col-md-2' onClick={() => this.onTapClick(2, tabIndex)} style={{
                                 paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', cursor: 'pointer', marginBottom: tabIndex === 2 ? 5 : 0, fontWeight: tabIndex === 2 ? 'bold' : 'normal',
                                 minHeight: tabIndex === 2 ? 35 : 30, background: `${tabIndex === 2 ? '#fff' : '#337ab7'}`, paddingLeft: 10, paddingRight: 10, color: tabIndex === 2 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
                             }}>
                                 Personal Detail
                             </div>
-                            <div className='col-lg-2 col-md-2' onClick={() => this.setState({ tabIndex: 3 })} style={{
+                            <div className='col-lg-2 col-md-2' onClick={() => this.onTapClick(3, tabIndex)} style={{
                                 paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', cursor: 'pointer', marginBottom: tabIndex === 3 ? 5 : 0, fontWeight: tabIndex === 3 ? 'bold' : 'normal',
                                 minHeight: tabIndex === 3 ? 35 : 30, background: `${tabIndex === 3 ? '#fff' : '#337ab7'}`, paddingLeft: 10, paddingRight: 10, color: tabIndex === 3 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
                             }}>
                                 Education Details
                             </div>
-                            <div className='col-lg-2 col-md-2' onClick={() => this.setState({ tabIndex: 4 })} style={{
+                            <div className='col-lg-2 col-md-2' onClick={() => this.onTapClick(4, tabIndex)} style={{
                                 paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', cursor: 'pointer', marginBottom: tabIndex === 4 ? 5 : 0, fontWeight: tabIndex === 4 ? 'bold' : 'normal',
                                 minHeight: tabIndex === 4 ? 35 : 30, background: `${tabIndex === 4 ? '#fff' : '#337ab7'}`, paddingLeft: 10, paddingRight: 10, color: tabIndex === 4 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
                             }}>
                                 Contact Details
                             </div>
-                            <div className='col-lg-2 col-md-2' onClick={() => this.setState({ tabIndex: 5 })} style={{
+                            <div className='col-lg-2 col-md-2' onClick={() => this.onTapClick(5, tabIndex)} style={{
                                 paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', minWidth: 150, cursor: 'pointer', marginBottom: tabIndex === 5 ? 5 : 0, fontWeight: tabIndex === 5 ? 'bold' : 'normal',
                                 minHeight: tabIndex === 5 ? 35 : 30, background: `${tabIndex === 5 ? '#fff' : '#337ab7'}`, paddingLeft: 10, paddingRight: 10, color: tabIndex === 5 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
                             }}>
                                 Bank Account Details
                             </div>
-                            <div className='col-lg-2 col-md-2' onClick={() => this.setState({ tabIndex: 6 })} style={{
+                            <div className='col-lg-2 col-md-2' onClick={() => this.onTapClick(6, tabIndex)} style={{
                                 paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', cursor: 'pointer', marginBottom: tabIndex === 6 ? 5 : 0, fontWeight: tabIndex === 6 ? 'bold' : 'normal',
                                 minHeight: tabIndex === 6 ? 35 : 30, background: `${tabIndex === 6 ? '#fff' : '#337ab7'}`, paddingLeft: 10, paddingRight: 10, color: tabIndex === 6 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
                             }}>
                                 Other Information
                             </div>
-                            <div className='col-lg-2 col-md-2' onClick={() => this.setState({ tabIndex: 7 })} style={{
+                            <div className='col-lg-2 col-md-2' onClick={() => this.onTapClick(7, tabIndex)} style={{
                                 paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', cursor: 'pointer', marginBottom: tabIndex === 7 ? 5 : 0, fontWeight: tabIndex === 7 ? 'bold' : 'normal',
                                 minHeight: tabIndex === 7 ? 35 : 30, background: `${tabIndex === 7 ? '#fff' : '#337ab7'}`, paddingLeft: 10, paddingRight: 10, color: tabIndex === 7 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
                             }}>
                                 Attachment
                             </div>
-                            <div className='col-lg-2 col-md-2' onClick={() => this.setState({ tabIndex: 8 })} style={{
+                            <div className='col-lg-2 col-md-2' onClick={() => this.onTapClick(8, tabIndex)} style={{
                                 paddingTop: 10, paddingBottom: 10, alignItems: 'center', display: 'flex', whiteSpace: 'nowrap', minWidth: 130, cursor: 'pointer', marginBottom: tabIndex === 8 ? 5 : 0, fontWeight: tabIndex === 8 ? 'bold' : 'normal',
                                 minHeight: tabIndex === 8 ? 35 : 30, background: `${tabIndex === 8 ? '#fff' : '#337ab7'}`, minWidth: 150, paddingLeft: 10, paddingRight: 10, color: tabIndex === 8 ? 'black' : 'white', border: '1px solid lightgrey', borderBottom: 'none', justifyContent: 'center'
                             }}>

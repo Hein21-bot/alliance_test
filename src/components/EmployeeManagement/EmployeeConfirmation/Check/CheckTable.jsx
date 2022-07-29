@@ -4,9 +4,11 @@ import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css';
 import 'datatables.net-dt/css/jquery.dataTables.css'
 import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 import 'jspdf-autotable';
-import moment from 'moment'
+import moment from 'moment';
+import Select from 'react-select';
+import DatePicker from 'react-datetime';
 import * as jsPDF from 'jspdf';
-import { main_url, getUserId, getMainRole, getInformation, print, fno } from "../../../../utils/CommonFunction";
+import { main_url,getBranch,getDepartment, getLevel,getRegion,getDesignation, getUserId, getMainRole, getInformation,getFirstDayOfMonth, print, fno } from "../../../../utils/CommonFunction";
 const $ = require('jquery');
 const jzip = require('jzip');
 window.JSZip = jzip;
@@ -25,10 +27,22 @@ export default class BenefitChildTable extends Component {
             dataSource: props.data,
             selectedRequest: '',
             is_main_role: getMainRole(),
+            region: [],
+            level: [],
+            branch: [],
+            department: [],
+            designations: [],
+            toDate: moment().format('DD-MM-YYYY'),
+            fromDate: moment(getFirstDayOfMonth()).format('DD-MM-YYYY'),
+            branchId: 0,
+            departmentId: 0,
+            regionId: 0,
+            levelStatus: "",
+            designationId: 0,
 
         }
     }
-    componentDidMount() {
+    async componentDidMount() {
         this.$el = $(this.el);
 
         this.setState({
@@ -74,6 +88,24 @@ export default class BenefitChildTable extends Component {
             data = $.parseJSON(data);
             that.props.handleCheckBoxChange(data);
         });
+        let level = await getLevel();
+    level.unshift({ label: "All", value: 0 });
+    let designations = await getDesignation();
+    designations.unshift({ label: "All", value: 0 });
+    let region = await getRegion();
+    region.unshift({ region_name: "All", region_id: 0 });
+    let branch = await getBranch();
+    branch.unshift({ label: 'All', vlaue: 0 });
+    let department = await getDepartment();
+    department.unshift({ label: 'All', vlaue: 0 });
+    this.setState({
+      branch: branch,
+      department: department,
+      region: region.map(v => ({ ...v, label: v.region_name, value: v.region_id })),
+      level: level,
+      designations: designations,
+
+    })
     }
 
     componentDidUpdate(prevProps) {
@@ -111,7 +143,56 @@ export default class BenefitChildTable extends Component {
       getApprove() {
         this.search(4);
       }
-
+      handleSelectedBranch = async (event) => {
+        let branchId = this.state.branchId
+        branchId = event
+        this.setState({
+          branchId: branchId
+        })
+      }
+    
+      handleSelectedlevelStatus = async (event) => {
+        let levelStatus = this.state.levelStatus
+        levelStatus = event
+        this.setState({
+          levelStatus: levelStatus
+        })
+      }
+      handleSelectedDepartment = async (event) => {
+        let departmentId = this.state.departmentId
+        departmentId = event
+        this.setState({
+          departmentId: departmentId
+        })
+      }
+      handleSelectedDesignations = async (event) => {
+        let designationId = this.state.designationId
+        designationId = event
+        this.setState({
+          designationId: designationId
+        })
+      }
+      handleSelectedRegion = async (event) => {
+        let regionId = this.state.regionId
+        regionId = event
+        this.setState({
+          regionId: regionId
+        })
+      }
+      handleSearch = () => {
+        this.getEmployeeList()
+    
+      }
+      handleToDate = (event) => {
+        this.setState({
+          toDate: event
+        });
+      };
+      handleFromDate = (event) => {
+        this.setState({
+          fromDate: event
+        });
+      };
 
 
     search(status) {
@@ -120,16 +201,17 @@ export default class BenefitChildTable extends Component {
         this._setTableData(data)
     }
 
-
+    // handleSearchData
 
     _setTableData = (data) => {
+        
         var table;
         var l = [];
         var status;
         var permission = this.props.permission;
         var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
         var has_select = permission.isSelect === 1 ? true : false;
-
+       
         for (var i = 0; i < data.length; i++) {
             let result = data[i];
             let obj = [];
@@ -163,7 +245,7 @@ export default class BenefitChildTable extends Component {
                 date: data[i].date ? moment(data[i].date).format('DD-MM-YYYY') : '',
                 promotionDate: data[i].promotion_date ? moment(data[i].promotion_date).format('DD-MM-YYYY') : moment(data[i].date).format('DD-MM-YYYY'),
                 serviceYear: data[i].service_year,
-                currentLevelServiceYear: '_',
+                currentLevelServiceYear: data[i].current_level_service_year ? data[i].current_level_service_year : '',
                 currentSubLevelServiceYear: data[i].current_sub_level_service_year ? data[i].current_sub_level_service_year : '_',
                 status: status,
                 confirmOrNot: data[i].recommendation ? data[i].recommendation : ''
@@ -257,9 +339,128 @@ export default class BenefitChildTable extends Component {
 
     render() {
         return (
+        <div>
+         <div className="row  white-bg dashboard-header">
+          <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
+            <DatePicker className='fromdate'
 
-            <div>
-                <div className="row  white-bg dashboard-header">
+              dateFormat="DD/MM/YYYY"
+              value={this.state.fromDate}
+              onChange={this.handleFromDate}
+              timeFormat={false} />
+            < DatePicker className='fromdate'
+              dateFormat="DD/MM/YYYY"
+              value={this.state.toDate}
+              onChange={this.handleToDate}
+              timeFormat={false} />
+            <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Branch"
+              options={this.state.branch}
+              onChange={this.handleSelectedBranch}
+              value={this.state.branchId}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+            <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginLeft: 10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Department"
+              options={this.state.department}
+              onChange={this.handleSelectedDepartment}
+              value={this.state.departmentId}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+            <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginLeft: 10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Region"
+              options={this.state.region}
+              onChange={this.handleSelectedRegion}
+              value={this.state.regionId}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+            <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginLeft: 10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Level"
+              options={this.state.level}
+              onChange={this.handleSelectedlevelStatus}
+              value={this.state.levelStatus}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+            <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginLeft: 10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Designation"
+              options={this.state.designations}
+              onChange={this.handleSelectedDesignations}
+              value={this.state.designationId}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+            {/* </div> */}
+            {/* <div className='flex-row' style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', margin: '10px 10px 10px 10px' }}> */}
+            <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }}>Search</button>
+          </div> 
                     <div className="row">
                         <div class="btn-group-g ">
                             <button type="button" class="btn label-request g"onClick={this.getRequest.bind(this)} >Request</button>

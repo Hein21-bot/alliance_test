@@ -127,7 +127,7 @@ class EditEmployeeListForm extends Component {
                 if (response.ok) return response.json()
             })
             .then(res => {
-                console.log('res data is ===>', res[0])
+               
                 if (res) {
                     this.setState({
                         userImage: res[0].avatar,

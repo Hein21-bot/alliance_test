@@ -319,7 +319,7 @@ class HeadCountBarChart extends Component {
                     container: (base) => ({
                       ...base,
                       //   flex: 1
-                      width: 100,
+                      width: 90,
                     }),
                     control: (base) => ({
                       ...base,
@@ -345,7 +345,7 @@ class HeadCountBarChart extends Component {
                     container: (base) => ({
                       ...base,
                       //   flex: 1
-                      width: 100,
+                      width: 90,
                       // marginLeft: 10
                     }),
                     control: (base) => ({
@@ -390,7 +390,7 @@ class HeadCountBarChart extends Component {
             }}>
               <div style={{
                 backgroundColor: '#1872ab',
-                width: '100px',
+                width: '90px',
                 height: '50px',
 
                 borderRadius: '5px'
@@ -437,7 +437,7 @@ class HeadCountBarChart extends Component {
                     container: (base) => ({
                       ...base,
                       //   flex: 1
-                      width: 100,
+                      width: 90,
                       marginRight: 10
                     }),
                     control: (base) => ({
@@ -463,7 +463,7 @@ class HeadCountBarChart extends Component {
                     container: (base) => ({
                       ...base,
                       //   flex: 1
-                      width: 100,
+                      width: 90,
                       marginRight: 10
                     }),
                     control: (base) => ({
@@ -489,7 +489,7 @@ class HeadCountBarChart extends Component {
                     container: (base) => ({
                       ...base,
                       //   flex: 1
-                      width: 100,
+                      width: 90,
                     }),
                     control: (base) => ({
                       ...base,
@@ -531,7 +531,7 @@ class HeadCountBarChart extends Component {
             }}>
               <div style={{
                 backgroundColor: '#1872ab',
-                width: '100px',
+                width: '90px',
                 height: '50px',
 
                 borderRadius: '5px'
