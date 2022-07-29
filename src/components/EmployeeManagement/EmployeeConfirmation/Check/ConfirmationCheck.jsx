@@ -92,7 +92,7 @@ class ConfirmationCheck extends Component {
 
     getCheckListData() {
 
-        fetch(`${main_url}confirmation/getConfirmationdata/${getCookieData("user_info").user_id}/${getCookieData("user_info").user_id}`)
+        fetch(`${main_url}confirmation/getConfirmationdata/${getCookieData("user_info").user_id}/${getCookieData("user_info").user_id}/0/0/0/0/0`)
             .then(response => {
                 if (response.ok) return response.json()
             })

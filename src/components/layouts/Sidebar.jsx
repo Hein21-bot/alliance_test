@@ -377,7 +377,7 @@ export default class Sidebar extends Component {
                       >
                         <a href="/confirmation_approve_list">Approve List</a>
                       </li>
-                      <li
+                      {/* <li
                         className={
                           pathname === "/confirmation_request_list"
                             ? "active"
@@ -385,7 +385,7 @@ export default class Sidebar extends Component {
                         }
                       >
                         <a href="/confirmation_request_list">Confirmation Request</a>
-                      </li>
+                      </li> */}
                 </ul>
               </li>
               

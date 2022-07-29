@@ -467,7 +467,7 @@ export default class ConfirmationRequestListTable extends Component {
             {/* <div className='flex-row' style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', margin: '10px 10px 10px 10px' }}> */}
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData(this.state.branchId.value, this.state.departmentId.value, this.state.regionId.value, this.state.levelStatus.value, this.state.designationId.value)}>Search</button>
           </div>
-          <div className="row">
+          {/* <div className="row">
             <div class="btn-group-g ">
               <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
               <button type="button" class=" btn label-check g" onClick={this.getCheck.bind(this)}>Check</button>
@@ -475,7 +475,7 @@ export default class ConfirmationRequestListTable extends Component {
               <button type="button" class="btn label-verified g" onClick={this.getVerified.bind(this)}>Verify</button>
               <button type="button" class="btn label-approve g" onClick={this.getApprove.bind(this)}>Approve</button>
             </div>
-          </div>
+          </div> */}
         </div>
         <table
           width="99%"

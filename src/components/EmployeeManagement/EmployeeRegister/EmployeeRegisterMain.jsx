@@ -1177,8 +1177,9 @@ class EmployeeRegisterMain extends Component {
                  && addedDegreeData.length > 0 && addedQualitificationData.length > 0 && contactPerson != "" && contactPhone != '' && guarantor != '' && guarantorPhone != '' && selected_gran_NRC_Id != null && selected_gran_DistrictCode != null && gran_nrc_number != ''
                   && accountNumber != '' && bankData.length > 0) {
                     this.setState({ tabIndex: 7 });
+                   } else{
                     toast.error('Please fill all information!');
-                  }
+                }
             
         } else if (number == 8) {
             if (attachmentUrl != '') {
