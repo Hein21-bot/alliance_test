@@ -67,7 +67,7 @@ const PersonalDetail = props => {
                         Parent Count
                     </div>
                     <div className='col-lg-6 col-md-6 col-sm-6' style={{}}>
-                        <input type='number' placeholder='' required={(viewForm || editForm) ? false : true} name="parentCount" value={parentCount} onChange={handlePersonalDetailInputChange} style={{ width: '100%', height: 40, }} />
+                        <input type='number' placeholder='' required={(viewForm || editForm) ? false : true} name="parentCount" value={parentCount} onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} onChange={handlePersonalDetailInputChange} style={{ width: '100%', height: 40, }} />
 
                     </div>
 
@@ -80,7 +80,7 @@ const PersonalDetail = props => {
                         Sibling Count
                     </div>
                     <div className='col-lg-6 col-md-6 col-sm-6' style={{}}>
-                        <input type='number' placeholder='' required={(viewForm || editForm) ? false : true} name="siblingCount" value={siblingCount} onChange={handlePersonalDetailInputChange} style={{ width: '100%', height: 40, }} />
+                        <input type='number' placeholder='' required={(viewForm || editForm) ? false : true} name="siblingCount" value={siblingCount} onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} onChange={handlePersonalDetailInputChange} style={{ width: '100%', height: 40, }} />
 
                     </div>
 
@@ -92,7 +92,7 @@ const PersonalDetail = props => {
                         Child Count
                     </div>
                     <div className='col-lg-6 col-md-6 col-sm-6' style={{}}>
-                        <input type='number' placeholder='' required={(viewForm || editForm) ? false : true} name="childCount" value={childCount} onChange={handlePersonalDetailInputChange} style={{ width: '100%', height: 40, }} />
+                        <input type='number' placeholder='' required={(viewForm || editForm) ? false : true} name="childCount" value={childCount} onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} onChange={handlePersonalDetailInputChange} style={{ width: '100%', height: 40, }} />
 
                     </div>
 
@@ -104,7 +104,7 @@ const PersonalDetail = props => {
                         Parent In Law Count
                     </div>
                     <div className='col-lg-6 col-md-6 col-sm-6' style={{}}>
-                        <input type='number' placeholder='' required={(viewForm || editForm) ? false : true} name="pInLawCount" value={pInLawCount} onChange={handlePersonalDetailInputChange} style={{ width: '100%', height: 40, }} />
+                        <input type='number' placeholder='' required={(viewForm || editForm) ? false : true} name="pInLawCount" value={pInLawCount} onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} onChange={handlePersonalDetailInputChange} style={{ width: '100%', height: 40, }} />
 
                     </div>
 
