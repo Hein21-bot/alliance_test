@@ -487,7 +487,6 @@ class EmployeeDetailMain extends Component {
   };
 
   goToEditForm = (data) => {
-    console.log("data is ===>", data)
     this.setState({
       selectedEmploymentData: data,
       edit: true,
