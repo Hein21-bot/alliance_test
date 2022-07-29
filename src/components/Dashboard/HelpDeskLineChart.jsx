@@ -235,7 +235,7 @@ class HelpDeskLineChart extends Component {
                     }}>
                         <label htmlFor="">Start Date</label>
                         <div style={{
-                            width: '100px'
+                            width: '90px'
                         }}>
                             <DatePicker
                                 dateFormat="DD/MM/YYYY"
@@ -251,7 +251,7 @@ class HelpDeskLineChart extends Component {
                     }}>
                         <label htmlFor="">End Date</label>
                         <div style={{
-                            width: '100px'
+                            width: '90px'
                         }}>
                             <DatePicker
                                 dateFormat="DD/MM/YYYY"
@@ -271,7 +271,7 @@ class HelpDeskLineChart extends Component {
                                 container: base => ({
                                     ...base,
                                     //   flex: 1
-                                    width: 100,
+                                    width: 90,
 
                                 }),
                                 control: base => ({
@@ -297,7 +297,7 @@ class HelpDeskLineChart extends Component {
                                 container: base => ({
                                     ...base,
                                     //   flex: 1
-                                    width: 100,
+                                    width: 90,
 
                                 }),
                                 control: base => ({

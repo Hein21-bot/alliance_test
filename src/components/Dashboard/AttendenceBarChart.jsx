@@ -158,7 +158,7 @@ class AttendenceBarChart extends Component {
                             container: base => ({
                                 ...base,
                                 //   flex: 1
-                                width: 100
+                                width: 90
                             }),
                             control: base => ({
                                 ...base,
@@ -178,7 +178,7 @@ class AttendenceBarChart extends Component {
                             container: base => ({
                                 ...base,
                                 //   flex: 1
-                                width: 100,
+                                width: 90,
                                 marginLeft: 10
                             }),
                             control: base => ({
