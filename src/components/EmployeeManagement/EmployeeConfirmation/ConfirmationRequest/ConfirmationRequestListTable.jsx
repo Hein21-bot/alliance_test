@@ -69,6 +69,7 @@ export default class ConfirmationRequestListTable extends Component {
     $("#dataTables-table").on('click', '#toEdit', function () {
       var data = $(this).find("#edit").text();
       data = $.parseJSON(data);
+      // console.log('data is =====>', data)
       that.update(data)
     });
     let level = await getLevel();

@@ -12,9 +12,9 @@ const CryptoJS = require('crypto-js');
 
 //  const main_url = "http://192.168.:8087/";  
 // server 
-// const main_url = "http://103.29.91.26:8087/";  
-const main_url = "http://192.168.100.38:8082/" // local
-// const main_url = "http://localhost:8082/"
+
+// const main_url = "http://192.168.100.38:8082/" // local
+const main_url = "http://localhost:8082/"
 // const main_url = "http://103.29.91.26:50092/"; 
 
 // test new
@@ -71,7 +71,7 @@ async function calculationWorkingExp(startDate, endDate) {
     let months = Math.floor(noOfDays % 365 / 30);
     let days = Math.floor(noOfDays % 365 % 30);
     let formatMonth = Math.floor(noOfDays / 30)
-    let formatYear = years == 0 ? months + ' months ' : years + ' years ' + months + ' months '
+    let formatYear = years == 0 ? months - 1 + ' months ' : years + ' years ' + months - 1 + ' months '
     let returnData = formatYear
     return returnData;
 }
