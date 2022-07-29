@@ -111,7 +111,6 @@ class EmployeeDetailMain extends Component {
     if (this.props.data) {
       this.goToViewForm(this.props.data);
     }
-    console.log('id ===>', this.props.id)
     if (this.props.id){
       fetch(`${main_url}employee/getDetailUser/${this.props.id}`)
       .then((res) => {
@@ -616,7 +615,7 @@ class EmployeeDetailMain extends Component {
     };
     let status = 0;
     fetch(
-      `${main_url}employee/updateEmploymentDetail/${selectedEmploymentData.id}`,
+      `${main_url}employee/updateEmploymentDetail/${selectedEmploymentData.id == undefined ? this.props.id : selectedEmploymentData.id}`,
       {
         method: "POST",
         headers: {
