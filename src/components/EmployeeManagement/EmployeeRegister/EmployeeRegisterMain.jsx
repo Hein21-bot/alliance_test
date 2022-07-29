@@ -223,6 +223,7 @@ class EmployeeRegisterMain extends Component {
             same_with_CT_person: this.state.sameWithCtPerson ? 1 : 0
 
         }
+        
         const formdata = new FormData();
         formdata.append('data', JSON.stringify(data))
         formdata.append('uploadProfile', userImageUrl)
@@ -512,11 +513,14 @@ class EmployeeRegisterMain extends Component {
 
     }
     handleEmploymentDetailInputChange = (e) => {
-
+        
         if (e.target.name === "jobTitle") {
+            
             this.setState({
-                jobTitle: e.target.value
+               
+                jobTitle: e.target.name
             })
+           
         }
 
         else if (e.target.name === "employedDate") {
@@ -1137,7 +1141,7 @@ class EmployeeRegisterMain extends Component {
 
         return (
             <div>
-                {console.log('generateUserId ===>', this.state.generateUserId)}
+               
                 {this.state.toDetailForm ? (
                     <EmployeeDetailMain id={this.state.generateUserId}></EmployeeDetailMain>
                 ) : (

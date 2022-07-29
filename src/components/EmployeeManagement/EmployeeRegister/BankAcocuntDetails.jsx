@@ -9,7 +9,7 @@ import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, get
 const BankAccountDetails = props => {
 
     const { viewForm, editForm, bankDataEdit, handleEditBankData, handlePreviousClick, handleDeleteBankData, cancelEdit, handleBankDetailInputChange, handleSelectedBank, bankData, selected_bank, accountNumber, accountName, bankList, handleAdd_UpdateBankData, handleBankAccountDetails, employeeNameEng } = props
-    console.log("employee Name===>",employeeNameEng)
+   
     return (
         <form onSubmit={handleAdd_UpdateBankData} >
             <div className='white-bg ' style={{
