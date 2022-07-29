@@ -94,7 +94,7 @@ class EmployeeDetailMain extends Component {
         ...v,
         label: v.career_level,
         value: v.career_level,
-        
+
       }));
     const sub_level_options =
       sub_level &&
@@ -111,19 +111,19 @@ class EmployeeDetailMain extends Component {
     if (this.props.data) {
       this.goToViewForm(this.props.data);
     }
-    if (this.props.id){
+    if (this.props.id) {
       fetch(`${main_url}employee/getDetailUser/${this.props.id}`)
-      .then((res) => {
-        if (res.ok) return res.json();
-      })
-      .then((data) => {
-        if (data.length > 0) {
-          this.goToEditForm(data[0]);
-            this.setState({tableEdit: true});
-          
+        .then((res) => {
+          if (res.ok) return res.json();
+        })
+        .then((data) => {
+          if (data.length > 0) {
+            this.goToEditForm(data[0]);
+            this.setState({ tableEdit: true });
 
-        }
-      });
+
+          }
+        });
     }
   }
 
@@ -260,6 +260,7 @@ class EmployeeDetailMain extends Component {
         if (res.ok) return res.json();
       })
       .then((data) => {
+        
         if (data.length > 0) {
           this.setState({
             selectedEmploymentData: data[0],
@@ -279,7 +280,7 @@ class EmployeeDetailMain extends Component {
             selected_disCon_status: this.state.disConStatusList.find((v) => v.value === parseInt(data[0].discontinued_status)) ? this.state.disConStatusList.find((v) => v.value === parseInt(data[0].discontinued_status)) : [{ value: 0, label: "False" }],
             salary: data[0].basic_salary,
             resignReason: data[0].resign_reason,
-            selected_job: this.state.jobList.find((v) => v.id === parseInt(data[0].job_title)),
+            selected_job: this.state.jobList.find((v) => v.label == data[0].job_title),
             career_level: this.state.level_options.find((v) => parseInt(v.career_level_id) === parseInt(data[0].career_level_id)),
             career_sub_level: this.state.sub_level_options.find((v) => v.career_sub_level_id === data[0].career_sub_level_id),
           });
@@ -487,6 +488,7 @@ class EmployeeDetailMain extends Component {
   };
 
   goToEditForm = (data) => {
+    
     this.setState({
       selectedEmploymentData: data,
       edit: true,
@@ -526,7 +528,7 @@ class EmployeeDetailMain extends Component {
       salary: data.salary,
       resignReason: data.resign_reason,
       selected_job: this.state.jobList.find(
-        (v) => v.id == parseInt(data.job_title)
+        (v) => v.label == data.job_title
       ),
       career_level: this.state.level_options.find(
         (v) => v.career_level == data.career_level
@@ -639,7 +641,7 @@ class EmployeeDetailMain extends Component {
   handleFormCancel = () => {
     this.setState({
       addNew: false,
-      tableEdit: false,    
+      tableEdit: false,
     });
     this.getEmployeeList();
     this.clearFormData();
