@@ -146,7 +146,6 @@ export default class BenefitChildTable extends Component {
   }
   handleSelectedBranch = async (event) => {
     let branchId = this.state.branchId
-    console.log('event branch is ===>', event)
     branchId = event
     this.setState({
       branchId: branchId
@@ -155,7 +154,6 @@ export default class BenefitChildTable extends Component {
 
   handleSelectedlevelStatus = async (event) => {
     let levelStatus = this.state.levelStatus
-    console.log('level event is ===>', event)
     levelStatus = event
     this.setState({
       levelStatus: levelStatus
@@ -163,14 +161,12 @@ export default class BenefitChildTable extends Component {
   }
   handleSelectedDepartment = async (event) => {
     let departmentId = this.state.departmentId
-    console.log('event dep is ===>', event)
     departmentId = event
     this.setState({
       departmentId: departmentId
     })
   }
   handleSelectedDesignations = async (event) => {
-    console.log("designation event is ===>", event)
     let designationId = this.state.designationId
     designationId = event
     this.setState({
@@ -178,7 +174,6 @@ export default class BenefitChildTable extends Component {
     })
   }
   handleSelectedRegion = async (event) => {
-    console.log('region event is ===<>', event)
     let regionId = this.state.regionId
     regionId = event
     this.setState({
@@ -211,7 +206,7 @@ export default class BenefitChildTable extends Component {
 
   search(status) {
     let data = this.state.dataSource;
-    data = data.filter(d => { return status === d.status });
+    data = data.filter(d => { return status == 4 ? status === d.status || 10 === d.status : status === d.status });
     this._setTableData(data)
   }
 
@@ -227,10 +222,8 @@ export default class BenefitChildTable extends Component {
     for (var i = 0; i < data.length; i++) {
       let result = data[i];
       let obj = [];
-      console.log('data i is ===>', data[i])
-      if (data[i].status === 0) {
+      if (data[i].status == 0) {
         status = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
-
       }
       else if (data[i].status === 1) {
         status = '<small class="label label-warning" style="background-color:#b33ce0"> Check</small>'
@@ -244,7 +237,9 @@ export default class BenefitChildTable extends Component {
       else if (data[i].status === 4) {
         status = '<small class="label label-warning" style="background-color:#29a50a">Approve</small>'
       }
-
+      else if (data[i].status === 10) {
+        status = '<small class="label label-warning" style="background-color:#29a50a">Approved</small>'
+      }
       obj = {
         no: i + 1,
         employee_id: data[i].employment_id ? data[i].employment_id : '-',

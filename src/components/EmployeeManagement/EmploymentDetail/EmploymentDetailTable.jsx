@@ -26,11 +26,13 @@ export default class BenefitChildTable extends Component {
             dataSource: props.data,
             selectedRequest: '',
             is_main_role: getMainRole(),
+            branchlist: []
 
         }
     }
 
     componentDidMount() {
+        this.getBranchList()
         this.$el = $(this.el);
 
         this.setState({
@@ -62,7 +64,6 @@ export default class BenefitChildTable extends Component {
         // });
 
         $("#dataTables-table").on('click', '#toEdit', function () {
-
             var data = $(this).find("#edit").text();
             data = $.parseJSON(data);
             that.props.goToEditForm(data);
@@ -81,6 +82,15 @@ export default class BenefitChildTable extends Component {
         }
     }
 
+    getBranchList() {
+        fetch(`${main_url}benefit/getBranchList`)
+            .then((res) => {
+                if (res.ok) return res.json();
+            })
+            .then((list) => {
+                this.setState({ branchlist: list });
+            });
+    }
 
 
     search(status) {
@@ -100,34 +110,13 @@ export default class BenefitChildTable extends Component {
         for (var i = 0; i < data.length; i++) {
             let result = data[i];
             let obj = [];
-            // if (result.status === 0) {
-            //     status = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
-            // }
-            // else if (result.status === 1) {
-            //     status = '<small class="label label-warning" style="background-color:#b33ce0"> Check  </small>'
-            // }
-            // else if (result.status === 2) {
-            //     status = '<small class="label label-warning" style="background-color:#f2a509"> Verify </small>'
-            // }
-            // else if (result.status === 3) {
-            //     status = '<small class="label label-warning" style="background-color:#29a50a"> Approve  </small>'
-            // }
-            // else if (result.status === 4) {
-
-            //     status = '<small class="label label-warning" style="background-color:#f60e2f"> Reject  </small>'
-            // }
-            // else if (result.status === 5) {
-            //     status = '<small class="label label-warning" style="background-color:#cc0066"> ReferBack </small>'
-            // }
-            // [{ value: 1, label: 'Permanent' }, { value: 2, label: 'Part-Time' }, { value: 3, label: 'Training' }]
             obj = {
                 no: i + 1,
-                //form_no: fno.fno_child + data[i].form_no,
                 employee_id: data[i].employee_code ? data[i].employee_code : '',
                 employee_name: data[i].employee_name ? data[i].employee_name : "",
                 position: data[i].designations ? data[i].designations : '-',
                 employee_status: data[i].employed_status ? data[i].employed_status == 1 ? 'Permanent' : data[i].employed_status == 2 ? 'Part-Time' : data[i].employed_status == 3 ? 'Training' : data[i].employed_status : '-',
-                branch: data[i].branch ? data[i].branch : '',
+                branch: data[i].branch ? this.state.branchlist.length > 0 && this.state.branchlist.filter(v => v.branch_id == data[i].branch)[0].branch_name : '',
                 date: data[i].employee_date ? moment(data[i].employee_date).format('DD-MM-YYYY') : '-',
                 employed_date: data[i].employee_date ? moment(data[i].employee_date).format('DD-MM-YYYY') : '',
                 effective_date: data[i].effective_date ? moment(data[i].effective_date).format('DD-MM-YYYY') : '',
@@ -136,7 +125,7 @@ export default class BenefitChildTable extends Component {
                 carrer_sub_level: data[i].career_sub_level ? data[i].career_sub_level : '',
                 salary: data[i].salary ? data[i].salary : '',
                 department: data[i].deptname ? data[i].deptname : '',
-                discon_status: data[i].discontinute_status ? data[i].discontinute_status : 'False',
+                discon_status: data[i].discontinute_status ? data[i].discontinute_status == 0 ? 'False' : 'True' : 'False',
                 discon_date: data[i].discontinute_date ? moment(data[i].discontinute_date).format('YYYY-MM-DD') : '',
                 resign_reason: data[i].resign_reason ? data[i].resign_reason : '',
                 exit_status: data[i].status ? data[i].status : '',
@@ -242,19 +231,7 @@ export default class BenefitChildTable extends Component {
 
     render() {
         return (
-
             <div>
-                {/* <div className="row border-bottom white-bg dashboard-header"> */}
-                {/* <div className="row"> */}
-                {/* <div class="btn-group-g ">
-                            <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
-                            <button type="button" class=" btn label-check g" onClick={this.getCheck.bind(this)}>Check</button>
-                            <button type="button" class="btn label-verified g" onClick={this.getVerified.bind(this)}>Verify</button>
-                            <button type="button" class="btn label-approve g" onClick={this.getApprove.bind(this)}>Approve</button>
-                            <button type="button" class="btn label-reject g" onClick={this.getReject.bind(this)}>Reject</button>
-                        </div> */}
-                {/* </div> */}
-                {/* </div> */}
                 <table width="99%"
                     className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
                     id="dataTables-table"

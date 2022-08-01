@@ -131,7 +131,7 @@ export default class ConfirmationRequestListTable extends Component {
     this.search(2);
   }
   getApprove() {
-    this.search(4);
+    this.search(4 || 10);
   }
 
   componentDidUpdate(prevProps) {
@@ -213,7 +213,6 @@ export default class ConfirmationRequestListTable extends Component {
   }
 
   _setTableData = (data) => {
-    console.log('data===>', data)
     var table;
     var l = [];
     var status;
@@ -243,6 +242,9 @@ export default class ConfirmationRequestListTable extends Component {
         } else if (result.status === 5) {
           status =
             '<small class="label label-warning" style="background-color:#f60e2f"> Extension  </small>';
+        } else if (result.status === 10) {
+          status =
+            '<small class="label label-warning" style="background-color:#29a50a"> Approved </small>';
         }
         obj = {
           no: i + 1,
@@ -272,7 +274,7 @@ export default class ConfirmationRequestListTable extends Component {
           obj.action =
             permission.isView === 1
               ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-view" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : "";
-          obj.action += permission.isEdit === 1 && this.props.pathname == '/confirmation_approve_list'
+          obj.action += permission.isEdit === 1 && result.status != 10
             ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Update</button>' : '';
         }
 
@@ -302,7 +304,7 @@ export default class ConfirmationRequestListTable extends Component {
       { title: "Service Year in Current Level", data: "current_level_service_year" },
       { title: "Service Year in Current Sub Level", data: "current_sub_level_service_year" },
       { title: "Confirm or Not", data: "recommendation" },
-      { title: "Extension Comment", data: "extension_comment" },
+      // { title: "Extension Comment", data: "extension_comment" },
       { title: "Effective Date", data: "effective_date" },
       { title: "Status", data: "status" },
     ];

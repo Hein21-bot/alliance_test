@@ -99,10 +99,7 @@ class ConfirmationCheck extends Component {
             .then(res => {
 
                 if (res) {
-                    // let data = this.state.user_id == 921 ? res.filter(c => c.status == 3 || c.status == 4).map(v => ({ ...v, select: true })) : this.state.user_id == 17 ? res.filter(c => c.status == 2).map(v => ({ ...v, select: true }))
-                    //     : (res.find(c => c.check_person == this.state.user_id) ? res.filter(c => c.check_person == this.state.user_id && c.status == 0).map(v => ({ ...v, select: true })) : res.filter(c => c.verify_person == this.state.user_id && c.status == 1).map(v => ({ ...v, select: true })))
-
-                    let data = this.state.user_id == 921 ? res.filter(c => c.status == 3).map(v => ({ ...v, select: true })) : res.filter(c => c.check_person == this.state.user_id || c.verify_person == this.state.user_id || this.state.user_id == 17).map(v => ({ ...v, select: true }))
+                    let data = this.state.user_id == 921 ? res.filter(c => c.status == 3).map(v => ({ ...v, select: true })) : res.filter(c => c.check_person == this.state.user_id || c.verify_person == this.state.user_id || this.state.user_id == 17 || this.state.user_id == c.user_id).map(v => ({ ...v, select: true }))
                     this.setState({
                         checkListData: data,
                     })
@@ -192,7 +189,7 @@ class ConfirmationCheck extends Component {
             achievement: data.target_achievement ? data.target_achievement : '',
             status: data.status,
             warningDate: data.letter_warning_date ? moment.utc(data.letter_warning_date).format("YYYY-MM-DD") : '-',
-            recommendation: data.recommendation,
+            recommendation: data.recommendation == null ? 'Confirmation' : data.recommendation,
             date: data.date ? moment.utc(data.date).format("YYYY-MM-DD") : '-',//moment(data.createdAt).format("DD/MM/YYYY"),
             career_level_id: data.career_level_id,
             recommend_level: data.recommend_level,
@@ -285,9 +282,10 @@ class ConfirmationCheck extends Component {
                 .then(text => {
                     if (status === 200) {
                         toast.success(text);
-                        // window.location.reload();
+                        window.location.reload();
                     }
                     else toast.error(text);
+                    window.location.reload();
                     // window.location.replace("/confirmation_list");
 
                 })
@@ -362,7 +360,7 @@ class ConfirmationCheck extends Component {
                         window.location.reload();
                     }
                     else toast.error(text);
-                    window.location.replace("/confirmation_list");
+                    window.location.reload()
 
                 })
 
@@ -415,7 +413,8 @@ class ConfirmationCheck extends Component {
                     window.location.reload();
                 }
                 else toast.error(text);
-                window.location.replace('/confirmation_list')
+                window.location.reload()
+                // window.location.replace('/confirmation_list')
                 // window.location.replace("/employment_details");
 
             })
@@ -514,28 +513,21 @@ class ConfirmationCheck extends Component {
                             :
                             <div className='white-bg' style={{ boxShadow: '5px 5px 5px lightgrey', paddingTop: 10 }}>
                                 <h3>Confirmation Check Table</h3>
-                                <div className='col-lg-4 col-md-4 col-sm-6' style={{ display: 'flex', alignItems: 'center', marginBottom: -10, justifyContent: 'space-between' }}>
+                                <div className='' style={{ display: 'flex', alignItems: 'center', marginBottom: -10, justifyContent: 'space-start', marginTop: 15, marginLeft: 15 }}>
                                     {
                                         this.state.user_id == 921 ?
                                             <div>
-
-                                                <input type="checkbox" style={{ marginRight: 8 }} checked={checkedAll} onChange={this.handleSelectAllChange} /> <span style={{ marginTop: 5 }}>Select All</span>
+                                                <input type="checkbox" style={{ marginRight: 5 }} checked={checkedAll} onChange={this.handleSelectAllChange} /> <span style={{ marginTop: 5 }}>Select All</span>
                                             </div> :
 
                                             null
                                     }
 
-                                    <div style={{ display: 'flex', paddingTop: 10, justifyContent: 'flex-start', }}>
+                                    <div style={{ display: 'flex', paddingTop: 5, justifyContent: 'flex-start', marginLeft: 10 }}>
 
-                                        {
-                                            // verify_person == this.state.user_id ? <button className='' onClick={() => this.handleConfirmRequest()} style={{ borderRadius: 3, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 80 }} >
-                                            //     Confirm
-                                            // </button> : this.state.user_id == 17 ? <button className='' onClick={() => this.handleVerifyRequest()} style={{ borderRadius: 3, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 80 }}>
-                                            //     Verify
-                                            // </button> : 
-                                            this.state.user_id == 921 ? <button className='' onClick={() => this.handleApproveRequest()} style={{ borderRadius: 3, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 80 }}>
-                                                Approve
-                                            </button> : ''}
+                                        {this.state.user_id == 921 ? <button className='' onClick={() => this.handleApproveRequest()} style={{ borderRadius: 3, padding: 7, background: '#337ab7', color: 'white', border: 'none', width: 80 }}>
+                                            Approve
+                                        </button> : ''}
                                     </div>
                                 </div>
                                 <CheckTable goToViewForm={this.goToViewForm} checkedAll={checkedAll} handleCheckBoxChange={this.handleCheckBoxChange} goToEditForm={this.goToEditForm} selectedCheckBox={this.state.selectedCheckBox} data={this.state.checkListData ? this.state.checkListData : []} permission={{
