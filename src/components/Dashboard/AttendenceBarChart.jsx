@@ -179,11 +179,12 @@ class AttendenceBarChart extends Component {
                                 ...base,
                                 //   flex: 1
                                 width: 90,
-                                marginLeft: 10
+                               
                             }),
                             control: base => ({
                                 ...base,
-                                minHeight: '18px'
+                                minHeight: '18px',
+                                marginLeft: 10
                             }),
 
                         }}
