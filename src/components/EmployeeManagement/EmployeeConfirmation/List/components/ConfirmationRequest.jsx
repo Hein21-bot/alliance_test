@@ -28,13 +28,15 @@ export default class ConfirmationRequest extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      
       user_id: getUserId("user_info"),
       dataSource: props.data,
       checkPersonData: props.checkData,
       confirmPersonData: props.confirmData,
       // selectedRequest: '',
       is_main_role: getMainRole(),
-      extension_comment: ''
+      extension_comment: '',
+      pathname:window.location.pathname
     };
   }
   componentDidMount() {
@@ -239,13 +241,15 @@ export default class ConfirmationRequest extends Component {
               alignItems: "center",
             }}
           >
+            <a href={this.state.pathname}>
             <button
-              onClick={this.props.handleConfirmRequest}
+              
               className="btn btn-primary"
               style={{ borderRadius: 3, width: 80,marginRight:10 }}
             >
               Back
             </button>
+            </a>
             <button
               onClick={this.props.handleConfirmRequest}
               className="btn btn-primary"
@@ -269,6 +273,7 @@ export default class ConfirmationRequest extends Component {
                     style={{width: '50%'}}
                     onChange={(e) =>
                       this.setState({extension_comment: e.target.value})
+                      
                     }
                   ></input>
                 </div>

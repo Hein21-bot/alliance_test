@@ -63,9 +63,10 @@ class HelpDesk extends Component {
 
                 }}>
                     <div className="row no-gutters">
-                        <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 px-lg-1" style={{
+                        <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12" style={{
                         //    marginLeft:'5px',
                         //    marginRight:'5px',
+                       
                            
                         }}>
                             <div style={{

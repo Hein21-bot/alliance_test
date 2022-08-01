@@ -31,6 +31,7 @@ class ConfirmationCheck extends Component {
             recommendation: '',
             date: '',
             extensionPeriod: '',
+            extensionComment:'',
             comment: '',
             effectiveDate: '',
             view: false,
@@ -153,6 +154,7 @@ class ConfirmationCheck extends Component {
             tabel_id: data.table_id,
             selectedTableData: data,
             extensionPeriod: data.extension_period ? data.extension_period : '',
+            extensionComment: data.extensionComment ? data.extensionComment :'',
             effectiveDate: data.effective_date,
             fullname: data.fullname,
             employment_id: data.employment_id,
@@ -181,6 +183,7 @@ class ConfirmationCheck extends Component {
             verifyPerson: data.verify_person,
             selectedTableData: data,
             extensionPeriod: data.extension_period ? data.extension_period : '',
+            extensionComment:data.extensionComment ? data.extensionComment : '',
             effectiveDate: data.effective_date ? moment(data.effective_date).format('YYYY-MM-DD') : data.effective_date,
             fullname: data.fullname,
             employment_id: data.employment_id,
@@ -192,7 +195,7 @@ class ConfirmationCheck extends Component {
             achievement: data.target_achievement ? data.target_achievement : '',
             status: data.status,
             warningDate: data.letter_warning_date ? moment.utc(data.letter_warning_date).format("YYYY-MM-DD") : '-',
-            recommendation: data.recommendation,
+            recommendation: data.recommendation===null ? 'Confirmation':data.recommendation,
             date: data.date ? moment.utc(data.date).format("YYYY-MM-DD") : '-',//moment(data.createdAt).format("DD/MM/YYYY"),
             career_level_id: data.career_level_id,
             recommend_level: data.recommend_level,
@@ -227,6 +230,12 @@ class ConfirmationCheck extends Component {
                 extensionPeriod: e.target.value
             })
         }
+        else if (e.target.name === "extensionComment") {
+            this.setState({
+                extensionComment: e.target.value
+            })
+        }
+        
         else if (e.target.name === "effectiveDate") {
             this.setState({
                 effectiveDate: e.target.value
@@ -285,10 +294,10 @@ class ConfirmationCheck extends Component {
                 .then(text => {
                     if (status === 200) {
                         toast.success(text);
-                        // window.location.reload();
+                        window.location.reload();
                     }
                     else toast.error(text);
-                    // window.location.replace("/confirmation_list");
+                    window.location.replace("/confirmation_list");
 
                 })
 
@@ -322,10 +331,10 @@ class ConfirmationCheck extends Component {
                 .then(text => {
                     if (status === 200) {
                         toast.success(text);
-                        // window.location.reload();
+                        window.location.reload();
                     }
                     else toast.error(text);
-                    // window.location.replace("/confirmation_list");
+                    window.location.replace("/confirmation_list");
 
                 })
 
@@ -372,7 +381,7 @@ class ConfirmationCheck extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        const { fullname, employment_id, designations, selected_user_id, tabel_id, department, level, letterWarning, score, achievement, warningDate, recommendation, date, extensionPeriod, comment, effectiveDate, selected_sub_level } = this.state
+        const { fullname, employment_id, designations, selected_user_id, tabel_id, department, level, letterWarning, score, achievement, warningDate, recommendation, date, extensionPeriod,extensionComment, comment, effectiveDate, selected_sub_level } = this.state
         let data = {
             fullname,
             employment_id,
@@ -385,6 +394,7 @@ class ConfirmationCheck extends Component {
             warning_date: warningDate,
             recommendation,
             extension_period: extensionPeriod,
+            extension_comment:extensionComment,
             comment_overall_performance: comment,
             effective_date: effectiveDate,
             user_id: selected_user_id,
@@ -424,7 +434,7 @@ class ConfirmationCheck extends Component {
     render() {
         let verify_person = this.state.checkListData && (this.state.checkListData[0] ? this.state.checkListData[0].verify_person : null)
         let check_person = this.state.checkListData && (this.state.checkListData[0] ? this.state.checkListData[0].check_person : null)
-        const { selected_checkList, extensionPeriod, comment, effectiveDate, checkedAll, edit, view, selectedTableData, fullname, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, status, recommendation, date, checkPerson, verifyPerson, sub_level_options, career_level_id, selected_sub_level, recommend_level } = this.state
+        const { selected_checkList, extensionPeriod,extensionComment, comment, effectiveDate, checkedAll, edit, view, selectedTableData, fullname, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, status, recommendation, date, checkPerson, verifyPerson, sub_level_options, career_level_id, selected_sub_level, recommend_level } = this.state
         return (
             <div className=" border-bottom white-bg dashboard-header">
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -474,6 +484,7 @@ class ConfirmationCheck extends Component {
                             warningDate={warningDate}
                             recommendation={recommendation}
                             extensionPeriod={extensionPeriod}
+                            extensionComment={extensionComment}
                             comment={comment}
                             status={status}
                             effectiveDate={effectiveDate}
@@ -505,6 +516,7 @@ class ConfirmationCheck extends Component {
                                 warningDate={warningDate}
                                 recommendation={recommendation}
                                 extensionPeriod={extensionPeriod}
+                                extensionComment={extensionComment}
                                 comment={comment}
                                 effectiveDate={effectiveDate}
                                 handleSubmit={this.handleSubmit}
