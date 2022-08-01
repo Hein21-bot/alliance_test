@@ -216,7 +216,7 @@ export default class ExpenseBarChart extends Component {
                                     minHeight: '18px'
                                 })
                             }}
-                            placeholder="Branch"
+                            placeholder="All"
                             options={this.state.branchData}
                             onChange={this.handleSelectedBranch}
                             value={this.state.id.branchId}
@@ -243,7 +243,7 @@ export default class ExpenseBarChart extends Component {
                                     minHeight: '18px'
                                 })
                             }}
-                            placeholder="Department"
+                            placeholder="All"
                             options={this.state.deptData}
                             onChange={this.handleSelectedDepartment}
                             value={this.state.id.deptId}

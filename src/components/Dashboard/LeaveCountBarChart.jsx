@@ -140,7 +140,9 @@ class LeaveCounrBarChart extends Component {
             >
 
                 <h3 className='' style={{ padding: '10px 0px 0px 0px' }}>Leave Count by Categorey</h3>
-                <div className='flex-row' style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', margin: '10px 10px 0px 10px' }}>
+                <div className='flex-row' style={{ display: 'flex', justifyContent: 'start', alignItems: 'end', margin: '10px 10px 0px 10px' }}>
+                    <div style={{textAlign:'start'}}>
+                        <label htmlFor="">Branch</label>
                     <Select
                         styles={{
                             container: base => ({
@@ -154,13 +156,16 @@ class LeaveCounrBarChart extends Component {
                             }),
 
                         }}
-                        placeholder="Branch"
+                        placeholder="All"
                         options={this.state.branch}
                         onChange={this.handleSelectedBranch}
                         value={this.state.data.branchId}
                         className='react-select-container'
                         classNamePrefix="react-select"
                     />
+                    </div>
+                    <div style={{ textAlign:'start'}}>
+                        <label htmlFor="">Department</label>
                     <Select
                         styles={{
                             container: base => ({
@@ -175,13 +180,14 @@ class LeaveCounrBarChart extends Component {
                             }),
 
                         }}
-                        placeholder="Department"
+                        placeholder="All"
                         options={this.state.department}
                         onChange={this.handleSelectedDepartment}
                         value={this.state.data.departmentId}
                         className='react-select-container'
                         classNamePrefix="react-select"
                     />
+                    </div>
                     <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.onClickLeaveCountSearch()}>Search</button>
                 </div>
                 <HighchartsReact
