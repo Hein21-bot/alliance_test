@@ -418,7 +418,7 @@ class EmployeeListMain extends Component {
               className=""
               style={{
                 marginTop: 20,
-                alignItems: "center",
+                alignItems: "end",
                 display: "flex",
                 flexWrap: "wrap",
               }}
@@ -481,7 +481,7 @@ class EmployeeListMain extends Component {
               </div>
               <div
                 className="col-lg-2 col-md-3 col-sm-12"
-                style={{ display: "flex" }}
+                style={{ display: "flex",marginBottom:10 }}
               >
                 <button
                   onClick={this.handleSearch}

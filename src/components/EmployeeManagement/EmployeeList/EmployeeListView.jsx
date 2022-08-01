@@ -132,11 +132,7 @@ class EmployeeListView extends Component {
                 if (response.ok) return response.json()
             })
             .then(res => {
-
-
-
                 if (res) {
-
                     this.setState({
                         userImage: res[0].avatar,
                         userImageUrl: res[0].avatar,
@@ -160,7 +156,6 @@ class EmployeeListView extends Component {
                         pInLawCount: res[0].parent_in_law_count,
                         addedDegreeData: res[0].degree,
                         addedQualitificationData: res[0].qualification,
-
                         contactPerson: res[0].contact_person,
                         contactPhone: res[0].contact_person_phone,
                         sameWithCtPerson: res[0].same_with_contact_person,
@@ -173,7 +168,7 @@ class EmployeeListView extends Component {
                         ThaPaYaAccount: res[0].thapyay_account,
                         SSCCardNo: res[0].SSC_card_no,
                         attachmentUrl: res[0].attachment_link,
-                        employeeStatus: '',
+                        employeeStatus: this.state.employeeStatusList.find(c => c.value == res[0].employee_status),
                         employeeDesignation: this.props.designationList.find(c => c.value == res[0].designations_id),
                         jobTitle: res[0].job_title,
                         carrerLevel: level_options && level_options.find(c => c.value == res[0].career_level_id) ? level_options.find(c => c.value == res[0].career_level_id) : null,

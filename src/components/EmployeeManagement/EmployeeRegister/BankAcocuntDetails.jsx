@@ -66,7 +66,7 @@ const BankAccountDetails = props => {
                                 </button>
 
                             </div> :
-                            <button type="submit" style={{ borderRadius: 5, padding: 10, margin: 10, marginBottom: 0, color: 'white', background: '#337ab7', border: 'none', width: 90, border: '1px solid lightgrey', textAlign: 'center' }}>
+                            viewForm ? null : <button type="submit" style={{ borderRadius: 5, padding: 10, margin: 10, marginBottom: 0, color: 'white', background: '#337ab7', border: 'none', width: 90, border: '1px solid lightgrey', textAlign: 'center' }}>
                                 Add
                             </button>
                     }
