@@ -21,10 +21,8 @@ class ResignBarChart extends Component {
             fromDate: getFirstDayOfMonth(),
             exitToDate: new Date(),
             exitFromDate: getFirstDayOfMonth(),
-            data: {
-                branchId: 0,
-                departmentId: 0
-            },
+            branchId: 0,
+            departmentId: 0,
             resignData: [],
             resignCount: [],
             exitStaffData: [],
@@ -47,8 +45,8 @@ class ResignBarChart extends Component {
         })
     }
 
-    async getResignData() {
-        fetch(`${main_url}dashboard/resignRegion/${this.state.data.branchId.value}/${this.state.data.departmentId.value}/${moment(this.state.fromDate).format('YYYY-MM-DD')}/${moment(this.state.toDate).format('YYYY-MM-DD')} `)
+    async getResignData(branchId,departmentId,fromDate,toDate) {
+        fetch(`${main_url}dashboard/resignRegion/${branchId}/${departmentId}/${moment(fromDate).format('YYYY-MM-DD')}/${moment(toDate).format('YYYY-MM-DD')} `)
             .then(response => {
                 if (response.ok) return response.json()
             })
@@ -236,30 +234,28 @@ class ResignBarChart extends Component {
         });
     };
     handleSelectedBranch = async (event) => {
-        let data = this.state.data
-        data.branchId = event
+      
         this.setState({
-            data: data
+            branchId: event
         })
     }
 
     handleSelectedDepartment = async (event) => {
-        let data = this.state.data
-        data.departmentId = event
+       
         this.setState({
-            data: data
+            departmentId:event
         })
     }
 
     onClickResignStaffSearch = () => {
-        this.getResignData(this.state.data.branchId.value == undefined ? this.state.data.branchId : this.state.data.branchId.value,this.state.data.departmentId.value == undefined ? this.state.data.departmentId : this.state.data.departmentId.value);
+        this.getResignData(this.state.branchId.value == undefined ? this.state.branchId : this.state.branchId.value,this.state.departmentId.value == undefined ? this.state.departmentId : this.state.departmentId.value);
     }
     onClickExitStaffSearch = () => {
         this.getExitStaffData();
     }
 
     render() {
-        console.log('data is ===>', this.state.data.branchId, this.state.data.departmentId)
+        console.log('data is ===>', this.state.branchId, this.state.departmentId)
         return (
 
             <div
@@ -322,7 +318,7 @@ class ResignBarChart extends Component {
                             placeholder="All"
                             options={this.state.branch}
                             onChange={this.handleSelectedBranch}
-                            value={this.state.data.branchId}
+                            value={this.state.branchId}
                             className='react-select-container'
                             classNamePrefix="react-select"
                         />
@@ -347,7 +343,7 @@ class ResignBarChart extends Component {
                             placeholder="All"
                             options={this.state.department}
                             onChange={this.handleSelectedDepartment}
-                            value={this.state.data.departmentId}
+                            value={this.state.departmentId}
                             className='react-select-container'
                             classNamePrefix="react-select"
                         />

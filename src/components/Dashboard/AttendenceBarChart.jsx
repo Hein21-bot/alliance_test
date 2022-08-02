@@ -23,7 +23,7 @@ class AttendenceBarChart extends Component {
 
     async componentDidMount() {
         await this.setChartOption();
-        await this.leaveDashboard();
+        await this.attendenceDashboard();
         let branch = await getBranch();
         branch.unshift({ label: 'All', value: 0 });
         let department = await getDepartment();
@@ -34,8 +34,8 @@ class AttendenceBarChart extends Component {
         })
     }
 
-    async leaveDashboard() {
-        fetch(`${main_url}dashboard/leaveDashboard/${this.state.data.branchId.value}/${this.state.data.departmentId.value} `)
+    async attendenceDashboard(branchId,departmentId) {
+        fetch(`${main_url}dashboard/leaveDashboard/${branchId}/${departmentId} `)
             .then(response => {
                 if (response.ok) return response.json()
             })
@@ -127,7 +127,7 @@ class AttendenceBarChart extends Component {
         })
     }
     onClickLeaveCountSearch = () => {
-        this.leaveDashboard(this.state.data.branchId.value == undefined ? this.state.data.branchId : this.state.data.branchId.value,this.state.data.departmentId.value == undefined ? this.state.data.departmentId : this.state.data.departmentId.value);
+        this.attendenceDashboard(this.state.data.branchId.value == undefined ? this.state.data.branchId : this.state.data.branchId.value,this.state.data.departmentId.value == undefined ? this.state.data.departmentId : this.state.data.departmentId.value);
     }
     handleSelectedDepartment = async (event) => {
         let data = this.state.data

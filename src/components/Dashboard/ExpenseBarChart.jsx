@@ -12,8 +12,8 @@ export default class ExpenseBarChart extends Component {
         this.state = {
             chartOptions: {},
             id: {
-                branchId: { value: 1, label: 'All' },
-                deptId: { value: 1, label: 'All' },
+                branchId: { value: 0, label: 'All' },
+                deptId: { value: 0, label: 'All' },
             },
             branchData: [],
             xAxisDept: [],

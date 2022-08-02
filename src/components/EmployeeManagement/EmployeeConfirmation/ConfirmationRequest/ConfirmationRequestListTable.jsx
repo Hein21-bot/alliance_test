@@ -43,7 +43,13 @@ export default class ConfirmationRequestListTable extends Component {
       filterData: [],
       extension: [],
       recommendation: [],
-      effective_date: []
+      effective_date: [],
+      target_achievement:[],
+      comment_overall_performance:[],
+      letter_warning:[],
+      recommend_level:[],
+      promotion_date:[],
+      confirm_or_not:[]
     };
   }
 
@@ -267,6 +273,11 @@ export default class ConfirmationRequestListTable extends Component {
           effective_date: data[i].effective_date ? moment(data[i].effective_date).format('YYYY-MM-DD') : "-",
           extension_comment: data[i].extension_comment ? data[i].extension_comment : "-",
           performance_score: data[i].performance_score ? data[i].performance_score :"-",
+          target_achievement: data[i].target_achievement ? data[i].target_achievement:"-",
+          comment_overall_performance: data[i].comment_overall_performance ? data[i].comment_overall_performance:"-",
+          letter_warning: data[i].letter_warning ? data[i].letter_warning:"-",
+          recommend_level: data[i].recommend_level ? data[i].recommend_level:"-",
+          confirm_or_not:data[i].confirm_or_not ? data[i].confirm_or_not:"-",
           status: status
         };
         if (has_action) {

@@ -241,7 +241,7 @@ class HeadCountBarChart extends Component {
   };
 
   onClickDeptSearch = () => {
-    this.getHeadCountbyDepartment(this.state.dep_regionId.region_id == undefined ? this.state.dep_regionId : this.state.dep_regionId.region_id, this.state.dep_branchId.value == undefined ? this.state.dep_branchId : this.state.dep_branchId.value);
+    this.getHeadCountbyDepartment(this.state.dep_regionId.value == undefined ? this.state.dep_regionId : this.state.dep_regionId.value, this.state.dep_branchId.value == undefined ? this.state.dep_branchId : this.state.dep_branchId.value);
   }
 
   onClickDesignSearch = () => {
