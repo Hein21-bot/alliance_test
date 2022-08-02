@@ -356,6 +356,7 @@ export default class BenefitChildTable extends Component {
     return (
       <div>
         <div className="row  white-bg dashboard-header">
+        
           <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
             <DatePicker className='fromdate'
 
@@ -476,6 +477,30 @@ export default class BenefitChildTable extends Component {
             {/* <div className='flex-row' style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', margin: '10px 10px 10px 10px' }}> */}
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData(this.state.branchId, this.state.departmentId, this.state.regionId, this.state.levelStatus, this.state.designationId)}>Search</button>
           </div>
+          <div className='col-lg-4 col-md-4 col-sm-6' style={{ display: 'flex', alignItems: 'center', marginBottom: -10, justifyContent: 'start' }}>
+                                    {
+                                        this.state.user_id == 921 ?
+                                            <div>
+
+                                                <input type="checkbox" style={{ marginRight: 8 }} checked={this.props.checkedAll} onChange={this.props.handleSelectAllChange} /> <span style={{ marginTop: 5 }}>Select All</span>
+                                            </div> :
+
+                                            null
+                                    }
+
+                                    <div style={{ display: 'flex', paddingTop: 10, justifyContent: 'flex-start',marginLeft:10 }}>
+
+                                        {
+                                            // verify_person == this.state.user_id ? <button className='' onClick={() => this.handleConfirmRequest()} style={{ borderRadius: 3, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 80 }} >
+                                            //     Confirm
+                                            // </button> : this.state.user_id == 17 ? <button className='' onClick={() => this.handleVerifyRequest()} style={{ borderRadius: 3, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 80 }}>
+                                            //     Verify
+                                            // </button> : 
+                                            this.state.user_id == 921 ? <button className='' onClick={() => this.props.handleApproveRequest()} style={{ borderRadius: 3, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 80 }}>
+                                                Approve
+                                            </button> : ''}
+                                    </div>
+                                </div>
           <div className="row">
             <div class="btn-group-g ">
               <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)} >Request</button>
