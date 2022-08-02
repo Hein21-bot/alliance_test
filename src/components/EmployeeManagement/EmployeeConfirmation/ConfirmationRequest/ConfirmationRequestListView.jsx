@@ -21,13 +21,16 @@ const ConfirmationRequestListView = (props) => {
     current_sub_level_service_year,
     service_year,
     effective_date,
-    last_promotion_date,
     performance_score,
     promotion_date,
     extension_comment,
     recommendation,
     status,
-    date
+    date,
+    target_achievement,
+    recommend_level,
+    letter_warning,
+    comment_overall_performance,
   } = props.item;
  
   
@@ -262,7 +265,7 @@ const ConfirmationRequestListView = (props) => {
             >
               <div className="col-lg-5 col-md-5 col-sm-5">Target Achievement</div>
               <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">{employ_date}</div>
+              <div className="col-lg-5 col-md-5 col-sm-5">{target_achievement}</div>
             </div>
           </div>
           <div
@@ -279,7 +282,7 @@ const ConfirmationRequestListView = (props) => {
             >
               <div className="col-lg-5 col-md-5 col-sm-5">Comment on Overall Performance</div>
               <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">{employ_date}</div>
+              <div className="col-lg-5 col-md-5 col-sm-5">{comment_overall_performance}</div>
             </div>
           </div>
           </div>
@@ -298,7 +301,7 @@ const ConfirmationRequestListView = (props) => {
             >
               <div className="col-lg-5 col-md-5 col-sm-5">Letter Warning</div>
               <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">{employ_date}</div>
+              <div className="col-lg-5 col-md-5 col-sm-5">{letter_warning}</div>
             </div>
           </div>
             <div
@@ -315,7 +318,7 @@ const ConfirmationRequestListView = (props) => {
             >
               <div className="col-lg-5 col-md-5 col-sm-5">Recommended Level</div>
               <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">{employ_date}</div>
+              <div className="col-lg-5 col-md-5 col-sm-5">{recommend_level}</div>
             </div>
           </div>
           <div
@@ -467,7 +470,7 @@ const ConfirmationRequestListView = (props) => {
               padding: 10,
             }}
           >
-            <div
+            {/* <div
               className="col-lg-10 col-md-10 col-sm-12"
               style={{
                 display: "flex",
@@ -564,7 +567,7 @@ const ConfirmationRequestListView = (props) => {
                   </div>
                 ) : null}
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
         </div>
