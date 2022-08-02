@@ -61,6 +61,7 @@ class EmployeeDetailMain extends Component {
       selectedEmploymentData: null,
       selectedEmployeeId: "",
       edit: false,
+      view:false,
       level_options: null,
       sub_level_options: null,
       career_level: null,
@@ -119,7 +120,7 @@ class EmployeeDetailMain extends Component {
         .then((data) => {
           if (data.length > 0) {
             this.goToEditForm(data[0]);
-            this.setState({ tableEdit: true });
+            this.setState({ tableEdit: true,tableView:false });
 
 
           }
@@ -265,6 +266,7 @@ class EmployeeDetailMain extends Component {
           this.setState({
             selectedEmploymentData: data[0],
             edit: false,
+            view:false,
             addNew: true,
             date: moment(new Date()).format("YYYY-MM-DD"),
             employeeName: data[0].employee_name,
@@ -438,7 +440,7 @@ class EmployeeDetailMain extends Component {
     let data = {
       user_id: selectedEmployeeId.user_id,
       employed_status: selected_status ? selected_status.value : null,
-      employee_name: employeeName,
+      employee_name: employeeName ? employeeName : '',
       employee_code: selectedEmployeeId
         ? selectedEmployeeId.label.trim()
         : null,
@@ -478,9 +480,9 @@ class EmployeeDetailMain extends Component {
       .then((text) => {
         if (status === 200) {
           toast.success(text);
-          window.location.reload();
+          // window.location.reload();
         } else toast.error(text);
-        window.location.replace("/employment_details");
+        // window.location.replace("/employment_details");
       });
     this.setState({
       addNew: false,
@@ -493,6 +495,7 @@ class EmployeeDetailMain extends Component {
       selectedEmploymentData: data,
       edit: true,
       addNew: false,
+      view:false,
 
       user_id: data.user_id,
       selectedEmployeeId: this.state.employeeIdList.find(
@@ -540,19 +543,68 @@ class EmployeeDetailMain extends Component {
   };
 
   goToViewForm = (data) => {
+    // this.setState({
+    //   tableView: true,
+    // });
+    // fetch(`${main_url}employee/getEmployUserDetail/${data.user_id}`)
+    //   .then((response) => {
+    //     if (response.ok) return response.json();
+    //   })
+    //   .then((res) => {
+    //     if (res) {
+    //       this.setState({ employmentDataForSingleUser: res });
+    //     }
+    //   })
+    //   .catch((error) => console.error(`Fetch Error =\n`, error));
     this.setState({
-      tableView: true,
+      selectedEmploymentData: data,
+      edit: false,
+      view:true,
+      addNew: false,
+
+      user_id: data.user_id,
+      selectedEmployeeId: this.state.employeeIdList.find(
+        (v) => v.user_id == data.user_id
+      ),
+      employeeName: data.employee_name,
+      selected_designation: this.state.designationList.find(
+        (c) => c.label == data.designations
+      ), //
+      selected_branch: this.state.branchlist.find(
+        (c) =>
+          parseInt(c.branch_id) ==
+          (data.branch ? parseInt(data.branch) : data.branch)
+      ),
+      selected_department: this.state.departmentlist,
+      selected_status: this.state.statusList.find(
+        (v) => v.value == parseInt(data.employed_status)
+      ),
+      selected_exit_status: this.state.exitStatusList.find(
+        (v) => v.id == parseInt(data.exit_status)
+      ),
+      employedDate: data.employee_date,
+      effectiveDate: data.effective_date,
+      actualDate: data.actual_date,
+      disconDate: data.discontinute_date != null ? data.discontinute_date : '',
+      selected_disCon_status: this.state.disConStatusList.find(
+        (v) => v.value == parseInt(data.discontinute_status)
+      )
+        ? this.state.disConStatusList.find(
+          (v) => v.value == parseInt(data.discontinute_status)
+        )
+        : [{ value: 2, label: "False" }],
+      salary: data.salary,
+      resignReason: data.resign_reason,
+      selected_job: this.state.jobList.find(
+        (v) => v.label == data.job_title
+      ),
+      career_level: this.state.level_options.find(
+        (v) => v.career_level == data.career_level
+      ),
+      career_sub_level: this.state.sub_level_options.find(
+        (v) => v.career_sub_level == data.career_sub_level
+      ),
     });
-    fetch(`${main_url}employee/getEmployUserDetail/${data.user_id}`)
-      .then((response) => {
-        if (response.ok) return response.json();
-      })
-      .then((res) => {
-        if (res) {
-          this.setState({ employmentDataForSingleUser: res });
-        }
-      })
-      .catch((error) => console.error(`Fetch Error =\n`, error));
   };
 
   handleUpdatData = (e) => {
@@ -583,7 +635,7 @@ class EmployeeDetailMain extends Component {
     let data = {
       user_id: user_id,
       employed_status: selected_status ? selected_status.value : null,
-      employee_name: employeeName.toUpperCase,
+      employee_name: employeeName ? employeeName.toUpperCase :  '',
       employee_code: selectedEmployeeId
         ? selectedEmployeeId.label.trim()
         : null,
@@ -642,6 +694,7 @@ class EmployeeDetailMain extends Component {
     this.setState({
       addNew: false,
       tableEdit: false,
+      tableView:false
     });
     this.getEmployeeList();
     this.clearFormData();
@@ -690,6 +743,7 @@ class EmployeeDetailMain extends Component {
       selectedEmploymentData: null,
       selectedEmployeeId: "",
       edit: false,
+      view:false,
       career_level: null,
       career_sub_level: null,
       selected_job: null,
@@ -727,9 +781,11 @@ class EmployeeDetailMain extends Component {
       departmentlist,
       selected_department,
       edit,
+      view,
       career_level,
       career_sub_level,
-      tableEdit
+      tableEdit,
+      tableView
     } = this.state;
     return (
       <div className=" border-bottom white-bg dashboard-header">
@@ -744,7 +800,7 @@ class EmployeeDetailMain extends Component {
               </li>
             </ol>
           </div>
-          {addNew || edit ? null : (
+          {addNew || edit || view ? null : (
             <div className="col-lg-2 col-md-10">
               <button
                 onClick={() => this.setState({ addNew: true })}
@@ -778,7 +834,7 @@ class EmployeeDetailMain extends Component {
             >
               {"< Back"}
             </button>
-            <EmploymentDetailsForSingleUserTable
+            {/* <EmploymentDetailsForSingleUserTable
               goToViewForm={null}
               goToEditForm={null}
               data={
@@ -790,13 +846,57 @@ class EmployeeDetailMain extends Component {
                 isEdit: 0,
                 isView: 0,
               }}
-            />
+            /> */}
+            {/* <EmploymentForm
+               
+                selectedEmployeeId={selectedEmployeeId}
+                level_options={level_options}
+                sub_level_options={sub_level_options}
+                employeeName={employeeName}
+                statusList={statusList}
+                selected_status={selected_status}
+                handleAddFormInputChange={this.handleAddFormInputChange}
+                handleSelectedStatus={this.handleSelectedStatus}
+                employedDate={employedDate}
+                effectiveDate={effectiveDate}
+                actualDate={actualDate}
+                salary={salary}
+                disconDate={disconDate}
+                designationList={designationList}
+                selected_designation={selected_designation}
+                branchlist={branchlist}
+                selected_branch={selected_branch}
+                departmentlist={departmentlist}
+                selected_department={selected_department}
+                handleSelectedBranch={this.handleSelectedBranch}
+                handleSelectedDeaprtment={this.handleSelectedDeaprtment}
+                handleSelectedDesignation={this.handleSelectedDesignation}
+                submitAddForm={this.submitAddForm}
+                handleFormCancel={this.handleFormCancel}
+                handleUpdatData={this.handleUpdatData}
+                handleSelectedEmployeeId={this.handleSelectedEmployeeId}
+                handleLevelSelectorChange={this.handleLevelSelectorChange}
+                career_level={career_level}
+                career_sub_level={career_sub_level}
+                employeeIdList={employeeIdList}
+                exitStatusList={exitStatusList}
+                selected_exit_status={selected_exit_status}
+                handleSelectedExitStatus={this.handleSelectedExitStatus}
+                jobList={jobList}
+                selected_job={selected_job}
+                handleSelectedJob={this.handleSelectedJob}
+                disConStatusList={disConStatusList}
+                resignReason={resignReason}
+                selected_disCon_status={selected_disCon_status}
+                handleSelectedDisConStatus={this.handleSelectedDisConStatus}
+              /> */}
           </div>
         ) : (
           <>
-            {addNew || edit || tableEdit ? (
+            {addNew || edit || view || tableView || tableEdit ? (
               <EmploymentForm
                 edit={edit}
+                view={view}
                 selectedEmployeeId={selectedEmployeeId}
                 level_options={level_options}
                 sub_level_options={sub_level_options}
