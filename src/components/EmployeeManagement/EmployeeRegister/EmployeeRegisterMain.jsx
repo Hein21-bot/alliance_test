@@ -1141,7 +1141,7 @@ class EmployeeRegisterMain extends Component {
         if (number == 1) {
             this.setState({ tabIndex: 1 });
         } else if (number == 2) {
-            if (employeeId != '' && employeeNameEng != '' && selected_NRC_Id != null && selected_DistrictCode != null && nrc_number != null && employeeNameMyan != '' && dateOfBirth != '' && gender != '' && nationality != '' && personalPhone !='' && region != '' && officePhone != '' && address != '' && joinDate !='') {
+            if (employeeId != '' && employeeNameEng != '' && selected_NRC_Id != null && selected_DistrictCode != null &&  nrc_number != null && employeeNameMyan != '' && dateOfBirth != '' && gender != '' && nationality != '' && personalPhone !='' && region != '' && officePhone != '' && address != '' && joinDate !='') {
                 this.setState({ tabIndex: 2 });
             } else {
                 toast.error('Please fill all information!');

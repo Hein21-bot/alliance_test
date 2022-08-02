@@ -38,9 +38,9 @@ class ResignBarChart extends Component {
         await this.getResignData();
         await this.getExitStaffData();
         let branch = await getBranch();
-        branch.unshift({ label: 'All', vlaue: 0 });
+        branch.unshift({ label: 'All', value: 0 });
         let department = await getDepartment();
-        department.unshift({ label: 'All', vlaue: 0 });
+        department.unshift({ label: 'All', value: 0 });
         this.setState({
             branch: branch,
             department: department,
@@ -252,7 +252,7 @@ class ResignBarChart extends Component {
     }
 
     onClickResignStaffSearch = () => {
-        this.getResignData();
+        this.getResignData(this.state.data.branchId.value == undefined ? this.state.data.branchId : this.state.data.branchId.value,this.state.data.departmentId.value == undefined ? this.state.data.departmentId : this.state.data.departmentId.value);
     }
     onClickExitStaffSearch = () => {
         this.getExitStaffData();

@@ -266,6 +266,7 @@ export default class ConfirmationRequestListTable extends Component {
           recommendation: data[i].recommendation ? data[i].recommendation : "-",
           effective_date: data[i].effective_date ? moment(data[i].effective_date).format('YYYY-MM-DD') : "-",
           extension_comment: data[i].extension_comment ? data[i].extension_comment : "-",
+          performance_score: data[i].performance_score ? data[i].performance_score :"-",
           status: status
         };
         if (has_action) {

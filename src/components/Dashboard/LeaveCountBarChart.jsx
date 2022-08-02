@@ -25,9 +25,9 @@ class LeaveCounrBarChart extends Component {
         await this.setChartOption();
         await this.leaveDashboard();
         let branch = await getBranch();
-        branch.unshift({ label: 'All', vlaue: 0 });
+        branch.unshift({ label: 'All', value: 0 });
         let department = await getDepartment();
-        department.unshift({ label: 'All', vlaue: 0 });
+        department.unshift({ label: 'All', value: 0 });
         this.setState({
             branch: branch,
             department: department,
@@ -115,7 +115,7 @@ class LeaveCounrBarChart extends Component {
         })
     }
     onClickLeaveCountSearch = () => {
-        this.leaveDashboard();
+        this.leaveDashboard(this.state.data.branchId.value == undefined ? this.state.data.branchId : this.state.data.branchId.value,this.state.data.departmentId.value == undefined ? this.state.data.departmentId : this.state.data.departmentId.value);
     }
     handleSelectedDepartment = async (event) => {
         let data = this.state.data

@@ -22,11 +22,12 @@ const ConfirmationRequestListView = (props) => {
     service_year,
     effective_date,
     last_promotion_date,
+    performance_score,
     extension_comment,
     recommendation,
     status,
   } = props.item;
-  
+ 
   const handleClickBack = () => {
     props.backToList(false);
   };
@@ -69,6 +70,8 @@ const ConfirmationRequestListView = (props) => {
           >
             <h3 style={{ fontWeight: "bold" }}>Confirmation Request Form</h3>
           </div>
+          <div className="row">
+          <div className=" col-lg-6 col-md-10 col-sm-12">
           <div
             className="w-100"
             style={{
@@ -79,7 +82,7 @@ const ConfirmationRequestListView = (props) => {
             }}
           >
             <div
-              className="col-lg-6 col-md-10 col-sm-12"
+              className="col-lg-10 col-md-10 col-sm-12"
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -96,7 +99,7 @@ const ConfirmationRequestListView = (props) => {
             style={{ display: "flex", justifyContent: "center", padding: 10 }}
           >
             <div
-              className="col-lg-6 col-md-10 col-sm-12"
+              className="col-lg-10 col-md-10 col-sm-12"
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -117,7 +120,7 @@ const ConfirmationRequestListView = (props) => {
             }}
           >
             <div
-              className="col-lg-6 col-md-10 col-sm-12"
+              className="col-lg-10 col-md-10 col-sm-12"
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -134,7 +137,7 @@ const ConfirmationRequestListView = (props) => {
             style={{ display: "flex", justifyContent: "center", padding: 10 }}
           >
             <div
-              className="col-lg-6 col-md-10 col-sm-12"
+              className="col-lg-10 col-md-10 col-sm-12"
               style={{
                 display: "flex",
                 justifyContent: "space-around",
@@ -157,7 +160,7 @@ const ConfirmationRequestListView = (props) => {
             }}
           >
             <div
-              className="col-lg-6 col-md-10 col-sm-12"
+              className="col-lg-10 col-md-10 col-sm-12"
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -174,7 +177,7 @@ const ConfirmationRequestListView = (props) => {
             style={{ display: "flex", justifyContent: "center", padding: 10 }}
           >
             <div
-              className="col-lg-6 col-md-10 col-sm-12"
+              className="col-lg-10 col-md-10 col-sm-12"
               style={{
                 display: "flex",
                 justifyContent: "space-around",
@@ -195,7 +198,7 @@ const ConfirmationRequestListView = (props) => {
             }}
           >
             <div
-              className="col-lg-6 col-md-10 col-sm-12"
+              className="col-lg-10 col-md-10 col-sm-12"
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -212,7 +215,7 @@ const ConfirmationRequestListView = (props) => {
             style={{ display: "flex", justifyContent: "center", padding: 10 }}
           >
             <div
-              className="col-lg-6 col-md-10 col-sm-12"
+              className="col-lg-10 col-md-10 col-sm-12"
               style={{
                 display: "flex",
                 justifyContent: "space-around",
@@ -226,6 +229,93 @@ const ConfirmationRequestListView = (props) => {
           </div>
           <div
             className="w-100"
+            style={{ display: "flex", justifyContent: "center", padding: 10 }}
+          >
+            <div
+              className="col-lg-10 col-md-10 col-sm-12"
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+              }}
+            >
+              <div className="col-lg-5 col-md-5 col-sm-5">Performance Score</div>
+              <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+              <div className="col-lg-5 col-md-5 col-sm-5">{performance_score}</div>
+            </div>
+          </div>
+          <div
+            className="w-100"
+            style={{ display: "flex", justifyContent: "center", padding: 10 }}
+          >
+            <div
+              className="col-lg-10 col-md-10 col-sm-12"
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+              }}
+            >
+              <div className="col-lg-5 col-md-5 col-sm-5">Target Achievement</div>
+              <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+              <div className="col-lg-5 col-md-5 col-sm-5">{employ_date}</div>
+            </div>
+          </div>
+          <div
+            className="w-100"
+            style={{ display: "flex", justifyContent: "center", padding: 10 }}
+          >
+            <div
+              className="col-lg-10 col-md-10 col-sm-12"
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+              }}
+            >
+              <div className="col-lg-5 col-md-5 col-sm-5">Comment on Overall Performance</div>
+              <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+              <div className="col-lg-5 col-md-5 col-sm-5">{employ_date}</div>
+            </div>
+          </div>
+          </div>
+            <div  className="col-lg-6 col-md-10 col-sm-12">
+            <div
+            className="w-100"
+            style={{ display: "flex", justifyContent: "center", padding: 10 }}
+          >
+            <div
+              className="col-lg-10 col-md-10 col-sm-12"
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+              }}
+            >
+              <div className="col-lg-5 col-md-5 col-sm-5">Letter Warning</div>
+              <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+              <div className="col-lg-5 col-md-5 col-sm-5">{employ_date}</div>
+            </div>
+          </div>
+            <div
+            className="w-100"
+            style={{ display: "flex", justifyContent: "center", padding: 10 }}
+          >
+            <div
+              className="col-lg-10 col-md-10 col-sm-12"
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+              }}
+            >
+              <div className="col-lg-5 col-md-5 col-sm-5">Recommended Level</div>
+              <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+              <div className="col-lg-5 col-md-5 col-sm-5">{employ_date}</div>
+            </div>
+          </div>
+          <div
+            className="w-100"
             style={{
               display: "flex",
               justifyContent: "center",
@@ -233,7 +323,7 @@ const ConfirmationRequestListView = (props) => {
             }}
           >
             <div
-              className="col-lg-6 col-md-10 col-sm-12"
+              className="col-lg-10 col-md-10 col-sm-12"
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -252,7 +342,7 @@ const ConfirmationRequestListView = (props) => {
             style={{ display: "flex", justifyContent: "center", padding: 10 }}
           >
             <div
-              className="col-lg-6 col-md-10 col-sm-12"
+              className="col-lg-10 col-md-10 col-sm-12"
               style={{
                 display: "flex",
                 justifyContent: "space-around",
@@ -269,7 +359,7 @@ const ConfirmationRequestListView = (props) => {
             style={{ display: "flex", justifyContent: "center", padding: 10 }}
           >
             <div
-              className="col-lg-6 col-md-10 col-sm-12"
+              className="col-lg-10 col-md-10 col-sm-12"
               style={{
                 display: "flex",
                 justifyContent: "space-around",
@@ -290,7 +380,7 @@ const ConfirmationRequestListView = (props) => {
             }}
           >
             <div
-              className="col-lg-6 col-md-10 col-sm-12"
+              className="col-lg-10 col-md-10 col-sm-12"
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -315,7 +405,7 @@ const ConfirmationRequestListView = (props) => {
             }}
           >
             <div
-              className="col-lg-6 col-md-10 col-sm-12"
+              className="col-lg-10 col-md-10 col-sm-12"
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -336,7 +426,7 @@ const ConfirmationRequestListView = (props) => {
             style={{ display: "flex", justifyContent: "center", padding: 10 }}
           >
             <div
-              className="col-lg-6 col-md-10 col-sm-12"
+              className="col-lg-10 col-md-10 col-sm-12"
               style={{
                 display: "flex",
                 justifyContent: "space-around",
@@ -353,7 +443,7 @@ const ConfirmationRequestListView = (props) => {
             style={{ display: "flex", justifyContent: "center", padding: 10 }}
           >
             <div
-              className="col-lg-6 col-md-10 col-sm-12"
+              className="col-lg-10 col-md-10 col-sm-12"
               style={{
                 display: "flex",
                 justifyContent: "space-around",
@@ -374,7 +464,7 @@ const ConfirmationRequestListView = (props) => {
             }}
           >
             <div
-              className="col-lg-6 col-md-10 col-sm-12"
+              className="col-lg-10 col-md-10 col-sm-12"
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -472,6 +562,8 @@ const ConfirmationRequestListView = (props) => {
               </div>
             </div>
           </div>
+        </div>
+        </div>
         </div>
       </form>
     </div>
