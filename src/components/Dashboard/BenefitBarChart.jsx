@@ -242,7 +242,7 @@ class BenefitBarChart extends Component {
                                         minHeight: '18px'
                                     })
                                 }}
-                                placeholder="Branch"
+                                placeholder="All"
                                 options={this.state.branchData}
                                 onChange={this.handleSelectedBranch}
                                 value={this.state.branchId}
@@ -269,7 +269,7 @@ class BenefitBarChart extends Component {
                                         minHeight: '18px'
                                     })
                                 }}
-                                placeholder="Department"
+                                placeholder="All"
                                 options={this.state.deptData}
                                 onChange={this.handleSelectedDepartment}
                                 value={this.state.depId}

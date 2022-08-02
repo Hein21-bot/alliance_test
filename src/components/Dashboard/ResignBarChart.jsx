@@ -286,24 +286,32 @@ class ResignBarChart extends Component {
                 >
                     <h3 className='' style={{ padding: '10px 0px 0px 0px' }}>Resign Graph</h3>
 
-                    <div className='flex-row' style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', margin: '10px 10px 0px 10px' }}>
+                    <div className='flex-row' style={{ display: 'flex', justifyContent: 'start', alignItems: 'end', margin: '10px 10px 0px 10px' }}>
+                        <div style={{ textAlign:'start'}}>
+                            <label htmlFor="">Start Date</label>
                         <DatePicker className='fromdate'
 
-                            dateFormat="DD/MM/YYYY"
-                            value={this.state.fromDate}
-                            onChange={this.handleFromDate}
-                            timeFormat={false} />
+                        dateFormat="DD/MM/YYYY"
+                        value={this.state.fromDate}
+                        onChange={this.handleFromDate}
+                        timeFormat={false} />
+                        </div>
+                        <div style={{ textAlign:'start'}}>
+                            <label htmlFor="">End Date</label>
                         < DatePicker className='fromdate'
                             dateFormat="DD/MM/YYYY"
                             value={this.state.toDate}
                             onChange={this.handleToDate}
                             timeFormat={false} />
+                        </div>
+                        <div style={{textAlign:'start'}}>
+                            <label htmlFor="">Branch</label>
                         <Select
                             styles={{
                                 container: base => ({
                                     ...base,
                                     //   flex: 1
-                                    width: 150
+                                    width: 90
                                 }),
                                 control: base => ({
                                     ...base,
@@ -311,20 +319,24 @@ class ResignBarChart extends Component {
                                 }),
 
                             }}
-                            placeholder="Branch"
+                            placeholder="All"
                             options={this.state.branch}
                             onChange={this.handleSelectedBranch}
                             value={this.state.data.branchId}
                             className='react-select-container'
                             classNamePrefix="react-select"
                         />
-                        <Select
+                        </div>
+                       <div style={{textAlign:'start',
+                     marginLeft: 10}}>
+                        <label htmlFor="">Department</label>
+                       <Select
                             styles={{
                                 container: base => ({
                                     ...base,
                                     //   flex: 1
-                                    width: 150,
-                                    marginLeft: 10
+                                    width: 90,
+                                   
                                 }),
                                 control: base => ({
                                     ...base,
@@ -332,13 +344,14 @@ class ResignBarChart extends Component {
                                 }),
 
                             }}
-                            placeholder="Department"
+                            placeholder="All"
                             options={this.state.department}
                             onChange={this.handleSelectedDepartment}
                             value={this.state.data.departmentId}
                             className='react-select-container'
                             classNamePrefix="react-select"
                         />
+                       </div>
                         <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.onClickResignStaffSearch()}>Search</button>
                     </div>
                     <HighchartsReact

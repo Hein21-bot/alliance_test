@@ -424,6 +424,7 @@ class ConfirmationList extends Component {
   };
 
   handleLeaveExtensionRequest = (extension_comment) => {
+   
     if (this.state.checkedListData.length > 0) {
       let data = {
         person: getCookieData("user_info").user_id,
@@ -431,6 +432,7 @@ class ConfirmationList extends Component {
         extension_comment: extension_comment,
         status: 5,
       };
+      
 
       let status = 0;
       fetch(`${main_url}confirmation/addConfirmation`, {

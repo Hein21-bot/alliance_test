@@ -249,6 +249,7 @@ export default class BenefitChildTable extends Component {
         no: i + 1,
         employee_id: data[i].employment_id ? data[i].employment_id : '-',
         employee_name: data[i].fullname ? data[i].fullname : '-',
+        employ_date:data[i].employ_date ? data[i].employ_date:'-',
         position: data[i].designations ? data[i].designations : '-',
         level: data[i].career_sub_level ? data[i].career_sub_level : '-',
         region: data[i].region_name ? data[i].region_name : '-',
@@ -260,7 +261,8 @@ export default class BenefitChildTable extends Component {
         currentLevelServiceYear: data[i].current_level_service_year ? data[i].current_level_service_year : '',
         currentSubLevelServiceYear: data[i].current_sub_level_service_year ? data[i].current_sub_level_service_year : '_',
         status: status,
-        confirmOrNot: data[i].recommendation ? data[i].recommendation : ''
+        confirmOrNot: data[i].recommendation ? data[i].recommendation : '',
+        extensionComment:data[i].extension_comment ? data[i].extension_comment : 'gg'
       }
 
       if (has_select) {
@@ -297,12 +299,13 @@ export default class BenefitChildTable extends Component {
       { title: "Department", data: "department" },
       { title: "Branch", data: "branch" },
       { title: "Region", data: "region" },
-      { title: "Employed Date", data: "date" },
+      { title: "Employed Date", data: "employ_date" },
       { title: "Last Promtion Date", data: "promotionDate" },
       { title: "Service Year", data: "serviceYear" },
       { title: "Service Year in Current Level", data: "currentLevelServiceYear" },
       { title: "Service Year in Current Sub Level", data: "currentSubLevelServiceYear" },
       { title: "Status", data: "status" },
+      { title: "Extension Comment",data:'extensionComment'},
       { title: "Confirm or Not", data: "confirmOrNot" },
 
     ]
