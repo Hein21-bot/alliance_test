@@ -233,7 +233,7 @@ const EditCheckForm = props => {
                             </div>
 
                             <div className='col-lg-6 col-md-6 col-sm-6'>
-                                <input type={view ? 'text' : 'date'} placeholder='' name="effectiveDate" value={effectiveDate ? moment(effectiveDate).format('YYYY-MM-DD') : null} onChange={handleEditCheckInputChange} style={{ height: 40, width: 160 }} />
+                                <input type={view ? 'text' : 'date'} placeholder='' required={status==2}  name="effectiveDate" value={effectiveDate ? moment(effectiveDate).format('YYYY-MM-DD') : null} onChange={handleEditCheckInputChange}  style={{ height: 40, width: 160 }} />
 
                             </div>
                         </div>
