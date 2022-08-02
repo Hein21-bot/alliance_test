@@ -231,7 +231,7 @@ const ConfirmationRequestListView = (props) => {
             >
               <div className="col-lg-5 col-md-5 col-sm-5">Employed Date</div>
               <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">{employ_date}</div>
+              <div className="col-lg-5 col-md-5 col-sm-5">{moment(employ_date).format('DD-MM-YYYY')}</div>
             </div>
           </div>
           <div
@@ -268,7 +268,10 @@ const ConfirmationRequestListView = (props) => {
               <div className="col-lg-5 col-md-5 col-sm-5">{target_achievement}</div>
             </div>
           </div>
-          <div
+          
+          </div>
+            <div  className="col-lg-6 col-md-10 col-sm-12">
+            <div
             className="w-100"
             style={{ display: "flex", justifyContent: "center", padding: 10 }}
           >
@@ -285,8 +288,6 @@ const ConfirmationRequestListView = (props) => {
               <div className="col-lg-5 col-md-5 col-sm-5">{comment_overall_performance}</div>
             </div>
           </div>
-          </div>
-            <div  className="col-lg-6 col-md-10 col-sm-12">
             <div
             className="w-100"
             style={{ display: "flex", justifyContent: "center", padding: 10 }}
@@ -341,7 +342,7 @@ const ConfirmationRequestListView = (props) => {
                 Last Promotion Date
               </div>
               <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">{promotion_date ? moment(promotion_date).format('YYYY-MM-DD') : moment(date).format('YYYY-MM-DD')}</div>
+              <div className="col-lg-5 col-md-5 col-sm-5">{ moment(promotion_date).format('DD-MM-YYYY')}</div>
             </div>
           </div>
           <div
@@ -424,7 +425,7 @@ const ConfirmationRequestListView = (props) => {
               </div>
               <div className="col-lg-2 col-md-2 col-sm-2">:</div>
               <div className="col-lg-5 col-md-5 col-sm-5">
-                {effective_date ? moment(effective_date).format('YYYY-MM-DD') : ''}
+                {effective_date ? moment(effective_date).format('DD-MM-YYYY') : ''}
               </div>
             </div>
           </div>
@@ -445,7 +446,7 @@ const ConfirmationRequestListView = (props) => {
               <div className="col-lg-5 col-md-5 col-sm-5">{recommendation}</div>
             </div>
           </div>
-          <div
+          {/* <div
             className="w-100"
             style={{ display: "flex", justifyContent: "center", padding: 10 }}
           >
@@ -461,15 +462,15 @@ const ConfirmationRequestListView = (props) => {
               <div className="col-lg-2 col-md-2 col-sm-2">:</div>
               <div className="col-lg-5 col-md-5 col-sm-5">{extension_comment}</div>
             </div>
-          </div>
-          <div
+          </div> */}
+          {/* <div
             className="w-100"
             style={{
               display: "flex",
               justifyContent: "center",
               padding: 10,
             }}
-          >
+          > */}
             {/* <div
               className="col-lg-10 col-md-10 col-sm-12"
               style={{
@@ -567,8 +568,8 @@ const ConfirmationRequestListView = (props) => {
                   </div>
                 ) : null}
               </div>
-            </div> */}
-          </div>
+            </div> 
+           </div> */}
         </div>
         </div>
         </div>
