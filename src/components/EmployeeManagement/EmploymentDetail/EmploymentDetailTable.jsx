@@ -46,7 +46,7 @@ export default class BenefitChildTable extends Component {
 
             var data = $(this).find("#view").text();
             data = $.parseJSON(data);
-            that.props.goToViewForm(data);
+            that.props.goToSingleViewForm(data);
 
         });
 
