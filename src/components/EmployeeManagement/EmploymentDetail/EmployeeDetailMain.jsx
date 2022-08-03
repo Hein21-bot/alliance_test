@@ -121,7 +121,7 @@ class EmployeeDetailMain extends Component {
         })
         .then((data) => {
           if (data.length > 0) {
-            this.goToEditForm(data[0]);
+            this.getData(this.props.id);
             this.setState({ tableEdit: true, tableView: false });
 
 
@@ -263,7 +263,8 @@ class EmployeeDetailMain extends Component {
         if (res.ok) return res.json();
       })
       .then((data) => {
-
+        console.log('data 0 is ============>', data[0])
+        console.log('selected id===>',this.state.selectedEmployeeId)
         if (data.length > 0) {
           this.setState({
             selectedEmploymentData: data[0],
@@ -271,6 +272,7 @@ class EmployeeDetailMain extends Component {
             view: false,
             addNew: true,
             date: moment(new Date()).format("YYYY-MM-DD"),
+            selectedEmployeeId: data.map((v) => ({ user_id: v.user_id, label: v.employment_id, value: v.employment_id }))[0],
             employeeName: data[0].employee_name,
             selected_designation: this.state.designationList.find((c) => c.value == data[0].designations_id),//
             selected_branch: this.state.branchlist.find((c) => parseInt(c.branch_id) === (data[0].branch_name ? parseInt(data[0].branch_name) : data[0].branch_name)),
@@ -950,7 +952,7 @@ class EmployeeDetailMain extends Component {
             ) : (
               <div style={{}}>
                 <EmploymentDetailTable
-                 
+
                   goToEditForm={this.goToEditForm}
                   goToSingleViewForm={this.goToSingleViewForm}
                   data={this.state.employeeData ? this.state.employeeData : []}
