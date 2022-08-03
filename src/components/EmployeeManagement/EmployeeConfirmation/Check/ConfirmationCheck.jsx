@@ -154,7 +154,7 @@ class ConfirmationCheck extends Component {
             tabel_id: data.table_id,
             selectedTableData: data,
             extensionPeriod: data.extension_period ? data.extension_period : '',
-            extensionComment: data.extensionComment ? data.extensionComment :'',
+            extensionComment: data.extension_comment ? data.extension_comment : '',
             effectiveDate: data.effective_date,
             fullname: data.fullname,
             employment_id: data.employment_id,
@@ -183,7 +183,7 @@ class ConfirmationCheck extends Component {
             verifyPerson: data.verify_person,
             selectedTableData: data,
             extensionPeriod: data.extension_period ? data.extension_period : '',
-            extensionComment:data.extensionComment ? data.extensionComment : '',
+            extensionComment:data.extension_comment ? data.extension_comment : '',
             effectiveDate: data.effective_date ? moment(data.effective_date).format('YYYY-MM-DD') : data.effective_date,
             fullname: data.fullname,
             employment_id: data.employment_id,
@@ -276,7 +276,8 @@ class ConfirmationCheck extends Component {
                 person: getCookieData("user_info").user_id,
                 list: this.state.selected_checkList,
                 status: 2,
-                confirm_or_not: this.state.recommendation
+                confirm_or_not: this.state.recommendation,
+                extension_comment:this.state.extensionComment
             }
 
             let status = 0;
@@ -313,7 +314,8 @@ class ConfirmationCheck extends Component {
                 person: getCookieData("user_info").user_id,
                 list: this.state.selected_checkList,
                 status: 3,
-                confirm_or_not: this.state.recommendation
+                confirm_or_not: this.state.recommendation,
+                extension_comment:this.state.extensionComment
             }
 
             let status = 0;
@@ -350,7 +352,8 @@ class ConfirmationCheck extends Component {
                 person: getCookieData("user_info").user_id,
                 list: this.state.selected_checkList,
                 status: 4,
-                confirm_or_not: this.state.recommendation
+                confirm_or_not: this.state.recommendation,
+                extension_comment:this.state.extensionComment
             }
 
             let status = 0;
