@@ -249,20 +249,20 @@ export default class BenefitChildTable extends Component {
         no: i + 1,
         employee_id: data[i].employment_id ? data[i].employment_id : '-',
         employee_name: data[i].fullname ? data[i].fullname : '-',
-        employ_date:data[i].employ_date ? data[i].employ_date:'-',
+        employ_date:data[i].employ_date ? moment(data[i].employ_date).format('DD-MM-YYYY'):'-',
         position: data[i].designations ? data[i].designations : '-',
         level: data[i].career_sub_level ? data[i].career_sub_level : '-',
         region: data[i].region_name ? data[i].region_name : '-',
         department: data[i].deptname ? data[i].deptname : '-',
         branch: data[i].branch_name ? data[i].branch_name : '-',
-        date: data[i].date ? moment(data[i].date).format('DD-MM-YYYY') : '',
-        promotionDate: data[i].promotion_date ? moment(data[i].promotion_date).format('DD-MM-YYYY') : moment(data[i].date).format('DD-MM-YYYY'),
+        date: data[i].date ? moment(data[i].date).format('DD-MM-YYYY') : '-',
+        promotionDate: data[i].promotion_date ? moment(data[i].promotion_date).format('DD-MM-YYYY') : "-",
         serviceYear: data[i].service_year,
         currentLevelServiceYear: data[i].current_level_service_year ? data[i].current_level_service_year : '',
         currentSubLevelServiceYear: data[i].current_sub_level_service_year ? data[i].current_sub_level_service_year : '_',
         status: status,
-        confirmOrNot: data[i].recommendation ? data[i].recommendation : '',
-        extensionComment:data[i].extension_comment ? data[i].extension_comment : 'gg'
+        confirmOrNot: data[i].recommendation ? data[i].recommendation : '-',
+        extensionComment:data[i].extension_comment ? data[i].extension_comment : '-'
       }
 
       if (has_select) {

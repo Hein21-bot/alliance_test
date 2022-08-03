@@ -163,7 +163,7 @@ class ConfirmationCheck extends Component {
             level: data.career_sub_level,
             letterWarning: data.letter_warning ? data.letter_warning : false,
             score: data.performance_score ? data.performance_score : '',
-            achievement: data.target_achievement ? data.performance_score : '',
+            achievement: data.target_achievement ? data.target_achievement : '',
             warningDate: data.letter_warning_date ? moment.utc(data.letter_warning_date).format("YYYY-MM-DD") : '-',
             recommendation: data.recommendation,
             date: data.date ? moment.utc(data.date).format("YYYY-MM-DD") : '-',//moment(data.createdAt).format("DD/MM/YYYY"),
