@@ -3,6 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import Select from "react-select";
 import EmploymentDetailTable from "./EmploymentDetailTable";
 import EmploymentDetailsForSingleUserTable from "./EmploymentDetailForSingleUser";
+import EmploymentViewForm from "./EmploymonetViewForm"
 
 import {
   main_url,
@@ -61,7 +62,7 @@ class EmployeeDetailMain extends Component {
       selectedEmploymentData: null,
       selectedEmployeeId: "",
       edit: false,
-      view:false,
+      view: false,
       level_options: null,
       sub_level_options: null,
       career_level: null,
@@ -75,6 +76,7 @@ class EmployeeDetailMain extends Component {
       ],
       employmentDataForSingleUser: null,
       salaryList: [],
+      singleView: false
     };
   }
 
@@ -120,7 +122,7 @@ class EmployeeDetailMain extends Component {
         .then((data) => {
           if (data.length > 0) {
             this.goToEditForm(data[0]);
-            this.setState({ tableEdit: true,tableView:false });
+            this.setState({ tableEdit: true, tableView: false });
 
 
           }
@@ -261,12 +263,12 @@ class EmployeeDetailMain extends Component {
         if (res.ok) return res.json();
       })
       .then((data) => {
-        
+
         if (data.length > 0) {
           this.setState({
             selectedEmploymentData: data[0],
             edit: false,
-            view:false,
+            view: false,
             addNew: true,
             date: moment(new Date()).format("YYYY-MM-DD"),
             employeeName: data[0].employee_name,
@@ -490,12 +492,12 @@ class EmployeeDetailMain extends Component {
   };
 
   goToEditForm = (data) => {
-    
+
     this.setState({
       selectedEmploymentData: data,
       edit: true,
       addNew: false,
-      view:false,
+      view: false,
 
       user_id: data.user_id,
       selectedEmployeeId: this.state.employeeIdList.find(
@@ -543,24 +545,28 @@ class EmployeeDetailMain extends Component {
   };
 
   goToViewForm = (data) => {
-    // this.setState({
-    //   tableView: true,
-    // });
-    // fetch(`${main_url}employee/getEmployUserDetail/${data.user_id}`)
-    //   .then((response) => {
-    //     if (response.ok) return response.json();
-    //   })
-    //   .then((res) => {
-    //     if (res) {
-    //       this.setState({ employmentDataForSingleUser: res });
-    //     }
-    //   })
-    //   .catch((error) => console.error(`Fetch Error =\n`, error));
+    this.setState({
+      tableView: true,
+    });
+    fetch(`${main_url}employee/getEmployUserDetail/${data.user_id}`)
+      .then((response) => {
+        if (response.ok) return response.json();
+      })
+      .then((res) => {
+        if (res) {
+          this.setState({ employmentDataForSingleUser: res });
+        }
+      })
+      .catch((error) => console.error(`Fetch Error =\n`, error));
+  };
+
+  goToSingleViewForm = (data) => {
     this.setState({
       selectedEmploymentData: data,
       edit: false,
-      view:true,
+      view: false,
       addNew: false,
+      singleView: true,
 
       user_id: data.user_id,
       selectedEmployeeId: this.state.employeeIdList.find(
@@ -605,7 +611,7 @@ class EmployeeDetailMain extends Component {
         (v) => v.career_sub_level == data.career_sub_level
       ),
     });
-  };
+  }
 
   handleUpdatData = (e) => {
     e.preventDefault();
@@ -635,7 +641,7 @@ class EmployeeDetailMain extends Component {
     let data = {
       user_id: user_id,
       employed_status: selected_status ? selected_status.value : null,
-      employee_name: employeeName ? employeeName.toUpperCase :  '',
+      employee_name: employeeName ? employeeName.toUpperCase : '',
       employee_code: selectedEmployeeId
         ? selectedEmployeeId.label.trim()
         : null,
@@ -694,7 +700,7 @@ class EmployeeDetailMain extends Component {
     this.setState({
       addNew: false,
       tableEdit: false,
-      tableView:false
+      tableView: false
     });
     this.getEmployeeList();
     this.clearFormData();
@@ -743,7 +749,7 @@ class EmployeeDetailMain extends Component {
       selectedEmploymentData: null,
       selectedEmployeeId: "",
       edit: false,
-      view:false,
+      view: false,
       career_level: null,
       career_sub_level: null,
       selected_job: null,
@@ -834,7 +840,7 @@ class EmployeeDetailMain extends Component {
             >
               {"< Back"}
             </button>
-            {/* <EmploymentDetailsForSingleUserTable
+            <EmploymentDetailsForSingleUserTable
               goToViewForm={null}
               goToEditForm={null}
               data={
@@ -846,54 +852,57 @@ class EmployeeDetailMain extends Component {
                 isEdit: 0,
                 isView: 0,
               }}
-            /> */}
-            {/* <EmploymentForm
-               
-                selectedEmployeeId={selectedEmployeeId}
-                level_options={level_options}
-                sub_level_options={sub_level_options}
-                employeeName={employeeName}
-                statusList={statusList}
-                selected_status={selected_status}
-                handleAddFormInputChange={this.handleAddFormInputChange}
-                handleSelectedStatus={this.handleSelectedStatus}
-                employedDate={employedDate}
-                effectiveDate={effectiveDate}
-                actualDate={actualDate}
-                salary={salary}
-                disconDate={disconDate}
-                designationList={designationList}
-                selected_designation={selected_designation}
-                branchlist={branchlist}
-                selected_branch={selected_branch}
-                departmentlist={departmentlist}
-                selected_department={selected_department}
-                handleSelectedBranch={this.handleSelectedBranch}
-                handleSelectedDeaprtment={this.handleSelectedDeaprtment}
-                handleSelectedDesignation={this.handleSelectedDesignation}
-                submitAddForm={this.submitAddForm}
-                handleFormCancel={this.handleFormCancel}
-                handleUpdatData={this.handleUpdatData}
-                handleSelectedEmployeeId={this.handleSelectedEmployeeId}
-                handleLevelSelectorChange={this.handleLevelSelectorChange}
-                career_level={career_level}
-                career_sub_level={career_sub_level}
-                employeeIdList={employeeIdList}
-                exitStatusList={exitStatusList}
-                selected_exit_status={selected_exit_status}
-                handleSelectedExitStatus={this.handleSelectedExitStatus}
-                jobList={jobList}
-                selected_job={selected_job}
-                handleSelectedJob={this.handleSelectedJob}
-                disConStatusList={disConStatusList}
-                resignReason={resignReason}
-                selected_disCon_status={selected_disCon_status}
-                handleSelectedDisConStatus={this.handleSelectedDisConStatus}
-              /> */}
+            />
+
           </div>
+        ) : this.state.singleView ? (
+          <>
+            <EmploymentViewForm
+
+              selectedEmployeeId={selectedEmployeeId}
+              level_options={level_options}
+              sub_level_options={sub_level_options}
+              employeeName={employeeName}
+              statusList={statusList}
+              selected_status={selected_status}
+              handleAddFormInputChange={this.handleAddFormInputChange}
+              handleSelectedStatus={this.handleSelectedStatus}
+              employedDate={employedDate}
+              effectiveDate={effectiveDate}
+              actualDate={actualDate}
+              salary={salary}
+              disconDate={disconDate}
+              designationList={designationList}
+              selected_designation={selected_designation}
+              branchlist={branchlist}
+              selected_branch={selected_branch}
+              departmentlist={departmentlist}
+              selected_department={selected_department}
+              handleSelectedBranch={this.handleSelectedBranch}
+              handleSelectedDeaprtment={this.handleSelectedDeaprtment}
+              handleSelectedDesignation={this.handleSelectedDesignation}
+              submitAddForm={this.submitAddForm}
+              handleFormCancel={this.handleFormCancel}
+              handleUpdatData={this.handleUpdatData}
+              handleSelectedEmployeeId={this.handleSelectedEmployeeId}
+              handleLevelSelectorChange={this.handleLevelSelectorChange}
+              career_level={career_level}
+              career_sub_level={career_sub_level}
+              employeeIdList={employeeIdList}
+              exitStatusList={exitStatusList}
+              selected_exit_status={selected_exit_status}
+              handleSelectedExitStatus={this.handleSelectedExitStatus}
+              jobList={jobList}
+              selected_job={selected_job}
+              handleSelectedJob={this.handleSelectedJob}
+              disConStatusList={disConStatusList}
+              resignReason={resignReason}
+              selected_disCon_status={selected_disCon_status}
+              handleSelectedDisConStatus={this.handleSelectedDisConStatus}
+            /></>
         ) : (
           <>
-            {addNew || edit || view || tableView || tableEdit ? (
+            {addNew || edit || tableEdit ? (
               <EmploymentForm
                 edit={edit}
                 view={view}
@@ -941,8 +950,9 @@ class EmployeeDetailMain extends Component {
             ) : (
               <div style={{}}>
                 <EmploymentDetailTable
-                  goToViewForm={this.goToViewForm}
+                 
                   goToEditForm={this.goToEditForm}
+                  goToSingleViewForm={this.goToSingleViewForm}
                   data={this.state.employeeData ? this.state.employeeData : []}
                   permission={{
                     isEdit: 1,
