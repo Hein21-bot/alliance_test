@@ -228,7 +228,7 @@ class HelpDeskLineChart extends Component {
                 }}
             >
                 <h3 className='' style={{ padding: '10px 0px 0px 0px', marginBottom: '20px' }}>Tickets By Month</h3>
-                <div className='flex-row' style={{ display: 'flex', justifyContent: 'start', alignItems: 'end', margin: '10px 10px 0px 10px' }}>
+                <div className='flex-row' style={{ display: 'flex', justifyContent: 'start', alignItems: 'end', margin: '10px 10px 0px 10px',flexWrap:'wrap' }}>
                     <div style={{
                         textAlign: 'start',
                         marginRight: '10px'
@@ -271,7 +271,7 @@ class HelpDeskLineChart extends Component {
                                 container: base => ({
                                     ...base,
                                     //   flex: 1
-                                    width: 90,
+                                    width: 80,
 
                                 }),
                                 control: base => ({
@@ -297,7 +297,7 @@ class HelpDeskLineChart extends Component {
                                 container: base => ({
                                     ...base,
                                     //   flex: 1
-                                    width: 90,
+                                    width: 80,
 
                                 }),
                                 control: base => ({

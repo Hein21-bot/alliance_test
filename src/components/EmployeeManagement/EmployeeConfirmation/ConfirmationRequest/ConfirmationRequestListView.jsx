@@ -21,12 +21,14 @@ const ConfirmationRequestListView = (props) => {
     current_sub_level_service_year,
     service_year,
     effective_date,
-    last_promotion_date,
+    promotion_date,
     extension_comment,
     recommendation,
     status,
+    date
   } = props.item;
   
+  console.log("promotion date==>",promotion_date)
   const handleClickBack = () => {
     props.backToList(false);
   };
@@ -244,7 +246,7 @@ const ConfirmationRequestListView = (props) => {
                 Last Promotion Date
               </div>
               <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">{last_promotion_date}</div>
+              <div className="col-lg-5 col-md-5 col-sm-5">{promotion_date ? moment(promotion_date).format('YYYY-MM-DD') : moment(date).format('YYYY-MM-DD')}</div>
             </div>
           </div>
           <div
@@ -440,7 +442,7 @@ const ConfirmationRequestListView = (props) => {
                   >
                     <p style={{ color: "white" }}>Verify</p>
                   </div>
-                ) : status == 4 ? (
+                ) : status == 4 || status == 10 ? (
                   <div
                     style={{
                       width: '50%',

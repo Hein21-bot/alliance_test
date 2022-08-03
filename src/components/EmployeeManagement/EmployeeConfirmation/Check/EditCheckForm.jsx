@@ -8,7 +8,7 @@ import 'react-calendar/dist/Calendar.css';
 import moment from "moment";
 
 const EditCheckForm = props => {
-    const { handleSubmit, handleEditCheckInputChange, status, onRecommendationChange, handleLetterWarningChange, view, fullname, BackToTable, extensionPeriod, comment, effectiveDate, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, recommendation, date, check_person, verify_person, sub_level_options, career_level_id, selected_sub_level, handleSelectedSubLevel, recommend_level } = props
+    const { handleSubmit, handleEditCheckInputChange, status, onRecommendationChange, handleLetterWarningChange, view, fullname, BackToTable, extensionPeriod,extensionComment, comment, effectiveDate, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, recommendation, date, check_person, verify_person, sub_level_options, career_level_id, selected_sub_level, handleSelectedSubLevel, recommend_level } = props
     const filter_sub_level = sub_level_options.filter(v => v.career_level_id == career_level_id)
     const selected_level = sub_level_options.filter(v => v.career_sub_level_id == recommend_level)
    
@@ -177,6 +177,17 @@ const EditCheckForm = props => {
 
                         <div className='col-lg-6 col-md-6 col-sm-6'>
                             <input type='text' placeholder='' name="extensionPeriod" value={extensionPeriod} onChange={handleEditCheckInputChange} style={{ height: 40 }} />
+                        </div>
+                    </div>
+                </div> : ''}
+                {recommendation === "Extensions" ? <div className='w-100' style={{ display: 'flex', justifyContent: 'center', padding: 10 }}>
+                    <div className='col-lg-6 col-md-10 col-sm-12' style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', }}>
+                        <div className='col-lg-6 col-md-6 col-sm-6'>
+                            Extension Comment
+                        </div>
+
+                        <div className='col-lg-6 col-md-6 col-sm-6'>
+                            <input type='text' placeholder='' name="extensionComment" value={extensionComment} onChange={handleEditCheckInputChange} style={{ height: 40 }} />
                         </div>
                     </div>
                 </div> : ''}

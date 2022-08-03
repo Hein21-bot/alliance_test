@@ -108,11 +108,11 @@ export default class ConfirmationRequestListTable extends Component {
       .then(text => {
         if (status === 200) {
           toast.success(text);
-          window.location.reload();
+          // window.location.reload();
         }
         else toast.error(text);
         // window.location.replace("/employment_details");
-        window.location.replace('/confirmation_list')
+        // window.location.replace('/confirmation_list')
 
       })
   }
@@ -260,7 +260,7 @@ export default class ConfirmationRequestListTable extends Component {
           branch: data[i].branch_name ? data[i].branch_name : "-",
           region: data[i].region_name ? data[i].region_name : "-",
           employ_date: data[i].employ_date ? data[i].employ_date : "-",
-          last_promotion_date: data[i].last_promotion_date ? moment(data[i].last_promotion_date).format('YYYY-MM-DD') : "-",
+          promotion_date: data[i].promotion_date ? moment(data[i].promotion_date).format('YYYY-MM-DD') : moment(data[i].date).format('DD-MM-YYYY'),
           date: moment(result.createdAt).format("DD-MM-YYYY"),
           service_year: data[i].service_year ? data[i].service_year : "",
           current_level_service_year: data[i].current_level_service_year ? data[i].current_level_service_year : '',
@@ -299,7 +299,7 @@ export default class ConfirmationRequestListTable extends Component {
       { title: "Branch", data: "branch" },
       { title: "Region", data: "region" },
       { title: "Employed Date", data: "employ_date" },
-      { title: "Last Promtion Date", data: "last_promotion_date" },
+      { title: "Last Promtion Date", data: "promotion_date" },
       { title: "Service Year", data: "service_year" },
       { title: "Service Year in Current Level", data: "current_level_service_year" },
       { title: "Service Year in Current Sub Level", data: "current_sub_level_service_year" },

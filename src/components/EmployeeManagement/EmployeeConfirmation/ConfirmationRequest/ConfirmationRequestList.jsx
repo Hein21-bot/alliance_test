@@ -34,6 +34,7 @@ export default class ConfirmationRequestList extends Component {
       viewForm: true,
       selectedConfirmation: data
     })
+    console.log("selected confirmation===>",this.state.selectedConfirmation)
   }
   backToList = (v) => {
     this.setState({ viewForm: v })

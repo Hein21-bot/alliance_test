@@ -162,10 +162,10 @@ export class Dashboard extends Component {
           </div>
         ): this.state.tapButtonTitle == "helpdesk" ? (
           <div className="row mt-3">
-            <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+            <div className="col-xl-6 col-lg-7 col-md-12 col-sm-12">
               <HelpDesk></HelpDesk>
             </div>
-            <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+            <div className="col-xl-6 col-lg-5 col-md-12 col-sm-12">
               <HelpDeskLineChart></HelpDeskLineChart>
               </div> 
           </div>
