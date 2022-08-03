@@ -40,6 +40,7 @@ class HeadCountBarChart extends Component {
     this.setChartOptionDepartment();
     this.getRegionList()
     this.getBranch()
+    
 
 
   }
@@ -240,11 +241,11 @@ class HeadCountBarChart extends Component {
   };
 
   onClickDeptSearch = () => {
-    this.getHeadCountbyDepartment(this.state.dep_regionId.region_id == undefined ? this.state.dep_regionId : this.state.dep_regionId.region_id, this.state.dep_branchId.value == undefined ? this.state.dep_branchId : this.state.dep_branchId.value);
+    this.getHeadCountbyDepartment(this.state.dep_regionId.value == undefined ? this.state.dep_regionId : this.state.dep_regionId.value, this.state.dep_branchId.value == undefined ? this.state.dep_branchId : this.state.dep_branchId.value);
   }
 
   onClickDesignSearch = () => {
-    this.getHeadCountbyDesignation(this.state.des_branchId.value == undefined ? this.state.des_branchId : this.state.des_branchId.value, this.state.des_regionId.region_id == undefined ? this.state.des_regionId : this.state.des_regionId.region_id, this.state.des_branchId.value == undefined ? this.state.des_branchId : this.state.des_branchId.value);
+    this.getHeadCountbyDesignation(this.state.des_depId.value == undefined ? this.state.des_depId : this.state.des_depId.value,this.state.des_regionId.region_id == undefined ? this.state.des_regionId : this.state.des_regionId.region_id, this.state.des_branchId.value == undefined ? this.state.des_branchId : this.state.des_branchId.value);
   }
 
 

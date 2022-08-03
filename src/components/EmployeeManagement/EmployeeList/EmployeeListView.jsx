@@ -132,6 +132,9 @@ class EmployeeListView extends Component {
                 if (response.ok) return response.json()
             })
             .then(res => {
+                let fullnrc = res[0].nrc;
+                let fullnrcNumber = fullnrc.split(' ');
+                console.log(fullnrcNumber[0])
                 if (res) {
                     this.setState({
                         userImage: res[0].avatar,
@@ -186,7 +189,7 @@ class EmployeeListView extends Component {
                         fullNRC: res[0].nrc,
                         guaFullNRC: res[0].NRC_full_gurantee,
                     })
-                }
+                } 
             })
             .catch(error => console.error(`Fetch Error =\n`, error));
     }
@@ -194,7 +197,9 @@ class EmployeeListView extends Component {
 
 
 
-    render() {
+                
+    render()    
+     {     
         const { tabIndex, userImage, userImageUrl, addedDegreeData, addedQualitificationData, workExpData, nrc_number, period, designation, workExpChecked, organization, sameWithCtPerson, bankList, selected_bank, trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo,
             fatherName, degreeList, qualificationList, selected_qualification, selected_degree, motherName, guarantor, guarantorPhone, attachmentUrl, selected_gran_NRC_Id,
             selected_gran_DistrictCode, gran_nrc_number, parentCount, siblingCount, childCount, pInLawCount, martialStatus, officePhone, region, address, joinDate, accountName, accountNumber, employeeStatus, employeeDesignation, jobTitle, carrerLevel, employeeDetailBranch, employedDate, disConStatus, disConDate,

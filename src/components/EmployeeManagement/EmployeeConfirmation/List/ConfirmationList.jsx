@@ -31,6 +31,8 @@ class ConfirmationList extends Component {
       titleList: [],
       confirmationMonth: null,
       date: new Date(),
+      promotion_date: [],
+      employee_date: [],
       dropDownOpen: false,
       selected_designation: null,
       designationList: null,
@@ -359,12 +361,12 @@ class ConfirmationList extends Component {
       department: data.deptname ? data.deptname : "-",
       branch: data.branch_name ? data.branch_name : "-",
       region: data.region_name ? data.region_name : "-",
-      employ_date: data.employ_date ? data.employ_date : "-",
-      last_promotion_date: data.last_promotion_date
-        ? data.last_promotion_date
+      employee_date: data.employee_date ? moment(data.employee_date).format('DD-MM-YYYY') : "-",
+      promotion_date: data.promotion_date
+        ? data.promotion_date
         : "-",
       date: moment(data.createdAt).format("DD-MM-YYYY"),
-      service_year: data.service_year ? data.service_year : "",
+      service_year: data.service_year ? data.service_year : "-",
       leave: data.leave ? data.leave : "-",
     };
     if (checkedListData_.length === 0) {
@@ -424,7 +426,7 @@ class ConfirmationList extends Component {
   };
 
   handleLeaveExtensionRequest = (extension_comment) => {
-   
+
     if (this.state.checkedListData.length > 0) {
       let data = {
         person: getCookieData("user_info").user_id,
@@ -432,7 +434,7 @@ class ConfirmationList extends Component {
         extension_comment: extension_comment,
         status: 5,
       };
-      
+
 
       let status = 0;
       fetch(`${main_url}confirmation/addConfirmation`, {
@@ -463,8 +465,10 @@ class ConfirmationList extends Component {
           list: this.state.checkedListData,
           verify_person: this.state.selected_verifyPerson.user_id,
           check_person: this.state.selected_checkPerson.user_id,
-          status: 0,
+          status: 0
         };
+
+        console.log('data is ===>', data)
 
         let status = 0;
         fetch(`${main_url}confirmation/addConfirmation`, {
@@ -502,7 +506,7 @@ class ConfirmationList extends Component {
   };
 
   render() {
-    const { view, selected_title, titleList, confirmationMonth, verifyPersonList, selected_verifyPerson, date, user_info, level_options, sub_level_options, career_level, career_sub_level, confirmationListData, checkPersonList, selected_checkPerson, dropDownOpen, selected_designation, designationList, subLevelList, levelList, selected_branch, selected_department, selected_region, regionList, branchlist, departmentlist, } = this.state;
+    const { view, selected_title, titleList, confirmationMonth, verifyPersonList, selected_verifyPerson, date, promotion_date, employee_date, user_info, level_options, sub_level_options, career_level, career_sub_level, confirmationListData, checkPersonList, selected_checkPerson, dropDownOpen, selected_designation, designationList, subLevelList, levelList, selected_branch, selected_department, selected_region, regionList, branchlist, departmentlist, } = this.state;
     return (
       <div className=" border-bottom white-bg dashboard-header">
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -523,6 +527,8 @@ class ConfirmationList extends Component {
                 titleList={titleList}
                 confirmationMonth={confirmationMonth}
                 date={date}
+                promotion_date={promotion_date}
+                employee_date={employee_date}
                 dropDownOpen={dropDownOpen}
                 selected_designation={selected_designation}
                 designationList={designationList}
@@ -552,7 +558,7 @@ class ConfirmationList extends Component {
                 onChange={this.onChange}
                 handleLevelSelectorChange={this.handleLevelSelectorChange}
               />
-              <hr/>
+              <hr />
               <div style={{}}>
 
                 {this.state.visible == false ? (

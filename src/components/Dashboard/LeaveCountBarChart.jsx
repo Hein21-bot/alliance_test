@@ -10,10 +10,8 @@ class LeaveCounrBarChart extends Component {
             chartOptions: {},
             branch: [],
             department: [],
-            data: {
-                branchId: 0,
-                departmentId: 0
-            },
+             branchId: 0,
+            departmentId: 0,
             leaveData: [],
             countData: [],
             chartData: []
@@ -25,17 +23,17 @@ class LeaveCounrBarChart extends Component {
         await this.setChartOption();
         await this.leaveDashboard();
         let branch = await getBranch();
-        branch.unshift({ label: 'All', vlaue: 0 });
+        branch.unshift({ label: 'All', value: 0 });
         let department = await getDepartment();
-        department.unshift({ label: 'All', vlaue: 0 });
+        department.unshift({ label: 'All', value: 0 });
         this.setState({
             branch: branch,
             department: department,
         })
     }
 
-    async leaveDashboard() {
-        fetch(`${main_url}dashboard/leaveDashboard/${this.state.data.branchId.value}/${this.state.data.departmentId.value} `)
+    async leaveDashboard(branchId,departmentId) {
+        fetch(`${main_url}dashboard/leaveDashboard/${branchId}/${departmentId} `)
             .then(response => {
                 if (response.ok) return response.json()
             })
@@ -108,20 +106,19 @@ class LeaveCounrBarChart extends Component {
         this.setState({ chartOptions })
     }
     handleSelectedBranch = async (event) => {
-        let data = this.state.data
-        data.branchId = event
+       
+       
         this.setState({
-            data: data
+           branchId : event
         })
     }
     onClickLeaveCountSearch = () => {
-        this.leaveDashboard();
+        this.leaveDashboard(this.state.branchId.value == undefined ? this.state.branchId : this.state.branchId.value,this.state.departmentId.value == undefined ? this.state.departmentId : this.state.departmentId.value);
     }
     handleSelectedDepartment = async (event) => {
-        let data = this.state.data
-        data.departmentId = event
+       
         this.setState({
-            data: data
+           departmentId: event
         })
     }
 
@@ -158,8 +155,8 @@ class LeaveCounrBarChart extends Component {
                         }}
                         placeholder="All"
                         options={this.state.branch}
-                        onChange={this.handleSelectedBranch}
-                        value={this.state.data.branchId}
+                        onChange={this.handleSelectedBranch.bind(this)}
+                        value={this.state.branchId}
                         className='react-select-container'
                         classNamePrefix="react-select"
                     />
@@ -182,8 +179,8 @@ class LeaveCounrBarChart extends Component {
                         }}
                         placeholder="All"
                         options={this.state.department}
-                        onChange={this.handleSelectedDepartment}
-                        value={this.state.data.departmentId}
+                        onChange={this.handleSelectedDepartment.bind(this)}
+                        value={this.state.departmentId}
                         className='react-select-container'
                         classNamePrefix="react-select"
                     />

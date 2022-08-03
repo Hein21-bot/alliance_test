@@ -11,11 +11,13 @@ export default class ConfirmationRequestList extends Component {
       viewForm: false,
       selectedConfirmation: null,
       pathname: window.location.pathname,
-      confirmData: []
+      confirmData: [],
+      sub_level: []
     }
   }
   async componentDidMount() {
     await this.getConfirmationRequestList();
+    await this.getCareerSubLevelOptions()
   }
 
   async getConfirmationRequestList() {
@@ -29,12 +31,21 @@ export default class ConfirmationRequestList extends Component {
       })
   }
 
+  async getCareerSubLevelOptions() {
+    await fetch(`${main_url}allowLevel/getCareerSubLevel`)
+      .then(res => { if (res.ok) return res.json() })
+      .then(list => {
+        this.setState({ sub_level: list })
+      })
+  }
+
+
   goToViewForm = data => {
     this.setState({
       viewForm: true,
       selectedConfirmation: data
     })
-    console.log("selected confirmation===>",this.state.selectedConfirmation)
+
   }
   backToList = (v) => {
     this.setState({ viewForm: v })
@@ -72,7 +83,7 @@ export default class ConfirmationRequestList extends Component {
           </ul>
         </div>
         {this.state.viewForm ? (
-          <ConfirmationRequestListView item={this.state.selectedConfirmation} backToList={this.backToList} />
+          <ConfirmationRequestListView item={this.state.selectedConfirmation} backToList={this.backToList} sub_level={this.state.sub_level} />
         ) : (
           <ConfirmationRequestListTable
             goToViewForm={this.goToViewForm}

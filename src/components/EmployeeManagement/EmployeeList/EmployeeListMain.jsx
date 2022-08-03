@@ -106,6 +106,7 @@ class EmployeeListMain extends Component {
             label: v.district_code,
             value: v.id,
           })),
+
         });
       });
   }
@@ -185,6 +186,7 @@ class EmployeeListMain extends Component {
         if (res) {
           this.setState({ employeeData: res });
         }
+      
       })
       .catch((error) => console.error(`Fetch Error =\n`, error));
   }
@@ -357,6 +359,7 @@ class EmployeeListMain extends Component {
   };
 
   render() {
+    // console.log(this.state.nrcList)
     return (
       <div className=" border-bottom white-bg dashboard-header">
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />

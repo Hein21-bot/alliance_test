@@ -43,7 +43,13 @@ export default class ConfirmationRequestListTable extends Component {
       filterData: [],
       extension: [],
       recommendation: [],
-      effective_date: []
+      effective_date: [],
+      target_achievement: [],
+      comment_overall_performance: [],
+      letter_warning: [],
+      recommend_level: [],
+      promotion_date: [],
+      confirm_or_not: [],
     };
   }
 
@@ -91,6 +97,8 @@ export default class ConfirmationRequestListTable extends Component {
 
     })
   }
+
+  
 
   async update(data) {
     let status = 0;
@@ -221,7 +229,6 @@ export default class ConfirmationRequestListTable extends Component {
       permission.isView === 1 || permission.isEdit === 1 ? true : false;
     if (data.length > 0) {
       for (var i = 0; i < data.length; i++) {
-        console.log('res is ====>', data[i])
         let result = data[i];
         let obj = [];
         if (result.status === 0) {
@@ -259,15 +266,21 @@ export default class ConfirmationRequestListTable extends Component {
           department: data[i].deptname ? data[i].deptname : "-",
           branch: data[i].branch_name ? data[i].branch_name : "-",
           region: data[i].region_name ? data[i].region_name : "-",
-          employ_date: data[i].employ_date ? data[i].employ_date : "-",
-          promotion_date: data[i].promotion_date ? moment(data[i].promotion_date).format('YYYY-MM-DD') : moment(data[i].date).format('DD-MM-YYYY'),
+          employ_date: data[i].employ_date ? moment(data[i].employ_date).format('DD-MM-YYYY') : "-",
+          promotion_date: data[i].promotion_date ? moment(data[i].promotion_date).format("DD-MM-YYYY") : "-",
           date: moment(result.createdAt).format("DD-MM-YYYY"),
           service_year: data[i].service_year ? data[i].service_year : "",
           current_level_service_year: data[i].current_level_service_year ? data[i].current_level_service_year : '',
           current_sub_level_service_year: data[i].current_sub_level_service_year ? data[i].current_sub_level_service_year : '',
           recommendation: data[i].recommendation ? data[i].recommendation : "-",
-          effective_date: data[i].effective_date ? moment(data[i].effective_date).format('YYYY-MM-DD') : "-",
+          effective_date: data[i].effective_date ? moment(data[i].effective_date).format("DD-MM-YYYY") : "-",
           extension_comment: data[i].extension_comment ? data[i].extension_comment : "-",
+          performance_score: data[i].performance_score ? data[i].performance_score : "-",
+          target_achievement: data[i].target_achievement ? data[i].target_achievement : "-",
+          comment_overall_performance: data[i].comment_overall_performance ? data[i].comment_overall_performance : "-",
+          letter_warning: data[i].letter_warning ? data[i].letter_warning : "-",
+          recommend_level: data[i].recommend_level ? data[i].recommend_level : "-",
+          confirm_or_not: data[i].confirm_or_not ? data[i].confirm_or_not : "-",
           status: status
         };
         if (has_action) {

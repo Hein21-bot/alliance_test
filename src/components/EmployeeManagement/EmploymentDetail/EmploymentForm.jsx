@@ -8,7 +8,7 @@ import moment from 'moment';
 
 
 const EmploymentForm = props => {
-    const { handleAddFormInputChange, selectedEmployeeId, exitStatusList, selected_exit_status, disConStatusList, selected_disCon_status, handleSelectedDisConStatus, jobList, selected_job, handleSelectedJob, handleSelectedExitStatus, handleSelectedEmployeeId, employeeIdList, handleLevelSelectorChange, career_level, career_sub_level, level_options, sub_level_options, submitAddForm, handleUpdatData, edit, employeeName, statusList, handleFormCancel, resignReason, handleSelectedBranch, disconDate, handleSelectedDeaprtment, effectiveDate, salary, branchlist, selected_branch, departmentlist, selected_department, handleSelectedDesignation, designationList, selected_designation, actualDate, selected_status, handleSelectedStatus, employedDate } = props
+    const { handleAddFormInputChange, selectedEmployeeId, exitStatusList, selected_exit_status, disConStatusList, selected_disCon_status, handleSelectedDisConStatus, jobList, selected_job, handleSelectedJob, handleSelectedExitStatus, handleSelectedEmployeeId, employeeIdList, handleLevelSelectorChange, career_level, career_sub_level, level_options, sub_level_options, submitAddForm, handleUpdatData, edit,tableView, employeeName, statusList, handleFormCancel, resignReason, handleSelectedBranch, disconDate, handleSelectedDeaprtment, effectiveDate, salary, branchlist, selected_branch, departmentlist, selected_department, handleSelectedDesignation, designationList, selected_designation, actualDate, selected_status, handleSelectedStatus, employedDate,view } = props
     let department = selected_designation != null && departmentlist.filter(v => v.departments_id == selected_designation.departments_id)[0]
 
     
@@ -33,7 +33,7 @@ const EmploymentForm = props => {
                                     onChange={handleSelectedEmployeeId}
                                     className="react-select-container checkValidate"
                                     classNamePrefix="react-select"
-                                    isDisabled={edit ? true : false}
+                                    isDisabled={view ? false : edit ? true : false}
                                 />
                             </div>
                         </div>
@@ -42,7 +42,7 @@ const EmploymentForm = props => {
                                 Employee Name
                             </div>
                             <div className='col-lg-7 col-md-5'>
-                                <input type='text' placeholder='' required name="employeeName" value={name.toUpperCase()} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} disabled={edit ? true : false} />
+                                <input type='text' placeholder='' required name="name" value={name.toUpperCase()} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} disabled={edit ? true : false} />
                             </div>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
@@ -247,6 +247,11 @@ const EmploymentForm = props => {
                     </div>
                 </div>
                 {
+                    view ? <div  style={{ display: 'flex', justifyContent: 'center', marginTop: 15 }}>
+                           <button onClick={handleFormCancel} style={{ borderRadius: 5, padding: 10, background: '#337ab7', marginLeft: 15, color: 'white', border: 'none', width: 90 }}>
+                                Back
+                            </button>
+                    </div> :
                     edit ?
                         <div style={{ display: 'flex', justifyContent: 'center', marginTop: 15 }}>
                             <button onClick={handleUpdatData} style={{ borderRadius: 5, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 90 }}>

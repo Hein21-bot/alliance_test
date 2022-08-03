@@ -21,14 +21,21 @@ const ConfirmationRequestListView = (props) => {
     current_sub_level_service_year,
     service_year,
     effective_date,
+    performance_score,
     promotion_date,
     extension_comment,
     recommendation,
     status,
-    date
+    date,
+    target_achievement,
+    recommend_level,
+    letter_warning,
+    comment_overall_performance,
+    sub_level
   } = props.item;
-  
-  console.log("promotion date==>",promotion_date)
+
+  console.log('sub level in view is ===>', props.sub_level)
+
   const handleClickBack = () => {
     props.backToList(false);
   };
@@ -71,291 +78,381 @@ const ConfirmationRequestListView = (props) => {
           >
             <h3 style={{ fontWeight: "bold" }}>Confirmation Request Form</h3>
           </div>
-          <div
-            className="w-100"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              padding: 10,
-              paddingTop: 20,
-            }}
-          >
-            <div
-              className="col-lg-6 col-md-10 col-sm-12"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <div className="col-lg-5 col-md-5 col-sm-5">Employee Id</div>
-              <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">{employment_id}</div>
-            </div>
-          </div>
-          <div
-            className="w-100"
-            style={{ display: "flex", justifyContent: "center", padding: 10 }}
-          >
-            <div
-              className="col-lg-6 col-md-10 col-sm-12"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <div className="col-lg-5 col-md-5 col-sm-5">Employee Name</div>
-              <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">{fullname}</div>
-            </div>
-          </div>
-          <div
-            className="w-100"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              padding: 10,
-            }}
-          >
-            <div
-              className="col-lg-6 col-md-10 col-sm-12"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <div className="col-lg-5 col-md-5 col-sm-5">Designation</div>
-              <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">{designations}</div>
-            </div>
-          </div>
-          <div
-            className="w-100"
-            style={{ display: "flex", justifyContent: "center", padding: 10 }}
-          >
-            <div
-              className="col-lg-6 col-md-10 col-sm-12"
-              style={{
-                display: "flex",
-                justifyContent: "space-around",
-                alignItems: "center",
-              }}
-            >
-              <div className="col-lg-5 col-md-5 col-sm-5">Level</div>
-              <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">
-                {career_sub_level}
+          <div className="row">
+            <div className=" col-lg-6 col-md-10 col-sm-12">
+              <div
+                className="w-100"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  padding: 10,
+                  paddingTop: 20,
+                }}
+              >
+                <div
+                  className="col-lg-10 col-md-10 col-sm-12"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className="col-lg-5 col-md-5 col-sm-5">Employee Id</div>
+                  <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">{employment_id}</div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div
-            className="w-100"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              padding: 10,
-            }}
-          >
-            <div
-              className="col-lg-6 col-md-10 col-sm-12"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <div className="col-lg-5 col-md-5 col-sm-5">Department</div>
-              <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">{deptname}</div>
-            </div>
-          </div>
-          <div
-            className="w-100"
-            style={{ display: "flex", justifyContent: "center", padding: 10 }}
-          >
-            <div
-              className="col-lg-6 col-md-10 col-sm-12"
-              style={{
-                display: "flex",
-                justifyContent: "space-around",
-                alignItems: "center",
-              }}
-            >
-              <div className="col-lg-5 col-md-5 col-sm-5">Branch</div>
-              <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">{branch_name}</div>
-            </div>
-          </div>
-          <div
-            className="w-100"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              padding: 10,
-            }}
-          >
-            <div
-              className="col-lg-6 col-md-10 col-sm-12"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <div className="col-lg-5 col-md-5 col-sm-5">Region</div>
-              <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">{region_name}</div>
-            </div>
-          </div>
-          <div
-            className="w-100"
-            style={{ display: "flex", justifyContent: "center", padding: 10 }}
-          >
-            <div
-              className="col-lg-6 col-md-10 col-sm-12"
-              style={{
-                display: "flex",
-                justifyContent: "space-around",
-                alignItems: "center",
-              }}
-            >
-              <div className="col-lg-5 col-md-5 col-sm-5">Employed Date</div>
-              <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">{employ_date}</div>
-            </div>
-          </div>
-          <div
-            className="w-100"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              padding: 10,
-            }}
-          >
-            <div
-              className="col-lg-6 col-md-10 col-sm-12"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <div className="col-lg-5 col-md-5 col-sm-5">
-                Last Promotion Date
+              <div
+                className="w-100"
+                style={{ display: "flex", justifyContent: "center", padding: 10 }}
+              >
+                <div
+                  className="col-lg-10 col-md-10 col-sm-12"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className="col-lg-5 col-md-5 col-sm-5">Employee Name</div>
+                  <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">{fullname}</div>
+                </div>
               </div>
-              <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">{promotion_date ? moment(promotion_date).format('YYYY-MM-DD') : moment(date).format('YYYY-MM-DD')}</div>
+              <div
+                className="w-100"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  padding: 10,
+                }}
+              >
+                <div
+                  className="col-lg-10 col-md-10 col-sm-12"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className="col-lg-5 col-md-5 col-sm-5">Designation</div>
+                  <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">{designations}</div>
+                </div>
+              </div>
+              <div
+                className="w-100"
+                style={{ display: "flex", justifyContent: "center", padding: 10 }}
+              >
+                <div
+                  className="col-lg-10 col-md-10 col-sm-12"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className="col-lg-5 col-md-5 col-sm-5">Level</div>
+                  <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">
+                    {career_sub_level}
+                  </div>
+                </div>
+              </div>
+              <div
+                className="w-100"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  padding: 10,
+                }}
+              >
+                <div
+                  className="col-lg-10 col-md-10 col-sm-12"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className="col-lg-5 col-md-5 col-sm-5">Department</div>
+                  <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">{deptname}</div>
+                </div>
+              </div>
+              <div
+                className="w-100"
+                style={{ display: "flex", justifyContent: "center", padding: 10 }}
+              >
+                <div
+                  className="col-lg-10 col-md-10 col-sm-12"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className="col-lg-5 col-md-5 col-sm-5">Branch</div>
+                  <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">{branch_name}</div>
+                </div>
+              </div>
+              <div
+                className="w-100"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  padding: 10,
+                }}
+              >
+                <div
+                  className="col-lg-10 col-md-10 col-sm-12"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className="col-lg-5 col-md-5 col-sm-5">Region</div>
+                  <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">{region_name}</div>
+                </div>
+              </div>
+              <div
+                className="w-100"
+                style={{ display: "flex", justifyContent: "center", padding: 10 }}
+              >
+                <div
+                  className="col-lg-10 col-md-10 col-sm-12"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className="col-lg-5 col-md-5 col-sm-5">Employed Date</div>
+                  <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">{moment(employ_date).format('DD-MM-YYYY')}</div>
+                </div>
+              </div>
+              <div
+                className="w-100"
+                style={{ display: "flex", justifyContent: "center", padding: 10 }}
+              >
+                <div
+                  className="col-lg-10 col-md-10 col-sm-12"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className="col-lg-5 col-md-5 col-sm-5">Performance Score</div>
+                  <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">{performance_score}</div>
+                </div>
+              </div>
+              <div
+                className="w-100"
+                style={{ display: "flex", justifyContent: "center", padding: 10 }}
+              >
+                <div
+                  className="col-lg-10 col-md-10 col-sm-12"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className="col-lg-5 col-md-5 col-sm-5">Target Achievement</div>
+                  <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">{target_achievement}</div>
+                </div>
+              </div>
+
             </div>
-          </div>
-          <div
+            <div className="col-lg-6 col-md-10 col-sm-12">
+              <div
+                className="w-100"
+                style={{ display: "flex", justifyContent: "center", padding: 10 }}
+              >
+                <div
+                  className="col-lg-10 col-md-10 col-sm-12"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className="col-lg-5 col-md-5 col-sm-5">Comment on Overall Performance</div>
+                  <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">{comment_overall_performance}</div>
+                </div>
+              </div>
+              <div
+                className="w-100"
+                style={{ display: "flex", justifyContent: "center", padding: 10 }}
+              >
+                <div
+                  className="col-lg-10 col-md-10 col-sm-12"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className="col-lg-5 col-md-5 col-sm-5">Letter Warning</div>
+                  <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">{letter_warning == 0 ? 'False' : 'True'}</div>
+                </div>
+              </div>
+              <div
+                className="w-100"
+                style={{ display: "flex", justifyContent: "center", padding: 10 }}
+              >
+                <div
+                  className="col-lg-10 col-md-10 col-sm-12"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className="col-lg-5 col-md-5 col-sm-5">Recommended Level</div>
+                  <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">{props.sub_level.filter(v => v.career_sub_level_id == recommend_level)[0].career_sub_level}</div>
+                </div>
+              </div>
+              <div
+                className="w-100"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  padding: 10,
+                }}
+              >
+                <div
+                  className="col-lg-10 col-md-10 col-sm-12"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className="col-lg-5 col-md-5 col-sm-5">
+                    Last Promotion Date
+                  </div>
+                  <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">{moment(promotion_date).format('DD-MM-YYYY')}</div>
+                </div>
+              </div>
+              <div
+                className="w-100"
+                style={{ display: "flex", justifyContent: "center", padding: 10 }}
+              >
+                <div
+                  className="col-lg-10 col-md-10 col-sm-12"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className="col-lg-5 col-md-5 col-sm-5">Service Year</div>
+                  <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">{service_year}</div>
+                </div>
+              </div>
+              <div
+                className="w-100"
+                style={{ display: "flex", justifyContent: "center", padding: 10 }}
+              >
+                <div
+                  className="col-lg-10 col-md-10 col-sm-12"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className="col-lg-5 col-md-5 col-sm-5"> Service year by Current Level</div>
+                  <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">{current_level_service_year}</div>
+                </div>
+              </div>
+              <div
+                className="w-100"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  padding: 10,
+                }}
+              >
+                <div
+                  className="col-lg-10 col-md-10 col-sm-12"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className="col-lg-5 col-md-5 col-sm-5">
+                    Service year by Current Sub Level
+                  </div>
+                  <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">
+                    {current_sub_level_service_year}
+                  </div>
+                </div>
+              </div>
+              <div
+                className="w-100"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  padding: 10,
+                }}
+              >
+                <div
+                  className="col-lg-10 col-md-10 col-sm-12"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className="col-lg-5 col-md-5 col-sm-5">
+                    Effective date
+                  </div>
+                  <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">
+                    {effective_date ? moment(effective_date).format('DD-MM-YYYY') : ''}
+                  </div>
+                </div>
+              </div>
+              <div
+                className="w-100"
+                style={{ display: "flex", justifyContent: "center", padding: 10 }}
+              >
+                <div
+                  className="col-lg-10 col-md-10 col-sm-12"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className="col-lg-5 col-md-5 col-sm-5">Confirm or Not</div>
+                  <div className="col-lg-2 col-md-2 col-sm-2">:</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">{recommendation}</div>
+                </div>
+              </div>
+              {/* <div
             className="w-100"
             style={{ display: "flex", justifyContent: "center", padding: 10 }}
           >
             <div
-              className="col-lg-6 col-md-10 col-sm-12"
-              style={{
-                display: "flex",
-                justifyContent: "space-around",
-                alignItems: "center",
-              }}
-            >
-              <div className="col-lg-5 col-md-5 col-sm-5">Service Year</div>
-              <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">{service_year}</div>
-            </div>
-          </div>
-          <div
-            className="w-100"
-            style={{ display: "flex", justifyContent: "center", padding: 10 }}
-          >
-            <div
-              className="col-lg-6 col-md-10 col-sm-12"
-              style={{
-                display: "flex",
-                justifyContent: "space-around",
-                alignItems: "center",
-              }}
-            >
-              <div className="col-lg-5 col-md-5 col-sm-5"> Service year by Current Level</div>
-              <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">{current_level_service_year}</div>
-            </div>
-          </div>
-          <div
-            className="w-100"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              padding: 10,
-            }}
-          >
-            <div
-              className="col-lg-6 col-md-10 col-sm-12"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <div className="col-lg-5 col-md-5 col-sm-5">
-                Service year by Current Sub Level
-              </div>
-              <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">
-                {current_sub_level_service_year}
-              </div>
-            </div>
-          </div>
-          <div
-            className="w-100"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              padding: 10,
-            }}
-          >
-            <div
-              className="col-lg-6 col-md-10 col-sm-12"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <div className="col-lg-5 col-md-5 col-sm-5">
-                Effective date
-              </div>
-              <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">
-                {effective_date ? moment(effective_date).format('YYYY-MM-DD') : ''}
-              </div>
-            </div>
-          </div>
-          <div
-            className="w-100"
-            style={{ display: "flex", justifyContent: "center", padding: 10 }}
-          >
-            <div
-              className="col-lg-6 col-md-10 col-sm-12"
-              style={{
-                display: "flex",
-                justifyContent: "space-around",
-                alignItems: "center",
-              }}
-            >
-              <div className="col-lg-5 col-md-5 col-sm-5">Confirm or Not</div>
-              <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-              <div className="col-lg-5 col-md-5 col-sm-5">{recommendation}</div>
-            </div>
-          </div>
-          <div
-            className="w-100"
-            style={{ display: "flex", justifyContent: "center", padding: 10 }}
-          >
-            <div
-              className="col-lg-6 col-md-10 col-sm-12"
+              className="col-lg-10 col-md-10 col-sm-12"
               style={{
                 display: "flex",
                 justifyContent: "space-around",
@@ -366,17 +463,17 @@ const ConfirmationRequestListView = (props) => {
               <div className="col-lg-2 col-md-2 col-sm-2">:</div>
               <div className="col-lg-5 col-md-5 col-sm-5">{extension_comment}</div>
             </div>
-          </div>
-          <div
+          </div> */}
+              {/* <div
             className="w-100"
             style={{
               display: "flex",
               justifyContent: "center",
               padding: 10,
             }}
-          >
-            <div
-              className="col-lg-6 col-md-10 col-sm-12"
+          > */}
+              {/* <div
+              className="col-lg-10 col-md-10 col-sm-12"
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -472,6 +569,8 @@ const ConfirmationRequestListView = (props) => {
                   </div>
                 ) : null}
               </div>
+            </div> 
+           </div> */}
             </div>
           </div>
         </div>
