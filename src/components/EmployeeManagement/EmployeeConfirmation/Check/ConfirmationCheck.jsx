@@ -363,7 +363,7 @@ class ConfirmationCheck extends Component {
                 list: this.state.selected_checkList,
                 status: 4,
                 confirm_or_not: this.state.recommendation,
-                approveAt: moment.format(new Date).format('YYYY-MM-DD'),
+                approveAt: moment(new Date()).format('YYYY-MM-DD'),
                 extension_comment:this.state.extensionComment
             }
 
@@ -546,24 +546,8 @@ class ConfirmationCheck extends Component {
                             :
                             <div className='white-bg' style={{ boxShadow: '5px 5px 5px lightgrey', paddingTop: 10 }}>
                                 <h3>Confirmation Check Table</h3>
-                                <div className='' style={{ display: 'flex', alignItems: 'center', marginBottom: -10, justifyContent: 'space-start', marginTop: 15, marginLeft: 15 }}>
-                                    {
-                                        this.state.user_id == 921 ?
-                                            <div>
-                                                <input type="checkbox" style={{ marginRight: 5 }} checked={checkedAll} onChange={this.handleSelectAllChange} /> <span style={{ marginTop: 5 }}>Select All</span>
-                                            </div> :
-
-                                            null
-                                    }
-
-                                    <div style={{ display: 'flex', paddingTop: 5, justifyContent: 'flex-start', marginLeft: 10 }}>
-
-                                        {this.state.user_id == 921 ? <button className='' onClick={() => this.handleApproveRequest()} style={{ borderRadius: 3, padding: 7, background: '#337ab7', color: 'white', border: 'none', width: 80 }}>
-                                            Approve
-                                        </button> : ''}
-                                    </div>
-                                </div>
-                                <CheckTable goToViewForm={this.goToViewForm} checkedAll={checkedAll} handleCheckBoxChange={this.handleCheckBoxChange} goToEditForm={this.goToEditForm} selectedCheckBox={this.state.selectedCheckBox} data={this.state.checkListData ? this.state.checkListData : []} permission={{
+                                
+                                <CheckTable goToViewForm={this.goToViewForm} checkedAll={checkedAll} handleCheckBoxChange={this.handleCheckBoxChange} goToEditForm={this.goToEditForm} selectedCheckBox={this.state.selectedCheckBox} handleApproveRequest={this.handleApproveRequest} handleSelectAllChange={this.handleSelectAllChange}  data={this.state.checkListData ? this.state.checkListData : []} permission={{
                                     isEdit: (this.state.user_id == 921) ? 0 : 1,
                                     isView: 1,
                                     isSelect: (this.state.user_id == 921) ? 1 : 0,
