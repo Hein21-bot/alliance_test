@@ -218,7 +218,6 @@ export default class BenefitChildTable extends Component {
     var permission = this.props.permission;
     var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
     var has_select = permission.isSelect === 1 ? true : false;
-    console.log('data is ===>', data.length)
     for (var i = 0; i < data.length; i++) {
       let result = data[i];
       let obj = [];

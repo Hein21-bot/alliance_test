@@ -359,7 +359,6 @@ class EmployeeListMain extends Component {
   };
 
   render() {
-    // console.log(this.state.nrcList)
     return (
       <div className=" border-bottom white-bg dashboard-header">
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />

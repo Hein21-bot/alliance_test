@@ -263,8 +263,6 @@ class EmployeeDetailMain extends Component {
         if (res.ok) return res.json();
       })
       .then((data) => {
-        console.log('data 0 is ============>', data[0])
-        console.log('selected id===>',this.state.selectedEmployeeId)
         if (data.length > 0) {
           this.setState({
             selectedEmploymentData: data[0],

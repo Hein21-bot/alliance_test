@@ -221,7 +221,6 @@ export default class BenefitChildTable extends Component {
 
 
     render() {
-        console.log('job titile is ===>', this.state.job_title)
         return (
             <div>
                 <div className="row border-bottom white-bg dashboard-header">

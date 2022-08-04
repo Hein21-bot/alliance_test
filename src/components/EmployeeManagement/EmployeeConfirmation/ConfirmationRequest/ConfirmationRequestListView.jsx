@@ -5,6 +5,8 @@ import Select from "react-select";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import moment from "moment";
+import ApprovalInformation from '../InfoForConfirmation';
+
 
 const ConfirmationRequestListView = (props) => {
   const {
@@ -34,7 +36,6 @@ const ConfirmationRequestListView = (props) => {
     sub_level
   } = props.item;
 
-  console.log('sub level in view is ===>', props.sub_level)
 
   const handleClickBack = () => {
     props.backToList(false);
@@ -447,6 +448,8 @@ const ConfirmationRequestListView = (props) => {
                   <div className="col-lg-5 col-md-5 col-sm-5">{recommendation}</div>
                 </div>
               </div>
+
+
               {/* <div
             className="w-100"
             style={{ display: "flex", justifyContent: "center", padding: 10 }}
@@ -575,6 +578,16 @@ const ConfirmationRequestListView = (props) => {
           </div>
         </div>
       </form>
+      <div className="row approval-main">
+        {
+          !Array.isArray(props.status_info) ?
+
+            <div className="margin-top-20">
+              <ApprovalInformation status={props.status_info} />
+            </div>
+            : ''
+        }
+      </div>
     </div>
   );
 };

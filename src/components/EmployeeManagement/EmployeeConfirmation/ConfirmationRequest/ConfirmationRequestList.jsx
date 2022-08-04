@@ -12,7 +12,8 @@ export default class ConfirmationRequestList extends Component {
       selectedConfirmation: null,
       pathname: window.location.pathname,
       confirmData: [],
-      sub_level: []
+      sub_level: [],
+      status_info: []
     }
   }
   async componentDidMount() {
@@ -41,6 +42,16 @@ export default class ConfirmationRequestList extends Component {
 
 
   goToViewForm = data => {
+    fetch(`${main_url}confirmation/getActionStatus/${data.table_id}`)
+      .then(response => {
+        if (response.ok) return response.json()
+      })
+      .then(res => {
+        this.setState({
+          status_info: res
+        })
+      })
+      .catch(error => console.error(`Fetch Error =\n`, error));
     this.setState({
       viewForm: true,
       selectedConfirmation: data
@@ -83,7 +94,7 @@ export default class ConfirmationRequestList extends Component {
           </ul>
         </div>
         {this.state.viewForm ? (
-          <ConfirmationRequestListView item={this.state.selectedConfirmation} backToList={this.backToList} sub_level={this.state.sub_level} />
+          <ConfirmationRequestListView item={this.state.selectedConfirmation} backToList={this.backToList} sub_level={this.state.sub_level} status_info={this.state.status_info} />
         ) : (
           <ConfirmationRequestListTable
             goToViewForm={this.goToViewForm}

@@ -432,7 +432,6 @@ class ConfirmationCheck extends Component {
             verify_person: this.state.user_id
         }
 
-        console.log('data is =====>', data)
 
         let status = 0;
         fetch(`${main_url}confirmation/updateConfirmationDetail/${tabel_id}`, {

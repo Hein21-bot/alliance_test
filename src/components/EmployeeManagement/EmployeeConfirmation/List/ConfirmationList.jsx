@@ -468,9 +468,6 @@ class ConfirmationList extends Component {
           check_person: this.state.selected_checkPerson.user_id,
           status: 0
         };
-
-        console.log('data is ===>', data)
-
         let status = 0;
         fetch(`${main_url}confirmation/addConfirmation`, {
           method: "POST",
@@ -481,7 +478,6 @@ class ConfirmationList extends Component {
         })
           .then((res) => {
             status = res.status;
-            console.log('status ===>', status)
             return res.text();
           })
           .then((text) => {
