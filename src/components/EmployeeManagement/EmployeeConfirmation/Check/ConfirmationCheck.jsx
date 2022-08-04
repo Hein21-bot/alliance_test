@@ -47,7 +47,11 @@ class ConfirmationCheck extends Component {
             sub_level_options: [],
             selected_sub_level: [],
             status_info: [],
-            confirmPerson: null
+            confirmPerson: null,
+            checkAt: null,
+            confirmAt: null,
+            verifyAt: null,
+            approveAt: null
         }
 
     }
@@ -190,6 +194,10 @@ class ConfirmationCheck extends Component {
             confirmPerson: data.confirm_person,
             verifyPerson: data.verify_person,
             selectedTableData: data,
+            checkAt: data.checkAt,
+            confirmAt: data.confirmAt,
+            verifyAt: data.verifyAt,
+            approveAt: data.approveAt,
             extensionPeriod: data.extension_period ? data.extension_period : '',
             extensionComment: data.extension_comment ? data.extension_comment : '',
             effectiveDate: data.effective_date ? moment(data.effective_date).format('YYYY-MM-DD') : data.effective_date,
@@ -364,7 +372,7 @@ class ConfirmationCheck extends Component {
                 list: this.state.selected_checkList,
                 status: 4,
                 confirm_or_not: this.state.recommendation,
-                approveAt: moment.format(new Date()).format('YYYY-MM-DD'),
+                approveAt: moment(new Date()).format('YYYY-MM-DD'),
                 extension_comment: this.state.extensionComment
             }
 
@@ -396,7 +404,7 @@ class ConfirmationCheck extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        const { fullname, employment_id, designations, selected_user_id, tabel_id, department, level, letterWarning, score, achievement, warningDate, recommendation, date, extensionPeriod, extensionComment, comment, effectiveDate, selected_sub_level } = this.state
+        const { fullname, employment_id, designations, selected_user_id, tabel_id, department, level, letterWarning, score, achievement, warningDate, recommendation, date, extensionPeriod, extensionComment, comment, effectiveDate, selected_sub_level, checkAt, confirmAt, verifyAt, approveAt } = this.state
         let data = {
             fullname,
             employment_id,
@@ -417,11 +425,14 @@ class ConfirmationCheck extends Component {
             confirm_or_not: this.state.status == 1 ? recommendation : null,
             confirm_career_sub_level: selected_sub_level.career_sub_level_id,
             recommend_level: selected_sub_level.career_sub_level_id,
-            checkAt: this.state.status == 0 ? moment(new Date()).format('YYYY-MM-DD') : null,
-            confirmAt: this.state.status > 0 ? moment(new Date()).format('YYYY-MM-DD') : null,
-            verifyAt: this.state.status > 1 ? moment(new Date()).format('YYYY-MM-DD') : null,
-            approveAt: null
+            checkAt: this.state.status == 0 ? moment(new Date()).format('YYYY-MM-DD') : moment(checkAt).format('YYYY-MM-DD'),
+            confirmAt: this.state.status == 1 ? moment(new Date()).format('YYYY-MM-DD') : confirmAt ? moment(confirmAt).format('YYYY-MM-DD') : null,
+            verifyAt: this.state.status == 2 ? moment(new Date()).format('YYYY-MM-DD') : verifyAt ? moment(verifyAt).format('YYYY-MM-DD') : null,
+            approveAt: null,
+            verify_person: this.state.user_id
         }
+
+        console.log('data is =====>', data)
 
         let status = 0;
         fetch(`${main_url}confirmation/updateConfirmationDetail/${tabel_id}`, {
@@ -457,7 +468,7 @@ class ConfirmationCheck extends Component {
     render() {
         let verify_person = this.state.checkListData && (this.state.checkListData[0] ? this.state.checkListData[0].verify_person : null)
         let check_person = this.state.checkListData && (this.state.checkListData[0] ? this.state.checkListData[0].check_person : null)
-        const { selected_checkList, extensionPeriod, extensionComment, comment, effectiveDate, checkedAll, edit, view, selectedTableData, fullname, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, status, recommendation, date, checkPerson, verifyPerson, sub_level_options, career_level_id, selected_sub_level, recommend_level, status_info, confirmPerson } = this.state
+        const { selected_checkList, extensionPeriod, extensionComment, comment, effectiveDate, checkedAll, edit, view, selectedTableData, fullname, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, status, recommendation, date, checkPerson, verifyPerson, sub_level_options, career_level_id, selected_sub_level, recommend_level, status_info, confirmPerson, checkAt, confirmAt, verifyAt, approveAt } = this.state
         return (
             <div className=" border-bottom white-bg dashboard-header">
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -551,24 +562,8 @@ class ConfirmationCheck extends Component {
                             :
                             <div className='white-bg' style={{ boxShadow: '5px 5px 5px lightgrey', paddingTop: 10 }}>
                                 <h3>Confirmation Check Table</h3>
-                                <div className='' style={{ display: 'flex', alignItems: 'center', marginBottom: -10, justifyContent: 'space-start', marginTop: 15, marginLeft: 15 }}>
-                                    {
-                                        this.state.user_id == 921 ?
-                                            <div>
-                                                <input type="checkbox" style={{ marginRight: 5 }} checked={checkedAll} onChange={this.handleSelectAllChange} /> <span style={{ marginTop: 5 }}>Select All</span>
-                                            </div> :
 
-                                            null
-                                    }
-
-                                    <div style={{ display: 'flex', paddingTop: 5, justifyContent: 'flex-start', marginLeft: 10 }}>
-
-                                        {this.state.user_id == 921 ? <button className='' onClick={() => this.handleApproveRequest()} style={{ borderRadius: 3, padding: 7, background: '#337ab7', color: 'white', border: 'none', width: 80 }}>
-                                            Approve
-                                        </button> : ''}
-                                    </div>
-                                </div>
-                                <CheckTable goToViewForm={this.goToViewForm} checkedAll={checkedAll} handleCheckBoxChange={this.handleCheckBoxChange} goToEditForm={this.goToEditForm} selectedCheckBox={this.state.selectedCheckBox} data={this.state.checkListData ? this.state.checkListData : []} permission={{
+                                <CheckTable goToViewForm={this.goToViewForm} checkedAll={checkedAll} handleCheckBoxChange={this.handleCheckBoxChange} goToEditForm={this.goToEditForm} selectedCheckBox={this.state.selectedCheckBox} handleApproveRequest={this.handleApproveRequest} handleSelectAllChange={this.handleSelectAllChange} data={this.state.checkListData ? this.state.checkListData : []} permission={{
                                     isEdit: (this.state.user_id == 921) ? 0 : 1,
                                     isView: 1,
                                     isSelect: (this.state.user_id == 921) ? 1 : 0,

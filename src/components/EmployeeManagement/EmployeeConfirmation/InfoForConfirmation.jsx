@@ -115,7 +115,7 @@ export default class ApprovalInformation extends Component {
                                     <div>
                                         <label>
                                             {
-                                                info.checked.checked_date ? info.checked.checked_date : '-'
+                                                info.checked.checked_date ? moment(info.checked.checked_date).format('YYYY-MM-DD') : '-'
                                             }
                                         </label>
                                     </div>
@@ -173,7 +173,7 @@ export default class ApprovalInformation extends Component {
                                     <div>
                                         <label>
                                             {
-                                                info.confirmed.confirmed_date ? info.confirmed.confirmed_date : '-'
+                                                info.confirmed.confirmed_date ? moment(info.confirmed.confirmed_date).format('YYYY-MM-DD') : '-'
                                             }
                                         </label>
                                     </div>
@@ -198,7 +198,7 @@ export default class ApprovalInformation extends Component {
                                     <div>
                                         <label>
                                             {
-                                                info.verified.verified_by ? info.verified.verified_by : '-'
+                                                info.verified.verify_by ? info.verified.verify_by : '-'
                                             }
                                         </label>
                                         <label>
@@ -231,7 +231,7 @@ export default class ApprovalInformation extends Component {
                                     <div>
                                         <label>
                                             {
-                                                info.verified.verified_date ? info.verified.verified_date : '-'
+                                                info.verified.verified_date ? moment(info.verified.verified_date).format('YYYY-MM-DD') : '-'
                                             }
                                         </label>
                                     </div>

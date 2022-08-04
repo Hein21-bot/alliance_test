@@ -240,7 +240,7 @@ const EditCheckForm = props => {
                         </div>
                     }
 
-                    {
+{
                         view ?
                             <div className='w-100 mx-2' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                                 <button onClick={BackToTable} className='btn btn-primary' style={{ borderRadius: 10, width: 120 }}>Back</button>
