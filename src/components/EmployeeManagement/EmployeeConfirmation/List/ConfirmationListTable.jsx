@@ -121,9 +121,9 @@ export default class BenefitChildTable extends Component {
                 branch: data[i].branch_name ? data[i].branch_name : '-',
                 region: data[i].region_name ? data[i].region_name : '-',
                 employee_date: data[i].employee_date ? moment(data[i].employee_date).format('DD-MM-YYYY') : '-',
-                promotion_date: data[i].promotion_date ? moment(data[i].promotion_date).format('DD-MM-YYYY') : '-',
+                promotion_date: data[i].last_promotion_date ? moment(data[i].last_promotion_date).format('DD-MM-YYYY') : '-',
                 date: moment(result.createdAt).format('DD-MM-YYYY'),
-                service_year: data[i].service_year ? data[i].service_year : '',
+                service_year: data[i].service_year ? data[i].service_year : '-',
                 current_level_service_year: data[i].current_level_service_year ? data[i].current_level_service_year : '',
                 current_sub_level_service_year: data[i].current_sub_level_service_year ? data[i].current_sub_level_service_year : '',
                 leave: data[i].leave ? data[i].leave : '-',
@@ -227,7 +227,7 @@ export default class BenefitChildTable extends Component {
                 if (data.extension === true) {
                     $(row).css('background-color', 'Orange');
                 }
-            }
+            } 
 
 
         });
