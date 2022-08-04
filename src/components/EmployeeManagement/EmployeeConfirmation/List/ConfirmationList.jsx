@@ -433,6 +433,7 @@ class ConfirmationList extends Component {
         list: this.state.checkedListData,
         extension_comment: extension_comment,
         status: 5,
+        createdAt: moment(new Date()).format('YYYY-MM-DD')
       };
 
 
@@ -480,6 +481,7 @@ class ConfirmationList extends Component {
         })
           .then((res) => {
             status = res.status;
+            console.log('status ===>', status)
             return res.text();
           })
           .then((text) => {
