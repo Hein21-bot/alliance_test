@@ -468,6 +468,12 @@ class EmployeeRegisterMain extends Component {
 
     }
 
+    nrcErr = (e) => {
+        if(this.state.nrc_number.length < 6){
+            toast.error('NRC number should be 6 digit!')
+        }
+    }
+
 
     handleBankDetailInputChange = (e) => {
         if (e.target.name === "accountName") {
@@ -1296,6 +1302,7 @@ class EmployeeRegisterMain extends Component {
                                     districtCodeList={districtCodeList}
                                     nrcList={nrcList}
                                     nrc_number={nrc_number}
+                                    nrcErr={this.nrcErr}
                                 />
 
                                 : tabIndex === 2 ?

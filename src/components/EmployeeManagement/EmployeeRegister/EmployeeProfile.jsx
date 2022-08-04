@@ -1,17 +1,25 @@
 import React, { Component } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
 import Select from "react-select";
 
 
 import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, getPermissionStatus, startSaving } from "../../../utils/CommonFunction";
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const EmployeeProfile = props => {
-    const { userImage, handleClick, hiddenFileInput, districtCodeList, fullNRC, nrcList, handleProfileSave, nrc_number, handleChange, handleSelectedDistrictCode, handleSelectedNRCId, selected_DistrictCode, selected_NRC_Id, employeeId, region, address, joinDate, nationality, personalPhone, officePhone, dateOfBirth, handleInputChange, onGenderChange, employeeNameEng, employeeNameMyan, gender } = props
+    const { userImage, handleClick, hiddenFileInput, districtCodeList, fullNRC, nrcList, handleProfileSave, nrc_number, handleChange, handleSelectedDistrictCode, handleSelectedNRCId, selected_DistrictCode, selected_NRC_Id, employeeId, region, address, joinDate, nationality, personalPhone, officePhone, dateOfBirth, handleInputChange, onGenderChange, employeeNameEng, employeeNameMyan, gender,nrcErr } = props
     const { onCancelClick, viewForm, editForm } = props
 
 
     const imgUrl = userImage ? (userImage.includes('103.29.91.26') ? userImage : main_url + 'confirmation/getProfile/' + userImage) : ''
+
+    // const nrcErr = () => {
+    //     if(nrc_number.length < 6){
+    //         toast.error("NRC number should be 6 digit!");
+    //     }
+    // }
+
+    console.log('nrc number is =====>', nrc_number.length)
 
     let fullNRCNO = fullNRC ? fullNRC :
         // fullNRC.split(" ")[0] + '/' + fullNRC.split(" ")[1] + '(N)' + fullNRC.split(" ")[2] :
@@ -233,7 +241,7 @@ const EmployeeProfile = props => {
                 <button className='' onClick={onCancelClick} style={{ borderRadius: 5, padding: 10, margin: 10, background: 'red', color: 'white', border: 'none', width: 90 }}>
                     Cancel
                 </button>
-                <button type="submit" style={{ borderRadius: 5, padding: 10, margin: 10, background: '#337ab7', color: 'white', border: 'none', width: 90 }}>
+                <button type="submit" style={{ borderRadius: 5, padding: 10, margin: 10, background: '#337ab7', color: 'white', border: 'none', width: 90 }} onClick={nrcErr}>
                     Next
                 </button>
             </div>

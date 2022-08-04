@@ -297,6 +297,7 @@ class EditEmployeeListForm extends Component {
     }
 
     handleInputChange = e => {
+
         if (e.target.name === "employeeId") {
             this.setState({
                 employeeId: e.target.value
@@ -312,6 +313,7 @@ class EditEmployeeListForm extends Component {
                 employeeNameMyan: e.target.value
             })
         }
+       
         else if (e.target.name === "dateOfBirth") {
             if (this.state.nrc_number.length != 6) {
                 toast.error("NRC number should be 6 digit!")
@@ -411,8 +413,6 @@ class EditEmployeeListForm extends Component {
                 SSCCardNo: e.target.value
             })
         }
-
-
     }
     handleEmploymentDetailInputChange = (e) => {
 
@@ -433,7 +433,12 @@ class EditEmployeeListForm extends Component {
             })
         }
 
+    }
 
+    nrcErr = e => {
+        if(this.state.nrc_number.length < 6) {
+            toast.error('NRC number should be 6 digit!')
+        }
     }
 
     onGenderChange = e => {
@@ -1105,6 +1110,7 @@ class EditEmployeeListForm extends Component {
                             nrcList={nrcList}
                             fullNRC={fullNRC}
                             nrc_number={nrc_number}
+                            nrcErr={this.nrcErr}
                         />
 
                         : tabIndex === 2 ?
