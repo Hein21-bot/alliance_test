@@ -114,7 +114,6 @@ export default class LeaveManagementMain extends Component {
                     <div className="col-sm-10" style={{ paddingRight: '20px' }}>
                         <div className="white-bg container" style={{ padding: '20px' }}>
                             {
-                                // this.state.isTable ?
                                 (active_tab === 0 || active_tab === 1 ?
 
                                     <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
@@ -133,7 +132,6 @@ export default class LeaveManagementMain extends Component {
                                                 <a className="nav-link" href="#allLeave_create" role="tab" data-toggle="tab" onClick={() => this.changeTab(3)}>New Leave</a>
                                             </li>
                                         </ul> : active_tab === 4 ? '' : active_tab === 5 ? '' : active_tab === 6 ? '' : '')
-                                // : ''
                             }
                             {
                                 this.state.isView ? <LeaveManagementView data={this.state.data} /> : ''
@@ -143,7 +141,7 @@ export default class LeaveManagementMain extends Component {
                                 this.state.isEdit ? <LeaveManagementEdit data={this.state.data} /> : ''
                             }
 
-{
+                            {
                                 this.state.isCancel ? <CancelLeaveEdit data={this.state.data} /> : ''
                             }
 

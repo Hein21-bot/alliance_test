@@ -33,7 +33,7 @@ const EmploymentForm = props => {
                                     onChange={handleSelectedEmployeeId}
                                     className="react-select-container checkValidate"
                                     classNamePrefix="react-select"
-                                    isDisabled={view ? false : edit ? true : false}
+                                    isDisabled={view ? true : edit ? true : false}
                                 />
                             </div>
                         </div>
@@ -42,7 +42,7 @@ const EmploymentForm = props => {
                                 Employee Name
                             </div>
                             <div className='col-lg-7 col-md-5'>
-                                <input type='text' placeholder='' required name="name" value={name.toUpperCase()} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} disabled={edit ? true : false} />
+                                <input type='text' placeholder='' isDisabled={view ? true : false} required name="name" value={name.toUpperCase()} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} disabled={edit ? true : false} />
                             </div>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
@@ -56,6 +56,7 @@ const EmploymentForm = props => {
                                     onChange={handleSelectedStatus}
                                     className="react-select-container checkValidate"
                                     classNamePrefix="react-select"
+                                    isDisabled={view ? true :false}
                                 />
                             </div>
                         </div>
@@ -71,6 +72,8 @@ const EmploymentForm = props => {
                                     onChange={handleSelectedDesignation}
                                     className="react-select-container checkValidate"
                                     classNamePrefix="react-select"
+                                    isDisabled={view ? true :false}
+
                                 />
                             </div>
 
@@ -87,6 +90,7 @@ const EmploymentForm = props => {
                                     onChange={handleSelectedBranch}
                                     className="react-select-container checkValidate"
                                     classNamePrefix="react-select"
+                                    isDisabled={view ? true :false}
                                 />
                             </div>
 
@@ -120,6 +124,7 @@ const EmploymentForm = props => {
                                     onChange={(val) => handleLevelSelectorChange(val, 'career_level')}
                                     className="react-select-container checkValidate"
                                     classNamePrefix="react-select"
+                                    isDisabled={view ? true :false}
                                 />
                             </div>
 
@@ -136,6 +141,7 @@ const EmploymentForm = props => {
                                     onChange={(val) => handleLevelSelectorChange(val, 'career_sub_level')}
                                     className="react-select-container checkValidate"
                                     classNamePrefix="react-select"
+                                    isDisabled={view ? true :false}
                                 />
                             </div>
 
@@ -152,6 +158,7 @@ const EmploymentForm = props => {
                                     onChange={handleSelectedExitStatus}
                                     className="react-select-container checkValidate"
                                     classNamePrefix="react-select"
+                                    isDisabled={view ? true :false}
                                 />
                             </div>
 
@@ -164,7 +171,7 @@ const EmploymentForm = props => {
                             </div>
                             <div className='col-lg-7  col-md-5'>
 
-                                <input type='text' placeholder='' required name="date" value={moment(new Date()).format('YYYY-MM-DD')} onChange={null} style={{ width: '100%', height: 40 }} />
+                                <input type='text' placeholder=''  isDisabled={view ? true :false} required name="date" value={moment(new Date()).format('YYYY-MM-DD')} onChange={null} style={{ width: '100%', height: 40 }} />
 
                             </div>
                         </div>
@@ -173,7 +180,7 @@ const EmploymentForm = props => {
                                 Employed Date
                             </div>
                             <div className='col-lg-7  col-md-5'>
-                                <input type='date' placeholder='' required name="employedDate" value={moment(employedDate).format('YYYY-MM-DD')} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
+                                <input type='date' placeholder=''  isDisabled={view ? true :false} required name="employedDate" value={moment(employedDate).format('YYYY-MM-DD')} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
                             </div>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
@@ -181,7 +188,7 @@ const EmploymentForm = props => {
                                 Effective Date
                             </div>
                             <div className='col-lg-7  col-md-5'>
-                                <input type='date' placeholder='' required name="effectiveDate" value={moment(effectiveDate).format('YYYY-MM-DD')} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
+                                <input type='date' placeholder=''  isDisabled={view ? true :false} required name="effectiveDate" value={moment(effectiveDate).format('YYYY-MM-DD')} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
                             </div>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
@@ -189,7 +196,7 @@ const EmploymentForm = props => {
                                 Actual Date
                             </div>
                             <div className='col-lg-7  col-md-5'>
-                                <input type='date' placeholder='' required name="actualDate" value={moment(actualDate).format('YYYY-MM-DD')} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
+                                <input type='date' placeholder=''  isDisabled={view ? true :false} required name="actualDate" value={moment(actualDate).format('YYYY-MM-DD')} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
                             </div>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
@@ -203,6 +210,7 @@ const EmploymentForm = props => {
                                     onChange={handleSelectedJob}
                                     className="react-select-container checkValidate"
                                     classNamePrefix="react-select"
+                                    isDisabled={view ? true :false}
                                 />
                             </div>
                         </div>
@@ -211,7 +219,7 @@ const EmploymentForm = props => {
                                 Salary
                             </div>
                             <div className='col-lg-7  col-md-5'>
-                                <input type='number' placeholder='' required name="salary" value={temp_salary} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
+                                <input type='number' placeholder='' required name="salary"  isDisabled={view ? true :false} value={temp_salary} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
                             </div>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
@@ -225,6 +233,7 @@ const EmploymentForm = props => {
                                     onChange={handleSelectedDisConStatus}
                                     className="react-select-container checkValidate"
                                     classNamePrefix="react-select"
+                                    isDisabled={view ? true :false}
                                 />
                             </div>
                         </div>
@@ -233,7 +242,7 @@ const EmploymentForm = props => {
                                 Discontinuous Date
                             </div>
                             <div className='col-lg-7  col-md-5'>
-                                <input type='date' placeholder='' name="disconDate" value={moment(disconDate).format('YYYY-MM-DD')} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
+                                <input type='date' placeholder=''  isDisabled={view ? true :false} name="disconDate" value={moment(disconDate).format('YYYY-MM-DD')} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
                             </div>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
@@ -241,7 +250,7 @@ const EmploymentForm = props => {
                                 Resign Reason
                             </div>
                             <div className='col-lg-7  col-md-5'>
-                                <input type='text' placeholder='' name="resignReason" value={resignReason} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
+                                <input type='text' placeholder=''  isDisabled={view ? true :false} name="resignReason" value={resignReason} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
                             </div>
                         </div>
                     </div>

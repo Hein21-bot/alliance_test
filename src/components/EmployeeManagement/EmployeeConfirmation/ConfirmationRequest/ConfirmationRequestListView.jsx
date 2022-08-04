@@ -5,6 +5,8 @@ import Select from "react-select";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import moment from "moment";
+import ApprovalInformation from '../InfoForConfirmation';
+
 
 const ConfirmationRequestListView = (props) => {
   const {
@@ -31,10 +33,10 @@ const ConfirmationRequestListView = (props) => {
     recommend_level,
     letter_warning,
     comment_overall_performance,
+    sub_level
   } = props.item;
 
 
-  console.log("promotion date==>", promotion_date)
   const handleClickBack = () => {
     props.backToList(false);
   };
@@ -302,7 +304,7 @@ const ConfirmationRequestListView = (props) => {
                 >
                   <div className="col-lg-5 col-md-5 col-sm-5">Letter Warning</div>
                   <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-                  <div className="col-lg-5 col-md-5 col-sm-5">{letter_warning}</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">{letter_warning == 0 ? 'False' : 'True'}</div>
                 </div>
               </div>
               <div
@@ -319,7 +321,7 @@ const ConfirmationRequestListView = (props) => {
                 >
                   <div className="col-lg-5 col-md-5 col-sm-5">Recommended Level</div>
                   <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-                  <div className="col-lg-5 col-md-5 col-sm-5">{recommend_level}</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">{props.sub_level.filter(v => v.career_sub_level_id == recommend_level)[0].career_sub_level}</div>
                 </div>
               </div>
               <div
@@ -342,7 +344,7 @@ const ConfirmationRequestListView = (props) => {
                     Last Promotion Date
                   </div>
                   <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-                  <div className="col-lg-5 col-md-5 col-sm-5">{promotion_date != null ? moment(promotion_date).format('DD-MM-YYYY') : promotion_date}</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">{moment(promotion_date).format('DD-MM-YYYY')}</div>
                 </div>
               </div>
               <div
@@ -446,6 +448,8 @@ const ConfirmationRequestListView = (props) => {
                   <div className="col-lg-5 col-md-5 col-sm-5">{recommendation}</div>
                 </div>
               </div>
+
+
               {/* <div
             className="w-100"
             style={{ display: "flex", justifyContent: "center", padding: 10 }}
@@ -538,7 +542,7 @@ const ConfirmationRequestListView = (props) => {
                   >
                     <p style={{ color: "white" }}>Verify</p>
                   </div>
-                ) : status == 4 ? (
+                ) : status == 4 || status == 10 ? (
                   <div
                     style={{
                       width: '50%',
@@ -574,6 +578,16 @@ const ConfirmationRequestListView = (props) => {
           </div>
         </div>
       </form>
+      <div className="row approval-main">
+        {
+          !Array.isArray(props.status_info) ?
+
+            <div className="margin-top-20">
+              <ApprovalInformation status={props.status_info} />
+            </div>
+            : ''
+        }
+      </div>
     </div>
   );
 };

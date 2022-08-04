@@ -297,6 +297,7 @@ class EditEmployeeListForm extends Component {
     }
 
     handleInputChange = e => {
+
         if (e.target.name === "employeeId") {
             this.setState({
                 employeeId: e.target.value
@@ -312,6 +313,7 @@ class EditEmployeeListForm extends Component {
                 employeeNameMyan: e.target.value
             })
         }
+       
         else if (e.target.name === "dateOfBirth") {
             if (this.state.nrc_number.length != 6) {
                 toast.error("NRC number should be 6 digit!")
@@ -411,8 +413,6 @@ class EditEmployeeListForm extends Component {
                 SSCCardNo: e.target.value
             })
         }
-
-
     }
     handleEmploymentDetailInputChange = (e) => {
 
@@ -433,7 +433,12 @@ class EditEmployeeListForm extends Component {
             })
         }
 
+    }
 
+    nrcErr = e => {
+        if(this.state.nrc_number.length < 6) {
+            toast.error('NRC number should be 6 digit!')
+        }
     }
 
     onGenderChange = e => {
@@ -1027,7 +1032,6 @@ class EditEmployeeListForm extends Component {
             employeeId, employeeNameEng, nationality, personalPhone, employeeNameMyan, gender, addedDegreeData, addedQualitificationData, workExpData, fromMonthYear, toMonthYear, location, dateOfBirth, contactPerson, contactPhone, bankData, bankDataEdit, selected_DistrictCode, selected_NRC_Id,
         } = this.state
         const { selectedEmployeeData, level_options, editForm, BackToTable, viewForm, bankList, degreeList, nrcList, districtCodeList, designationList, branchlist, granDistrictCodeList } = this.props
-        console.log("render is ===>", disConStatus)
         return (
             <div className=" border-bottom white-bg dashboard-header">
                 <div className='tabBar col-lg-12 col-md-12 col-sm-12 ' style={{ display: 'flex', paddingLeft: 0, paddingRight: 0, flexDirection: 'row', paddingTop: 20, fontSize: 13, minWidth: 300, overflowX: 'auto', alignItems: 'center' }}>
@@ -1106,6 +1110,7 @@ class EditEmployeeListForm extends Component {
                             nrcList={nrcList}
                             fullNRC={fullNRC}
                             nrc_number={nrc_number}
+                            nrcErr={this.nrcErr}
                         />
 
                         : tabIndex === 2 ?

@@ -44,12 +44,12 @@ export default class ConfirmationRequestListTable extends Component {
       extension: [],
       recommendation: [],
       effective_date: [],
-      target_achievement:[],
-      comment_overall_performance:[],
-      letter_warning:[],
-      recommend_level:[],
-      promotion_date:[],
-      confirm_or_not:[]
+      target_achievement: [],
+      comment_overall_performance: [],
+      letter_warning: [],
+      recommend_level: [],
+      promotion_date: [],
+      confirm_or_not: [],
     };
   }
 
@@ -75,7 +75,6 @@ export default class ConfirmationRequestListTable extends Component {
     $("#dataTables-table").on('click', '#toEdit', function () {
       var data = $(this).find("#edit").text();
       data = $.parseJSON(data);
-      // console.log('data is =====>', data)
       that.update(data)
     });
     let level = await getLevel();
@@ -98,6 +97,8 @@ export default class ConfirmationRequestListTable extends Component {
     })
   }
 
+  
+
   async update(data) {
     let status = 0;
     fetch(`${main_url}confirmation/updateConfirmForEmployment/${data.user_id}`, {
@@ -118,7 +119,7 @@ export default class ConfirmationRequestListTable extends Component {
         }
         else toast.error(text);
         // window.location.replace("/employment_details");
-        window.location.replace('/confirmation_list')
+        // window.location.replace('/confirmation_list')
 
       })
   }
@@ -137,7 +138,7 @@ export default class ConfirmationRequestListTable extends Component {
     this.search(2);
   }
   getApprove() {
-    this.search(4);
+    this.search(4 || 10);
   }
 
   componentDidUpdate(prevProps) {
@@ -219,7 +220,6 @@ export default class ConfirmationRequestListTable extends Component {
   }
 
   _setTableData = (data) => {
-    console.log('data===>', data)
     var table;
     var l = [];
     var status;
@@ -228,7 +228,6 @@ export default class ConfirmationRequestListTable extends Component {
       permission.isView === 1 || permission.isEdit === 1 ? true : false;
     if (data.length > 0) {
       for (var i = 0; i < data.length; i++) {
-        console.log('res is ====>', data[i])
         let result = data[i];
         let obj = [];
         if (result.status === 0) {
@@ -249,6 +248,9 @@ export default class ConfirmationRequestListTable extends Component {
         } else if (result.status === 5) {
           status =
             '<small class="label label-warning" style="background-color:#f60e2f"> Extension  </small>';
+        } else if (result.status === 10) {
+          status =
+            '<small class="label label-warning" style="background-color:#29a50a"> Approved </small>';
         }
         obj = {
           no: i + 1,
@@ -272,19 +274,19 @@ export default class ConfirmationRequestListTable extends Component {
           recommendation: data[i].recommendation ? data[i].recommendation : "-",
           effective_date: data[i].effective_date ? moment(data[i].effective_date).format("DD-MM-YYYY") : "-",
           extension_comment: data[i].extension_comment ? data[i].extension_comment : "-",
-          performance_score: data[i].performance_score ? data[i].performance_score :"-",
-          target_achievement: data[i].target_achievement ? data[i].target_achievement:"-",
-          comment_overall_performance: data[i].comment_overall_performance ? data[i].comment_overall_performance:"-",
-          letter_warning: data[i].letter_warning ? data[i].letter_warning:"-",
-          recommend_level: data[i].recommend_level ? data[i].recommend_level:"-",
-          confirm_or_not:data[i].confirm_or_not ? data[i].confirm_or_not:"-",
+          performance_score: data[i].performance_score ? data[i].performance_score : "-",
+          target_achievement: data[i].target_achievement ? data[i].target_achievement : "-",
+          comment_overall_performance: data[i].comment_overall_performance ? data[i].comment_overall_performance : "-",
+          letter_warning: data[i].letter_warning ? data[i].letter_warning : "-",
+          recommend_level: data[i].recommend_level ? data[i].recommend_level : "-",
+          confirm_or_not: data[i].confirm_or_not ? data[i].confirm_or_not : "-",
           status: status
         };
         if (has_action) {
           obj.action =
             permission.isView === 1
               ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-view" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : "";
-          obj.action += permission.isEdit === 1 && this.props.pathname == '/confirmation_approve_list'
+          obj.action += permission.isEdit === 1 && result.status != 10
             ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Update</button>' : '';
         }
 
@@ -314,7 +316,7 @@ export default class ConfirmationRequestListTable extends Component {
       { title: "Service Year in Current Level", data: "current_level_service_year" },
       { title: "Service Year in Current Sub Level", data: "current_sub_level_service_year" },
       { title: "Confirm or Not", data: "recommendation" },
-      { title: "Extension Comment", data: "extension_comment" },
+      // { title: "Extension Comment", data: "extension_comment" },
       { title: "Effective Date", data: "effective_date" },
       { title: "Status", data: "status" },
     ];

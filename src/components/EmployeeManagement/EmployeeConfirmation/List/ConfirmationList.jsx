@@ -31,8 +31,8 @@ class ConfirmationList extends Component {
       titleList: [],
       confirmationMonth: null,
       date: new Date(),
-      promotion_date:[],
-      employee_date:[],
+      promotion_date: [],
+      employee_date: [],
       dropDownOpen: false,
       selected_designation: null,
       designationList: null,
@@ -426,15 +426,16 @@ class ConfirmationList extends Component {
   };
 
   handleLeaveExtensionRequest = (extension_comment) => {
-   
+
     if (this.state.checkedListData.length > 0) {
       let data = {
         person: getCookieData("user_info").user_id,
         list: this.state.checkedListData,
         extension_comment: extension_comment,
         status: 5,
+        createdAt: moment(new Date()).format('YYYY-MM-DD')
       };
-      
+
 
       let status = 0;
       fetch(`${main_url}confirmation/addConfirmation`, {
@@ -465,9 +466,8 @@ class ConfirmationList extends Component {
           list: this.state.checkedListData,
           verify_person: this.state.selected_verifyPerson.user_id,
           check_person: this.state.selected_checkPerson.user_id,
-          status: 0,
+          status: 0
         };
-
         let status = 0;
         fetch(`${main_url}confirmation/addConfirmation`, {
           method: "POST",
@@ -504,7 +504,7 @@ class ConfirmationList extends Component {
   };
 
   render() {
-    const { view, selected_title, titleList, confirmationMonth, verifyPersonList, selected_verifyPerson, date,promotion_date,employee_date, user_info, level_options, sub_level_options, career_level, career_sub_level, confirmationListData, checkPersonList, selected_checkPerson, dropDownOpen, selected_designation, designationList, subLevelList, levelList, selected_branch, selected_department, selected_region, regionList, branchlist, departmentlist, } = this.state;
+    const { view, selected_title, titleList, confirmationMonth, verifyPersonList, selected_verifyPerson, date, promotion_date, employee_date, user_info, level_options, sub_level_options, career_level, career_sub_level, confirmationListData, checkPersonList, selected_checkPerson, dropDownOpen, selected_designation, designationList, subLevelList, levelList, selected_branch, selected_department, selected_region, regionList, branchlist, departmentlist, } = this.state;
     return (
       <div className=" border-bottom white-bg dashboard-header">
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -556,7 +556,7 @@ class ConfirmationList extends Component {
                 onChange={this.onChange}
                 handleLevelSelectorChange={this.handleLevelSelectorChange}
               />
-              <hr/>
+              <hr />
               <div style={{}}>
 
                 {this.state.visible == false ? (

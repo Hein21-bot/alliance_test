@@ -146,7 +146,6 @@ export default class BenefitChildTable extends Component {
   }
   handleSelectedBranch = async (event) => {
     let branchId = this.state.branchId
-    console.log('event branch is ===>', event)
     branchId = event
     this.setState({
       branchId: branchId
@@ -155,7 +154,6 @@ export default class BenefitChildTable extends Component {
 
   handleSelectedlevelStatus = async (event) => {
     let levelStatus = this.state.levelStatus
-    console.log('level event is ===>', event)
     levelStatus = event
     this.setState({
       levelStatus: levelStatus
@@ -163,14 +161,12 @@ export default class BenefitChildTable extends Component {
   }
   handleSelectedDepartment = async (event) => {
     let departmentId = this.state.departmentId
-    console.log('event dep is ===>', event)
     departmentId = event
     this.setState({
       departmentId: departmentId
     })
   }
   handleSelectedDesignations = async (event) => {
-    console.log("designation event is ===>", event)
     let designationId = this.state.designationId
     designationId = event
     this.setState({
@@ -178,7 +174,6 @@ export default class BenefitChildTable extends Component {
     })
   }
   handleSelectedRegion = async (event) => {
-    console.log('region event is ===<>', event)
     let regionId = this.state.regionId
     regionId = event
     this.setState({
@@ -211,7 +206,7 @@ export default class BenefitChildTable extends Component {
 
   search(status) {
     let data = this.state.dataSource;
-    data = data.filter(d => { return status === d.status });
+    data = data.filter(d => { return status == 4 ? status === d.status || 10 === d.status : status === d.status });
     this._setTableData(data)
   }
 
@@ -223,14 +218,11 @@ export default class BenefitChildTable extends Component {
     var permission = this.props.permission;
     var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
     var has_select = permission.isSelect === 1 ? true : false;
-
     for (var i = 0; i < data.length; i++) {
       let result = data[i];
       let obj = [];
-      console.log('data i is ===>', data[i])
-      if (data[i].status === 0) {
+      if (data[i].status == 0) {
         status = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
-
       }
       else if (data[i].status === 1) {
         status = '<small class="label label-warning" style="background-color:#b33ce0"> Check</small>'
@@ -244,12 +236,14 @@ export default class BenefitChildTable extends Component {
       else if (data[i].status === 4) {
         status = '<small class="label label-warning" style="background-color:#29a50a">Approve</small>'
       }
-
+      else if (data[i].status === 10) {
+        status = '<small class="label label-warning" style="background-color:#29a50a">Approved</small>'
+      }
       obj = {
         no: i + 1,
         employee_id: data[i].employment_id ? data[i].employment_id : '-',
         employee_name: data[i].fullname ? data[i].fullname : '-',
-        employ_date:data[i].employ_date ? moment(data[i].employ_date).format('DD-MM-YYYY'):'-',
+        employ_date: data[i].employ_date ? moment(data[i].employ_date).format('DD-MM-YYYY') : '-',
         position: data[i].designations ? data[i].designations : '-',
         level: data[i].career_sub_level ? data[i].career_sub_level : '-',
         region: data[i].region_name ? data[i].region_name : '-',
@@ -262,7 +256,7 @@ export default class BenefitChildTable extends Component {
         currentSubLevelServiceYear: data[i].current_sub_level_service_year ? data[i].current_sub_level_service_year : '_',
         status: status,
         confirmOrNot: data[i].recommendation ? data[i].recommendation : '-',
-        extensionComment:data[i].extension_comment ? data[i].extension_comment : '-'
+        extensionComment: data[i].extension_comment ? data[i].extension_comment : '-'
       }
 
       if (has_select) {
@@ -305,7 +299,7 @@ export default class BenefitChildTable extends Component {
       { title: "Service Year in Current Level", data: "currentLevelServiceYear" },
       { title: "Service Year in Current Sub Level", data: "currentSubLevelServiceYear" },
       { title: "Status", data: "status" },
-      { title: "Extension Comment",data:'extensionComment'},
+      { title: "Extension Comment", data: 'extensionComment' },
       { title: "Confirm or Not", data: "confirmOrNot" },
 
     ]
@@ -356,7 +350,7 @@ export default class BenefitChildTable extends Component {
     return (
       <div>
         <div className="row  white-bg dashboard-header">
-        
+
           <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
             <DatePicker className='fromdate'
 
@@ -478,29 +472,29 @@ export default class BenefitChildTable extends Component {
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData(this.state.branchId, this.state.departmentId, this.state.regionId, this.state.levelStatus, this.state.designationId)}>Search</button>
           </div>
           <div className='col-lg-4 col-md-4 col-sm-6' style={{ display: 'flex', alignItems: 'center', marginBottom: -10, justifyContent: 'start' }}>
-                                    {
-                                        this.state.user_id == 921 ?
-                                            <div>
+            {
+              this.state.user_id == 921 ?
+                <div>
 
-                                                <input type="checkbox" style={{ marginRight: 8 }} checked={this.props.checkedAll} onChange={this.props.handleSelectAllChange} /> <span style={{ marginTop: 5 }}>Select All</span>
-                                            </div> :
+                  <input type="checkbox" style={{ marginRight: 8 }} checked={this.props.checkedAll} onChange={this.props.handleSelectAllChange} /> <span style={{ marginTop: 5 }}>Select All</span>
+                </div> :
 
-                                            null
-                                    }
+                null
+            }
 
-                                    <div style={{ display: 'flex', paddingTop: 10, justifyContent: 'flex-start',marginLeft:10 }}>
+            <div style={{ display: 'flex', paddingTop: 10, justifyContent: 'flex-start', marginLeft: 10 }}>
 
-                                        {
-                                            // verify_person == this.state.user_id ? <button className='' onClick={() => this.handleConfirmRequest()} style={{ borderRadius: 3, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 80 }} >
-                                            //     Confirm
-                                            // </button> : this.state.user_id == 17 ? <button className='' onClick={() => this.handleVerifyRequest()} style={{ borderRadius: 3, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 80 }}>
-                                            //     Verify
-                                            // </button> : 
-                                            this.state.user_id == 921 ? <button className='' onClick={() => this.props.handleApproveRequest()} style={{ borderRadius: 3, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 80 }}>
-                                                Approve
-                                            </button> : ''}
-                                    </div>
-                                </div>
+              {
+                // verify_person == this.state.user_id ? <button className='' onClick={() => this.handleConfirmRequest()} style={{ borderRadius: 3, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 80 }} >
+                //     Confirm
+                // </button> : this.state.user_id == 17 ? <button className='' onClick={() => this.handleVerifyRequest()} style={{ borderRadius: 3, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 80 }}>
+                //     Verify
+                // </button> : 
+                this.state.user_id == 921 ? <button className='' onClick={() => this.props.handleApproveRequest()} style={{ borderRadius: 3, padding: 10, background: '#337ab7', color: 'white', border: 'none', width: 80 }}>
+                  Approve
+                </button> : ''}
+            </div>
+          </div>
           <div className="row">
             <div class="btn-group-g ">
               <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)} >Request</button>

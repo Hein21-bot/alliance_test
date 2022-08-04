@@ -134,7 +134,6 @@ class EmployeeListView extends Component {
             .then(res => {
                 let fullnrc = res[0].nrc;
                 let fullnrcNumber = fullnrc.split(' ');
-                console.log(fullnrcNumber[0])
                 if (res) {
                     this.setState({
                         userImage: res[0].avatar,

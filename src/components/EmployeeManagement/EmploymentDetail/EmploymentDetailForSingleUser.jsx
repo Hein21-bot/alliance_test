@@ -7,7 +7,7 @@ import 'jspdf-autotable';
 import moment from 'moment'
 import { imgData } from '../../../utils/Global';
 import * as jsPDF from 'jspdf';
-import { main_url,getUserId, getMainRole, getInformation, print, fno } from "../../../utils/CommonFunction";
+import { main_url, getUserId, getMainRole, getInformation, print, fno } from "../../../utils/CommonFunction";
 const $ = require('jquery');
 const jzip = require('jzip');
 window.JSZip = jzip;
@@ -25,10 +25,12 @@ export default class BenefitChildTable extends Component {
             user_id: getUserId("user_info"),
             dataSource: props.data,
             selectedRequest: '',
-            is_main_role: getMainRole()
+            is_main_role: getMainRole(),
+            job_title: []
         }
     }
     componentDidMount() {
+        this.getJobTitle()
         this.$el = $(this.el);
 
         this.setState({
@@ -45,19 +47,6 @@ export default class BenefitChildTable extends Component {
             that.props.goToViewForm(data);
 
         });
-
-        // $("#dataTables-table").on('click', '#toPrint', function () {
-
-        //     fetch(`${main_url}child_benefit/getChildAvailableAmount`)
-        //         .then(res => { if (res.ok) return res.json() })
-        //         .then(list => {
-        //             var data = $(this).find("#print").text();
-        //             data = $.parseJSON(data);
-
-        //             that.getPrintData(data, list.amount)
-        //         })
-
-        // });
 
         $("#dataTables-table").on('click', '#toEdit', function () {
 
@@ -79,7 +68,23 @@ export default class BenefitChildTable extends Component {
         }
     }
 
-   
+    getJobTitle() {
+        fetch(`${main_url}jobTitle/getJobTitle`)
+            .then((res) => {
+                if (res.ok) return res.json();
+            })
+            .then((list) => {
+                this.setState({ job_title: list });
+            });
+    }
+    // getJobTitle = async () => {
+    //     var res = await fetch(`${main_url}jobTitle/getJobTitle`);
+    //     if (res.ok) return res.json();
+    //     .then((list) => {
+    //         this.setState({ branchlist: list });
+    //     });
+    // }
+
 
     search(status) {
         let data = this.state.dataSource;
@@ -87,7 +92,7 @@ export default class BenefitChildTable extends Component {
         this._setTableData(data)
     }
 
-    
+
 
     _setTableData = (data) => {
         var table;
@@ -98,66 +103,47 @@ export default class BenefitChildTable extends Component {
         for (var i = 0; i < data.length; i++) {
             let result = data[i];
             let obj = [];
-            // if (result.status === 0) {
-            //     status = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
-            // }
-            // else if (result.status === 1) {
-            //     status = '<small class="label label-warning" style="background-color:#b33ce0"> Check  </small>'
-            // }
-            // else if (result.status === 2) {
-            //     status = '<small class="label label-warning" style="background-color:#f2a509"> Verify </small>'
-            // }
-            // else if (result.status === 3) {
-            //     status = '<small class="label label-warning" style="background-color:#29a50a"> Approve  </small>'
-            // }
-            // else if (result.status === 4) {
-
-            //     status = '<small class="label label-warning" style="background-color:#f60e2f"> Reject  </small>'
-            // }
-            // else if (result.status === 5) {
-            //     status = '<small class="label label-warning" style="background-color:#cc0066"> ReferBack </small>'
-            // }
             obj = {
                 no: i + 1,
                 form_no: fno.fno_child + data[i].form_no,
                 employee_id: data[i].employee_code ? data[i].employee_code : '',
                 employee_name: data[i].employee_name ? data[i].employee_name : '',
                 position: data[i].designations ? data[i].designations : '-',
-                branch: data[i].branch ? data[i].branch : '',
+                branch: data[i].branch_name ? data[i].branch_name : '',
                 phone_no: '0979XXXXXX',//data[i].phone_no,
                 date: moment(new Date()).format('DD-MM-YYYY'),
-                employed_date : data[i].employee_date ?  moment(data[i].employee_date).format('DD-MM-YYYY') : '',
-                effective_date : data[i].effective_date ? moment(data[i].effective_date).format('DD-MM-YYYY') : '',
-                job_title : data[i].job_title ? data[i].job_title : '',
-                carrer_level : data[i].career_level ? data[i].career_level  : '',
-                carrer_sub_level : data[i].career_sub_level ? data[i].career_sub_level  : '',
-                salary : data[i].salary ? data[i].salary : '',
-                department : data[i].deptname ? data[i].deptname : '',
-                discon_status : data[i].discontinute_status ? data[i].discontinute_status : 'False',
-                discon_date : data[i].discontinute_date ? moment(data[i].discontinute_date).format('DD-MM-YYYY') :'',
-                resign_reason : data[i].resign_reason ? data[i].resign_reason :'',
-                exit_status : data[i].exit_status ? data[i].exit_status : ''
+                employed_date: data[i].employee_date ? moment(data[i].employee_date).format('DD-MM-YYYY') : '',
+                effective_date: data[i].effective_date ? moment(data[i].effective_date).format('DD-MM-YYYY') : '',
+                job_title: data[i].job_title ? this.state.job_title.length > 0 && this.state.job_title.filter(v => v.id == data[i].job_title)[0].job_title : '',
+                carrer_level: data[i].career_level ? data[i].career_level : '',
+                carrer_sub_level: data[i].career_sub_level ? data[i].career_sub_level : '',
+                salary: data[i].salary ? data[i].salary : '',
+                department: data[i].deptname ? data[i].deptname : '',
+                discon_status: data[i].discontinute_status ? data[i].discontinute_status == 0 ? 'False' : 'True' : 'False',
+                discon_date: data[i].discontinute_date ? moment(data[i].discontinute_date).format('DD-MM-YYYY') : '',
+                resign_reason: data[i].resign_reason ? data[i].resign_reason : '',
+                exit_status: data[i].exit_status ? data[i].exit_status == 1 ? 'Resign' : data[i].exit_status == 2 ? 'Dismiss' : data[i].exit_status == 3 ? 'Termination' : 'Dead' : ''
             }
             if (has_action) {
 
                 if (result.status !== 3) {
                     obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
-                    obj.action += permission.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id ) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
+                    obj.action += permission.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
                 } else {
-                    obj.action = permission.isView === 1 ? 
-                    '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
-                    
+                    obj.action = permission.isView === 1 ?
+                        '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+
                     if (result.print === 1) {
                         obj.action +=
-                          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-                          JSON.stringify(result) +
-                          '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
-                      } else {
+                            '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                            JSON.stringify(result) +
+                            '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
+                    } else {
                         obj.action +=
-                          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-                          JSON.stringify(result) +
-                          '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
-                      }
+                            '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                            JSON.stringify(result) +
+                            '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
+                    }
                 }
             }
 
@@ -212,21 +198,21 @@ export default class BenefitChildTable extends Component {
             // buttons: [
             //     'copy', 'csv', 'excel', 'pdf'
             // ],
-            buttons:  [
+            buttons: [
                 // 'copy',
-            // {
-            //         extend: 'csvHtml5',
-            //         title: 'Child Benefit',
-            // },
-            // {
-            //     extend: 'excelHtml5',
-            //     title: 'Child Benefit',
-            // },
-            // {
-            //     extend: 'pdfHtml5',
-            //     title: 'Child Benefit',
-            // }
-        ],
+                // {
+                //         extend: 'csvHtml5',
+                //         title: 'Child Benefit',
+                // },
+                // {
+                //     extend: 'excelHtml5',
+                //     title: 'Child Benefit',
+                // },
+                // {
+                //     extend: 'pdfHtml5',
+                //     title: 'Child Benefit',
+                // }
+            ],
             data: l,
             columns: column
         });
@@ -236,7 +222,6 @@ export default class BenefitChildTable extends Component {
 
     render() {
         return (
-
             <div>
                 <div className="row border-bottom white-bg dashboard-header">
                     <div className="row">

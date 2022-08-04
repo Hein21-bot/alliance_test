@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import moment from 'moment';
-
 import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, getPermissionStatus, startSaving } from "../../../../utils/CommonFunction";
-
 import CheckTable from './CheckTable'
 import EditCheckForm from './EditCheckForm';
+
 
 
 class ConfirmationCheck extends Component {
@@ -31,7 +30,7 @@ class ConfirmationCheck extends Component {
             recommendation: '',
             date: '',
             extensionPeriod: '',
-            extensionComment:'',
+            extensionComment: '',
             comment: '',
             effectiveDate: '',
             view: false,
@@ -46,7 +45,13 @@ class ConfirmationCheck extends Component {
             checkPerson: null,
             verifyPerson: null,
             sub_level_options: [],
-            selected_sub_level: []
+            selected_sub_level: [],
+            status_info: [],
+            confirmPerson: null,
+            checkAt: null,
+            confirmAt: null,
+            verifyAt: null,
+            approveAt: null
         }
 
     }
@@ -98,12 +103,8 @@ class ConfirmationCheck extends Component {
                 if (response.ok) return response.json()
             })
             .then(res => {
-
                 if (res) {
-                    // let data = this.state.user_id == 921 ? res.filter(c => c.status == 3 || c.status == 4).map(v => ({ ...v, select: true })) : this.state.user_id == 17 ? res.filter(c => c.status == 2).map(v => ({ ...v, select: true }))
-                    //     : (res.find(c => c.check_person == this.state.user_id) ? res.filter(c => c.check_person == this.state.user_id && c.status == 0).map(v => ({ ...v, select: true })) : res.filter(c => c.verify_person == this.state.user_id && c.status == 1).map(v => ({ ...v, select: true })))
-
-                    let data = this.state.user_id == 921 ? res.filter(c => c.status == 3).map(v => ({ ...v, select: true })) : res.filter(c => c.check_person == this.state.user_id || c.verify_person == this.state.user_id || this.state.user_id == 17).map(v => ({ ...v, select: true }))
+                    let data = this.state.user_id == 921 ? res.filter(c => c.status == 3).map(v => ({ ...v, select: true })) : res.filter(c => c.check_person == this.state.user_id || c.confirm_person == this.state.user_id || this.state.user_id == 17).map(v => ({ ...v, select: true }))
                     this.setState({
                         checkListData: data,
                     })
@@ -148,13 +149,23 @@ class ConfirmationCheck extends Component {
     }
 
     goToViewForm = data => {
+        fetch(`${main_url}confirmation/getActionStatus/${data.table_id}`)
+            .then(response => {
+                if (response.ok) return response.json()
+            })
+            .then(res => {
+                this.setState({
+                    status_info: res
+                })
+            })
+            .catch(error => console.error(`Fetch Error =\n`, error));
         this.setState({
             view: true,
             selected_user_id: data.user_id,
             tabel_id: data.table_id,
             selectedTableData: data,
             extensionPeriod: data.extension_period ? data.extension_period : '',
-            extensionComment: data.extensionComment ? data.extensionComment :'',
+            extensionComment: data.extension_comment ? data.extension_comment : '',
             effectiveDate: data.effective_date,
             fullname: data.fullname,
             employment_id: data.employment_id,
@@ -180,10 +191,15 @@ class ConfirmationCheck extends Component {
             selected_user_id: data.user_id,
             tabel_id: data.table_id,
             checkPerson: data.check_person,
+            confirmPerson: data.confirm_person,
             verifyPerson: data.verify_person,
             selectedTableData: data,
+            checkAt: data.checkAt,
+            confirmAt: data.confirmAt,
+            verifyAt: data.verifyAt,
+            approveAt: data.approveAt,
             extensionPeriod: data.extension_period ? data.extension_period : '',
-            extensionComment:data.extensionComment ? data.extensionComment : '',
+            extensionComment: data.extension_comment ? data.extension_comment : '',
             effectiveDate: data.effective_date ? moment(data.effective_date).format('YYYY-MM-DD') : data.effective_date,
             fullname: data.fullname,
             employment_id: data.employment_id,
@@ -195,11 +211,11 @@ class ConfirmationCheck extends Component {
             achievement: data.target_achievement ? data.target_achievement : '',
             status: data.status,
             warningDate: data.letter_warning_date ? moment.utc(data.letter_warning_date).format("YYYY-MM-DD") : '-',
-            recommendation: data.recommendation===null ? 'Confirmation':data.recommendation,
+            recommendation: data.recommendation === null ? 'Confirmation' : data.recommendation,
             date: data.date ? moment.utc(data.date).format("YYYY-MM-DD") : '-',//moment(data.createdAt).format("DD/MM/YYYY"),
             career_level_id: data.career_level_id,
             recommend_level: data.recommend_level,
-            comment: data.comment_overall_performance
+            comment: data.comment_overall_performance,
         })
     }
 
@@ -235,7 +251,7 @@ class ConfirmationCheck extends Component {
                 extensionComment: e.target.value
             })
         }
-        
+
         else if (e.target.name === "effectiveDate") {
             this.setState({
                 effectiveDate: e.target.value
@@ -276,7 +292,9 @@ class ConfirmationCheck extends Component {
                 person: getCookieData("user_info").user_id,
                 list: this.state.selected_checkList,
                 status: 2,
-                confirm_or_not: this.state.recommendation
+                confirm_or_not: this.state.recommendation,
+                confirmAt: moment.format(new Date()).format('YYYY-MM-DD'),
+                extension_comment: this.state.extensionComment,
             }
 
             let status = 0;
@@ -297,7 +315,8 @@ class ConfirmationCheck extends Component {
                         window.location.reload();
                     }
                     else toast.error(text);
-                    window.location.replace("/confirmation_list");
+                    window.location.reload();
+                    // window.location.replace("/confirmation_list");
 
                 })
 
@@ -313,7 +332,9 @@ class ConfirmationCheck extends Component {
                 person: getCookieData("user_info").user_id,
                 list: this.state.selected_checkList,
                 status: 3,
-                confirm_or_not: this.state.recommendation
+                confirm_or_not: this.state.recommendation,
+                verifyAt: moment.format(new Date).format('YYYY-MM-DD'),
+                extension_comment: this.state.extensionComment
             }
 
             let status = 0;
@@ -350,7 +371,9 @@ class ConfirmationCheck extends Component {
                 person: getCookieData("user_info").user_id,
                 list: this.state.selected_checkList,
                 status: 4,
-                confirm_or_not: this.state.recommendation
+                confirm_or_not: this.state.recommendation,
+                approveAt: moment(new Date()).format('YYYY-MM-DD'),
+                extension_comment: this.state.extensionComment
             }
 
             let status = 0;
@@ -371,7 +394,7 @@ class ConfirmationCheck extends Component {
                         window.location.reload();
                     }
                     else toast.error(text);
-                    window.location.replace("/confirmation_list");
+                    window.location.reload()
 
                 })
 
@@ -381,7 +404,7 @@ class ConfirmationCheck extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        const { fullname, employment_id, designations, selected_user_id, tabel_id, department, level, letterWarning, score, achievement, warningDate, recommendation, date, extensionPeriod,extensionComment, comment, effectiveDate, selected_sub_level } = this.state
+        const { fullname, employment_id, designations, selected_user_id, tabel_id, department, level, letterWarning, score, achievement, warningDate, recommendation, date, extensionPeriod, extensionComment, comment, effectiveDate, selected_sub_level, checkAt, confirmAt, verifyAt, approveAt } = this.state
         let data = {
             fullname,
             employment_id,
@@ -394,15 +417,21 @@ class ConfirmationCheck extends Component {
             warning_date: warningDate,
             recommendation,
             extension_period: extensionPeriod,
-            extension_comment:extensionComment,
+            extension_comment: extensionComment,
             comment_overall_performance: comment,
             effective_date: effectiveDate,
             user_id: selected_user_id,
             status: this.state.status == 1 ? 2 : this.state.status == 2 ? 3 : 1,
             confirm_or_not: this.state.status == 1 ? recommendation : null,
             confirm_career_sub_level: selected_sub_level.career_sub_level_id,
-            recommend_level: selected_sub_level.career_sub_level_id
+            recommend_level: selected_sub_level.career_sub_level_id,
+            checkAt: this.state.status == 0 ? moment(new Date()).format('YYYY-MM-DD') : moment(checkAt).format('YYYY-MM-DD'),
+            confirmAt: this.state.status == 1 ? moment(new Date()).format('YYYY-MM-DD') : confirmAt ? moment(confirmAt).format('YYYY-MM-DD') : null,
+            verifyAt: this.state.status == 2 ? moment(new Date()).format('YYYY-MM-DD') : verifyAt ? moment(verifyAt).format('YYYY-MM-DD') : null,
+            approveAt: null,
+            verify_person: this.state.user_id
         }
+
 
         let status = 0;
         fetch(`${main_url}confirmation/updateConfirmationDetail/${tabel_id}`, {
@@ -425,7 +454,11 @@ class ConfirmationCheck extends Component {
                     window.location.reload();
                 }
                 else toast.error(text);
-                window.location.replace('/confirmation_list')
+                window.location.reload()
+                // window.location.replace('/confirmation_list')
+                // window.location.replace('/confirmation_list')
+
+
                 // window.location.replace("/employment_details");
 
             })
@@ -434,7 +467,7 @@ class ConfirmationCheck extends Component {
     render() {
         let verify_person = this.state.checkListData && (this.state.checkListData[0] ? this.state.checkListData[0].verify_person : null)
         let check_person = this.state.checkListData && (this.state.checkListData[0] ? this.state.checkListData[0].check_person : null)
-        const { selected_checkList, extensionPeriod,extensionComment, comment, effectiveDate, checkedAll, edit, view, selectedTableData, fullname, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, status, recommendation, date, checkPerson, verifyPerson, sub_level_options, career_level_id, selected_sub_level, recommend_level } = this.state
+        const { selected_checkList, extensionPeriod, extensionComment, comment, effectiveDate, checkedAll, edit, view, selectedTableData, fullname, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, status, recommendation, date, checkPerson, verifyPerson, sub_level_options, career_level_id, selected_sub_level, recommend_level, status_info, confirmPerson, checkAt, confirmAt, verifyAt, approveAt } = this.state
         return (
             <div className=" border-bottom white-bg dashboard-header">
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -472,6 +505,7 @@ class ConfirmationCheck extends Component {
                             handleEditCheckInputChange={this.handleEditCheckInputChange}
                             onRecommendationChange={this.onRecommendationChange}
                             check_person={checkPerson}
+                            confirmPerson={confirmPerson}
                             verify_person={verifyPerson}
                             fullname={fullname}
                             employment_id={employment_id}
@@ -522,12 +556,13 @@ class ConfirmationCheck extends Component {
                                 handleSubmit={this.handleSubmit}
                                 sub_level_options={sub_level_options}
                                 recommend_level={recommend_level}
-                                date={date} />
+                                date={date}
+                                status_info={status_info} />
                             :
                             <div className='white-bg' style={{ boxShadow: '5px 5px 5px lightgrey', paddingTop: 10 }}>
                                 <h3>Confirmation Check Table</h3>
-                                
-                                <CheckTable goToViewForm={this.goToViewForm} checkedAll={checkedAll} handleCheckBoxChange={this.handleCheckBoxChange} handleApproveRequest={this.handleApproveRequest} handleSelectAllChange={this.handleSelectAllChange} goToEditForm={this.goToEditForm} selectedCheckBox={this.state.selectedCheckBox} data={this.state.checkListData ? this.state.checkListData : []} permission={{
+
+                                <CheckTable goToViewForm={this.goToViewForm} checkedAll={checkedAll} handleCheckBoxChange={this.handleCheckBoxChange} goToEditForm={this.goToEditForm} selectedCheckBox={this.state.selectedCheckBox} handleApproveRequest={this.handleApproveRequest} handleSelectAllChange={this.handleSelectAllChange} data={this.state.checkListData ? this.state.checkListData : []} permission={{
                                     isEdit: (this.state.user_id == 921) ? 0 : 1,
                                     isView: 1,
                                     isSelect: (this.state.user_id == 921) ? 1 : 0,
