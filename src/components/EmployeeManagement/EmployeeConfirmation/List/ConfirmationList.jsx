@@ -207,7 +207,18 @@ class ConfirmationList extends Component {
         });
       });
   }
-
+  getDesignationList() {
+    fetch(`${main_url}main/getDesignations`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        let lists = list.unshift({value:0,label:"All"});
+        this.setState({
+          designationList:list
+        });
+      });
+  }
   getBranchList() {
     fetch(`${main_url}benefit/getBranchList`)
       .then((res) => {
@@ -316,19 +327,6 @@ class ConfirmationList extends Component {
         selected_verifyPerson: event,
       });
   };
-
-  getDesignationList() {
-    fetch(`${main_url}main/getDesignations`)
-      .then((res) => {
-        if (res.ok) return res.json();
-      })
-      .then((list) => {
-        this.setState({
-          designationList: list, //list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
-        });
-      });
-  }
-
   getConfirmationTitleList() {
     fetch(`${main_url}confirmation/getConfirmationTitle`)
       .then((res) => {

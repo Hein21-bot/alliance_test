@@ -13,7 +13,8 @@ export default class ConfirmationRequestList extends Component {
       pathname: window.location.pathname,
       confirmData: [],
       sub_level: [],
-      status_info: []
+      status_info: [],
+      status: null
     }
   }
   async componentDidMount() {
@@ -27,7 +28,7 @@ export default class ConfirmationRequestList extends Component {
       .then(list => {
         this.setState({
           comfirmationRequestList: list,
-          confirmData: list.filter(v => v.status == 4)
+          confirmData: list.filter(v => v.status == 4 )
         })
       })
   }
@@ -64,13 +65,13 @@ export default class ConfirmationRequestList extends Component {
 
   approvedlist = async (data) => {
     if (data == 'Pending') {
-      this.setState({ confirmData: this.state.comfirmationRequestList.filter(v => v.status == 4) })
+      this.setState({ confirmData: this.state.comfirmationRequestList.filter(v => v.status == 4 && v.recommendation != "Extensions") })
     } else if (data == 'approved') {
-      this.setState({ confirmData: this.state.comfirmationRequestList.filter(v => v.status == 10) })
+      this.setState({ confirmData: this.state.comfirmationRequestList.filter(v => v.status == 10 && v.recommendation != "Extensions") })
     }
   }
 
-  render() {
+  render() { console.log(">>>>",this.state.comfirmationRequestList)
 
     return (
       <div className=" border-bottom white-bg dashboard-header">

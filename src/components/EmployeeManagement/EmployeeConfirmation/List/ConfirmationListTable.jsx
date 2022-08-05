@@ -220,12 +220,12 @@ export default class BenefitChildTable extends Component {
             ],
             data: l,
             columns: column,
-            createdRow: function (row, data, index) {
+            createdCell: function (cell, data, index) {
                 if (data.leave === true) {
-                    $(row).css('background-color', 'Yellow');
+                    $(cell).css('background-color', 'Yellow');
                 }
                 if (data.extension === true) {
-                    $(row).css('background-color', 'Orange');
+                    $(cell).css('background-color', 'Orange');
                 }
             } 
 
