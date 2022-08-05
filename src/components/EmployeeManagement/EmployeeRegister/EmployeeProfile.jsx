@@ -19,7 +19,7 @@ const EmployeeProfile = props => {
     //     }
     // }
 
-    console.log('nrc number is =====>', nrc_number.length)
+   
 
     let fullNRCNO = fullNRC ? fullNRC :
         // fullNRC.split(" ")[0] + '/' + fullNRC.split(" ")[1] + '(N)' + fullNRC.split(" ")[2] :
