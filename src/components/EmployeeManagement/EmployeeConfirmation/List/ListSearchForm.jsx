@@ -8,6 +8,8 @@ import moment from 'moment';
 const ListSearchForm = props => {
 
     const { selected_title, titleList, handleDropDown, handleSearch, level_options, sub_level_options, handleLevelSelectorChange, career_level, career_sub_level, selected_branch, handleSelectedRegion, handleSelectedBranch, handleSelectedDeaprtment, selected_department, selected_region, regionList, branchlist, departmentlist, onChange, confirmationMonth, date, dropDownOpen, selected_designation, designationList, handleSelectedDesignation, handleConfirmationListInputChange, handleSelectedLevel, handleSelectedSubLevel, handleSelectedTitle } = props
+
+   
     return (
 
         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
@@ -34,7 +36,7 @@ const ListSearchForm = props => {
                 <div className='col-12'>
                     Confirmation Title
                 </div>
-                <div className='col-12 ' style={{ display: 'flex', justifyContent: 'start' }}>
+                {/* <div className='col-12 ' style={{ display: 'flex', justifyContent: 'start' }}>
                     <div style={{ minWidth: 180 }}>
                         <Select
                             options={titleList}
@@ -46,17 +48,44 @@ const ListSearchForm = props => {
                         />
                     </div>
 
+                </div> */}
+                <div style={{ width: '100%' }}>
+                    <div style={{ maxWidth: 250, }}>
+                        <Select
+                            laceholder="Please Choose An Option"
+                            options={titleList}
+
+                            // isOptionDisabled={(workingDayOptions) => workingDayOptions.disabled}
+                            onChange={handleSelectedTitle}
+                            value={selected_title}
+                            isClearable={true}
+                            isSearchable={true}
+                            className='react-select-container checkValidate'
+                            classNamePrefix="react-select"
+                            isMulti
+                            // hideSelectedOptions={false}
+                            // closeMenuOnSelect
+
+                            styles={{
+                                control: provided => ({
+                                    ...provided,
+
+                                    cursor: "pointer"
+                                })
+                            }}
+                        />
+                    </div>
                 </div>
 
             </div>
             {
-                (selected_title && !selected_title.value) ?
+                (selected_title && selected_title.filter(v => v.name == "Other Confirmation").length > 0) ?
                     <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, flexDirection: 'column' }}>
                         <div className='col-12'>
                             Confirmation Month
                         </div>
                         <div className='col-12' style={{}}>
-                            <input type='number' name="confirmationMonth" value={confirmationMonth} onChange={handleConfirmationListInputChange} style={{ minWidth: 180, height: 40, boxShadow: '0px 1px 1px 0px lightgrey' }} />
+                            <input type='number' name="confirmationMonth" value={confirmationMonth} onChange={handleConfirmationListInputChange} style={{ minWidth: 180, height: 40 }} />
                         </div>
 
                     </div> : null
@@ -69,13 +98,39 @@ const ListSearchForm = props => {
                 </div>
                 <div className='col-12 ' style={{ display: 'flex', justifyContent: 'start' }}>
                     <div style={{ minWidth: 180 }}>
-                        <Select
+                        {/* <Select
                             options={designationList}
                             value={selected_designation}
                             onChange={handleSelectedDesignation}
                             className="react-select-container checkValidate"
                             classNamePrefix="react-select"
-                        />
+                        /> */}
+                        <div style={{ width: '100%' }}>
+                            <div style={{ maxWidth: 250, }}>
+                                <Select
+                                    laceholder="Please Choose An Option"
+                                    options={designationList}
+
+
+                                    onChange={handleSelectedDesignation}
+                                    value={selected_designation}
+                                    isClearable={true}
+                                    isSearchable={true}
+                                    className='react-select-container  checkValidate'
+                                    classNamePrefix="react-select"
+                                    isMulti
+
+
+                                    styles={{
+                                        control: provided => ({
+                                            ...provided,
+
+                                            cursor: "pointer"
+                                        })
+                                    }}
+                                />
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -176,7 +231,7 @@ const ListSearchForm = props => {
                 </div>
 
             </div>
-            <div className='col-lg-12 col-md-12 col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20}}>
+            <div className='col-lg-12 col-md-12 col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20 }}>
                 <button onClick={handleSearch} className='btn btn-primary' style={{ borderRadius: 3, width: 80 }}>Search</button>
 
             </div>

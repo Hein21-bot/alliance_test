@@ -62,7 +62,9 @@ class ConfirmationList extends Component {
       extension_comment: "",
       requestComponent: false,
       title: '',
-      approveComponent: false
+      approveComponent: false,
+      selected_title_list:null,
+      selected_designation_list:null
     };
   }
 
@@ -118,6 +120,8 @@ class ConfirmationList extends Component {
   getConfirmationList() {
     const {
       selected_region,
+      selected_title_list,
+      selected_designation_list,
       selected_title,
       confirmationMonth,
       selected_branch,
@@ -126,21 +130,31 @@ class ConfirmationList extends Component {
       career_level,
       career_sub_level,
     } = this.state;
+
     const regionId = selected_region ? selected_region.region_id : 0;
     const branchId = selected_branch ? selected_branch.branch_id : 0;
     const depId = selected_department ? selected_department.departments_id : 0;
-    const designId = selected_designation ? selected_designation.value : 0;
+    const designId = selected_designation ? selected_designation_list : 0;
     const lvlId = career_level ? career_level.career_level_id : 0;
     const subLvlId = career_sub_level ? selected_branch.career_sub_level_id : 0;
+    const title_list=selected_title_list ? selected_title_list  : 0;
+    const designation_list=selected_designation_list ? selected_designation_list : 0
+ 
     const title = selected_title
       ? selected_title.value
         ? selected_title.value
         : confirmationMonth
       : 0;
+      // const formData = new FormData();
+      // formData.append('title_list', JSON.stringify(title_list))
     fetch(
-      `${main_url}confirmation/getConfirmationList/${regionId}/${depId}/${branchId}/${designId}/${lvlId}/${subLvlId}/${parseInt(
-        title
-      )}`
+      `${main_url}confirmation/getConfirmationList/${regionId}/${depId}/${branchId}/${designation_list}/${lvlId}/${subLvlId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `title_list=${title_list.length==0 ? 0 : JSON.stringify(title_list)}`,
+      }
     )
       .then((res) => {
         if (res.ok) return res.json();
@@ -207,7 +221,18 @@ class ConfirmationList extends Component {
         });
       });
   }
-
+  getDesignationList() {
+    fetch(`${main_url}main/getDesignations`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        let lists = list.unshift({value:0,label:"All"});
+        this.setState({
+          designationList:list
+        });
+      });
+  }
   getBranchList() {
     fetch(`${main_url}benefit/getBranchList`)
       .then((res) => {
@@ -277,10 +302,21 @@ class ConfirmationList extends Component {
   };
 
   handleSelectedDesignation = (event) => {
-    if (event !== null)
+    
+    if (event !== null) {
+
       this.setState({
+
         selected_designation: event,
+        selected_designation_list:event.map(v=>v.value)
       });
+      
+    } else {
+      this.setState({
+        selected_designation: null,
+      });
+    }
+
   };
 
   handleSelectedDeaprtment = (event) => {
@@ -316,19 +352,6 @@ class ConfirmationList extends Component {
         selected_verifyPerson: event,
       });
   };
-
-  getDesignationList() {
-    fetch(`${main_url}main/getDesignations`)
-      .then((res) => {
-        if (res.ok) return res.json();
-      })
-      .then((list) => {
-        this.setState({
-          designationList: list, //list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
-        });
-      });
-  }
-
   getConfirmationTitleList() {
     fetch(`${main_url}confirmation/getConfirmationTitle`)
       .then((res) => {
@@ -342,10 +365,18 @@ class ConfirmationList extends Component {
   }
 
   handleSelectedTitle = (event) => {
-    if (event !== null)
+   
+    if (event !== null) {
       this.setState({
         selected_title: event,
-      });
+        selected_title_list:event.map(v=>v.value)
+      })
+    } else {
+      this.setState({
+        selected_title: null
+      })
+    }
+
   };
 
   handleCheckBoxChange = (data) => {
@@ -599,6 +630,7 @@ class ConfirmationList extends Component {
                   isView: 0,
                   isSelect: 1,
                 }}
+                departmentlist={departmentlist}
               />
             </div>
           </>

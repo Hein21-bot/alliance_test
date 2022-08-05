@@ -5,6 +5,7 @@ import 'datatables.net-dt/css/jquery.dataTables.css'
 import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 import 'jspdf-autotable';
 import moment from 'moment'
+import Select from "react-select";
 import * as jsPDF from 'jspdf';
 import { main_url, getUserId, getMainRole, getInformation, print, fno } from "../../../../utils/CommonFunction";
 const $ = require('jquery');
@@ -30,7 +31,7 @@ export default class BenefitChildTable extends Component {
     }
     componentDidMount() {
         this.$el = $(this.el);
-
+        console.log('dept ===>', this.props.departmentlist)
         this.setState({
             dataSource: this.props.data
         }, () => {
@@ -98,7 +99,8 @@ export default class BenefitChildTable extends Component {
 
 
 
-    _setTableData = (data) => {
+    _setTableData = async (data) => {
+        console.log('data ===>', data[0])
         var table;
         var l = [];
         var status;
@@ -107,6 +109,10 @@ export default class BenefitChildTable extends Component {
         var has_select = permission.isSelect === 1 ? true : false;
 
         for (var i = 0; i < data.length; i++) {
+            var tempArray = [];
+            await fetch(main_url + 'confirmation/detailCheckPerson/' + data[i].branch_id).then(response => {
+                return response.json();
+            }).then(res => {tempArray = res})
             let result = data[i];
             let obj = [];
             obj = {
@@ -121,26 +127,31 @@ export default class BenefitChildTable extends Component {
                 branch: data[i].branch_name ? data[i].branch_name : '-',
                 region: data[i].region_name ? data[i].region_name : '-',
                 employee_date: data[i].employee_date ? moment(data[i].employee_date).format('DD-MM-YYYY') : '-',
-                promotion_date: data[i].promotion_date ? moment(data[i].promotion_date).format('DD-MM-YYYY') : '-',
+                promotion_date: data[i].last_promotion_date ? moment(data[i].last_promotion_date).format('DD-MM-YYYY') : '-',
                 date: moment(result.createdAt).format('DD-MM-YYYY'),
-                service_year: data[i].service_year ? data[i].service_year : '',
+                service_year: data[i].service_year ? data[i].service_year : '-',
                 current_level_service_year: data[i].current_level_service_year ? data[i].current_level_service_year : '',
                 current_sub_level_service_year: data[i].current_sub_level_service_year ? data[i].current_sub_level_service_year : '',
                 leave: data[i].leave ? data[i].leave : '-',
                 extension: data[i].extension ? data[i].extension : '-',
-                status: status
+                status: status,
+                checkPerson: '<select name="selectperson" id="selectperson">'+
+                tempArray.map((v, i) => (
+                    `<option value='${v.fullname}' id=${v.user_id}>${v.fullname}</option>`
+                )) +
+              '</select>'
 
-            }
-            if (has_select) {
-                obj.select = permission.isSelect === 1 ? '<div style="alignItems:center" id="toSelect" class="select-btn"  ><input  type="checkbox" /><span id="select" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '' //'<div style="margin-right:0px;height:20px;width:20px;border:1px solid red" class="btn" id="toSelect" ><i className="fas fa-address-card" style="color:red"></i><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '';
-            }
-            if (has_action) {
-                if (result.status !== 3) {
-                    obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
-                    obj.action += permission.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
-                } else {
-                    obj.action = permission.isView === 1 ?
-                        '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+        }
+        if (has_select) {
+            obj.select = permission.isSelect === 1 ? '<div style="alignItems:center" id="toSelect" class="select-btn"  ><input  type="checkbox" /><span id="select" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '' //'<div style="margin-right:0px;height:20px;width:20px;border:1px solid red" class="btn" id="toSelect" ><i className="fas fa-address-card" style="color:red"></i><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '';
+        }
+        if (has_action) {
+            if (result.status !== 3) {
+                obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+                obj.action += permission.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
+            } else {
+                obj.action = permission.isView === 1 ?
+                    '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
 
                     if (result.print === 1) {
                         obj.action +=
@@ -155,6 +166,7 @@ export default class BenefitChildTable extends Component {
                     }
                 }
             }
+            // obj.checkPerson = `<div><Select options={[]} value={0} class="react-select-container checkValidate" classNamePrefix="react-select"/></div>`,
             l.push(obj)
         }
 
@@ -165,25 +177,27 @@ export default class BenefitChildTable extends Component {
             $('#dataTables-table').empty();
         }
 
-        var column = [
-            { title: "No", data: "no" },
-            { title: "Employee Id", data: "employee_id" },
-            { title: "Name", data: "employee_name" },
-            { title: "Designation", data: "position" },
-            { title: "Level", data: "career_level" },
-            { title: "Sub Level", data: "career_sub_level" },
-            { title: "Department", data: "department" },
-            { title: "Branch", data: "branch" },
-            { title: "Region", data: "region" },
-            { title: "Employed Date", data: "employee_date" },
-            { title: "Last Promtion Date", data: "promotion_date" },
-            { title: "Service Year", data: "service_year" },
-            { title: "Service Year in Current Level", data: "current_level_service_year" },
-            { title: "Service Year in Current Sub Level", data: "current_sub_level_service_year" },
-            { title: "Leave", data: "leave" },
-            { title: "Extension", data: "extension" },
-            // { title: "Status", data: "status" }
-        ]
+var column = [
+    { title: "No", data: "no" },
+    { title: "Employee Id", data: "employee_id" },
+    { title: "Name", data: "employee_name" },
+    { title: "Designation", data: "position" },
+    { title: "Level", data: "career_level" },
+    { title: "Sub Level", data: "career_sub_level" },
+            {title: 'Check Person', data: 'checkPerson'},
+    { title: "Department", data: "department" },
+    { title: "Branch", data: "branch" },
+    { title: "Region", data: "region" },
+    { title: "Employed Date", data: "employee_date" },
+    { title: "Last Promtion Date", data: "promotion_date" },
+    { title: "Service Year", data: "service_year" },
+    { title: "Service Year in Current Level", data: "current_level_service_year" },
+    { title: "Service Year in Current Sub Level", data: "current_sub_level_service_year" },
+    { title: "Leave", data: "leave" },
+    { title: "Extension", data: "extension" },
+            
+    // { title: "Status", data: "status" }
+]
 
         if (has_action) {
             column.push({ title: "Action", data: "action" })
@@ -227,19 +241,19 @@ export default class BenefitChildTable extends Component {
                 if (data.extension === true) {
                     $(row).css('background-color', 'Orange');
                 }
-            }
+            } 
 
 
-        });
+});
 
     }
 
 
-    render() {
-        return (
+render() {
+    return (
 
-            <div>
-                {/* <div className="row  white-bg dashboard-header">
+        <div>
+            {/* <div className="row  white-bg dashboard-header">
                     <div className="row">
                         <div class="btn-group-g ">
                             <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
@@ -250,11 +264,11 @@ export default class BenefitChildTable extends Component {
                         </div>
                     </div>
                 </div> */}
-                <table width="99%"
-                    className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
-                    id="dataTables-table"
-                />
-            </div >
-        )
-    }
+            <table width="99%"
+                className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
+                id="dataTables-table"
+            />
+        </div >
+    )
+}
 }
