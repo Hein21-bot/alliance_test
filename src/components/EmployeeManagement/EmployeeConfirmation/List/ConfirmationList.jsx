@@ -630,6 +630,7 @@ class ConfirmationList extends Component {
                   isView: 0,
                   isSelect: 1,
                 }}
+                departmentlist={departmentlist}
               />
             </div>
           </>
