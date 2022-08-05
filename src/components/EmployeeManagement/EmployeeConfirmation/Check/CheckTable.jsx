@@ -40,7 +40,6 @@ export default class BenefitChildTable extends Component {
       regionId: 0,
       levelStatus: 0,
       designationId: 0,
-
     }
   }
   async componentDidMount() {
@@ -48,7 +47,7 @@ export default class BenefitChildTable extends Component {
 
     this.setState({
       dataSource: this.props.data
-    }, () => {
+    }, () => { 
       this._setTableData(this.state.dataSource)
     });
 
@@ -114,6 +113,7 @@ export default class BenefitChildTable extends Component {
       this.setState({
         dataSource: this.props.data
       }, () => {
+        
         this._setTableData(this.state.dataSource);
 
       })

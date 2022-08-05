@@ -30,6 +30,7 @@ class EmployeeListMain extends Component {
       isEdit: false,
       datasource: [],
       permission_status: {},
+      selected_status: null,
       selected_region: null,
       selected_branch: null,
       selected_department: null,
@@ -49,6 +50,7 @@ class EmployeeListMain extends Component {
       bankList: null,
       degreeList: null,
       detailForm: false,
+      statusList:[{label:'Active',value:0},{label:'Inactive',value:1}]
     };
   }
 
@@ -291,6 +293,12 @@ class EmployeeListMain extends Component {
         selected_designation: event,
       });
   };
+  handleSelectedstatus =(event) => {
+    if (event !==null)
+    this.setState({
+      selected_status :event
+    });
+  };
 
   handleSearch = (e) => {
     e.preventDefault();
@@ -306,8 +314,11 @@ class EmployeeListMain extends Component {
     const designId = this.state.selected_designation
       ? this.state.selected_designation.value
       : 0;
-
-    this.getEmployeeList({ regionId, depId, branchId, designId });
+    const statusId = this.state.selected_status
+      ? this.state.selected_status.value
+      :0;
+    this.getEmployeeList({ regionId, depId, branchId, designId,statusId });
+ 
   };
 
   handleAddNew = () => {
@@ -333,8 +344,10 @@ class EmployeeListMain extends Component {
     const designId = this.state.selected_designation
       ? this.state.selected_designation.value
       : 0;
-
-    this.getEmployeeList({ regionId, depId, branchId, designId });
+      const statusId = this.state.selected_status
+      ? this.state.selected_status.value
+      :0;
+    this.getEmployeeList({ regionId, depId, branchId, designId ,statusId});
   };
 
   goToViewForm = (data) => {
@@ -359,6 +372,7 @@ class EmployeeListMain extends Component {
   };
 
   render() {
+    
     return (
       <div className=" border-bottom white-bg dashboard-header">
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -389,6 +403,7 @@ class EmployeeListMain extends Component {
             districtCodeList={this.state.districtCodeList}
             granDistrictCodeList={this.state.granDistrictCodeList}
             designationList={this.state.designationList}
+            statusList={this.state.statusList}
             level_options={this.state.level_options}
             branchlist={this.state.branchlist}
             nrcList={this.state.nrcList}
@@ -408,6 +423,7 @@ class EmployeeListMain extends Component {
             branchlist={this.state.branchlist}
             nrcList={this.state.nrcList}
             bankList={this.state.bankList}
+            statusList={this.state.statusList}
             getGran_NRC_DistrictCode={this.getGran_NRC_DistrictCode}
             getNRC_DistrictCode={this.getNRC_DistrictCode}
             degreeList={this.state.degreeList}
@@ -477,6 +493,20 @@ class EmployeeListMain extends Component {
                   options={this.state.designationList}
                   value={this.state.selected_designation}
                   onChange={this.handleSelectedDesignation.bind(this)}
+                  className="react-select-container checkValidate"
+                  classNamePrefix="react-select"
+                />
+              </div>
+              <div
+                className="col-lg-2 col-md-3 col-sm-12"
+                style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
+              >
+                <div style={{ paddingBottom: 10 }}>Status</div>
+
+                <Select
+                  options={this.state.statusList}
+                  value={this.state.selected_status}
+                  onChange={this.handleSelectedstatus.bind(this)}
                   className="react-select-container checkValidate"
                   classNamePrefix="react-select"
                 />

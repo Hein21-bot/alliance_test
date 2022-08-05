@@ -121,8 +121,8 @@ export class Dashboard extends Component {
               marginTop: 15
             }}
           >
-            <div className="col-lg-8">
-              <AttendenceBarChart />
+            <div className="col-md-8">
+              <AttendenceBarChart/>
             </div>
           </div>
         ):this.state.tapButtonTitle == "totalEmployee" ? (
@@ -136,7 +136,7 @@ export class Dashboard extends Component {
             }}
           >
             <div className="col-md-8">
-              <EmployeePieChart />
+              <EmployeePieChart/>
             </div>
           </div>
         ) : this.state.tapButtonTitle == "benefit" ? (
