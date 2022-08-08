@@ -71,7 +71,7 @@ export default class ConfirmationRequestList extends Component {
     }
   }
 
-  render() { console.log(">>>>",this.state.comfirmationRequestList)
+  render() { 
 
     return (
       <div className=" border-bottom white-bg dashboard-header">
