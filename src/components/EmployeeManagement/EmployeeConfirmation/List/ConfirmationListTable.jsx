@@ -150,6 +150,7 @@ export default class BenefitChildTable extends Component {
                 //     )) +
                 //     '</select></div>'
 
+
             }
             if (has_select) {
                 obj.select = permission.isSelect === 1 ? '<div style="alignItems:center" id="toSelect" class="select-btn"  ><input  type="checkbox" /><span id="select" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '' //'<div style="margin-right:0px;height:20px;width:20px;border:1px solid red" class="btn" id="toSelect" ><i className="fas fa-address-card" style="color:red"></i><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '';

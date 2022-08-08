@@ -50,7 +50,7 @@ class EmployeeListMain extends Component {
       bankList: null,
       degreeList: null,
       detailForm: false,
-      statusList:[{label:'Active',value:0},{label:'Inactive',value:1}]
+      statusList:[{label:'All',value:0},{label:'Active',value:1},{label:"Inactive", value:2}]
     };
   }
 

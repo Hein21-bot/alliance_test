@@ -14,7 +14,8 @@ export default class ConfirmationRequestList extends Component {
       confirmData: [],
       sub_level: [],
       status_info: [],
-      status: null
+      status: null,
+      pending_approve: ''
     }
   }
   async componentDidMount() {
@@ -28,7 +29,7 @@ export default class ConfirmationRequestList extends Component {
       .then(list => {
         this.setState({
           comfirmationRequestList: list,
-          confirmData: list.filter(v => v.status == 4 )
+          confirmData: list.filter(v => v.status == 4)
         })
       })
   }
@@ -64,14 +65,20 @@ export default class ConfirmationRequestList extends Component {
   }
 
   approvedlist = async (data) => {
-    if (data == 'Pending') {
-      this.setState({ confirmData: this.state.comfirmationRequestList.filter(v => v.status == 4 && v.recommendation != "Extensions") })
+    if (data == 'pending') {
+      this.setState({
+        confirmData: this.state.comfirmationRequestList.filter(v => v.status == 4 && v.recommendation != "Extensions"),
+        pending_approve: 'pending'
+      })
     } else if (data == 'approved') {
-      this.setState({ confirmData: this.state.comfirmationRequestList.filter(v => v.status == 10 && v.recommendation != "Extensions") })
+      this.setState({
+        confirmData: this.state.comfirmationRequestList.filter(v => v.status == 10 && v.recommendation != "Extensions"),
+        pending_approve: 'approve'
+      })
     }
   }
 
-  render() { console.log(">>>>",this.state.comfirmationRequestList)
+  render() {
 
     return (
       <div className=" border-bottom white-bg dashboard-header">
@@ -87,7 +94,7 @@ export default class ConfirmationRequestList extends Component {
         <div>
           <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
             <li className="active">
-              <a className="nav-link active" href="#confirmation_approve_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.approvedlist('Pending')}>Approve Pending List</a>
+              <a className="nav-link active" href="#confirmation_approve_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.approvedlist('pending')}>Approve Pending List</a>
             </li>
             <li className="nav-item1">
               <a className="nav-link" href="#confirmation_approve_list" role="tab" data-toggle="tab" onClick={() => this.approvedlist('approved')}>Approved List</a>
@@ -102,6 +109,7 @@ export default class ConfirmationRequestList extends Component {
             data={this.state.confirmData}
             pathname={this.state.pathname}
             permission={{ isView: 1, isEdit: 1 }}
+            pending_approve={this.state.pending_approve}
           />
         )}
 
