@@ -205,6 +205,7 @@ export default class BenefitChildTable extends Component {
             { title: "Service Year in Current Sub Level", data: "current_sub_level_service_year" },
             { title: "Leave", data: "leave" },
             { title: "Extension", data: "extension" },
+            
 
             // { title: "Status", data: "status" }
         ]
@@ -216,6 +217,14 @@ export default class BenefitChildTable extends Component {
             column.splice(1, 0, { title: "Select", data: "select" })
         }
         table = $("#dataTables-table").DataTable({
+            // columnDefs: [
+            //     {
+            //       targets: 5,
+            //       createdCell: function (td) {
+            //         $(td).css('background-color', "red")
+            //       }
+            //     }
+            //   ],
             autofill: true,
             bLengthChange: false,
             bInfo: false,
@@ -244,12 +253,13 @@ export default class BenefitChildTable extends Component {
             ],
             data: l,
             columns: column,
-            createdRow: function (row, data, index) {
+            createdRow: function (row, data,td, index) {
                 if (data.leave === true) {
                     $(row).css('background-color', 'Yellow');
                 }
                 if (data.extension != '-') {
-                    $(row).css('background-color', 'Orange');
+                    // $(row).css('background-color', 'Orange');
+                    $(td).first().addClass("changeRed");
                 }
             }
 
