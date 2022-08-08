@@ -17,7 +17,6 @@ $.DataTable = require('datatables.net');
 require('datatables.net-buttons/js/dataTables.buttons.min');
 require('datatables.net-buttons/js/buttons.html5.min');
 
-
 export default class BenefitChildTable extends Component {
     constructor(props) {
         super(props);
@@ -86,6 +85,7 @@ export default class BenefitChildTable extends Component {
 
         // });
 
+        
 
     }
 
@@ -93,9 +93,11 @@ export default class BenefitChildTable extends Component {
         if (prevProps.data !== this.props.data) {
             this.setState({
                 dataSource: this.props.data
-            }, () => {
-                this._setTableData(this.state.dataSource);
-
+            }, async() => {
+                await this._setTableData(this.state.dataSource);
+                $("#dropdownid").on("change", function(e){
+                    console.log("Change",$(this).val());
+                })
             })
         }
     }
@@ -105,6 +107,8 @@ export default class BenefitChildTable extends Component {
         data = data.filter(d => { return status === d.status });
         this._setTableData(data)
     }
+
+   
 
 
     _setTableData = async (data) => {
@@ -143,12 +147,12 @@ export default class BenefitChildTable extends Component {
                 leave: data[i].leave ? data[i].leave : '-',
                 extension: data[i].extension ? data[i].extension : '-',
                 status: status,
-                // checkPerson: `<div id ='toCheckPerson'><select id="dropdownid" >` +
-                //     '<option value="Hello"> Please choose </option>' +
-                //     tempArray.map((v, i) => (
-                //         `<option value='${v.fullname}' id=${v.user_id}>${v.fullname}</option>`
-                //     )) +
-                //     '</select></div>'
+                checkPerson: `<div id ='toCheckPerson' ><select id='dropdownid' on>` +
+                    '<option value="Hello"> Please choose </option>' +
+                    tempArray.map((v, i) => (
+                        `<option value='${v.user_id}' id=${v.user_id}>${v.fullname}</option>`
+                    )) +
+                    '</select></div>'
 
 
             }
@@ -194,7 +198,7 @@ export default class BenefitChildTable extends Component {
             { title: "Designation", data: "position" },
             { title: "Level", data: "career_level" },
             { title: "Sub Level", data: "career_sub_level" },
-            // { title: 'Check Person', data: 'checkPerson' },
+            { title: 'Check Person', data: 'checkPerson' },
             { title: "Department", data: "department" },
             { title: "Branch", data: "branch" },
             { title: "Region", data: "region" },
