@@ -100,7 +100,9 @@ export default class ConfirmationRequestListTable extends Component {
   
 
   async update(data) {
+    
     let status = 0;
+    
     fetch(`${main_url}confirmation/updateConfirmForEmployment/${data.user_id}`, {
       method: "POST",
       headers: {
