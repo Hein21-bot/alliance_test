@@ -18,7 +18,8 @@ export default class ApprovalInformation extends Component {
                     <h4>Information</h4>
                 </div>
                 <div className="row body-info">
-                    <div className="col-md-3">
+                    <div className="col-md-1"></div>
+                    <div className="col-md-2">
 
                         <div>
                             <label>Request</label>
@@ -71,7 +72,7 @@ export default class ApprovalInformation extends Component {
                                 </div>
                         }
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-md-2">
                         <div>
                             <label>Check</label>
                         </div>
@@ -129,7 +130,7 @@ export default class ApprovalInformation extends Component {
                                 </div>
                         }
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-md-2">
                         <div>
                             <label>Confirm</label>
                         </div>
@@ -187,7 +188,7 @@ export default class ApprovalInformation extends Component {
                                 </div>
                         }
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-md-2">
                         <div>
                             <label>Verify</label>
                         </div>
@@ -231,6 +232,63 @@ export default class ApprovalInformation extends Component {
                                         <label>
                                             {
                                                 info.verified.verified_date ? moment(info.verified.verified_date).format('YYYY-MM-DD') : '-'
+                                            }
+                                        </label>
+                                    </div>
+                                </div>
+                                : <div>
+                                    <div>-</div>
+                                    <div>-</div>
+                                    <div>-</div>
+                                    <div>-</div>
+                                    <div>-</div>
+                                </div>
+                        }
+                    </div>
+                    <div className="col-md-2">
+                        <div>
+                            <label>Approve</label>
+                        </div>
+                        {
+                            info.approved && info.approved.approved_date ?
+                                <div>
+                                    <div>
+                                        <label>
+                                            {
+                                                info.approved.approve_by ? info.approved.approve_by : '-'
+                                            }
+                                        </label>
+                                        <label>
+                                            {
+                                                info.approved.employment_id != '-'
+                                            }
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label>
+                                            {
+                                                info.approved.employment_id ? info.approved.employment_id : '-'
+                                            }
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label>
+                                            {
+                                                info.approved.designations ? info.approved.designations : '-'
+                                            }
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label>
+                                            {
+                                                info.approved.branch_name ? info.approved.branch_name : '-'
+                                            }
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label>
+                                            {
+                                                info.approved.approved_date ? moment(info.approved.approved_date).format('YYYY-MM-DD') : '-'
                                             }
                                         </label>
                                     </div>

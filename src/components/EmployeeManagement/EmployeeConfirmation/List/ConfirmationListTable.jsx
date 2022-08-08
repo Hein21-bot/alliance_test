@@ -75,6 +75,17 @@ export default class BenefitChildTable extends Component {
 
         });
 
+        // $("#dataTables-table").on('change', '#toCheckPerson', function () {
+
+        //     var data = $(this).find("#checkPerson").text();
+        //     var data1 = $('#dropdownid').val("Hello");
+        //     console.log('data is =================>', data1)
+        //     // data = $.parseJSON(data);
+
+        //     // that.props.handleCheckBoxChange(data);
+
+        // });
+
 
     }
 
@@ -89,14 +100,11 @@ export default class BenefitChildTable extends Component {
         }
     }
 
-
-
     search(status) {
         let data = this.state.dataSource;
         data = data.filter(d => { return status === d.status });
         this._setTableData(data)
     }
-
 
 
     _setTableData = async (data) => {
@@ -112,7 +120,7 @@ export default class BenefitChildTable extends Component {
             var tempArray = [];
             await fetch(main_url + 'confirmation/detailCheckPerson/' + data[i].branch_id).then(response => {
                 return response.json();
-            }).then(res => {tempArray = res})
+            }).then(res => { tempArray = res })
             let result = data[i];
             let obj = [];
             obj = {
@@ -135,23 +143,24 @@ export default class BenefitChildTable extends Component {
                 leave: data[i].leave ? data[i].leave : '-',
                 extension: data[i].extension ? data[i].extension : '-',
                 status: status,
-                checkPerson: '<select name="selectperson" id="selectperson">'+
-                tempArray.map((v, i) => (
-                    `<option value='${v.fullname}' id=${v.user_id}>${v.fullname}</option>`
-                )) +
-              '</select>'
+                // checkPerson: `<div id ='toCheckPerson'><select id="dropdownid" >` +
+                //     '<option value="Hello"> Please choose </option>' +
+                //     tempArray.map((v, i) => (
+                //         `<option value='${v.fullname}' id=${v.user_id}>${v.fullname}</option>`
+                //     )) +
+                //     '</select></div>'
 
-        }
-        if (has_select) {
-            obj.select = permission.isSelect === 1 ? '<div style="alignItems:center" id="toSelect" class="select-btn"  ><input  type="checkbox" /><span id="select" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '' //'<div style="margin-right:0px;height:20px;width:20px;border:1px solid red" class="btn" id="toSelect" ><i className="fas fa-address-card" style="color:red"></i><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '';
-        }
-        if (has_action) {
-            if (result.status !== 3) {
-                obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
-                obj.action += permission.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
-            } else {
-                obj.action = permission.isView === 1 ?
-                    '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+            }
+            if (has_select) {
+                obj.select = permission.isSelect === 1 ? '<div style="alignItems:center" id="toSelect" class="select-btn"  ><input  type="checkbox" /><span id="select" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '' //'<div style="margin-right:0px;height:20px;width:20px;border:1px solid red" class="btn" id="toSelect" ><i className="fas fa-address-card" style="color:red"></i><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '';
+            }
+            if (has_action) {
+                if (result.status !== 3) {
+                    obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+                    obj.action += permission.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
+                } else {
+                    obj.action = permission.isView === 1 ?
+                        '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
 
                     if (result.print === 1) {
                         obj.action +=
@@ -177,27 +186,27 @@ export default class BenefitChildTable extends Component {
             $('#dataTables-table').empty();
         }
 
-var column = [
-    { title: "No", data: "no" },
-    { title: "Employee Id", data: "employee_id" },
-    { title: "Name", data: "employee_name" },
-    { title: "Designation", data: "position" },
-    { title: "Level", data: "career_level" },
-    { title: "Sub Level", data: "career_sub_level" },
-            {title: 'Check Person', data: 'checkPerson'},
-    { title: "Department", data: "department" },
-    { title: "Branch", data: "branch" },
-    { title: "Region", data: "region" },
-    { title: "Employed Date", data: "employee_date" },
-    { title: "Last Promtion Date", data: "promotion_date" },
-    { title: "Service Year", data: "service_year" },
-    { title: "Service Year in Current Level", data: "current_level_service_year" },
-    { title: "Service Year in Current Sub Level", data: "current_sub_level_service_year" },
-    { title: "Leave", data: "leave" },
-    { title: "Extension", data: "extension" },
-            
-    // { title: "Status", data: "status" }
-]
+        var column = [
+            { title: "No", data: "no" },
+            { title: "Employee Id", data: "employee_id" },
+            { title: "Name", data: "employee_name" },
+            { title: "Designation", data: "position" },
+            { title: "Level", data: "career_level" },
+            { title: "Sub Level", data: "career_sub_level" },
+            // { title: 'Check Person', data: 'checkPerson' },
+            { title: "Department", data: "department" },
+            { title: "Branch", data: "branch" },
+            { title: "Region", data: "region" },
+            { title: "Employed Date", data: "employee_date" },
+            { title: "Last Promtion Date", data: "promotion_date" },
+            { title: "Service Year", data: "service_year" },
+            { title: "Service Year in Current Level", data: "current_level_service_year" },
+            { title: "Service Year in Current Sub Level", data: "current_sub_level_service_year" },
+            { title: "Leave", data: "leave" },
+            { title: "Extension", data: "extension" },
+
+            // { title: "Status", data: "status" }
+        ]
 
         if (has_action) {
             column.push({ title: "Action", data: "action" })
@@ -238,22 +247,22 @@ var column = [
                 if (data.leave === true) {
                     $(row).css('background-color', 'Yellow');
                 }
-                if (data.extension === true) {
+                if (data.extension != '-') {
                     $(row).css('background-color', 'Orange');
                 }
-            } 
+            }
 
 
-});
+        });
 
     }
 
 
-render() {
-    return (
+    render() {
+        return (
 
-        <div>
-            {/* <div className="row  white-bg dashboard-header">
+            <div>
+                {/* <div className="row  white-bg dashboard-header">
                     <div className="row">
                         <div class="btn-group-g ">
                             <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
@@ -264,11 +273,11 @@ render() {
                         </div>
                     </div>
                 </div> */}
-            <table width="99%"
-                className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
-                id="dataTables-table"
-            />
-        </div >
-    )
-}
+                <table width="99%"
+                    className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
+                    id="dataTables-table"
+                />
+            </div >
+        )
+    }
 }
