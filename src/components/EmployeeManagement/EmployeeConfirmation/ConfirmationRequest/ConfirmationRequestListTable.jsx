@@ -97,12 +97,12 @@ export default class ConfirmationRequestListTable extends Component {
     })
   }
 
-  
+
 
   async update(data) {
-    
+
     let status = 0;
-    
+
     fetch(`${main_url}confirmation/updateConfirmForEmployment/${data.user_id}`, {
       method: "POST",
       headers: {
@@ -217,7 +217,14 @@ export default class ConfirmationRequestListTable extends Component {
     fetch(`${main_url}confirmation/getConfirmationAllData/${branchId == undefined ? 0 : branchId}/${departmentId == undefined ? 0 : departmentId}/${regionId == undefined ? 0 : regionId}/${levelStatus == undefined ? 0 : levelStatus}/${designationId == undefined ? 0 : designationId}`)
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
-        this._setTableData(list);
+        if (this.props.pending_approve == 'pending') {
+          let data = list.filter(v => v.status == 4 && v.recommendation != "Extensions")
+          this._setTableData(data);
+        } else {
+          let data = list.filter(v => v.status == 10 && v.recommendation != "Extensions")
+          this._setTableData(data);
+        }
+
       })
   }
 
