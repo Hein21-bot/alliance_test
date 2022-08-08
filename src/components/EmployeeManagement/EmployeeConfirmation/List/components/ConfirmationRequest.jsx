@@ -28,7 +28,7 @@ export default class ConfirmationRequest extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
+
       user_id: getUserId("user_info"),
       dataSource: props.data,
       checkPersonData: props.checkData,
@@ -36,7 +36,7 @@ export default class ConfirmationRequest extends Component {
       // selectedRequest: '',
       is_main_role: getMainRole(),
       extension_comment: '',
-      pathname:window.location.pathname
+      pathname: window.location.pathname
     };
   }
   componentDidMount() {
@@ -74,29 +74,29 @@ export default class ConfirmationRequest extends Component {
   }
 
   _setTableData = (data) => {
-  
+
     var table;
     var l = [];
     var leaveCategory;
     var leaveStatus;
     for (var i = 0; i < data.length; i++) {
       let obj = [];
-      if(data[i].leave_category==1){
-        leaveCategory="Casual Leave"
-      }else if(data[i].leave_category ==3){
-        leaveCategory="Maternity Leave"
-      }else if(data[i].leave_category ==4){
-        leaveCategory="Paternity Leave"
-      }else if(data[i].leave_category ==5){
-        leaveCategory="Earned Leave"
-      }else if(data[i].leave_category ==6){
-        leaveCategory="Medical Leave"
-      }else if(data[i].leave_category ==7){
-        leaveCategory="Compassionate Leave"
-      }else if(data[i].leave_category ==8){
-        leaveCategory="Leave Without Pay"
-      }else{
-        leaveCategory="-"
+      if (data[i].leave_category == 1) {
+        leaveCategory = "Casual Leave"
+      } else if (data[i].leave_category == 3) {
+        leaveCategory = "Maternity Leave"
+      } else if (data[i].leave_category == 4) {
+        leaveCategory = "Paternity Leave"
+      } else if (data[i].leave_category == 5) {
+        leaveCategory = "Earned Leave"
+      } else if (data[i].leave_category == 6) {
+        leaveCategory = "Medical Leave"
+      } else if (data[i].leave_category == 7) {
+        leaveCategory = "Compassionate Leave"
+      } else if (data[i].leave_category == 8) {
+        leaveCategory = "Leave Without Pay"
+      } else {
+        leaveCategory = "-"
       }
       if (data[i].leave_status == 0) {
         leaveStatus = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
@@ -115,8 +115,8 @@ export default class ConfirmationRequest extends Component {
       }
       else if (data[i].leave_status === 10) {
         leaveStatus = '<small class="label label-warning" style="background-color:#29a50a">Approved</small>'
-      }else{
-        leaveStatus='-'
+      } else {
+        leaveStatus = '-'
       }
       obj = {
         no: i + 1,
@@ -130,7 +130,7 @@ export default class ConfirmationRequest extends Component {
         department: data[i].department ? data[i].department : "-",
         branch: data[i].branch ? data[i].branch : "-",
         region: data[i].region ? data[i].region : "-",
-        employ_date: data[i].employ_date ? data[i].employ_date : "-",
+        employ_date: data[i].employee_date ? data[i].employee_date : "-",
         last_promotion_date: data[i].last_promotion_date
           ? data[i].last_promotion_date
           : "-",
@@ -223,7 +223,7 @@ export default class ConfirmationRequest extends Component {
             justifyContent: "space-between",
             marginTop: "12px",
             marginBottom: '10px',
-            padding:0
+            padding: 0
           }}
         >
           {this.props.title == "request" ? (
@@ -277,34 +277,34 @@ export default class ConfirmationRequest extends Component {
                 </div>
               </div>
               <div
-            className="col-lg-3 col-md-2 col-sm-12"
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              paddingBottom: 10,
-             
-              justifyContent: "flex-end",
-              margin:0,
-              alignItems: "center",
-            }}
-          >
-            <a href={this.state.pathname}>
-            <button
-              
-              className="btn btn-primary"
-              style={{ borderRadius: 3, width: 80,marginRight:10 }}
-            >
-              Back
-            </button>
-            </a>
-            <button
-              onClick={this.props.handleConfirmRequest}
-              className="btn btn-primary"
-              style={{ borderRadius: 3, width: 80 }}
-            >
-              Submit
-            </button>
-          </div>
+                className="col-lg-3 col-md-2 col-sm-12"
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  paddingBottom: 10,
+
+                  justifyContent: "flex-end",
+                  margin: 0,
+                  alignItems: "center",
+                }}
+              >
+                <a href={this.state.pathname}>
+                  <button
+
+                    className="btn btn-primary"
+                    style={{ borderRadius: 3, width: 80, marginRight: 10 }}
+                  >
+                    Back
+                  </button>
+                </a>
+                <button
+                  onClick={this.props.handleConfirmRequest}
+                  className="btn btn-primary"
+                  style={{ borderRadius: 3, width: 80 }}
+                >
+                  Submit
+                </button>
+              </div>
             </>
           ) : (
             <>
@@ -317,10 +317,10 @@ export default class ConfirmationRequest extends Component {
                   <input
                     type="text"
                     // className="full_width"
-                    style={{width: '50%'}}
+                    style={{ width: '50%' }}
                     onChange={(e) =>
-                      this.setState({extension_comment: e.target.value})
-                      
+                      this.setState({ extension_comment: e.target.value })
+
                     }
                   ></input>
                 </div>
@@ -335,7 +335,7 @@ export default class ConfirmationRequest extends Component {
               </div>
             </>
           )}
-          
+
         </div >
         {/* <div className="row  white-bg dashboard-header">
                     <div className="row">
@@ -349,11 +349,11 @@ export default class ConfirmationRequest extends Component {
                     </div>
                 </div> */}
         <div className="col-12">
-        <table
-          width="99%"
-          className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
-          id="dataTables-table"
-        />
+          <table
+            width="99%"
+            className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
+            id="dataTables-table"
+          />
         </div>
       </div>
     );

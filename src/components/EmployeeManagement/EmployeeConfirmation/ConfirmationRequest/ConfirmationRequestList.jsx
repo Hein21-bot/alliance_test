@@ -29,7 +29,7 @@ export default class ConfirmationRequestList extends Component {
       .then(list => {
         this.setState({
           comfirmationRequestList: list,
-          confirmData: list.filter(v => v.status == 4)
+          confirmData: list.filter(v => v.status == 4 && v.recommendation != 'Extensions')
         })
       })
   }
