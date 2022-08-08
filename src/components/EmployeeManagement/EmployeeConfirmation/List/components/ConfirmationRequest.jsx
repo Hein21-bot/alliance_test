@@ -74,11 +74,50 @@ export default class ConfirmationRequest extends Component {
   }
 
   _setTableData = (data) => {
+  
     var table;
     var l = [];
-
+    var leaveCategory;
+    var leaveStatus;
     for (var i = 0; i < data.length; i++) {
       let obj = [];
+      if(data[i].leave_category==1){
+        leaveCategory="Casual Leave"
+      }else if(data[i].leave_category ==3){
+        leaveCategory="Maternity Leave"
+      }else if(data[i].leave_category ==4){
+        leaveCategory="Paternity Leave"
+      }else if(data[i].leave_category ==5){
+        leaveCategory="Earned Leave"
+      }else if(data[i].leave_category ==6){
+        leaveCategory="Medical Leave"
+      }else if(data[i].leave_category ==7){
+        leaveCategory="Compassionate Leave"
+      }else if(data[i].leave_category ==8){
+        leaveCategory="Leave Without Pay"
+      }else{
+        leaveCategory="-"
+      }
+      if (data[i].leave_status == 0) {
+        leaveStatus = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
+      }
+      else if (data[i].leave_status === 1) {
+        leaveStatus = '<small class="label label-warning" style="background-color:#b33ce0"> Check</small>'
+      }
+      else if (data[i].leave_status === 2) {
+        leaveStatus = '<small class="label label-warning" style="background-color:#0078FF"> Confirm</small>'
+      }
+      else if (data[i].leave_status === 3) {
+        leaveStatus = '<small class="label label-warning" style="background-color:#f2a509"> Verify</small>'
+      }
+      else if (data[i].leave_status === 4) {
+        leaveStatus = '<small class="label label-warning" style="background-color:#29a50a">Approve</small>'
+      }
+      else if (data[i].leave_status === 10) {
+        leaveStatus = '<small class="label label-warning" style="background-color:#29a50a">Approved</small>'
+      }else{
+        leaveStatus='-'
+      }
       obj = {
         no: i + 1,
         employee_id: data[i].employee_id ? data[i].employee_id : "",
@@ -98,6 +137,10 @@ export default class ConfirmationRequest extends Component {
         date: data[i].date ? data[i].date : "-",
         service_year: data[i].service_year ? data[i].service_year : "",
         leave: data[i].leave ? data[i].leave : "-",
+        leave_category: leaveCategory,
+        leave_start_date: data[i].leave_start_date ? data[i].leave_start_date : '-',
+        leave_end_date: data[i].leave_end_date ? data[i].leave_end_date : '-',
+        leave_status: leaveStatus
       };
       l.push(obj);
     }
@@ -125,6 +168,10 @@ export default class ConfirmationRequest extends Component {
       { title: "Service Year in Current Level", data: "date" },
       { title: "Service Year in Current Sub Level", data: "date" },
       { title: "Leave", data: "leave" },
+      { title: "Leave Category", data: "leave_category" },
+      { title: "Leave Start Date", data: "leave_start_date" },
+      { title: "Leave End Date", data: "leave_end_date" },
+      { title: "Leave Status", data: "leave_status" },
       // { title: "Status", data: "status" }
     ];
     table = $("#dataTables-table").DataTable({

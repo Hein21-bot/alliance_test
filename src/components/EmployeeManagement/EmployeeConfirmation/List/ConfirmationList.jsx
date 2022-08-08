@@ -154,10 +154,16 @@ class ConfirmationList extends Component {
           'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: `title_list=${title_list.length==0 ? 0 : JSON.stringify(title_list)}`,
+      
       }
     )
       .then((res) => {
-        if (res.ok) return res.json();
+        // if (res.ok) return res.json();
+        if(res.ok){
+          return res.json();
+        }else{
+          return toast.error("Please Select Confirmation Title!")
+        }
       })
       .then((list) => {
         this.setState({
@@ -399,6 +405,10 @@ class ConfirmationList extends Component {
       date: moment(data.createdAt).format("DD-MM-YYYY"),
       service_year: data.service_year ? data.service_year : "-",
       leave: data.leave ? data.leave : "-",
+      leave_category : data.leave_category ? data.leave_category : '-',
+      leave_start_date:data.leave_start_date ? data.leave_start_date : '-',
+      leave_end_date:data.leave_end_date ? data.leave_end_date : '-',
+      leave_status:data.leave_status ? data.leave_status : '-'
     };
     if (checkedListData_.length === 0) {
       checkedListData_.push(newData);

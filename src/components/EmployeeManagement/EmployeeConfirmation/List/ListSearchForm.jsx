@@ -50,7 +50,7 @@ const ListSearchForm = props => {
 
                 </div> */}
                 <div style={{ width: '100%' }}>
-                    <div style={{ maxWidth: 250, }}>
+                    <div style={{ maxWidth: 180, }}>
                         <Select
                             laceholder="Please Choose An Option"
                             options={titleList}

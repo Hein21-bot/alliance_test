@@ -130,7 +130,8 @@ export default class BenefitChildTable extends Component {
             current_sub_level_service_year: data[i].current_sub_level_service_year ? data[i].current_sub_level_service_year : '',
             leave: data[i].leave ? data[i].leave : '-',
             extension: data[i].extension ? data[i].extension : '-',
-            status: status
+            status: status,
+            
 
         }
         if (has_select) {
@@ -184,6 +185,7 @@ var column = [
     { title: "Service Year in Current Sub Level", data: "current_sub_level_service_year" },
     { title: "Leave", data: "leave" },
     { title: "Extension", data: "extension" },
+    
     // { title: "Status", data: "status" }
 ]
 
