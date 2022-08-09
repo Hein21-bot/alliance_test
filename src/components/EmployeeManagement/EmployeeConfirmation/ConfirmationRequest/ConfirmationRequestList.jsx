@@ -15,12 +15,26 @@ export default class ConfirmationRequestList extends Component {
       sub_level: [],
       status_info: [],
       status: null,
-      pending_approve: ''
+      pending_approve: '',
+      salaryList: []
     }
   }
   async componentDidMount() {
     await this.getConfirmationRequestList();
-    await this.getCareerSubLevelOptions()
+    await this.getCareerSubLevelOptions();
+    await this.getSalaryTemplate();
+  }
+
+  async getSalaryTemplate() {
+    fetch(`${main_url}salaryTemplate/getSalaryTemplate`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        this.setState({
+          salaryList: list,
+        });
+      });
   }
 
   async getConfirmationRequestList() {
@@ -110,6 +124,7 @@ export default class ConfirmationRequestList extends Component {
             pathname={this.state.pathname}
             permission={{ isView: 1, isEdit: 1 }}
             pending_approve={this.state.pending_approve}
+            salaryList={this.state.salaryList}
           />
         )}
 

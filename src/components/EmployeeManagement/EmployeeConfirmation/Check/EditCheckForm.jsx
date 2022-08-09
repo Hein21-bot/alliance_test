@@ -7,9 +7,10 @@ import moment from "moment";
 import ApprovalInformation from '../InfoForConfirmation';
 
 const EditCheckForm = props => {
-    const { handleSubmit, handleEditCheckInputChange, status, onRecommendationChange, handleLetterWarningChange, view, fullname, BackToTable, extensionPeriod, extensionComment, comment, effectiveDate, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, recommendation, date, check_person, verify_person, sub_level_options, career_level_id, selected_sub_level, handleSelectedSubLevel, recommend_level, status_info, confirmPerson } = props
+    const { handleSubmit, handleEditCheckInputChange, status, onRecommendationChange, handleLetterWarningChange, view, fullname, BackToTable, extensionPeriod, extensionComment, comment, effectiveDate, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, recommendation, date, check_person, verify_person, sub_level_options, career_level_id, selected_sub_level, handleSelectedSubLevel, recommend_level, status_info, confirmPerson,edit } = props
     const filter_sub_level = sub_level_options.filter(v => v.career_level_id == career_level_id)
     const selected_level = sub_level_options.filter(v => v.career_sub_level_id == recommend_level)
+    
 
 
     return (
@@ -204,6 +205,7 @@ const EditCheckForm = props => {
                                         options={filter_sub_level}
                                         value={selected_level}
                                         onChange={handleSelectedSubLevel}
+                                        
                                         className="react-select-container checkValidate"
                                         classNamePrefix="react-select"
 
@@ -212,6 +214,7 @@ const EditCheckForm = props => {
                             </div>
                         </div>
                     </div>
+                   
                     <div className='w-100' style={{ display: 'flex', justifyContent: 'center', padding: 10 }}>
                         <div className='col-lg-6 col-md-10 col-sm-12' style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', }}>
                             <div className='col-lg-6 col-md-6 col-sm-6'>
@@ -226,7 +229,7 @@ const EditCheckForm = props => {
                     </div>
 
                     {
-                        status == 2 ?
+                        status >=2 && recommendation =="Confirmation" && (view || edit) ?
                         <div className='w-100' style={{ display: 'flex', justifyContent: 'center', padding: 10 }}>
                             <div className='col-lg-6 col-md-10 col-sm-12' style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', }}>
                                 <div className='col-lg-6 col-md-6 col-sm-6'>
@@ -238,17 +241,13 @@ const EditCheckForm = props => {
 
                                 </div>
                             </div>
-                        </div> : ''
+                        </div> : ""
                     }
                         
                     
 
 {
-                        view ?
-                            <div className='w-100 mx-2' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                                <button onClick={BackToTable} className='btn btn-primary' style={{ borderRadius: 10, width: 120 }}>Back</button>
-
-                            </div> :
+                       
                             check_person == props.user_id && status == 0 ? <div className='w-100 mx-2' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                                 <button type='submit' className='btn btn-primary' style={{ borderRadius: 10, width: 120 }}>Check </button>
 

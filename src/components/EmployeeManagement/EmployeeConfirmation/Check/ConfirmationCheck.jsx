@@ -51,7 +51,8 @@ class ConfirmationCheck extends Component {
             checkAt: null,
             confirmAt: null,
             verifyAt: null,
-            approveAt: null
+            approveAt: null,
+           
         }
 
     }
@@ -67,6 +68,7 @@ class ConfirmationCheck extends Component {
                 value: v.career_sub_level
             }
         ))
+       
 
         this.setState({
             sub_level_options
@@ -78,6 +80,7 @@ class ConfirmationCheck extends Component {
         if (res.ok) return res.json();
         else return [];
     }
+    
 
 
     getWarning(user_id) {
@@ -142,11 +145,15 @@ class ConfirmationCheck extends Component {
     }
 
     handleSelectedSubLevel = (event) => {
+        
         this.setState({
             selected_sub_level: event,
-            recommend_level: event.career_sub_level_id
+            recommend_level: event.career_sub_level_id,
+            
+
         })
     }
+    
 
     goToViewForm = data => {
         fetch(`${main_url}confirmation/getActionStatus/${data.table_id}`)
@@ -180,7 +187,8 @@ class ConfirmationCheck extends Component {
             date: data.date ? moment.utc(data.date).format("YYYY-MM-DD") : '-',//moment(data.createdAt).format("DD/MM/YYYY"),
             career_level_id: data.career_level_id,
             recommend_level: data.recommend_level,
-            comment: data.comment_overall_performance
+            comment: data.comment_overall_performance,
+            stauts:data.status
         })
     }
 
@@ -429,8 +437,10 @@ class ConfirmationCheck extends Component {
             confirmAt: this.state.status == 1 ? moment(new Date()).format('YYYY-MM-DD') : confirmAt ? moment(confirmAt).format('YYYY-MM-DD') : null,
             verifyAt: this.state.status == 2 ? moment(new Date()).format('YYYY-MM-DD') : verifyAt ? moment(verifyAt).format('YYYY-MM-DD') : null,
             approveAt: null,
-            verify_person: this.state.user_id
+            verify_person: this.state.user_id,
+           
         }
+        
 
 
         let status = 0;
@@ -455,11 +465,7 @@ class ConfirmationCheck extends Component {
                 }
                 else toast.error(text);
                 window.location.reload()
-                // window.location.replace('/confirmation_list')
-                // window.location.replace('/confirmation_list')
-
-
-                // window.location.replace("/employment_details");
+                
 
             })
 
@@ -467,7 +473,7 @@ class ConfirmationCheck extends Component {
     render() {
         let verify_person = this.state.checkListData && (this.state.checkListData[0] ? this.state.checkListData[0].verify_person : null)
         let check_person = this.state.checkListData && (this.state.checkListData[0] ? this.state.checkListData[0].check_person : null)
-        const { selected_checkList, extensionPeriod, extensionComment, comment, effectiveDate, checkedAll, edit, view, selectedTableData, fullname, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, status, recommendation, date, checkPerson, verifyPerson, sub_level_options, career_level_id, selected_sub_level, recommend_level, status_info, confirmPerson, checkAt, confirmAt, verifyAt, approveAt } = this.state
+        const { selected_checkList, extensionPeriod, extensionComment, comment, effectiveDate, checkedAll, edit, view, selectedTableData, fullname, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, status, recommendation, date, checkPerson, verifyPerson, sub_level_options, career_level_id, selected_sub_level, recommend_level, status_info, confirmPerson, checkAt, confirmAt, verifyAt, approveAt, } = this.state
         return (
             <div className=" border-bottom white-bg dashboard-header">
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -487,9 +493,9 @@ class ConfirmationCheck extends Component {
 
                         </ol>
                         {
-                            edit ? <div style={{ display: 'flex', paddingTop: 10, justifyContent: 'flex-start', marginBottom: -10 }}>
+                            edit || view ? <div style={{ display: 'flex', paddingTop: 10, justifyContent: 'flex-start', marginBottom: -10 }}>
 
-                                <button className='' onClick={() => this.setState({ edit: false })} style={{ borderRadius: 5, padding: 10, margin: 10, background: '#337ab7', color: 'white', border: 'none', width: 130 }}>
+                                <button className='' onClick={() => this.setState({ edit: false, view: false })} style={{ borderRadius: 5, padding: 10, margin: 10, background: '#337ab7', color: 'white', border: 'none', width: 130 }}>
                                     {'< Back '}
                                 </button>
                             </div> : null
@@ -530,6 +536,8 @@ class ConfirmationCheck extends Component {
                             selected_sub_level={selected_sub_level}
                             handleSelectedSubLevel={this.handleSelectedSubLevel}
                             recommend_level={recommend_level}
+                           
+                            edit={edit}
                             date={date} />
                         :
                         view ?
@@ -557,6 +565,8 @@ class ConfirmationCheck extends Component {
                                 sub_level_options={sub_level_options}
                                 recommend_level={recommend_level}
                                 date={date}
+                               
+                                status={status}
                                 status_info={status_info} />
                             :
                             <div className='white-bg' style={{ boxShadow: '5px 5px 5px lightgrey', paddingTop: 10 }}>
