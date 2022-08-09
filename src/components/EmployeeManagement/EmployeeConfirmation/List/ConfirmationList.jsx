@@ -385,9 +385,13 @@ class ConfirmationList extends Component {
 
   };
 
-  handleCheckBoxChange = (data) => {
+  handleCheckBoxChange = async (data) => {
     const { checkedListData } = this.state;
     const checkedListData_ = [...checkedListData];
+    var tempArray = [];
+            await fetch(main_url + 'confirmation/detailCheckPerson/' + data.branch_id).then(response => {
+                return response.json();
+            }).then(res => { tempArray = res })
     const newData = {
       id: data.user_id,
       employee_id: data.code ? data.code : "",
@@ -396,6 +400,7 @@ class ConfirmationList extends Component {
       career_level: data.career_level ? data.career_level : "-",
       career_sub_level: data.career_sub_level ? data.career_sub_level : "-",
       department: data.deptname ? data.deptname : "-",
+      branch_id: data.branch_id ? data.branch_id : '-',
       branch: data.branch_name ? data.branch_name : "-",
       region: data.region_name ? data.region_name : "-",
       employee_date: data.employee_date ? moment(data.employee_date).format('DD-MM-YYYY') : "-",
@@ -408,7 +413,8 @@ class ConfirmationList extends Component {
       leave_category : data.leave_category ? data.leave_category : '-',
       leave_start_date:data.leave_start_date ? data.leave_start_date : '-',
       leave_end_date:data.leave_end_date ? data.leave_end_date : '-',
-      leave_status:data.leave_status ? data.leave_status : '-'
+      leave_status:data.leave_status ? data.leave_status : '-',
+      checkPerson: tempArray,
     };
     if (checkedListData_.length === 0) {
       checkedListData_.push(newData);

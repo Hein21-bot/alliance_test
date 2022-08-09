@@ -28,18 +28,17 @@ export default class ConfirmationRequest extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
       user_id: getUserId("user_info"),
       dataSource: props.data,
       checkPersonData: props.checkData,
       confirmPersonData: props.confirmData,
       // selectedRequest: '',
       is_main_role: getMainRole(),
-      extension_comment: '',
-      pathname: window.location.pathname
+      extension_comment: "",
+      pathname: window.location.pathname,
+      checkPerson: [],
     };
   }
-
 
   // componentDidMount() {
   //   this.$el = $(this.el);
@@ -215,7 +214,7 @@ export default class ConfirmationRequest extends Component {
   // };
 
   render() {
-
+    const { dataSource } = this.state;
     return (
       <div>
         <div
@@ -226,8 +225,8 @@ export default class ConfirmationRequest extends Component {
             flexWrap: "wrap",
             justifyContent: "space-between",
             marginTop: "12px",
-            marginBottom: '10px',
-            padding: 0
+            marginBottom: "10px",
+            padding: 0,
           }}
         >
           {this.props.title == "request" ? (
@@ -294,7 +293,6 @@ export default class ConfirmationRequest extends Component {
               >
                 <a href={this.state.pathname}>
                   <button
-
                     className="btn btn-primary"
                     style={{ borderRadius: 3, width: 80, marginRight: 10 }}
                   >
@@ -321,288 +319,122 @@ export default class ConfirmationRequest extends Component {
                   <input
                     type="text"
                     // className="full_width"
-                    style={{ width: '50%' }}
+                    style={{ width: "50%" }}
                     onChange={(e) =>
                       this.setState({ extension_comment: e.target.value })
-
                     }
                   ></input>
                 </div>
-                
-                <div className="col-md-2 ">
-                    <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
-                    <a href={this.state.pathname}>
-                  <button
 
-                    className="btn btn-primary"
-                    style={{ borderRadius: 3, width: 70, marginRight: 10 }}
+                <div className="col-md-2 ">
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
                   >
-                    Back
-                  </button>
-                </a>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => this.props.handleLeaveExtensionRequest(this.state.extension_comment)}
-                  >
-                    <span>Submit</span>{" "}
-                  </button>
-                    </div>
+                    <a href={this.state.pathname}>
+                      <button
+                        className="btn btn-primary"
+                        style={{ borderRadius: 3, width: 70, marginRight: 10 }}
+                      >
+                        Back
+                      </button>
+                    </a>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() =>
+                        this.props.handleLeaveExtensionRequest(
+                          this.state.extension_comment
+                        )
+                      }
+                    >
+                      <span>Submit</span>{" "}
+                    </button>
+                  </div>
                 </div>
               </div>
             </>
           )}
-
         </div>
-        <div className="container" style={{ overflowX: "auto", width: "100%", }}>
+        <div className="container" style={{ overflowX: "auto", paddingBottom: 100 }}>
           <table className="table">
-            <thead className="">
-              <tr className="" >
-                <th style={{ backgroundColor: "#27568A", border: "2px solid white", color: "white" }}>No</th>
-                <th style={{ backgroundColor: "#27568A", border: "2px solid white", color: "white", width:"150px" }}>Employee ID</th>
-                <th style={{ backgroundColor: "#27568A", border: "2px solid white", color: "white" }}>Name</th>
-                <th style={{ backgroundColor: "#27568A", border: "2px solid white", color: "white" }}>Designation</th>
-                <th style={{ backgroundColor: "#27568A", border: "2px solid white", color: "white" }}>Level</th>
-                <th style={{ backgroundColor: "#27568A", border: "2px solid white", color: "white",width:"100px" }}>Sub Level</th>
-                <th style={{ backgroundColor: "#27568A", border: "2px solid white", color: "white" }}>Department</th>
-                <th style={{ backgroundColor: "#27568A", border: "2px solid white", color: "white" }}>Branch</th>
-                <th style={{ backgroundColor: "#27568A", border: "2px solid white", color: "white" }}>Region</th>
-                <th style={{ backgroundColor: "#27568A", border: "2px solid white", color: "white",width:"120px" }}>Employee Date</th>
-                <th style={{ backgroundColor: "#27568A", border: "2px solid white", color: "white",width:"150px" }}>Last Promotion Date</th>
-                <th style={{ backgroundColor: "#27568A", border: "2px solid white", color: "white",width:"170px" }}>Service Year</th>
-                <th style={{ backgroundColor: "#27568A", border: "2px solid white", color: "white",width:"300px" }}>Service Year in Current Level</th>
-                <th style={{ backgroundColor: "#27568A", border: "2px solid white", color: "white",width:"300px" }}>Service Year in Current Sub Level</th>
-                <th style={{ backgroundColor: "#27568A", border: "2px solid white", color: "white" }}>Leave</th>
-                <th style={{ backgroundColor: "#27568A", border: "2px solid white", color: "white", width:"150px" }}>Leave Categorey</th>
-                <th style={{ backgroundColor: "#27568A", border: "2px solid white", color: "white" }}>Leave Start Date</th>
-                <th style={{ backgroundColor: "#27568A", border: "2px solid white", color: "white" }}>Leave End Date</th>
-                <th style={{ backgroundColor: "#27568A", border: "2px solid white", color: "white" }}>Leave Status</th>
+            <thead style={{ width: "100%" }}>
+              <tr style={{ width: "100%", backgroundColor: "#27568A" }}>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 50 }}>No</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 100 }}>Employee ID</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 150 }}>Name</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 180 }}>Check Person</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 150 }}>Designation</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 100 }}>Level</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 100 }}> Sub Level</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 150 }}>Department</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 150 }}>Branch</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 150 }}>Region</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 100 }}>Employee Date</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 100 }}>Region</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 200 }}>Service Years</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 150 }}>
+                    Service Year In Current Level
+                  </div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 150 }}>
+                    Service Year in Current Sub Level
+                  </div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 100 }}>Leave</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 100 }}>Leave Category</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 100 }}>Leave Start Date</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 100 }}>Leave End Date</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 100 }}>Leave Status</div>
+                </th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th className="" style={{border:"1px solid lightgrey"}}>1</th>
-                <td className="" style={{border:"1px solid lightgrey"}}>ertetetete2</td>
-                <td className="" style={{border:"1px solid lightgrey"}}>3rtetetert</td>
-                <td className="" style={{border:"1px solid lightgrey"}}>rterterterte@4</td>
-                <td className="" style={{border:"1px solid lightgrey"}}>rtertertete5</td>
-                <td className="" style={{border:"1px solid lightgrey"}}>6eterterte</td>
-                <td className="" style={{border:"1px solid lightgrey"}}>@ertetertert7</td>
-                <td className="" style={{border:"1px solid lightgrey"}}>tertertertert8</td>
-                <td className="" style={{border:"1px solid lightgrey"}}>erteterterter9</td>
-                <td className="" style={{border:"1px solid lightgrey"}}>@ertertertert0</td>
-                <td className="" style={{border:"1px solid lightgrey"}}>1ertertertetert1</td>
-                <td className="" style={{border:"1px solid lightgrey"}}>1ertertertertet2</td>
-                <td className="" style={{border:"1px solid lightgrey"}}>1eterterterter3</td>
-                <td className="" style={{border:"1px solid lightgrey"}}>1erretertertert4</td>
-                <td className="" style={{border:"1px solid lightgrey"}}>1ertertertetert1</td>
-                <td className="" style={{border:"1px solid lightgrey"}}>1ertertertertet2</td>
-                <td className="" style={{border:"1px solid lightgrey"}}>1eterterterter3</td>
-                <td className="" style={{border:"1px solid lightgrey"}}>1erretertertert4</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>ertetetete2</td>
-                <td>3rtetetert</td>
-                <td>rterterterte@4</td>
-                <td>rtertertete5</td>
-                <td>6eterterte</td>
-                <td>@ertetertert7</td>
-                <td>tertertertert8</td>
-                <td>erteterterter9</td>
-                <td>@ertertertert0</td>
-                <td>1ertertertetert1</td>
-                <td>1ertertertertet2</td>
-                <td>1eterterterter3</td>
-                <td>1erretertertert4</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>ertetetete2</td>
-                <td>3rtetetert</td>
-                <td>rterterterte@4</td>
-                <td>rtertertete5</td>
-                <td>6eterterte</td>
-                <td>@ertetertert7</td>
-                <td>tertertertert8</td>
-                <td>erteterterter9</td>
-                <td>@ertertertert0</td>
-                <td>1ertertertetert1</td>
-                <td>1ertertertertet2</td>
-                <td>1eterterterter3</td>
-                <td>1erretertertert4</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>ertetetete2</td>
-                <td>3rtetetert</td>
-                <td>rterterterte@4</td>
-                <td>rtertertete5</td>
-                <td>6eterterte</td>
-                <td>@ertetertert7</td>
-                <td>tertertertert8</td>
-                <td>erteterterter9</td>
-                <td>@ertertertert0</td>
-                <td>1ertertertetert1</td>
-                <td>1ertertertertet2</td>
-                <td>1eterterterter3</td>
-                <td>1erretertertert4</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>ertetetete2</td>
-                <td>3rtetetert</td>
-                <td>rterterterte@4</td>
-                <td>rtertertete5</td>
-                <td>6eterterte</td>
-                <td>@ertetertert7</td>
-                <td>tertertertert8</td>
-                <td>erteterterter9</td>
-                <td>@ertertertert0</td>
-                <td>1ertertertetert1</td>
-                <td>1ertertertertet2</td>
-                <td>1eterterterter3</td>
-                <td>1erretertertert4</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>ertetetete2</td>
-                <td>3rtetetert</td>
-                <td>rterterterte@4</td>
-                <td>rtertertete5</td>
-                <td>6eterterte</td>
-                <td>@ertetertert7</td>
-                <td>tertertertert8</td>
-                <td>erteterterter9</td>
-                <td>@ertertertert0</td>
-                <td>1ertertertetert1</td>
-                <td>1ertertertertet2</td>
-                <td>1eterterterter3</td>
-                <td>1erretertertert4</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>ertetetete2</td>
-                <td>3rtetetert</td>
-                <td>rterterterte@4</td>
-                <td>rtertertete5</td>
-                <td>6eterterte</td>
-                <td>@ertetertert7</td>
-                <td>tertertertert8</td>
-                <td>erteterterter9</td>
-                <td>@ertertertert0</td>
-                <td>1ertertertetert1</td>
-                <td>1ertertertertet2</td>
-                <td>1eterterterter3</td>
-                <td>1erretertertert4</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>ertetetete2</td>
-                <td>3rtetetert</td>
-                <td>rterterterte@4</td>
-                <td>rtertertete5</td>
-                <td>6eterterte</td>
-                <td>@ertetertert7</td>
-                <td>tertertertert8</td>
-                <td>erteterterter9</td>
-                <td>@ertertertert0</td>
-                <td>1ertertertetert1</td>
-                <td>1ertertertertet2</td>
-                <td>1eterterterter3</td>
-                <td>1erretertertert4</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>ertetetete2</td>
-                <td>3rtetetert</td>
-                <td>rterterterte@4</td>
-                <td>rtertertete5</td>
-                <td>6eterterte</td>
-                <td>@ertetertert7</td>
-                <td>tertertertert8</td>
-                <td>erteterterter9</td>
-                <td>@ertertertert0</td>
-                <td>1ertertertetert1</td>
-                <td>1ertertertertet2</td>
-                <td>1eterterterter3</td>
-                <td>1erretertertert4</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>ertetetete2</td>
-                <td>3rtetetert</td>
-                <td>rterterterte@4</td>
-                <td>rtertertete5</td>
-                <td>6eterterte</td>
-                <td>@ertetertert7</td>
-                <td>tertertertert8</td>
-                <td>erteterterter9</td>
-                <td>@ertertertert0</td>
-                <td>1ertertertetert1</td>
-                <td>1ertertertertet2</td>
-                <td>1eterterterter3</td>
-                <td>1erretertertert4</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>ertetetete2</td>
-                <td>3rtetetert</td>
-                <td>rterterterte@4</td>
-                <td>rtertertete5</td>
-                <td>6eterterte</td>
-                <td>@ertetertert7</td>
-                <td>tertertertert8</td>
-                <td>erteterterter9</td>
-                <td>@ertertertert0</td>
-                <td>1ertertertetert1</td>
-                <td>1ertertertertet2</td>
-                <td>1eterterterter3</td>
-                <td>1erretertertert4</td>
-              </tr>
-
-              {/* <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr> */}
+              {dataSource.map((v, i) => (
+               <RowData v={v} i={i} />
+              ))}
             </tbody>
           </table>
-
         </div>
-
 
         {/* <div className="col-12">
           <table
@@ -700,3 +532,94 @@ export default class ConfirmationRequest extends Component {
     );
   }
 }
+
+const RowData =  ({ v, i }) => {
+  console.log('v ===>', v)
+  return  (
+    <tr>
+      <th className="" style={{ border: "1px solid lightgrey" }}>
+        {i + 1}
+      </th>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.employee_id}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.employee_name}
+      </td>
+      <td style={{ border: "1px solid lightgrey" }}>
+        <div style={{ maxWidth: 180 }}>
+          <Select
+            laceholder="Please Choose An Option"
+            options={v.checkPerson}
+            // isOptionDisabled={(workingDayOptions) => workingDayOptions.disabled}
+            // onChange={handleSelectedTitle}
+            // value={selected_title}
+            isClearable={true}
+            isSearchable={true}
+            className="react-select-container checkValidate"
+            classNamePrefix="react-select"
+            // hideSelectedOptions={false}
+            // closeMenuOnSelect
+            maxMenuHeight={100}
+            styles={{
+              control: (provided) => ({
+                ...provided,
+
+                cursor: "pointer",
+              }),
+              
+            }}
+          />
+        </div>
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.position}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.career_level}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.career_sub_level}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.department}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.branch}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.region}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.employee_date}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.promotion_date}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.service_year}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.date}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.date}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.leave}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.leave_category}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.leave_start_date}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.leave_end_date}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.leave_status}
+      </td>
+    </tr>
+  );
+};
