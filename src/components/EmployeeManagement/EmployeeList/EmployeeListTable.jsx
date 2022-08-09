@@ -236,7 +236,6 @@ export default class BenefitChildTable extends Component {
                         </div> */}
                     </div>
                 </div>
-                <h3 className="col-md-12">Employee List Table</h3>
                 <table width="99%"
                     className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
                     id="dataTables-table"

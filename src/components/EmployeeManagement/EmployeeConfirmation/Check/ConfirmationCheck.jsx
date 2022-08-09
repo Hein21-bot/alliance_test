@@ -570,8 +570,6 @@ class ConfirmationCheck extends Component {
                                 status_info={status_info} />
                             :
                             <div className='white-bg' style={{ boxShadow: '5px 5px 5px lightgrey', paddingTop: 10 }}>
-                                <h3>Confirmation Check Table</h3>
-
                                 <CheckTable goToViewForm={this.goToViewForm} checkedAll={checkedAll} handleCheckBoxChange={this.handleCheckBoxChange} goToEditForm={this.goToEditForm} selectedCheckBox={this.state.selectedCheckBox} handleApproveRequest={this.handleApproveRequest} handleSelectAllChange={this.handleSelectAllChange} data={this.state.checkListData ? this.state.checkListData : []} permission={{
                                     isEdit: (this.state.user_id == 921) ? 0 : 1,
                                     isView: 1,
