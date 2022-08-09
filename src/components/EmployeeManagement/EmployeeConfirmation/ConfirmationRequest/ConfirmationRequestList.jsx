@@ -93,7 +93,7 @@ export default class ConfirmationRequestList extends Component {
   }
 
   render() {
-
+  
     return (
       <div className=" border-bottom white-bg dashboard-header">
         <div className="row wrapper white-bg page-heading">
