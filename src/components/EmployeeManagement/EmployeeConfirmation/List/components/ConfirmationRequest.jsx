@@ -328,13 +328,25 @@ export default class ConfirmationRequest extends Component {
                     }
                   ></input>
                 </div>
-                <div className="col-md-2 btn-rightend">
+                
+                <div className="col-md-2 ">
+                    <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
+                    <a href={this.state.pathname}>
+                  <button
+
+                    className="btn btn-primary"
+                    style={{ borderRadius: 3, width: 70, marginRight: 10 }}
+                  >
+                    Back
+                  </button>
+                </a>
                   <button
                     className="btn btn-primary"
                     onClick={() => this.props.handleLeaveExtensionRequest(this.state.extension_comment)}
                   >
                     <span>Submit</span>{" "}
                   </button>
+                    </div>
                 </div>
               </div>
             </>

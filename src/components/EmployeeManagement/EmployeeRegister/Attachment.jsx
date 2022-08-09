@@ -24,7 +24,7 @@ const Attachment = props => {
                         Attachment
                     </div>
                     <div className='col-lg-5 col-md-6 col-sm-8' style={{}}>
-                        <input type='text' placeholder='' required={(viewForm || editForm) ? false : true} name="attachment" value={attachmentUrl} onChange={handleAttachmentChange} style={{ width: 300, height: 40, paddingLeft: 10 }} />
+                        <input type='text' placeholder='' name="attachment" value={attachmentUrl} onChange={handleAttachmentChange} style={{ width: 300, height: 40, paddingLeft: 10 }} />
 
                     </div>
 
