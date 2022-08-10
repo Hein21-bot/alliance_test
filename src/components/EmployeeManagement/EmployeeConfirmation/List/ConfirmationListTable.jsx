@@ -74,18 +74,9 @@ export default class BenefitChildTable extends Component {
 
         });
 
-        // $("#dataTables-table").on('change', '#toCheckPerson', function () {
 
-        //     var data = $(this).find("#checkPerson").text();
-        //     var data1 = $('#dropdownid').val("Hello");
-        //     console.log('data is =================>', data1)
-        //     // data = $.parseJSON(data);
 
-        //     // that.props.handleCheckBoxChange(data);
 
-        // });
-
-        
 
     }
 
@@ -93,11 +84,21 @@ export default class BenefitChildTable extends Component {
         if (prevProps.data !== this.props.data) {
             this.setState({
                 dataSource: this.props.data
-            }, async() => {
+            }, async () => {
                 await this._setTableData(this.state.dataSource);
-                $("#dropdownid").on("change", function(e){
-                    console.log("Change",$(this).val());
+                $("#dropdownid").on("change", function (e) {
+                    console.log("Change", $(this).val());
                 })
+                // $("#checkPerson").on('click', function (e) {
+
+                //     // var data = $(this).find("#checkPerson").text();
+                //     // var data1 = $('#dropdownid').val("Hello");
+                //     console.log('data is =================>',  $(this).val())
+                //     // data = $.parseJSON(data);
+
+                //     // that.props.handleCheckBoxChange(data);
+
+                // });
             })
         }
     }
@@ -108,11 +109,10 @@ export default class BenefitChildTable extends Component {
         this._setTableData(data)
     }
 
-   
+
 
 
     _setTableData = async (data) => {
-        console.log('data ===>', data[0])
         var table;
         var l = [];
         var status;
@@ -122,9 +122,9 @@ export default class BenefitChildTable extends Component {
 
         for (var i = 0; i < data.length; i++) {
             var tempArray = [];
-            await fetch(main_url + 'confirmation/detailCheckPerson/' + data[i].branch_id).then(response => {
-                return response.json();
-            }).then(res => { tempArray = res })
+            // await fetch(main_url + 'confirmation/detailCheckPerson/' + data[i].branch_id).then(response => {
+            //     return response.json();
+            // }).then(res => { tempArray = res })
             let result = data[i];
             let obj = [];
             obj = {
@@ -147,12 +147,11 @@ export default class BenefitChildTable extends Component {
                 leave: data[i].leave ? data[i].leave : '-',
                 extension: data[i].extension ? data[i].extension : '-',
                 status: status,
-                checkPerson: `<div id ='toCheckPerson' ><select id='dropdownid' on>` +
-                    '<option value="Hello"> Please choose </option>' +
-                    tempArray.map((v, i) => (
-                        `<option value='${v.user_id}' id=${v.user_id}>${v.fullname}</option>`
-                    )) +
-                    '</select></div>'
+                // checkPerson: `<select id='dropdownid'>` +
+                //     tempArray.map((v, i) => (
+                //         `<option value='${v.user_id}' id=${v.user_id}>${v.fullname}</option>`
+                //     )) +
+                //     '</select>'
 
 
             }
@@ -198,7 +197,7 @@ export default class BenefitChildTable extends Component {
             { title: "Designation", data: "position" },
             { title: "Level", data: "career_level" },
             { title: "Sub Level", data: "career_sub_level" },
-            { title: 'Check Person', data: 'checkPerson' },
+            // { title: 'Check Person', data: 'checkPerson' },
             { title: "Department", data: "department" },
             { title: "Branch", data: "branch" },
             { title: "Region", data: "region" },

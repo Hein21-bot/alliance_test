@@ -104,7 +104,7 @@ class ConfirmationCheck extends Component {
             })
             .then(res => {
                 if (res) {
-                    let data = this.state.user_id == 921 ? res.filter(c => c.status == 3).map(v => ({ ...v, select: true })) : res.filter(c => c.check_person == this.state.user_id || c.confirm_person == this.state.user_id || this.state.user_id == 17).map(v => ({ ...v, select: true }))
+                    let data = this.state.user_id == 921 ? res.filter(c => c.status == 3).map(v => ({ ...v, select: true })) : res.filter(c => c.check_person == this.state.user_id || c.confirm_person == this.state.user_id || this.state.user_id == 17 || c.request_person == this.state.user_id).map(v => ({ ...v, select: true }))
                     this.setState({
                         checkListData: data,
                     })

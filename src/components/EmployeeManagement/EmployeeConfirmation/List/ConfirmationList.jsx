@@ -63,8 +63,8 @@ class ConfirmationList extends Component {
       requestComponent: false,
       title: '',
       approveComponent: false,
-      selected_title_list:null,
-      selected_designation_list:null
+      selected_title_list: null,
+      selected_designation_list: null
     };
   }
 
@@ -137,39 +137,42 @@ class ConfirmationList extends Component {
     const designId = selected_designation ? selected_designation_list : 0;
     const lvlId = career_level ? career_level.career_level_id : 0;
     const subLvlId = career_sub_level ? selected_branch.career_sub_level_id : 0;
-    const title_list=selected_title_list ? selected_title_list  : 0;
-    const designation_list=selected_designation_list ? selected_designation_list : 0
- 
+    const title_list = selected_title_list ? selected_title_list : 0;
+    const designation_list = selected_designation_list ? selected_designation_list : 0
+
     const title = selected_title
       ? selected_title.value
         ? selected_title.value
         : confirmationMonth
       : 0;
-      // const formData = new FormData();
-      // formData.append('title_list', JSON.stringify(title_list))
-    fetch(
-      `${main_url}confirmation/getConfirmationList/${regionId}/${depId}/${branchId}/${designation_list}/${lvlId}/${subLvlId}`, {
+    // const formData = new FormData();
+    // formData.append('title_list', JSON.stringify(title_list))
+
+    if (regionId == 0 && depId == 0 && branchId == 0) {
+      return toast.error('Please Choose region or department or branch!')
+    } else {
+      fetch(
+        `${main_url}confirmation/getConfirmationList/${regionId}/${depId}/${branchId}/${designation_list}/${lvlId}/${subLvlId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: `title_list=${title_list.length==0 ? 0 : JSON.stringify(title_list)}`,
-      
+        },
+        body: `title_list=${title_list.length == 0 ? 0 : JSON.stringify(title_list)}`,
+
       }
-    )
-      .then((res) => {
-        // if (res.ok) return res.json();
-        if(res.ok){
-          return res.json();
-        }else{
-          return toast.error("Please Select Confirmation Title!")
-        }
-      })
-      .then((list) => {
-        this.setState({
-          confirmationListData: list,
+      )
+        .then((res) => {
+          // if (res.ok) return res.json();
+          if (res.ok) {
+            return res.json();
+          }
+        })
+        .then((list) => {
+          this.setState({
+            confirmationListData: list,
+          });
         });
-      });
+    }
   }
   // confirmation/getConfirmationList/:regionId/:depId/:branchId/:designationId/:levelId/:subLevelId
   getCheckPersonList() {
@@ -233,9 +236,9 @@ class ConfirmationList extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        let lists = list.unshift({value:0,label:"All"});
+        let lists = list.unshift({ value: 0, label: "All" });
         this.setState({
-          designationList:list
+          designationList: list
         });
       });
   }
@@ -308,15 +311,15 @@ class ConfirmationList extends Component {
   };
 
   handleSelectedDesignation = (event) => {
-    
+
     if (event !== null) {
 
       this.setState({
 
         selected_designation: event,
-        selected_designation_list:event.map(v=>v.value)
+        selected_designation_list: event.map(v => v.value)
       });
-      
+
     } else {
       this.setState({
         selected_designation: null,
@@ -371,11 +374,11 @@ class ConfirmationList extends Component {
   }
 
   handleSelectedTitle = (event) => {
-   
+
     if (event !== null) {
       this.setState({
         selected_title: event,
-        selected_title_list:event.map(v=>v.value)
+        selected_title_list: event.map(v => v.value)
       })
     } else {
       this.setState({
@@ -405,10 +408,10 @@ class ConfirmationList extends Component {
       date: moment(data.createdAt).format("DD-MM-YYYY"),
       service_year: data.service_year ? data.service_year : "-",
       leave: data.leave ? data.leave : "-",
-      leave_category : data.leave_category ? data.leave_category : '-',
-      leave_start_date:data.leave_start_date ? data.leave_start_date : '-',
-      leave_end_date:data.leave_end_date ? data.leave_end_date : '-',
-      leave_status:data.leave_status ? data.leave_status : '-'
+      leave_category: data.leave_category ? data.leave_category : '-',
+      leave_start_date: data.leave_start_date ? data.leave_start_date : '-',
+      leave_end_date: data.leave_end_date ? data.leave_end_date : '-',
+      leave_status: data.leave_status ? data.leave_status : '-'
     };
     if (checkedListData_.length === 0) {
       checkedListData_.push(newData);
