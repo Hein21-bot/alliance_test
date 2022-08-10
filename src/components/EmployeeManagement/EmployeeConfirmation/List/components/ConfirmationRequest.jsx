@@ -38,6 +38,7 @@ export default class ConfirmationRequest extends Component {
       is_main_role: getMainRole(),
       extension_comment: "",
       pathname: window.location.pathname,
+      leaveCategory: [],
     };
   }
 
@@ -92,18 +93,10 @@ export default class ConfirmationRequest extends Component {
     } else toast.error("Please choose at least one user!");
   };
 
-  // componentDidMount() {
-  //   this.$el = $(this.el);
-
-  //   this.setState(
-  //     {
-  //       dataSource: this.props.data,
-  //     },
-  //     () => {
-  //       this._setTableData(this.state.dataSource);
-  //     }
-  //   );
-  // }
+  componentDidMount() {
+    fetch(`${main_url}leaveCategory/getLeaveCategory`).then(response => {if (response.ok) return response.json()
+    else return []}).then(res => this.setState({leaveCategory: res}))
+  }
 
   // componentDidUpdate(prevProps) {
   //   if (prevProps.data !== this.props.data) {
@@ -266,7 +259,8 @@ export default class ConfirmationRequest extends Component {
   // };
 
   render() {
-    const { dataSource } = this.state;
+    const { dataSource, leaveCategory } = this.state;
+    console.log('leaveCategory ===>', leaveCategory)
     return (
       <div>
         <div
@@ -493,6 +487,7 @@ export default class ConfirmationRequest extends Component {
                   i={i}
                   handleSelectedCheckPerson={this.handleSelectedCheckPerson}
                   title={this.props.title}
+                  leaveCategory={leaveCategory}
                 />
               ))}
             </tbody>
@@ -503,18 +498,19 @@ export default class ConfirmationRequest extends Component {
   }
 }
 
-const RowData = ({ v, i, handleSelectedCheckPerson, title }) => {
+const RowData = ({ v, i, handleSelectedCheckPerson, title, leaveCategory }) => {
   const [checkPerson, setCheckPerson] = useState(null);
-  console.log("v ===>", v);
+  let filterLeaveCategory = leaveCategory.length > 0 ? leaveCategory.filter(a => a.leave_category_id == v.leave_category) : [];
+  let leaveCategoryName = filterLeaveCategory.length > 0 && filterLeaveCategory[0].leave_category;
   return (
     <tr>
-      <th className="" style={{ border: "1px solid lightgrey" }}>
+      <th style={{ border: "1px solid lightgrey" }}>
         {i + 1}
       </th>
-      <td className="" style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey" }}>
         {v.employee_id}
       </td>
-      <td className="" style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey" }}>
         {v.employee_name}
       </td>
       {title == "request" ? (
@@ -547,52 +543,52 @@ const RowData = ({ v, i, handleSelectedCheckPerson, title }) => {
           </div>
         </td>
       ) : null}
-      <td className="" style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey" }}>
         {v.position}
       </td>
-      <td className="" style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey" }}>
         {v.career_level}
       </td>
-      <td className="" style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey" }}>
         {v.career_sub_level}
       </td>
-      <td className="" style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey" }}>
         {v.department}
       </td>
-      <td className="" style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey" }}>
         {v.branch}
       </td>
-      <td className="" style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey" }}>
         {v.region}
       </td>
-      <td className="" style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey" }}>
         {v.employee_date}
       </td>
-      <td className="" style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey" }}>
         {v.promotion_date}
       </td>
-      <td className="" style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey" }}>
         {v.service_year}
       </td>
-      <td className="" style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey" }}>
         {v.date}
       </td>
-      <td className="" style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey" }}>
         {v.date}
       </td>
-      <td className="" style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey" }}>
         {v.leave}
       </td>
-      <td className="" style={{ border: "1px solid lightgrey" }}>
-        {v.leave_category}
+      <td style={{ border: "1px solid lightgrey" }}>
+        {leaveCategoryName}
       </td>
-      <td className="" style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey" }}>
         {v.leave_start_date}
       </td>
-      <td className="" style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey" }}>
         {v.leave_end_date}
       </td>
-      <td className="" style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey" }}>
         {v.leave_status}
       </td>
     </tr>
