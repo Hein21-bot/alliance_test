@@ -98,7 +98,9 @@ export default class ConfirmationRequestListTable extends Component {
 
 
   async update(data) {
-    data.salary = this.props.salaryList.filter(v => v.career_sub_level == data.recommend_level)[0].basic_salary
+    let filterData=this.props.salaryList.filter(v => v.career_sub_level == data.recommend_level)
+    console.log("filter data==========>",filterData)
+    data.salary = filterData.length>0 ? filterData[0].basic_salary : 0
     let status = 0;
     fetch(`${main_url}confirmation/updateConfirmForEmployment/${data.user_id}`, {
       method: "POST",
