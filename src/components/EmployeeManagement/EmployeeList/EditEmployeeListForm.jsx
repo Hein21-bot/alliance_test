@@ -748,6 +748,11 @@ class EditEmployeeListForm extends Component {
                     guarantor: this.state.contactPerson,
                     guarantorPhone: this.state.contactPhone
                 })
+            }else {
+                this.setState({
+                    guarantor:"",
+                    guarantorPhone:"",
+                })
             }
         })
     }

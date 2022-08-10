@@ -775,7 +775,9 @@ class EmployeeRegisterMain extends Component {
             bankDataEdit: true,
             selected_bank: this.state.bankList.find(c => c.value === data.id),
             selected_bankRow_Id: data.id
-        })
+        }, ()=>{console.log(this.state.selected_bank)}
+        )  
+       
     }
 
 
