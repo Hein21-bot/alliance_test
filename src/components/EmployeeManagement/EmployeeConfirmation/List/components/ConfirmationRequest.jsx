@@ -28,190 +28,193 @@ export default class ConfirmationRequest extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
       user_id: getUserId("user_info"),
       dataSource: props.data,
       checkPersonData: props.checkData,
       confirmPersonData: props.confirmData,
       // selectedRequest: '',
       is_main_role: getMainRole(),
-      extension_comment: '',
-      pathname: window.location.pathname
+      extension_comment: "",
+      pathname: window.location.pathname,
+      checkPerson: [],
     };
   }
-  componentDidMount() {
-    this.$el = $(this.el);
 
-    this.setState(
-      {
-        dataSource: this.props.data,
-      },
-      () => {
-        this._setTableData(this.state.dataSource);
-      }
-    );
-  }
+  // componentDidMount() {
+  //   this.$el = $(this.el);
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.data !== this.props.data) {
-      this.setState(
-        {
-          dataSource: this.props.data,
-        },
-        () => {
-          this._setTableData(this.state.dataSource);
-        }
-      );
-    }
-  }
+  //   this.setState(
+  //     {
+  //       dataSource: this.props.data,
+  //     },
+  //     () => {
+  //       this._setTableData(this.state.dataSource);
+  //     }
+  //   );
+  // }
 
-  search(status) {
-    let data = this.state.dataSource;
-    data = data.filter((d) => {
-      return status === d.status;
-    });
-    this._setTableData(data);
-  }
+  // componentDidUpdate(prevProps) {
+  //   if (prevProps.data !== this.props.data) {
+  //     this.setState(
+  //       {
+  //         dataSource: this.props.data,
+  //       },
+  //       () => {
+  //         this._setTableData(this.state.dataSource);
+  //       }
+  //     );
+  //   }
+  // }
 
-  _setTableData = (data) => {
+  // search(status) {
+  //   let data = this.state.dataSource;
+  //   data = data.filter((d) => {
+  //     return status === d.status;
+  //   });
+  //   this._setTableData(data);
+  // }
 
-    var table;
-    var l = [];
-    var leaveCategory;
-    var leaveStatus;
-    for (var i = 0; i < data.length; i++) {
-      let obj = [];
-      if (data[i].leave_category == 1) {
-        leaveCategory = "Casual Leave"
-      } else if (data[i].leave_category == 3) {
-        leaveCategory = "Maternity Leave"
-      } else if (data[i].leave_category == 4) {
-        leaveCategory = "Paternity Leave"
-      } else if (data[i].leave_category == 5) {
-        leaveCategory = "Earned Leave"
-      } else if (data[i].leave_category == 6) {
-        leaveCategory = "Medical Leave"
-      } else if (data[i].leave_category == 7) {
-        leaveCategory = "Compassionate Leave"
-      } else if (data[i].leave_category == 8) {
-        leaveCategory = "Leave Without Pay"
-      } else {
-        leaveCategory = "-"
-      }
-      if (data[i].leave_status == 0) {
-        leaveStatus = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
-      }
-      else if (data[i].leave_status === 1) {
-        leaveStatus = '<small class="label label-warning" style="background-color:#b33ce0"> Check</small>'
-      }
-      else if (data[i].leave_status === 2) {
-        leaveStatus = '<small class="label label-warning" style="background-color:#0078FF"> Confirm</small>'
-      }
-      else if (data[i].leave_status === 3) {
-        leaveStatus = '<small class="label label-warning" style="background-color:#f2a509"> Verify</small>'
-      }
-      else if (data[i].leave_status === 4) {
-        leaveStatus = '<small class="label label-warning" style="background-color:#29a50a">Approve</small>'
-      }
-      else if (data[i].leave_status === 10) {
-        leaveStatus = '<small class="label label-warning" style="background-color:#29a50a">Approved</small>'
-      } else {
-        leaveStatus = '-'
-      }
-      obj = {
-        no: i + 1,
-        employee_id: data[i].employee_id ? data[i].employee_id : "",
-        employee_name: data[i].employee_name ? data[i].employee_name : "",
-        position: data[i].position ? data[i].position : "-",
-        career_level: data[i].career_level ? data[i].career_level : "-",
-        career_sub_level: data[i].career_sub_level
-          ? data[i].career_sub_level
-          : "-",
-        department: data[i].department ? data[i].department : "-",
-        branch: data[i].branch ? data[i].branch : "-",
-        region: data[i].region ? data[i].region : "-",
-        employ_date: data[i].employee_date ? data[i].employee_date : "-",
-        last_promotion_date: data[i].last_promotion_date
-          ? data[i].last_promotion_date
-          : "-",
-        date: data[i].date ? data[i].date : "-",
-        service_year: data[i].service_year ? data[i].service_year : "",
-        leave: data[i].leave ? data[i].leave : "-",
-        leave_category: leaveCategory,
-        leave_start_date: data[i].leave_start_date ? data[i].leave_start_date : '-',
-        leave_end_date: data[i].leave_end_date ? data[i].leave_end_date : '-',
-        leave_status: leaveStatus
-      };
-      l.push(obj);
-    }
+  // _setTableData = (data) => {
 
-    if ($.fn.dataTable.isDataTable("#dataTables-table")) {
-      table = $("#dataTables-table").dataTable();
-      table.fnClearTable();
-      table.fnDestroy();
-      $("#dataTables-table").empty();
-    }
+  //   var table;
+  //   var l = [];
+  //   var leaveCategory;
+  //   var leaveStatus;
+  //   for (var i = 0; i < data.length; i++) {
+  //     let obj = [];
+  //     if (data[i].leave_category == 1) {
+  //       leaveCategory = "Casual Leave"
+  //     } else if (data[i].leave_category == 3) {
+  //       leaveCategory = "Maternity Leave"
+  //     } else if (data[i].leave_category == 4) {
+  //       leaveCategory = "Paternity Leave"
+  //     } else if (data[i].leave_category == 5) {
+  //       leaveCategory = "Earned Leave"
+  //     } else if (data[i].leave_category == 6) {
+  //       leaveCategory = "Medical Leave"
+  //     } else if (data[i].leave_category == 7) {
+  //       leaveCategory = "Compassionate Leave"
+  //     } else if (data[i].leave_category == 8) {
+  //       leaveCategory = "Leave Without Pay"
+  //     } else {
+  //       leaveCategory = "-"
+  //     }
+  //     if (data[i].leave_status == 0) {
+  //       leaveStatus = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
+  //     }
+  //     else if (data[i].leave_status === 1) {
+  //       leaveStatus = '<small class="label label-warning" style="background-color:#b33ce0"> Check</small>'
+  //     }
+  //     else if (data[i].leave_status === 2) {
+  //       leaveStatus = '<small class="label label-warning" style="background-color:#0078FF"> Confirm</small>'
+  //     }
+  //     else if (data[i].leave_status === 3) {
+  //       leaveStatus = '<small class="label label-warning" style="background-color:#f2a509"> Verify</small>'
+  //     }
+  //     else if (data[i].leave_status === 4) {
+  //       leaveStatus = '<small class="label label-warning" style="background-color:#29a50a">Approve</small>'
+  //     }
+  //     else if (data[i].leave_status === 10) {
+  //       leaveStatus = '<small class="label label-warning" style="background-color:#29a50a">Approved</small>'
+  //     } else {
+  //       leaveStatus = '-'
+  //     }
+  //     obj = {
+  //       no: i + 1,
+  //       employee_id: data[i].employee_id ? data[i].employee_id : "",
+  //       employee_name: data[i].employee_name ? data[i].employee_name : "",
+  //       position: data[i].position ? data[i].position : "-",
+  //       career_level: data[i].career_level ? data[i].career_level : "-",
+  //       career_sub_level: data[i].career_sub_level
+  //         ? data[i].career_sub_level
+  //         : "-",
+  //       department: data[i].department ? data[i].department : "-",
+  //       branch: data[i].branch ? data[i].branch : "-",
+  //       region: data[i].region ? data[i].region : "-",
+  //       employ_date: data[i].employee_date ? data[i].employee_date : "-",
+  //       last_promotion_date: data[i].last_promotion_date
+  //         ? data[i].last_promotion_date
+  //         : "-",
+  //       date: data[i].date ? data[i].date : "-",
+  //       service_year: data[i].service_year ? data[i].service_year : "",
+  //       leave: data[i].leave ? data[i].leave : "-",
+  //       leave_category: leaveCategory,
+  //       leave_start_date: data[i].leave_start_date ? data[i].leave_start_date : '-',
+  //       leave_end_date: data[i].leave_end_date ? data[i].leave_end_date : '-',
+  //       leave_status: leaveStatus
+  //     };
+  //     l.push(obj);
+  //   }
 
-    var column = [
-      { title: "No", data: "no" },
-      { title: "Employee Id", data: "employee_id" },
-      { title: "Name", data: "employee_name" },
-      { title: "Designation", data: "position" },
-      { title: "Level", data: "career_level" },
-      { title: "Sub Level", data: "career_sub_level" },
-      { title: "Department", data: "department" },
-      { title: "Branch", data: "branch" },
-      { title: "Region", data: "region" },
-      { title: "Employed Date", data: "employ_date" },
-      { title: "Last Promtion Date", data: "date" },
-      { title: "Service Year", data: "service_year" },
-      { title: "Service Year in Current Level", data: "date" },
-      { title: "Service Year in Current Sub Level", data: "date" },
-      { title: "Leave", data: "leave" },
-      { title: "Leave Category", data: "leave_category" },
-      { title: "Leave Start Date", data: "leave_start_date" },
-      { title: "Leave End Date", data: "leave_end_date" },
-      { title: "Leave Status", data: "leave_status" },
-      // { title: "Status", data: "status" }
-    ];
-    table = $("#dataTables-table").DataTable({
-      autofill: true,
-      bLengthChange: false,
-      bInfo: false,
-      responsive: true,
-      pageLength: 50,
-      paging: true,
-      // buttons: true,
-      dom: "Bfrtip",
-      // buttons: [
-      //     'copy', 'csv', 'excel', 'pdf'
-      // ],
-      buttons: [
-        // 'copy',
-        // {
-        //         extend: 'csvHtml5',
-        //         title: 'Child Benefit',
-        // },
-        // {
-        //     extend: 'excelHtml5',
-        //     title: 'Child Benefit',
-        // },
-        // {
-        //     extend: 'pdfHtml5',
-        //     title: 'Child Benefit',
-        // }
-      ],
-      data: l,
-      columns: column,
-      createdRow: function (row, data, index) {
-        if (data.leave === true) {
-          $(row).css("background-color", "Yellow");
-        }
-      },
-    });
-  };
+  //   if ($.fn.dataTable.isDataTable("#dataTables-table")) {
+  //     table = $("#dataTables-table").dataTable();
+  //     table.fnClearTable();
+  //     table.fnDestroy();
+  //     $("#dataTables-table").empty();
+  //   }
+
+  //   var column = [
+  //     { title: "No", data: "no" },
+  //     { title: "Employee Id", data: "employee_id" },
+  //     { title: "Name", data: "employee_name" },
+  //     { title: "Designation", data: "position" },
+  //     { title: "Level", data: "career_level" },
+  //     { title: "Sub Level", data: "career_sub_level" },
+  //     { title: "Department", data: "department" },
+  //     { title: "Branch", data: "branch" },
+  //     { title: "Region", data: "region" },
+  //     { title: "Employed Date", data: "employ_date" },
+  //     { title: "Last Promtion Date", data: "date" },
+  //     { title: "Service Year", data: "service_year" },
+  //     { title: "Service Year in Current Level", data: "date" },
+  //     { title: "Service Year in Current Sub Level", data: "date" },
+  //     { title: "Leave", data: "leave" },
+  //     { title: "Leave Category", data: "leave_category" },
+  //     { title: "Leave Start Date", data: "leave_start_date" },
+  //     { title: "Leave End Date", data: "leave_end_date" },
+  //     { title: "Leave Status", data: "leave_status" },
+  //     // { title: "Status", data: "status" }
+  //   ];
+  // table = $("#dataTables-table").DataTable({
+  //     autofill: true,
+  //  scrollX: true,
+  //     bLengthChange: false,
+  //     bInfo: false,
+  //     responsive: true,
+  //     pageLength: 50,
+  //     paging: true,
+  //     // buttons: true,
+  //     dom: "Bfrtip",
+  //     // buttons: [
+  //     //     'copy', 'csv', 'excel', 'pdf'
+  //     // ],
+  //     buttons: [
+  //       // 'copy',
+  //       // {
+  //       //         extend: 'csvHtml5',
+  //       //         title: 'Child Benefit',
+  //       // },
+  //       // {
+  //       //     extend: 'excelHtml5',
+  //       //     title: 'Child Benefit',
+  //       // },
+  //       // {
+  //       //     extend: 'pdfHtml5',
+  //       //     title: 'Child Benefit',
+  //       // }
+  //     ],
+  //     data: l,
+  //     columns: column,
+  //     createdRow: function (row, data, index) {
+  //       if (data.leave === true) {
+  //         $(row).css("background-color", "Yellow");
+  //       }
+  //     },
+  // });
+  // };
 
   render() {
+    const { dataSource } = this.state;
     return (
       <div>
         <div
@@ -222,8 +225,8 @@ export default class ConfirmationRequest extends Component {
             flexWrap: "wrap",
             justifyContent: "space-between",
             marginTop: "12px",
-            marginBottom: '10px',
-            padding: 0
+            marginBottom: "10px",
+            padding: 0,
           }}
         >
           {this.props.title == "request" ? (
@@ -290,7 +293,6 @@ export default class ConfirmationRequest extends Component {
               >
                 <a href={this.state.pathname}>
                   <button
-
                     className="btn btn-primary"
                     style={{ borderRadius: 3, width: 80, marginRight: 10 }}
                   >
@@ -317,45 +319,307 @@ export default class ConfirmationRequest extends Component {
                   <input
                     type="text"
                     // className="full_width"
-                    style={{ width: '50%' }}
+                    style={{ width: "50%" }}
                     onChange={(e) =>
                       this.setState({ extension_comment: e.target.value })
-
                     }
                   ></input>
                 </div>
-                <div className="col-md-2 btn-rightend">
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => this.props.handleLeaveExtensionRequest(this.state.extension_comment)}
+
+                <div className="col-md-2 ">
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
                   >
-                    <span>Submit</span>{" "}
-                  </button>
+                    <a href={this.state.pathname}>
+                      <button
+                        className="btn btn-primary"
+                        style={{ borderRadius: 3, width: 70, marginRight: 10 }}
+                      >
+                        Back
+                      </button>
+                    </a>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() =>
+                        this.props.handleLeaveExtensionRequest(
+                          this.state.extension_comment
+                        )
+                      }
+                    >
+                      <span>Submit</span>{" "}
+                    </button>
+                  </div>
                 </div>
               </div>
             </>
           )}
+        </div>
+        <div className="container" style={{ overflowX: "auto", paddingBottom: 100 }}>
+          <table className="table">
+            <thead style={{ width: "100%" }}>
+              <tr style={{ width: "100%", backgroundColor: "#27568A" }}>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 50 }}>No</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 100 }}>Employee ID</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 150 }}>Name</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 180 }}>Check Person</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 150 }}>Designation</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 100 }}>Level</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 100 }}> Sub Level</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 150 }}>Department</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 150 }}>Branch</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 150 }}>Region</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 100 }}>Employee Date</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 100 }}>Region</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 200 }}>Service Years</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 150 }}>
+                    Service Year In Current Level
+                  </div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 150 }}>
+                    Service Year in Current Sub Level
+                  </div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 100 }}>Leave</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 100 }}>Leave Category</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 100 }}>Leave Start Date</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 100 }}>Leave End Date</div>
+                </th>
+                <th style={{ border: "2px solid white", color: "white" }}>
+                  <div style={{ width: 100 }}>Leave Status</div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {dataSource.map((v, i) => (
+               <RowData v={v} i={i} />
+              ))}
+            </tbody>
+          </table>
+        </div>
 
-        </div >
-        {/* <div className="row  white-bg dashboard-header">
-                    <div className="row">
-                        <div class="btn-group-g ">
-                            <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
-                            <button type="button" class=" btn label-check g" onClick={this.getCheck.bind(this)}>Check</button>
-                            <button type="button" class="btn label-verified g" onClick={this.getVerified.bind(this)}>Verify</button>
-                            <button type="button" class="btn label-approve g" onClick={this.getApprove.bind(this)}>Approve</button>
-                            <button type="button" class="btn label-reject g" onClick={this.getReject.bind(this)}>Reject</button>
-                        </div>
-                    </div>
-                </div> */}
-        <div className="col-12">
+        {/* <div className="col-12">
           <table
             width="99%"
             className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
-            id="dataTables-table"
-          />
-        </div>
+            >
+           <thead className="" style={{backgroundColor:"#0078FF"}}>
+        <tr>
+          <th >#</th>
+          <th scope="col">First</th>
+          <th scope="col">Last</th>
+          <th scope="col">Handle</th>
+          <th scope="col">#</th>
+          <th scope="col">First</th>
+          <th scope="col">Last</th>
+          <th scope="col">Handle</th>
+          <th scope="col">#</th>
+          <th scope="col">First</th>
+          <th scope="col">Last</th>
+          <th scope="col">Handle</th>
+          <th scope="col">First</th>
+          <th scope="col">Last</th>
+          <th scope="col">Handle</th>
+          <th scope="col">#</th>
+          <th scope="col">First</th>
+          <th scope="col">Last</th>
+          <th scope="col">Handle</th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>8</td>
+       </tr>
+      <tr>
+       <th scope="row">2</th>
+       <td>Jacob</td>
+       <td>Thornton</td>
+       <td>@fat</td>
+       <td>Jacob</td>
+       <td>Thornton</td>
+       <td>@fat</td>
+       <td>Jacob</td>
+       <td>Thornton</td>
+       <td>@fat</td>
+       <td>Jacob</td>
+       <td>Thornton</td>
+       <td>@fat</td>
+       <td>Thornton</td>
+       <td>@fat</td>
+       <td>Jacob</td>
+       <td>Thornton</td>
+       <td>@fat</td>
+       <td>Jacob</td>
+       <td>Thornton</td>
+       <td>@fat</td>
+     </tr>
+     <tr>
+      <th scope="row">3</th>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+     </tr>
+    </tbody>
+          </table>
+        </div> */}
       </div>
     );
   }
 }
+
+const RowData =  ({ v, i }) => {
+  console.log('v ===>', v)
+  return  (
+    <tr>
+      <th className="" style={{ border: "1px solid lightgrey" }}>
+        {i + 1}
+      </th>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.employee_id}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.employee_name}
+      </td>
+      <td style={{ border: "1px solid lightgrey" }}>
+        <div style={{ maxWidth: 180 }}>
+          <Select
+            laceholder="Please Choose An Option"
+            options={v.checkPerson}
+            // isOptionDisabled={(workingDayOptions) => workingDayOptions.disabled}
+            // onChange={handleSelectedTitle}
+            // value={selected_title}
+            isClearable={true}
+            isSearchable={true}
+            className="react-select-container checkValidate"
+            classNamePrefix="react-select"
+            // hideSelectedOptions={false}
+            // closeMenuOnSelect
+            maxMenuHeight={100}
+            styles={{
+              control: (provided) => ({
+                ...provided,
+
+                cursor: "pointer",
+              }),
+              
+            }}
+          />
+        </div>
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.position}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.career_level}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.career_sub_level}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.department}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.branch}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.region}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.employee_date}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.promotion_date}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.service_year}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.date}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.date}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.leave}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.leave_category}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.leave_start_date}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.leave_end_date}
+      </td>
+      <td className="" style={{ border: "1px solid lightgrey" }}>
+        {v.leave_status}
+      </td>
+    </tr>
+  );
+};

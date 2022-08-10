@@ -121,7 +121,7 @@ export default class BenefitChildTable extends Component {
         var has_select = permission.isSelect === 1 ? true : false;
 
         for (var i = 0; i < data.length; i++) {
-            var tempArray = [];
+
             // await fetch(main_url + 'confirmation/detailCheckPerson/' + data[i].branch_id).then(response => {
             //     return response.json();
             // }).then(res => { tempArray = res })
@@ -147,11 +147,14 @@ export default class BenefitChildTable extends Component {
                 leave: data[i].leave ? data[i].leave : '-',
                 extension: data[i].extension ? data[i].extension : '-',
                 status: status,
-                // checkPerson: `<select id='dropdownid'>` +
+
+                // checkPerson: `<div id ='toCheckPerson' ><select id='dropdownid' on>` +
+                //     '<option value="Hello"> Please choose </option>' +
                 //     tempArray.map((v, i) => (
                 //         `<option value='${v.user_id}' id=${v.user_id}>${v.fullname}</option>`
                 //     )) +
-                //     '</select>'
+                //     '</select></div>'
+
 
 
             }
@@ -209,6 +212,7 @@ export default class BenefitChildTable extends Component {
             { title: "Leave", data: "leave" },
             { title: "Extension", data: "extension" },
 
+
             // { title: "Status", data: "status" }
         ]
 
@@ -219,6 +223,14 @@ export default class BenefitChildTable extends Component {
             column.splice(1, 0, { title: "Select", data: "select" })
         }
         table = $("#dataTables-table").DataTable({
+            // columnDefs: [
+            //     {
+            //       targets: 5,
+            //       createdCell: function (td) {
+            //         $(td).css('background-color', "red")
+            //       }
+            //     }
+            //   ],
             autofill: true,
             bLengthChange: false,
             bInfo: false,
@@ -247,12 +259,13 @@ export default class BenefitChildTable extends Component {
             ],
             data: l,
             columns: column,
-            createdRow: function (row, data, index) {
+            createdRow: function (row, data, td, index) {
                 if (data.leave === true) {
                     $(row).css('background-color', 'Yellow');
                 }
                 if (data.extension != '-') {
-                    $(row).css('background-color', 'Orange');
+                    // $(row).css('background-color', 'Orange');
+                    $(td).first().addClass("changeRed");
                 }
             }
 

@@ -93,16 +93,15 @@ export default class ConfirmationRequestListTable extends Component {
       region: region.map(v => ({ ...v, label: v.region_name, value: v.region_id })),
       level: level,
       designations: designations,
-
     })
   }
 
 
-
   async update(data) {
-
+    let filterData=this.props.salaryList.filter(v => v.career_sub_level == data.recommend_level)
+    console.log("filter data==========>",filterData)
+    data.salary = filterData.length>0 ? filterData[0].basic_salary : 0
     let status = 0;
-
     fetch(`${main_url}confirmation/updateConfirmForEmployment/${data.user_id}`, {
       method: "POST",
       headers: {
@@ -366,7 +365,7 @@ export default class ConfirmationRequestListTable extends Component {
   };
 
   render() {
-
+    console.log('salary list is =====>', this.props.salaryList)
     return (
       <div>
         <div className="row  white-bg dashboard-header">

@@ -220,7 +220,7 @@ class NavBar extends Component {
             <div>
                 <div className="row border-bottom">
                     <nav className="navbar navbar-static-top" role="navigation" >
-                        <div className="navbar-header">
+                        <div className="navbar-header" style={{marginTop:"8px"}}>
                             <a href="#" className="navbar-minimalize minimalize-styl-2 btn btn-primary" ><i className="fa fa-bars"></i> </a>
                             
                         </div>

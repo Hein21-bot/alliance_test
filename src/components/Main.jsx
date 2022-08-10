@@ -85,6 +85,7 @@ import { Dashboard } from './Dashboard/Dashboard';
 import ConfirmationList from './EmployeeManagement/EmployeeConfirmation/List/ConfirmationList'
 import ConfirmationCheck from './EmployeeManagement/EmployeeConfirmation/Check/ConfirmationCheck';
 import ConfirmationRequestList from './EmployeeManagement/EmployeeConfirmation/ConfirmationRequest/ConfirmationRequestList';
+import HoStaffReport from './Reports/HoStaffReport';
 const Main = () => (
     <Switch>
         <Route path='/allowance' component={TravelRequest} />
@@ -155,7 +156,7 @@ const Main = () => (
         <Route path='/attendance_leave_report' component={AttendanceAndLeaveReport} />
 
         <Route path='/leave_management' component={LeaveManagementMain} />
-
+        
         <Route path="/employee_management" component={EmployeeListMain}></Route>
         <Route path="/employee_register" component={EmployeeRegisterMain}></Route>
         <Route path="/employment_details" component={EmploymentDetails}></Route>
@@ -169,6 +170,7 @@ const Main = () => (
 
 
         <Route path='/dashboard'  component={Dashboard} ></Route>
+        <Route path='/HoStaffReport' component={HoStaffReport} />
         <Redirect to="/dashboard" />
 
     </Switch>

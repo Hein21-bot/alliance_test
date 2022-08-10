@@ -102,7 +102,7 @@ class CompensationandBenefit extends Component {
       },
 
       xAxis: {
-        categories: ['Payroll', 'Monthly Incentive', 'Quarterly Incentive', 'Benefit', 'Allowance'],
+        categories: ['Jan', 'Feb', 'March', 'Aprial', 'May','June'],
         tickmarkPlacement: 'on',
         title: {
           enabled: false
@@ -140,28 +140,24 @@ class CompensationandBenefit extends Component {
       // colors: ['#1f4545', '#3d86dy', '#193759', '#419191', '#9bcece', '#59c5c5', '#7ea8d9', '#344545', '#5c7c9f', '#59c5c5'],
       series: [{
         color:'#1f4545',
-        name: 'Jan',
+        name: 'Payroll',
         data: [50, 63, 80, 94, 14,]
       }, {
         color:'#344545',
-        name: 'Feb',
+        name: 'Monthly Incentive',
         data: [10, 17, 11, 33, 22]
       }, {
         color:'#193759',
-        name: 'March',
+        name: 'Quarterly Incentive',
         data: [16, 23, 26, 48, 57,]
       }, {
         color:'#419191',
-        name: 'Aprial',
+        name: 'Benefit',
         data: [18, 31, 54, 56, 33]
       }, {
         color:'#59c5c5',
-        name: 'May',
+        name: 'Allowance',
         data: [2, 2, 2, 6, 13,]
-      }, {
-        color:'#5c7c9f',
-        name: 'June',
-        data: [23, 43, 54, 87, 34]
       }],
 
     };
