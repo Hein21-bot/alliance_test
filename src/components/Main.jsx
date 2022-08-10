@@ -86,6 +86,7 @@ import ConfirmationList from './EmployeeManagement/EmployeeConfirmation/List/Con
 import ConfirmationCheck from './EmployeeManagement/EmployeeConfirmation/Check/ConfirmationCheck';
 import ConfirmationRequestList from './EmployeeManagement/EmployeeConfirmation/ConfirmationRequest/ConfirmationRequestList';
 import HoStaffReport from './Reports/HoStaffReport';
+import EmployeeReport from './Reports/EmployeeReport';
 const Main = () => (
     <Switch>
         <Route path='/allowance' component={TravelRequest} />
@@ -167,8 +168,8 @@ const Main = () => (
         <Route path="/confirmation_request_list" component={ConfirmationRequestList}></Route>
         <Route path="/confirmation_approve_list" component={ConfirmationRequestList}></Route>
 
-
-
+        
+        <Route path='/EmployeeReport' component={EmployeeReport} ></Route>
         <Route path='/dashboard'  component={Dashboard} ></Route>
         <Route path='/HoStaffReport' component={HoStaffReport} />
         <Redirect to="/dashboard" />
