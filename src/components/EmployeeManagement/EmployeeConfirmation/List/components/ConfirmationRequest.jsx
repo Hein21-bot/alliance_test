@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import "datatables.net-bs4/css/dataTables.bootstrap4.min.css";
 import "datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css";
 import "datatables.net-dt/css/jquery.dataTables.css";
@@ -13,8 +13,10 @@ import {
   getMainRole,
   getInformation,
   print,
+  getCookieData,
   fno,
 } from "../../../../../utils/CommonFunction";
+import { ToastContainer, toast } from "react-toastify";
 const $ = require("jquery");
 const jzip = require("jzip");
 window.JSZip = jzip;
@@ -36,9 +38,59 @@ export default class ConfirmationRequest extends Component {
       is_main_role: getMainRole(),
       extension_comment: "",
       pathname: window.location.pathname,
-      checkPerson: [],
     };
   }
+
+  handleSelectedCheckPerson = (user_id, checkPersonId) => {
+    const filter = this.state.dataSource.filter((a) => a.id == user_id);
+    const array = [...this.state.dataSource];
+    let data = array.map((f, i) => {
+      const obj = { ...f };
+      if (f.id == filter[0].id) {
+        obj["check_person_id"] = checkPersonId;
+        return obj;
+      } else {
+        return obj;
+      }
+    });
+    this.setState({ dataSource: data });
+  };
+
+  handleConfirmRequest = () => {
+    if (this.state.dataSource.length > 0) {
+      if (this.props.selected_verifyPerson) {
+        let data = {
+          person: getCookieData("user_info").user_id,
+          list: this.state.dataSource,
+          verify_person: this.props.selected_verifyPerson.user_id,
+          // check_person: this.state.selected_checkPerson.user_id,
+          status: 0,
+        };
+        console.log("data list ===>", data);
+        let status = 0;
+        fetch(`${main_url}confirmation/addConfirmation`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `confirmation=${JSON.stringify(data)}`,
+        })
+          .then((res) => {
+            status = res.status;
+            return res.text();
+          })
+          .then((text) => {
+            if (status === 200) {
+              toast.success(text);
+              window.location.reload();
+            } else toast.error(text);
+            window.location.replace("/confirmation_list");
+          });
+      } else {
+        toast.error("Please choose verify person!");
+      }
+    } else toast.error("Please choose at least one user!");
+  };
 
   // componentDidMount() {
   //   this.$el = $(this.el);
@@ -231,7 +283,7 @@ export default class ConfirmationRequest extends Component {
         >
           {this.props.title == "request" ? (
             <>
-              <div
+              {/* <div
                 className="col-lg-4 col-md-3 col-sm-12"
                 style={{
                   display: "flex",
@@ -254,9 +306,9 @@ export default class ConfirmationRequest extends Component {
                     />
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div
-                className="col-lg-4 col-md-3 col-sm-12"
+                className="col-lg-9 col-md-9 col-sm-12"
                 style={{
                   display: "flex",
                   paddingBottom: 10,
@@ -300,7 +352,7 @@ export default class ConfirmationRequest extends Component {
                   </button>
                 </a>
                 <button
-                  onClick={this.props.handleConfirmRequest}
+                  onClick={this.handleConfirmRequest}
                   className="btn btn-primary"
                   style={{ borderRadius: 3, width: 80 }}
                 >
@@ -358,7 +410,10 @@ export default class ConfirmationRequest extends Component {
             </>
           )}
         </div>
-        <div className="container" style={{ overflowX: "auto", paddingBottom: 100 }}>
+        <div
+          className="container"
+          style={{ overflowX: "auto", paddingBottom: 100 }}
+        >
           <table className="table">
             <thead style={{ width: "100%" }}>
               <tr style={{ width: "100%", backgroundColor: "#27568A" }}>
@@ -371,9 +426,12 @@ export default class ConfirmationRequest extends Component {
                 <th style={{ border: "2px solid white", color: "white" }}>
                   <div style={{ width: 150 }}>Name</div>
                 </th>
-                <th style={{ border: "2px solid white", color: "white" }}>
-                  <div style={{ width: 180 }}>Check Person</div>
-                </th>
+                {this.props.title == "request" ? (
+                  <th style={{ border: "2px solid white", color: "white" }}>
+                    <div style={{ width: 180 }}>Check Person</div>
+                  </th>
+                ) : null}
+
                 <th style={{ border: "2px solid white", color: "white" }}>
                   <div style={{ width: 150 }}>Designation</div>
                 </th>
@@ -430,112 +488,25 @@ export default class ConfirmationRequest extends Component {
             </thead>
             <tbody>
               {dataSource.map((v, i) => (
-               <RowData v={v} i={i} />
+                <RowData
+                  v={v}
+                  i={i}
+                  handleSelectedCheckPerson={this.handleSelectedCheckPerson}
+                  title={this.props.title}
+                />
               ))}
             </tbody>
           </table>
         </div>
-
-        {/* <div className="col-12">
-          <table
-            width="99%"
-            className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
-            >
-           <thead className="" style={{backgroundColor:"#0078FF"}}>
-        <tr>
-          <th >#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
-       </tr>
-      </thead>
-      <tbody>
-       <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>8</td>
-       </tr>
-      <tr>
-       <th scope="row">2</th>
-       <td>Jacob</td>
-       <td>Thornton</td>
-       <td>@fat</td>
-       <td>Jacob</td>
-       <td>Thornton</td>
-       <td>@fat</td>
-       <td>Jacob</td>
-       <td>Thornton</td>
-       <td>@fat</td>
-       <td>Jacob</td>
-       <td>Thornton</td>
-       <td>@fat</td>
-       <td>Thornton</td>
-       <td>@fat</td>
-       <td>Jacob</td>
-       <td>Thornton</td>
-       <td>@fat</td>
-       <td>Jacob</td>
-       <td>Thornton</td>
-       <td>@fat</td>
-     </tr>
-     <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-     </tr>
-    </tbody>
-          </table>
-        </div> */}
       </div>
     );
   }
 }
 
-const RowData =  ({ v, i }) => {
-  console.log('v ===>', v)
-  return  (
+const RowData = ({ v, i, handleSelectedCheckPerson, title }) => {
+  const [checkPerson, setCheckPerson] = useState(null);
+  console.log("v ===>", v);
+  return (
     <tr>
       <th className="" style={{ border: "1px solid lightgrey" }}>
         {i + 1}
@@ -546,32 +517,36 @@ const RowData =  ({ v, i }) => {
       <td className="" style={{ border: "1px solid lightgrey" }}>
         {v.employee_name}
       </td>
-      <td style={{ border: "1px solid lightgrey" }}>
-        <div style={{ maxWidth: 180 }}>
-          <Select
-            laceholder="Please Choose An Option"
-            options={v.checkPerson}
-            // isOptionDisabled={(workingDayOptions) => workingDayOptions.disabled}
-            // onChange={handleSelectedTitle}
-            // value={selected_title}
-            isClearable={true}
-            isSearchable={true}
-            className="react-select-container checkValidate"
-            classNamePrefix="react-select"
-            // hideSelectedOptions={false}
-            // closeMenuOnSelect
-            maxMenuHeight={100}
-            styles={{
-              control: (provided) => ({
-                ...provided,
+      {title == "request" ? (
+        <td style={{ border: "1px solid lightgrey" }}>
+          <div style={{ maxWidth: 180 }}>
+            <Select
+              laceholder="Please Choose An Option"
+              options={v.checkPerson}
+              // isOptionDisabled={(workingDayOptions) => workingDayOptions.disabled}
+              onChange={(a) => {
+                handleSelectedCheckPerson(v.id, a.value);
+                setCheckPerson(a);
+              }}
+              value={checkPerson}
+              isClearable={true}
+              isSearchable={true}
+              className="react-select-container checkValidate"
+              classNamePrefix="react-select"
+              // hideSelectedOptions={false}
+              // closeMenuOnSelect
+              maxMenuHeight={100}
+              styles={{
+                control: (provided) => ({
+                  ...provided,
 
-                cursor: "pointer",
-              }),
-              
-            }}
-          />
-        </div>
-      </td>
+                  cursor: "pointer",
+                }),
+              }}
+            />
+          </div>
+        </td>
+      ) : null}
       <td className="" style={{ border: "1px solid lightgrey" }}>
         {v.position}
       </td>

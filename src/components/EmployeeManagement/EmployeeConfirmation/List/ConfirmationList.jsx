@@ -348,12 +348,12 @@ class ConfirmationList extends Component {
         selected_branch: event,
       });
   };
-  handleSelectedCheckPerson = (event) => {
-    if (event !== null)
-      this.setState({
-        selected_checkPerson: event,
-      });
-  };
+  // handleSelectedCheckPerson = (event) => {
+  //   if (event !== null)
+  //     this.setState({
+  //       selected_checkPerson: event,
+  //     });
+  // };
 
   handleSelectedVerifyPerson = (event) => {
     if (event !== null)
@@ -509,40 +509,41 @@ class ConfirmationList extends Component {
     } else toast.error("Please choose at least one user!");
   };
 
-  handleConfirmRequest = () => {
-    if (this.state.checkedListData.length > 0) {
-      if (this.state.selected_checkPerson && this.state.selected_verifyPerson) {
-        let data = {
-          person: getCookieData("user_info").user_id,
-          list: this.state.checkedListData,
-          verify_person: this.state.selected_verifyPerson.user_id,
-          check_person: this.state.selected_checkPerson.user_id,
-          status: 0
-        };
-        let status = 0;
-        fetch(`${main_url}confirmation/addConfirmation`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: `confirmation=${JSON.stringify(data)}`,
-        })
-          .then((res) => {
-            status = res.status;
-            return res.text();
-          })
-          .then((text) => {
-            if (status === 200) {
-              toast.success(text);
-              window.location.reload();
-            } else toast.error(text);
-            window.location.replace("/confirmation_list");
-          });
-      } else if (!this.state.selected_verifyPerson)
-        toast.error("Please choose verify person!");
-      else toast.error("Please choose check person!");
-    } else toast.error("Please choose at least one user!");
-  };
+  // handleConfirmRequest = () => {
+  //   if (this.state.checkedListData.length > 0) {
+  //     if (this.state.selected_checkPerson && this.state.selected_verifyPerson) {
+  //       let data = {
+  //         person: getCookieData("user_info").user_id,
+  //         list: this.state.checkedListData,
+  //         verify_person: this.state.selected_verifyPerson.user_id,
+  //         check_person: this.state.selected_checkPerson.user_id,
+  //         status: 0
+  //       };
+  //       console.log('data list ===>', data.list)
+  //       // let status = 0;
+  //       // fetch(`${main_url}confirmation/addConfirmation`, {
+  //       //   method: "POST",
+  //       //   headers: {
+  //       //     "Content-Type": "application/x-www-form-urlencoded",
+  //       //   },
+  //       //   body: `confirmation=${JSON.stringify(data)}`,
+  //       // })
+  //       //   .then((res) => {
+  //       //     status = res.status;
+  //       //     return res.text();
+  //       //   })
+  //       //   .then((text) => {
+  //       //     if (status === 200) {
+  //       //       toast.success(text);
+  //       //       window.location.reload();
+  //       //     } else toast.error(text);
+  //       //     window.location.replace("/confirmation_list");
+  //       //   });
+  //     } else if (!this.state.selected_verifyPerson)
+  //       toast.error("Please choose verify person!");
+  //     else toast.error("Please choose check person!");
+  //   } else toast.error("Please choose at least one user!");
+  // };
 
   handleDropDown = () => {
     this.setState({
@@ -661,11 +662,12 @@ class ConfirmationList extends Component {
             confirmData={this.state.verifyPersonList}
             selected_verifyPerson={selected_verifyPerson}
             handleSelectedVerifyPerson={this.handleSelectedVerifyPerson}
-            selected_checkPerson={selected_checkPerson}
-            handleSelectedCheckPerson={this.handleSelectedCheckPerson}
-            handleConfirmRequest={this.handleConfirmRequest}
+            // selected_checkPerson={selected_checkPerson}
+            // handleSelectedCheckPerson={this.handleSelectedCheckPerson}
+            // handleConfirmRequest={this.handleConfirmRequest}
             handleLeaveExtensionRequest={this.handleLeaveExtensionRequest}
             title={this.state.title}
+            setData={this.setState}
           />
         )}
       </div>
