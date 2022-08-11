@@ -11,10 +11,8 @@ export default class ExpenseBarChart extends Component {
         super(props);
         this.state = {
             chartOptions: {},
-            id: {
-                branchId: { value: 0, label: 'All' },
-                deptId: { value: 0, label: 'All' },
-            },
+            branchId: { value: 0, label: 'All' },
+            deptId: { value: 0, label: 'All' },
             branchData: [],
             xAxisDept: [],
             countDataDept: [],
@@ -29,6 +27,8 @@ export default class ExpenseBarChart extends Component {
         this.setChartOption()
         this.getBranch();
         this.getDesignation();
+        // this.getExpense();
+
     }
     handleStartDate = (event) => {
         this.setState({
@@ -56,10 +56,9 @@ export default class ExpenseBarChart extends Component {
             .catch((error) => console.error(`Fetch Error =\n`, error));
     };
     handleSelectedBranch = async (event) => {
-        let data = this.state.id
-        data.branchId = event
+     
         this.setState({
-            id: data
+            branchId: event
         })
     };
     getDesignation = () => {
@@ -70,32 +69,36 @@ export default class ExpenseBarChart extends Component {
             .then((res1) => {
                 res1.unshift({ label: 'All', value: 0 })
                 this.setState({ deptData: res1 });
-            })
+            }, )
             .catch((error) => console.error(`Fetch Error =\n`, error));
     };
     handleSelectedDepartment = async (event) => {
-        let data = this.state.id
-        data.deptId = event
+       
         this.setState({
-            id: data
+            deptId: event
         })
     }
     getExpense() {
 
     }
-    filter() {
-        let s_date = moment(this.state.s_date).format("YYYY-MM-DD");
-        let e_date = moment(this.state.e_date).format("YYYY-MM-DD");
-        let branch_id = Array.isArray(this.state.selected_branch)
-            ? 0
-            : this.state.selected_branch.value;
-        this.getTravelRequestFilter(
-            s_date,
-            e_date,
-            this.state.user_info.user_id,
-            branch_id
-        );
+    onClickExpenseCountSearch = () => {
+        // this.getExpense(this.state.branchId.value == undefined ? this.state.branchId : this.state.branchId.value,this.state.deptId.value == undefined ? this.state.deptId : this.state.deptId.value);
+//    console.log("br&dep",this.state.deptId,this.state.branchId)
+        
     }
+    // filter() {
+    //     let s_date = moment(this.state.s_date).format("YYYY-MM-DD");
+    //     let e_date = moment(this.state.e_date).format("YYYY-MM-DD");
+    //     let branch_id = Array.isArray(this.state.selected_branch)
+    //         ? 0
+    //         : this.state.selected_branch.value;
+    //     this.getTravelRequestFilter(
+    //         s_date,
+    //         e_date,
+    //         this.state.user_info.user_id,
+    //         branch_id
+    //     );
+    // }
 
     setChartOption = () => {
         const chartOptions = {
@@ -219,7 +222,7 @@ export default class ExpenseBarChart extends Component {
                             placeholder="All"
                             options={this.state.branchData}
                             onChange={this.handleSelectedBranch}
-                            value={this.state.id.branchId}
+                            value={this.state.branchId}
                             className="react-select-container"
                             classNamePrefix="react-select"
                         />
@@ -228,7 +231,7 @@ export default class ExpenseBarChart extends Component {
                         textAlign: 'start',
                         marginLeft: '10px'
                     }}>
-                        <label htmlFor="">Department</label>
+                        <label htmlFor="">Dept</label>
                         <Select
                             styles={{
 
@@ -246,13 +249,13 @@ export default class ExpenseBarChart extends Component {
                             placeholder="All"
                             options={this.state.deptData}
                             onChange={this.handleSelectedDepartment}
-                            value={this.state.id.deptId}
+                            value={this.state.deptId}
                             className="react-select-container"
                             classNamePrefix="react-select"
                         />
                     </div>
 
-                    <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={this.filter.bind(this)}>Search</button>
+                    <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={()=>this.onClickExpenseCountSearch()}>Search</button>
                 </div>
                 <HighchartsReact
                     highcharts={Highcharts}
