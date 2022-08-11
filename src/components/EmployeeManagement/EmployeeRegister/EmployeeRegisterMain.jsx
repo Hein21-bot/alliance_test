@@ -468,11 +468,12 @@ class EmployeeRegisterMain extends Component {
 
     }
 
-    nrcErr = (e) => {
-        if(this.state.nrc_number.length < 6){
-            toast.error('NRC number should be 6 digit!')
-        }
-    }
+    // nrcErr = (e) => {
+    //     if(this.state.nrc_number.length < 6){
+    //         toast.error('NRC number should be 6 digit!')
+    //     }
+    // }
+
 
 
     handleBankDetailInputChange = (e) => {
@@ -613,9 +614,15 @@ class EmployeeRegisterMain extends Component {
 
     handleProfileSave = e => {
         e.preventDefault();
-        this.setState({
-            tabIndex: this.state.tabIndex + 1
-        })
+        const { nrc_number} = this.state;
+        if (nrc_number.length < 6) {
+            toast.error('NRC number should be 6 digits!');;
+        }  else  {
+            this.setState({
+                tabIndex: this.state.tabIndex + 1
+            })
+        } 
+       
     }
 
     handlePersonalDetailInputChange = e => {
@@ -709,9 +716,15 @@ class EmployeeRegisterMain extends Component {
 
     handleContactDetails = e => {
         e.preventDefault();
-        this.setState({
-            tabIndex: this.state.tabIndex + 1
-        })
+        const {gran_nrc_number} = this.state;
+        if (gran_nrc_number.length < 6) {
+            toast.error('NRC number should be 6 digits!');
+        } else {
+            this.setState({
+                tabIndex: this.state.tabIndex + 1
+            })
+        }
+        
 
     }
     handleBankAccountDetails = e => {
@@ -1149,10 +1162,13 @@ class EmployeeRegisterMain extends Component {
         if (number == 1) {
             this.setState({ tabIndex: 1 });
         } else if (number == 2) {
-            if (employeeId != '' && employeeNameEng != '' && selected_NRC_Id != null && selected_DistrictCode != null &&  nrc_number != null && employeeNameMyan != '' && dateOfBirth != '' && gender != '' && nationality != '' && personalPhone !='' && region != '' && officePhone != '' && address != '' && joinDate !='') {
-                this.setState({ tabIndex: 2 });
-            } else {
+            if (employeeId == '' || employeeNameEng == '' || selected_NRC_Id == null || selected_DistrictCode == null || nrc_number == '' || employeeNameMyan == '' || dateOfBirth == '' || gender == '' || nationality == '' || personalPhone =='' || region == '' || officePhone == '' || address == '' || joinDate =='') {
                 toast.error('Please fill all information!');
+            } else if (nrc_number.length < 6) {
+                toast.error('NRC number should be 6 digits!');
+            } else if (employeeId != '' && employeeNameEng != '' && selected_NRC_Id != null && selected_DistrictCode != null &&  nrc_number != '' && nrc_number.length == 6 && employeeNameMyan != '' && dateOfBirth != '' && gender != '' && nationality != '' && personalPhone !='' && region != '' && officePhone != '' && address != '' && joinDate !='') {
+                
+                this.setState({ tabIndex: 2 });
             }
         } else if (number == 3) {
             if (martialStatus != "" && fatherName != '' && motherName != '' && parentCount != '' && siblingCount != '' && ((martialStatus == 'UnMarried' && childCount == '') || (martialStatus == 'Married' && childCount != '')) && ((martialStatus == 'UnMarried' && pInLawCount == '') || (martialStatus == 'Married' && pInLawCount != ''))) {
@@ -1168,10 +1184,12 @@ class EmployeeRegisterMain extends Component {
                 toast.error('Please fill all information!');
             }
         } else if (number == 5) {
-            if (contactPerson != "" && contactPhone != '' && guarantor != '' && guarantorPhone != '' && selected_gran_NRC_Id != null && selected_gran_DistrictCode != null && gran_nrc_number != '') {
-                this.setState({ tabIndex: 5 });
-            } else {
+            if (contactPerson == "" || contactPhone == '' || guarantor == '' || guarantorPhone == '' || selected_gran_NRC_Id == null || selected_gran_DistrictCode == null || gran_nrc_number == '') {
                 toast.error('Please fill all information!');
+            } else if (gran_nrc_number.length < 6) {
+                toast.error('NRC number should be 6 digits!');
+            } else if (contactPerson != "" && contactPhone != '' && guarantor != '' && guarantorPhone != '' && selected_gran_NRC_Id != null && selected_gran_DistrictCode != null && gran_nrc_number != '') {
+                this.setState({ tabIndex: 5 });
             }
         } else if (number == 6) {
             if ( bankData.length > 0){
@@ -1304,7 +1322,7 @@ class EmployeeRegisterMain extends Component {
                                     districtCodeList={districtCodeList}
                                     nrcList={nrcList}
                                     nrc_number={nrc_number}
-                                    nrcErr={this.nrcErr}
+                                    // nrcErr={this.nrcErr}
                                 />
 
                                 : tabIndex === 2 ?

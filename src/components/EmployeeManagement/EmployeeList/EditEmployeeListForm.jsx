@@ -435,11 +435,11 @@ class EditEmployeeListForm extends Component {
 
     }
 
-    nrcErr = e => {
-        if(this.state.nrc_number.length < 6) {
-            toast.error('NRC number should be 6 digit!')
-        }
-    }
+    // nrcErr = e => {
+    //     if(this.state.nrc_number.length < 6) {
+    //         toast.error('NRC number should be 6 digit!')
+    //     }
+    // }
 
     onGenderChange = e => {
         this.setState({
@@ -517,9 +517,15 @@ class EditEmployeeListForm extends Component {
 
     handleProfileSave = e => {
         e.preventDefault();
-        this.setState({
-            tabIndex: this.state.tabIndex + 1
-        })
+        const {nrc_number} = this.state;
+        if (nrc_number.length < 6) {
+            toast.error('NRC number should be 6 digits!');
+        } else {
+            this.setState({
+                tabIndex: this.state.tabIndex + 1
+            })
+        }
+        
     }
 
     handlePersonalDetailInputChange = e => {
@@ -615,9 +621,15 @@ class EditEmployeeListForm extends Component {
 
     handleContactDetails = e => {
         e.preventDefault();
-        this.setState({
-            tabIndex: this.state.tabIndex + 1
-        })
+        const {gran_nrc_number} = this.state;
+        if (gran_nrc_number.length < 6) {
+            toast.error('NRC number should be 6 digits!');
+        } else {
+            this.setState({
+                tabIndex: this.state.tabIndex + 1
+            })
+        }
+       
 
     }
     handleBankAccountDetails = e => {
@@ -1115,7 +1127,6 @@ class EditEmployeeListForm extends Component {
                             nrcList={nrcList}
                             fullNRC={fullNRC}
                             nrc_number={nrc_number}
-                            nrcErr={this.nrcErr}
                         />
 
                         : tabIndex === 2 ?
