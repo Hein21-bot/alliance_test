@@ -223,7 +223,7 @@ class EmployeeRegisterMain extends Component {
             same_with_CT_person: this.state.sameWithCtPerson ? 1 : 0
 
         }
-        
+
         const formdata = new FormData();
         formdata.append('data', JSON.stringify(data))
         formdata.append('uploadProfile', userImageUrl)
@@ -469,7 +469,7 @@ class EmployeeRegisterMain extends Component {
     }
 
     nrcErr = (e) => {
-        if(this.state.nrc_number.length < 6){
+        if (this.state.nrc_number.length < 6) {
             toast.error('NRC number should be 6 digit!')
         }
     }
@@ -519,14 +519,14 @@ class EmployeeRegisterMain extends Component {
 
     }
     handleEmploymentDetailInputChange = (e) => {
-        
+
         if (e.target.name === "jobTitle") {
-            
+
             this.setState({
-               
+
                 jobTitle: e.target.name
             })
-           
+
         }
 
         else if (e.target.name === "employedDate") {
@@ -775,9 +775,9 @@ class EmployeeRegisterMain extends Component {
             bankDataEdit: true,
             selected_bank: this.state.bankList.find(c => c.value === data.id),
             selected_bankRow_Id: data.id
-        }, ()=>{console.log(this.state.selected_bank)}
-        )  
-       
+        }, () => { console.log(this.state.selected_bank) }
+        )
+
     }
 
 
@@ -786,7 +786,6 @@ class EmployeeRegisterMain extends Component {
     handleAdd_UpdateBankData = (e) => {
         e.preventDefault();
         const { accountName, accountNumber, selected_bank, bankDataEdit, bankData, employeeNameEng, selected_bankRow_Id } = this.state
-
         if (bankDataEdit) {
             // ("Update")
             const newData = {
@@ -815,7 +814,7 @@ class EmployeeRegisterMain extends Component {
                 toast.error('Please Choose Bank select box!');
             } else {
                 const newData = {
-                    id: bankData.length + 1,
+                    id: selected_bank.id,
                     account_no: accountNumber,
                     bank_name: selected_bank.label,
                     account_name: accountName
@@ -1149,7 +1148,7 @@ class EmployeeRegisterMain extends Component {
         if (number == 1) {
             this.setState({ tabIndex: 1 });
         } else if (number == 2) {
-            if (employeeId != '' && employeeNameEng != '' && selected_NRC_Id != null && selected_DistrictCode != null &&  nrc_number != null && employeeNameMyan != '' && dateOfBirth != '' && gender != '' && nationality != '' && personalPhone !='' && region != '' && officePhone != '' && address != '' && joinDate !='') {
+            if (employeeId != '' && employeeNameEng != '' && selected_NRC_Id != null && selected_DistrictCode != null && nrc_number != null && employeeNameMyan != '' && dateOfBirth != '' && gender != '' && nationality != '' && personalPhone != '' && region != '' && officePhone != '' && address != '' && joinDate != '') {
                 this.setState({ tabIndex: 2 });
             } else {
                 toast.error('Please fill all information!');
@@ -1159,10 +1158,10 @@ class EmployeeRegisterMain extends Component {
                 this.setState({ tabIndex: 3 });
             } else {
                 toast.error('Please fill all information!');
-                
+
             }
         } else if (number == 4) {
-            if ( addedDegreeData.length > 0 && addedQualitificationData.length > 0) {
+            if (addedDegreeData.length > 0 && addedQualitificationData.length > 0) {
                 this.setState({ tabIndex: 4 });
             } else {
                 toast.error('Please fill all information!');
@@ -1174,27 +1173,27 @@ class EmployeeRegisterMain extends Component {
                 toast.error('Please fill all information!');
             }
         } else if (number == 6) {
-            if (accountNumber != '' && bankData.length > 0){
+            if (accountNumber != '' && bankData.length > 0) {
                 this.setState({ tabIndex: 6 });
             } else {
                 toast.error('Please fill all information!');
             }
         } else if (number == 7) {
-            if (employeeId != '' && employeeNameEng != '' && selected_NRC_Id != null && selected_DistrictCode != null && nrc_number != null && employeeNameMyan != '' && dateOfBirth != '' && gender != '' && nationality != '' && personalPhone !='' && region != '' && officePhone != '' && address != '' && joinDate !=''
+            if (employeeId != '' && employeeNameEng != '' && selected_NRC_Id != null && selected_DistrictCode != null && nrc_number != null && employeeNameMyan != '' && dateOfBirth != '' && gender != '' && nationality != '' && personalPhone != '' && region != '' && officePhone != '' && address != '' && joinDate != ''
                 && martialStatus != "" && fatherName != '' && motherName != '' && parentCount != '' && siblingCount != '' && ((martialStatus == 'UnMarried' && childCount == '') || (martialStatus == 'Married' && childCount != '')) && ((martialStatus == 'UnMarried' && pInLawCount == '') || (martialStatus == 'Married' && pInLawCount != ''))
-                 && addedDegreeData.length > 0 && addedQualitificationData.length > 0 && contactPerson != "" && contactPhone != '' && guarantor != '' && guarantorPhone != '' && selected_gran_NRC_Id != null && selected_gran_DistrictCode != null && gran_nrc_number != ''
-                  && accountNumber != '' && bankData.length > 0) {
-                    this.setState({ tabIndex: 7 });
-                   } else{
-                    toast.error('Please fill all information!');
-                }
-            
-        } else if (number == 8) {
-            if (attachmentUrl != '') {
-                this.setState({ tabIndex: 8});
+                && addedDegreeData.length > 0 && addedQualitificationData.length > 0 && contactPerson != "" && contactPhone != '' && guarantor != '' && guarantorPhone != '' && selected_gran_NRC_Id != null && selected_gran_DistrictCode != null && gran_nrc_number != ''
+                && accountNumber != '' && bankData.length > 0) {
+                this.setState({ tabIndex: 7 });
             } else {
                 toast.error('Please fill all information!');
-                
+            }
+
+        } else if (number == 8) {
+            if (attachmentUrl != '') {
+                this.setState({ tabIndex: 8 });
+            } else {
+                toast.error('Please fill all information!');
+
             }
         }
     }
@@ -1208,7 +1207,7 @@ class EmployeeRegisterMain extends Component {
 
         return (
             <div>
-               
+
                 {this.state.toDetailForm ? (
                     <EmployeeDetailMain id={this.state.generateUserId}></EmployeeDetailMain>
                 ) : (
