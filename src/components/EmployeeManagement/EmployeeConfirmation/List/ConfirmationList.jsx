@@ -64,7 +64,8 @@ class ConfirmationList extends Component {
       title: '',
       approveComponent: false,
       selected_title_list: null,
-      selected_designation_list: null
+      selected_designation_list: null,
+      checkboxAll: false,
     };
   }
 
@@ -545,6 +546,47 @@ class ConfirmationList extends Component {
   //   } else toast.error("Please choose at least one user!");
   // };
 
+  handleCheckboxAll = async (e) => {
+    this.setState({checkboxAll: e});
+    const tempCheckListData = this.state.checkedListData;
+    if ( e == true) {
+      await this.state.confirmationListData.map(async(v) => {
+        var tempArray = [];
+     await fetch(main_url + 'confirmation/detailCheckPerson/' + v.branch_id + '/' + v.user_id).then(response => {
+      return response.json();
+    }).then(res => { tempArray = res })
+        const newData = {
+          id: v.user_id,
+          employee_id: v.code ? v.code : "",
+          employee_name: v.fullname ? v.fullname : "",
+          position: v.designations ? v.designations : "-",
+          career_level: v.career_level ? v.career_level : "-",
+          career_sub_level: v.career_sub_level ? v.career_sub_level : "-",
+          department: v.deptname ? v.deptname : "-",
+          branch_id: v.branch_id ? v.branch_id : '-',
+          branch: v.branch_name ? v.branch_name : "-",
+          region: v.region_name ? v.region_name : "-",
+          employee_date: v.employee_date ? moment(v.employee_date).format('DD-MM-YYYY') : "-",
+          promotion_date: v.promotion_date
+            ? v.promotion_date
+            : "-",
+          date: moment(v.createdAt).format("DD-MM-YYYY"),
+          service_year: v.service_year ? v.service_year : "-",
+          leave: v.leave ? v.leave : "-",
+          leave_category: v.leave_category ? v.leave_category : '-',
+          leave_start_date: v.leave_start_date ? v.leave_start_date : '-',
+          leave_end_date: v.leave_end_date ? v.leave_end_date : '-',
+          leave_status: v.leave_status ? v.leave_status : '-',
+          checkPerson: tempArray,
+        };
+        tempCheckListData.push(newData);
+      });
+      this.setState({checkedListData: tempCheckListData})
+    } else {
+      this.setState({checkedListData: []});
+    }
+  }
+
   handleDropDown = () => {
     this.setState({
       dropDownOpen: !this.state.dropDownOpen,
@@ -556,7 +598,8 @@ class ConfirmationList extends Component {
   };
 
   render() {
-    const { view, selected_title, titleList, confirmationMonth, verifyPersonList, selected_verifyPerson, date, promotion_date, employee_date, user_info, level_options, sub_level_options, career_level, career_sub_level, confirmationListData, checkPersonList, selected_checkPerson, dropDownOpen, selected_designation, designationList, subLevelList, levelList, selected_branch, selected_department, selected_region, regionList, branchlist, departmentlist, } = this.state;
+    const { checkboxAll, checkedListData,view, selected_title, titleList, confirmationMonth, verifyPersonList, selected_verifyPerson, date, promotion_date, employee_date, user_info, level_options, sub_level_options, career_level, career_sub_level, confirmationListData, checkPersonList, selected_checkPerson, dropDownOpen, selected_designation, designationList, subLevelList, levelList, selected_branch, selected_department, selected_region, regionList, branchlist, departmentlist, } = this.state;
+    console.log('checkListData ===>', checkedListData)
     return (
       <div className=" border-bottom white-bg dashboard-header">
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -612,9 +655,16 @@ class ConfirmationList extends Component {
               <div style={{}}>
 
                 {this.state.visible == false ? (
+                  <div className="col-lg-12 col-md-12" style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <div style={{width: '20%'}}>
+                      <label>
+                      <input type={'checkbox'} onChange={() => this.handleCheckboxAll(!checkboxAll)}/>
+                      Select All
+                      </label>
+                    </div>
                   <div
                     // className="col-lg-12 col-md-12 col-sm-12"
-                    style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginBottom: 5, paddingRight: 5 }}
+                    style={{ width: '80%', display: 'flex', justifyContent: 'flex-end', marginBottom: 5, paddingRight: 5 }}
                   >
                     <button
                       onClick={() => this.handleVisible('request')}
@@ -630,6 +680,7 @@ class ConfirmationList extends Component {
                     >
                       Extension
                     </button>
+                  </div>
                   </div>
                 ) : (
                   ""
@@ -652,6 +703,7 @@ class ConfirmationList extends Component {
                   isSelect: 1,
                 }}
                 departmentlist={departmentlist}
+                checkboxAll={checkboxAll}
               />
             </div>
           </>

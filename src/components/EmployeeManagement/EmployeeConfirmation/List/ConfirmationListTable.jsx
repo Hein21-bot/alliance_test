@@ -25,12 +25,11 @@ export default class BenefitChildTable extends Component {
             dataSource: props.data,
             selectedRequest: '',
             is_main_role: getMainRole(),
-
         }
     }
     componentDidMount() {
         this.$el = $(this.el);
-        console.log('dept ===>', this.props.departmentlist)
+        
         this.setState({
             dataSource: this.props.data
         }, () => {
@@ -101,6 +100,21 @@ export default class BenefitChildTable extends Component {
                 // });
             })
         }
+
+        if(this.props.checkboxAll != prevProps.checkboxAll){
+            console.log("Changes");
+/////            this.state.dataSource;
+            if(this.props.checkboxAll){
+                let select = $("#toSelect input")
+                console.log(select);
+                select.attr("checked", true);
+            }
+            else{
+                let select = $("#toSelect input")
+                console.log(select);
+                select.removeAttr("checked");
+            }
+        }
     }
 
     search(status) {
@@ -119,7 +133,7 @@ export default class BenefitChildTable extends Component {
         var permission = this.props.permission;
         var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
         var has_select = permission.isSelect === 1 ? true : false;
-
+        console.log('table data ===>', data)
         for (var i = 0; i < data.length; i++) {
 
             // await fetch(main_url + 'confirmation/detailCheckPerson/' + data[i].branch_id).then(response => {
@@ -159,7 +173,7 @@ export default class BenefitChildTable extends Component {
 
             }
             if (has_select) {
-                obj.select = permission.isSelect === 1 ? '<div style="alignItems:center" id="toSelect" class="select-btn"  ><input  type="checkbox" /><span id="select" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '' //'<div style="margin-right:0px;height:20px;width:20px;border:1px solid red" class="btn" id="toSelect" ><i className="fas fa-address-card" style="color:red"></i><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '';
+                obj.select = permission.isSelect === 1 ? `<div style="alignItems:center" id="toSelect" class="select-btn"  ><input  type="checkbox" /><span id="select" class="hidden" >` + JSON.stringify(result) + '</span>  </div>' : '' //'<div style="margin-right:0px;height:20px;width:20px;border:1px solid red" class="btn" id="toSelect" ><i className="fas fa-address-card" style="color:red"></i><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '';
             }
             if (has_action) {
                 if (result.status !== 3) {
@@ -276,6 +290,7 @@ export default class BenefitChildTable extends Component {
 
 
     render() {
+        console.log('checkboxAll ===>', this.props.checkboxAll)
         return (
 
             <div>
