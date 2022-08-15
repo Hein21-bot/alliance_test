@@ -48,7 +48,7 @@ class ResignStaffReport extends Component {
     
           },
           () => {
-            this._setTableData(this.state.dataSource);
+            // this._setTableData(this.state.dataSource);
           }
         );
           this.getRegionList();

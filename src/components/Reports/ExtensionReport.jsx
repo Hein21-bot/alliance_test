@@ -25,9 +25,9 @@ class ExtensionReport extends Component {
             branch:[],
             region:[],
             department:[],
-            branchId:0,
-            regionId:0,
-            departmentId:0,
+            branchId:null,
+            regionId:null,
+            departmentId:null,
             from_date:moment(),
             to_date:moment() 
         }
@@ -62,13 +62,13 @@ class ExtensionReport extends Component {
     handleSelectedBranch = async (event) => {
         this.setState({
            branchId : event
-        })
+          })
     }
     
     handleSelectedDepartment = async (event) => {
         this.setState({
            departmentId : event
-        })
+          })
     }
     handleSelectedRegion = async (event) => {
         this.setState({
@@ -85,40 +85,39 @@ class ExtensionReport extends Component {
            to_date : event
         })
     }
-    // handleSearchData=()=>{
-    //   console.log(">>>>>",this.state.branchId,this.state.departmentId,this.state.regionId,this.state.designationId)
-    //   }
-    // handleSearchData = (branchId, departmentId, regionId,empName, designationId) => {
-    //     fetch(`${main_url}.../${regionId == undefined ? 0 : regionId}/${departmentId == undefined ? 0 : departmentId}/${designationId == undefined ? 0 : designationId}/${branchId == undefined ? 0 : branchId}/${empName == undefined ? 0 : empName}`)
-    //       .then(res => { if (res.ok) return res.json() })
-    //       .then(list => {
-    //         this._setTableData(list);
-    //       })
-    //   }
+    handleSearchData = () => {
+        fetch(`${main_url}report/extensionReport/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}`)
+          .then(res => { if (res.ok) return res.json() })
+          .then(list => { 
+            this._setTableData(list);
+          })
+      }
 
-    _setTableData = (data) => {
+    _setTableData = (data) => { 
         var table;
         var l = [];
-        // for (var i = 0; i < data.length; i++) {
-        //     let result = data[i];
-        //     let obj = [];
-        //         obj = {
-        //         no: i + 1,
-        //         employee_id: employment_id,
-        //         employee_name: employee_name,
-        //         branch: branch_name, 
-        //         designation:designation,
-        //         level:level,
-        //         department:department,
-        //         region:region,
-        //         pa_score:pa_score,
-        //         target_achievemen:target_achievement,
-        //         overall_performance:overall_performance,
-        //         extension_period:extension_period
-        //     }    
-        //     l.push(obj)
-
-        // }
+        if (data){
+        for (var i = 0; i < data.length; i++) {
+            let result = data[i];
+            let obj = [];
+                obj = {
+                no: i + 1,
+                employee_id:data[i].employment_id ? data[i].employment_id :"-",
+                employee_name:data[i].fullname ? data[i].fullname : "-",
+                branch: data[i].branch_name ? data[i].branch_name: "-",
+                designation:data[i].designations ? data[i].designations : "-",
+                level:data[i].career_level ? data[i].career_level : "-",
+                department:data[i].deptname ? data[i].deptname : "-",
+                region:data[i].region_name ? data[i].region_name : '-',
+                pa_score:data[i].performance_score ? data[i].performance_score : '-',
+                target_achievement:data[i].target_achievement ? data[i].target_achievement : '-',
+                overall_performance:data[i].comment_overall_performance ? data[i].comment_overall_performance : '-',
+                extension_period:data[i].extension_period ? data[i].extension_period : '-'
+            }
+            
+            l.push(obj)
+        }
+        }
         if ($.fn.dataTable.isDataTable('#dataTables-table')) {
             table = $('#dataTables-table').dataTable();
             table.fnClearTable();
@@ -170,8 +169,9 @@ class ExtensionReport extends Component {
             data: l,
             columns: column
         });
-
     }
+   
+  
         render(){
           
         return (
