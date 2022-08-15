@@ -62,18 +62,18 @@ class ExtensionReport extends Component {
     handleSelectedBranch = async (event) => {
         this.setState({
            branchId : event
-          },()=>{console.log('br',this.state.branchId)})
+          })
     }
     
     handleSelectedDepartment = async (event) => {
         this.setState({
            departmentId : event
-          },()=>{console.log('dep',this.state.departmentId)})
+          })
     }
     handleSelectedRegion = async (event) => {
         this.setState({
            regionId : event
-        },()=>{console.log('region',this.state.regionId)})
+        })
     }
     handleSelectedFromdate = async (event) => {
         this.setState({
@@ -88,12 +88,12 @@ class ExtensionReport extends Component {
     handleSearchData = () => {
         fetch(`${main_url}report/extensionReport/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}`)
           .then(res => { if (res.ok) return res.json() })
-          .then(list => { console.log("data>>",list)
+          .then(list => { 
             this._setTableData(list);
           })
       }
 
-    _setTableData = (data) => { console.log(data)
+    _setTableData = (data) => { 
         var table;
         var l = [];
         if (data){
