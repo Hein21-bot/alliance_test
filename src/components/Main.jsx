@@ -91,6 +91,10 @@ import EmployeeReport from './Reports/EmployeeReport';
 import EmployeeDirectory from './Reports/EmployeeDirectory';
 import BranchStaffReport from './Reports/BranchStaffReport'
 import RegionStaffReport from './Reports/RegionStaffReport'
+import FRDReport from './Reports/FRDReport';
+import RegionWiseStaffReportCount from './Reports/RegionWiseStaffReportCount';
+import ResignStaffReport from './Reports/ResignStaffReport';
+import EmployeeFixedAsset from './Reports/EmployeeFixedAsset';
 
 const Main = () => (
     <Switch>
@@ -182,6 +186,10 @@ const Main = () => (
         <Route path='/EmployeeDirectory' component={EmployeeDirectory} ></Route>
         <Route path='/BranchStaffReport' component={BranchStaffReport} ></Route>
         <Route path='/RegionStaffReport' component={RegionStaffReport} ></Route>
+        <Route path='/FRDReport' component={FRDReport} ></Route>
+        <Route path='/RegionWiseStaffReportCount' component={RegionWiseStaffReportCount}></Route>
+        <Route path='/ResignStaffReport' component={ResignStaffReport}></Route>
+        <Route path='/EmployeeFixedAsset' component={EmployeeFixedAsset}></Route>
 
         <Redirect to="/dashboard" />
 
