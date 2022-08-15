@@ -15,7 +15,6 @@ import AttendenceBarChart from "./AttendenceBarChart";
 import LeaveCalendar from "./LeaveCalendar"
 import ResignBarChart from "./ResignBarChart";
 import CompensationandBenefit from "./CompensationandBenefit";
-import WeeklyAttendance from "../Reports/WeeklyAttendanceReport";
 const primary = "#1872ab";
 var button = document.querySelector('.button');
 
@@ -122,8 +121,8 @@ export class Dashboard extends Component {
               marginTop: 15
             }}
           >
-            <div className="col-lg-12">
-              <WeeklyAttendance/>
+            <div className="col-md-8">
+              <AttendenceBarChart/>
             </div>
           </div>
         ):this.state.tapButtonTitle == "totalEmployee" ? (
