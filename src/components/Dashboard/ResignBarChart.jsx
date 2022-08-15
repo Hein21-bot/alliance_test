@@ -237,7 +237,7 @@ class ResignBarChart extends Component {
       
         this.setState({
             branchId: event
-        })
+        },()=>{console.log(this.state.branchId)})
     }
 
     handleSelectedDepartment = async (event) => {

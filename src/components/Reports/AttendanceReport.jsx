@@ -51,7 +51,7 @@ class AttendanceReport extends Component {
     
           },
           () => {
-            this._setTableData(this.state.dataSource);
+            // this._setTableData(this.state.dataSource);
           }
         );
         let branch = await getBranch();
@@ -60,7 +60,7 @@ class AttendanceReport extends Component {
        department.unshift({ label: 'All', value: 0 });
         let region = await getRegion();
         region.unshift({region_name: 'ALL', region_id: 0});
-        // await getEmployeeNameList();
+        await this.getEmployeeList();
         // await getAttendanceTypeList();
         // await getStatus();
         // await getAttendanceStatusList();
@@ -76,6 +76,19 @@ class AttendanceReport extends Component {
             // empNameList:empNameList,
         })
     }
+    getEmployeeList() {
+      fetch(`${main_url}main/getEmployeeWithDesignation/0`)
+          .then(res => res.json())
+          .then(data => {
+              console.log("list",data)
+              // const all = data.map(v => (v.employment_id).trim())
+              this.setState({
+                empNameList: data.map(v => ({ ...v, label: v.employment_id, value: v.value,name:v.label })),
+                  // allEmployeeID: all
+              })
+
+          })
+  }
     handleSelectedBranch = async (event) => {
         this.setState({
            branchId : event
@@ -107,11 +120,11 @@ class AttendanceReport extends Component {
     //        atd_type : event
     //     })
     // }
-     // handleSelectedEmpName = async (event) => {
-    //     this.setState({
-    //        empName : event
-    //     })
-    // }
+     handleSelectedEmpName = async (event) => {
+        this.setState({
+           empName : event
+        })
+    }
      // handleSelectedStatus = async (event) => {
     //     this.setState({
     //        status : event
@@ -127,11 +140,10 @@ class AttendanceReport extends Component {
            to_date : event
         })
     }
-    handleSearchData=()=>{
-    console.log(">>>>>",this.state.branchId,this.state.departmentId,this.state.regionId,this.state.designationId)
-    }
-    // handleSearchData = (branchId, departmentId, regionId,empName, designationId) => {
-    //     fetch(`${main_url}.../${regionId == undefined ? 0 : regionId}/${departmentId == undefined ? 0 : departmentId}/${designationId == undefined ? 0 : designationId}/${branchId == undefined ? 0 : branchId}/${empName == undefined ? 0 : empName}`)
+    
+    // handleSearchData = () => {
+        //             // fetch(`${main_url}.../${this.state.regionId == this.state.regionId.value ? 0}/${this.state.departmentId == this.state.departmentId.value ? 0}/${this.state.designationId == this.state.designationId.value ? 0}/${this.state.branchId == this.state.branchId.value ? 0}/${this.state.empName == this.state.empName.value ? 0}`)
+
     //       .then(res => { if (res.ok) return res.json() })
     //       .then(list => {
     //         this._setTableData(list);
