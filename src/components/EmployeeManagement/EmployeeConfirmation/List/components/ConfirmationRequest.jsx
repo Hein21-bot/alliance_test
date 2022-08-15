@@ -447,9 +447,9 @@ export default class ConfirmationRequest extends Component {
                 <th style={{ border: "2px solid white", color: "white" }}>
                   <div style={{ width: 100 }}>Employee Date</div>
                 </th>
-                <th style={{ border: "2px solid white", color: "white" }}>
+                {/* <th style={{ border: "2px solid white", color: "white" }}>
                   <div style={{ width: 100 }}>Region</div>
-                </th>
+                </th> */}
                 <th style={{ border: "2px solid white", color: "white" }}>
                   <div style={{ width: 200 }}>Service Years</div>
                 </th>
@@ -564,9 +564,9 @@ const RowData = ({ v, i, handleSelectedCheckPerson, title, leaveCategory }) => {
       <td style={{ border: "1px solid lightgrey" }}>
         {v.employee_date}
       </td>
-      <td style={{ border: "1px solid lightgrey" }}>
+      {/* <td style={{ border: "1px solid lightgrey" }}>
         {v.promotion_date}
-      </td>
+      </td> */}
       <td style={{ border: "1px solid lightgrey" }}>
         {v.service_year}
       </td>

@@ -21,15 +21,16 @@ class BenefitBarChart extends Component {
             branchData: [],
             s_date: moment(getFirstDayOfMonth()),
             e_date: moment(),
+            data:[]
         }
     }
 
 
     async componentDidMount() {
-        this.setChartOption()
-        this.getBenefit(this.state.branchId, this.state.depId, this.state.s_date, this.state.e_date)
-        this.getBranch()
-        this.getDesignation()
+       await this.setChartOption()
+       await this.getBenefit(this.state.branchId, this.state.depId, this.state.s_date, this.state.e_date)
+      await  this.getBranch()
+       await this.getDesignation()
     }
 
     getBranch = () => {
@@ -80,38 +81,42 @@ class BenefitBarChart extends Component {
             depId: event
         })
     }
-    filter() {
-        this.getBenefit(this.state.branchId.value, this.state.depId.value, this.state.s_date, this.state.e_date);
+    // filter() {
+    //     this.getBenefit(this.state.branchId.value, this.state.depId.value, this.state.s_date, this.state.e_date);
+    // }
+    onClickExpenseCountSearch = () => {
+        this. getBenefit( this.state.s_date, this.state.e_date,this.state.branchId.value == undefined ? this.state.branchId : this.state.branchId.value,this.state.depId.value == undefined ? this.state.depId : this.state.depId.value);
+//    console.log("br&dep",this.state.depId,this.state.branchId)
+        
     }
-
-    getBenefit = (branchId, depId, s_date, e_date) => {
+    async getBenefit(branchId, depId, s_date, e_date){
         fetch(main_url + "dashboard/benefitExpense/" + branchId + "/" + depId + "/" + moment(s_date).format('YYYY-MM-DD') + "/" + moment(e_date).format('YYYY-MM-DD'))
             .then((response) => {
                 if (response.ok) return response.json();
             })
             .then((res) => {
                 if (res) {
-                    let data = res.filter(v => v.amount != null)
+                    // let data = res.filter(v => v.amount != null)
                     var label = [];
                     var count = [];
-                    if (data.length < 5) {
-                        label.push(null, null)
-                        count.push(null, null)
-                        data.map((v, i) => {
-                            label.push(v.name);
-                            count.push(v.amount);
-                        });
-                        label.push(null, null)
-                        count.push(null, null)
-                    } else {
-                        data.map((v, i) => {
+                    // if (data.length < 5) {
+                    //     label.push(null, null)
+                    //     count.push(null, null)
+                    //     data.map((v, i) => {
+                    //         label.push(v.name);
+                    //         count.push(v.amount);
+                    //     });
+                    //     label.push(null, null)
+                    //     count.push(null, null)
+                    // } else {
+                        res.map((v, i) => {
                             label.push(v.name);
 
                             count.push(v.amount);
                         });
-                    }
+                    // }
 
-                    this.setState({ xAxisDept: label, countDataDept: count });
+                    this.setState({ xAxisDept: label, countDataDept: count,data:res})
                 }
                 this.setChartOption();
             })
@@ -277,7 +282,7 @@ class BenefitBarChart extends Component {
                                 classNamePrefix="react-select"
                             />
                         </div>
-                        <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={this.filter.bind(this)}>Search</button>
+                        <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={()=>this.onClickExpenseCountSearch()}>Search</button>
                     </div>
                     <HighchartsReact
                         highcharts={Highcharts}

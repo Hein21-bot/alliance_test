@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 
 const EmployeeProfile = props => {
-    const { userImage, handleClick, hiddenFileInput, districtCodeList, fullNRC, nrcList, handleProfileSave, nrc_number, handleChange, handleSelectedDistrictCode, handleSelectedNRCId, selected_DistrictCode, selected_NRC_Id, employeeId, region, address, joinDate, nationality, personalPhone, officePhone, dateOfBirth, handleInputChange, onGenderChange, employeeNameEng, employeeNameMyan, gender,nrcErr } = props
+    const { userImage, handleClick, hiddenFileInput, districtCodeList, fullNRC, nrcList, handleProfileSave, nrc_number, handleChange, handleSelectedDistrictCode, handleSelectedNRCId, selected_DistrictCode, selected_NRC_Id, employeeId, region, address, joinDate, nationality, personalPhone, officePhone, dateOfBirth, handleInputChange, onGenderChange, employeeNameEng, employeeNameMyan, gender } = props
     const { onCancelClick, viewForm, editForm } = props
 
 
@@ -241,7 +241,9 @@ const EmployeeProfile = props => {
                 <button className='' onClick={onCancelClick} style={{ borderRadius: 5, padding: 10, margin: 10, background: 'red', color: 'white', border: 'none', width: 90 }}>
                     Cancel
                 </button>
-                <button type="submit" style={{ borderRadius: 5, padding: 10, margin: 10, background: '#337ab7', color: 'white', border: 'none', width: 90 }} onClick={nrcErr}>
+                <button type="submit" style={{ borderRadius: 5, padding: 10, margin: 10, background: '#337ab7', color: 'white', border: 'none', width: 90 }} 
+                // onClick={nrcErr}
+                >
                     Next
                 </button>
             </div>

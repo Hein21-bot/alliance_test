@@ -392,7 +392,7 @@ class ConfirmationList extends Component {
     const { checkedListData } = this.state;
     const checkedListData_ = [...checkedListData];
     var tempArray = [];
-    await fetch(main_url + 'confirmation/detailCheckPerson/' + data.branch_id).then(response => {
+    await fetch(main_url + 'confirmation/detailCheckPerson/' + data.branch_id + '/' + data.user_id).then(response => {
       return response.json();
     }).then(res => { tempArray = res })
     const newData = {
