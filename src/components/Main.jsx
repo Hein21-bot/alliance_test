@@ -88,6 +88,9 @@ import ConfirmationRequestList from './EmployeeManagement/EmployeeConfirmation/C
 import HoStaffReport from './Reports/HoStaffReport';
 
 import EmployeeReport from './Reports/EmployeeReport';
+import EmployeeDirectory from './Reports/EmployeeDirectory';
+import BranchStaffReport from './Reports/BranchStaffReport'
+import RegionStaffReport from './Reports/RegionStaffReport'
 
 const Main = () => (
     <Switch>
@@ -171,9 +174,15 @@ const Main = () => (
         <Route path="/confirmation_approve_list" component={ConfirmationRequestList}></Route>
         
         <Route path='/EmployeeReport' component={EmployeeReport} ></Route>
+        
+        
 
         <Route path='/dashboard'  component={Dashboard} ></Route>
         <Route path='/HoStaffReport' component={HoStaffReport} />
+        <Route path='/EmployeeDirectory' component={EmployeeDirectory} ></Route>
+        <Route path='/BranchStaffReport' component={BranchStaffReport} ></Route>
+        <Route path='/RegionStaffReport' component={RegionStaffReport} ></Route>
+
         <Redirect to="/dashboard" />
 
     </Switch>
