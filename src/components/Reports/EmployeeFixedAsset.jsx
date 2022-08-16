@@ -1,5 +1,5 @@
 import React,{Component} from "react";
-import {getBranch,getDepartment,getRegion,getDesignation,main_url} from '../../utils/CommonFunction';
+import {main_url} from '../../utils/CommonFunction';
 import Select from 'react-select' ;
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css';
@@ -20,16 +20,11 @@ class EmployeeFixedAsset extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            branch:[],
-            region:[],
+            regionList:[],
+            branchlist:[],
             empNameList:[],
-            department:[],
-            branchId:null,
-            regionId:null,
-            departmentId:null,
-            empName:null,              
-            employee_id:null,  
-                 
+            departmentlist:[]
+
         }
     }
     
@@ -44,65 +39,109 @@ class EmployeeFixedAsset extends Component {
             // this._setTableData(this.state.dataSource);
           }
         );
-    
-
-        let branch = await getBranch();
-        branch.unshift({ label: 'All', value: 0 });
-        let department = await getDepartment();
-        department.unshift({ label: 'All', value: 0 });
-        let region = await getRegion();
-        region.unshift({region_name: 'ALL', region_id: 0});
-        await this.getEmployeeList();
-        this.setState({
-            branch: branch,
-            department: department,
-            region: region.map(v => ({ ...v, label: v.region_name, value: v.region_id })),
-            // empNameList:empNameList
+        this.getRegionList();
+        this.getBranchList();
+        this.getEmployeeName();
+        this.getDepartmentList();
+    }
+    getRegionList() {
+      fetch(`${main_url}benefit/getRegionList`)
+        .then((res) => {
+          if (res.ok) return res.json();
+        })
+        .then((list) => {
+          let lists = list.unshift({ region_id: 0, region_name: "All" });
+          this.setState({
+            regionList: list.map((v) => ({
+              ...v,
+              label: v.region_name,
+              value: v.region_id,
+            })),
+          });
+        });
+    }
+    getBranchList() {
+      fetch(`${main_url}benefit/getBranchList`)
+        .then((res) => {
+          if (res.ok) return res.json();
+        })
+        .then((list) => {
+          let lists = list.unshift({ branch_id: 0, branch_name: "All" });
+          this.setState({
+            branchlist: list.map((v) => ({
+              ...v,
+              label: v.branch_name,
+              value: v.branch_id,
+            })),
+          });
+        });
+    }
+    getEmployeeName() {
+      fetch(`${main_url}report/employeeName`)
+        .then((res) => {
+          if (res.ok) return res.json();
+        })
+        .then((list) => {
+          let lists = list.unshift({ value: 0, label: "All" });
+          this.setState({
+            EmployeeNameList: list.map((v) => ({
+              ...v
+            }))
+          })
         })
     }
-    getEmployeeList() {
-      fetch(`${main_url}main/getEmployeeWithDesignation/0`)
-          .then(res => res.json())
-          .then(data => {
-              console.log("list",data)
-              // const all = data.map(v => (v.employment_id).trim())
-              this.setState({
-                empNameList: data.map(v => ({ ...v, label: v.employment_id, value: v.value,name:v.label })),
-                  // allEmployeeID: all
-              })
-
-          })
-  }
+    getDepartmentList() {
+      fetch(`${main_url}benefit/getDepartmentList`)
+        .then((res) => {
+          if (res.ok) return res.json();
+        })
+        .then((list) => {
+          let lists = list.unshift({ departments_id: 0, deptname: "All" });
+          this.setState({
+            departmentlist: list.map((v) => ({
+              ...v,
+              label: v.deptname,
+              value: v.departments_id,
+            })),
+          });
+        });
+    }
+  
     handleSelectedBranch = async (event) => {
         this.setState({
-           branchId : event
+           selected_branch : event
         })
     }
     
     handleSelectedDepartment = async (event) => {
         this.setState({
-           departmentId : event
+           selected_department : event
         })
     }
     handleSelectedRegion = async (event) => {
         this.setState({
-           regionId : event
+           selected_region : event
         })
     }
      
     handleSelectedEmpName = async (event) => {
         this.setState({
-           empName : event
+           selected_employee : event
         })
     }
-    
-    // handleSearchData = () => {
-        // fetch(`${main_url}.../${this.state.regionId == this.state.regionId.value ? 0}/${this.state.departmentId == this.state.departmentId.value ? 0}/${this.state.designationId == this.state.designationId.value ? 0}/${this.state.branchId == this.state.branchId.value ? 0}/${this.state.empName == this.state.empName.value ? 0}`)
-    //       .then(res => { if (res.ok) return res.json() })
-    //       .then(list => {
-    //         this._setTableData(list);
-    //       })
-    //   }
+   
+    handleSearchData = () => {
+      const branchId = this.state.selected_Branch ? this.state.selected_Branch.branch_id : 0
+      
+      const departmentId=this.state.selected_department ? this.state.selected_department.departments_id : 0
+      const regionId = this.state.selected_region ? this.state.selected_region.region_id : 0
+      const employee = this.state.selected_employee ? this.state.selected_employee.value : 0
+        fetch(main_url)
+          .then(res => { if (res.ok) return res.json() })
+          .then(list => {
+            this._setTableData(list);
+          })
+      }
 
     _setTableData = (data) => {
         var table;
@@ -185,7 +224,8 @@ class EmployeeFixedAsset extends Component {
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 150,
+                  marginRight:10
                 }),
                 control: base => ({
                   ...base,
@@ -194,9 +234,9 @@ class EmployeeFixedAsset extends Component {
 
               }}
               placeholder="Region"
-              options={this.state.region}
+              options={this.state.regionList}
               onChange={this.handleSelectedRegion}
-              value={this.state.regionId}
+              value={this.state.selected_region}
               className='react-select-container'
               classNamePrefix="react-select"
             />
@@ -205,7 +245,8 @@ class EmployeeFixedAsset extends Component {
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 150,
+                  marginRight:10
                 }),
                 control: base => ({
                   ...base,
@@ -214,9 +255,9 @@ class EmployeeFixedAsset extends Component {
 
               }}
               placeholder="Department"
-              options={this.state.department}
+              options={this.state.departmentlist}
               onChange={this.handleSelectedDepartment}
-              value={this.state.departmentId}
+              value={this.state.selected_department}
               className='react-select-container'
               classNamePrefix="react-select"
             />
@@ -225,7 +266,8 @@ class EmployeeFixedAsset extends Component {
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 150,
+                  marginRight:10
                 }),
                 control: base => ({
                   ...base,
@@ -234,9 +276,9 @@ class EmployeeFixedAsset extends Component {
 
               }}
               placeholder="Branch"
-              options={this.state.branch}
+              options={this.state.branchlist}
               onChange={this.handleSelectedBranch}
-              value={this.state.branchId}
+              value={this.state.selected_branch}
               className='react-select-container'
               classNamePrefix="react-select"
             />
@@ -254,9 +296,9 @@ class EmployeeFixedAsset extends Component {
 
               }}
               placeholder="Employee Name"
-              options={this.state.empNameList}
+              options={this.state.EmployeeNameList}
               onChange={this.handleSelectedEmpName}
-              value={this.state.empName}
+              value={this.state.selected_employee}
               className='react-select-container'
               classNamePrefix="react-select"
             />

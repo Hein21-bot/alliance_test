@@ -53,7 +53,7 @@ class BranchStaffReport extends Component {
             <div>
                 <table className="table table-bordered">
                     <thead>
-                        <tr style={{ backgroundColor: 'blue', color: 'white' }}>
+                        <tr style={{ backgroundColor: '#27568a', color: 'white' }}>
                             <th style={{ width: 100, textAlign: 'center',borderColor:'white' }}>Branch</th>
                             <th style={{ width: 200, textAlign: 'center',borderCOlor:'white' }}>Position</th>
                             <th style={{ width: 50, textAlign: 'center',borderColor:'white' }}>Male</th>
@@ -70,7 +70,7 @@ class BranchStaffReport extends Component {
                             <>
                                
                                 {state.designations.map((designation, i) => {
-
+                                  
                                     return (
                                         <>
 
@@ -83,6 +83,7 @@ class BranchStaffReport extends Component {
                                                 <td style={{borderColor:'white'}}> {designation.gender[0].toLowerCase() == "female" ? designation.gender[1] : "-"}</td>
                                                
                                                 {i === 0 ? <td style={{borderColor:'white'}} rowSpan={state.designations.length}>{this.state.listTotal[k]}</td> : null}
+                                                
                                             </tr>
                                         </>
 
@@ -91,7 +92,13 @@ class BranchStaffReport extends Component {
                                 })}
                             </>
                         ))}
-
+                        {/* <tr style={{backgroundColor:'#27568a',color:'white'}}>
+                            <td colSpan={2} style={{textAlign:'center'}}>Total</td>
+                            <td style={{textAlign:'center'}}></td>
+                            <td style={{textAlign:'center'}}></td>
+                            <td style={{textAlign:'center'}}>{this.state.listTotal}</td>
+                        </tr> */}
+                        
                     </tbody>
 
                 </table>
