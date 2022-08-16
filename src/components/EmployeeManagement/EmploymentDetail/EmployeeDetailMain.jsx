@@ -3,7 +3,8 @@ import { ToastContainer, toast } from "react-toastify";
 import Select from "react-select";
 import EmploymentDetailTable from "./EmploymentDetailTable";
 import EmploymentDetailsForSingleUserTable from "./EmploymentDetailForSingleUser";
-import EmploymentViewForm from "./EmploymonetViewForm"
+import EmploymentViewForm from "./EmploymonetViewForm";
+
 
 import {
   main_url,
@@ -38,7 +39,7 @@ class EmployeeDetailMain extends Component {
       selected_designation: null,
       branchlist: null,
       employeeIdList: null,
-      region: null,
+      regionList: [],
       departmentlist: null,
       designationList: null,
       exitStatusList: null,
@@ -76,7 +77,8 @@ class EmployeeDetailMain extends Component {
       ],
       employmentDataForSingleUser: null,
       salaryList: [],
-      singleView: false
+      singleView: false,
+      statusList:[{label:'All',value:0},{label:'Active',value:1},{label:"Inactive", value:2}]
     };
   }
 
@@ -88,6 +90,7 @@ class EmployeeDetailMain extends Component {
     this.getExitStatus();
     this.getEmployeeCodeList();
     this.getJobList();
+    this.getRegionList();
     this.getSalaryTemplate();
     const level = await this.getLevelOptions();
     const sub_level = await this.getCareerSubLevelOptions();
@@ -129,7 +132,6 @@ class EmployeeDetailMain extends Component {
         });
     }
   }
-
   getSalaryTemplate() {
     fetch(`${main_url}salaryTemplate/getSalaryTemplate`)
       .then((res) => {
@@ -141,7 +143,7 @@ class EmployeeDetailMain extends Component {
         });
       });
   }
-
+ 
   getExitStatus() {
     fetch(`${main_url}employee/getExitStatus`)
       .then((res) => {
@@ -198,7 +200,7 @@ class EmployeeDetailMain extends Component {
     else return [];
   };
 
-  getEmployeeList() {
+  getEmployeeList(id) {
     fetch(`${main_url}employee/getEmployeeDetail`)
       .then((response) => {
         if (response.ok) return response.json();
@@ -229,7 +231,7 @@ class EmployeeDetailMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        // let lists = list.unshift({ branch_id: 0, branch_name: 'All' })
+        let lists = list.unshift({ branch_id: 0, branch_name: 'All' })
         this.setState({
           branchlist: list.map((v) => ({
             ...v,
@@ -239,14 +241,29 @@ class EmployeeDetailMain extends Component {
         });
       });
   }
-
+  getRegionList() {
+    fetch(`${main_url}benefit/getRegionList`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => { 
+        let lists = list.unshift({ region_id: 0, region_name: 'All' })
+        this.setState({
+          regionList: list.map((v) => ({
+            ...v,
+            label:v.region_name,
+            value:v.region_id,
+          })),
+        });
+      });
+  }
   getDepartmentList() {
     fetch(`${main_url}benefit/getDepartmentList`)
       .then((res) => {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        // let lists = list.unshift({ departments_id: 0, deptname: 'All' })
+        let lists = list.unshift({ departments_id: 0, deptname: 'All' })
         this.setState({
           departmentlist: list.map((v) => ({
             ...v,
@@ -339,14 +356,24 @@ class EmployeeDetailMain extends Component {
         selected_branch: event,
       });
   };
-
+  handleSelectedRegion = (event) => {
+    if (event !== null)
+      this.setState({
+        selected_region: event,
+      });
+  };
   handleSelectedDesignation = (event) => {
     if (event !== null)
       this.setState({
         selected_designation: event,
       });
   };
-
+  handleSelectedstatus =(event) => {
+    if (event !==null)
+    this.setState({
+      selected_status :event
+    });
+  };
   handleSelectedStatus = (event) => {
     if (event !== null)
       this.setState({
@@ -384,6 +411,26 @@ class EmployeeDetailMain extends Component {
 
   handleSearch = (e) => {
     e.preventDefault();
+  };
+  handleSearchList = (e) => {
+    e.preventDefault();
+    const regionId = this.state.selected_region
+      ? this.state.selected_region.region_id
+      : 0;
+    const depId = this.state.selected_department
+      ? this.state.selected_department.departments_id
+      : 0;
+    const branchId = this.state.selected_branch
+      ? this.state.selected_branch.branch_id
+      : 0;
+    const designId = this.state.selected_designation
+      ? this.state.selected_designation.value
+      : 0;
+    const statusId = this.state.selected_status
+      ? this.state.selected_status.value
+      :0;
+    this.getEmployeeList({ regionId, depId, branchId, designId,statusId });
+ 
   };
 
   handleAddFormInputChange = (e) => {
@@ -756,7 +803,30 @@ class EmployeeDetailMain extends Component {
       selected_disCon_status: null,
     });
   };
-
+  BackToTable = () => {
+    this.setState({
+      viewForm: false,
+      editForm: false,
+      selectedEmployeeData: null,
+      editForm: false,
+    });
+    const regionId = this.state.selected_region
+      ? this.state.selected_region.region_id
+      : 0;
+    const depId = this.state.selected_department
+      ? this.state.selected_department.departments_id
+      : 0;
+    const branchId = this.state.selected_branch
+      ? this.state.selected_branch.branch_id
+      : 0;
+    const designId = this.state.selected_designation
+      ? this.state.selected_designation.value
+      : 0;
+      const statusId = this.state.selected_status
+      ? this.state.selected_status.value
+      :0;
+    this.getEmployeeList({ regionId, depId, branchId, designId ,statusId});
+  };
   render() {
     const {
       addNew,
@@ -785,6 +855,7 @@ class EmployeeDetailMain extends Component {
       disConStatusList,
       selected_disCon_status,
       departmentlist,
+      regionList,
       selected_department,
       edit,
       view,
@@ -798,7 +869,7 @@ class EmployeeDetailMain extends Component {
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />
         {/* <form > */}
         <div className="row wrapper white-bg page-heading">
-          <div className="col-lg-10 col-md-10">
+          <div className="col-lg-12 col-md-12">
             <ol className="breadcrumb">
               <li style={{ fontSize: 18 }}>Employee</li>
               <li className="active" style={{ fontSize: 18 }}>
@@ -807,7 +878,87 @@ class EmployeeDetailMain extends Component {
             </ol>
           </div>
           {addNew || edit || view ? null : (
-            <div className="col-lg-2 col-md-10">
+            
+            <div
+              className=""
+              style={{
+                marginTop: 50,
+              //   alignItems: "start",
+              //   display: "flex",
+              //   flexWrap: "wrap",
+              }}
+            >
+             <div
+                className="col-lg-2 col-md-3 col-sm-12"
+                style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
+              >
+                <div style={{ paddingBottom: 10 }}>Region</div>
+
+                <Select
+                  options={this.state.regionList}
+                  value={this.state.selected_region}
+                  onChange={this.handleSelectedRegion.bind(this)}
+                  className="react-select-container checkValidate"
+                  classNamePrefix="react-select"
+                />
+              </div>
+              <div
+                className="col-lg-2 col-md-3 col-sm-12"
+                style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
+              >
+                <div style={{ paddingBottom: 10 }}>Department</div>
+
+                <Select
+                  options={this.state.departmentlist}
+                  value={this.state.selected_department}
+                  onChange={this.handleSelectedDeaprtment.bind(this)}
+                  className="react-select-container checkValidate"
+                  classNamePrefix="react-select"
+                />
+              </div>
+              <div
+                className="col-lg-2 col-md-3 col-sm-12"
+                style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
+              >
+                <div style={{ paddingBottom: 10 }}>Branch</div>
+
+                <Select
+                  options={this.state.branchlist}
+                  value={this.state.selected_branch}
+                  onChange={this.handleSelectedBranch.bind(this)}
+                  className="react-select-container checkValidate"
+                  classNamePrefix="react-select"
+                />
+              </div>
+              <div
+                className="col-lg-2 col-md-3 col-sm-12"
+                style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
+              >
+                <div style={{ paddingBottom: 10 }}>Designation</div>
+
+                <Select
+                  options={this.state.designationList}
+                  value={this.state.selected_designation}
+                  onChange={this.handleSelectedDesignation.bind(this)}
+                  className="react-select-container checkValidate"
+                  classNamePrefix="react-select"
+                />
+              </div>
+              <div
+                className="col-lg-2 col-md-3 col-sm-12"
+                style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
+              >
+                <div style={{ paddingBottom: 10 }}>Status</div>
+
+                <Select
+                  options={this.state.statusList}
+                  value={this.state.selected_status}
+                  onChange={this.handleSelectedstatus.bind(this)}
+                  className="react-select-container checkValidate"
+                  classNamePrefix="react-select"
+                />
+              </div>
+            {/* <div className="col-lg-2 col-md-5" style={{marginTop:"10px"}}>
               <button
                 onClick={() => this.setState({ addNew: true })}
                 style={{
@@ -818,8 +969,28 @@ class EmployeeDetailMain extends Component {
                   border: "none",
                 }}
               >
-                + Add New Employment
+                 Add New 
               </button>
+            </div> */}
+            <div
+                className="col-lg-2 col-md-3 col-sm-8"
+                style={{ display: "flex",marginTop:30 }}
+              >
+                <button
+                  onClick={this.handleSearchList}
+                  className="btn btn-primary"
+                  style={{ borderRadius: 3, width: 80, marginRight: 15}}
+                >
+                  Search
+                </button>
+                <button
+                  onClick={() => this.setState({ addNew: true })}
+                  className="btn btn-primary"
+                  style={{ borderRadius: 3, width: 80, textAlign: 'center' }}
+                >
+                  Add New
+                </button>
+              </div>
             </div>
           )}
         </div>

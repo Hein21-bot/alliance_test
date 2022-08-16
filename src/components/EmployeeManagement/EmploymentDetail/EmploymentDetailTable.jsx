@@ -39,7 +39,7 @@ export default class BenefitChildTable extends Component {
             dataSource: this.props.data
         }, () => {
             this._setTableData(this.state.dataSource)
-        });
+        },console.log('data=====>>>',this.state.dataSource));
 
         let that = this;
         $("#dataTables-table").on('click', '#toView', function () {
