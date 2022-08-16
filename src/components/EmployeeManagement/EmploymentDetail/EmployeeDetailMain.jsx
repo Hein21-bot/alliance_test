@@ -78,7 +78,7 @@ class EmployeeDetailMain extends Component {
       employmentDataForSingleUser: null,
       salaryList: [],
       singleView: false,
-      statusList:[{label:'All',value:0},{label:'Active',value:1},{label:"Inactive", value:2}]
+      statusList:[{label:'All',value:-1},{label:'Active',value:0},{label:"Exit", value:1}]
     };
   }
 
@@ -409,9 +409,7 @@ class EmployeeDetailMain extends Component {
       });
   };
 
-  handleSearch = (e) => {
-    e.preventDefault();
-  };
+
   handleSearchList = (e) => {
     e.preventDefault();
     const regionId = this.state.selected_region
@@ -428,8 +426,23 @@ class EmployeeDetailMain extends Component {
       : 0;
     const statusId = this.state.selected_status
       ? this.state.selected_status.value
-      :0;
+      :-1;
     this.getEmployeeList({ regionId, depId, branchId, designId,statusId });
+    fetch(main_url+"employee/getEmployeeDetail/"+regionId+"/"+depId+"/"+branchId+"/"+designId+"/"+statusId)
+      .then((response) => {
+        if (response.ok) return response.json();
+      })
+      .then((res) => {
+        if (res) {
+          this.setState({ employeeData: res });
+        }
+      })
+      .catch((error) => console.error(`Fetch Error =\n`, error));
+          // .then(res => { if (res.ok) return res.json() })
+          // .then(list => {
+          //   this._setTableData(list);
+          // })
+      
  
   };
 

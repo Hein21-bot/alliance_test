@@ -825,7 +825,7 @@ class EmployeeRegisterMain extends Component {
         else {
             //("Add")
             if (selected_bank == null) {
-                toast.error('Please Choose Bank select box!');
+                this.setState({ tabIndex: 6 })
             } else {
                 const newData = {
                     id: bankData.length + 1,
