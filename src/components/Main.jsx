@@ -182,6 +182,7 @@ const Main = () => (
         
 
         <Route path='/dashboard'  component={Dashboard} ></Route>
+        <Route path='/reports' component={EmployeeDirectory}></Route>
         <Route path='/HoStaffReport' component={HoStaffReport} />
         <Route path='/EmployeeDirectory' component={EmployeeDirectory} ></Route>
         <Route path='/BranchStaffReport' component={BranchStaffReport} ></Route>

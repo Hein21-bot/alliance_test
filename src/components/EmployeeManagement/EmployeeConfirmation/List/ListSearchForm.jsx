@@ -52,7 +52,7 @@ const ListSearchForm = props => {
                 <div style={{ width: '100%' }}>
                     <div style={{ maxWidth: 180, }}>
                         <Select
-                            laceholder="Please Choose An Option"
+                           
                             options={titleList}
 
                             // isOptionDisabled={(workingDayOptions) => workingDayOptions.disabled}
@@ -96,15 +96,8 @@ const ListSearchForm = props => {
                 <div className='col-12'>
                     Designation
                 </div>
-                <div className='col-12 ' style={{ display: 'flex', justifyContent: 'start' }}>
+                <div className='col-12 ' style={{ display: 'flex', justifyContent: 'start'}}>
                     <div style={{ minWidth: 180 }}>
-                        {/* <Select
-                            options={designationList}
-                            value={selected_designation}
-                            onChange={handleSelectedDesignation}
-                            className="react-select-container checkValidate"
-                            classNamePrefix="react-select"
-                        /> */}
                         <div style={{ width: '100%' }}>
                             <div style={{ maxWidth: 250, }}>
                                 <Select
@@ -212,23 +205,69 @@ const ListSearchForm = props => {
                 </div>
 
             </div>
-            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, flexDirection: 'column' }}>
+            {/* <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, flexDirection: 'column' }}>
 
                 <div className='col-12'>
                     Branch
                 </div>
-                <div className='col-12 ' style={{ display: 'flex', justifyContent: 'start' }}>
-                    <div style={{ minWidth: 180 }}>
+                <div style={{ width: '100%' }}>
+                    <div style={{ maxWidth: 180, }}>
                         <Select
+                            laceholder="Please Choose An Option"
                             options={branchlist}
-                            value={selected_branch}
+
+                            // isOptionDisabled={(workingDayOptions) => workingDayOptions.disabled}
                             onChange={handleSelectedBranch}
-                            className="react-select-container checkValidate"
+                            value={selected_branch}
+                            isClearable={true}
+                            isSearchable={true}
+                            className='react-select-container checkValidate'
                             classNamePrefix="react-select"
+                            isMulti
+                            styles={{
+                                control: provided => ({
+                                    ...provided,
+
+                                    cursor: "pointer"
+                                })
+                            }}
                         />
                     </div>
-
                 </div>
+
+            </div> */}
+            <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, flexDirection: 'column' }}>
+
+            <div className='col-12'>
+                Branch
+            </div>
+            <div className='col-12 ' style={{ display: 'flex', justifyContent: 'start' }}>
+                <div style={{ minWidth: 180 }}>
+                    <div style={{ width: '100%' }}>
+                        <div style={{ maxWidth: 250, }}>
+                            <Select
+                               
+                                placeholder="Please Choose Branch"
+                                options={branchlist}
+                                onChange={handleSelectedBranch}
+                                value={selected_branch}
+                                isClearable={true}
+                                isSearchable={true}
+                                className='react-select-container checkValidate'
+                                classNamePrefix="react-select"
+                                isMulti
+                                styles={{
+                                    control: provided => ({
+                                        ...provided,
+                                        cursor: "pointer"
+                                    })
+                                }}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
 
             </div>
             <div className='col-lg-12 col-md-12 col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20 }}>
