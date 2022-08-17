@@ -107,7 +107,7 @@ export default class BenefitChildTable extends Component {
             if(this.props.checkboxAll){
                 let select = $("#toSelect input")
                 console.log(select);
-                select.attr("checked", true);
+                select.attr("checked", true);  
             }
             else{
                 let select = $("#toSelect input")
