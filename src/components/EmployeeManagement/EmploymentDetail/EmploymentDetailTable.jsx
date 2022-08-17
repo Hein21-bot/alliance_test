@@ -78,7 +78,7 @@ export default class BenefitChildTable extends Component {
             }, () => {
                 this._setTableData(this.state.dataSource);
 
-            })
+            },()=>{console.log("data====>>>>>>>", this._setTableData)})
         }
     }
 

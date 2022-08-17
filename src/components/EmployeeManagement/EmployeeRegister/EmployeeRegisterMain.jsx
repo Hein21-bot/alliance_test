@@ -718,7 +718,9 @@ class EmployeeRegisterMain extends Component {
         e.preventDefault();
         const {gran_nrc_number} = this.state;
         if (gran_nrc_number.length < 6) {
-            toast.error('NRC number should be 6 digits!');
+            this.setState({
+                tabIndex: this.state.tabIndex + 1
+            })
         } else {
             this.setState({
                 tabIndex: this.state.tabIndex + 1
@@ -825,7 +827,7 @@ class EmployeeRegisterMain extends Component {
         else {
             //("Add")
             if (selected_bank == null) {
-                toast.error('Please Choose Bank select box!');
+                this.setState({ tabIndex: 6 })
             } else {
                 const newData = {
                     id: bankData.length + 1,

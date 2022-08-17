@@ -56,6 +56,9 @@ export default class Sidebar extends Component {
     if(pathname.includes('confirmation')){
       return "/confirmation";
     }
+    if(pathname.includes('reports')){
+      return "/reports";
+    }
      else return "/dashboard";
   }
 
@@ -388,7 +391,34 @@ export default class Sidebar extends Component {
                       </li> */}
                 </ul>
               </li>
-              
+              <li
+                className={this.checkPathName() === "/reports" || pathname === "/EmployeeDirectory" || pathname ==="/ResignStaffReport" || pathname==="/RegionStaffReport" || pathname ==="/BranchStaffReport" || pathname==="/HoStaffReport" ? "active" : ""}
+              >
+                <a href="/EmployeeDirectory" className="sideList">
+                  <i className="fa fa-folder sideIcon"></i>
+                  <span className="sideText">Reports</span>
+                </a>
+                <ul className="nav nav-second-level collapse">
+                  <li
+                    className={pathname === "/EmployeeDirectory" ? "active" : ""}
+                  >
+                    <a href="/EmployeeDirectory">Employee Directory</a>
+                  </li>
+                  <li className={pathname === "/ResignStaffReport" ? "active" : ""}>
+                    <a href="/ResignStaffReport">ResignStaffReport</a>
+                  </li>
+                  <li className={pathname === "/RegionStaffReport" ? "active" : ""}>
+                    <a href="/RegionStaffReport">RegionalStaffReport</a>
+                  </li>
+                  <li className={pathname === "/BranchStaffReport" ? "active" : ""}>
+                    <a href="/BranchStaffReport">BranchStaffReport</a>
+                  </li>
+                  <li className={pathname === "/HoStaffReport" ? "active" : ""}>
+                    <a href="/HoStaffReport">HoStaffReport</a>
+                  </li>
+                  
+                </ul>
+              </li>
               
               
               <li

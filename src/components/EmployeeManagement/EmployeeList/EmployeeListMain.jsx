@@ -50,7 +50,7 @@ class EmployeeListMain extends Component {
       bankList: null,
       degreeList: null,
       detailForm: false,
-      statusList:[{label:'All',value:0},{label:'Active',value:1},{label:"Inactive", value:2}]
+      statusList:[{label:'All',value:-1},{label:'Active',value:0},{label:"Exit", value:1}]
     };
   }
 
@@ -316,8 +316,21 @@ class EmployeeListMain extends Component {
       : 0;
     const statusId = this.state.selected_status
       ? this.state.selected_status.value
-      :0;
-    this.getEmployeeList({ regionId, depId, branchId, designId,statusId });
+      :-1;
+    this.getEmployeeList(regionId,depId,branchId,designId,statusId);
+    fetch(
+      main_url+"employee/getEmployeeList/"+regionId+"/"+depId+"/"+branchId+"/"+designId+"/"+statusId
+    )
+      .then((response) => {
+        if (response.ok) return response.json();
+      })
+      .then((res) => {
+        if (res) {
+          this.setState({ employeeData: res });
+        }
+      
+      })
+      .catch((error) => console.error(`Fetch Error =\n`, error));
  
   };
 
@@ -346,8 +359,10 @@ class EmployeeListMain extends Component {
       : 0;
       const statusId = this.state.selected_status
       ? this.state.selected_status.value
-      :0;
-    this.getEmployeeList({ regionId, depId, branchId, designId ,statusId});
+      :-1;
+      this.getEmployeeList(regionId,depId,branchId,designId,statusId);
+    
+    
   };
 
   goToViewForm = (data) => {

@@ -146,25 +146,6 @@ const EmploymentForm = props => {
                             </div>
 
                         </div>
-                        <div className='' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
-
-                            <div style={{ paddingBottom: 10 }}>
-                                Exit Status
-                            </div>
-                            <div className='col-lg-7 col-md-5'>
-                                <Select
-                                    options={exitStatusList}
-                                    value={selected_exit_status}
-                                    onChange={handleSelectedExitStatus}
-                                    className="react-select-container checkValidate"
-                                    classNamePrefix="react-select"
-                                    isDisabled={view ? true :false}
-                                />
-                            </div>
-
-                        </div>
-                    </div>
-                    <div className='col-lg-5 col-md-12 col-sm-12' style={{}}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
                             <div>
                                 Date
@@ -175,6 +156,10 @@ const EmploymentForm = props => {
 
                             </div>
                         </div>
+                        
+                    </div>
+                    <div className='col-lg-5 col-md-12 col-sm-12' style={{}}>
+                        
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
                             <div>
                                 Employed Date
@@ -244,6 +229,23 @@ const EmploymentForm = props => {
                             <div className='col-lg-7  col-md-5'>
                                 <input type='date' placeholder=''  isDisabled={view ? true :false} name="disconDate" value={moment(disconDate).format('YYYY-MM-DD')} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
                             </div>
+                        </div>
+                        <div className='' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
+
+                            <div style={{ paddingBottom: 10 }}>
+                                Exit Status
+                            </div>
+                            <div className='col-lg-7 col-md-5'>
+                                <Select
+                                    options={exitStatusList}
+                                    value={selected_exit_status}
+                                    onChange={handleSelectedExitStatus}
+                                    className="react-select-container checkValidate"
+                                    classNamePrefix="react-select"
+                                    isDisabled={view ? true :false}
+                                />
+                            </div>
+
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
                             <div>

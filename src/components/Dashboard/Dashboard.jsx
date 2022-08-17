@@ -15,6 +15,7 @@ import AttendenceBarChart from "./AttendenceBarChart";
 import LeaveCalendar from "./LeaveCalendar"
 import ResignBarChart from "./ResignBarChart";
 import CompensationandBenefit from "./CompensationandBenefit";
+
 const primary = "#1872ab";
 var button = document.querySelector('.button');
 
@@ -65,39 +66,39 @@ export class Dashboard extends Component {
           }}
         >
           <button className="button"
-          style={{...btn,backgroundColor:this.state.tapButtonTitle == "headCount" ? '#21e6c1' :"#1872ab"}}
+          style={{...btn,backgroundColor:this.state.tapButtonTitle == "headCount" ? '#23C6C8' :"#1872ab"}}
           onClick={() => this.tapButtonClick("headCount")} >
             Head Count
           </button>
-          <button style={{...btn,backgroundColor:this.state.tapButtonTitle == "attendenceChart" ? '#21e6c1' :"#1872ab"}}
+          <button style={{...btn,backgroundColor:this.state.tapButtonTitle == "attendenceChart" ? '#23c6c8' :"#1872ab"}}
            onClick={() => this.tapButtonClick("attendenceChart")}
           >Attandence</button>
           <button
-            style={{...btn,backgroundColor:this.state.tapButtonTitle == "leaveChart" ? '#21e6c1' :"#1872ab"}}
+            style={{...btn,backgroundColor:this.state.tapButtonTitle == "leaveChart" ? '#23c6c8' :"#1872ab"}}
             onClick={() => this.tapButtonClick("leaveChart")}
           >
             Leave
           </button>
           <button
-            style={{...btn,backgroundColor:this.state.tapButtonTitle == "totalEmployee" ? '#21e6c1' :"#1872ab"}}
+            style={{...btn,backgroundColor:this.state.tapButtonTitle == "totalEmployee" ? '#23c6c8' :"#1872ab"}}
             onClick={() => this.tapButtonClick("totalEmployee")}
           >
             Total Employee
           </button>
           <button
-            style={{...btn,backgroundColor:this.state.tapButtonTitle == "expense" ? '#21e6c1' :"#1872ab"}}
+            style={{...btn,backgroundColor:this.state.tapButtonTitle == "expense" ? '#23c6c8' :"#1872ab"}}
             onClick={() => this.tapButtonClick("expense")}
           >
             Expense
           </button>
           <button
-            style={{...btn,backgroundColor:this.state.tapButtonTitle == "benefit" ? '#21e6c1' :"#1872ab"}}
+            style={{...btn,backgroundColor:this.state.tapButtonTitle == "benefit" ? '#23c6c8' :"#1872ab"}}
             onClick={() => this.tapButtonClick("benefit")}
           >
            Compansation and Benefit
           </button>
-          <button style={{...btn,backgroundColor:this.state.tapButtonTitle == "helpdesk" ? '#21e6c1' :"#1872ab"}} onClick={()=>this.tapButtonClick('helpdesk')}>Help Desk</button>
-          <button style={{...btn,backgroundColor:this.state.tapButtonTitle == "resign" ? '#21e6c1' :"#1872ab"}}onClick={() => this.tapButtonClick("resign")}
+          <button style={{...btn,backgroundColor:this.state.tapButtonTitle == "helpdesk" ? '#23c6c8' :"#1872ab"}} onClick={()=>this.tapButtonClick('helpdesk')}>Help Desk</button>
+          <button style={{...btn,backgroundColor:this.state.tapButtonTitle == "resign" ? '#23c6c8' :"#1872ab"}}onClick={() => this.tapButtonClick("resign")}
           >Resign</button>
          
         </div>
@@ -121,7 +122,7 @@ export class Dashboard extends Component {
               marginTop: 15
             }}
           >
-            <div className="col-md-8">
+            <div className="col-lg-10">
               <AttendenceBarChart/>
             </div>
           </div>

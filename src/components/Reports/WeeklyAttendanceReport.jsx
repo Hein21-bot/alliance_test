@@ -19,7 +19,7 @@ require('datatables.net-buttons/js/dataTables.buttons.min');
 require('datatables.net-buttons/js/buttons.html5.min');
 
 
-class ReportByServiceYear extends Component {
+class WeeklyAttendance extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -37,7 +37,8 @@ class ReportByServiceYear extends Component {
             empName:null,              
             phone_no:null,
             empId:null,
-            date:moment().format("YYYY-MM-DD"),
+            start_date:moment().format("YYYY-MM-DD"),
+            end_date:moment().format("YYYY-MM-DD"),
             name:"",
             dataSource:[],
             regionvalue:null
@@ -53,15 +54,13 @@ class ReportByServiceYear extends Component {
     
           },
           () => {
-            this._setTableData(this.state.dataSource);
+            // this._setTableData(this.state.dataSource);
           }
         );
     
 
         let branch = await getBranch();
         branch.unshift({ label: 'All', value: 0 });
-        let designation  = await getDesignation();
-        designation.unshift({label: 'ALL', value: 0});
         let region = await getRegion();
         region.unshift({region_name: 'ALL', region_id: 0});
         // await this.getEmployeeName();
@@ -72,9 +71,8 @@ class ReportByServiceYear extends Component {
         this.setState({
             branch: branch,
             department: department,
-            designation:designation,
             region: region.map(v => ({ ...v, label: v.region_name, value: v.region_id })),
-            // empNameList:empNameList
+           
         })
     }
     getEmployeeList() {
@@ -94,15 +92,19 @@ class ReportByServiceYear extends Component {
            branchId : event
         })
     }
-    handleSelectedDate = async (event) => {
+    handleSelectedStartDate = async (event) => {
       this.setState({
-          date : event
+          start_date : event
       })
     }
-   
-    handleSelectedDesignation = async (event) => {
+    handleSelectedEndDate = async (event) => {
         this.setState({
-           designationId : event
+            end_date : event
+        })
+      }
+    handleSelectedDepartment = async (event) => {
+        this.setState({
+           departmentId : event
         })
     }
     handleSelectedEmpId = async (event) => {
@@ -128,88 +130,26 @@ class ReportByServiceYear extends Component {
           })
       }
 
-    _setTableData = (data) => { 
-      
-        var table;
-        var l = [];
-        if(data){
-          for (var i = 0; i < data.length; i++) {
-            let result = data[i];
-            let obj = [];
-                obj = {
-                no: i + 1,
-                employee_id:data[i].employment_id ? data[i].employment_id: "-",
-                employee_name:data[i].fullname ? data[i].fullname:"-",
-                branch:data[i].branch_name? data[i].branch_name: "-", 
-                designation:data[i].designations ? data[i].designations:"-",
-                join_date:data[i].joining_date ? data[i].joining_date : "-",
-                service_year:data[i].service_year[0] ? data[i].service_year[0] : "-",     
-            }    
-            l.push(obj)
-            
-        }
-        }
-        if ($.fn.dataTable.isDataTable('#dataTables-table')) {
-            table = $('#dataTables-table').dataTable();
-            table.fnClearTable();
-            table.fnDestroy();
-            $('#dataTables-table').empty();
-        }
-        var column = [
-            { title: " Sr No", data: "no" },
-            { title: "Employee Id", data: "employee_id" },
-            { title: "Employee Name", data: "employee_name" },
-            { title: "Designation", data: "designation" },
-            { title: "Branch", data: "branch" },
-            { title: "Join Date", data: "join_date" },
-            { title: "Service Year", data: "service_year" },
-            
-        ]
-        table = $("#dataTables-table").DataTable({
-
-            autofill: true,
-            bLengthChange: false,
-            bInfo: false,
-            responsive: true,
-            pageLength: 50,
-            paging: true,
-        //     // buttons: true,
-            dom: 'Bfrtip',
-        //     // buttons: [
-        //     //     'copy', 'csv', 'excel', 'pdf'
-        //     // ],
-            buttons: [
-        //         // 'copy',
-        //         // {
-        //         //         extend: 'csvHtml5',
-        //         //         title: 'Child Benefit',
-        //         // },
-        //         // {
-        //         //     extend: 'excelHtml5',
-        //         //     title: 'Child Benefit',
-        //         // },
-        //         // {
-        //         //     extend: 'pdfHtml5',
-        //         //     title: 'Child Benefit',
-        //         // }
-            ],
-            data: l,
-            columns: column
-        });
-
-    }
+    
+    
         render(){ 
          
         return (
-            <div>
+            <div className="col-lg-12">
             <div className="row  white-bg dashboard-header">
            
               <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
-              <h3>Employee Report by Service Year</h3>
+              
               <DatePicker
                             dateFormat="DD/MM/YYYY"
-                            value={this.state.date}
-                            onChange={this.handleSelectedDate}
+                            value={this.state.start_date}
+                            onChange={this.handleSelectedStartDate}
+                            timeFormat={false}
+                        />
+              <DatePicker
+                            dateFormat="DD/MM/YYYY"
+                            value={this.state.end_date}
+                            onChange={this.handleSelectedEndDate}
                             timeFormat={false}
                         />
               <Select
@@ -266,10 +206,10 @@ class ReportByServiceYear extends Component {
                 }),
 
               }}
-              placeholder="Designation"
-              options={this.state.designation}
-              onChange={this.handleSelectedDesignation}
-              value={this.state.designationId}
+              placeholder="Department"
+              options={this.state.department}
+              onChange={this.handleSelectedDepartment}
+              value={this.state.departmentId}
               className='react-select-container'
               classNamePrefix="react-select"
             />
@@ -297,12 +237,58 @@ class ReportByServiceYear extends Component {
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
             </div>
            </div>
+           
             <table width="99%"
                     className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
                     id="dataTables-table"
-                />
+                > <thead>
+                <tr className="" style={{textAlign:"center"}}>
+                    <th rowspan="2">Employee Name</th>
+                    <th rowspan="2">Position</th>
+                    <th rowspan="2">Branch</th>
+                    <th colspan="2">10/5/2021</th>
+                    <th colspan="2">11/5/2021</th>
+                    <th colspan="2">11/5/2021</th>
+                    <th colspan="2">11/5/2021</th>
+                    <th colspan="2">11/5/2021</th>
+                    <th rowspan="2">Total Working Hour</th>
+                </tr>
+                <tr>
+                    <th>In</th>
+                    <th>Out</th>
+                    <th>In</th>
+                    <th>Out</th>
+                    <th>In</th>
+                    <th>Out</th>
+                    <th>In</th>
+                    <th>Out</th>
+                    <th>In</th>
+                    <th>Out</th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Lae Lae Moe</td>
+                    <td>IT Assistanse</td>
+                    <td>Head Office</td>
+                    <td>8:20:00 AM</td>
+                    <td>8:20:00 AM</td>
+                    <td>8:20:00 AM</td>
+                    <td>8:20:00 AM</td>
+                    <td>8:20:00 AM</td>
+                    <td>8:20:00 AM</td>
+                    <td>8:20:00 AM</td>
+                    <td>8:20:00 AM</td>
+                    <td>8:20:00 AM</td>
+                    <td>8:20:00 AM</td>
+                    <td>8:20:00 AM</td>
+                </tr>
+                </tbody>
+                </table>
            </div>
+           
         )
     }
 }
-    export default ReportByServiceYear;
+    export default WeeklyAttendance;
