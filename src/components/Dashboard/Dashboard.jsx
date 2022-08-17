@@ -15,8 +15,7 @@ import AttendenceBarChart from "./AttendenceBarChart";
 import LeaveCalendar from "./LeaveCalendar"
 import ResignBarChart from "./ResignBarChart";
 import CompensationandBenefit from "./CompensationandBenefit";
-import HistoryReport from "../Reports/EmployeeHistoryReport";
-import ReportByServiceYear from "../Reports/ReportbyServiceYear"
+
 const primary = "#1872ab";
 var button = document.querySelector('.button');
 
@@ -124,7 +123,7 @@ export class Dashboard extends Component {
             }}
           >
             <div className="col-lg-10">
-              <HistoryReport/>
+              <AttendenceBarChart/>
             </div>
           </div>
         ):this.state.tapButtonTitle == "totalEmployee" ? (
@@ -182,7 +181,7 @@ export class Dashboard extends Component {
             }}
           >
             <div className="col-lg-8">
-              <ReportByServiceYear />
+              <LeaveCountBarChart />
             </div>
           </div>
         ) :  this.state.tapButtonTitle == "resign" ? (
