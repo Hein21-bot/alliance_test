@@ -577,7 +577,7 @@ const RowData = ({ v, i, handleSelectedCheckPerson, title, leaveCategory }) => {
         {v.date}
       </td>
       <td style={{ border: "1px solid lightgrey" }}>
-        {v.leave}
+        {v.leave==true ? "Leave Taken" : "No Leave"}
       </td>
       <td style={{ border: "1px solid lightgrey" }}>
         {leaveCategoryName}

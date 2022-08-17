@@ -363,7 +363,7 @@ class ConfirmationList extends Component {
   }
 
   handleSelectedTitle = (event) => {
-    console.log("event",event.map(v=>v.value))
+   
     if (event !== null) {
       this.setState({
         selected_title: event,
@@ -444,7 +444,7 @@ class ConfirmationList extends Component {
 
   handleSearch = (e) => {
     // this.getEmployeeList({ regionId, depId, branchId, designId })
-    this.getCheckPersonList();
+   
     this.getVerifyPersonList();
     this.getConfirmationList();
   };
