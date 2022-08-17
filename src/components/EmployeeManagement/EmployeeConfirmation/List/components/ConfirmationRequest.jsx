@@ -503,7 +503,7 @@ const RowData = ({ v, i, handleSelectedCheckPerson, title, leaveCategory }) => {
   let filterLeaveCategory = leaveCategory.length > 0 ? leaveCategory.filter(a => a.leave_category_id == v.leave_category) : [];
   let leaveCategoryName = filterLeaveCategory.length > 0 && filterLeaveCategory[0].leave_category;
   return (
-    <tr>
+    <tr style={v.leave===true ? {backgroundColor:"yellow"} : v.extension != "-" ? {backgroundColor:"orange"} :{}}>
       <th style={{ border: "1px solid lightgrey" }}>
         {i + 1}
       </th>

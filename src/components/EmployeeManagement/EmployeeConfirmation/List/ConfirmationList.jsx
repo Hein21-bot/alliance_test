@@ -399,6 +399,7 @@ class ConfirmationList extends Component {
       promotion_date: data.promotion_date
         ? data.promotion_date
         : "-",
+        extension:data.extension?data.extension:"-",
       date: moment(data.createdAt).format("DD-MM-YYYY"),
       service_year: data.service_year ? data.service_year : "-",
       leave: data.leave ? data.leave : "-",
@@ -558,6 +559,7 @@ class ConfirmationList extends Component {
           promotion_date: v.promotion_date
             ? v.promotion_date
             : "-",
+            extension:v.extension?v.extension:"-",
           date: moment(v.createdAt).format("DD-MM-YYYY"),
           service_year: v.service_year ? v.service_year : "-",
           leave: v.leave ? v.leave : "-",

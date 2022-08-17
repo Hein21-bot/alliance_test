@@ -278,8 +278,8 @@ export default class BenefitChildTable extends Component {
                     $(row).css('background-color', 'Yellow');
                 }
                 if (data.extension != '-') {
-                    // $(row).css('background-color', 'Orange');
-                    $(td).first().addClass("changeRed");
+                    $(row).css('background-color', 'Orange');
+                   
                 }
             }
 
