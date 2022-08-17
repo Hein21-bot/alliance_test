@@ -126,31 +126,36 @@ class HistoryReport extends Component {
             .then(res => { if (res.ok) return res.json() })
             .then(list => {
                 // let data=list
-                this._setTableData(list);
+                
                 this.setState({
                     empProfile: list
-                }, () => { console.log(this.state.empProfile[0].fullname) })
+                }, () => { 
+                    console.log(this.state.empProfile[0].history)
+                   
+                })
+                this._setTableData(this.state.empProfile[0].history);
             })
     }
     _setTableData = (data) => {
         var table;
         var l = [];
         if (data) {
-            for (var i = 0; i < data.length; i++) {
+            for (var i = 0; i < data.length; i++) {   
                 let result = data[i];
                 let obj = [];
                 obj = {
                     designation: data[i].designations ? data[i].designations : "-",
                     location: data[i].location_type_name ? data[i].location_type_name : "-",
                     department: data[i].deptname ? data[i].deptname : "-",
-                    level: data[i].career_level ? data[i].career_level : "-",
-                    employed_date: data[i].employed_date ? data[i].employed_date : "-",
+                    level: data[i].career_sub_level ? data[i].career_sub_level : "-",
+                    employed_date: data[i].effective_date ? data[i].effective_date : "-",
                     salary: data[i].salary ? data[i].salary : "-",
                 }
 
                 l.push(obj)
             }
         }
+
         if ($.fn.dataTable.isDataTable('#dataTables-table')) {
             table = $('#dataTables-table').dataTable();
             table.fnClearTable();
@@ -203,11 +208,10 @@ class HistoryReport extends Component {
     render() {
 
         return (
-            <div>
-                <div>
+            <div className="col-12">
                     <div className='white-bg ' style={{ paddingTop: 20, border: '1px solid lightgrey', display: 'grid', borderTop: 'none', marginTop: -10, paddingBottom: 20, boxShadow: '5px 5px 5px lightgrey' }}>
                         <h3 style={{ textAlign: 'center' }}>Employee History</h3>
-                        <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px', paddingLeft: 10, paddingRight: 10 }}>
+                        <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px', paddingLeft: 20, paddingRight: 20 }}>
                             <Select
                                 styles={{
                                     container: base => ({
@@ -325,7 +329,7 @@ class HistoryReport extends Component {
                             />
                             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
                         </div>
-                        {/* {this.state.empProfile.length > 0 ?         */}
+                        {this.state.empProfile.length > 0 ?        
                                 <div className="col-lg-12" style={{ paddingLeft: 45 }}>
                                      <div>
                                     <div style={{ border: '1px solid grey', width: 140, height: 120, borderStyle: 'dashed' }}>
@@ -333,14 +337,14 @@ class HistoryReport extends Component {
                                     </div>                               
                                
                                     <div className='col-lg-6 col-md-6 col-sm-6' style={{}}>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15, textAlign: "start" }}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15, textAlign: "start", }}>
                                             <div className='col-lg-5 col-md-5 col-sm-5'>
                                                 Employee ID
                                             </div>
                                             <div className='col-lg-2 col-md-2 col-sm-2'>
                                                 :
                                             </div>
-                                            <div className='col-lg-5 col-md-5 col-sm-5'>BaLa</div>
+                                            <div className='col-lg-5 col-md-5 col-sm-5'>{this.state.empProfile[0].employment_id}</div>
                                         </div>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15, textAlign: "start" }}>
                                             <div className='col-lg-5 col-md-5 col-sm-5'>
@@ -349,7 +353,7 @@ class HistoryReport extends Component {
                                             <div className='col-lg-2 col-md-2 col-sm-2'>
                                                 :
                                             </div>
-                                            <div className='col-lg-5 col-md-5 col-sm-5'>BaLa</div>
+                                            <div className='col-lg-5 col-md-5 col-sm-5'>{this.state.empProfile[0].fullname}</div>
                                         </div>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
                                             <div className='col-lg-5 col-md-5 col-sm-5'>
@@ -358,7 +362,7 @@ class HistoryReport extends Component {
                                             <div className='col-lg-2 col-md-2 col-sm-2'>
                                                 :
                                             </div>
-                                            <div className='col-lg-5 col-md-5 col-sm-5'>BaLa</div>
+                                            <div className='col-lg-5 col-md-5 col-sm-5'>{this.state.empProfile[0].address}</div>
                                         </div>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
                                             <div className='col-lg-5 col-md-5 col-sm-5'>
@@ -367,7 +371,7 @@ class HistoryReport extends Component {
                                             <div className='col-lg-2 col-md-2 col-sm-2'>
                                                 :
                                             </div>
-                                            <div className='col-lg-5 col-md-5 col-sm-5'>BaLa</div>
+                                            <div className='col-lg-5 col-md-5 col-sm-5'>{this.state.empProfile[0].phone}</div>
                                         </div>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
                                             <div className='col-lg-5 col-md-5 col-sm-5'>
@@ -376,16 +380,16 @@ class HistoryReport extends Component {
                                             <div className='col-lg-2 col-md-2 col-sm-2'>
                                                 :
                                             </div>
-                                            <div className='col-lg-5 col-md-5 col-sm-5'>BaLa</div>
+                                            <div className='col-lg-5 col-md-5 col-sm-5'>{this.state.empProfile[0].joining_date}</div>
                                         </div>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15,paddingBottom:20 }}>
                                             <div className='col-lg-5 col-md-5 col-sm-5'>
                                                 Service Year
                                             </div>
                                             <div className='col-lg-2 col-md-2 col-sm-2'>
                                                 :
                                             </div>
-                                            <div className='col-lg-5 col-md-5 col-sm-5'>BaLa</div>
+                                            <div className='col-lg-5 col-md-5 col-sm-5'>{this.state.empProfile[0].service_year[0]}</div>
                                         </div>
                                     </div>
                                     <div className='col-lg-6 col-md-6 col-sm-6' style={{}}>
@@ -396,7 +400,7 @@ class HistoryReport extends Component {
                                             <div className='col-lg-2 col-md-2 col-sm-2'>
                                                 :
                                             </div>
-                                            <div className='col-lg-5 col-md-5 col-sm-5'>BaLa</div>
+                                            <div className='col-lg-5 col-md-5 col-sm-5'>{this.state.empProfile[0].effective_date}</div>
                                         </div>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
                                             <div className='col-lg-5 col-md-5 col-sm-5'>
@@ -405,16 +409,16 @@ class HistoryReport extends Component {
                                             <div className='col-lg-2 col-md-2 col-sm-2'>
                                                 :
                                             </div>
-                                            <div className='col-lg-5 col-md-5 col-sm-5'>BaLa</div>
+                                            <div className='col-lg-5 col-md-5 col-sm-5'>{this.state.empProfile[0].designations}</div>
                                         </div>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15}}>
                                             <div className='col-lg-5 col-md-5 col-sm-5'>
                                                 Location
                                             </div>
                                             <div className='col-lg-2 col-md-2 col-sm-2'>
                                                 :
                                             </div>
-                                            <div className='col-lg-5 col-md-5 col-sm-5'>BaLa</div>
+                                            <div className='col-lg-5 col-md-5 col-sm-5'>{this.state.empProfile[0].location_type_name}</div>
                                         </div>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
                                             <div className='col-lg-5 col-md-5 col-sm-5'>
@@ -435,7 +439,7 @@ class HistoryReport extends Component {
                                             <div className='col-lg-5 col-md-5 col-sm-5'>BaLa</div>
                                         </div>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
-                                            <div className='col-lg-5 col-md-5 col-sm-5'>
+                                            <div className='col-lg-5 col-md-5 col-sm-5 '>
                                                 Resign Status
                                             </div>
                                             <div className='col-lg-2 col-md-2 col-sm-2'>
@@ -446,17 +450,16 @@ class HistoryReport extends Component {
                                     </div>
 
                                 </div>
-                                {/* <div className='white-bg col-lg-12 ' style={{ paddingTop: 20, border: '1px solid lightgrey', display: 'grid', borderTop: 'none', marginTop: -10, paddingBottom: 20, boxShadow: '5px 5px 5px lightgrey' }}>
+                                {/* <div className='white-bg col-lg-12 ' style={{ paddingTop: 20, border: '1px solid lightgrey', display: 'grid', borderTop: 'none', marginTop: -10, paddingBottom: 20, boxShadow: '5px 5px 5px lightgrey' }}> */}
                                     <table width="99%"
                                         className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
                                         id="dataTables-table"
                                     />
-                                </div> */}
+                                {/* </div> */}
                                 </div>
-                                 {/* : null} */}
+                                 : null}
                     </div>
                 </div>
-            </div>
         )
     }
 }
