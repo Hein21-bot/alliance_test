@@ -408,74 +408,74 @@ export default class ConfirmationRequest extends Component {
           className="container"
           style={{ overflowX: "auto", paddingBottom: 100 }}
         >
-          <table className="table">
+          <table className="">
             <thead style={{ width: "100%" }}>
               <tr style={{ width: "100%", backgroundColor: "#27568A" }}>
-                <th style={{ border: "2px solid white", color: "white" }}>
-                  <div style={{ width: 50 }}>No</div>
+                <th style={{ border: "2px solid white", color: "white",paddingLeft:"10px" }}>
+                  <div style={{ width: 50,paddingLeft:"10" }}>No</div>
                 </th>
-                <th style={{ border: "2px solid white", color: "white" }}>
+                <th style={{ border: "2px solid white", color: "white",paddingLeft:"10px" }}>
                   <div style={{ width: 100 }}>Employee ID</div>
                 </th>
-                <th style={{ border: "2px solid white", color: "white" }}>
+                <th style={{ border: "2px solid white", color: "white",paddingLeft:"10px" }}>
                   <div style={{ width: 150 }}>Name</div>
                 </th>
                 {this.props.title == "request" ? (
-                  <th style={{ border: "2px solid white", color: "white" }}>
-                    <div style={{ width: 180 }}>Check Person</div>
+                  <th style={{ border: "2px solid white", color: "white",paddingLeft:"10px" }}>
+                    <div style={{ width: 170 }}>Check Person</div>
                   </th>
                 ) : null}
 
-                <th style={{ border: "2px solid white", color: "white" }}>
+                <th style={{ border: "2px solid white", color: "white",paddingLeft:"10px" }}>
                   <div style={{ width: 150 }}>Designation</div>
                 </th>
-                <th style={{ border: "2px solid white", color: "white" }}>
+                <th style={{ border: "2px solid white", color: "white",paddingLeft:"10px" }}>
                   <div style={{ width: 100 }}>Level</div>
                 </th>
-                <th style={{ border: "2px solid white", color: "white" }}>
+                <th style={{ border: "2px solid white", color: "white",paddingLeft:"10px" }}>
                   <div style={{ width: 100 }}> Sub Level</div>
                 </th>
-                <th style={{ border: "2px solid white", color: "white" }}>
+                <th style={{ border: "2px solid white", color: "white",paddingLeft:"10px" }}>
                   <div style={{ width: 150 }}>Department</div>
                 </th>
-                <th style={{ border: "2px solid white", color: "white" }}>
+                <th style={{ border: "2px solid white", color: "white",paddingLeft:"10px" }}>
                   <div style={{ width: 150 }}>Branch</div>
                 </th>
-                <th style={{ border: "2px solid white", color: "white" }}>
+                <th style={{ border: "2px solid white", color: "white",paddingLeft:"10px" }}>
                   <div style={{ width: 150 }}>Region</div>
                 </th>
-                <th style={{ border: "2px solid white", color: "white" }}>
+                <th style={{ border: "2px solid white", color: "white",paddingLeft:"10px" }}>
                   <div style={{ width: 100 }}>Employee Date</div>
                 </th>
                 {/* <th style={{ border: "2px solid white", color: "white" }}>
                   <div style={{ width: 100 }}>Region</div>
                 </th> */}
-                <th style={{ border: "2px solid white", color: "white" }}>
+                <th style={{ border: "2px solid white", color: "white",paddingLeft:"10px" }}>
                   <div style={{ width: 200 }}>Service Years</div>
                 </th>
-                <th style={{ border: "2px solid white", color: "white" }}>
+                <th style={{ border: "2px solid white", color: "white",paddingLeft:"10px" }}>
                   <div style={{ width: 150 }}>
                     Service Year In Current Level
                   </div>
                 </th>
-                <th style={{ border: "2px solid white", color: "white" }}>
+                <th style={{ border: "2px solid white", color: "white",paddingLeft:"10px" }}>
                   <div style={{ width: 150 }}>
                     Service Year in Current Sub Level
                   </div>
                 </th>
-                <th style={{ border: "2px solid white", color: "white" }}>
+                <th style={{ border: "2px solid white", color: "white",paddingLeft:"10px" }}>
                   <div style={{ width: 100 }}>Leave</div>
                 </th>
-                <th style={{ border: "2px solid white", color: "white" }}>
+                <th style={{ border: "2px solid white", color: "white",paddingLeft:"10px" }}>
                   <div style={{ width: 100 }}>Leave Category</div>
                 </th>
-                <th style={{ border: "2px solid white", color: "white" }}>
+                <th style={{ border: "2px solid white", color: "white",paddingLeft:"10px" }}>
                   <div style={{ width: 100 }}>Leave Start Date</div>
                 </th>
-                <th style={{ border: "2px solid white", color: "white" }}>
+                <th style={{ border: "2px solid white", color: "white",paddingLeft:"10px" }}>
                   <div style={{ width: 100 }}>Leave End Date</div>
                 </th>
-                <th style={{ border: "2px solid white", color: "white" }}>
+                <th style={{ border: "2px solid white", color: "white",paddingLeft:"10px" }}>
                   <div style={{ width: 100 }}>Leave Status</div>
                 </th>
               </tr>
@@ -504,17 +504,17 @@ const RowData = ({ v, i, handleSelectedCheckPerson, title, leaveCategory }) => {
   let leaveCategoryName = filterLeaveCategory.length > 0 && filterLeaveCategory[0].leave_category;
   return (
     <tr style={v.leave===true ? {backgroundColor:"yellow"} : v.extension != "-" ? {backgroundColor:"orange"} :{}}>
-      <th style={{ border: "1px solid lightgrey" }}>
+      <th style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
         {i + 1}
       </th>
-      <td style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
         {v.employee_id}
       </td>
-      <td style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
         {v.employee_name}
       </td>
       {title == "request" ? (
-        <td style={{ border: "1px solid lightgrey" }}>
+        <td style={{ border: "1px solid lightgrey"}}>
           <div style={{ maxWidth: 180 }}>
             <Select
               laceholder="Please Choose An Option"
@@ -531,64 +531,66 @@ const RowData = ({ v, i, handleSelectedCheckPerson, title, leaveCategory }) => {
               classNamePrefix="react-select"
               // hideSelectedOptions={false}
               // closeMenuOnSelect
-              maxMenuHeight={100}
+             
               styles={{
                 control: (provided) => ({
                   ...provided,
 
                   cursor: "pointer",
+                  maxWidth:"180px",
+                  maxHeight:"50px"
                 }),
               }}
             />
           </div>
         </td>
       ) : null}
-      <td style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
         {v.position}
       </td>
-      <td style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
         {v.career_level}
       </td>
-      <td style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
         {v.career_sub_level}
       </td>
-      <td style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
         {v.department}
       </td>
-      <td style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
         {v.branch}
       </td>
-      <td style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
         {v.region}
       </td>
-      <td style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
         {v.employee_date}
       </td>
-      {/* <td style={{ border: "1px solid lightgrey" }}>
+      {/* <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
         {v.promotion_date}
       </td> */}
-      <td style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
         {v.service_year}
       </td>
-      <td style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
         {v.date}
       </td>
-      <td style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
         {v.date}
       </td>
-      <td style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
         {v.leave==true ? "Leave Taken" : "No Leave"}
       </td>
-      <td style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
         {leaveCategoryName}
       </td>
-      <td style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
         {v.leave_start_date}
       </td>
-      <td style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
         {v.leave_end_date}
       </td>
-      <td style={{ border: "1px solid lightgrey" }}>
+      <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
         {v.leave_status}
       </td>
     </tr>
