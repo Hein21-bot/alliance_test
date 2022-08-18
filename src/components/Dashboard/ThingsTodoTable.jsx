@@ -7,6 +7,7 @@ class ThingsTodoTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user_id: localStorage.getItem("user_id"),
       birthdayCount: 0,
       childCount: 0,
       externalCount: 0,
@@ -14,39 +15,47 @@ class ThingsTodoTable extends Component {
       medicalCount: 0,
       salaryCount: 0,
       travelCount: 0,
-      weddingCount: 0
+      weddingCount: 0,
+      confirmationCount: 0,
+      staffComplainCount: 0
     };
   }
 
   componentDidMount() {
     const id = localStorage.getItem("user_id");
     thingsToDoController.getBirthdayRequest(id, (data) => {
-      this.setState({birthdayCount: data[0].count})
+      this.setState({ birthdayCount: data[0].count })
     });
     thingsToDoController.getChildRequest(id, (data) => {
-      this.setState({childCount: data[0].count})
+      this.setState({ childCount: data[0].count })
     });
     thingsToDoController.getExternalRequest(id, (data) => {
-      this.setState({externalCount: data[0].count})
+      this.setState({ externalCount: data[0].count })
     });
     thingsToDoController.getLeaveRequest(id, data => {
-      this.setState({leaveCount: data[0].count})
+      this.setState({ leaveCount: data[0].count })
     });
     thingsToDoController.getMedicalRequest(id, data => {
-      this.setState({medicalCount: data[0].count})
+      this.setState({ medicalCount: data[0].count })
     });
     thingsToDoController.getSalaryRequest(id, data => {
-      this.setState({salaryCount: data[0].count})
+      this.setState({ salaryCount: data[0].count })
     });
     thingsToDoController.getTravelRequest(id, data => {
-      this.setState({travelCount: data[0].count})
+      this.setState({ travelCount: data[0].count })
     });
     thingsToDoController.getWeddingRequest(id, data => {
-      this.setState({weddingCount: data[0].count})
+      this.setState({ weddingCount: data[0].count })
+    })
+    thingsToDoController.getConfirmationRequest(id, data => {
+      this.setState({ confirmationCount: data[0].count })
+    })
+    thingsToDoController.getStaffComplainRequest(id, data => {
+      this.setState({ staffComplainCount: data[0].count })
     })
   }
 
-  
+
 
   render() {
 
@@ -65,9 +74,12 @@ class ThingsTodoTable extends Component {
       { request: "Phone Bill Request", count: 0, link: "/phonebillrequest" },
       { request: "Petrol Request", count: 0, link: "/petrolRequest" },
       { request: "Bithday Fund Request", count: this.state.birthdayCount, link: "/birthday_fund_benefit" },
-      { request:"Staff Complain Box",count:20,link:"/staffComplain"},
-      { request:"Confirmation Prepare List",count:30,link: "/confirmation_list"}
+      { request: "Staff Complain Box", count: this.state.staffComplainCount, link: "/staffComplain" },
+      { request: "Confirmation Prepare List", count: this.state.confirmationCount, link: "/confirmation_check" }
     ];
+
+    let data_filter = (this.state.user_id == 17 || this.state.user_id == 921) ? dummy_data : dummy_data.filter(v => v.request != 'Staff Complain Box')
+
     return (
       <div
         className="col-md-12"
@@ -76,8 +88,8 @@ class ThingsTodoTable extends Component {
           background: "#fff",
           color: "#222",
           WebkitBoxShadow: '0px 0px 3px 0px rgba(194,194,194,1)',
-                    boxShadow: '0px 0px 3px 0px rgba(194,194,194,1)',
-                    borderRadius: '0px 20px 20px 20px',
+          boxShadow: '0px 0px 3px 0px rgba(194,194,194,1)',
+          borderRadius: '0px 20px 20px 20px',
           padding: "2px 0px 2px 0px",
           margin: "5px 0px",
         }}
@@ -92,76 +104,76 @@ class ThingsTodoTable extends Component {
         </div>
         <div
           className="col-12"
-          style={{ maxHeight: 600, overflowY: "scroll"}}
+          style={{ maxHeight: 600, overflowY: "scroll" }}
         >
-          {dummy_data.map((v, k) => (
+          {data_filter.map((v, k) => (
             <>
               {
-                v.count != 0? <>
-                      <div
-                key={k}
-                className=""
-                style={{
-                  // boxShadow: "1px 1px 3px 1px #e6e6e6",
-                  // borderRadius: 4,
-                  margin: "11px 0px",
-                  // padding: "0px",
-                  display: "flex",
-                }}
-              >
-
-                <div className="col-lg-1 col-md-2 col-sm-2">
+                v.count != 0 ? <>
                   <div
+                    key={k}
+                    className=""
                     style={{
-                      border: "1px solid #1872ab",
-                      borderRadius: 5,
-                      width: 25,
-                      height: 25,
-                      // display: 'flex',
-                      // justifyContent: 'center',
-                      // alignItems: 'center'
+                      // boxShadow: "1px 1px 3px 1px #e6e6e6",
+                      // borderRadius: 4,
+                      margin: "11px 0px",
+                      // padding: "0px",
+                      display: "flex",
                     }}
                   >
-                    <p
-                      style={{
-                        fontSize: 11,
-                        color: primary,
-                        textAlign: "center",
-                        marginTop: "3px",
-                      }}
-                    >
-                      {v.count}
-                      
-                    </p>
+
+                    <div className="col-lg-1 col-md-2 col-sm-2">
+                      <div
+                        style={{
+                          border: "1px solid #1872ab",
+                          borderRadius: 5,
+                          width: 25,
+                          height: 25,
+                          // display: 'flex',
+                          // justifyContent: 'center',
+                          // alignItems: 'center'
+                        }}
+                      >
+                        <p
+                          style={{
+                            fontSize: 11,
+                            color: primary,
+                            textAlign: "center",
+                            marginTop: "3px",
+                          }}
+                        >
+                          {v.count}
+
+                        </p>
+                      </div>
+                    </div>
+                    <div className="col-lg-7 col-md-7 col-sm-7" style={{ color: primary, fontSize: 11, marginTop: 5 }}>
+                      {v.request}
+                    </div>
+                    <div className="col-lg-4 col-md-3 col-sm-3">
+                      <button
+                        className="btn text-center"
+                        onClick={() => this.props.history.push(v.link)}
+                        style={{
+                          height: 22,
+                          padding: "0px 5px 0px 5px",
+                          fontSize: 10,
+                        }}
+                      >
+                        More Info
+                        <i
+                          class="fa fa-arrow-circle-right"
+                          style={{ marginLeft: 5 }}
+                          aria-hidden="true"
+                        ></i>
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <div className="col-lg-7 col-md-7 col-sm-7" style={{ color: primary, fontSize: 11, marginTop: 5 }}>
-                  {v.request}
-                </div>
-                <div className="col-lg-4 col-md-3 col-sm-3">
-                  <button
-                    className="btn text-center"
-                    onClick={() => this.props.history.push(v.link)}
-                    style={{
-                      height: 22,
-                      padding: "0px 5px 0px 5px",
-                      fontSize: 10,
-                    }}
-                  >
-                    More Info
-                    <i
-                      class="fa fa-arrow-circle-right"
-                      style={{ marginLeft: 5 }}
-                      aria-hidden="true"
-                    ></i>
-                  </button>
-                </div>
-              </div>
-              {k != dummy_data.length - 1 && <div style={{width: '95%', height: "0.5px", backgroundColor: 'black', margin: '0px auto'}}/>}
-                </> :""
+                  {k != dummy_data.length - 1 && <div style={{ width: '95%', height: "0.5px", backgroundColor: 'black', margin: '0px auto' }} />}
+                </> : ""
               }
-              
-              
+
+
             </>
           ))}
         </div>

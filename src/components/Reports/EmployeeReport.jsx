@@ -282,8 +282,8 @@ class EmployeeReport extends Component {
     console.log("selector", this.state.branchId)
     return (
       <div>
-        <h3>Employee Report</h3>
         <div className="row  white-bg dashboard-header">
+        <h3 className="" style={{paddingLeft:"10px"}}>Employee Report</h3>
           <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
             <Select
               styles={{
@@ -391,11 +391,12 @@ class EmployeeReport extends Component {
             />
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
           </div>
-        </div>
+        
         <table width="99%"
           className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
           id="dataTables-table"
         />
+      </div>
       </div>
     )
   }

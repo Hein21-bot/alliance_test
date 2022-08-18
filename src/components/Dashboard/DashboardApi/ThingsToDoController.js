@@ -80,6 +80,26 @@ const getBirthdayRequest = (userId, setData) => {
     })
 }
 
+const getConfirmationRequest = (userId, setData) => {
+    fetch(main_url + `dashboard/confirmationRequest/${userId}`).then(response => {
+        return response.json();
+    }).then(data => {
+        setData(data);
+    }).catch((error) => {
+        console.log("error confirmation ===>", error);
+    })
+}
+
+const getStaffComplainRequest = (userId, setData) => {
+    fetch(main_url + `dashboard/staffComplainRequest`).then(response => {
+        return response.json();
+    }).then(data => {
+        setData(data);
+    }).catch((error) => {
+        console.log("error staff complain ===>", error);
+    })
+}
+
 export const thingsToDoController = {
     getLeaveRequest,
     getBirthdayRequest,
@@ -88,5 +108,7 @@ export const thingsToDoController = {
     getMedicalRequest,
     getSalaryRequest,
     getTravelRequest,
-    getWeddingRequest
+    getWeddingRequest,
+    getConfirmationRequest,
+    getStaffComplainRequest
 }

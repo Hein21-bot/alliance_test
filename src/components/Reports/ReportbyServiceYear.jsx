@@ -203,9 +203,8 @@ class ReportbyServiceYear extends Component {
         return (
             <div>
             <div className="row  white-bg dashboard-header">
-            <h3>Employee Report by Service Year</h3>
+             <h3 className="" style={{paddingLeft:10}}>Employee Report by Service Year</h3>
               <div className='flex-row' style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
-              
               <div style={{width:150,marginRight:10}}>
               <DatePicker
                             dateFormat="DD/MM/YYYY"
@@ -302,11 +301,12 @@ class ReportbyServiceYear extends Component {
             />
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
             </div>
-           </div>
+           
             <table width="99%"
                     className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
                     id="dataTables-table"
                 />
+           </div>
            </div>
         )
     }

@@ -186,9 +186,12 @@ class Profile extends Component {
                   {this.state.userInfo.parent_count}
                 </p>
               </div>
-              <div style={{ width: "100%" }}>
+              <div style={styles.smallContainer}>
                 <p style={styles.profileLeftText}>Bank Account</p>
-                <p style={styles.profileRightText}>{"-"}</p>
+                <p style={styles.profileMiddleText}>:</p>
+                <p style={styles.profileRightText}>
+                  {this.state.userInfo.bank}
+                </p>
               </div>
             </div>
             <div
