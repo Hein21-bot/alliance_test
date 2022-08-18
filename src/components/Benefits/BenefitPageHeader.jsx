@@ -13,7 +13,7 @@ class BenefitPageHeader extends Component {
         return (
             <div className="row wrapper border-bottom white-bg page-heading">
                 <div className="col-lg-10">
-                    <h2>HR Management System</h2>
+                    
                     <ol className="breadcrumb">
                         <li>
                             Benefit
