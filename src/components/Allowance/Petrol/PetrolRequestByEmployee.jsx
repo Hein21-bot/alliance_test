@@ -388,7 +388,7 @@ class PetrolRequestByEmployee extends Component {
                             <div className="col-sm-10">
                                 <input type="date" id="request-month"
                                     className="form-control checkValidate"
-                                    value={this.state.main_data.request_month} className="form-control"
+                                    value={this.state.main_data.request_month} 
                                     onChange={this.handleRequestMonth} />
                             </div>
                         </div>
