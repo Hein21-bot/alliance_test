@@ -8878,7 +8878,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child::
   background-color: #1872ab !important;
 }
 #attendence_calendar .react-datepicker__header{
-  background-color: #21e6c1 !important;
+  background-color: #23c6c8 !important;
 }
 /* .react-datepicker__navigation-icon{
   color: white !important;
@@ -8973,7 +8973,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child::
   width: 9px;
 }
 #attendence_calendar .react-datepicker__day--selected{
-  background-color: #21e6c1 !important;
+  background-color: #23c6c8 !important;
   color: white;
 }
 #leave_calendar .react-datepicker__day--selected{

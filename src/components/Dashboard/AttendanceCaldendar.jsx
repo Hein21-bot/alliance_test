@@ -11,7 +11,7 @@ const data = [
 ];
 const primary = "#1872ab";
 const softblue='rgb(24 114 171)';
-const secondary='#21e6c1';
+const secondary='#23c6c8';
 const darky='#5d5d5a';
 export class AttendanceCaldendar extends Component {
     constructor(props) {
