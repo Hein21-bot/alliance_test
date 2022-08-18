@@ -223,7 +223,7 @@ export default class BenefitChildTable extends Component {
             { title: "Service Year", data: "service_year" },
             { title: "Service Year in Current Level", data: "current_level_service_year" },
             { title: "Service Year in Current Sub Level", data: "current_sub_level_service_year" },
-            { title: "Leave", data: "leave" },
+            // { title: "Leave", data: "leave" },
             { title: "Extension", data: "extension" },
 
 
