@@ -309,7 +309,7 @@ class HistoryReport extends Component {
                                     container: base => ({
                                         ...base,
                                         //   flex: 1
-                                        width: 150,
+                                        width: 160,
                                         paddingLeft: 10,
                                         paddingRight: 10
                                     }),
@@ -319,7 +319,7 @@ class HistoryReport extends Component {
                                     }),
 
                                 }}
-                                placeholder="Name"
+                                placeholder="Employee Name"
                                 options={this.state.empNameList}
                                 onChange={this.handleSelectedName}
                                 type="value"

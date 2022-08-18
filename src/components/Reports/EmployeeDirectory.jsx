@@ -251,7 +251,6 @@ class EmployeeDirectory extends Component {
             <div className="row  white-bg dashboard-header">
             <h3 className="" style={{paddingLeft:10}}>Employee Directory Report</h3>
               <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
-             
               <Select
               styles={{
                 container: base => ({
@@ -266,14 +265,14 @@ class EmployeeDirectory extends Component {
                 }),
 
               }}
-              placeholder="Employee Name"
-              options={this.state.EmployeeNameList}
-              onChange={this.handleSelectedEmpName}
-              value={this.state.selected_employee}
+              placeholder="Branch"
+              options={this.state.branchlist}
+              onChange={this.handleSelectedBranch}
+              value={this.state.selected_bracnh}
               className='react-select-container'
               classNamePrefix="react-select"
             />
-            <Select
+             <Select
               styles={{
                 container: base => ({
                   ...base,
@@ -294,7 +293,7 @@ class EmployeeDirectory extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
-             <Select
+            <Select
               styles={{
                 container: base => ({
                   ...base,
@@ -315,7 +314,7 @@ class EmployeeDirectory extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
-            <Select
+              <Select
               styles={{
                 container: base => ({
                   ...base,
@@ -329,10 +328,10 @@ class EmployeeDirectory extends Component {
                 }),
 
               }}
-              placeholder="Branch"
-              options={this.state.branchlist}
-              onChange={this.handleSelectedBranch}
-              value={this.state.selected_bracnh}
+              placeholder="Employee Name"
+              options={this.state.EmployeeNameList}
+              onChange={this.handleSelectedEmpName}
+              value={this.state.selected_employee}
               className='react-select-container'
               classNamePrefix="react-select"
             />

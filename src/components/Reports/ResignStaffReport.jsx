@@ -253,10 +253,52 @@ class ResignStaffReport extends Component {
                 }),
 
               }}
+              placeholder="Branch"
+              options={this.state.branchlist}
+              onChange={this.handleSelectedBranch}
+              value={this.state.selected_branch}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+              <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginRight:10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
               placeholder="Region"
               options={this.state.regionList}
               onChange={this.handleSelectedRegion}
               value={this.state.selected_region}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+              <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginRight:10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Designation"
+              options={this.state.designationList}
+              onChange={this.handleSelectedDesignation}
+              value={this.state.selected_designation}
               className='react-select-container'
               classNamePrefix="react-select"
             />
@@ -302,50 +344,8 @@ class ResignStaffReport extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
-            <Select
-              styles={{
-                container: base => ({
-                  ...base,
-                  //   flex: 1
-                  width: 150,
-                  marginRight:10
-                }),
-                control: base => ({
-                  ...base,
-                  minHeight: '18px'
-                }),
-
-              }}
-              placeholder="Branch"
-              options={this.state.branchlist}
-              onChange={this.handleSelectedBranch}
-              value={this.state.selected_branch}
-              className='react-select-container'
-              classNamePrefix="react-select"
-            />
-            <Select
-              styles={{
-                container: base => ({
-                  ...base,
-                  //   flex: 1
-                  width: 150
-                }),
-                control: base => ({
-                  ...base,
-                  minHeight: '18px'
-                }),
-
-              }}
-              placeholder="Designation"
-              options={this.state.designationList}
-              onChange={this.handleSelectedDesignation}
-              value={this.state.selected_designation}
-              className='react-select-container'
-              classNamePrefix="react-select"
-            />
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
             </div>
-           
             <table width="99%"
                     className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
                     id="dataTables-table"

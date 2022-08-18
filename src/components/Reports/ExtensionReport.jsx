@@ -209,14 +209,14 @@ class ExtensionReport extends Component {
                 }),
 
               }}
-              placeholder="Region"
-              options={this.state.region}
-              onChange={this.handleSelectedRegion}
-              value={this.state.regionId}
+              placeholder="Branch"
+              options={this.state.branch}
+              onChange={this.handleSelectedBranch}
+              value={this.state.branchId}
               className='react-select-container'
               classNamePrefix="react-select"
-            /> 
-            <Select
+            />
+              <Select
               styles={{
                 container: base => ({
                   ...base,
@@ -230,13 +230,14 @@ class ExtensionReport extends Component {
                 }),
 
               }}
-              placeholder="Branch"
-              options={this.state.branch}
-              onChange={this.handleSelectedBranch}
-              value={this.state.branchId}
+              placeholder="Region"
+              options={this.state.region}
+              onChange={this.handleSelectedRegion}
+              value={this.state.regionId}
               className='react-select-container'
               classNamePrefix="react-select"
-            />
+            /> 
+           
             <Select
               styles={{
                 container: base => ({

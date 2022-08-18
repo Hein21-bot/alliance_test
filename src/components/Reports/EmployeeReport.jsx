@@ -285,6 +285,27 @@ class EmployeeReport extends Component {
         <div className="row  white-bg dashboard-header">
         <h3 className="" style={{paddingLeft:"10px"}}>Employee Report</h3>
           <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
+          <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginRight:10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Branch"
+              options={this.state.branchlist}
+              onChange={this.handleSelectedBranch}
+              value={this.state.selected_Branch}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
             <Select
               styles={{
                 container: base => ({
@@ -348,27 +369,7 @@ class EmployeeReport extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
-            <Select
-              styles={{
-                container: base => ({
-                  ...base,
-                  //   flex: 1
-                  width: 150,
-                  marginRight:10
-                }),
-                control: base => ({
-                  ...base,
-                  minHeight: '18px'
-                }),
-
-              }}
-              placeholder="Branch"
-              options={this.state.branchlist}
-              onChange={this.handleSelectedBranch}
-              value={this.state.selected_Branch}
-              className='react-select-container'
-              classNamePrefix="react-select"
-            />
+            
             <Select
               styles={{
                 container: base => ({

@@ -220,6 +220,28 @@ class ReportbyServiceYear extends Component {
                   //   flex: 1
                   width: 150,
                   marginRight:10
+                  
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Branch"
+              options={this.state.branch}
+              onChange={this.handleSelectedBranch}
+              value={this.state.branchId}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+              <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginRight:10
                 }),
                 control: base => ({
                   ...base,
@@ -231,6 +253,27 @@ class ReportbyServiceYear extends Component {
               options={this.state.region}
               onChange={this.handleSelectedRegion}
               value={this.state.regionId}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+            <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginRight:10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Designation"
+              options={this.state.designation}
+              onChange={this.handleSelectedDesignation}
+              value={this.state.designationId}
               className='react-select-container'
               classNamePrefix="react-select"
             />
@@ -255,50 +298,10 @@ class ReportbyServiceYear extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
-           <input type="value"  placeholder="Name" className="form-control input-md" style={{width:150,marginRight:10}} value={this.state.name} />
-             <Select
-              styles={{
-                container: base => ({
-                  ...base,
-                  //   flex: 1
-                  width: 150,
-                  marginRight:10
-                }),
-                control: base => ({
-                  ...base,
-                  minHeight: '18px'
-                }),
-
-              }}
-              placeholder="Designation"
-              options={this.state.designation}
-              onChange={this.handleSelectedDesignation}
-              value={this.state.designationId}
-              className='react-select-container'
-              classNamePrefix="react-select"
-            />
+           <input type="value"  placeholder="Employee Name" className="form-control input-md" style={{width:150,marginRight:10}} value={this.state.name} />
+             
             
-             <Select
-              styles={{
-                container: base => ({
-                  ...base,
-                  //   flex: 1
-                  width: 150,
-                  
-                }),
-                control: base => ({
-                  ...base,
-                  minHeight: '18px'
-                }),
-
-              }}
-              placeholder="Branch"
-              options={this.state.branch}
-              onChange={this.handleSelectedBranch}
-              value={this.state.branchId}
-              className='react-select-container'
-              classNamePrefix="react-select"
-            />
+            
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
             </div>
            
