@@ -89,12 +89,16 @@ import HoStaffReport from './Reports/HoStaffReport';
 
 import EmployeeReport from './Reports/EmployeeReport';
 import EmployeeDirectory from './Reports/EmployeeDirectory';
-import BranchStaffReport from './Reports/BranchStaffReport'
-import RegionStaffReport from './Reports/RegionStaffReport'
+import BranchStaffReport from './Reports/BranchStaffReport';
+import RegionStaffReport from './Reports/RegionStaffReport';
+import ReportbyServiceYear from './Reports/ReportbyServiceYear';
+import ExtensionReport from './Reports/ExtensionReport';
 import FRDReport from './Reports/FRDReport';
 import RegionWiseStaffReportCount from './Reports/RegionWiseStaffReportCount';
 import ResignStaffReport from './Reports/ResignStaffReport';
 import EmployeeFixedAsset from './Reports/EmployeeFixedAsset';
+import HistoryReport from './Reports/EmployeeHistoryReport';
+
 
 const Main = () => (
     <Switch>
@@ -185,6 +189,11 @@ const Main = () => (
         <Route path='/reports' component={EmployeeDirectory}></Route>
         <Route path='/HoStaffReport' component={HoStaffReport} />
         <Route path='/EmployeeDirectory' component={EmployeeDirectory} ></Route>
+        <Route path='/EmployeeReport' component={EmployeeReport} ></Route>
+        <Route path='/ReportbyServiceYear' component={ReportbyServiceYear} ></Route>
+        <Route path='/ExtensionReport' component={ExtensionReport} ></Route>
+        <Route path='/HistoryReport' component={HistoryReport} ></Route>
+        <Route path='/FRDReport' component={FRDReport} ></Route>
         <Route path='/BranchStaffReport' component={BranchStaffReport} ></Route>
         <Route path='/RegionStaffReport' component={RegionStaffReport} ></Route>
         <Route path='/FRDReport' component={FRDReport} ></Route>
