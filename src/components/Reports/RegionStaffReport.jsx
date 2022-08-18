@@ -84,6 +84,8 @@ class RegionStaffReport extends Component {
 
         return (
             <div>
+                <div className="row  white-bg dashboard-header">
+                  <h3 className="">Regional Staff Report</h3>
                 <table className="table table-bordered">
                     <thead>
                         <tr style={{ backgroundColor: '#27568a', color: 'white' }}>
@@ -136,6 +138,7 @@ class RegionStaffReport extends Component {
                     </tbody>
 
                 </table>
+            </div>
             </div>
         )
     }

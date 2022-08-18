@@ -177,7 +177,7 @@ class ExtensionReport extends Component {
         return (
             <div>
             <div className="row  white-bg dashboard-header">
-           
+           <h3 className="" style={{paddingLeft:"10px"}}>Extension Report</h3>
               <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
               <div style={{marginRight:10,width:150}}>
               <DatePicker
@@ -259,11 +259,12 @@ class ExtensionReport extends Component {
             />
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
             </div>
-           </div>
+           
             <table width="99%"
                     className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
                     id="dataTables-table"
                 />
+           </div>
            </div>
         )
     }

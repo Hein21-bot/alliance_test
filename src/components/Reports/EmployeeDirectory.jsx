@@ -249,7 +249,7 @@ class EmployeeDirectory extends Component {
         return (
             <div>
             <div className="row  white-bg dashboard-header">
-           
+            <h3 className="" style={{paddingLeft:10}}>Employee Directory Report</h3>
               <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
              
               <Select
@@ -339,11 +339,12 @@ class EmployeeDirectory extends Component {
              <input type="text" value={this.state.selected_phoneno} placeholder="Phone No" className="form-control" onChange={this.handleSelectedPhoneno} style={{width:150}} />
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
             </div>
-           </div>
+           
             <table width="99%"
                     className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
                     id="dataTables-table"
                 />
+           </div>
            </div>
         )
     }
