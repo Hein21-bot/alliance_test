@@ -109,15 +109,15 @@ class RegionStaffReport extends Component {
                                     return (
                                         <>
 
-                                            <tr style={{ textAlign: 'center',borderColor:'white' }}>
+                                            <tr style={{ textAlign: 'center'}}>
 
-                                                {i === 0 ? <td style={{borderColor:'white'}} rowSpan={state.designations.length}>{state.branch_name}</td> : null}
+                                                {i === 0 ? <td rowSpan={state.designations.length}>{state.branch_name}</td> : null}
                                                
-                                                <td style={{borderColor:'white'}}>{designation.designations}</td>
-                                                <td style={{borderColor:'white'}}>{(designation.gender[0].toLowerCase() == "male" && designation.gender.length == 2) ? designation.gender[1] : (designation.gender.length == 4) ? designation.gender[3] : "-"}</td>
-                                                <td style={{borderColor:'white'}}> {designation.gender[0].toLowerCase() == "female" ? designation.gender[1] : "-"}</td>
+                                                <td>{designation.designations}</td>
+                                                <td>{(designation.gender[0].toLowerCase() == "male" && designation.gender.length == 2) ? designation.gender[1] : (designation.gender.length == 4) ? designation.gender[3] : "-"}</td>
+                                                <td> {designation.gender[0].toLowerCase() == "female" ? designation.gender[1] : "-"}</td>
                                                
-                                                {i === 0 ? <td style={{borderColor:'white'}} rowSpan={state.designations.length}>{this.state.listTotal[k]}</td> : null}
+                                                {i === 0 ? <td rowSpan={state.designations.length}>{this.state.listTotal[k]}</td> : null}
                                             </tr>
                                         </>
 

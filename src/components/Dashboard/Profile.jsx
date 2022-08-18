@@ -61,7 +61,7 @@ class Profile extends Component {
               }}
             >
               <img
-                src="https://bukovskevrchy.pl/img/64c9c78b19101eadf6e459ddbb0fd69a.jpg"
+                src="assets/img/team.svg"
                 style={{ width: 80, height: 80, borderRadius: 45 }}
               />
             </div>
