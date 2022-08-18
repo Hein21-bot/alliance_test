@@ -191,8 +191,8 @@ class EditEmployeeListForm extends Component {
         const { selected_NRC_Id, userImage, userImageUrl, employeeId, employeeNameEng, employeeNameMyan, dateOfBirth, gender, nationality, personalPhone, region, officePhone, selected_DistrictCode, nrc_number, selected_gran_NRC_Id, disConDate, disConStatus,
             addedDegreeData, addedQualitificationData, workExpData, contactPerson, contactPhone, checked, guarantor, guarantorPhone, bankData, address, joinDate, martialStatus, fatherName, motherName, parentCount, siblingCount, childCount, pInLawCount,
             trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo, attachmentUrl, employeeStatus, employeeDesignation, jobTitle, carrerLevel, employeeDetailBranch, employedDate, selected_gran_DistrictCode, gran_nrc_number } = this.state
-        let fullNRCNO = `${selected_NRC_Id ? selected_NRC_Id.label : ''} ${selected_DistrictCode ? selected_DistrictCode.label : ''} ${nrc_number}`
-        let guarantorNRC = `${selected_gran_NRC_Id ? selected_gran_NRC_Id.label : ''} ${selected_gran_DistrictCode ? selected_gran_DistrictCode.label : ''} ${gran_nrc_number}`
+        let fullNRCNO = `${selected_NRC_Id ? selected_NRC_Id.label : ''}/ ${selected_DistrictCode ? selected_DistrictCode.label : ''}(N) ${nrc_number}`
+        let guarantorNRC = `${selected_gran_NRC_Id ? selected_gran_NRC_Id.label : ''}/ ${selected_gran_DistrictCode ? selected_gran_DistrictCode.label : ''}(N)${gran_nrc_number}`
         var data = {
             employeeId: employeeId,
             employeeNameEng: employeeNameEng,
@@ -313,7 +313,7 @@ class EditEmployeeListForm extends Component {
                 employeeNameMyan: e.target.value
             })
         }
-       
+
         else if (e.target.name === "dateOfBirth") {
             if (this.state.nrc_number.length != 6) {
                 toast.error("NRC number should be 6 digit!")
@@ -517,7 +517,7 @@ class EditEmployeeListForm extends Component {
 
     handleProfileSave = e => {
         e.preventDefault();
-        const {nrc_number} = this.state;
+        const { nrc_number } = this.state;
         if (nrc_number.length < 6) {
             toast.error('NRC number should be 6 digits!');
         } else {
@@ -525,7 +525,7 @@ class EditEmployeeListForm extends Component {
                 tabIndex: this.state.tabIndex + 1
             })
         }
-        
+
     }
 
     handlePersonalDetailInputChange = e => {
@@ -621,7 +621,7 @@ class EditEmployeeListForm extends Component {
 
     handleContactDetails = e => {
         e.preventDefault();
-        const {gran_nrc_number} = this.state;
+        const { gran_nrc_number } = this.state;
         if (gran_nrc_number.length < 6) {
             this.setState({
                 tabIndex: this.state.tabIndex + 1
@@ -631,11 +631,11 @@ class EditEmployeeListForm extends Component {
                 tabIndex: this.state.tabIndex + 1
             })
         }
-       
+
 
     }
     handleBankAccountDetails = e => {
-        
+
         e.preventDefault();
         this.setState({
             tabIndex: this.state.tabIndex + 1
@@ -725,7 +725,7 @@ class EditEmployeeListForm extends Component {
                     account_no: accountNumber,
                     bank_name: selected_bank.label,
                     account_name: accountName.toUpperCase()
-    
+
                 }
                 this.setState({
                     bankData: bankData.concat(newData),
@@ -734,7 +734,7 @@ class EditEmployeeListForm extends Component {
                     accountNumber: ''
                 })
             }
-            
+
         }
     }
 
@@ -763,10 +763,10 @@ class EditEmployeeListForm extends Component {
                     guarantor: this.state.contactPerson,
                     guarantorPhone: this.state.contactPhone
                 })
-            }else {
+            } else {
                 this.setState({
-                    guarantor:"",
-                    guarantorPhone:"",
+                    guarantor: "",
+                    guarantorPhone: "",
                 })
             }
         })
