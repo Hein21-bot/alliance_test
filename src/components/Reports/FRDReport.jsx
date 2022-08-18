@@ -103,7 +103,7 @@ class FRDReport extends Component {
         return (
             <div>
                 <div className="row  white-bg dashboard-header">
-                  <h3 className="" style={{paddingLeft:"5px"}}>FRD Report</h3>
+                  <h3 className="" style={{paddingLeft:"5px"}}>Staff Information</h3>
                 <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 0px' }}>
                 <DatePicker
                   dateFormat="DD/MM/YYYY"
@@ -116,9 +116,7 @@ class FRDReport extends Component {
                 <div>
                 <table className="table table-bordered">
                     <thead>
-                        <tr>
-                            <td colSpan={10} style={{backgroundColor:'white',color:'black',textAlign:'center'}}>Staff Information</td>
-                        </tr>
+                        
                         <tr style={{ backgroundColor: 'blue', color: 'white' }}>
                             <th style={{ width: 30, textAlign: 'center',borderColor:'white'}}>Sr No</th>
                             <th style={{ width: 100, textAlign: 'center',borderCOlor:'white' }}>Branch</th>
@@ -138,16 +136,16 @@ class FRDReport extends Component {
                               this.state.data.map((v1,i)=>{
                                     return(
                                         <>
-                                        <tr style={{ textAlign:'cente',borderColor:'white'}}>
-                                            <td style={{textAlign:'center',borderColor:'white'}}>{i+1}</td>
-                                            <td style={{textAlign:'center',borderColor:'white'}}>{v1.branch_name}</td>
-                                            <td style={{textAlign:'center',borderColor:'white'}}>{v1.region_name}</td>
-                                            <td style={{textAlign:'center',borderColor:'white'}}>-</td>
-                                            <td style={{textAlign:'center',borderColor:'white'}}>{v1.Managerial_staff}</td>
-                                            <td style={{textAlign:'center',borderColor:'white'}}>{v1.Other_staff}</td>
-                                            <td style={{textAlign:'center',borderColor:'white'}}>{v1.Total_staff}</td>
-                                            <td style={{textAlign:'center',borderColor:'white'}}>{v1.New_staff}</td>
-                                            <td style={{textAlign:'center',borderColor:'white'}}>{v1.Quit_staff}</td>
+                                        <tr style={{ textAlign:'cente'}}>
+                                            <td style={{textAlign:'center'}}>{i+1}</td>
+                                            <td style={{textAlign:'center'}}>{v1.branch_name}</td>
+                                            <td style={{textAlign:'center'}}>{v1.region_name}</td>
+                                            <td style={{textAlign:'center'}}>-</td>
+                                            <td style={{textAlign:'center'}}>{v1.Managerial_staff}</td>
+                                            <td style={{textAlign:'center'}}>{v1.Other_staff}</td>
+                                            <td style={{textAlign:'center'}}>{v1.Total_staff}</td>
+                                            <td style={{textAlign:'center'}}>{v1.New_staff}</td>
+                                            <td style={{textAlign:'center'}}>{v1.Quit_staff}</td>
                                         </tr>
                                         </>
                                     )
