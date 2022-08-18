@@ -6,6 +6,7 @@ import 'datatables.net-dt/css/jquery.dataTables.css'
 import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 import 'jspdf-autotable';
 import Select from 'react-select';
+import moment from "moment";
 const $ = require('jquery');
 const jzip = require('jzip');
 window.JSZip = jzip;
@@ -32,7 +33,7 @@ class EmployeeReport extends Component {
       guarantee_contact_phone: null,
       phone_no: null,
       employee_id: null,
-      employee_date: null,
+      employee_date: moment().format("YYYY-MM-DD"),
       selected_Branch: null,
       selected_department: null,
       selected_designation: null,
@@ -197,7 +198,7 @@ class EmployeeReport extends Component {
           branch: data[i].branch_name ? data[i].branch_name : "-",
           phone_no: data[i].phone ? data[i].phone : "-",
           designation: data[i].designations ? data[i].designations : "-",
-          employee_date: data[i].employ_date ? data[i].employ_date : "-",
+          employee_date: moment(data[i].employ_date).format("YYYY-MM-DD") ? moment(data[i].employ_date).format("YYYY-MM-DD") : "-",
           region: data[i].region_name ? data[i].region_name : "-",
           martial_status: data[i].martial_status ? data[i].martial_status : '-',
           contact_person: data[i].contact_person ? data[i].contact_person : '-',
