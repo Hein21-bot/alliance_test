@@ -1,11 +1,12 @@
 import React,{Component} from "react";
 import Select from 'react-select' ;
-import {getBranch,getRegion,getDesignation,main_url} from '../../utils/CommonFunction';
+import {main_url} from '../../utils/CommonFunction';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css';
 import 'datatables.net-dt/css/jquery.dataTables.css'
 import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 import 'jspdf-autotable';
+import { region } from "caniuse-lite";
 const $ = require('jquery');
 const jzip = require('jzip');
 window.JSZip = jzip;
@@ -20,16 +21,23 @@ class ResignStaffReport extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            branch:[],
-            region:[],
-            empNameList:[],
-            designation:[],
-            exitStatus:[],
-            exit_status:0,
-            branchId:0,
-            regionId:0,
-            designationId:0,
-            empName:0,                          
+           regionList:null,
+           selected_region:null,
+           EmployeeNameList:null,
+           selected_employee:null,
+           branchlist:null,
+           selected_branch:null,
+           designationList:null,
+           selected_designation:null,
+           exitStatusList:[
+            {label:"All",value:-1},
+            {
+              label:"Active",value:0
+            },
+            {
+              label:"Exit",value:1
+            }
+           ]                         
         }
     }
     
@@ -44,79 +52,135 @@ class ResignStaffReport extends Component {
             this._setTableData(this.state.dataSource);
           }
         );
-    
-
-        let branch = await getBranch();
-        branch.unshift({ label: 'All', value: 0 });
-        let designation = await getDesignation();
-        designation.unshift({ label: 'All', value: 0 });
-        let region = await getRegion();
-        region.unshift({region_name: 'ALL', region_id: 0});
-        // await getEmployeeList;
-        // await getExitStatus;
-        this.setState({
-            branch: branch,
-            designation: designation,
-            region: region.map(v => ({ ...v, label: v.region_name, value: v.region_id })),
-            // empNameList:empNameList,
-            // exitStatus: exitStatus
+          this.getRegionList();
+          this.getEmployeeName();
+          this.getBranchList();
+          this.getDesignationList();
+    }
+    getRegionList() {
+      fetch(`${main_url}benefit/getRegionList`)
+        .then((res) => {
+          if (res.ok) return res.json();
         })
+        .then((list) => {
+          let lists = list.unshift({ region_id: 0, region_name: "All" });
+          this.setState({
+            regionList: list.map((v) => ({
+              ...v,
+              label: v.region_name,
+              value: v.region_id,
+            })),
+          });
+        });
+    }
+    getEmployeeName() {
+      fetch(`${main_url}report/employeeName`)
+        .then((res) => {
+          if (res.ok) return res.json();
+        })
+        .then((list) => {
+          let lists = list.unshift({ value: 0, label: "All" });
+          this.setState({
+            EmployeeNameList: list.map((v) => ({
+              ...v
+            }))
+          })
+        })
+    }
+    getBranchList() {
+      fetch(`${main_url}benefit/getBranchList`)
+        .then((res) => {
+          if (res.ok) return res.json();
+        })
+        .then((list) => {
+          let lists = list.unshift({ branch_id: 0, branch_name: "All" });
+          this.setState({
+            branchlist: list.map((v) => ({
+              ...v,
+              label: v.branch_name,
+              value: v.branch_id,
+            })),
+          });
+        });
+    }
+    getDesignationList() {
+      fetch(`${main_url}main/getDesignations`)
+        .then((res) => {
+          if (res.ok) return res.json();
+        })
+        .then((list) => {
+          let lists = list.unshift({ value: 0, label: "All" });
+          this.setState({
+            designationList: list
+          });
+        });
     }
     handleSelectedBranch = async (event) => {
         this.setState({
-           branchId : event
+           selected_branch : event
         })
     }
     
     handleSelectedDesignation = async (event) => {
         this.setState({
-           designationId : event
+           selected_designation : event
         })
     }
     handleSelectedRegion = async (event) => {
         this.setState({
-           regionId : event
+           selected_region : event
         })
     }
      
-    // handleSelectedEmpName = async (event) => {
-    //     this.setState({
-    //        empName : event
-    //     })
-    // }
-    // handleSelectedExitStatus = async (event) => {
-    //     this.setState({
-    //        exit_status : event
-    //     })
-    // }
+    handleSelectedEmpName = async (event) => {
+        this.setState({
+           selected_employee : event
+        })
+    }
+    handleSelectedExitStatus = async (event) => {
+        this.setState({
+           selected_exitstatus : event
+        })
+    }
    
-    // handleSearchData = (branchId, departmentId, regionId,empName, designationId) => {
-    //     fetch(`${main_url}.../${regionId == undefined ? 0 : regionId}/${departmentId == undefined ? 0 : departmentId}/${designationId == undefined ? 0 : designationId}/${branchId == undefined ? 0 : branchId}/${empName == undefined ? 0 : empName}`)
-    //       .then(res => { if (res.ok) return res.json() })
-    //       .then(list => {
-    //         this._setTableData(list);
-    //       })
-    //   }
+    handleSearchData = () => {
+      const branchId = this.state.selected_Branch ? this.state.selected_Branch.branch_id : 0
+      
+      const designationId=this.state.selected_designation ? this.state.selected_designation.value : 0
+      const regionId = this.state.selected_region ? this.state.selected_region.region_id : 0
+      const employee = this.state.selected_employee ? this.state.selected_employee.value : 0
+      const exitStatusId= this.state.selected_exitstatus ? this.state.selected_exitstatus.value : -1
+        fetch(main_url+"report/employeeResign/"+regionId+"/"+branchId+"/"+designationId+"/"+employee+"/"+exitStatusId)
+          .then(res => { if (res.ok) return res.json() })
+          .then(list => {
+            this._setTableData(list);
+          })
+      }
 
     _setTableData = (data) => {
         var table;
         var l = [];
-        // for (var i = 0; i < data.length; i++) {
-        //     let result = data[i];
-        //     let obj = [];
-        //         obj = {
-        //         no: i + 1,
-        //         employee_id: employment_id,
-        //         employee_name: employee_name,
-        //         branch: branch_name, 
-        //         designation:designation,
-        //         asset_name:asset_name,
-        //         asset_id:asset_id,
-        //         specification: specification
-        //     }    
-        //     l.push(obj)
+        if(data){
+          for (var i = 0; i < data.length; i++) {
+            let result = data[i];
+            let obj = [];
+                obj = {
+                no: i + 1,
+                employee_id: data[i].employment_id ? data[i].employment_id : '-',
+                employee_name: data[i].fullname ? data[i].fullname : '-',
+                designation:data[i].designations ? data[i].designations : '-',
+                level:data[i].career_level_id ? data[i].career_level_id : '-',
+                employee_date:data[i].employ_date ? data[i].employ_date : '-',
+                
+                last_date: data[i].discontinued_date ? data[i].discontinued_date : '-',
+                exit_status: data[i].exit_status ? data[i].exit_status : '-',
+                resign_reason: data[i].resign_reason ? data[i].resign_reason : '-'
 
-        // }
+            }    
+            l.push(obj)
+
+        }
+        }
         if ($.fn.dataTable.isDataTable('#dataTables-table')) {
             table = $('#dataTables-table').dataTable();
             table.fnClearTable();
@@ -180,7 +244,8 @@ class ResignStaffReport extends Component {
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 150,
+                  marginRight:10
                 }),
                 control: base => ({
                   ...base,
@@ -189,9 +254,9 @@ class ResignStaffReport extends Component {
 
               }}
               placeholder="Region"
-              options={this.state.region}
+              options={this.state.regionList}
               onChange={this.handleSelectedRegion}
-              value={this.state.regionId}
+              value={this.state.selected_region}
               className='react-select-container'
               classNamePrefix="react-select"
             />
@@ -200,7 +265,8 @@ class ResignStaffReport extends Component {
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 150,
+                  marginRight:10
                 }),
                 control: base => ({
                   ...base,
@@ -209,9 +275,9 @@ class ResignStaffReport extends Component {
 
               }}
               placeholder="Employee Name"
-              options={this.state.empNameList}
+              options={this.state.EmployeeNameList}
               onChange={this.handleSelectedEmpName}
-              value={this.state.empName}
+              value={this.state.selected_employee}
               className='react-select-container'
               classNamePrefix="react-select"
             />
@@ -220,7 +286,8 @@ class ResignStaffReport extends Component {
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 150,
+                  marginRight:10
                 }),
                 control: base => ({
                   ...base,
@@ -229,9 +296,9 @@ class ResignStaffReport extends Component {
 
               }}
               placeholder="Exit Status"
-              options={this.state.exitStatus}
+              options={this.state.exitStatusList}
               onChange={this.handleSelectedExitStatus}
-              value={this.state.exit_status}
+              value={this.state.selected_exitstatus}
               className='react-select-container'
               classNamePrefix="react-select"
             />
@@ -240,7 +307,8 @@ class ResignStaffReport extends Component {
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 150,
+                  marginRight:10
                 }),
                 control: base => ({
                   ...base,
@@ -249,9 +317,9 @@ class ResignStaffReport extends Component {
 
               }}
               placeholder="Branch"
-              options={this.state.branch}
+              options={this.state.branchlist}
               onChange={this.handleSelectedBranch}
-              value={this.state.branchId}
+              value={this.state.selected_branch}
               className='react-select-container'
               classNamePrefix="react-select"
             />
@@ -269,16 +337,12 @@ class ResignStaffReport extends Component {
 
               }}
               placeholder="Designation"
-              options={this.state.designation}
+              options={this.state.designationList}
               onChange={this.handleSelectedDesignation}
-              value={this.state.designationId}
+              value={this.state.selected_designation}
               className='react-select-container'
               classNamePrefix="react-select"
             />
-            
-              
-           
-           
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
             </div>
            </div>

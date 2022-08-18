@@ -67,23 +67,7 @@ class EmployeeReport extends Component {
     this.getDesignationList();
     this.getEmployeeName();
 
-    // let branch = await getBranch();
-    // branch.unshift({ label: 'All', value: 0 });
-    // let department = await getDepartment();
-    // department.unshift({ label: 'All', value: 0 });
-    // let designation  = await getDesignation();
-    // designation.unshift({label: 'ALL', value: 0});
-    // let region = await getRegion();
-    // region.unshift({region_name: 'ALL', region_id: 0});
-    // // await getEmployeeList;
-
-    // this.setState({
-    //     branch: branch,
-    //     department: department,
-    //     designation:designation,
-    //     region: region.map(v => ({ ...v, label: v.region_name, value: v.region_id })),
-    //     // empNameList:empNameList
-    // })
+    
   }
   getDesignationList() {
     fetch(`${main_url}main/getDesignations`)
@@ -306,7 +290,8 @@ class EmployeeReport extends Component {
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 150,
+                  marginRight:10
                 }),
                 control: base => ({
                   ...base,
@@ -326,7 +311,8 @@ class EmployeeReport extends Component {
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 150,
+                  marginRight:10
                 }),
                 control: base => ({
                   ...base,
@@ -346,7 +332,8 @@ class EmployeeReport extends Component {
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 150,
+                  marginRight:10
                 }),
                 control: base => ({
                   ...base,
@@ -366,7 +353,8 @@ class EmployeeReport extends Component {
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 150,
+                  marginRight:10
                 }),
                 control: base => ({
                   ...base,

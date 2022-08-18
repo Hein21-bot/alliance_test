@@ -14,8 +14,9 @@ export default class PageHeader extends Component {
         const permission = this.props.permission;
         return (
             <div className="row wrapper border-bottom white-bg page-heading">
+                <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginTop:'15px'}}>
                 <div className="col-lg-10">
-                    <h2>HR Management System</h2>
+                    
                     <ol className="breadcrumb">
                         <li>
                             {this.props.title}
@@ -27,7 +28,7 @@ export default class PageHeader extends Component {
                     </ol>
                 </div>
 
-                <div className="col-lg-2 m-t-30">
+                <div className="col-lg-2 ">
                     {
                         this.props.isAddNew || this.props.isView || this.props.isEdit ?
                             <a href={this.state.pathname}>
@@ -43,6 +44,7 @@ export default class PageHeader extends Component {
 
                 </div>
 
+                </div>
             </div>
         )
     }

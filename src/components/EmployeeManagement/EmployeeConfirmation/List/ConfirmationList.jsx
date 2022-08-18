@@ -130,6 +130,7 @@ class ConfirmationList extends Component {
       selected_designation,
       career_level,
       career_sub_level,
+      selected_branch_list
     } = this.state;
 
     const regionId = selected_region ? selected_region.region_id : 0;
@@ -140,6 +141,7 @@ class ConfirmationList extends Component {
     const subLvlId = career_sub_level ? selected_branch.career_sub_level_id : 0;
     const title_list = selected_title_list ? selected_title_list : 0;
     const designation_list = selected_designation_list ? selected_designation_list : 0
+    const branch_list=selected_branch_list ? selected_branch_list : 0
 
     const title = selected_title
       ? selected_title.value
@@ -153,7 +155,7 @@ class ConfirmationList extends Component {
       return toast.error('Please Choose region or department or branch!')
     } else {
       fetch(
-        `${main_url}confirmation/getConfirmationList/${regionId}/${depId}/${branchId}/${designation_list}/${lvlId}/${subLvlId}`, {
+        `${main_url}confirmation/getConfirmationList/${regionId}/${depId}/${branch_list}/${designation_list}/${lvlId}/${subLvlId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -176,34 +178,11 @@ class ConfirmationList extends Component {
     }
   }
   // confirmation/getConfirmationList/:regionId/:depId/:branchId/:designationId/:levelId/:subLevelId
-  getCheckPersonList() {
-    const regionId = this.state.selected_region
-      ? this.state.selected_region.region_id
-      : 0;
-    const branchId = this.state.selected_branch
-      ? this.state.selected_branch.branch_id
-      : 0;
-    const departmentId = this.state.selected_department
-      ? this.state.selected_department.departments_id
-      : 0;
-    fetch(
-      `${main_url}confirmation/getCheckPerson/${regionId}/${branchId}/${departmentId}`
-    )
-      .then((res) => {
-        if (res.ok) return res.json();
-      })
-      .then((list) => {
-        this.setState({
-          checkPersonList: list.map((v) => ({
-            ...v,
-            label: v.fullname,
-            value: v.branch_id,
-          })),
-        });
-      });
-  }
+  
+  
 
   getVerifyPersonList() {
+    const {selected_branch_list}=this.state;
     const regionId = this.state.selected_region
       ? this.state.selected_region.region_id
       : 0;
@@ -213,8 +192,9 @@ class ConfirmationList extends Component {
     const departmentId = this.state.selected_department
       ? this.state.selected_department.departments_id
       : 0;
+      const branch_list=selected_branch_list ? selected_branch_list : 0
     fetch(
-      `${main_url}confirmation/getVerifyPerson/${regionId}/${branchId}/${departmentId}`
+      `${main_url}confirmation/getVerifyPerson/${regionId}/${branch_list}/${departmentId}`
     )
       .then((res) => {
         if (res.ok) return res.json();
@@ -344,10 +324,18 @@ class ConfirmationList extends Component {
   };
 
   handleSelectedBranch = (event) => {
-    if (event !== null)
+    console.log("event==>",event.map(v=>v.branch_id))
+    if (event !== null){
       this.setState({
         selected_branch: event,
+        selected_branch_list:event.map(v=>v.value)
       });
+    }else{
+      this.setState({
+        selected_branch:null
+      })
+    }
+      
   };
   // handleSelectedCheckPerson = (event) => {
   //   if (event !== null)
@@ -375,7 +363,7 @@ class ConfirmationList extends Component {
   }
 
   handleSelectedTitle = (event) => {
-
+   
     if (event !== null) {
       this.setState({
         selected_title: event,
@@ -411,6 +399,7 @@ class ConfirmationList extends Component {
       promotion_date: data.promotion_date
         ? data.promotion_date
         : "-",
+        extension:data.extension?data.extension:"-",
       date: moment(data.createdAt).format("DD-MM-YYYY"),
       service_year: data.service_year ? data.service_year : "-",
       leave: data.leave ? data.leave : "-",
@@ -456,7 +445,7 @@ class ConfirmationList extends Component {
 
   handleSearch = (e) => {
     // this.getEmployeeList({ regionId, depId, branchId, designId })
-    this.getCheckPersonList();
+   
     this.getVerifyPersonList();
     this.getConfirmationList();
   };
@@ -570,6 +559,7 @@ class ConfirmationList extends Component {
           promotion_date: v.promotion_date
             ? v.promotion_date
             : "-",
+            extension:v.extension?v.extension:"-",
           date: moment(v.createdAt).format("DD-MM-YYYY"),
           service_year: v.service_year ? v.service_year : "-",
           leave: v.leave ? v.leave : "-",

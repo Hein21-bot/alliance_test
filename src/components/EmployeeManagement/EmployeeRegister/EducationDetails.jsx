@@ -158,22 +158,22 @@ const EducationDetails = props => {
                                 <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
                                     <div className='col-lg-2 col-md-3 col-sm-4' style={{ fontWeight: 'bold', paddingBottom: 10, marginLeft: 10, display: 'grid', alignItems: 'center' }}>
                                         Period
-                                        <input type='text' placeholder='' required={(viewForm || editForm) ? false : true} name="period" value={period} onChange={handleEduactionInputChange} style={{ height: 40, }} disabled />
+                                        <input type='text' placeholder='' required={(checked || editForm) ? true : false} name="period" value={period} onChange={handleEduactionInputChange} style={{ height: 40, }} disabled />
 
                                     </div>
                                     <div className='col-lg-2 col-md-3 col-sm-4' style={{ fontWeight: 'bold', paddingBottom: 10, marginLeft: 10, display: 'grid', alignItems: 'center' }}>
                                         Designation
-                                        <input type='text' placeholder='' required={(viewForm || editForm) ? false : true} name="designation" value={designation} onChange={handleEduactionInputChange} style={{ height: 40, }} />
+                                        <input type='text' placeholder='' required={(checked || editForm) ? true : false} name="designation" value={designation} onChange={handleEduactionInputChange} style={{ height: 40, }} />
 
                                     </div>
                                     <div className='col-lg-2 col-md-3 col-sm-4' style={{ fontWeight: 'bold', paddingBottom: 10, marginLeft: 10, display: 'grid', alignItems: 'center' }}>
                                         Organization
-                                        <input type='text' placeholder='' required={(viewForm || editForm) ? false : true} name="organization" value={organization} onChange={handleEduactionInputChange} style={{ height: 40, }} />
+                                        <input type='text' placeholder='' required={(checked || editForm) ? true : false} name="organization" value={organization} onChange={handleEduactionInputChange} style={{ height: 40, }} />
 
                                     </div>
                                     <div className='col-lg-2 col-md-3 col-sm-4' style={{ fontWeight: 'bold', paddingBottom: 10, marginLeft: 10, display: 'grid', alignItems: 'center' }}>
                                         Location
-                                        <input type='text' placeholder='' required={(viewForm || editForm) ? false : true} name="location" value={location} onChange={handleEduactionInputChange} style={{ height: 40, }} />
+                                        <input type='text' placeholder='' required={(checked || editForm) ? true : false} name="location" value={location} onChange={handleEduactionInputChange} style={{ height: 40, }} />
 
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center', marginLeft: 20, }}>

@@ -52,7 +52,7 @@ const ContactDetails = props => {
                         Guarantor
                     </div>
                     <div className='col-lg-6 col-md-6 col-sm-6' style={{}}>
-                        <input type='text' placeholder='' required={(viewForm || editForm) ? false : true} name="guarantor" value={guarantor} onChange={handleContactDetailInputChange} style={{ width: '100%', height: 40, }} />
+                        <input type='text' placeholder=''  name="guarantor" value={guarantor} onChange={handleContactDetailInputChange} style={{ width: '100%', height: 40, }} />
 
                     </div>
 
@@ -64,7 +64,7 @@ const ContactDetails = props => {
                         Guarantor's Phone
                     </div>
                     <div className='col-lg-6 col-md-6 col-sm-6' style={{}}>
-                        <input type='number' placeholder='' required={(viewForm || editForm) ? false : true} name="guarantorPhone" value={guarantorPhone} onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} onChange={handleContactDetailInputChange} style={{ width: '100%', height: 40, }} />
+                        <input type='number' placeholder=''  name="guarantorPhone" value={guarantorPhone} onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} onChange={handleContactDetailInputChange} style={{ width: '100%', height: 40, }} />
 
                     </div>
 
@@ -97,11 +97,11 @@ const ContactDetails = props => {
                                     />
                                 </div>
                                 <div className='col-lg-6 col-md-6 col-sm-6' style={{ paddingRight: 0, paddingLeft: 0 }}>
-                                    <input type='number' placeholder='' required={(viewForm || editForm) ? false : true} name="gran_nrc_no" value={gran_nrc_number} onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} onChange={handleContactDetailInputChange} style={{ width: '100%', height: 40, }} />
+                                    <input type='number' placeholder=''  name="gran_nrc_no" value={gran_nrc_number} onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} onChange={handleContactDetailInputChange} style={{ width: '100%', height: 40, }} />
 
                                 </div>
                             </div>
-                            <input type='text' placeholder='' name="" required={(viewForm || editForm) ? false : true} value={guarantorNRC} style={{ width: '100%', height: 40, }} />
+                            <input type='text' placeholder='' name="" value={guarantorNRC} style={{ width: '100%', height: 40, }} />
 
 
                         </div>

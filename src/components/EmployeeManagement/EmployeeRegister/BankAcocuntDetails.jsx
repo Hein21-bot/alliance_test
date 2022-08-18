@@ -39,7 +39,7 @@ const BankAccountDetails = props => {
                             Account Name
                         </div>
                         <div className='col-lg-5 col-md-6 col-sm-8 col-xs-8' style={{ paddingLeft: 0, }}>
-                            <input type='text' placeholder='' required={(viewForm || editForm) ? false : true} name="accountName" value={employeeNameEng.toUpperCase()} onChange={handleBankDetailInputChange} style={{ width: '100%', height: 40, paddingLeft: 10, }} />
+                            <input type='text' placeholder='' required={selected_bank !=null}  name="accountName" value={employeeNameEng.toUpperCase()} onChange={handleBankDetailInputChange} style={{ width: '100%', height: 40, paddingLeft: 10, }} />
 
                         </div>
 
@@ -49,7 +49,7 @@ const BankAccountDetails = props => {
                             Account Number
                         </div>
                         <div className='col-lg-5 col-md-6 col-sm-8 col-xs-8' style={{ paddingLeft: 0, }}>
-                            <input type='number' inputMode='numeric' pattern='\d*' placeholder='' required={(viewForm) ? false : true} name="accountNumber" value={accountNumber} onChange={handleBankDetailInputChange} onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} style={{ width: '100%', height: 40, paddingLeft: 10, }} />
+                            <input type='number' inputMode='numeric' pattern='\d*' required={selected_bank !=null} placeholder='' name="accountNumber" value={accountNumber} onChange={handleBankDetailInputChange} onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} style={{ width: '100%', height: 40, paddingLeft: 10, }} />
                         </div>
 
                     </div>
@@ -152,16 +152,22 @@ const BankAccountDetails = props => {
                             <div onClick={handleBankAccountDetails} style={{ borderRadius: 5, display: 'flex', alignItems: 'center', margin: 10, cursor: 'pointer', background: '#337ab7', color: 'white', border: 'none', width: 90, textAlign: 'center', justifyContent: 'center' }}>
                                 Next
                             </div> :
-                            (bankData.length > 0) ?
+                            // (bankData.length > 0) ?
                                 <button type={"submit"} style={{ borderRadius: 5, padding: 10, margin: 10, background: '#337ab7', color: 'white', border: 'none', width: 90 }}>
                                     Next
-                                </button> :
-                                <div onClick={() => alert("Please Add Bank Data first!")} style={{ borderRadius: 5, display: 'flex', alignItems: 'center', margin: 10, cursor: 'pointer', background: '#337ab7', color: 'white', border: 'none', width: 90, textAlign: 'center', justifyContent: 'center' }}>
-                                    Next
-                                </div>
+                                </button> 
+                                // :
+                                // <div onClick={() => alert("Please Add Bank Data first!")} style={{ borderRadius: 5, display: 'flex', alignItems: 'center', margin: 10, cursor: 'pointer', background: '#337ab7', color: 'white', border: 'none', width: 90, textAlign: 'center', justifyContent: 'center' }}>
+                                //     Next
+                                // </div>
 
 
                 }
+                {/* <div>
+                <button type={"submit"} style={{ borderRadius: 5, padding: 10, margin: 10, background: '#337ab7', color: 'white', border: 'none', width: 90 }}>
+                                    Next
+                </button> 
+                </div> */}
                 {/* <button type={(selected_bank !== null && accountName != '' && accountNumber != '') ? null : "submit"} onClick={() => handleBankAccountDetails} style={{ borderRadius: 5, padding: 10, margin: 10, background: '#337ab7', color: 'white', border: 'none', width: 90 }}>
                     Next
                 </button> */}
