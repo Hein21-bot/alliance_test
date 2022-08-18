@@ -179,24 +179,29 @@ class ExtensionReport extends Component {
             <div className="row  white-bg dashboard-header">
            
               <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
+              <div style={{marginRight:10,width:150}}>
               <DatePicker
                   dateFormat="DD/MM/YYYY"
                   value={this.state.from_date}
                   onChange={this.handleSelectedFromdate}
                   timeFormat={false}
                 />
+              </div>
+              <div style={{marginRight:10,width:150}}>
               <DatePicker
                  dateFormat="DD/MM/YYYY"
                  value={this.state.to_date}
                  onChange={this.handleSelectedTodate}
                  timeFormat={false}
                 />
+              </div>
               <Select
               styles={{
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 150,
+                  marginRight:10
                 }),
                 control: base => ({
                   ...base,
@@ -216,7 +221,8 @@ class ExtensionReport extends Component {
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 150,
+                  marginRight:10
                 }),
                 control: base => ({
                   ...base,

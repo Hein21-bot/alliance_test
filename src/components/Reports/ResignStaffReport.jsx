@@ -30,6 +30,7 @@ class ResignStaffReport extends Component {
            designationList:null,
            selected_designation:null,
            exitStatusList:[
+            {label:"All",value:-1},
             {
               label:"Active",value:0
             },
@@ -148,7 +149,7 @@ class ResignStaffReport extends Component {
       const designationId=this.state.selected_designation ? this.state.selected_designation.value : 0
       const regionId = this.state.selected_region ? this.state.selected_region.region_id : 0
       const employee = this.state.selected_employee ? this.state.selected_employee.value : 0
-      const exitStatusId= this.state.selected_exitstatus ? this.state.selected_exitstatus.value : 1
+      const exitStatusId= this.state.selected_exitstatus ? this.state.selected_exitstatus.value : -1
         fetch(main_url+"report/employeeResign/"+regionId+"/"+branchId+"/"+designationId+"/"+employee+"/"+exitStatusId)
           .then(res => { if (res.ok) return res.json() })
           .then(list => {

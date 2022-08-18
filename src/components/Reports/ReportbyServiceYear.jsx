@@ -19,7 +19,7 @@ require('datatables.net-buttons/js/dataTables.buttons.min');
 require('datatables.net-buttons/js/buttons.html5.min');
 
 
-class ReportByServiceYear extends Component {
+class ReportbyServiceYear extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -203,21 +203,24 @@ class ReportByServiceYear extends Component {
         return (
             <div>
             <div className="row  white-bg dashboard-header">
-           
-              <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
-              <h3>Employee Report by Service Year</h3>
+            <h3>Employee Report by Service Year</h3>
+              <div className='flex-row' style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
+              
+              <div style={{width:150,marginRight:10}}>
               <DatePicker
                             dateFormat="DD/MM/YYYY"
                             value={this.state.date}
                             onChange={this.handleSelectedDate}
                             timeFormat={false}
                         />
+              </div>
               <Select
               styles={{
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 150,
+                  marginRight:10
                 }),
                 control: base => ({
                   ...base,
@@ -237,7 +240,8 @@ class ReportByServiceYear extends Component {
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 150,
+                  marginRight:10
                 }),
                 control: base => ({
                   ...base,
@@ -252,13 +256,14 @@ class ReportByServiceYear extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
-           <input type="value"  placeholder="Name" className="form-control input-md" style={{width:"100px"}} value={this.state.name} />
+           <input type="value"  placeholder="Name" className="form-control input-md" style={{width:150,marginRight:10}} value={this.state.name} />
              <Select
               styles={{
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 150,
+                  marginRight:10
                 }),
                 control: base => ({
                   ...base,
@@ -279,7 +284,8 @@ class ReportByServiceYear extends Component {
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 150,
+                  
                 }),
                 control: base => ({
                   ...base,
@@ -305,4 +311,4 @@ class ReportByServiceYear extends Component {
         )
     }
 }
-    export default ReportByServiceYear;
+    export default ReportbyServiceYear;

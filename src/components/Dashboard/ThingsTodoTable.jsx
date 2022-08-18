@@ -65,6 +65,8 @@ class ThingsTodoTable extends Component {
       { request: "Phone Bill Request", count: 0, link: "/phonebillrequest" },
       { request: "Petrol Request", count: 0, link: "/petrolRequest" },
       { request: "Bithday Fund Request", count: this.state.birthdayCount, link: "/birthday_fund_benefit" },
+      { request:"Staff Complain Box",count:20,link:"/staffComplain"},
+      { request:"Confirmation Prepare List",count:30,link: "/confirmation_list"}
     ];
     return (
       <div
