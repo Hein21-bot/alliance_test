@@ -210,7 +210,7 @@ class HistoryReport extends Component {
         return (
             <div className="col-12">
                     <div className='white-bg ' style={{ paddingTop: 20, border: '1px solid lightgrey', display: 'grid', borderTop: 'none', marginTop: -10, paddingBottom: 20, boxShadow: '5px 5px 5px lightgrey',paddingLeft: 20}}>
-                        <h3 className=""style={{paddingLeft:"40px"}} >Employee History</h3>
+                        <h3 className=""style={{paddingLeft:"40px"}} >Employee History Report</h3>
                         <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px', paddingLeft: 20, paddingRight: 20 }}>
                             <Select
                                 styles={{
