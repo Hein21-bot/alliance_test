@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { main_url, getBranch, getRegion, getDepartment } from '../../utils/CommonFunction';
 import DatePicker from 'react-datetime';
+import moment from "moment";
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css';
 import 'datatables.net-dt/css/jquery.dataTables.css'
@@ -119,7 +120,7 @@ class HistoryReport extends Component {
         if (event != null)
             this.setState({
                 depId: event
-            }, () => { console.log("dtaa===>>>", this.state.depId.value) })
+            })
     }
     handleSearchData = () => {
         fetch(`${main_url}report/historyReport/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.depId ? this.state.depId.value : 0}/${this.state.empId ? this.state.empId.label : 0}/${this.state.empName ? this.state.empName : 0}`)
@@ -129,9 +130,6 @@ class HistoryReport extends Component {
                 
                 this.setState({
                     empProfile: list
-                }, () => { 
-                    console.log(this.state.empProfile[0].history)
-                   
                 })
                 this._setTableData(this.state.empProfile[0].history);
             })
@@ -364,6 +362,7 @@ class HistoryReport extends Component {
                                             </div>
                                             <div className='col-lg-5 col-md-5 col-sm-5'>{this.state.empProfile[0].address}</div>
                                         </div>
+                                        
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
                                             <div className='col-lg-5 col-md-5 col-sm-5'>
                                                 Phone No
@@ -400,7 +399,7 @@ class HistoryReport extends Component {
                                             <div className='col-lg-2 col-md-2 col-sm-2'>
                                                 :
                                             </div>
-                                            <div className='col-lg-5 col-md-5 col-sm-5'>{this.state.empProfile[0].effective_date}</div>
+                                            <div className='col-lg-5 col-md-5 col-sm-5'>{moment(this.state.empProfile[0].employ_date).format("YYYY-MM-DD")}</div>
                                         </div>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
                                             <div className='col-lg-5 col-md-5 col-sm-5'>
@@ -427,17 +426,18 @@ class HistoryReport extends Component {
                                             <div className='col-lg-2 col-md-2 col-sm-2'>
                                                 :
                                             </div>
-                                            <div className='col-lg-5 col-md-5 col-sm-5'>BaLa</div>
+                                            <div className='col-lg-5 col-md-5 col-sm-5'>{this.state.empProfile[0].deptname}</div>
                                         </div>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
+                                        {/* <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
                                             <div className='col-lg-5 col-md-5 col-sm-5'>
                                                 Resign Date
                                             </div>
                                             <div className='col-lg-2 col-md-2 col-sm-2'>
                                                 :
                                             </div>
-                                            <div className='col-lg-5 col-md-5 col-sm-5'>BaLa</div>
-                                        </div>
+                                            <div className='col-lg-5 col-md-5 col-sm-5'>{this.state.empProfile[0].resign_date}</div>
+                                        </div> */}
+                                        {/* {this.state.empProfile[0].deptname == null ? 
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
                                             <div className='col-lg-5 col-md-5 col-sm-5 '>
                                                 Resign Status
@@ -445,8 +445,9 @@ class HistoryReport extends Component {
                                             <div className='col-lg-2 col-md-2 col-sm-2'>
                                                 :
                                             </div>
-                                            <div className='col-lg-5 col-md-5 col-sm-5'>BaLa</div>
+                                            <div className='col-lg-5 col-md-5 col-sm-5'>{this.state.empProfile[0].resign_status}</div>
                                         </div>
+                                          : null}  */}
                                     </div>
 
                                 </div>
