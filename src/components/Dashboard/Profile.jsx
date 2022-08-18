@@ -164,7 +164,7 @@ class Profile extends Component {
                 <p style={styles.profileRightText}>
                   {this.state.userInfo.child_count}
                 </p>
-              </div>:''
+              </div>:null
               }
             </div>
             <div style={{ width: "0.5%", marginRight: 5 }}>
