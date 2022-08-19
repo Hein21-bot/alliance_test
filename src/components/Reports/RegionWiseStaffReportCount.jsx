@@ -98,6 +98,7 @@ class RegionWiseStaffReportCount extends Component {
 
         return (
             <div style={{overflowX:'auto'}}>
+                <h3 className="">RegionWiseStaff Report</h3>
                 <table className="table table-bordered" style={{overflow:'scroll'}}>
                     <thead>
                         <tr style={{ backgroundColor: 'blue', color: 'white',overflow:'scroll' }}>
