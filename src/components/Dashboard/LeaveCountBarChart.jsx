@@ -14,7 +14,8 @@ class LeaveCounrBarChart extends Component {
             departmentId: 0,
             leaveData: [],
             countData: [],
-            chartData: []
+            chartData: [],
+            data:[]
         }
     }
 
@@ -47,7 +48,7 @@ class LeaveCounrBarChart extends Component {
                         count.push(v.count)
                     })
 
-                    this.setState({ leaveData: label, countData: count })
+                    this.setState({ leaveData: label, countData: count,data:res },()=>{console.log("data",this.state.countData)})
                 }
                 this.setChartOption()
             })
@@ -112,7 +113,7 @@ class LeaveCounrBarChart extends Component {
            branchId : event
         })
     }
-    onClickLeaveCountSearch = () => {
+    onClickLeaveCountSearch = () => { 
         this.leaveDashboard(this.state.branchId.value == undefined ? this.state.branchId : this.state.branchId.value,this.state.departmentId.value == undefined ? this.state.departmentId : this.state.departmentId.value);
     }
     handleSelectedDepartment = async (event) => {

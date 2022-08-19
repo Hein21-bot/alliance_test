@@ -58,14 +58,15 @@ class BenefitBarChart extends Component {
     };
 
     handleStartDate = (event) => {
+        console.log('event is ===> sdate', this.state.s_date)
         this.setState({
             s_date: event,
-        });
+        },()=>{console.log('event is ===> sdate', this.state.s_date)});
     };
 
     handleEndDate = (event) => {
         this.setState({
-            e_date: event,
+            e_date:  event,
         });
     };
 
@@ -85,12 +86,12 @@ class BenefitBarChart extends Component {
     //     this.getBenefit(this.state.branchId.value, this.state.depId.value, this.state.s_date, this.state.e_date);
     // }
     onClickExpenseCountSearch = () => {
-        this. getBenefit( this.state.s_date, this.state.e_date,this.state.branchId.value == undefined ? this.state.branchId : this.state.branchId.value,this.state.depId.value == undefined ? this.state.depId : this.state.depId.value);
-//    console.log("br&dep",this.state.depId,this.state.branchId)
+        this. getBenefit( this.state.branchId ?  this.state.branchId.value : 0,this.state.depId.value == undefined ? this.state.depId : this.state.depId.value,moment(this.state.s_date).format("YYYY-MM-DD"),moment(this.state.e_date).format("YYYY-MM-DD"));
+   console.log("br&dep",this.state.depId,this.state.branchId)
         
     }
     async getBenefit(branchId, depId, s_date, e_date){
-        fetch(main_url + "dashboard/benefitExpense/" + branchId + "/" + depId + "/" + moment(s_date).format('YYYY-MM-DD') + "/" + moment(e_date).format('YYYY-MM-DD'))
+        fetch(main_url + "dashboard/benefitExpense/" + branchId + "/" + depId + "/" + s_date + "/" + e_date)
             .then((response) => {
                 if (response.ok) return response.json();
             })

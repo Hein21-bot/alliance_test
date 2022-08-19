@@ -48,11 +48,7 @@ class EmployeeDetailMain extends Component {
       employeeData: null,
       addNew: false,
       employeeName: "",
-      statusList: [
-        { value: 1, label: "Permanent" },
-        { value: 2, label: "Part-Time" },
-        { value: 3, label: "Training" },
-      ],
+      statusList: null,
       selected_status: null,
       employedDate: "",
       effectiveDate: "",
@@ -92,6 +88,7 @@ class EmployeeDetailMain extends Component {
     this.getJobList();
     this.getRegionList();
     this.getSalaryTemplate();
+    this.getStatusList();
     const level = await this.getLevelOptions();
     const sub_level = await this.getCareerSubLevelOptions();
     const level_options =
@@ -143,7 +140,17 @@ class EmployeeDetailMain extends Component {
         });
       });
   }
- 
+  getStatusList() {
+    fetch(`${main_url}employee/getStatus`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        this.setState({
+          statusList: list,
+        });
+      });
+  }
   getExitStatus() {
     fetch(`${main_url}employee/getExitStatus`)
       .then((res) => {

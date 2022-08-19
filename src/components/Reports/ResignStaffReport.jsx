@@ -29,15 +29,7 @@ class ResignStaffReport extends Component {
            selected_branch:null,
            designationList:null,
            selected_designation:null,
-           exitStatusList:[
-            {label:"All",value:-1},
-            {
-              label:"Active",value:0
-            },
-            {
-              label:"Exit",value:1
-            }
-           ]                         
+           exitStatusList: null,           
         }
     }
     
@@ -56,6 +48,18 @@ class ResignStaffReport extends Component {
           this.getEmployeeName();
           this.getBranchList();
           this.getDesignationList();
+          this.getStatusList();
+    }
+    getStatusList() {
+      fetch(`${main_url}employee/getStatus`)
+        .then((res) => {
+          if (res.ok) return res.json();
+        })
+        .then((list) => {
+          this.setState({
+            exitStatusList: list,
+          });
+        });
     }
     getRegionList() {
       fetch(`${main_url}benefit/getRegionList`)
