@@ -274,7 +274,7 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
 }
 .mini-navbar .nav .nav-second-level {
   position: absolute;
-  left: 140px;
+  left: 100px;
   top: 0;
   background-color: #2f4050;
   padding: 10px 10px 10px 10px;
@@ -284,7 +284,7 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
   background: #293846;
 }
 .mini-navbar li.active .nav-second-level {
-  left: 140px;
+  left: 95px;
 }
 .navbar-default .special_link a {
   background: #27568A;

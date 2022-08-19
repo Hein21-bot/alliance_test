@@ -318,12 +318,6 @@ export default class Sidebar extends Component {
                 </li>
               }
               
-                
-              
-              {/* <li className={pathname === '/AnnouncementList' ? 'active' : ''}>
-                                    <a href="/AnnouncemetLisr" refresh="true"><i className="fa fa-bell"></i>Announcement List</a>
-                                </li> */}
-              
               <li
                 className={
                   this.checkPathName() === "/employee_management"
