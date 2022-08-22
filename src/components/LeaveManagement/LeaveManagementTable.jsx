@@ -7,6 +7,7 @@ import 'datatables.net-dt/css/jquery.dataTables.css'
 import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 import 'jspdf-autotable';
 import { main_url, getMainRole, getUserId, getFirstDayOfMonth } from "../../utils/CommonFunction";
+import Select from 'react-select'
 const $ = require('jquery');
 const jzip = require('jzip');
 window.JSZip = jzip;
@@ -25,7 +26,21 @@ export default class LeaveManagementTable extends Component {
             data: [],
             is_main_role: getMainRole(),
             year: moment(getFirstDayOfMonth()),
-            loading: false
+            loading: false,
+            categoryList:[
+                {label:'Request',value:1},
+                {label:'Verify',value:2},
+                {label:'Approve',value:3},
+                {label:'Reject',value:4},
+                {label:'ReferBack',value:5},
+                {label:'Cancel Request',value:6},
+                {label:'Cancel Verify',value:7},
+                {label:'Cancel Approve',value:8},
+                {label:'Cancel Reject',value:9},
+                
+            ],
+            selected_category:null,
+            selected_category_value:null
             // isHR: this.props.isHR
         }
     }
@@ -115,11 +130,22 @@ export default class LeaveManagementTable extends Component {
             this._setTableData(data)
         }
     }
+    filterCategory(){
+        let selectedCategoryValue=this.state.selected_category_value ? this.state.selected_category_value : 1
+        let data=this.state.data.filter(v=>v.application_status == selectedCategoryValue);
+        this._setTableData(data)
+    }
 
 
     handleYear = (event) => {
         this.setState({
             year: event
+        })
+    }
+    handleCategory=(event)=>{
+        this.setState({
+            selected_category:event,
+            selected_category_value:event.value
         })
     }
 
@@ -281,8 +307,10 @@ export default class LeaveManagementTable extends Component {
         // } else {
         return (
             <div>
-                {this.state.tab == 2 || this.state.tab == 0 ? <div className="row border-bottom white-bg dashboard-header">
+                <div className="row border-bottom white-bg dashboard-header">
                     <div className="row">
+                    {this.state.tab == 2 || this.state.tab == 0 ? 
+                    <>
                         <div className="col-md-3">
                             <div><label className="col-sm-12">Select Year</label></div>
                             <div className="col-md-10">
@@ -302,8 +330,33 @@ export default class LeaveManagementTable extends Component {
                                 <button type="button" className="btn btn-primary" onClick={this.filter.bind(this)}>Search</button>
                             </div>
                         </div>
+                       
+                    </>
+                : ''}
+                {
+                    this.state.tab ==2 ? <>
+                         <div className="col-md-3">
+                            <div><label className="col-sm-12">Select Category</label></div>
+                            <div className="col-md-10">
+                            <Select
+                            options={this.state.categoryList}
+                            value={this.state.selected_category}
+                            onChange={this.handleCategory}
+                            className="react-select-container checkValidate"
+                            classNamePrefix="react-select"
+                        />
+                
+                            </div>
+                        </div>
+                        <div className="col-md-3">
+                            <div className="col-md-10 margin-top-20">
+                                <button type="button" className="btn btn-primary" onClick={this.filterCategory.bind(this)}>Search</button>
+                            </div>
+                        </div>
+                    </> : ''
+                }
                     </div>
-                </div> : ''}
+                 </div>
 
                 <div className='row container mt20'>
                     <table width="99%"
