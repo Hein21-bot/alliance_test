@@ -21,7 +21,8 @@ export default class LeaveManagementMain extends Component {
             isTable: true,
             // data: [],
             active_tab: 2, // 0 for myleave list, 1 for newmyleave, 2 for allleave list, 3 for new allleave, 4 for leave reprot, 5 for leave balance
-            isHR: ''
+            isHR: '',
+           
         }
     }
 
@@ -104,8 +105,8 @@ export default class LeaveManagementMain extends Component {
                 <div className="row mt20">
                     <div className="col-sm-2">
                         <div className="list-group leave-list-group tab" role="tabList" >
-                            <a className="list-group-item list-group-item-action" aria-selected='true' id='myleave' href="#myLeave_list" role="tab" onClick={() => this.changeTab(0)} >My Leave</a>
-                            <a className="list-group-item list-group-item-action " id='all_leave' href="#allLeave_list" role="tab" onClick={() => this.changeTab(2)} >All Leave</a>
+                            <a className="list-group-item list-group-item-action" aria-selected='true' id='myleave' href="#myLeave_list" role="tab" onClick={() => this.changeTab(0)} >Leave Management</a>
+                            <a className="list-group-item list-group-item-action " id='all_leave' href="#allLeave_list" role="tab" onClick={() => this.changeTab(3)} >New Leave</a>
                             <a className="list-group-item list-group-item-action" id='leave_report' href="#leaveReport" role="tab" onClick={() => this.changeTab(4)} >Leave Report</a>
                             <a className="list-group-item list-group-item-action" id='leave_balance' href="#leaveBalance" role="tab" onClick={() => this.changeTab(5)} >Leave Balance</a>
                             {this.state.user_id == 1 ? <a className="list-group-item list-group-item-action" id='calculate_leave' href="#calculateLeave" role="tab" onClick={() => this.changeTab(6)} >Calculate Leave Balance</a> : ""}
@@ -114,20 +115,18 @@ export default class LeaveManagementMain extends Component {
                     <div className="col-sm-10" style={{ paddingRight: '20px' }}>
                         <div className="white-bg container" style={{ padding: '20px' }}>
                             {
-                                (active_tab === 0 || active_tab === 1 ?
+                                (active_tab === 0  ||  active_tab === 2 ?
 
                                     <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
                                         <li className="nav-item">
                                             <a className="nav-link active" href="#myLeave_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(0)}>My Leave</a>
                                         </li>
                                         <li className="nav-item1">
-                                            <a className="nav-link" href="#myLeave_create" role="tab" data-toggle="tab" onClick={() => this.changeTab(1)}>New Leave</a>
+                                        <a className="nav-link  active" href="#allLeave_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(2)}>All Leave</a>
                                         </li>
-                                    </ul> : active_tab === 2 || active_tab === 3 ?
+                                    </ul> : active_tab === 3 ?
                                         <ul className="nav nav-tabs a2" role="tablist">
-                                            <li className="nav-item white-bg">
-                                                <a className="nav-link  active" href="#allLeave_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(2)}>All Leave</a>
-                                            </li>
+                                           
                                             <li className="nav-item1 white-bg">
                                                 <a className="nav-link" href="#allLeave_create" role="tab" data-toggle="tab" onClick={() => this.changeTab(3)}>New Leave</a>
                                             </li>
@@ -150,7 +149,7 @@ export default class LeaveManagementMain extends Component {
 
                                 (active_tab === 0 || active_tab === 2 ?
                                     < LeaveManagementTable tab={active_tab} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} goToCancelForm={this.goToCancelForm} isHR={this.state.isHR} />
-                                    : active_tab === 1 || active_tab === 3 ?
+                                    :  active_tab === 3 ?
                                         <NewLeave tab={active_tab} />
                                         : active_tab === 4 ? <LeaveReport />
                                             : active_tab === 5 ? <LeaveBalance />

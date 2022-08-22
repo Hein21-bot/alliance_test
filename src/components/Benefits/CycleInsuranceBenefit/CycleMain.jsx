@@ -16,7 +16,8 @@ class CycleMain extends Component {
             isView: false,
             isEdit: false,
             data: [],
-            permission_status: {}
+            permission_status: {},
+            requestData:[]
         }
     }  
     async componentDidMount() {
@@ -35,7 +36,7 @@ class CycleMain extends Component {
                 if (response.ok) return response.json()
             })
             .then(res => {
-                this.setState({ data: res })
+                this.setState({ data: res, requestData:res.filter(v=>v.createdBy ==this.state.user_id) })
             })
             
             .catch(error => console.error(`Fetch Error =\n`, error));
@@ -89,12 +90,38 @@ class CycleMain extends Component {
             data: data
         })
     }
+    requestlist = async (data) => {
+        if (data == 'myrequest') {
+          this.setState({
+            requestData: this.state.data.filter(v => v.createdBy==this.state.user_id),
+            requestType:"myrequest"
+            
+          })
+        } else if (data == 'allrequest') {
+          this.setState({
+            requestData: this.state.data.filter(v => v.createdBy !=this.state.user_id),
+            requestType:"allrequest"
+            
+          })
+        }
+      }
+
     render(){
         return (
             <div className="border-bottom white-bg dashboard-header">
             <ToastContainer position={toast.POSITION.TOP_RIGHT} />
             <BenefitPageHeader pageTitle="Cycle Insurance" setupForm={this.setupForm} isAddNew={this.state.isAddNew} isView={this.state.isView} isEdit={this.state.isEdit} permission={this.state.permission_status} />
             <br />
+            <div>
+          <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
+            <li className="active">
+              <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.requestlist('myrequest')}>My Request</a>
+            </li>
+            <li className="nav-item1">
+              <a className="nav-link" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.requestlist('allrequest')}>All Request</a>
+            </li>
+          </ul>
+        </div>
                {
                    this.state.isAddNew || this.state.isEdit ?
                        <CycleAddNew data={this.state.data} goToTable={this.goToTable} showToast={this.showToast} /> : ''
@@ -102,7 +129,7 @@ class CycleMain extends Component {
 
                {
                    this.state.isTable ?
-                       <CycleTable goToViewForm={this.goToViewForm} data={this.state.data} goToEditForm={this.goToEditForm} permission={this.state.permission_status} /> : ''
+                       <CycleTable goToViewForm={this.goToViewForm} data={this.state.requestData} goToEditForm={this.goToEditForm} permission={this.state.permission_status} /> : ''
                }
                {
                    this.state.isView ?
