@@ -423,6 +423,7 @@ export default class TravelRequestParent extends Component {
                     setupForm={this.setupForm} isAddNew={this.state.isAddNew || this.state.isClaimAddNew}
                     isView={this.state.isView || this.state.isACRView || this.state.isCRView} isEdit={this.state.isEdit || this.state.isACREdit || this.state.isCREdit} permission={this.state.permission_status} />
                 <div>
+
                     {
                         this.state.isAddNew ? <TravelAddNewParent goBack={this.goBack} add={this.add} addClaimRequest={this.addClaimRequest} /> : ''
                     }
