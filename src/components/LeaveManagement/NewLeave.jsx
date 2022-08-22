@@ -148,7 +148,7 @@ export default class NewLeave extends Component {
 
                 if (this.state.selectedCategory.value == 4) {
                     this.setState({
-                        leave_days1: calculationDate(startDate, endDate) - this.state.holidays
+                        leave_days1: calculationDate1(startDate, endDate) - this.state.holidays
                     })
                 } else {
                     this.setState({
