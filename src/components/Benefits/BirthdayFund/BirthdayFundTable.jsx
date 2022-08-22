@@ -325,7 +325,7 @@ export default class BirthdayFundTable extends Component {
         return (
 
             <div>
-                <h3 className="col-md-12">Birthday Benefit Table</h3>
+                
                 <div className="row border-bottom white-bg dashboard-header">
                     <div className="row">
                         <div className="col-md-3">

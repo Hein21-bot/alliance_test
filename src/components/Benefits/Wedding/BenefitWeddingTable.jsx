@@ -299,7 +299,7 @@ export default class WeddingBenefitTable extends Component {
                         </div>
                     </div>
                 </div>
-                <h3 className="col-md-12">Wedding Benefit Table</h3>
+               
                 <table width="99%"
                     className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
                     id="dataTables-table"

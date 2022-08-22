@@ -1,6 +1,7 @@
 import Cookies from 'universal-cookie';
 import $ from 'jquery';
 import moment from 'moment';
+import { toast } from 'react-toastify';
 const CryptoJS = require('crypto-js');
 
 //@kpk
@@ -879,6 +880,7 @@ async function setPrintedStatus(path, id) {
 
 function stopSaving() {
     $('#saving_button').attr('disabled', true);
+    toast.error("Please Choose Attachment File!");
 }
 
 function startSaving() {

@@ -260,7 +260,10 @@ body:not(.fixed-sidebar):not(.canvas-menu).mini-navbar .nav li:hover > .nav-seco
   display: block;
   border-radius: 0 2px 2px 0;
   min-width: 160px;
-  height: auto;
+
+  max-height: 90px !important;
+  overflow-y: scroll;
+ 
 }
 body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
   font-size: 12px;
@@ -274,17 +277,19 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
 }
 .mini-navbar .nav .nav-second-level {
   position: absolute;
-  left: 140px;
+  left: 100px;
   top: 0;
   background-color: #2f4050;
   padding: 10px 10px 10px 10px;
   font-size: 12px;
+ 
 }
 .canvas-menu.mini-navbar .nav-second-level {
   background: #293846;
 }
 .mini-navbar li.active .nav-second-level {
-  left: 140px;
+  left: 95px;
+ 
 }
 .navbar-default .special_link a {
   background: #27568A;
@@ -293,6 +298,7 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
 .navbar-default .special_link a:hover {
   background: #4C8BD0 !important;
   color: white;
+  
 }
 .navbar-default .special_link a span.label {
   background: #fff;

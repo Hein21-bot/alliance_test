@@ -75,7 +75,7 @@ class ThingsTodoTable extends Component {
       { request: "Petrol Request", count: 0, link: "/petrolRequest" },
       { request: "Bithday Fund Request", count: this.state.birthdayCount, link: "/birthday_fund_benefit" },
       { request: "Staff Complain Box", count: this.state.staffComplainCount, link: "/staffComplain" },
-      { request: "Confirmation Prepare List", count: this.state.confirmationCount, link: "/confirmation_check" }
+      { request: "Confirmation Request", count: this.state.confirmationCount, link: "/confirmation_check" }
     ];
 
     let data_filter = (this.state.user_id == 17 || this.state.user_id == 921) ? dummy_data : dummy_data.filter(v => v.request != 'Staff Complain Box')

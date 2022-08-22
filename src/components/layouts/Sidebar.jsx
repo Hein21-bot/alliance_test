@@ -318,12 +318,6 @@ export default class Sidebar extends Component {
                 </li>
               }
               
-                
-              
-              {/* <li className={pathname === '/AnnouncementList' ? 'active' : ''}>
-                                    <a href="/AnnouncemetLisr" refresh="true"><i className="fa fa-bell"></i>Announcement List</a>
-                                </li> */}
-              
               <li
                 className={
                   this.checkPathName() === "/employee_management"
@@ -392,7 +386,7 @@ export default class Sidebar extends Component {
                 </ul>
               </li>
               <li
-                className={this.checkPathName() === "/reports" || pathname === "/EmployeeDirectory" || pathname ==="/ResignStaffReport" || pathname==="/RegionStaffReport" || pathname ==="/BranchStaffReport" || pathname==="/HoStaffReport" || pathname==="/EmployeeReport" || pathname==="/ReportbyServiceYear" || pathname==="/HistoryReport" || pathname==="/FRDReport" || pathname==="/ExtensionReport" ? "active" : ""}
+                className={this.checkPathName() === "/reports" || pathname === "/EmployeeDirectory" || pathname ==="/ResignStaffReport" || pathname==="/RegionStaffReport" || pathname ==="/BranchStaffReport" || pathname==="/HoStaffReport" || pathname==="/EmployeeReport" || pathname==="/ReportbyServiceYear" || pathname==="/HistoryReport" || pathname==="/FRDReport" || pathname==="/ExtensionReport" || pathname==="/RegionWiseStaffReportCount" ? "active" : ""}
               >
                 <a href="/EmployeeDirectory" className="sideList">
                   <i className="fa fa-folder sideIcon"></i>
@@ -440,6 +434,11 @@ export default class Sidebar extends Component {
                     className={pathname === "/ExtensionReport" ? "active" : ""}
                   >
                     <a href="/ExtensionReport">ExtensionReport</a>
+                  </li>
+                  <li
+                    className={pathname === "/RegionWiseStaffReportCount" ? "active" : ""}
+                  >
+                    <a href="/RegionWiseStaffReportCount">RegionWiseStaffReport</a>
                   </li>
                 </ul>
               </li>
