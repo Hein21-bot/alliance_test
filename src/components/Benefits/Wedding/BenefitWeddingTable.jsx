@@ -167,68 +167,70 @@ export default class WeddingBenefitTable extends Component {
         var status;
         var permission = this.props.permission;
         var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
-        for (var i = 0; i < data.length; i++) {
-            let result = data[i];
-            let obj = [];
-            if (result.status === 0) {
-                status = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
-
-            }
-            else if (result.status === 1) {
-                status = '<small class="label label-warning" style="background-color:#b33ce0"> Check</small>'
-            }
-            else if (result.status === 2) {
-                status = '<small class="label label-warning" style="background-color:#f2a509"> Verify</small>'
-            }
-            else if (result.status === 3) {
-                status = '<small class="label label-warning" style="background-color:#29a50a">Approve</small>'
-            }
-            else if (result.status === 4) {
-
-                status = '<small class="label label-warning" style="background-color:#f60e2f"> Reject</small>'
-            }
-            else if (result.status === 5) {
-                status = '<small class="label label-warning" style="background-color:#cc0066"> ReferBack </small>'
-            }
-
-            obj = {
-                no: i + 1,
-                form_no: fno.fno_wedding + data[i].form_no,
-                employee_id: data[i].employment_id,
-                employee_name: data[i].employee_name,
-                position: data[i].designations ? data[i].designations : '-',
-                branch: data[i].branch_name,
-                spouseName: data[i].staff_spouse_name,
-                spouseCompanyOption: data[i].is_alliance_staff === 1 ? 'Yes' : 'No',
-                date: moment(result.createdAt).format('DD-MM-YYYY'),
-                status: status
-            }
-            if (has_action) {
-                if (result.status !== 3) {
-                    obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
-                    obj.action += permission.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
-                } else {
-                    obj.action = permission.isView === 1 ?
-
-                        '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
-
-                    if (result.print === 1) {
-                        obj.action +=
-                            '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-                            JSON.stringify(result) +
-                            '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
+        if(data){
+            for (var i = 0; i < data.length; i++) {
+                let result = data[i];
+                let obj = [];
+                if (result.status === 0) {
+                    status = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
+    
+                }
+                else if (result.status === 1) {
+                    status = '<small class="label label-warning" style="background-color:#b33ce0"> Check</small>'
+                }
+                else if (result.status === 2) {
+                    status = '<small class="label label-warning" style="background-color:#f2a509"> Verify</small>'
+                }
+                else if (result.status === 3) {
+                    status = '<small class="label label-warning" style="background-color:#29a50a">Approve</small>'
+                }
+                else if (result.status === 4) {
+    
+                    status = '<small class="label label-warning" style="background-color:#f60e2f"> Reject</small>'
+                }
+                else if (result.status === 5) {
+                    status = '<small class="label label-warning" style="background-color:#cc0066"> ReferBack </small>'
+                }
+    
+                obj = {
+                    no: i + 1,
+                    form_no: fno.fno_wedding + data[i].form_no,
+                    employee_id: data[i].employment_id,
+                    employee_name: data[i].employee_name,
+                    position: data[i].designations ? data[i].designations : '-',
+                    branch: data[i].branch_name,
+                    spouseName: data[i].staff_spouse_name,
+                    spouseCompanyOption: data[i].is_alliance_staff === 1 ? 'Yes' : 'No',
+                    date: moment(result.createdAt).format('DD-MM-YYYY'),
+                    status: status
+                }
+                if (has_action) {
+                    if (result.status !== 3) {
+                        obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+                        obj.action += permission.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
                     } else {
-                        obj.action +=
-                            '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-                            JSON.stringify(result) +
-                            '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
+                        obj.action = permission.isView === 1 ?
+    
+                            '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+    
+                        if (result.print === 1) {
+                            obj.action +=
+                                '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                                JSON.stringify(result) +
+                                '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
+                        } else {
+                            obj.action +=
+                                '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                                JSON.stringify(result) +
+                                '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
+                        }
                     }
                 }
+                l.push(obj)
+    
             }
-            l.push(obj)
-
+    
         }
-
         if ($.fn.dataTable.isDataTable('#dataTables-table')) {
             table = $('#dataTables-table').dataTable();
             table.fnClearTable();

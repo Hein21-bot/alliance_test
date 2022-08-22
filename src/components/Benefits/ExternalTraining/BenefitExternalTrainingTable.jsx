@@ -157,6 +157,7 @@ export default class BenefitChildTable extends Component {
         var status;
         var permission = this.props.permission;
         var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
+       if(data){
         for (var i = 0; i < data.length; i++) {
             let result = data[i];
             let obj = [];
@@ -220,6 +221,7 @@ export default class BenefitChildTable extends Component {
             l.push(obj)
 
         }
+       }
         // this.setState({
         //     dataSource: l,
 

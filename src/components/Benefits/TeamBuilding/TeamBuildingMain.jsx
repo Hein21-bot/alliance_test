@@ -19,7 +19,8 @@ class TeamBuildingMain extends Component {
             user_info: getCookieData("user_info"),
             user_id: getUserId("user_info"),
             is_main_role: getMainRole(),
-            permission_status: {}
+            permission_status: {},
+            requestData:[]
         }
     }
 
@@ -39,7 +40,7 @@ class TeamBuildingMain extends Component {
             })
             .then(res => {
                 if (res) {
-                    this.setState({ datasource: res })
+                    this.setState({ datasource: res, requestData:res.filter(v=>v.createdBy ==this.state.user_id) })
                 }
             })
             .catch(error => console.error(`Fetch Error =\n`, error));
@@ -94,6 +95,21 @@ class TeamBuildingMain extends Component {
             toast.error(text);
         }
     }
+    requestlist = async (data) => {
+        if (data == 'myrequest') {
+          this.setState({
+            requestData: this.state.datasource.filter(v => v.createdBy==this.state.user_id),
+            requestType:"myrequest"
+            
+          })
+        } else if (data == 'allrequest') {
+          this.setState({
+            requestData: this.state.datasource.filter(v => v.createdBy !=this.state.user_id),
+            requestType:"allrequest"
+            
+          })
+        }
+      }
 
 
     render() {
@@ -104,6 +120,17 @@ class TeamBuildingMain extends Component {
                 <BenefitPageHeader pageTitle="Team Building" setupForm={this.setupForm} isAddNew={this.state.isAddNew} isView={this.state.isView} isEdit={this.state.isEdit} permission={this.state.permission_status} />
 
                 <br />
+                <div>
+          <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
+            <li className="active">
+              <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.requestlist('myrequest')}>My Request</a>
+            </li>
+            <li className="nav-item1">
+              <a className="nav-link" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.requestlist('allrequest')}>All Request</a>
+            </li>
+          </ul>
+        </div>
+
                 {
                     this.state.isAddNew ?
                         <TeamBuildingAddNew goToTable={this.goToTable} data={this.state.datasource} showToast={this.showToast} /> : ''
@@ -116,7 +143,7 @@ class TeamBuildingMain extends Component {
 
                 {
                     this.state.isTable ?
-                        <TeamBuildingTable data={this.state.datasource} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status} /> : ''
+                        <TeamBuildingTable data={this.state.requestData} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status} /> : ''
 
                 }
                 {
