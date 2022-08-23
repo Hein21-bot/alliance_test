@@ -84,7 +84,9 @@ class ThingsTodoTable extends Component {
     thingsToDoController.getPetrolRequest(id, data => {
       this.setState({ petrolCount: data[0].count })
     })
-
+    thingsToDoController.getStaffComplainRequest(id, data => {
+      this.setState({ staffComplainCount: data[0].count })
+    })
   }
 
 
@@ -114,6 +116,7 @@ class ThingsTodoTable extends Component {
       { request: "Funeral Request", count: this.state.funeralCount, link: "/funeral_benefit" },
       { request: "Other Request", count: this.state.otherCount, link: "/other_benefit" },
       { request: "Training Request", count: this.state.trainingCount, link: "/trainingRequest" },
+      { request: "Staff Complain Box", count: this.state.staffComplainCount, link: "/staffComplain" },
       
     ];
 

@@ -170,6 +170,15 @@ const getPetrolRequest = (userId, setData) => {
         console.log("error staff complain ===>", error);
     })
 }
+const getStaffComplainRequest  = (userId, setData) => {
+    fetch(main_url + `dashboard/staffComplainRequest`).then(response => {
+        return response.json();
+    }).then(data => {
+        setData(data);
+    }).catch((error) => {
+        console.log("error staff complain ===>", error);
+    })
+}
 export const thingsToDoController = {
     getLeaveRequest,
     getBirthdayRequest,
@@ -180,7 +189,7 @@ export const thingsToDoController = {
     getTravelRequest,
     getWeddingRequest,
     getConfirmationRequest,
-   
+    getStaffComplainRequest,
     getFuneralRequest,
     getTeamBulidingRequest,
     getHospitalRequest,
