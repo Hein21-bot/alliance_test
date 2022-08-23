@@ -10,10 +10,8 @@ class CompensationandBenefit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      toDate: moment().format('DD-MM-YYYY'),
-      fromDate: moment(getFirstDayOfMonth()).format('DD-MM-YYYY'),
-      exitToDate: moment().format('DD-MM-YYYY'),
-      exitFromDate: moment(getFirstDayOfMonth()).format('DD-MM-YYYY'),
+      toDate: moment(),
+      fromDate: moment(getFirstDayOfMonth()),
       chartOptions: {},
       name: [],
       amount: [],
@@ -26,34 +24,51 @@ class CompensationandBenefit extends Component {
   componentDidMount() {
     this.setChartOption()
     this.getBenefit()
-    this.getBranch()
-    this.getDepartment()
+    // this.filter()
+    // this.getBranch()
+    // this.getDepartment()
 
   }
-  getBranch = () => {
-    fetch(main_url + `main/getBranch`)
-      .then((res) => {
-        if (res.ok) return res.json();
-      })
-      .then((res1) => {
-        this.setState({ branchData: res1 });
-      })
-      .catch((error) => console.error(`Fetch Error =\n`, error));
-  };
-  handleToDate = (event) => {
-    this.setState({
-      toDate: event
-    });
-  };
+  // getBranch = () => {
+  //   fetch(main_url + `main/getBranch`)
+  //     .then((res) => {
+  //       if (res.ok) return res.json();
+  //     })
+  //     .then((res1) => {
+  //       this.setState({ branchData: res1 });
+  //     })
+  //     .catch((error) => console.error(`Fetch Error =\n`, error));
+  // };
+  // handleToDate = (event) => {
+  //   this.setState({
+  //     toDate: event
+  //   });
+  // };
+  filter() {
+    let s_date = moment(this.state.s_date).format("YYYY-MM-DD");
+    let e_date = moment(this.state.e_date).format("YYYY-MM-DD");
+
+    this.getBenefit(
+        s_date,
+        e_date,
+
+
+    );
+}
   handleFromDate = (event) => {
     this.setState({
       fromDate: event
     });
   };
+  handleToDate = (event) => {
+    this.setState({
+      toDate: event
+    },()=>{console.log(">><<??",moment(this.state.toDate).format("YYYY-MM-DD"))});
+  };
   getBenefit = () => {
-    fetch(main_url + 'dashboard/benefitExpense', {
-      method: 'GET'
-    }).then(res =>
+    fetch(main_url + 'dashboard/benefitExpense'+'/'+ moment(this.state.fromDate).format("YYYY-MM-DD")+'/'+ moment(this.state.toDate).format("YYYY-MM-DD")
+    // , {method: 'GET'}
+    ).then(res =>
       res.json()
     ).then(data => {
       console.log(data)
@@ -66,16 +81,16 @@ class CompensationandBenefit extends Component {
     })
 
   }
-  getDepartment = () => {
-    fetch(main_url + `main/getDepartment`)
-      .then((res) => {
-        if (res.ok) return res.json();
-      })
-      .then((res1) => {
-        this.setState({ deptData: res1 });
-      })
-      .catch((error) => console.error(`Fetch Error =\n`, error));
-  };
+  // getDepartment = () => {
+  //   fetch(main_url + `main/getDepartment`)
+  //     .then((res) => {
+  //       if (res.ok) return res.json();
+  //     })
+  //     .then((res1) => {
+  //       this.setState({ deptData: res1 });
+  //     })
+  //     .catch((error) => console.error(`Fetch Error =\n`, error));
+  // };
 
   setChartOption = () => {
     const chartOptions = {
@@ -204,7 +219,7 @@ class CompensationandBenefit extends Component {
             </div>
           </div>
 
-          <button className='btn btn-primary text-center' style={{ height: 30, padding: '0px 5px 0px 5px' }} >Search</button>
+          <button className='btn btn-primary text-center' style={{ height: 30, padding: '0px 5px 0px 5px' }} onClick={this.filter.bind(this)}>Search</button>
         </div>
         <HighchartsReact
           highcharts={Highcharts}

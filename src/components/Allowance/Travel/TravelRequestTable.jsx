@@ -42,12 +42,15 @@ export default class TravelRequestAdvancedTable extends Component {
       selected_branch: [],
       s_date: moment(getFirstDayOfMonth()),
       e_date: moment(),
+      dataList:[],
+      data:[],
+      pending_approve:"myrequest"
     };
   }
 
   async componentDidMount() {
     let branch = await getBranch();
-    this.filter();
+  
     this.setState({
       branch: branch,
     });
@@ -253,9 +256,8 @@ export default class TravelRequestAdvancedTable extends Component {
       e_date: event,
     });
   };
-
-  getTravelRequestFilter(s_date, e_date, user_id, branch_id) {
-    fetch(
+  handleSearchData = async (s_date, e_date, user_id, branch_id) => {
+      fetch(
       main_url +
       "allowance/getTravelRequestFilter/" +
       s_date +
@@ -266,16 +268,35 @@ export default class TravelRequestAdvancedTable extends Component {
       "/" +
       branch_id
     )
-      // fetch(main_url+ "allowance/getTravelRequestFilter/")
-      .then((response) => {
-        if (response.ok) return response.json();
-      })
-      .then((res) => {
-        if (res) {
-          this.setState({ data: res }, () => this._setTableData(res));
+      .then(res => { if (res.ok) return res.json() })
+      .then(list => {
+        if (this.state.pending_approve == 'myrequest') {
+         this.setState({ dataList:list,data: list.filter(v=>v.user_id !== this.state.user_id) }, () => this._setTableData(this.state.data));
+        } else if (this.state.pending_approve == 'allrequest') {
+          this.setState({ dataList:list,data: list.filter(v=>v.user_id === this.state.user_id) }, () => this._setTableData(this.state.data));
+
         }
+
       })
-      .catch((error) => console.error(`Fetch Error =\n`, error));
+  }
+ 
+  approvedlist = async (data) => {
+    console.log("><<<",data)
+    if (data == 'myrequest') {
+      console.log("pendingg", this.state.user_id)
+      this.setState({
+        data: this.state.dataList.filter(v=>v.user_id === this.state.user_id),
+        pending_approve: 'myrequest',
+       
+      }, () =>{
+        console.log()
+        this._setTableData(this.state.data)})
+    } else {
+      this.setState({
+        data: this.state.dataList.filter(v=>v.user_id !== this.state.user_id),
+        pending_approve: 'allrequest'
+      }, () =>this._setTableData(this.state.data))
+    }
   }
 
   getTravelRequestAllowance(user_id) {
@@ -289,7 +310,8 @@ export default class TravelRequestAdvancedTable extends Component {
       })
       .then((res) => {
         if (res) {
-          this.setState({ data: res }, () => this._setTableData(res));
+          
+          this.setState({ data: res }, () => this._setTableData(res),()=>{console.log("<<>>>",this.state.data)});
         }
       })
       .catch((error) => console.error(`Fetch Error =\n`, error));
@@ -714,7 +736,7 @@ export default class TravelRequestAdvancedTable extends Component {
     var permission = this.props.permission;
     var has_action =
       permission.isView === 1 || permission.isEdit === 1 ? true : false;
-
+if (data){
     for (var i = 0; i < data.length; i++) {
       let result = data[i];
       let status = "";
@@ -834,6 +856,7 @@ export default class TravelRequestAdvancedTable extends Component {
       }
       l.push(obj);
     }
+  }
     if ($.fn.dataTable.isDataTable("#dataTables-table")) {
       table = $("#dataTables-table").dataTable();
       table.fnClearTable();
@@ -890,25 +913,35 @@ export default class TravelRequestAdvancedTable extends Component {
     });
   };
 
-  filter() {
-    let s_date = moment(this.state.s_date).format("YYYY-MM-DD");
-    let e_date = moment(this.state.e_date).format("YYYY-MM-DD");
-    let branch_id = Array.isArray(this.state.selected_branch)
-      ? 0
-      : this.state.selected_branch.value;
-    this.getTravelRequestFilter(
-      s_date,
-      e_date,
-      this.state.user_info.user_id,
-      branch_id
-    );
-  }
+  // filter() {
+  //   let s_date = moment(this.state.s_date).format("YYYY-MM-DD");
+  //   let e_date = moment(this.state.e_date).format("YYYY-MM-DD");
+  //   let branch_id = Array.isArray(this.state.selected_branch)
+  //     ? 0
+  //     : this.state.selected_branch.value;
+  //   this.getTravelRequestFilter(
+  //     s_date,
+  //     e_date,
+  //     this.state.user_info.user_id,
+  //     branch_id
+  //   );
+  // }
 
   render() {
     return (
       <div>
         <div className="row border-bottom white-bg dashboard-header">
           <div className="row">
+             <div>
+          <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
+            <li className="active">
+              <a className="nav-link active" href="#approve_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.approvedlist('myrequest')}>My Request</a>
+            </li>
+            <li className="nav-item1">
+              <a className="nav-link" href="#approve_list" role="tab" data-toggle="tab" onClick={() => this.approvedlist('allrequest')}>All Request</a>
+            </li>
+          </ul>
+        </div>
             <div className="col-md-3">
               <div>
                 <label className="col-sm-12">Start Date</label>
@@ -954,7 +987,7 @@ export default class TravelRequestAdvancedTable extends Component {
                 <button
                   type="button"
                   className="btn btn-primary"
-                  onClick={this.filter.bind(this)}
+                  onClick={() => this.handleSearchData(moment(this.state.s_date).format("YYYY-MM-DD"), moment(this.state.e_date).format("YYYY-MM-DD"),this.state.user_info.user_id,this.state.selected_branch.value)}
                 >
                   Search
                 </button>
@@ -1008,6 +1041,7 @@ export default class TravelRequestAdvancedTable extends Component {
                 width="99%"
                 className="table table-striped table-bordered table-hover responsive nowrap dt-responsive"
                 id="dataTables-table"
+                pending_approve={this.state.pending_approve}
               />
             </div>
           </div>

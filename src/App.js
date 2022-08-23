@@ -9,7 +9,7 @@ function App() {
   return (
     // <MuiThemeProvider>
     <div>
-      <Navigation user_id={id} />
+      <Navigation user_id={id}/>
     </div>
     // </MuiThemeProvider>
   );

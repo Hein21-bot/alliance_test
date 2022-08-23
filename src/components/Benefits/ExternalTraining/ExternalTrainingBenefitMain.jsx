@@ -19,7 +19,8 @@ class ExternalTrainingBenefitMain extends Component {
             user_id: getUserId("user_info"),
             user_info: getCookieData("user_info"),
             is_main_role: getMainRole(),
-            permission_status: {}
+            permission_status: {},
+            requestData:[]
         }
     }
 
@@ -42,7 +43,7 @@ class ExternalTrainingBenefitMain extends Component {
 
                 if (res) {
 
-                    this.setState({ data: res })
+                    this.setState({ data: res,requestData:res.filter(v=>v.createdBy ==this.state.user_id) })
                 }
             })
             .catch(error => console.error(`Fetch Error =\n`, error));
@@ -98,6 +99,21 @@ class ExternalTrainingBenefitMain extends Component {
         }
 
     }
+    requestlist = async (data) => {
+        if (data == 'myrequest') {
+          this.setState({
+            requestData: this.state.data.filter(v => v.createdBy==this.state.user_id),
+            requestType:"myrequest"
+            
+          })
+        } else if (data == 'allrequest') {
+          this.setState({
+            requestData: this.state.data.filter(v => v.createdBy !=this.state.user_id),
+            requestType:"allrequest"
+            
+          })
+        }
+      }
 
     render() {
         return (
@@ -108,6 +124,16 @@ class ExternalTrainingBenefitMain extends Component {
                 permission={this.state.permission_status} />
 
                 <br />
+                <div>
+          <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
+            <li className="active">
+              <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.requestlist('myrequest')}>My Request</a>
+            </li>
+            <li className="nav-item1">
+              <a className="nav-link" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.requestlist('allrequest')}>All Request</a>
+            </li>
+          </ul>
+        </div>
                 {
                     this.state.isAddNew ?
                         <BenefitExternalTrainingAddNew goToTable={this.goToTable} data={this.state.data} showToast={this.showToast} /> : ''
@@ -115,7 +141,7 @@ class ExternalTrainingBenefitMain extends Component {
 
                 {
                     this.state.isTable ?
-                        <BenefitExternalTrainingTable data={this.state.data} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status} /> : ' '
+                        <BenefitExternalTrainingTable data={this.state.requestData} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status} /> : ' '
                 }
                 {
                     this.state.isView ?

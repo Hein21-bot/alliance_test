@@ -157,8 +157,6 @@ class EmployeeReport extends Component {
       this.setState({
         selected_designation: event
       })
-    console.log("event", event)
-
   }
   handleSelectedDepartment = async (event) => {
     if (event != null)
@@ -280,7 +278,7 @@ class EmployeeReport extends Component {
       })
   }
   render() {
-    console.log("selector", this.state.branchId)
+  
     return (
       <div>
         <div className="row  white-bg dashboard-header">

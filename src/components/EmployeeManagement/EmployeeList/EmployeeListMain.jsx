@@ -50,7 +50,7 @@ class EmployeeListMain extends Component {
       bankList: null,
       degreeList: null,
       detailForm: false,
-      statusList:[{label:'All',value:-1},{label:'Active',value:0},{label:"Exit", value:1}]
+      statusList:null,
     };
   }
 
@@ -65,6 +65,7 @@ class EmployeeListMain extends Component {
     this.getLevelOptions();
     this.getBankList();
     this.getDegreeList();
+    this.getStatusList();
   }
   getDegreeList() {
     fetch(`${main_url}employee/getDegree`)
@@ -78,7 +79,17 @@ class EmployeeListMain extends Component {
         });
       });
   }
-
+  getStatusList() {
+    fetch(`${main_url}employee/getStatus`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        this.setState({
+          statusList: list,
+        });
+      });
+  }
   getBankList() {
     fetch(`${main_url}employee/getBank`)
       .then((res) => {

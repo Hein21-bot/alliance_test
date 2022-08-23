@@ -35,7 +35,7 @@ class AttendenceBarChart extends Component {
     }
 
     async attendenceDashboard(branchId,departmentId) {
-        fetch(`${main_url}dashboard/leaveDashboard/${branchId}/${departmentId} `)
+        fetch(`${main_url}dashboard/leaveDashboard/${this.state.data.branchId.value == undefined ? this.state.data.branchId : this.state.data.branchId.value}/${this.state.data.departmentId.value == undefined ? this.state.data.departmentId : this.state.data.departmentId.value} `)
             .then(response => {
                 if (response.ok) return response.json()
             })

@@ -504,7 +504,7 @@ const RowData = ({ v, i, handleSelectedCheckPerson, title, leaveCategory }) => {
   let leaveCategoryName = filterLeaveCategory.length > 0 && filterLeaveCategory[0].leave_category;
   return (
     <tr style={v.leave===true ? {backgroundColor:"yellow"} : v.extension != "-" ? {backgroundColor:"orange"} :{}}>
-      <th style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
+      <th style={{ border: "1px solid lightgrey",paddingLeft:"10px",height:"35px" }}>
         {i + 1}
       </th>
       <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
