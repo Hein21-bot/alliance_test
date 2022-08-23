@@ -44,7 +44,7 @@ export default class TravelRequestAdvancedTable extends Component {
       e_date: moment(),
       dataList:[],
       data:[],
-      pending_approve:""
+      pending_approve:"myrequest"
     };
   }
 
@@ -270,9 +270,9 @@ export default class TravelRequestAdvancedTable extends Component {
     )
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
-        if (this.state.pending_approve == 'pending') {
+        if (this.state.pending_approve == 'myrequest') {
          this.setState({ dataList:list,data: list.filter(v=>v.user_id !== this.state.user_id) }, () => this._setTableData(this.state.data));
-        } else if (this.state.pending_approve == 'approve') {
+        } else if (this.state.pending_approve == 'allrequest') {
           this.setState({ dataList:list,data: list.filter(v=>v.user_id === this.state.user_id) }, () => this._setTableData(this.state.data));
 
         }
@@ -281,16 +281,20 @@ export default class TravelRequestAdvancedTable extends Component {
   }
  
   approvedlist = async (data) => {
-    if (data == 'pending') {
-      this.setState({
-        data: this.state.dataList.filter(v=>v.user_id !== this.state.user_id),
-        pending_approve: 'pending',
-       
-      }, () =>this._setTableData(this.state.data))
-    } else {
+    console.log("><<<",data)
+    if (data == 'myrequest') {
+      console.log("pendingg", this.state.user_id)
       this.setState({
         data: this.state.dataList.filter(v=>v.user_id === this.state.user_id),
-        pending_approve: 'approve'
+        pending_approve: 'myrequest',
+       
+      }, () =>{
+        console.log()
+        this._setTableData(this.state.data)})
+    } else {
+      this.setState({
+        data: this.state.dataList.filter(v=>v.user_id !== this.state.user_id),
+        pending_approve: 'allrequest'
       }, () =>this._setTableData(this.state.data))
     }
   }
@@ -732,7 +736,7 @@ export default class TravelRequestAdvancedTable extends Component {
     var permission = this.props.permission;
     var has_action =
       permission.isView === 1 || permission.isEdit === 1 ? true : false;
-
+if (data){
     for (var i = 0; i < data.length; i++) {
       let result = data[i];
       let status = "";
@@ -852,6 +856,7 @@ export default class TravelRequestAdvancedTable extends Component {
       }
       l.push(obj);
     }
+  }
     if ($.fn.dataTable.isDataTable("#dataTables-table")) {
       table = $("#dataTables-table").dataTable();
       table.fnClearTable();
@@ -930,10 +935,10 @@ export default class TravelRequestAdvancedTable extends Component {
              <div>
           <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
             <li className="active">
-              <a className="nav-link active" href="#approve_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.approvedlist('pending')}>All Request</a>
+              <a className="nav-link active" href="#approve_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.approvedlist('myrequest')}>My Request</a>
             </li>
             <li className="nav-item1">
-              <a className="nav-link" href="#approve_list" role="tab" data-toggle="tab" onClick={() => this.approvedlist('approved')}>My Request</a>
+              <a className="nav-link" href="#approve_list" role="tab" data-toggle="tab" onClick={() => this.approvedlist('allrequest')}>All Request</a>
             </li>
           </ul>
         </div>

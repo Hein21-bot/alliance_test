@@ -46,7 +46,7 @@ class ResignBarChart extends Component {
     }
 
     async getResignData(branchId,departmentId,fromDate,toDate) {
-        fetch(`${main_url}dashboard/resignRegion/${branchId}/${departmentId}/${moment(fromDate).format('YYYY-MM-DD')}/${moment(toDate).format('YYYY-MM-DD')} `)
+        fetch(`${main_url}dashboard/resignRegion/${this.state.branchId.value == undefined ? this.state.branchId : this.state.branchId.value}/${this.state.departmentId.value == undefined ? this.state.departmentId : this.state.departmentId.value}/${moment(fromDate).format('YYYY-MM-DD')}/${moment(toDate).format('YYYY-MM-DD')} `)
             .then(response => {
                 if (response.ok) return response.json()
             })
