@@ -77,9 +77,16 @@ export default class BirthdayFundTable extends Component {
                 if (response.ok) return response.json()
             })
             .then(res => {
-                if (res) {
-                    this.setState({ data: res }, () => this._setTableData(res))
-                }
+                if (this.props.requestType == 'myrequest') {
+                    let data = res.filter(v => v.createdBy == user.user_id)
+                    this._setTableData(data);
+                  } else {
+                    let data = res.filter(v => v.createdBy != user.user_id)
+                    this._setTableData(data);
+                  }
+                // if (res) {
+                //     this.setState({ data: res }, () => this._setTableData(res))
+                // }
             })
             .catch(error => console.error(`Fetch Error =\n`, error));
     }

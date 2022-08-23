@@ -86,7 +86,7 @@ export default class LeaveManagementMain extends Component {
                             <h2>HR Management System</h2>
                             <ol className="breadcrumb">
                                 <li>{active_tab === 2 ? "All Leave" : active_tab === 0 ?
-                                    "My Leave" : active_tab === 4 ? "Leave Report" : "Leave Balance"
+                                    "My Leave" : active_tab ===3 ? "New Leave" : active_tab === 4 ? "Leave Report" : "Leave Balance"
                                 }</li>
                             </ol>
                         </div>

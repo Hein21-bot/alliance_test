@@ -17,38 +17,72 @@ class ThingsTodoTable extends Component {
       travelCount: 0,
       weddingCount: 0,
       confirmationCount: 0,
-      staffComplainCount: 0
+      staffComplainCount: 0,
+      funeralCount:0,
+      teamBuildingCount:0,
+      hospitalCount:0,
+      cycleCount:0,
+      otherCount:0,
+      trainingCount:0,
+      phoneCount:0,
+      petrolCount:0
+
+
     };
   }
 
   componentDidMount() {
     const id = localStorage.getItem("user_id");
     thingsToDoController.getBirthdayRequest(id, (data) => {
-      this.setState({ birthdayCount: data[0].count })
+      this.setState({ birthdayCount:data.count })
     });
     thingsToDoController.getChildRequest(id, (data) => {
-      this.setState({ childCount: data[0].count })
+      this.setState({ childCount:data.count })
     });
     thingsToDoController.getExternalRequest(id, (data) => {
-      this.setState({ externalCount: data[0].count })
+      this.setState({ externalCount:data.count })
     });
     thingsToDoController.getLeaveRequest(id, data => {
-      this.setState({ leaveCount: data[0].count })
+      this.setState({ leaveCount:data.count })
     });
     thingsToDoController.getMedicalRequest(id, data => {
-      this.setState({ medicalCount: data[0].count })
+      this.setState({ medicalCount:data.count })
     });
     thingsToDoController.getSalaryRequest(id, data => {
-      this.setState({ salaryCount: data[0].count })
+      this.setState({ salaryCount:data.count })
     });
     thingsToDoController.getTravelRequest(id, data => {
-      this.setState({ travelCount: data[0].count })
+      this.setState({ travelCount:data.count })
     });
     thingsToDoController.getWeddingRequest(id, data => {
-      this.setState({ weddingCount: data[0].count })
-    })
+      this.setState({ weddingCount:data.count })
+    });
     thingsToDoController.getConfirmationRequest(id, data => {
-      this.setState({ confirmationCount: data[0].count })
+      this.setState({ confirmationCount:data.count })
+    })
+    thingsToDoController.getFuneralRequest(id, data => {
+      this.setState({ funeralCount:data.count })
+    })
+    thingsToDoController.getTeamBulidingRequest(id, data => {
+      this.setState({ teamBuildingCount:data.count })
+    })
+    thingsToDoController.getHospitalRequest(id, data => {
+      this.setState({ hospitalCount:data.count })
+    })
+    thingsToDoController.getCycleRequest(id, data => {
+      this.setState({ cycleCount:data.count })
+    })
+    thingsToDoController.getOtherRequest(id, data => {
+      this.setState({ otherCount:data.count })
+    })
+    thingsToDoController.getTrainingRequest(id, data => {
+      this.setState({ trainingCount:data.count })
+    })
+    thingsToDoController.getPhoneRequest(id, data => {
+      this.setState({ phoneCount: data[0].count })
+    })
+    thingsToDoController.getPetrolRequest(id, data => {
+      this.setState({ petrolCount: data[0].count })
     })
     thingsToDoController.getStaffComplainRequest(id, data => {
       this.setState({ staffComplainCount: data[0].count })
@@ -71,11 +105,19 @@ class ThingsTodoTable extends Component {
       { request: "Wedding Request", count: this.state.weddingCount, link: "/wedding_benefit" },
       { request: "Child Request", count: this.state.childCount, link: "/child_benefit" },
       { request: "Salary Advance Request", count: this.state.salaryCount, link: "/salary_advance" },
-      { request: "Phone Bill Request", count: 0, link: "/phonebillrequest" },
-      { request: "Petrol Request", count: 0, link: "/petrolRequest" },
+      { request: "Phone Bill Request", count: this.state.phoneCount, link: "/phonebillrequest" },
+      { request: "Petrol Request", count: this.state.petrolCount, link: "/petrolRequest" },
       { request: "Bithday Fund Request", count: this.state.birthdayCount, link: "/birthday_fund_benefit" },
+      
+      { request: "Confirmation Request", count: this.state.confirmationCount, link: "/confirmation_check" },
+      { request: "TeamBuilding Request", count: this.state.teamBuildingCount, link: "/team_building_benefit" },
+      { request: "Cycle Request", count: this.state.cycleCount, link: "/cycle_insurance_benefit" },
+      { request: "Hospital Request", count: this.state.hospitalCount, link: "/hospitalization_benefit" },
+      { request: "Funeral Request", count: this.state.funeralCount, link: "/funeral_benefit" },
+      { request: "Other Request", count: this.state.otherCount, link: "/other_benefit" },
+      { request: "Training Request", count: this.state.trainingCount, link: "/trainingRequest" },
       { request: "Staff Complain Box", count: this.state.staffComplainCount, link: "/staffComplain" },
-      { request: "Confirmation Request", count: this.state.confirmationCount, link: "/confirmation_check" }
+      
     ];
 
     let data_filter = (this.state.user_id == 17 || this.state.user_id == 921) ? dummy_data : dummy_data.filter(v => v.request != 'Staff Complain Box')
