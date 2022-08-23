@@ -136,12 +136,12 @@ class ExternalTrainingBenefitMain extends Component {
         </div>
                 {
                     this.state.isAddNew ?
-                        <BenefitExternalTrainingAddNew goToTable={this.goToTable} data={this.state.requestData} showToast={this.showToast} /> : ''
+                        <BenefitExternalTrainingAddNew goToTable={this.goToTable} data={this.state.data} showToast={this.showToast} /> : ''
                 }
 
                 {
                     this.state.isTable ?
-                        <BenefitExternalTrainingTable data={this.state.data} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status} /> : ' '
+                        <BenefitExternalTrainingTable data={this.state.requestData} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status} /> : ' '
                 }
                 {
                     this.state.isView ?
