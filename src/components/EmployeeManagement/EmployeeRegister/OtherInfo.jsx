@@ -21,7 +21,7 @@ const OtherInfo = props => {
                         Training Code
                     </div>
                     <div className='col-lg-6 col-md-6 col-sm-6' style={{}}>
-                        <input type='number' placeholder='' name="trainingCode" value={trainingCode} onChange={handleOtherInfoInputChange} style={{ width: '100%', height: 40, }} />
+                        <input type='number' placeholder='' required={(viewForm || editForm) ? false : true} name="trainingCode" value={trainingCode} onChange={handleOtherInfoInputChange} style={{ width: '100%', height: 40, }} />
                     </div>
 
                 </div>

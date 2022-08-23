@@ -19,6 +19,7 @@ class EmployeeRegisterMain extends Component {
         super();
         this.state = {
             user_info: getCookieData("user_info"),
+            pathname:window.location.pathname,
             user_id: getUserId("user_info"),
             is_main_role: getMainRole(),
             tabIndex: 1,
@@ -1150,6 +1151,7 @@ class EmployeeRegisterMain extends Component {
 
     hide() {
         this.setState({ visible: false })
+       window.location.replace('/employee_list')
     }
 
     onTapClick = (number, prevNum) => {
@@ -1179,31 +1181,31 @@ class EmployeeRegisterMain extends Component {
 
             }
         } else if (number == 4) {
-            if (addedDegreeData.length > 0 && addedQualitificationData.length > 0) {
+            if (addedDegreeData.length > 0) {
                 this.setState({ tabIndex: 4 });
             } else {
                 toast.error('Please fill all information!');
             }
         } else if (number == 5) {
-            if (contactPerson == "" || contactPhone == '' || guarantor == '' || guarantorPhone == '' || selected_gran_NRC_Id == null || selected_gran_DistrictCode == null || gran_nrc_number == '') {
+            if (contactPerson == "" || contactPhone == '') {
                 toast.error('Please fill all information!');
-            } else if (gran_nrc_number.length < 6) {
-                toast.error('NRC number should be 6 digits!');
-            } else if (contactPerson != "" && contactPhone != '' && guarantor != '' && guarantorPhone != '' && selected_gran_NRC_Id != null && selected_gran_DistrictCode != null && gran_nrc_number != '') {
+             } else if (contactPerson != "" && contactPhone != '') {
                 this.setState({ tabIndex: 5 });
             }
-        } else if (number == 6) {
-
-            if (bankData.length > 0) {
-                this.setState({ tabIndex: 6 });
-            } else {
-                toast.error('Please fill all information!');
+        
+            else if(number == 6){
+                if(trainingCode == ""){
+                    toast.error('Please fill all information!');
+                }else if(trainingCode != ""){
+                    this.setState({tabIndex : 6});
+                }
             }
-        } else if (number == 7) {
+        
+        }  else if (number == 7) {
             if (employeeId != '' && employeeNameEng != '' && selected_NRC_Id != null && selected_DistrictCode != null && nrc_number != null && employeeNameMyan != '' && dateOfBirth != '' && gender != '' && nationality != '' && personalPhone != '' && region != '' && officePhone != '' && address != '' && joinDate != ''
                 && martialStatus != "" && fatherName != '' && motherName != '' && parentCount != '' && siblingCount != '' && ((martialStatus == 'UnMarried' && childCount == '') || (martialStatus == 'Married' && childCount != '')) && ((martialStatus == 'UnMarried' && pInLawCount == '') || (martialStatus == 'Married' && pInLawCount != ''))
-                && addedDegreeData.length > 0 && addedQualitificationData.length > 0 && contactPerson != "" && contactPhone != '' && guarantor != '' && guarantorPhone != '' && selected_gran_NRC_Id != null && selected_gran_DistrictCode != null && gran_nrc_number != ''
-                && bankData.length > 0) {
+                && addedDegreeData.length > 0  && contactPerson != "" && contactPhone != '' && trainingCode != ''
+                ) {
                 this.setState({ tabIndex: 7 });
             } else {
                 toast.error('Please fill all information!');
@@ -1431,8 +1433,12 @@ class EmployeeRegisterMain extends Component {
                         <button style={{ marginRight: 10 }} button className="btn btn-primary" onClick={() => this.okClick()}><span>OK</span> </button>
 
 
-                        <button className="btn btn-danger" onClick={() => this.cancelClick()}><span>Cancel</span> </button>
+                        <div>
+                        <a href='/employee_list' style={{textDecoration:'none'}}>
+                            <button className="btn btn-danger"><span>Cancel</span> </button>
+                        </a>
 
+                        </div>
                     </div>
                 </Rodal>
             </div>
