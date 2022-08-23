@@ -1193,14 +1193,17 @@ class EmployeeRegisterMain extends Component {
                 this.setState({ tabIndex: 5 });
             }
         
-            else if(number == 6){
-                if(trainingCode == ""){
-                    toast.error('Please fill all information!');
-                }else if(trainingCode != ""){
-                    this.setState({tabIndex : 6});
-                }
-            }
+            
         
+        } else if(number == 6){
+            if(employeeId != '' && employeeNameEng != '' && selected_NRC_Id != null && selected_DistrictCode != null && nrc_number != null && employeeNameMyan != '' && dateOfBirth != '' && gender != '' && nationality != '' && personalPhone != '' && region != '' && officePhone != '' && address != '' && joinDate != ''
+            && martialStatus != "" && fatherName != '' && motherName != '' && parentCount != '' && siblingCount != '' && ((martialStatus == 'UnMarried' && childCount == '') || (martialStatus == 'Married' && childCount != '')) && ((martialStatus == 'UnMarried' && pInLawCount == '') || (martialStatus == 'Married' && pInLawCount != ''))
+            && addedDegreeData.length > 0  && contactPerson != "" && contactPhone != ''){
+                this.setState({ tabIndex: 6 });
+                
+            }else {
+                toast.error('Please fill all information!');
+            }
         }  else if (number == 7) {
             if (employeeId != '' && employeeNameEng != '' && selected_NRC_Id != null && selected_DistrictCode != null && nrc_number != null && employeeNameMyan != '' && dateOfBirth != '' && gender != '' && nationality != '' && personalPhone != '' && region != '' && officePhone != '' && address != '' && joinDate != ''
                 && martialStatus != "" && fatherName != '' && motherName != '' && parentCount != '' && siblingCount != '' && ((martialStatus == 'UnMarried' && childCount == '') || (martialStatus == 'Married' && childCount != '')) && ((martialStatus == 'UnMarried' && pInLawCount == '') || (martialStatus == 'Married' && pInLawCount != ''))
@@ -1217,13 +1220,6 @@ class EmployeeRegisterMain extends Component {
                 toast.error('Please fill all information!');
             }
 
-        } else if (number == 8) {
-            if (attachmentUrl != '') {
-                this.setState({ tabIndex: 8 });
-            } else {
-                toast.error('Please fill all information!');
-
-            }
         }
     }
 
