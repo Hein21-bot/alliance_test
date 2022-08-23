@@ -48,8 +48,8 @@ export default class TravelRequestAdvancedTable extends Component {
         this.setState({
             branch: branch,
 
-        })
-        this._setTableData(this.state.dataSource);
+        },()=>{ this._setTableData(this.state.dataSource)})
+       
 
         let that = this
         $("#dataTables-table").on('click', '#toView', function () {

@@ -91,14 +91,12 @@ export default class SalaryAdvanceList extends Component {
     }
     approvedlist = async (data) => {
         console.log("><<<",data)
-        if (data == 'myrequest') {
-          console.log("pendingg", this.state.user_id)
+        if (data == 'myrequest') {          
           this.setState({
             data: this.state.salary_advance_list.filter(v=>v.user_id === this.state.user_id),
             pending_approve: 'myrequest',
            
-          }, () =>{
-            console.log()
+          }, () =>{        
             this.showTable(this.state.data)})
         } else {
           this.setState({

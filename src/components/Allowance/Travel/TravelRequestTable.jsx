@@ -53,8 +53,8 @@ export default class TravelRequestAdvancedTable extends Component {
   
     this.setState({
       branch: branch,
-    });
-    this._setTableData(this.state.dataSource);
+    },()=>{ this._setTableData(this.state.dataSource)});
+    // this._setTableData(this.state.dataSource);
     this.getTravelRequestAllowance(this.state.user_id);
 
     let that = this;
@@ -736,7 +736,7 @@ export default class TravelRequestAdvancedTable extends Component {
     var permission = this.props.permission;
     var has_action =
       permission.isView === 1 || permission.isEdit === 1 ? true : false;
-if (data){
+     if (data){
     for (var i = 0; i < data.length; i++) {
       let result = data[i];
       let status = "";
