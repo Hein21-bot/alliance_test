@@ -261,7 +261,7 @@ body:not(.fixed-sidebar):not(.canvas-menu).mini-navbar .nav li:hover > .nav-seco
   border-radius: 0 2px 2px 0;
   min-width: 160px;
 
-  max-height: 90px !important;
+  max-height: 280px !important;
   overflow-y: scroll;
  
 }
@@ -278,7 +278,7 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
 .mini-navbar .nav .nav-second-level {
   position: absolute;
   left: 100px;
-  top: 0;
+  bottom: 0;
   background-color: #2f4050;
   padding: 10px 10px 10px 10px;
   font-size: 12px;
