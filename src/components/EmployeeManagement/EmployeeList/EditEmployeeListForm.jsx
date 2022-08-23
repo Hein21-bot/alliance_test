@@ -305,7 +305,7 @@ class EditEmployeeListForm extends Component {
         }
         else if (e.target.name === "employeeNameEng") {
             this.setState({
-                employeeNameEng: e.target.value
+                employeeNameEng: e.target.value.toUpperCase()
             })
         }
         else if (e.target.name === "employeeNameMyan") {

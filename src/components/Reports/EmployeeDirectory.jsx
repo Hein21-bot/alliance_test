@@ -335,7 +335,7 @@ class EmployeeDirectory extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
-             <input type="text" value={this.state.selected_phoneno} placeholder="Phone No" className="form-control" onChange={this.handleSelectedPhoneno} style={{width:150}} />
+             <input type="number" value={this.state.selected_phoneno} placeholder="Phone No" className="form-control" onChange={this.handleSelectedPhoneno} style={{width:150}} />
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
             </div>
            
