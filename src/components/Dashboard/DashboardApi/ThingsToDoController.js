@@ -9,6 +9,35 @@ const getLeaveRequest = (userId, setData) => {
         console.log("error leave ===>", error);
     })
 }
+const getFuneralRequest = (userId, setData) => {
+    fetch(main_url + `dashboard/funeralRequest/${userId}`).then(response => {
+        return response.json();
+    }).then(data => {
+        setData(data);
+    }).catch((error) => {
+        console.log("error leave ===>", error);
+    })
+}
+
+const getTeamBulidingRequest = (userId, setData) => {
+    fetch(main_url + `dashboard/teamBuildingRequest/${userId}`).then(response => {
+        return response.json();
+    }).then(data => {
+        setData(data);
+    }).catch((error) => {
+        console.log("error leave ===>", error);
+    })
+}
+
+const getHospitalRequest = (userId, setData) => {
+    fetch(main_url + `dashboard/hospitalRequest/${userId}`).then(response => {
+        return response.json();
+    }).then(data => {
+        setData(data);
+    }).catch((error) => {
+        console.log("error leave ===>", error);
+    })
+}
 
 const getTravelRequest = (userId, setData) => {
     fetch(main_url + `dashboard/travelRequest/${userId}`).then(response => {
@@ -90,8 +119,10 @@ const getConfirmationRequest = (userId, setData) => {
     })
 }
 
-const getStaffComplainRequest = (userId, setData) => {
-    fetch(main_url + `dashboard/staffComplainRequest`).then(response => {
+
+
+const getCycleRequest = (userId, setData) => {
+    fetch(main_url + `dashboard/cycleRequest/${userId}`).then(response => {
         return response.json();
     }).then(data => {
         setData(data);
@@ -100,6 +131,45 @@ const getStaffComplainRequest = (userId, setData) => {
     })
 }
 
+const getOtherRequest = (userId, setData) => {
+    fetch(main_url + `dashboard/otherRequest/${userId}`).then(response => {
+        return response.json();
+    }).then(data => {
+        setData(data);
+    }).catch((error) => {
+        console.log("error staff complain ===>", error);
+    })
+}
+
+const getTrainingRequest = (userId, setData) => {
+    fetch(main_url + `dashboard/trainingRequest/${userId}`).then(response => {
+        return response.json();
+    }).then(data => {
+        setData(data);
+    }).catch((error) => {
+        console.log("error staff complain ===>", error);
+    })
+}
+
+const getPhoneRequest = (userId, setData) => {
+    fetch(main_url + `dashboard/phoneRequest/${userId}`).then(response => {
+        return response.json();
+    }).then(data => {
+        setData(data);
+    }).catch((error) => {
+        console.log("error staff complain ===>", error);
+    })
+}
+
+const getPetrolRequest = (userId, setData) => {
+    fetch(main_url + `dashboard/petrolRequest/${userId}`).then(response => {
+        return response.json();
+    }).then(data => {
+        setData(data);
+    }).catch((error) => {
+        console.log("error staff complain ===>", error);
+    })
+}
 export const thingsToDoController = {
     getLeaveRequest,
     getBirthdayRequest,
@@ -110,5 +180,13 @@ export const thingsToDoController = {
     getTravelRequest,
     getWeddingRequest,
     getConfirmationRequest,
-    getStaffComplainRequest
+   
+    getFuneralRequest,
+    getTeamBulidingRequest,
+    getHospitalRequest,
+    getCycleRequest,
+    getOtherRequest,
+    getTrainingRequest,
+    getPhoneRequest,
+    getPetrolRequest
 }
