@@ -213,6 +213,7 @@ class Profile extends Component {
                   justifyContent: "center",
                   alignItems: "center",
                 }}
+                onClick={() => this.props.onClickFixAssetList(this.state.userInfo.user_id)}
               >
                 <i
                   style={{ fontSize: 20, color: "white", fontWeight: "bold" }}
