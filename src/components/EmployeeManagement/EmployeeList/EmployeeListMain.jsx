@@ -22,6 +22,7 @@ class EmployeeListMain extends Component {
     super();
     this.state = {
       isAddNew: false,
+      loading:false,
       user_info: getCookieData("user_info"),
       user_id: getUserId("user_info"),
       is_main_role: getMainRole(),
@@ -189,6 +190,7 @@ class EmployeeListMain extends Component {
   }
 
   getEmployeeList(id) {
+    
     fetch(
       `${main_url}employee/getEmployeeList/${id.regionId}/${id.depId}/${id.branchId}/${id.designId}`
     )
@@ -197,7 +199,7 @@ class EmployeeListMain extends Component {
       })
       .then((res) => {
         if (res) {
-          this.setState({ employeeData: res });
+          this.setState({ employeeData: res});
         }
       
       })
@@ -313,6 +315,9 @@ class EmployeeListMain extends Component {
 
   handleSearch = (e) => {
     e.preventDefault();
+    this.setState({
+      loading:true
+    })
     const regionId = this.state.selected_region
       ? this.state.selected_region.region_id
       : 0;
@@ -337,7 +342,7 @@ class EmployeeListMain extends Component {
       })
       .then((res) => {
         if (res) {
-          this.setState({ employeeData: res });
+          this.setState({ employeeData: res,loading:false });
         }
       
       })
@@ -398,180 +403,185 @@ class EmployeeListMain extends Component {
   };
 
   render() {
-    
-    return (
-      <div className=" border-bottom white-bg dashboard-header">
-        <ToastContainer position={toast.POSITION.TOP_RIGHT} />
-        <div className="row wrapper border-bottom white-bg page-heading">
-          <div className="col-lg-12">
-            <ol className="breadcrumb">
-              <li style={{fontSize: 18}}>Employee</li>
-              <li className="active" style={{fontSize: 18}}>
-                <a href="#">List</a>
-              </li>
-              {this.state.viewForm && (
-                <li className="active">
-                  <a href="#">View</a>
+    if(this.state.loading == true){
+      return <div style={{ display: 'flex', justifyContent: 'center' }}><h2>Loading...</h2></div>
+    }else{
+      return (
+        <div className=" border-bottom white-bg dashboard-header">
+          <ToastContainer position={toast.POSITION.TOP_RIGHT} />
+          <div className="row wrapper border-bottom white-bg page-heading">
+            <div className="col-lg-12">
+              <ol className="breadcrumb">
+                <li style={{fontSize: 18}}>Employee</li>
+                <li className="active" style={{fontSize: 18}}>
+                  <a href="#">List</a>
                 </li>
-              )}
-              {this.state.editForm && (
-                <li className="active">
-                  <a href="#">Edit</a>
-                </li>
-              )}
-            </ol>
-          </div>
-        </div>
-        {this.state.viewForm ? (
-          <EmployeeListView
-            selectedEmployeeData={this.state.selectedEmployeeData}
-            BackToTable={this.BackToTable}
-            districtCodeList={this.state.districtCodeList}
-            granDistrictCodeList={this.state.granDistrictCodeList}
-            designationList={this.state.designationList}
-            statusList={this.state.statusList}
-            level_options={this.state.level_options}
-            branchlist={this.state.branchlist}
-            nrcList={this.state.nrcList}
-            viewForm={true}
-            editForm={false}
-          />
-        ) : this.state.editForm ? (
-          <EditEmployeeListForm
-            selectedEmployeeData={this.state.selectedEmployeeData}
-            BackToTable={this.BackToTable}
-            viewForm={false}
-            editForm={true}
-            districtCodeList={this.state.districtCodeList}
-            granDistrictCodeList={this.state.granDistrictCodeList}
-            designationList={this.state.designationList}
-            level_options={this.state.level_options}
-            branchlist={this.state.branchlist}
-            nrcList={this.state.nrcList}
-            bankList={this.state.bankList}
-            statusList={this.state.statusList}
-            getGran_NRC_DistrictCode={this.getGran_NRC_DistrictCode}
-            getNRC_DistrictCode={this.getNRC_DistrictCode}
-            degreeList={this.state.degreeList}
-          />
-        ) : this.state.detailForm ? (
-          <EmployeeDetailMain data={this.state.selectedEmployeeData} />
-        ) : (
-          <>
-            <div
-              className=""
-              style={{
-                marginTop: 20,
-                alignItems: "end",
-                display: "flex",
-                flexWrap: "wrap",
-              }}
-            >
-              <div
-                className="col-lg-2 col-md-3 col-sm-12"
-                style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
-              >
-                <div style={{ paddingBottom: 10 }}>Region</div>
-
-                <Select
-                  options={this.state.region}
-                  value={this.state.selected_region}
-                  onChange={this.handleSelectedRegion.bind(this)}
-                  className="react-select-container checkValidate"
-                  classNamePrefix="react-select"
-                />
-              </div>
-              <div
-                className="col-lg-2 col-md-3 col-sm-12"
-                style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
-              >
-                <div style={{ paddingBottom: 10 }}>Department</div>
-
-                <Select
-                  options={this.state.departmentlist}
-                  value={this.state.selected_department}
-                  onChange={this.handleSelectedDeaprtment.bind(this)}
-                  className="react-select-container checkValidate"
-                  classNamePrefix="react-select"
-                />
-              </div>
-              <div
-                className="col-lg-2 col-md-3 col-sm-12"
-                style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
-              >
-                <div style={{ paddingBottom: 10 }}>Branch</div>
-
-                <Select
-                  options={this.state.branchlist}
-                  value={this.state.selected_branch}
-                  onChange={this.handleSelectedBranch.bind(this)}
-                  className="react-select-container checkValidate"
-                  classNamePrefix="react-select"
-                />
-              </div>
-              <div
-                className="col-lg-2 col-md-3 col-sm-12"
-                style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
-              >
-                <div style={{ paddingBottom: 10 }}>Designation</div>
-
-                <Select
-                  options={this.state.designationList}
-                  value={this.state.selected_designation}
-                  onChange={this.handleSelectedDesignation.bind(this)}
-                  className="react-select-container checkValidate"
-                  classNamePrefix="react-select"
-                />
-              </div>
-              <div
-                className="col-lg-2 col-md-3 col-sm-12"
-                style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
-              >
-                <div style={{ paddingBottom: 10 }}>Status</div>
-
-                <Select
-                  options={this.state.statusList}
-                  value={this.state.selected_status}
-                  onChange={this.handleSelectedstatus.bind(this)}
-                  className="react-select-container checkValidate"
-                  classNamePrefix="react-select"
-                />
-              </div>
-              <div
-                className="col-lg-2 col-md-3 col-sm-12"
-                style={{ display: "flex",marginBottom:10 }}
-              >
-                <button
-                  onClick={this.handleSearch}
-                  className="btn btn-primary"
-                  style={{ borderRadius: 3, width: 80, marginRight: 15}}
-                >
-                  Search
-                </button>
-                <button
-                  onClick={this.handleAddNew}
-                  className="btn btn-primary"
-                  style={{ borderRadius: 3, width: 80, textAlign: 'center' }}
-                >
-                  Add New
-                </button>
-              </div>
-              
+                {this.state.viewForm && (
+                  <li className="active">
+                    <a href="#">View</a>
+                  </li>
+                )}
+                {this.state.editForm && (
+                  <li className="active">
+                    <a href="#">Edit</a>
+                  </li>
+                )}
+              </ol>
             </div>
-            <EmployeeListTable
-              goToViewForm={this.goToViewForm}
-              goToEditForm={this.goToEditForm}
-              goToDetailForm={this.goToDetailForm}
-              data={this.state.employeeData ? this.state.employeeData : []}
-              permission={{
-                isEdit: 1,
-                isView: 1,
-              }}
+          </div>
+          {this.state.viewForm ? (
+            <EmployeeListView
+              selectedEmployeeData={this.state.selectedEmployeeData}
+              BackToTable={this.BackToTable}
+              districtCodeList={this.state.districtCodeList}
+              granDistrictCodeList={this.state.granDistrictCodeList}
+              designationList={this.state.designationList}
+              statusList={this.state.statusList}
+              level_options={this.state.level_options}
+              branchlist={this.state.branchlist}
+              nrcList={this.state.nrcList}
+              viewForm={true}
+              editForm={false}
             />
-          </>
-        )}
-      </div>
-    );
+          ) : this.state.editForm ? (
+            <EditEmployeeListForm
+              selectedEmployeeData={this.state.selectedEmployeeData}
+              BackToTable={this.BackToTable}
+              viewForm={false}
+              editForm={true}
+              districtCodeList={this.state.districtCodeList}
+              granDistrictCodeList={this.state.granDistrictCodeList}
+              designationList={this.state.designationList}
+              level_options={this.state.level_options}
+              branchlist={this.state.branchlist}
+              nrcList={this.state.nrcList}
+              bankList={this.state.bankList}
+              statusList={this.state.statusList}
+              getGran_NRC_DistrictCode={this.getGran_NRC_DistrictCode}
+              getNRC_DistrictCode={this.getNRC_DistrictCode}
+              degreeList={this.state.degreeList}
+            />
+          ) : this.state.detailForm ? (
+            <EmployeeDetailMain data={this.state.selectedEmployeeData} />
+          ) : (
+            <>
+              <div
+                className=""
+                style={{
+                  marginTop: 20,
+                  alignItems: "end",
+                  display: "flex",
+                  flexWrap: "wrap",
+                }}
+              >
+                <div
+                  className="col-lg-2 col-md-3 col-sm-12"
+                  style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
+                >
+                  <div style={{ paddingBottom: 10 }}>Region</div>
+  
+                  <Select
+                    options={this.state.region}
+                    value={this.state.selected_region}
+                    onChange={this.handleSelectedRegion.bind(this)}
+                    className="react-select-container checkValidate"
+                    classNamePrefix="react-select"
+                  />
+                </div>
+                <div
+                  className="col-lg-2 col-md-3 col-sm-12"
+                  style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
+                >
+                  <div style={{ paddingBottom: 10 }}>Department</div>
+  
+                  <Select
+                    options={this.state.departmentlist}
+                    value={this.state.selected_department}
+                    onChange={this.handleSelectedDeaprtment.bind(this)}
+                    className="react-select-container checkValidate"
+                    classNamePrefix="react-select"
+                  />
+                </div>
+                <div
+                  className="col-lg-2 col-md-3 col-sm-12"
+                  style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
+                >
+                  <div style={{ paddingBottom: 10 }}>Branch</div>
+  
+                  <Select
+                    options={this.state.branchlist}
+                    value={this.state.selected_branch}
+                    onChange={this.handleSelectedBranch.bind(this)}
+                    className="react-select-container checkValidate"
+                    classNamePrefix="react-select"
+                  />
+                </div>
+                <div
+                  className="col-lg-2 col-md-3 col-sm-12"
+                  style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
+                >
+                  <div style={{ paddingBottom: 10 }}>Designation</div>
+  
+                  <Select
+                    options={this.state.designationList}
+                    value={this.state.selected_designation}
+                    onChange={this.handleSelectedDesignation.bind(this)}
+                    className="react-select-container checkValidate"
+                    classNamePrefix="react-select"
+                  />
+                </div>
+                <div
+                  className="col-lg-2 col-md-3 col-sm-12"
+                  style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
+                >
+                  <div style={{ paddingBottom: 10 }}>Status</div>
+  
+                  <Select
+                    options={this.state.statusList}
+                    value={this.state.selected_status}
+                    onChange={this.handleSelectedstatus.bind(this)}
+                    className="react-select-container checkValidate"
+                    classNamePrefix="react-select"
+                  />
+                </div>
+                <div
+                  className="col-lg-2 col-md-3 col-sm-12"
+                  style={{ display: "flex",marginBottom:10 }}
+                >
+                  <button
+                    onClick={this.handleSearch}
+                    className="btn btn-primary"
+                    style={{ borderRadius: 3, width: 80, marginRight: 15}}
+                  >
+                    Search
+                  </button>
+                  <button
+                    onClick={this.handleAddNew}
+                    className="btn btn-primary"
+                    style={{ borderRadius: 3, width: 80, textAlign: 'center' }}
+                  >
+                    Add New
+                  </button>
+                </div>
+                
+              </div>
+              <EmployeeListTable
+                goToViewForm={this.goToViewForm}
+                goToEditForm={this.goToEditForm}
+                goToDetailForm={this.goToDetailForm}
+                data={this.state.employeeData ? this.state.employeeData : []}
+                permission={{
+                  isEdit: 1,
+                  isView: 1,
+                }}
+              />
+            </>
+          )}
+        </div>
+      );
+    }
+    
+    
   }
 }
 
