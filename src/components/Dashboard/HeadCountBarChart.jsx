@@ -320,7 +320,9 @@ class HeadCountBarChart extends Component {
                     container: (base) => ({
                       ...base,
                       //   flex: 1
+
                       width: 150,
+
                     }),
                     control: (base) => ({
                       ...base,
@@ -346,7 +348,9 @@ class HeadCountBarChart extends Component {
                     container: (base) => ({
                       ...base,
                       //   flex: 1
+
                       width: 150,
+
                       // marginLeft: 10
                     }),
                     control: (base) => ({
@@ -438,7 +442,9 @@ class HeadCountBarChart extends Component {
                     container: (base) => ({
                       ...base,
                       //   flex: 1
+
                       width: 150,
+
                       marginRight: 10
                     }),
                     control: (base) => ({
@@ -464,7 +470,9 @@ class HeadCountBarChart extends Component {
                     container: (base) => ({
                       ...base,
                       //   flex: 1
+
                       width: 150,
+
                       marginRight: 10
                     }),
                     control: (base) => ({
@@ -490,7 +498,9 @@ class HeadCountBarChart extends Component {
                     container: (base) => ({
                       ...base,
                       //   flex: 1
+
                       width: 150,
+
                     }),
                     control: (base) => ({
                       ...base,

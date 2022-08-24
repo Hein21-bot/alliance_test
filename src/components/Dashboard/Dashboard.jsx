@@ -43,12 +43,18 @@ export class Dashboard extends Component {
     const btn = {
       // backgroundColor:this.state.tapButtonTitle == "title" ? "green" : "blue",
       color: "white",
+      display:"flex",
+      justifyContent:"center",
+      alignItems:"center",
       paddingLeft: 20,
       paddingRight: 20,
       paddingTop: 5,
-      paddingBottom: 5,
+      paddingBottom: 7,
+      
       borderRadius: 5,
-      borderColor: "transparent"
+      borderColor: "transparent",
+      
+      
      
     };
     return (
@@ -63,12 +69,14 @@ export class Dashboard extends Component {
             justifyContent: "space-around",
             flexWrap: "wrap",
             marginBottom: 15,
+           
+            
           }}
         >
           <button className="button"
           style={{...btn,backgroundColor:this.state.tapButtonTitle == "headCount" ? '#23C6C8' :"#1872ab"}}
           onClick={() => this.tapButtonClick("headCount")} >
-            Head Count
+           Head Count
           </button>
           <button style={{...btn,backgroundColor:this.state.tapButtonTitle == "attendenceChart" ? '#23c6c8' :"#1872ab"}}
            onClick={() => this.tapButtonClick("attendenceChart")}
@@ -91,12 +99,14 @@ export class Dashboard extends Component {
           >
             Expense
           </button>
+         
           <button
             style={{...btn,backgroundColor:this.state.tapButtonTitle == "benefit" ? '#23c6c8' :"#1872ab"}}
             onClick={() => this.tapButtonClick("benefit")}
           >
            Compansation and Benefit
           </button>
+         
           <button style={{...btn,backgroundColor:this.state.tapButtonTitle == "helpdesk" ? '#23c6c8' :"#1872ab"}} onClick={()=>this.tapButtonClick('helpdesk')}>Help Desk</button>
           <button style={{...btn,backgroundColor:this.state.tapButtonTitle == "resign" ? '#23c6c8' :"#1872ab"}}onClick={() => this.tapButtonClick("resign")}
           >Resign</button>

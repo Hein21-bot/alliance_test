@@ -18,7 +18,7 @@ const EmploymentForm = props => {
         <form >
             <div className='white-bg ' style={{ paddingTop: 20, border: '1px solid lightgrey', display: 'grid', marginTop: 10, paddingBottom: 20, boxShadow: '5px 5px 5px lightgrey' }}>
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20 }}>
-                    <h3 style={{ fontSize: 23 }}>Employment Form</h3>
+                    <h3 style={{ fontSize: 23 }}>Employment Detail Form</h3>
                 </div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', alignItems: 'flex-start', paddingLeft: 10, paddingRight: 10 }}>
                     <div className='col-lg-5 col-md-12 col-sm-12' style={{}}>

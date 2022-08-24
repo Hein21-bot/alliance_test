@@ -61,7 +61,7 @@ class Profile extends Component {
               }}
             >
               <img
-                src="assets/img/team.svg"
+                src="assets/img/ic_launcher_foreground.png"
                 style={{ width: 80, height: 80, borderRadius: 45 }}
               />
             </div>
