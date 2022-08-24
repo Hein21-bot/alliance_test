@@ -34,7 +34,7 @@ class LeaveCounrBarChart extends Component {
     }
 
     async leaveDashboard(branchId,departmentId) {
-        fetch(`${main_url}dashboard/leaveDashboard/${branchId}/${departmentId} `)
+        fetch(`${main_url}dashboard/leaveDashboard/${this.state.branchId.value == undefined ? this.state.branchId: this.state.branchId.value}/${this.state.departmentId.value == undefined ? this.state.departmentId : this.state.departmentId.value} `)
             .then(response => {
                 if (response.ok) return response.json()
             })

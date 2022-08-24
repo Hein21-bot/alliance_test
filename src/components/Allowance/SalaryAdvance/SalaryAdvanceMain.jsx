@@ -72,12 +72,15 @@ class SalaryAdvanceMain extends Component {
         fetch(`${main_url}salary_advance/getSalaryAdvanceList/user_id=${user_id}`)
             .then(res => res.json())
             .then(data => {
+                if (this.state.pending_approve == 'myrequest') {
                 this.setState({
-                    data: data
+                    data:data.filter(v=>v.user_id === this.state.user_id)
                 })
-            })
-    }
-
+            } else if (this.state.pending_approve == 'allrequest') {
+                this.setState({
+                    data:data.filter(v=>v.user_id !== this.state.user_id)})
+    }})}
+            
     showToast = (status, text) => {
 
         if (status === 200) {

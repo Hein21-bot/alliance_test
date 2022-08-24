@@ -370,6 +370,7 @@ class EmployeeRegisterMain extends Component {
     }
 
     handleClick = event => {
+        event.preventDefault();
         this.hiddenFileInput.current.click();
     };
 

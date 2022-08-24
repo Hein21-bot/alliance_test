@@ -87,11 +87,11 @@ class BenefitBarChart extends Component {
     // }
     onClickExpenseCountSearch = () => {
         this. getBenefit( this.state.branchId ?  this.state.branchId.value : 0,this.state.depId.value == undefined ? this.state.depId : this.state.depId.value,moment(this.state.s_date).format("YYYY-MM-DD"),moment(this.state.e_date).format("YYYY-MM-DD"));
-   console.log("br&dep",this.state.depId,this.state.branchId)
+  
         
     }
     async getBenefit(branchId, depId, s_date, e_date){
-        fetch(main_url + "dashboard/benefitExpense/" + branchId + "/" + depId + "/" + s_date + "/" + e_date)
+        fetch(main_url + "dashboard/benefitExpense/" + branchId + "/" + depId + "/" + moment(s_date).format("YYYY-MM-DD") + "/" + moment(e_date).format("YYYY-MM-DD"))
             .then((response) => {
                 if (response.ok) return response.json();
             })
