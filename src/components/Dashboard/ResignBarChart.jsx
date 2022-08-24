@@ -49,7 +49,7 @@ class ResignBarChart extends Component {
     }
 
     async getResignData(checkboxId) {
-        fetch(`${main_url}dashboard/resignRegion/${checkboxId} `)
+        fetch(`${main_url}dashboard/resignRegion/${checkboxId}/${moment(this.state.fromDate).format('YYYY-MM-DD')}/${moment(this.state.toDate).format('YYYY-MM-DD')} `)
             .then(response => {
                 if (response.ok) return response.json()
             })
@@ -296,7 +296,23 @@ class ResignBarChart extends Component {
                     <h3 className='' style={{ padding: '10px 0px 0px 0px' }}>Resign Graph</h3>
 
                     <div className='flex-row' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', margin: '10px 10px 0px 10px' }}>
-                        
+                    <div style={{ textAlign:'start'}}>
+                            <label htmlFor="">Start Date</label>
+                        <DatePicker className='fromdate'
+
+                        dateFormat="DD/MM/YYYY"
+                        value={this.state.fromDate}
+                        onChange={this.handleFromDate}
+                        timeFormat={false} />
+                        </div>
+                        <div style={{ textAlign:'start'}}>
+                            <label htmlFor="">End Date</label>
+                        < DatePicker className='fromdate'
+                            dateFormat="DD/MM/YYYY"
+                            value={this.state.toDate}
+                            onChange={this.handleToDate}
+                            timeFormat={false} />
+                            </div>
                         <div style={{ textAlign:'end'}}>
                             
                         <input type="checkbox"  name='region' checked={this.state.selected_checkbox == 1 ? 'checked': ''} value='1' onChange={this.handleCheckbox} />
