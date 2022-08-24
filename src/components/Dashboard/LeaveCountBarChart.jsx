@@ -146,7 +146,7 @@ class LeaveCounrBarChart extends Component {
                             container: base => ({
                                 ...base,
                                 //   flex: 1
-                                width: 90
+                                width: 150
                             }),
                             control: base => ({
                                 ...base,
@@ -169,7 +169,7 @@ class LeaveCounrBarChart extends Component {
                             container: base => ({
                                 ...base,
                                 //   flex: 1
-                                width: 90,
+                                width: 150,
                                 marginLeft: 10
                             }),
                             control: base => ({

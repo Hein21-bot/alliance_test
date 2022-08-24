@@ -457,7 +457,7 @@ class EmployeeRegisterMain extends Component {
             if (e.target.value.length < 7) {
                 this.setState({
                     nrc_number: e.target.value,
-                })
+                },()=>{console.log("><><>",this.state.nrc_number)})
             }
         }
         else if (e.target.name === "nrc_number" && !this.state.selected_NRC_Id) {
@@ -1224,7 +1224,7 @@ class EmployeeRegisterMain extends Component {
         }
     }
 
-    render() {
+    render()  { 
         const { tabIndex, userImage, userImageUrl, employeeStatusList, fromMonthYear, toMonthYear, nrc_number, period, level_options, location, designation, workExpChecked, organization, sameWithCtPerson, bankList, selected_bank, trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo,
             fatherName, degreeList, disConstatusList, branchlist, selected_qualification, selected_degree, motherName, guarantor, guarantorPhone, attachmentUrl, selected_gran_NRC_Id, granDistrictCodeList, addedDegreeData, addedQualitificationData, workExpData,
             selected_gran_DistrictCode, gran_nrc_number, parentCount, siblingCount, childCount, pInLawCount, martialStatus, officePhone, region, address, joinDate, accountName, accountNumber, employeeStatus, employeeDesignation, jobTitle, carrerLevel, employeeDetailBranch, employedDate, disConStatus, disConDate,

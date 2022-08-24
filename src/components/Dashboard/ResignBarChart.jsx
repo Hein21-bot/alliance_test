@@ -307,7 +307,7 @@ class ResignBarChart extends Component {
                                 container: base => ({
                                     ...base,
                                     //   flex: 1
-                                    width: 90
+                                    width: 150
                                 }),
                                 control: base => ({
                                     ...base,
@@ -331,7 +331,7 @@ class ResignBarChart extends Component {
                                 container: base => ({
                                     ...base,
                                     //   flex: 1
-                                    width: 90,
+                                    width: 150,
                                    
                                 }),
                                 control: base => ({
@@ -353,7 +353,8 @@ class ResignBarChart extends Component {
                     <HighchartsReact
                         highcharts={Highcharts}
                         options={this.state.chartOptions}
-                        containerProps={{ className: "w-100" }} /></div>
+                        containerProps={{ className: "w-100" }} />
+                </div>
                 <div
                     className='text-center margin-y'
                     style={{
@@ -385,7 +386,8 @@ class ResignBarChart extends Component {
                     <HighchartsReact
                         highcharts={Highcharts}
                         options={this.state.exitStaffOptions}
-                        containerProps={{ className: "w-100" }} /></div>
+                        containerProps={{ className: "w-100" }} />
+                 </div>
 
             </div>
 
