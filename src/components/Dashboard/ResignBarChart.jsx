@@ -370,17 +370,23 @@ class ResignBarChart extends Component {
                     <h3 className='' style={{ padding: '10px 0px 0px 0px' }}>No of Exit Staff</h3>
 
                     <div className='flex-row' style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', margin: '10px 10px 0px 10px' }}>
+                    <div style={{ textAlign:'start'}}>
+                        <label htmlFor="">Start Date</label>
                         <DatePicker className='fromdate'
 
                             dateFormat="DD/MM/YYYY"
                             value={this.state.exitFromDate}
                             onChange={this.handleExitFromDate}
                             timeFormat={false} />
+                            </div>
+                            <div style={{ textAlign:'start'}}>
+                            <label htmlFor="">End Date</label>
                         < DatePicker className='fromdate'
                             dateFormat="DD/MM/YYYY"
                             value={this.state.exitToDate}
                             onChange={this.handleExitToDate}
                             timeFormat={false} />
+                            </div>
                         <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.onClickExitStaffSearch()}>Search</button>
                     </div>
                     <HighchartsReact

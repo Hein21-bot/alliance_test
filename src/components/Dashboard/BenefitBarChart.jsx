@@ -5,6 +5,7 @@ import Select from 'react-select'
 import { main_url, getFirstDayOfMonth } from "../../utils/CommonFunction";
 import DatePicker from 'react-datetime';
 import moment from "moment";
+import ExpenseBarChart from './ExpenseBarChart';
 
 
 class BenefitBarChart extends Component {
@@ -240,7 +241,7 @@ class BenefitBarChart extends Component {
                                     container: base => ({
                                         ...base,
                                         //   flex: 1
-                                        width: 90,
+                                        width: 150,
 
                                     }),
                                     control: base => ({
@@ -267,7 +268,7 @@ class BenefitBarChart extends Component {
                                     container: base => ({
                                         ...base,
                                         //   flex: 1
-                                        width: 90,
+                                        width: 150,
 
                                     }),
                                     control: base => ({
@@ -291,7 +292,7 @@ class BenefitBarChart extends Component {
                         containerProps={{ className: "w-100" }} />
                 </div>
                 <div>
-
+                  <ExpenseBarChart/>     
                 </div>
             </div>
         )

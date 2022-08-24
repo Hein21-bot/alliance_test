@@ -166,11 +166,13 @@ export class Dashboard extends Component {
           <div className="row mt-4" style={{
             display:'flex',
             justifyContent:"center",
-            alignItems:'center'
+            alignItems:'center',
+            marginTop:"15px"
           }}>
             <div className="col-md-8">
               
               <BenefitBarChart></BenefitBarChart>
+              
             </div>
           </div>
         ): this.state.tapButtonTitle == "helpdesk" ? (
