@@ -127,16 +127,7 @@ class HospitalizationMain extends Component {
                  <ToastContainer position={toast.POSITION.TOP_RIGHT} />
                  <BenefitPageHeader pageTitle="Hospitalization" setupForm={this.setupForm} isAddNew={this.state.isAddNew} isView={this.state.isView} isEdit={this.state.isEdit} permission={this.state.permission_status} />
                  <br />
-                 <div>
-          <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
-            <li className="active">
-              <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.requestlist('myrequest')}>My Request</a>
-            </li>
-            <li className="nav-item1">
-              <a className="nav-link" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.requestlist('allrequest')}>All Request</a>
-            </li>
-          </ul>
-        </div>
+                 
                     {
                         this.state.isAddNew || this.state.isEdit ?
                             <HospitalizationAddNew data={this.state.data} goToTable={this.goToTable} showToast={this.showToast} /> : ''
@@ -144,7 +135,7 @@ class HospitalizationMain extends Component {
 
                     {
                         this.state.isTable ?
-                            <HospitalizationTable goToViewForm={this.goToViewForm} data={this.state.requestData} goToEditForm={this.goToEditForm} permission={this.state.permission_status} /> : ''
+                            <HospitalizationTable requestlist={this.requestlist} goToViewForm={this.goToViewForm} data={this.state.requestData} goToEditForm={this.goToEditForm} permission={this.state.permission_status} /> : ''
                     }
                     {
                         this.state.isView ?

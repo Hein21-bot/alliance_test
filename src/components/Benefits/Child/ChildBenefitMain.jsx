@@ -128,17 +128,7 @@ class ChildBenefitMain extends Component {
                     isEdit={this.state.isEdit} permission={this.state.permission_status} />
 
                 <br />
-                <div>
-          <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
-            <li className="active">
-              <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.requestlist('myrequest')}>My Request</a>
-            </li>
-            <li className="nav-item1">
-              <a className="nav-link" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.requestlist('allrequest')}>All Request</a>
-            </li>
-          </ul>
-        </div>
-
+                
                 {
                     this.state.isAddNew ? <BenefitChildAddNew goToTable={this.goToTable} showToast={this.showToast} /> : ''
                 }
@@ -150,7 +140,7 @@ class ChildBenefitMain extends Component {
                 }
                 {
                     this.state.isTable ?
-                        <BenefitChildTable goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} data={this.state.requestData} permission={this.state.permission_status} /> : ''
+                        <BenefitChildTable goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} data={this.state.requestData} requestlist={this.requestlist} permission={this.state.permission_status} /> : ''
                 }
 
             </div>
