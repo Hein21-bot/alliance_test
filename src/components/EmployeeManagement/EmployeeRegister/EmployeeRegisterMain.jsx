@@ -217,10 +217,10 @@ class EmployeeRegisterMain extends Component {
             user_id: getCookieData("user_info").user_id,
             NRC_SD_code: selected_NRC_Id ? selected_NRC_Id.id : null,
             NRC_District_code: selected_DistrictCode ? selected_DistrictCode.id : null,
-            NRC_no: Number(nrc_number),
+            NRC_no:nrc_number,
             NRC_SD_code_gurantee: selected_gran_NRC_Id ? selected_gran_NRC_Id.id : null,
             NRC_District_code_gurantee: selected_gran_DistrictCode ? selected_gran_DistrictCode.id : null,
-            NRC_no_gurantee: Number(gran_nrc_number),
+            NRC_no_gurantee: gran_nrc_number,
             same_with_CT_person: this.state.sameWithCtPerson ? 1 : 0
 
         }
