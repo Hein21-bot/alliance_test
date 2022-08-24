@@ -114,11 +114,11 @@ export class Dashboard extends Component {
         </div>
         <Profile />
         {this.state.tapButtonTitle == "headCount" ? (
-          <div className="row" style={{marginTop: 15}}>
-            <div className="col-md-6 col-lg-6 col-sm-12">
+          <div className="row mt-4" style={{marginTop: 15,position:"relative",left:"18%"}}>
+            <div className="col-md-8 col-lg-8 col-sm-12">
               <HeadCountBarChart title={"department"} />
             </div>
-            <div className="col-md-6 col-lg-6 col-sm-12">
+            <div className="col-md-8 col-lg-8 col-sm-12">
               <HeadCountBarChart title={"designation"} />
             </div>
           </div>
@@ -138,7 +138,7 @@ export class Dashboard extends Component {
           </div>
         ):this.state.tapButtonTitle == "totalEmployee" ? (
           <div
-            className="row"
+            className="row mt-4"
             style={{
               display: "flex",
               alignItems: "center",
@@ -151,10 +151,11 @@ export class Dashboard extends Component {
             </div>
           </div>
         ) : this.state.tapButtonTitle == "benefit" ? (
-          <div className="row mt-3" style={{
+          <div className="row mt-4" style={{
             display:'flex',
             justifyContent:"center",
-            alignItems:'center'
+            alignItems:'center',
+            marginTop:"13px"
           }}>
             <div className="col-md-8">
               
@@ -162,21 +163,24 @@ export class Dashboard extends Component {
             </div>
           </div>
         ) : this.state.tapButtonTitle == "expense" ? (
-          <div className="row mt-3">
-            <div className="col-lg-6" >
-            <BenefitBarChart></BenefitBarChart>
-            </div>
-            <div className="col-lg-6">
-            
-              <ExpenseBarChart></ExpenseBarChart>
+          <div className="row mt-4" style={{
+            display:'flex',
+            justifyContent:"center",
+            alignItems:'center',
+            marginTop:"15px"
+          }}>
+            <div className="col-md-8">
+              
+              <BenefitBarChart></BenefitBarChart>
+              
             </div>
           </div>
         ): this.state.tapButtonTitle == "helpdesk" ? (
-          <div className="row mt-3">
-            <div className="col-xl-6 col-lg-7 col-md-12 col-sm-12">
+          <div className="row mt-4">
+            <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
               <HelpDesk></HelpDesk>
             </div>
-            <div className="col-xl-6 col-lg-5 col-md-12 col-sm-12">
+            <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
               <HelpDeskLineChart></HelpDeskLineChart>
               </div> 
           </div>
@@ -210,7 +214,7 @@ export class Dashboard extends Component {
           </div>
         ):(
           <div> 
-            <div className="row" style={{marginTop: 15}}>
+            <div className="row mt-4" style={{marginTop: 15}}>
               <div className="col-md-4 col-lg-4 col-sm-12">
                 <ThingsTodoTable />
               </div>

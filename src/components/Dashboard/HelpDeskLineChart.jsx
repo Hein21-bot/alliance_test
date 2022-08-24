@@ -271,7 +271,7 @@ class HelpDeskLineChart extends Component {
                                 container: base => ({
                                     ...base,
                                     //   flex: 1
-                                    width: 80,
+                                    width: 120,
 
                                 }),
                                 control: base => ({
@@ -297,7 +297,7 @@ class HelpDeskLineChart extends Component {
                                 container: base => ({
                                     ...base,
                                     //   flex: 1
-                                    width: 80,
+                                    width: 120,
 
                                 }),
                                 control: base => ({

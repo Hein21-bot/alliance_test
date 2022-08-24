@@ -159,14 +159,16 @@ class AttendenceBarChart extends Component {
                         <label htmlFor="">Branch</label>
                     <Select
                         styles={{
+                          
                             container: (base) => ({
                               ...base,
                               //   flex: 1
-                              width: 90,
+                              width: 150,
                             }),
                             control: (base) => ({
                               ...base,
-                              minHeight: "18px",
+                              minHeight: "18px"
+                              
                             }),
                           }}
                         placeholder="All"
@@ -187,7 +189,7 @@ class AttendenceBarChart extends Component {
                             container: base => ({
                                 ...base,
                                 //   flex: 1
-                                width: 90,
+                                width: 150,
                                 
                                
                             }),

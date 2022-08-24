@@ -27,7 +27,7 @@ export default class SalaryAdvanceList extends Component {
             user: getCookieData("user_info"),
             salary_advance_list: this.props.data,
             user_id: getUserId("user_info"),
-            pending_approve:"myrequest"
+            pending_approve:""
 
         }
     }
@@ -89,22 +89,7 @@ export default class SalaryAdvanceList extends Component {
         data = data.filter(d => { return status === d.status });
         this.showTable(data)
     }
-    approvedlist = async (data) => {
-        console.log("><<<",data)
-        if (data == 'myrequest') {          
-          this.setState({
-            data: this.state.salary_advance_list.filter(v=>v.user_id === this.state.user_id),
-            pending_approve: 'myrequest',
-           
-          }, () =>{        
-            this.showTable(this.state.data)})
-        } else {
-          this.setState({
-            data: this.state.salary_advance_list.filter(v=>v.user_id !== this.state.user_id),
-            pending_approve: 'allrequest'
-          }, () =>this.showTable(this.state.data))
-        }
-      }
+    
     getDuration(duration, month) {
         var text = '';
         var date = new Date(month);
@@ -311,16 +296,6 @@ export default class SalaryAdvanceList extends Component {
             <div>
                 <div className="row border-bottom white-bg dashboard-header">
                     <div className="row">
-                    <div>
-                   <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
-            <li className="active">
-              <a className="nav-link active" href="#approve_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.approvedlist('myrequest')}>My Request</a>
-            </li>
-            <li className="nav-item1">
-              <a className="nav-link" href="#approve_list" role="tab" data-toggle="tab" onClick={() => this.approvedlist('allrequest')}>All Request</a>
-            </li>
-          </ul>
-        </div>
                         <div class="btn-group-g ">
                             <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
                             <button type="button" class=" btn label-check g" onClick={this.getCheck.bind(this)}>Check</button>
@@ -336,7 +311,7 @@ export default class SalaryAdvanceList extends Component {
                             <table width="99%"
                                 className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
                                 id="dataTables"
-                                pending_approve={this.state.pending_approve}
+                                
                             />
                         </div>
                     </div>

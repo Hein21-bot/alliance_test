@@ -271,9 +271,9 @@ export default class TravelRequestAdvancedTable extends Component {
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
         if (this.state.pending_approve == 'myrequest') {
-         this.setState({ dataList:list,data: list.filter(v=>v.user_id !== this.state.user_id) }, () => this._setTableData(this.state.data));
+         this.setState({ dataList:list,data: list.filter(v=>v.user_id === this.state.user_id) }, () => this._setTableData(this.state.data));
         } else if (this.state.pending_approve == 'allrequest') {
-          this.setState({ dataList:list,data: list.filter(v=>v.user_id === this.state.user_id) }, () => this._setTableData(this.state.data));
+          this.setState({ dataList:list,data: list.filter(v=>v.user_id !== this.state.user_id) }, () =>this._setTableData(this.state.data) );
 
         }
 
@@ -281,7 +281,6 @@ export default class TravelRequestAdvancedTable extends Component {
   }
  
   approvedlist = async (data) => {
-    console.log("><<<",data)
     if (data == 'myrequest') {
       console.log("pendingg", this.state.user_id)
       this.setState({
