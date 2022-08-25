@@ -256,7 +256,8 @@ export default class TravelRequestAdvancedTable extends Component {
       e_date: event,
     });
   };
-  handleSearchData = async (s_date, e_date, user_id, branch_id) => {
+  handleSearchData = async (s_date, e_date, user_id) => {
+    let branchId=this.state.selected_branch ? this.state.selected_branch.value : 0
       fetch(
       main_url +
       "allowance/getTravelRequestFilter/" +
@@ -266,7 +267,7 @@ export default class TravelRequestAdvancedTable extends Component {
       "/" +
       user_id +
       "/" +
-      branch_id
+      branchId
     )
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
@@ -986,7 +987,7 @@ export default class TravelRequestAdvancedTable extends Component {
                 <button
                   type="button"
                   className="btn btn-primary"
-                  onClick={() => this.handleSearchData(moment(this.state.s_date).format("YYYY-MM-DD"), moment(this.state.e_date).format("YYYY-MM-DD"),this.state.user_info.user_id,this.state.selected_branch.value)}
+                  onClick={() => this.handleSearchData(moment(this.state.s_date).format("YYYY-MM-DD"), moment(this.state.e_date).format("YYYY-MM-DD"),this.state.user_info.user_id)}
                 >
                   Search
                 </button>

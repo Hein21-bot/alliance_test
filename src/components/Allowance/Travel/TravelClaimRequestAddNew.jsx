@@ -252,52 +252,57 @@ export default class TravelClaimRequestAddNew
     }
 
     check = () => {
-        if (validate("check_form")) {
-            stopSaving();
-            // @lucy
-            const dataTostring = this.state.dataSource.map((v) => {
-                return {
-                    actual_date: moment(v.actual_date).format(),
-                    amount: v.amount,
-                    destination: v.destination,
-                    end_time: moment(v.end_time).format(),
-                    lodging: v.lodging,
-                    meals: v.meals,
-                    noOfDays: v.noOfDays,
-                    noOfNights: v.noOfNights,
-                    purpose: v.purpose,
-                    start_location: v.start_location,
-                    start_time: moment(v.start_time).format(),
-                    transport: v.transport,
-                    withdraw_location: v.withdraw_location,
-                };
-            });
-            if (saveBtn) {
-                this.props.addClaimRequest(dataTostring, this.state.data, this.state.newDoc);
-            } else {
+        if(this.state.attachment.length == 0){
+            toast.error("Please Choose Attachment File!")
+        }else{
+            if (validate("check_form")) {
+           
+                // @lucy
+                const dataTostring = this.state.dataSource.map((v) => {
+                    return {
+                        actual_date: moment(v.actual_date).format(),
+                        amount: v.amount,
+                        destination: v.destination,
+                        end_time: moment(v.end_time).format(),
+                        lodging: v.lodging,
+                        meals: v.meals,
+                        noOfDays: v.noOfDays,
+                        noOfNights: v.noOfNights,
+                        purpose: v.purpose,
+                        start_location: v.start_location,
+                        start_time: moment(v.start_time).format(),
+                        transport: v.transport,
+                        withdraw_location: v.withdraw_location,
+                    };
+                });
+                if (saveBtn) {
+                    this.props.addClaimRequest(dataTostring, this.state.data, this.state.newDoc);
+                } else {
+                    startSaving();
+                    toast.error(" Please Add Full Information", {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                    });
+                }
+            }
+            else {
                 startSaving();
-                toast.error(" Please Add Full Information", {
-                    position: "top-right",
+                form_validate = false;
+                toast.error(alertText, {
+                    position: 'top-right',
                     autoClose: 5000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
-                    draggable: true,
+                    draggable: true
                 });
             }
         }
-        else {
-            startSaving();
-            form_validate = false;
-            toast.error(alertText, {
-                position: 'top-right',
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true
-            });
-        }
+        
     };
 
     handlefileChanged(e) {
