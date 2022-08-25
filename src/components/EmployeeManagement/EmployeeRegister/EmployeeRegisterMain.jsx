@@ -284,7 +284,7 @@ class EmployeeRegisterMain extends Component {
         })
             .then(res => {
                 status = res.status;
-                if (status == 400) {
+                if (status == 400 ) {
                     toast.error('Process unsuccessfully!');
                     return null;
                 } else {

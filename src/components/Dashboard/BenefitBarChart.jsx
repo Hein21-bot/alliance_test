@@ -118,7 +118,7 @@ class BenefitBarChart extends Component {
                         });
                     }
 
-                    this.setState({ xAxisDept: label, countDataDept: count,data:res})
+                    this.setState({ xAxisDept: label, countDataDept: count})
                 }
                 this.setChartOption();
             })

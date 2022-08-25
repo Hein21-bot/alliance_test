@@ -135,7 +135,7 @@ class ConfirmationList extends Component {
     } = this.state;
     this.setState({loading:true})
 
-    const regionId = selected_region ? selected_region.region_id : 0;
+    const regionId = selected_region ? selected_region.state_id : 0;
     const branchId = selected_branch ? selected_branch.branch_id : 0;
     const depId = selected_department ? selected_department.departments_id : 0;
     const designId = selected_designation ? selected_designation_list : 0;
@@ -189,7 +189,7 @@ class ConfirmationList extends Component {
       loading:true
     })
     const regionId = this.state.selected_region
-      ? this.state.selected_region.region_id
+      ? this.state.selected_region.state_id
       : 0;
     const branchId = this.state.selected_branch
       ? this.state.selected_branch.branch_id
@@ -263,23 +263,32 @@ class ConfirmationList extends Component {
       });
   }
 
+  // getRegionList() {
+  //   fetch(`${main_url}benefit/getRegionList`)
+  //     .then((res) => {
+  //       if (res.ok) return res.json();
+  //     })
+  //     .then((list) => {
+  //       let lists = list.unshift({ state_id: 0, state_name: "All" });
+  //       this.setState({
+  //         regionList: list.map((v) => ({
+  //           ...v,
+  //           label: v.state_name,
+  //           value: v.state_id,
+  //         })),
+  //       });
+  //     });
+  // }
   getRegionList() {
     fetch(`${main_url}benefit/getRegionList`)
-      .then((res) => {
-        if (res.ok) return res.json();
-      })
-      .then((list) => {
-        let lists = list.unshift({ region_id: 0, region_name: "All" });
+      .then(res => { if (res.ok) return res.json() })
+      .then(list => {
+        let lists = list.unshift({ state_id: 0, state_name: 'All' })
         this.setState({
-          regionList: list.map((v) => ({
-            ...v,
-            label: v.region_name,
-            value: v.region_id,
-          })),
-        });
-      });
+          regionList: list.map(v => ({ ...v, label: v.state_name, value: v.state_id }))
+        })
+      })
   }
-
   handleLevelSelectorChange = (val, key) => {
     const { sub_level_options, level_options } = this.state;
     const value =
