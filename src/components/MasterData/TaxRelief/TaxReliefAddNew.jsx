@@ -55,7 +55,7 @@ class TaxReliefAddNew extends Component {
 
     handleSave = () => {
         
-        stopSaving();
+        // stopSaving();
         if (validate('check_form')) {
         let status = 0;
         const { date, allowance_reason_id, allowance_percent, allowance_amount, remark } = this.state;

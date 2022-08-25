@@ -48,7 +48,7 @@ class DesignationAddNew extends Component {
     }
     handleSave = () => {
 
-        stopSaving();
+        // stopSaving();
         if (validate('check_form')) {
             let status = 0;
             const { designations, departments_id, career_level_id, remark, active } = this.state;

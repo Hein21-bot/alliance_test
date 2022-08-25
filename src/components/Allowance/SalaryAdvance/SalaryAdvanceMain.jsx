@@ -118,16 +118,7 @@ class SalaryAdvanceMain extends Component {
                     title="Allowance"
                     setupForm={this.setupForm} isAddNew={this.state.isAddNew}
                     isView={this.state.isView} isEdit={this.state.isEdit} permission={this.state.permission_status} />
-                  <div>
-                   <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
-                   <li className="active">
-                   <a className="nav-link active" href="#approve_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.approvedlist('myrequest')}>My Request</a>
-                   </li>
-                   <li className="nav-item1">
-                   <a className="nav-link" href="#approve_list" role="tab" data-toggle="tab" onClick={() => this.approvedlist('allrequest')}>All Request</a>
-                   </li>
-                   </ul>
-                  </div>
+                  
                 {
                     this.state.isAddNew ? <SalaryAdvanceRequestForm goToTable={this.goToTable} data={this.state.data} showToast={this.showToast} /> : ''
                 }
@@ -143,7 +134,16 @@ class SalaryAdvanceMain extends Component {
                 }
                 {
                     this.state.isTable ?
-                        <SalaryAdvanceList goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} setupForm={this.setupForm} data={this.state.dataList} permission={this.state.permission_status} /> : ''
+                    <div>
+                   <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
+                   <li className="active">
+                   <a className="nav-link active" href="#approve_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.approvedlist('myrequest')}>My Request</a>
+                   </li>
+                   <li className="nav-item1">
+                   <a className="nav-link" href="#approve_list" role="tab" data-toggle="tab" onClick={() => this.approvedlist('allrequest')}>All Request</a>
+                   </li>
+                   </ul>
+                        <SalaryAdvanceList goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} setupForm={this.setupForm} data={this.state.dataList} permission={this.state.permission_status} /></div> : ''
                 }
 
             </div>

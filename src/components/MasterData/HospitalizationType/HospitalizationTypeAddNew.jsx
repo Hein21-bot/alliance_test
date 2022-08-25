@@ -38,7 +38,7 @@ class HospitalizationTypeAddNew extends Component {
 
     handleSave = () => {
 
-        stopSaving();
+        // stopSaving();
         if (validate('check_form')) {
             let status = 0;
             const { hospitalization_type, remark, active } = this.state;

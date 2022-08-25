@@ -51,7 +51,7 @@ class JobTitleAddNew extends Component {
     }
     handleSave = () => {
 
-        stopSaving();
+        // stopSaving();
         if (validate('check_form')) {
             let status = 0;
             const { departments_id, designations_id, job_title, requirement, job_description, remark, active } = this.state;

@@ -57,7 +57,7 @@ class TaxRageEdit extends Component {
 
     handleSave = () => {
 
-        stopSaving();
+        // stopSaving();
         if (validate('check_form')) {
             const { data } = this.state;
             let status = 0;
