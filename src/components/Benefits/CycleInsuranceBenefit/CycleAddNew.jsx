@@ -211,10 +211,12 @@ class CycleAddNew extends Component {
     }
 
     save() {
-        stopSaving();
+       if(this.state.attachment.length ==0){
+        toast.error("Please Choose Attachment File!")
+       }else{
         let editData = !Array.isArray(this.state.one_benefit) == true ? (this.state.newDoc.length > 0 || this.state.attachment.length > 0 || this.state.doc.length > 0) && !Array.isArray(this.state.one_benefit) : !Array.isArray(this.state.one_benefit)
         if (validate('check_form') && (this.state.attachment.length > 0 || editData)) {
-            stopSaving();
+           
             var data = {
                 requested_date: moment(this.state.requested_date).format('YYYY-MM-DD'),
                 user_id: this.state.one_benefit.user_id ? this.state.one_benefit.user_id : this.state.user_id,
@@ -294,6 +296,8 @@ class CycleAddNew extends Component {
                 draggable: true
             });
         }
+       }
+        
     }
 
 

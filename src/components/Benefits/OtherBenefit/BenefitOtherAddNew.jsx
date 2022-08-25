@@ -93,7 +93,9 @@ class BenefitOtherAddNew extends Component {
 
 
     save = () => {
-        stopSaving();
+       if(this.state.attachment.length==0){
+        toast.error("Please Choose Attachment File!")
+       }else{
         if (validate('check_form') && this.state.attachment.length > 0) {
 
             var data = {
@@ -135,6 +137,8 @@ class BenefitOtherAddNew extends Component {
             startSaving()
             form_validate = false;
         }
+       }
+       
     }
     removeNewDocument(index, event) {
         var array = this.state.newDoc;

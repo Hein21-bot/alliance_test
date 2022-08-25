@@ -93,7 +93,7 @@ class BirthdayFundAddNew extends Component {
     };
 
     save() {
-        stopSaving();
+       
         if (validate('check_form')) {
             var data = {
                 attribute: this.state.branch_id.value,

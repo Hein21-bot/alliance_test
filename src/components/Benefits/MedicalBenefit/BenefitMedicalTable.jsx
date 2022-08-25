@@ -62,18 +62,18 @@ export default class BenefitMedicalTable extends Component {
         });
     }
 
-    // _getMedicalBenefit() {
-    //     let id = this.state.user_id;
-    //     fetch(main_url + "medical_benefit/getMedicalBenefit/" + id)
-    //         .then(response => {
-    //             if (response.ok) return response.json()
-    //         })
-    //         .then(res => {
-    //             this.setState({ data: res }, () => this._setTableData(res))
-    //         })
-    //         .catch(error => console.error(`Fetch Error =\n`, error));
+    _getMedicalBenefit() {
+        let id = this.state.user_id;
+        fetch(main_url + "medical_benefit/getMedicalBenefit/" + id)
+            .then(response => {
+                if (response.ok) return response.json()
+            })
+            .then(res => {
+                this.setState({ data: res }, () => this._setTableData(res))
+            })
+            .catch(error => console.error(`Fetch Error =\n`, error));
 
-    // }
+    }
 
     componentDidUpdate(prevProps) {
         if (prevProps.data !== this.props.data) {
