@@ -257,7 +257,7 @@ export default class TravelRequestAdvancedTable extends Component {
     });
   };
   handleSearchData = async (s_date, e_date, user_id) => {
-    let branchId=this.state.selected_branch ? this.state.selected_branch.value : 0
+    let branchId=this.state.selected_branch.value==undefined ?  0 : this.state.selected_branch.value 
       fetch(
       main_url +
       "allowance/getTravelRequestFilter/" +
