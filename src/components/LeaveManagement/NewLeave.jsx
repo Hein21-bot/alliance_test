@@ -255,62 +255,66 @@ export default class NewLeave extends Component {
     save() {
         let path = 'addLeave';
         let user_id = 0;
-        stopSaving();
-        if (validate('check_form')) {
-            if (this.state.leave_days1 != -1) {
-
-                if (this.state.tab === 1 || this.state.tab == 3) {
-                    user_id = this.state.user_info.user_id;
+        if(this.state.attachment.length == 0 && (this.state.selectedCategory.value !=1 && this.state.selectedCategory.value !=5)){
+            toast.error("Please Choose Attachment File!")
+        }else{
+            if (validate('check_form')) {
+                if (this.state.leave_days1 != -1) {
+    
+                    if (this.state.tab === 1 || this.state.tab == 3) {
+                        user_id = this.state.user_info.user_id;
+                    } else {
+                        var user = this.state.selectedEmployee;
+                        user_id = !Array.isArray(user) ? user.value : 0;
+                    }
+    
+                    let data = {
+                        user_id: user_id,
+                        child_delivery_date: this.state.childDeliveryDate,
+                        leave_start_date: this.state.startDate,
+                        leave_end_date: this.state.endDate,
+                        leave_category_id: this.state.selectedCategory.value,
+                        leave_days: moment.utc(this.state.startDate).format("YYYY-MM-DD") === moment.utc(this.state.endDate).format("YYYY-MM-DD") ? this.state.halfDay : this.state.leave_days1,
+                        reason: this.state.reason,
+                        verifyBy: this.state.selectedVerifyBy.value,
+                        approvedBy: this.state.selectedApproveBy.value,
+                        application_status: 1,
+                        files: imagedata,
+                        max_days: this.state.max_days
+                    }
+                    const formdata = new FormData();
+                    var obj = document.querySelector("#attach_file").files.length;
+                    for (var i = 0; i < obj; i++) {
+                        var imagedata = document.querySelector("#attach_file").files[i];
+                        formdata.append('uploadfile', imagedata);
+                    }
+                    formdata.append('leave_info', JSON.stringify(data))
+                    let status = 0;
+                    fetch(`${main_url}leave/${path}`, {
+                        method: "POST",
+                        body: formdata
+                    })
+                        .then(res => {
+                            status = res.status;
+                            return res.text()
+                        })
+                        .then(text => {
+                            if (status === 200) {
+                                toast.success(text);
+                                window.location.reload();
+                            }
+                            else toast.error(text);
+                        })
                 } else {
-                    var user = this.state.selectedEmployee;
-                    user_id = !Array.isArray(user) ? user.value : 0;
+                    toast.error("Start date is greather than end date!");
                 }
-
-                let data = {
-                    user_id: user_id,
-                    child_delivery_date: this.state.childDeliveryDate,
-                    leave_start_date: this.state.startDate,
-                    leave_end_date: this.state.endDate,
-                    leave_category_id: this.state.selectedCategory.value,
-                    leave_days: moment.utc(this.state.startDate).format("YYYY-MM-DD") === moment.utc(this.state.endDate).format("YYYY-MM-DD") ? this.state.halfDay : this.state.leave_days1,
-                    reason: this.state.reason,
-                    verifyBy: this.state.selectedVerifyBy.value,
-                    approvedBy: this.state.selectedApproveBy.value,
-                    application_status: 1,
-                    files: imagedata,
-                    max_days: this.state.max_days
-                }
-                const formdata = new FormData();
-                var obj = document.querySelector("#attach_file").files.length;
-                for (var i = 0; i < obj; i++) {
-                    var imagedata = document.querySelector("#attach_file").files[i];
-                    formdata.append('uploadfile', imagedata);
-                }
-                formdata.append('leave_info', JSON.stringify(data))
-                let status = 0;
-                fetch(`${main_url}leave/${path}`, {
-                    method: "POST",
-                    body: formdata
-                })
-                    .then(res => {
-                        status = res.status;
-                        return res.text()
-                    })
-                    .then(text => {
-                        if (status === 200) {
-                            toast.success(text);
-                            window.location.reload();
-                        }
-                        else toast.error(text);
-                    })
-            } else {
-                toast.error("Start date is greather than end date!");
+            }
+            else {
+                startSaving();
+                form_validate = false;
             }
         }
-        else {
-            startSaving();
-            form_validate = false;
-        }
+        
     }
 
     render() {

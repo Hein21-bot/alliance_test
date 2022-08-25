@@ -295,9 +295,11 @@ class HospitalizationAddNew extends Component {
         this.setState({ status_title: text, comment: comment }, () => this.save())
     }
     save() {
-        stopSaving();
+       if(this.state.attachment.length == 0){
+        toast.error("Please Choose Attachment File!")
+       }else{
         if (validate('check_form') && (this.state.attachment.length > 0 || !Array.isArray(this.state.one_benefit))) {
-            stopSaving();
+           
             var data = {
                 employee_id: this.state.one_benefit.employee_id ? this.state.one_benefit.employee_id : this.state.user_id,
                 actual_date: moment(this.state.actual_date).format('YYYY-MM-DD'),
@@ -383,6 +385,8 @@ class HospitalizationAddNew extends Component {
                 draggable: true
             });
         }
+       }
+        
     }
     onChangeInjury(event) {
         this.setState({

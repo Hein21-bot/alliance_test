@@ -201,6 +201,7 @@ class BenefitWeddingAddNew extends Component {
     }
     this.setState({
       attachment: attachment,
+      newDoc:newDoc
     });
   }
 
@@ -209,95 +210,100 @@ class BenefitWeddingAddNew extends Component {
   };
 
   save() {
-    stopSaving();
-    let { one_benefit, status_title, is_main_role, newDoc } = this.state;
-    let editData = !Array.isArray(one_benefit) == true ? (this.state.newDoc.length > 0 || this.state.attachment.length > 0 || this.state.doc.length > 0) && !Array.isArray(one_benefit) : !Array.isArray(one_benefit)
-    if (
-      validate("check_form") &&
-      (this.state.attachment.length > 0 || editData)
-    ) {
-      stopSaving();
-      var data = {
-        user_id: this.state.one_benefit.user_id
-          ? this.state.one_benefit.user_id
-          : this.state.user_id,
-        is_alliance_staff: this.state.spouseCompanyOption,
-        spouse_name: this.state.spouseName,
-        available_amount: this.state.available_amount,
-        status: this.state.status == 5 ? 0 : this.state.status,
-        createdBy: this.state.one_benefit.user_id
-          ? this.state.one_benefit.user_id
-          : this.state.user_id,
-        updatedBy: this.state.user_id,
-      };
-
-      let status = 0;
-      let path = "";
-
-      if (!Array.isArray(one_benefit) && one_benefit !== null) {
-        if (status_title !== "" && is_main_role) {
-          var action = getActionStatus(
-            status_title,
-            one_benefit,
-            this.state.user_id,
-            this.state.comment
-          );
-          data.referback_by = action.referback_by;
-          data.checked_by = action.checked_by;
-          data.verified_by = action.verified_by;
-          data.approved_by = action.approved_by;
-          data.rejected_by = action.rejected_by;
-          data.referback_date = action.referback_date;
-          data.checked_date = action.checked_date;
-          data.verified_date = action.verified_date;
-          data.approved_date = action.approved_date;
-          data.rejected_date = action.rejected_date;
-          data.referback_comment = action.referback_comment;
-          data.checked_comment = action.checked_comment;
-          data.verified_comment = action.verified_comment;
-          data.approved_comment = action.approved_comment;
-          data.status = action.status;
-          if (status_title === "rejected") {
-            data.rejected_comment = this.state.comment;
+    // stopSaving();
+    if(this.state.attachment.length == 0){
+      toast.error("Please Choose Attachment File!")
+    }else{
+      let { one_benefit, status_title, is_main_role, newDoc } = this.state;
+      let editData = !Array.isArray(one_benefit) == true ? (this.state.newDoc.length > 0 || this.state.attachment.length > 0 || this.state.doc.length > 0) && !Array.isArray(one_benefit) : !Array.isArray(one_benefit)
+      if (
+        validate("check_form") &&
+        (this.state.attachment.length > 0 || editData)
+      ) {
+      
+        var data = {
+          user_id: this.state.one_benefit.user_id
+            ? this.state.one_benefit.user_id
+            : this.state.user_id,
+          is_alliance_staff: this.state.spouseCompanyOption,
+          spouse_name: this.state.spouseName,
+          available_amount: this.state.available_amount,
+          status: this.state.status == 5 ? 0 : this.state.status,
+          createdBy: this.state.one_benefit.user_id
+            ? this.state.one_benefit.user_id
+            : this.state.user_id,
+          updatedBy: this.state.user_id,
+        };
+  
+        let status = 0;
+        let path = "";
+  
+        if (!Array.isArray(one_benefit) && one_benefit !== null) {
+          if (status_title !== "" && is_main_role) {
+            var action = getActionStatus(
+              status_title,
+              one_benefit,
+              this.state.user_id,
+              this.state.comment
+            );
+            data.referback_by = action.referback_by;
+            data.checked_by = action.checked_by;
+            data.verified_by = action.verified_by;
+            data.approved_by = action.approved_by;
+            data.rejected_by = action.rejected_by;
+            data.referback_date = action.referback_date;
+            data.checked_date = action.checked_date;
+            data.verified_date = action.verified_date;
+            data.approved_date = action.approved_date;
+            data.rejected_date = action.rejected_date;
+            data.referback_comment = action.referback_comment;
+            data.checked_comment = action.checked_comment;
+            data.verified_comment = action.verified_comment;
+            data.approved_comment = action.approved_comment;
+            data.status = action.status;
+            if (status_title === "rejected") {
+              data.rejected_comment = this.state.comment;
+            }
           }
+          path = `editWeddingBenefit/${one_benefit.benefit_id}`;
+        } else {
+          path = `saveWeddingBenefit`;
         }
-        path = `editWeddingBenefit/${one_benefit.benefit_id}`;
-      } else {
-        path = `saveWeddingBenefit`;
-      }
-      const formdata = new FormData();
-
-      // var obj = document.querySelector("#attach_file").files.length;
-      for (var i = 0; i < newDoc.length; i++) {
-        // var imagedata = document.querySelector("#attach_file").files[i];
-        var imagedata = newDoc[i]; // new doc HMH
-        formdata.append("uploadfile", imagedata);
-      }
-      formdata.append("oldDoc", JSON.stringify(this.state.doc));
-      formdata.append("wedding_benefit", JSON.stringify(data));
-
-      fetch(`${main_url}wedding_benefit/${path}`, {
-        method: "POST",
-        body: formdata,
-      })
-        .then((res) => {
-          status = res.status;
-          return res.text();
+        const formdata = new FormData();
+  
+        // var obj = document.querySelector("#attach_file").files.length;
+        for (var i = 0; i < newDoc.length; i++) {
+          // var imagedata = document.querySelector("#attach_file").files[i];
+          var imagedata = newDoc[i]; // new doc HMH
+          formdata.append("uploadfile", imagedata);
+        }
+        formdata.append("oldDoc", JSON.stringify(this.state.doc));
+        formdata.append("wedding_benefit", JSON.stringify(data));
+  
+        fetch(`${main_url}wedding_benefit/${path}`, {
+          method: "POST",
+          body: formdata,
         })
-        .then((text) => {
-          this.props.showToast(status, text);
+          .then((res) => {
+            status = res.status;
+            return res.text();
+          })
+          .then((text) => {
+            this.props.showToast(status, text);
+          });
+      } else {
+        startSaving();
+        toast.error(alertText, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
         });
-    } else {
-      startSaving();
-      toast.error(alertText, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-    }
+      }
+    } 
+    
   }
 
   render() {

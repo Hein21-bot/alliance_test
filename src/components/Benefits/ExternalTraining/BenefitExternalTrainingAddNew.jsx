@@ -93,65 +93,69 @@ class BenefitFuneralAddNew extends Component {
     }
 
     save() {
-        stopSaving();
-        if (validate("check_form") && this.state.attachment.length > 0) {
-            var data = {
-                user_id: this.state.user_id,
-                available_amount: this.state.available_amount,
-                training_name: this.state.training_type,
-                training_date: this.state.training_date,
-                training_period: this.state.training_period,
-                request_amount: this.state.request_amount,
-                training_purpose: this.state.purpose,
-                status: this.state.status,
-                createdBy: this.state.createdBy,
-                updatedBy: this.state.updatedBy
-            }
-
-            const formdata = new FormData();
-
-            var obj = document.querySelector("#attach_file").files.length;
-            for (var i = 0; i < obj; i++) {
-                var imagedata = document.querySelector("#attach_file").files[i];
-                formdata.append('uploadfile', imagedata);
-            }
-
-            formdata.append('external_benefit', JSON.stringify(data))
-
-            let path = 'saveExternalBenefit';
-            if (!Array.isArray(this.state.one_benefit) && this.state.one_benefit !== null) {
-                path = `editExternalBenefit/${this.state.one_benefit.external_training_id}`;
-            }
-            let status = 0;
-            fetch(`${main_url}external_benefit/${path}`, {
-                method: "POST",
-                body: formdata
-            })
-                .then(res => {
-                    status = res.status;
-                    return res.text()
+        if(this.state.attachment.length == 0){
+            toast.error("Please Choose Attachment File!")
+        }else{
+            if (validate("check_form") && this.state.attachment.length > 0) {
+                var data = {
+                    user_id: this.state.user_id,
+                    available_amount: this.state.available_amount,
+                    training_name: this.state.training_type,
+                    training_date: this.state.training_date,
+                    training_period: this.state.training_period,
+                    request_amount: this.state.request_amount,
+                    training_purpose: this.state.purpose,
+                    status: this.state.status,
+                    createdBy: this.state.createdBy,
+                    updatedBy: this.state.updatedBy
+                }
+    
+                const formdata = new FormData();
+    
+                var obj = document.querySelector("#attach_file").files.length;
+                for (var i = 0; i < obj; i++) {
+                    var imagedata = document.querySelector("#attach_file").files[i];
+                    formdata.append('uploadfile', imagedata);
+                }
+    
+                formdata.append('external_benefit', JSON.stringify(data))
+    
+                let path = 'saveExternalBenefit';
+                if (!Array.isArray(this.state.one_benefit) && this.state.one_benefit !== null) {
+                    path = `editExternalBenefit/${this.state.one_benefit.external_training_id}`;
+                }
+                let status = 0;
+                fetch(`${main_url}external_benefit/${path}`, {
+                    method: "POST",
+                    body: formdata
                 })
-                .then(text => {
-                    if (status !== 200) {
-                        this.setState({
-                            status: this.state.status
-                        })
-                    }
-                    this.props.showToast(status, text)
-                })
+                    .then(res => {
+                        status = res.status;
+                        return res.text()
+                    })
+                    .then(text => {
+                        if (status !== 200) {
+                            this.setState({
+                                status: this.state.status
+                            })
+                        }
+                        this.props.showToast(status, text)
+                    })
+            }
+            else {
+                startSaving();
+                form_validate = false;
+                toast.error(alertText, {
+                    position: 'top-right',
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true
+                });
+            }
         }
-        else {
-            startSaving();
-            form_validate = false;
-            toast.error(alertText, {
-                position: 'top-right',
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true
-            });
-        }
+        
     }
 
     checkFiles(e) {
