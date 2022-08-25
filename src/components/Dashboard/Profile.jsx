@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import { NonceProvider } from "react-select/dist/react-select.cjs.prod";
 import { main_url } from "../../utils/CommonFunction";
 const primary = "#1872ab";
 
@@ -37,7 +38,20 @@ class Profile extends Component {
   }
 
   render() {
-    
+    const btn = {
+      // backgroundColor:this.state.tapButtonTitle == "title" ? "green" : "blue",
+     
+        width: 100,
+        height: 60,
+        borderRadius: 5,
+        border:"none",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      
+    };
+
     return (
       <div>
         {this.state.userInfo != undefined ? (
@@ -158,13 +172,13 @@ class Profile extends Component {
                 </p>
               </div>
               {
-                this.state.userInfo.maratial_status !="unmarried" || this.state.userInfo.maratial_status !="single" ? <div style={styles.smallContainer}>
-                <p style={styles.profileLeftText}>Child Count</p>
-                <p style={styles.profileMiddleText}>:</p>
-                <p style={styles.profileRightText}>
-                  {this.state.userInfo.child_count}
-                </p>
-              </div>:null
+                this.state.userInfo.maratial_status != "unmarried" || this.state.userInfo.maratial_status != "single" ? <div style={styles.smallContainer}>
+                  <p style={styles.profileLeftText}>Child Count</p>
+                  <p style={styles.profileMiddleText}>:</p>
+                  <p style={styles.profileRightText}>
+                    {this.state.userInfo.child_count}
+                  </p>
+                </div> : null
               }
             </div>
             <div style={{ width: "0.5%", marginRight: 5 }}>
@@ -202,28 +216,15 @@ class Profile extends Component {
                 alignItems: "center",
               }}
             >
-              <div
-                style={{
-                  width: 100,
-                  height: 60,
-                  borderRadius: 5,
-                  backgroundColor: primary,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-                onClick={() => this.props.onClickFixAssetList(this.state.userInfo.user_id)}
-              >
-                <i
-                  style={{ fontSize: 20, color: "white", fontWeight: "bold" }}
-                  className="fa fa-file-text-o"
-                  aria-hidden="true"
-                ></i>
+              <button className="button" style={{...btn,backgroundColor: this.props.tapButtonTitle == "active" ? '#23c6c8' : "#1872ab",
+              }} onClick={() => this.props.onClickFixAssetList(this.state.userInfo.user_id, "active")}> <i
+                style={{ fontSize: 20, color: "white", fontWeight: "bold" }}
+                className="fa fa-file-text-o"
+                aria-hidden="true"
+              ></i>
                 <p style={{ color: "white", fontSize: 10, fontWeight: "bold" }}>
                   Fixed Asset List
-                </p>
-              </div>
+                </p></button>
             </div>
           </div>
         ) : null}
