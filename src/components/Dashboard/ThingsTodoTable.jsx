@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import { getUserId } from "../../utils/CommonFunction";
 import { thingsToDoController } from "./DashboardApi/ThingsToDoController";
 const primary = "#1872ab";
 
+const id = getUserId("user_info");
 class ThingsTodoTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user_id: localStorage.getItem("user_id"),
+      // user_id: localStorage.getItem("user_id"),
       birthdayCount: 0,
       childCount: 0,
       externalCount: 0,
@@ -32,7 +34,7 @@ class ThingsTodoTable extends Component {
   }
 
   componentDidMount() {
-    const id = localStorage.getItem("user_id");
+    // const id = localStorage.getItem("user_id");
     thingsToDoController.getBirthdayRequest(id, (data) => {
       this.setState({ birthdayCount:data.count })
     });

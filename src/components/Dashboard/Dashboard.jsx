@@ -22,6 +22,7 @@ import ResignBarChart from "./ResignBarChart";
 import CompensationandBenefit from "./CompensationandBenefit";
 import { main_url } from "../../utils/CommonFunction";
 import moment from "moment";
+import FixedAssectListTable from './FixedAssectListTable';
 const $ = require('jquery');
 const jzip = require('jzip');
 window.JSZip = jzip;
@@ -40,137 +41,141 @@ export class Dashboard extends Component {
     super(props);
     this.state = {
       tapButtonTitle: "",
-      fixAssetList: false,
+      // fixAssetList: false,
+      // fixAssetListTitle:""
     };
   }
-  
+
   async componentDidMount() {
-    this.$el = $(this.el); 
+    this.$el = $(this.el);
     //   const a = await getMacAddress();
     //   const b = await getMacAddress1();
   }
 
   tapButtonClick = (title) => {
     this.setState({ tapButtonTitle: title });
-    
+
   };
 
-  onClickFixAssetList = (userId) => {
-    fetch(main_url + `dashboard/fixedAssetList/${userId}`)
-    .then(response => {return response.json()}).then(res => {
-    this._setTableData(res);})
+  onClickFixAssetList = (userId, title) => {
     
+    fetch(main_url + `dashboard/fixedAssetList/${userId}`)
+      .then(response => { return response.json() }).then(res => {
+        this.setState({tapButtonTitle:title});
+        this._setTableData(res);
+      })
+
   }
 
   _setTableData = async (data) => {
-        var table;
-        var l = [];
-        var status;
-        this.setState({fixAssetList: true});
-        for (var i = 0; i < data.length; i++) {
-            let result = data[i];
-            let obj = [];
-            obj = {
-                no: i + 1,
-                employee_id: data[i].employment_id ? data[i].employment_id : '',
-                employee_name: data[i].fullname ? data[i].fullname : '',
-                position: data[i].designations ? data[i].designations : '-',
-                branch: data[i].location_master_name ? data[i].location_master_name : '-',
-                asset_item_code: data[i].asset_item_code ? data[i].asset_item_code : '-',
-                item_name: data[i].item_name ? data[i].item_name : '-',
-                asset_item_description: data[i].asset_item_description ? data[i].asset_item_description : '',
-            }
-            
-            l.push(obj)
-        }
+    var table;
+    var l = [];
+    var status;
+    this.setState({ tapButtonTitle: "active" });
+    for (var i = 0; i < data.length; i++) {
+      let result = data[i];
+      let obj = [];
+      obj = {
+        no: i + 1,
+        employee_id: data[i].employment_id ? data[i].employment_id : '',
+        employee_name: data[i].fullname ? data[i].fullname : '',
+        position: data[i].designations ? data[i].designations : '-',
+        branch: data[i].location_master_name ? data[i].location_master_name : '-',
+        asset_item_code: data[i].asset_item_code ? data[i].asset_item_code : '-',
+        item_name: data[i].item_name ? data[i].item_name : '-',
+        asset_item_description: data[i].asset_item_description ? data[i].asset_item_description : '',
+      }
 
-        if ($.fn.dataTable.isDataTable('#dataTables-table')) {
-            table = $('#dataTables-table').dataTable();
-            table.fnClearTable();
-            table.fnDestroy();
-            $('#dataTables-table').empty();
-        }
-
-        var column = [
-            { title: "No", data: "no" },
-            { title: "Employee Id", data: "employee_id" },
-            { title: "Employee Name", data: "employee_name" },
-            { title: "Designation", data: "position" },
-            { title: "Branch", data: "branch" },
-            { title: "Fixed Asset ID", data: "asset_item_code" },
-            { title: "Asset Name", data: "item_name" },
-            { title: "Specification", data: "asset_item_description" },
-        ]
-        table = $("#dataTables-table").DataTable({
-            // columnDefs: [
-            //     {
-            //       targets: 5,
-            //       createdCell: function (td) {
-            //         $(td).css('background-color', "red")
-            //       }
-            //     }
-            //   ],
-            autofill: true,
-            bLengthChange: false,
-            bInfo: false,
-            responsive: true,
-            pageLength: 50,
-            paging: true,
-            // buttons: true,
-            dom: 'Bfrtip',
-            // buttons: [
-            //     'copy', 'csv', 'excel', 'pdf'
-            // ],
-            buttons: [
-                // 'copy',
-                // {
-                //         extend: 'csvHtml5',
-                //         title: 'Child Benefit',
-                // },
-                // {
-                //     extend: 'excelHtml5',
-                //     title: 'Child Benefit',
-                // },
-                // {
-                //     extend: 'pdfHtml5',
-                //     title: 'Child Benefit',
-                // }
-            ],
-            data: l,
-            columns: column,
-            // createdRow: function (row, data, td, index) {
-            //     if (data.leave === true) {
-            //         $(row).css('background-color', 'Yellow');
-            //     }
-            //     if (data.extension != '-') {
-            //         $(row).css('background-color', 'Orange');
-                   
-            //     }
-            // }
-
-
-        });
-
+      l.push(obj)
     }
+
+    if ($.fn.dataTable.isDataTable('#dataTables-table')) {
+      table = $('#dataTables-table').dataTable();
+      table.fnClearTable();
+      table.fnDestroy();
+      $('#dataTables-table').empty();
+    }
+
+    var column = [
+      { title: "No", data: "no" },
+      { title: "Employee Id", data: "employee_id" },
+      { title: "Employee Name", data: "employee_name" },
+      { title: "Designation", data: "position" },
+      { title: "Branch", data: "branch" },
+      { title: "Fixed Asset ID", data: "asset_item_code" },
+      { title: "Asset Name", data: "item_name" },
+      { title: "Specification", data: "asset_item_description" },
+    ]
+    table = $("#dataTables-table").DataTable({
+      // columnDefs: [
+      //     {
+      //       targets: 5,
+      //       createdCell: function (td) {
+      //         $(td).css('background-color', "red")
+      //       }
+      //     }
+      //   ],
+      autofill: true,
+      bLengthChange: false,
+      bInfo: false,
+      responsive: true,
+      pageLength: 50,
+      paging: true,
+      // buttons: true,
+      dom: 'Bfrtip',
+      // buttons: [
+      //     'copy', 'csv', 'excel', 'pdf'
+      // ],
+      buttons: [
+        // 'copy',
+        // {
+        //         extend: 'csvHtml5',
+        //         title: 'Child Benefit',
+        // },
+        // {
+        //     extend: 'excelHtml5',
+        //     title: 'Child Benefit',
+        // },
+        // {
+        //     extend: 'pdfHtml5',
+        //     title: 'Child Benefit',
+        // }
+      ],
+      data: l,
+      columns: column,
+      // createdRow: function (row, data, td, index) {
+      //     if (data.leave === true) {
+      //         $(row).css('background-color', 'Yellow');
+      //     }
+      //     if (data.extension != '-') {
+      //         $(row).css('background-color', 'Orange');
+
+      //     }
+      // }
+
+
+    });
+
+  }
 
   render() {
 
     const btn = {
       // backgroundColor:this.state.tapButtonTitle == "title" ? "green" : "blue",
       color: "white",
-      display:"flex",
-      justifyContent:"center",
-      alignItems:"center",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
       paddingLeft: 20,
       paddingRight: 20,
       paddingTop: 5,
       paddingBottom: 7,
-      
+
       borderRadius: 5,
       borderColor: "transparent",
-      
-      
-     
+
+
+
     };
     return (
       <div>
@@ -184,53 +189,53 @@ export class Dashboard extends Component {
             justifyContent: "space-around",
             flexWrap: "wrap",
             marginBottom: 15,
-            marginTop:15,
-           
-            
+            marginTop: 15,
+
+
           }}
         >
           <button className="button"
-          style={{...btn,backgroundColor:this.state.tapButtonTitle == "headCount" ? '#23C6C8' :"#1872ab"}}
-          onClick={() => this.tapButtonClick("headCount")} >
-           Head Count
+            style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "headCount" ? '#23C6C8' : "#1872ab" }}
+            onClick={() => this.tapButtonClick("headCount")} >
+            Head Count
           </button>
-          <button style={{...btn,backgroundColor:this.state.tapButtonTitle == "attendenceChart" ? '#23c6c8' :"#1872ab"}}
-           onClick={() => this.tapButtonClick("attendenceChart")}
+          <button style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "attendenceChart" ? '#23c6c8' : "#1872ab" }}
+            onClick={() => this.tapButtonClick("attendenceChart")}
           >Attandence</button>
           <button
-            style={{...btn,backgroundColor:this.state.tapButtonTitle == "leaveChart" ? '#23c6c8' :"#1872ab"}}
+            style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "leaveChart" ? '#23c6c8' : "#1872ab" }}
             onClick={() => this.tapButtonClick("leaveChart")}
           >
             Leave
           </button>
           <button
-            style={{...btn,backgroundColor:this.state.tapButtonTitle == "totalEmployee" ? '#23c6c8' :"#1872ab"}}
+            style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "totalEmployee" ? '#23c6c8' : "#1872ab" }}
             onClick={() => this.tapButtonClick("totalEmployee")}
           >
             Total Employee
           </button>
           <button
-            style={{...btn,backgroundColor:this.state.tapButtonTitle == "expense" ? '#23c6c8' :"#1872ab"}}
+            style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "expense" ? '#23c6c8' : "#1872ab" }}
             onClick={() => this.tapButtonClick("expense")}
           >
             Expense
           </button>
-         
+
           <button
-            style={{...btn,backgroundColor:this.state.tapButtonTitle == "benefit" ? '#23c6c8' :"#1872ab"}}
+            style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "benefit" ? '#23c6c8' : "#1872ab" }}
             onClick={() => this.tapButtonClick("benefit")}
           >
-           Compansation and Benefit
+            Compansation and Benefit
           </button>
-         
-          <button style={{...btn,backgroundColor:this.state.tapButtonTitle == "helpdesk" ? '#23c6c8' :"#1872ab"}} onClick={()=>this.tapButtonClick('helpdesk')}>Help Desk</button>
-          <button style={{...btn,backgroundColor:this.state.tapButtonTitle == "resign" ? '#23c6c8' :"#1872ab"}}onClick={() => this.tapButtonClick("resign")}
+
+          <button style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "helpdesk" ? '#23c6c8' : "#1872ab" }} onClick={() => this.tapButtonClick('helpdesk')}>Help Desk</button>
+          <button style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "resign" ? '#23c6c8' : "#1872ab" }} onClick={() => this.tapButtonClick("resign")}
           >Resign</button>
-         
+
         </div>
-        <Profile onClickFixAssetList={this.onClickFixAssetList}/>
+        <Profile onClickFixAssetList={this.onClickFixAssetList}tapButtonTitle={this.state.tapButtonTitle} />
         {this.state.tapButtonTitle == "headCount" ? (
-          <div className="row mt-4" style={{marginTop: 15,position:"relative",left:"18%"}}>
+          <div className="row mt-4" style={{ marginTop: 15, position: "relative", left: "18%" }}>
             <div className="col-md-8 col-lg-8 col-sm-12">
               <HeadCountBarChart title={"department"} />
             </div>
@@ -249,10 +254,10 @@ export class Dashboard extends Component {
             }}
           >
             <div className="col-lg-10">
-              <AttendenceBarChart/>
+              <AttendenceBarChart />
             </div>
           </div>
-        ):this.state.tapButtonTitle == "totalEmployee" ? (
+        ) : this.state.tapButtonTitle == "totalEmployee" ? (
           <div
             className="row mt-4"
             style={{
@@ -263,42 +268,42 @@ export class Dashboard extends Component {
             }}
           >
             <div className="col-md-8">
-              <EmployeePieChart/>
+              <EmployeePieChart />
             </div>
           </div>
         ) : this.state.tapButtonTitle == "benefit" ? (
           <div className="row mt-4" style={{
-            display:'flex',
-            justifyContent:"center",
-            alignItems:'center',
-            marginTop:"13px"
+            display: 'flex',
+            justifyContent: "center",
+            alignItems: 'center',
+            marginTop: "13px"
           }}>
             <div className="col-md-8">
-              
+
               <CompensationandBenefit></CompensationandBenefit>
             </div>
           </div>
         ) : this.state.tapButtonTitle == "expense" ? (
           <div className="row mt-4" style={{
-            display:'flex',
-            justifyContent:"center",
-            alignItems:'center',
-            marginTop:"15px"
+            display: 'flex',
+            justifyContent: "center",
+            alignItems: 'center',
+            marginTop: "15px"
           }}>
             <div className="col-md-8">
-              
+
               <BenefitBarChart></BenefitBarChart>
-              
+
             </div>
           </div>
-        ): this.state.tapButtonTitle == "helpdesk" ? (
+        ) : this.state.tapButtonTitle == "helpdesk" ? (
           <div className="row mt-4">
             <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
               <HelpDesk></HelpDesk>
             </div>
             <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
               <HelpDeskLineChart></HelpDeskLineChart>
-              </div> 
+            </div>
           </div>
         ) : this.state.tapButtonTitle == "leaveChart" ? (
           <div
@@ -314,7 +319,7 @@ export class Dashboard extends Component {
               <LeaveCountBarChart />
             </div>
           </div>
-        ) :  this.state.tapButtonTitle == "resign" ? (
+        ) : this.state.tapButtonTitle == "resign" ? (
           <div
             className="row mt-4"
             style={{
@@ -328,26 +333,28 @@ export class Dashboard extends Component {
               <ResignBarChart />
             </div>
           </div>
-        ):
-          this.state.fixAssetList == true ? (
-            <div style={{marginTop: 10}}>
-              <table width="99%"
-                    className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
-                    id="dataTables-table"
-                />
+        ) :
+        this.state.tapButtonTitle == "active" ? (
+            <div style={{ marginTop: 10 }}>
+              {/* <table width="99%"
+                className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
+                id="dataTables-table"
+              /> */}
+             <FixedAssectListTable ></FixedAssectListTable>
+
             </div>
           ) : (
-          <div> 
-            <div className="row mt-4" style={{marginTop: 15}}>
-              <div className="col-md-4 col-lg-4 col-sm-12">
-                <ThingsTodoTable />
-              </div>
-              <div className="col-md-8 col-lg-8 col-sm-12 d-flex column" >
-                <AttendanceCaldendar/>
-                <LeaveCalendar/>
-            </div></div>
-          </div>
-        )}
+            <div>
+              <div className="row mt-4" style={{ marginTop: 15 }}>
+                <div className="col-md-4 col-lg-4 col-sm-12">
+                  <ThingsTodoTable />
+                </div>
+                <div className="col-md-8 col-lg-8 col-sm-12 d-flex column" >
+                  <AttendanceCaldendar />
+                  <LeaveCalendar />
+                </div></div>
+            </div>
+          )}
       </div>
     );
   }
@@ -355,9 +362,9 @@ export class Dashboard extends Component {
 
 
 const styles = {
-  
+
   tapButtonStyle: {
-    
+
     // backgroundColor:this.state.color,
     color: "white",
     paddingLeft: 20,
@@ -366,7 +373,7 @@ const styles = {
     paddingBottom: 5,
     borderRadius: 5,
     borderColor: "transparent",
-   
+
   },
   smallContainer: {
     width: "100%",
