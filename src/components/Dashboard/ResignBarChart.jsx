@@ -5,6 +5,7 @@ import Select from 'react-select'
 import moment from 'moment';
 import DatePicker from 'react-datetime';
 import { getBranch, getDepartment, main_url, getFirstDayOfMonth } from '../../utils/CommonFunction';
+import { region } from 'caniuse-lite';
 
 //resignRegion/branch/department/startDate/endDate
 //resignExitStaff/startDate/endDate 
@@ -22,11 +23,13 @@ class ResignBarChart extends Component {
             exitToDate: new Date(),
             exitFromDate: getFirstDayOfMonth(),
             branchId: 0,
+            regionId:0,
             departmentId: 0,
             resignData: [],
             resignCount: [],
             exitStaffData: [],
             exitStaffCount: [],
+            selected_checkbox:1
         }
     }
 
@@ -45,8 +48,8 @@ class ResignBarChart extends Component {
         })
     }
 
-    async getResignData(branchId,departmentId,fromDate,toDate) {
-        fetch(`${main_url}dashboard/resignRegion/${this.state.branchId.value == undefined ? this.state.branchId : this.state.branchId.value}/${this.state.departmentId.value == undefined ? this.state.departmentId : this.state.departmentId.value}/${moment(fromDate).format('YYYY-MM-DD')}/${moment(toDate).format('YYYY-MM-DD')} `)
+    async getResignData(checkboxId) {
+        fetch(`${main_url}dashboard/resignRegion/${checkboxId}/${moment(this.state.fromDate).format('YYYY-MM-DD')}/${moment(this.state.toDate).format('YYYY-MM-DD')} `)
             .then(response => {
                 if (response.ok) return response.json()
             })
@@ -233,22 +236,32 @@ class ResignBarChart extends Component {
             exitFromDate: event
         });
     };
-    handleSelectedBranch = async (event) => {
+    // handleSelectedBranch = async (event) => {
       
+    //     this.setState({
+    //         branchId: event.target.value
+    //     })
+    // }
+    handleCheckbox=async (event)=>{
         this.setState({
-            branchId: event
+            selected_checkbox:event.target.value
         })
     }
 
-    handleSelectedDepartment = async (event) => {
+    // handleSelectedDepartment = async (event) => {
        
-        this.setState({
-            departmentId:event
-        })
-    }
+    //     this.setState({
+    //         departmentId:event.target.value
+    //     })
+    // }
+    // handleSelectedRegion=async (event)=>{
+    //     this.setState(
+    //        { regionId:event.target.value}
+    //     )
+    // }
 
     onClickResignStaffSearch = () => {
-        this.getResignData(this.state.branchId.value == undefined ? this.state.branchId : this.state.branchId.value,this.state.departmentId.value == undefined ? this.state.departmentId : this.state.departmentId.value);
+        this.getResignData(this.state.selected_checkbox ==  undefined ? 1 : this.state.selected_checkbox);
     }
     onClickExitStaffSearch = () => {
         this.getExitStaffData();
@@ -282,8 +295,8 @@ class ResignBarChart extends Component {
                 >
                     <h3 className='' style={{ padding: '10px 0px 0px 0px' }}>Resign Graph</h3>
 
-                    <div className='flex-row' style={{ display: 'flex', justifyContent: 'start', alignItems: 'end', margin: '10px 10px 0px 10px' }}>
-                        <div style={{ textAlign:'start'}}>
+                    <div className='flex-row' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', margin: '10px 10px 0px 10px' }}>
+                    <div style={{ textAlign:'start'}}>
                             <label htmlFor="">Start Date</label>
                         <DatePicker className='fromdate'
 
@@ -299,62 +312,30 @@ class ResignBarChart extends Component {
                             value={this.state.toDate}
                             onChange={this.handleToDate}
                             timeFormat={false} />
+                            </div>
+                        <div style={{ textAlign:'end'}}>
+                            
+                        <input type="checkbox"  name='region' checked={this.state.selected_checkbox == 1 ? 'checked': ''} value='1' onChange={this.handleCheckbox} />
+                        <label htmlFor="">Region</label>
                         </div>
-                        <div style={{textAlign:'start'}}>
+                        <div style={{ textAlign:'end'}}>
+                            
+                            <input type="checkbox"  name='region' checked={this.state.selected_checkbox == 2 ? 'checked': ''} value='2' onChange={this.handleCheckbox}/>
                             <label htmlFor="">Branch</label>
-                        <Select
-                            styles={{
-                                container: base => ({
-                                    ...base,
-                                    //   flex: 1
-                                    width: 150
-                                }),
-                                control: base => ({
-                                    ...base,
-                                    minHeight: '18px'
-                                }),
-
-                            }}
-                            placeholder="All"
-                            options={this.state.branch}
-                            onChange={this.handleSelectedBranch}
-                            value={this.state.branchId}
-                            className='react-select-container'
-                            classNamePrefix="react-select"
-                        />
                         </div>
-                       <div style={{textAlign:'start',
-                     marginLeft: 10}}>
-                        <label htmlFor="">Department</label>
-                       <Select
-                            styles={{
-                                container: base => ({
-                                    ...base,
-                                    //   flex: 1
-                                    width: 150,
-                                   
-                                }),
-                                control: base => ({
-                                    ...base,
-                                    minHeight: '18px'
-                                }),
-
-                            }}
-                            placeholder="All"
-                            options={this.state.department}
-                            onChange={this.handleSelectedDepartment}
-                            value={this.state.departmentId}
-                            className='react-select-container'
-                            classNamePrefix="react-select"
-                        />
-                       </div>
+                        <div style={{textAlign:'end'}}>
+                           
+                            <input type="checkbox"  name='region' checked={this.state.selected_checkbox == 3 ? 'checked': ''} value="3" onChange={this.handleCheckbox} />
+                            <label htmlFor="">Department</label>
+                        </div>
+                       
                         <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.onClickResignStaffSearch()}>Search</button>
+                       
                     </div>
                     <HighchartsReact
                         highcharts={Highcharts}
                         options={this.state.chartOptions}
-                        containerProps={{ className: "w-100" }} />
-                </div>
+                        containerProps={{ className: "w-100" }} /></div>
                 <div
                     className='text-center margin-y'
                     style={{
@@ -370,30 +351,23 @@ class ResignBarChart extends Component {
                     <h3 className='' style={{ padding: '10px 0px 0px 0px' }}>No of Exit Staff</h3>
 
                     <div className='flex-row' style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', margin: '10px 10px 0px 10px' }}>
-                    <div style={{ textAlign:'start'}}>
-                        <label htmlFor="">Start Date</label>
                         <DatePicker className='fromdate'
 
                             dateFormat="DD/MM/YYYY"
                             value={this.state.exitFromDate}
                             onChange={this.handleExitFromDate}
                             timeFormat={false} />
-                            </div>
-                            <div style={{ textAlign:'start'}}>
-                            <label htmlFor="">End Date</label>
                         < DatePicker className='fromdate'
                             dateFormat="DD/MM/YYYY"
                             value={this.state.exitToDate}
                             onChange={this.handleExitToDate}
                             timeFormat={false} />
-                            </div>
                         <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.onClickExitStaffSearch()}>Search</button>
                     </div>
                     <HighchartsReact
                         highcharts={Highcharts}
                         options={this.state.exitStaffOptions}
-                        containerProps={{ className: "w-100" }} />
-                 </div>
+                        containerProps={{ className: "w-100" }} /></div>
 
             </div>
 

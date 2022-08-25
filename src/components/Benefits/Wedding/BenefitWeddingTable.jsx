@@ -288,8 +288,18 @@ export default class WeddingBenefitTable extends Component {
 
     render() {
         return (
-
+            
             <div>
+                <div>
+          <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
+            <li className="active">
+              <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.props.requestlist('myrequest')}>My Request</a>
+            </li>
+            <li className="nav-item1">
+              <a className="nav-link" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.props.requestlist('allrequest')}>All Request</a>
+            </li>
+          </ul>
+        </div>
                 <div className="row border-bottom white-bg dashboard-header">
                     <div className="row">
                         <div class="btn-group-g ">
