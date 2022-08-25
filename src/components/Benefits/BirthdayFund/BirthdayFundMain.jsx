@@ -129,7 +129,7 @@ class BirthdayFundMain extends Component {
 
                 {
                     this.state.isTable ?
-                        <BirthdayFundTable data={this.state.requestData} requestlist={this.requestlist} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} requestType={this.state.requestType} permission={this.state.permission_status} /> : ''
+                        <BirthdayFundTable data={this.state.requestData}  requestlist={this.requestlist} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} requestType={this.state.requestType} permission={this.state.permission_status} /> : ''
 
                 }
                 {

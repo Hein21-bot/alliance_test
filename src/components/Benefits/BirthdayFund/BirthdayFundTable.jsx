@@ -79,6 +79,7 @@ export default class BirthdayFundTable extends Component {
             .then(res => {
                 if (this.props.requestType == 'myrequest') {
                     let data = res.filter(v => v.createdBy == user.user_id)
+                    console.log("data===>",data)
                     this._setTableData(data);
                   } else {
                     let data = res.filter(v => v.createdBy != user.user_id)
