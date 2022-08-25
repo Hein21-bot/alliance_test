@@ -1045,7 +1045,7 @@ class EditEmployeeListForm extends Component {
     }
 
 
-    render() {
+    render(){
         const { tabIndex, userImage, userImageUrl, nrc_number, period, fullNRC, designation, workExpChecked, organization, sameWithCtPerson, selected_bank, trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo,
             fatherName, qualificationList, selected_qualification, selected_degree, motherName, guarantor, guarantorPhone, attachmentUrl, selected_gran_NRC_Id, employeeStatusList, disConstatusList,
             selected_gran_DistrictCode, guaFullNRC, gran_nrc_number, parentCount, siblingCount, childCount, pInLawCount, martialStatus, officePhone, region, address, joinDate, accountName, accountNumber, employeeStatus, employeeDesignation, jobTitle, carrerLevel, employeeDetailBranch, employedDate, disConStatus, disConDate,

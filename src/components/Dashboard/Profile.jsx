@@ -61,7 +61,7 @@ class Profile extends Component {
               }}
             >
               <img
-                src="assets/img/team.svg"
+                src="assets/img/ic_launcher_foreground.png"
                 style={{ width: 80, height: 80, borderRadius: 45 }}
               />
             </div>
@@ -213,6 +213,7 @@ class Profile extends Component {
                   justifyContent: "center",
                   alignItems: "center",
                 }}
+                onClick={() => this.props.onClickFixAssetList(this.state.userInfo.user_id)}
               >
                 <i
                   style={{ fontSize: 20, color: "white", fontWeight: "bold" }}

@@ -25,6 +25,7 @@ class ConfirmationList extends Component {
     super();
     this.state = {
       user_info: getCookieData("user_info"),
+      loading:false,
       user_id: getUserId("user_info"),
       is_main_role: getMainRole(),
       view: false,
@@ -132,8 +133,9 @@ class ConfirmationList extends Component {
       career_sub_level,
       selected_branch_list
     } = this.state;
+    this.setState({loading:true})
 
-    const regionId = selected_region ? selected_region.region_id : 0;
+    const regionId = selected_region ? selected_region.state_id : 0;
     const branchId = selected_branch ? selected_branch.branch_id : 0;
     const depId = selected_department ? selected_department.departments_id : 0;
     const designId = selected_designation ? selected_designation_list : 0;
@@ -172,7 +174,7 @@ class ConfirmationList extends Component {
         })
         .then((list) => {
           this.setState({
-            confirmationListData: list,
+            confirmationListData: list,loading:false
           });
         });
     }
@@ -183,8 +185,11 @@ class ConfirmationList extends Component {
 
   getVerifyPersonList() {
     const {selected_branch_list}=this.state;
+    this.setState({
+      loading:true
+    })
     const regionId = this.state.selected_region
-      ? this.state.selected_region.region_id
+      ? this.state.selected_region.state_id
       : 0;
     const branchId = this.state.selected_branch
       ? this.state.selected_branch.branch_id
@@ -207,6 +212,7 @@ class ConfirmationList extends Component {
             ...v,
             label: v.fullname,
             value: v.branch_id,
+            loading:false
           })),
         });
       });
@@ -257,23 +263,32 @@ class ConfirmationList extends Component {
       });
   }
 
+  // getRegionList() {
+  //   fetch(`${main_url}benefit/getRegionList`)
+  //     .then((res) => {
+  //       if (res.ok) return res.json();
+  //     })
+  //     .then((list) => {
+  //       let lists = list.unshift({ state_id: 0, state_name: "All" });
+  //       this.setState({
+  //         regionList: list.map((v) => ({
+  //           ...v,
+  //           label: v.state_name,
+  //           value: v.state_id,
+  //         })),
+  //       });
+  //     });
+  // }
   getRegionList() {
     fetch(`${main_url}benefit/getRegionList`)
-      .then((res) => {
-        if (res.ok) return res.json();
-      })
-      .then((list) => {
-        let lists = list.unshift({ region_id: 0, region_name: "All" });
+      .then(res => { if (res.ok) return res.json() })
+      .then(list => {
+        let lists = list.unshift({ state_id: 0, state_name: 'All' })
         this.setState({
-          regionList: list.map((v) => ({
-            ...v,
-            label: v.region_name,
-            value: v.region_id,
-          })),
-        });
-      });
+          regionList: list.map(v => ({ ...v, label: v.state_name, value: v.state_id }))
+        })
+      })
   }
-
   handleLevelSelectorChange = (val, key) => {
     const { sub_level_options, level_options } = this.state;
     const value =
@@ -586,134 +601,141 @@ class ConfirmationList extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
   };
-
+  
   render() {
-    const { checkboxAll, checkedListData,view, selected_title, titleList, confirmationMonth, verifyPersonList, selected_verifyPerson, date, promotion_date, employee_date, user_info, level_options, sub_level_options, career_level, career_sub_level, confirmationListData, checkPersonList, selected_checkPerson, dropDownOpen, selected_designation, designationList, subLevelList, levelList, selected_branch, selected_department, selected_region, regionList, branchlist, departmentlist, } = this.state;
+    if(this.state.loading==true){
+      return <div style={{ display: 'flex', justifyContent: 'center' }}><h2>Loading...</h2></div>
+    }
+    
+    else{
+      const { checkboxAll, checkedListData,view, selected_title, titleList, confirmationMonth, verifyPersonList, selected_verifyPerson, date, promotion_date, employee_date, user_info, level_options, sub_level_options, career_level, career_sub_level, confirmationListData, checkPersonList, selected_checkPerson, dropDownOpen, selected_designation, designationList, subLevelList, levelList, selected_branch, selected_department, selected_region, regionList, branchlist, departmentlist, } = this.state;
     console.log('checkListData ===>', checkedListData)
-    return (
-      <div className=" border-bottom white-bg dashboard-header">
-        <ToastContainer position={toast.POSITION.TOP_RIGHT} />
-        {this.state.requestComponent == false ? (
-          <>
-            <div className="row wrapper white-bg page-heading">
-              <div className="col-lg-12">
-                <ol className="breadcrumb">
-                  <li style={{ fontSize: 18 }}>Employee</li>
-                  <li style={{ fontSize: 18 }}>Confirmation</li>
-                  <li style={{ fontSize: 18 }}>List</li>
-                </ol>
+      return (
+        <div className=" border-bottom white-bg dashboard-header">
+          <ToastContainer position={toast.POSITION.TOP_RIGHT} />
+          {this.state.requestComponent == false ? (
+            <>
+              <div className="row wrapper white-bg page-heading">
+                <div className="col-lg-12">
+                  <ol className="breadcrumb">
+                    <li style={{ fontSize: 18 }}>Employee</li>
+                    <li style={{ fontSize: 18 }}>Confirmation</li>
+                    <li style={{ fontSize: 18 }}>List</li>
+                  </ol>
+                </div>
               </div>
-            </div>
-
-            <div className="white-bg" style={{}}>
-              <ListSearchForm
-                titleList={titleList}
-                confirmationMonth={confirmationMonth}
-                date={date}
-                promotion_date={promotion_date}
-                employee_date={employee_date}
-                dropDownOpen={dropDownOpen}
-                selected_designation={selected_designation}
-                designationList={designationList}
-                subLevelList={subLevelList}
-                levelList={levelList}
-                selected_title={selected_title}
-                selected_region={selected_region}
-                selected_branch={selected_branch}
-                selected_department={selected_department}
-                branchlist={branchlist}
-                departmentlist={departmentlist}
-                regionList={regionList}
-                level_options={level_options}
-                sub_level_options={sub_level_options}
-                career_level={career_level}
-                career_sub_level={career_sub_level}
-                handleSearch={this.handleSearch}
-                handleSelectedDesignation={this.handleSelectedDesignation}
-                handleConfirmationListInputChange={
-                  this.handleConfirmationListInputChange
-                }
-                handleSelectedTitle={this.handleSelectedTitle}
-                handleSelectedBranch={this.handleSelectedBranch}
-                handleSelectedDeaprtment={this.handleSelectedDeaprtment}
-                handleSelectedRegion={this.handleSelectedRegion}
-                handleDropDown={this.handleDropDown}
-                onChange={this.onChange}
-                handleLevelSelectorChange={this.handleLevelSelectorChange}
-              />
-              <hr />
-              <div style={{}}>
-
-                {this.state.visible == false ? (
-                  <div className="col-lg-12 col-md-12" style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <div style={{width: '20%'}}>
-                      <label>
-                      <input type={'checkbox'} onChange={() => this.handleCheckboxAll(!checkboxAll)}/>
-                      Select All
-                      </label>
+  
+              <div className="white-bg" style={{}}>
+                <ListSearchForm
+                
+                  titleList={titleList}
+                  confirmationMonth={confirmationMonth}
+                  date={date}
+                  promotion_date={promotion_date}
+                  employee_date={employee_date}
+                  dropDownOpen={dropDownOpen}
+                  selected_designation={selected_designation}
+                  designationList={designationList}
+                  subLevelList={subLevelList}
+                  levelList={levelList}
+                  selected_title={selected_title}
+                  selected_region={selected_region}
+                  selected_branch={selected_branch}
+                  selected_department={selected_department}
+                  branchlist={branchlist}
+                  departmentlist={departmentlist}
+                  regionList={regionList}
+                  level_options={level_options}
+                  sub_level_options={sub_level_options}
+                  career_level={career_level}
+                  career_sub_level={career_sub_level}
+                  handleSearch={this.handleSearch}
+                  handleSelectedDesignation={this.handleSelectedDesignation}
+                  handleConfirmationListInputChange={
+                    this.handleConfirmationListInputChange
+                  }
+                  handleSelectedTitle={this.handleSelectedTitle}
+                  handleSelectedBranch={this.handleSelectedBranch}
+                  handleSelectedDeaprtment={this.handleSelectedDeaprtment}
+                  handleSelectedRegion={this.handleSelectedRegion}
+                  handleDropDown={this.handleDropDown}
+                  onChange={this.onChange}
+                  handleLevelSelectorChange={this.handleLevelSelectorChange}
+                />
+                <hr />
+                <div style={{}}>
+  
+                  {this.state.visible == false ? (
+                    <div className="col-lg-12 col-md-12" style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                      <div style={{width: '20%'}}>
+                        <label>
+                        <input type={'checkbox'} onChange={() => this.handleCheckboxAll(!checkboxAll)}/>
+                        Select All
+                        </label>
+                      </div>
+                    <div
+                      // className="col-lg-12 col-md-12 col-sm-12"
+                      style={{ width: '80%', display: 'flex', justifyContent: 'flex-end', marginBottom: 5, paddingRight: 5 }}
+                    >
+                      <button
+                        onClick={() => this.handleVisible('request')}
+                        className="btn btn-primary"
+                        style={{ borderRadius: 3, width: 80, marginRight: 15 }}
+                      >
+                        Request
+                      </button>
+                      <button
+                        onClick={() => this.handleVisible('extension')}
+                        className="btn btn-danger"
+                        style={{ borderRadius: 3, width: 90 }}
+                      >
+                        Extension
+                      </button>
                     </div>
-                  <div
-                    // className="col-lg-12 col-md-12 col-sm-12"
-                    style={{ width: '80%', display: 'flex', justifyContent: 'flex-end', marginBottom: 5, paddingRight: 5 }}
-                  >
-                    <button
-                      onClick={() => this.handleVisible('request')}
-                      className="btn btn-primary"
-                      style={{ borderRadius: 3, width: 80, marginRight: 15 }}
-                    >
-                      Request
-                    </button>
-                    <button
-                      onClick={() => this.handleVisible('extension')}
-                      className="btn btn-danger"
-                      style={{ borderRadius: 3, width: 90 }}
-                    >
-                      Extension
-                    </button>
-                  </div>
-                  </div>
-                ) : (
-                  ""
-                )}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+  
+                <ConfirmationListTable
+                  handleCheckBoxChange={this.handleCheckBoxChange}
+                  goToViewForm={null}
+                  goToEditForm={null}
+                  selectedCheckBox={this.state.selectedCheckBox}
+                  data={
+                    this.state.confirmationListData
+                      ? this.state.confirmationListData
+                      : []
+                  }
+                  permission={{
+                    isEdit: 0,
+                    isView: 0,
+                    isSelect: 1,
+                  }}
+                  departmentlist={departmentlist}
+                  checkboxAll={checkboxAll}
+                />
               </div>
-
-              <ConfirmationListTable
-                handleCheckBoxChange={this.handleCheckBoxChange}
-                goToViewForm={null}
-                goToEditForm={null}
-                selectedCheckBox={this.state.selectedCheckBox}
-                data={
-                  this.state.confirmationListData
-                    ? this.state.confirmationListData
-                    : []
-                }
-                permission={{
-                  isEdit: 0,
-                  isView: 0,
-                  isSelect: 1,
-                }}
-                departmentlist={departmentlist}
-                checkboxAll={checkboxAll}
-              />
-            </div>
-          </>
-        ) : (
-          <ConfirmationRequest
-            data={this.state.checkedListData}
-            checkData={this.state.checkPersonList}
-            confirmData={this.state.verifyPersonList}
-            selected_verifyPerson={selected_verifyPerson}
-            handleSelectedVerifyPerson={this.handleSelectedVerifyPerson}
-            // selected_checkPerson={selected_checkPerson}
-            // handleSelectedCheckPerson={this.handleSelectedCheckPerson}
-            // handleConfirmRequest={this.handleConfirmRequest}
-            handleLeaveExtensionRequest={this.handleLeaveExtensionRequest}
-            title={this.state.title}
-            setData={this.setState}
-          />
-        )}
-      </div>
-    );
+            </>
+          ) : (
+            <ConfirmationRequest
+              data={this.state.checkedListData}
+              checkData={this.state.checkPersonList}
+              confirmData={this.state.verifyPersonList}
+              selected_verifyPerson={selected_verifyPerson}
+              handleSelectedVerifyPerson={this.handleSelectedVerifyPerson}
+              // selected_checkPerson={selected_checkPerson}
+              // handleSelectedCheckPerson={this.handleSelectedCheckPerson}
+              // handleConfirmRequest={this.handleConfirmRequest}
+              handleLeaveExtensionRequest={this.handleLeaveExtensionRequest}
+              title={this.state.title}
+              setData={this.setState}
+            />
+          )}
+        </div>
+      );
+    }
   }
 }
 

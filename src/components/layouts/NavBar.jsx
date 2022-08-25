@@ -288,12 +288,17 @@ class NavBar extends Component {
                                     alignItems:"center",
                                     marginRight:"20px"
                                 }}>
+                                   
                                     <img
                                     alt="logo"
                                     className="logostyle"
-                                    src="assets/img/team.svg" style={{
-                                        width:"57px"
+                                    src="assets/img/ic_launcher_foreground.png" style={{
+                                        width:"57px",
+                                        height:'57px',
+                                        borderRadius:'50%',
+                                        objectFit:'cover'
                                     }} />
+                                    
                                 
                                     <div style={{
                                         margin:"0",

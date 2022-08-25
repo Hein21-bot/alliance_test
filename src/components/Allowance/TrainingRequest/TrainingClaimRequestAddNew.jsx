@@ -230,7 +230,7 @@ export default class Training
     }
 
     check = () => {
-        stopSaving();
+        // stopSaving();
         if (validate('check_form')) {
             this.props.addClaimRequest(this.state.dataSource, this.state.claimData, this.state.expenseDataSource, this.state.fileArray, grandTotal, avgCostPerPerson)
         }

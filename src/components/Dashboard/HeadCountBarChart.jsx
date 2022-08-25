@@ -49,9 +49,9 @@ class HeadCountBarChart extends Component {
     fetch(`${main_url}benefit/getRegionList`)
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
-        let lists = list.unshift({ region_id: 0, region_name: 'All' })
+        let lists = list.unshift({ state_id: 0, state_name: 'All' })
         this.setState({
-          regionList: list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
+          regionList: list.map(v => ({ ...v, label: v.state_name, value: v.state_id }))
         })
       })
   }
@@ -320,7 +320,9 @@ class HeadCountBarChart extends Component {
                     container: (base) => ({
                       ...base,
                       //   flex: 1
-                      width: 90,
+
+                      width: 150,
+
                     }),
                     control: (base) => ({
                       ...base,
@@ -346,7 +348,9 @@ class HeadCountBarChart extends Component {
                     container: (base) => ({
                       ...base,
                       //   flex: 1
-                      width: 90,
+
+                      width: 150,
+
                       // marginLeft: 10
                     }),
                     control: (base) => ({
@@ -438,7 +442,9 @@ class HeadCountBarChart extends Component {
                     container: (base) => ({
                       ...base,
                       //   flex: 1
-                      width: 90,
+
+                      width: 150,
+
                       marginRight: 10
                     }),
                     control: (base) => ({
@@ -464,7 +470,9 @@ class HeadCountBarChart extends Component {
                     container: (base) => ({
                       ...base,
                       //   flex: 1
-                      width: 90,
+
+                      width: 150,
+
                       marginRight: 10
                     }),
                     control: (base) => ({
@@ -490,7 +498,9 @@ class HeadCountBarChart extends Component {
                     container: (base) => ({
                       ...base,
                       //   flex: 1
-                      width: 90,
+
+                      width: 150,
+
                     }),
                     control: (base) => ({
                       ...base,

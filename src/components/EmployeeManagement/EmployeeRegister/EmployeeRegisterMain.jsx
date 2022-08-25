@@ -217,10 +217,10 @@ class EmployeeRegisterMain extends Component {
             user_id: getCookieData("user_info").user_id,
             NRC_SD_code: selected_NRC_Id ? selected_NRC_Id.id : null,
             NRC_District_code: selected_DistrictCode ? selected_DistrictCode.id : null,
-            NRC_no: Number(nrc_number),
+            NRC_no:nrc_number,
             NRC_SD_code_gurantee: selected_gran_NRC_Id ? selected_gran_NRC_Id.id : null,
             NRC_District_code_gurantee: selected_gran_DistrictCode ? selected_gran_DistrictCode.id : null,
-            NRC_no_gurantee: Number(gran_nrc_number),
+            NRC_no_gurantee: gran_nrc_number,
             same_with_CT_person: this.state.sameWithCtPerson ? 1 : 0
 
         }
@@ -284,7 +284,7 @@ class EmployeeRegisterMain extends Component {
         })
             .then(res => {
                 status = res.status;
-                if (status == 400) {
+                if (status == 400 ) {
                     toast.error('Process unsuccessfully!');
                     return null;
                 } else {
@@ -457,7 +457,7 @@ class EmployeeRegisterMain extends Component {
             if (e.target.value.length < 7) {
                 this.setState({
                     nrc_number: e.target.value,
-                })
+                },()=>{console.log("><><>",this.state.nrc_number)})
             }
         }
         else if (e.target.name === "nrc_number" && !this.state.selected_NRC_Id) {
@@ -1224,7 +1224,7 @@ class EmployeeRegisterMain extends Component {
         }
     }
 
-    render() {
+    render()  { 
         const { tabIndex, userImage, userImageUrl, employeeStatusList, fromMonthYear, toMonthYear, nrc_number, period, level_options, location, designation, workExpChecked, organization, sameWithCtPerson, bankList, selected_bank, trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo,
             fatherName, degreeList, disConstatusList, branchlist, selected_qualification, selected_degree, motherName, guarantor, guarantorPhone, attachmentUrl, selected_gran_NRC_Id, granDistrictCodeList, addedDegreeData, addedQualitificationData, workExpData,
             selected_gran_DistrictCode, gran_nrc_number, parentCount, siblingCount, childCount, pInLawCount, martialStatus, officePhone, region, address, joinDate, accountName, accountNumber, employeeStatus, employeeDesignation, jobTitle, carrerLevel, employeeDetailBranch, employedDate, disConStatus, disConDate,

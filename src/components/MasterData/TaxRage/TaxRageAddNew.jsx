@@ -56,7 +56,7 @@ class TaxRageAddNew extends Component {
 
     handleSave = () => {
 
-        stopSaving();
+        // stopSaving();
         if (validate('check_form')) {
             let status = 0;
             const { date, salary_start, salary_end, tax_rate, remark } = this.state;

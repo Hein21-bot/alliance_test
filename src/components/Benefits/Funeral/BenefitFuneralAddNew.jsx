@@ -122,7 +122,9 @@ class BenefitFuneralAddNew extends Component {
 
 
     save() {
-        stopSaving();
+       if(this.state.attachment.length == 0){
+        toast.error("Please Choose Attachment File!")
+       }else{
         if (this.state.attachment.length > 0 && this.state.person.length > 0) {
 
             const formdata = new FormData();
@@ -164,6 +166,8 @@ class BenefitFuneralAddNew extends Component {
                 draggable: true
             });
         }
+       }
+        
     }
 
     addRow = (e) => {

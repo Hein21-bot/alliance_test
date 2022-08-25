@@ -23,6 +23,7 @@ class EmployeeDetailMain extends Component {
     super(props);
     this.state = {
       isAddNew: false,
+      loading:false,
       user_info: getCookieData("user_info"),
       user_id: getUserId("user_info"),
       is_main_role: getMainRole(),
@@ -418,6 +419,9 @@ class EmployeeDetailMain extends Component {
 
 
   handleSearchList = (e) => {
+    this.setState({
+      loading:true
+    })
     e.preventDefault();
     const regionId = this.state.selected_region
       ? this.state.selected_region.region_id
@@ -441,7 +445,7 @@ class EmployeeDetailMain extends Component {
       })
       .then((res) => {
         if (res) {
-          this.setState({ employeeData: res });
+          this.setState({ employeeData: res,loading:false });
         }
       })
       .catch((error) => console.error(`Fetch Error =\n`, error));
@@ -884,103 +888,146 @@ class EmployeeDetailMain extends Component {
       tableEdit,
       tableView
     } = this.state;
-    return (
-      <div className=" border-bottom white-bg dashboard-header">
-        <ToastContainer position={toast.POSITION.TOP_RIGHT} />
-        {/* <form > */}
-        <div className="row wrapper white-bg page-heading">
-          <div className="col-lg-12 col-md-12">
-            <ol className="breadcrumb">
-              <li style={{ fontSize: 18 }}>Employee</li>
-              <li className="active" style={{ fontSize: 18 }}>
-                <a href="#"> Employment Details</a>
-              </li>
-            </ol>
+    if(this.state.loading==true){
+      return <div style={{ display: 'flex', justifyContent: 'center' }}><h2>Loading...</h2></div>
+    }else{
+      return (
+        <div className=" border-bottom white-bg dashboard-header">
+          <ToastContainer position={toast.POSITION.TOP_RIGHT} />
+          {/* <form > */}
+          <div className="row wrapper white-bg page-heading">
+            <div className="col-lg-12 col-md-12">
+              <ol className="breadcrumb">
+                <li style={{ fontSize: 18 }}>Employee</li>
+                <li className="active" style={{ fontSize: 18 }}>
+                  <a href="#"> Employment Details</a>
+                </li>
+              </ol>
+            </div>
+            {addNew || edit || view ? null : (
+              
+              <div
+                className=""
+                style={{
+                  marginTop: 50,
+                //   alignItems: "start",
+                //   display: "flex",
+                //   flexWrap: "wrap",
+                }}
+              >
+               <div
+                  className="col-lg-2 col-md-3 col-sm-12"
+                  style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
+                >
+                  <div style={{ paddingBottom: 10 }}>Region</div>
+  
+                  <Select
+                    options={this.state.regionList}
+                    value={this.state.selected_region}
+                    onChange={this.handleSelectedRegion.bind(this)}
+                    className="react-select-container checkValidate"
+                    classNamePrefix="react-select"
+                  />
+                </div>
+                <div
+                  className="col-lg-2 col-md-3 col-sm-12"
+                  style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
+                >
+                  <div style={{ paddingBottom: 10 }}>Department</div>
+  
+                  <Select
+                    options={this.state.departmentlist}
+                    value={this.state.selected_department}
+                    onChange={this.handleSelectedDeaprtment.bind(this)}
+                    className="react-select-container checkValidate"
+                    classNamePrefix="react-select"
+                  />
+                </div>
+                <div
+                  className="col-lg-2 col-md-3 col-sm-12"
+                  style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
+                >
+                  <div style={{ paddingBottom: 10 }}>Branch</div>
+  
+                  <Select
+                    options={this.state.branchlist}
+                    value={this.state.selected_branch}
+                    onChange={this.handleSelectedBranch.bind(this)}
+                    className="react-select-container checkValidate"
+                    classNamePrefix="react-select"
+                  />
+                </div>
+                <div
+                  className="col-lg-2 col-md-3 col-sm-12"
+                  style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
+                >
+                  <div style={{ paddingBottom: 10 }}>Designation</div>
+  
+                  <Select
+                    options={this.state.designationList}
+                    value={this.state.selected_designation}
+                    onChange={this.handleSelectedDesignation.bind(this)}
+                    className="react-select-container checkValidate"
+                    classNamePrefix="react-select"
+                  />
+                </div>
+                <div
+                  className="col-lg-2 col-md-3 col-sm-12"
+                  style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
+                >
+                  <div style={{ paddingBottom: 10 }}>Status</div>
+  
+                  <Select
+                    options={this.state.statusList}
+                    value={this.state.selected_status}
+                    onChange={this.handleSelectedstatus.bind(this)}
+                    className="react-select-container checkValidate"
+                    classNamePrefix="react-select"
+                  />
+                </div>
+              {/* <div className="col-lg-2 col-md-5" style={{marginTop:"10px"}}>
+                <button
+                  onClick={() => this.setState({ addNew: true })}
+                  style={{
+                    borderRadius: 5,
+                    padding: 10,
+                    background: "#337ab7",
+                    color: "white",
+                    border: "none",
+                  }}
+                >
+                   Add New 
+                </button>
+              </div> */}
+              <div
+                  className="col-lg-2 col-md-3 col-sm-8"
+                  style={{ display: "flex",marginTop:30 }}
+                >
+                  <button
+                    onClick={this.handleSearchList}
+                    className="btn btn-primary"
+                    style={{ borderRadius: 3, width: 80, marginRight: 15}}
+                  >
+                    Search
+                  </button>
+                  <button
+                    onClick={() => this.setState({ addNew: true })}
+                    className="btn btn-primary"
+                    style={{ borderRadius: 3, width: 80, textAlign: 'center' }}
+                  >
+                    Add New
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
-          {addNew || edit || view ? null : (
-            
-            <div
-              className=""
-              style={{
-                marginTop: 50,
-              //   alignItems: "start",
-              //   display: "flex",
-              //   flexWrap: "wrap",
-              }}
-            >
-             <div
-                className="col-lg-2 col-md-3 col-sm-12"
-                style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
-              >
-                <div style={{ paddingBottom: 10 }}>Region</div>
-
-                <Select
-                  options={this.state.regionList}
-                  value={this.state.selected_region}
-                  onChange={this.handleSelectedRegion.bind(this)}
-                  className="react-select-container checkValidate"
-                  classNamePrefix="react-select"
-                />
-              </div>
-              <div
-                className="col-lg-2 col-md-3 col-sm-12"
-                style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
-              >
-                <div style={{ paddingBottom: 10 }}>Department</div>
-
-                <Select
-                  options={this.state.departmentlist}
-                  value={this.state.selected_department}
-                  onChange={this.handleSelectedDeaprtment.bind(this)}
-                  className="react-select-container checkValidate"
-                  classNamePrefix="react-select"
-                />
-              </div>
-              <div
-                className="col-lg-2 col-md-3 col-sm-12"
-                style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
-              >
-                <div style={{ paddingBottom: 10 }}>Branch</div>
-
-                <Select
-                  options={this.state.branchlist}
-                  value={this.state.selected_branch}
-                  onChange={this.handleSelectedBranch.bind(this)}
-                  className="react-select-container checkValidate"
-                  classNamePrefix="react-select"
-                />
-              </div>
-              <div
-                className="col-lg-2 col-md-3 col-sm-12"
-                style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
-              >
-                <div style={{ paddingBottom: 10 }}>Designation</div>
-
-                <Select
-                  options={this.state.designationList}
-                  value={this.state.selected_designation}
-                  onChange={this.handleSelectedDesignation.bind(this)}
-                  className="react-select-container checkValidate"
-                  classNamePrefix="react-select"
-                />
-              </div>
-              <div
-                className="col-lg-2 col-md-3 col-sm-12"
-                style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
-              >
-                <div style={{ paddingBottom: 10 }}>Status</div>
-
-                <Select
-                  options={this.state.statusList}
-                  value={this.state.selected_status}
-                  onChange={this.handleSelectedstatus.bind(this)}
-                  className="react-select-container checkValidate"
-                  classNamePrefix="react-select"
-                />
-              </div>
-            {/* <div className="col-lg-2 col-md-5" style={{marginTop:"10px"}}>
+          {this.state.tableView ? (
+            <div style={{}}>
               <button
-                onClick={() => this.setState({ addNew: true })}
+                onClick={() => {
+                  this.setState({ tableView: false });
+                  this.getEmployeeList();
+                }}
                 style={{
                   borderRadius: 5,
                   padding: 10,
@@ -989,114 +1036,27 @@ class EmployeeDetailMain extends Component {
                   border: "none",
                 }}
               >
-                 Add New 
+                {"< Back"}
               </button>
-            </div> */}
-            <div
-                className="col-lg-2 col-md-3 col-sm-8"
-                style={{ display: "flex",marginTop:30 }}
-              >
-                <button
-                  onClick={this.handleSearchList}
-                  className="btn btn-primary"
-                  style={{ borderRadius: 3, width: 80, marginRight: 15}}
-                >
-                  Search
-                </button>
-                <button
-                  onClick={() => this.setState({ addNew: true })}
-                  className="btn btn-primary"
-                  style={{ borderRadius: 3, width: 80, textAlign: 'center' }}
-                >
-                  Add New
-                </button>
-              </div>
+              <EmploymentDetailsForSingleUserTable
+                goToViewForm={null}
+                goToEditForm={null}
+                data={
+                  this.state.employmentDataForSingleUser
+                    ? this.state.employmentDataForSingleUser
+                    : []
+                }
+                permission={{
+                  isEdit: 0,
+                  isView: 0,
+                }}
+              />
+  
             </div>
-          )}
-        </div>
-        {this.state.tableView ? (
-          <div style={{}}>
-            <button
-              onClick={() => {
-                this.setState({ tableView: false });
-                this.getEmployeeList();
-              }}
-              style={{
-                borderRadius: 5,
-                padding: 10,
-                background: "#337ab7",
-                color: "white",
-                border: "none",
-              }}
-            >
-              {"< Back"}
-            </button>
-            <EmploymentDetailsForSingleUserTable
-              goToViewForm={null}
-              goToEditForm={null}
-              data={
-                this.state.employmentDataForSingleUser
-                  ? this.state.employmentDataForSingleUser
-                  : []
-              }
-              permission={{
-                isEdit: 0,
-                isView: 0,
-              }}
-            />
-
-          </div>
-        ) : this.state.singleView ? (
-          <>
-            <EmploymentViewForm
-
-              selectedEmployeeId={selectedEmployeeId}
-              level_options={level_options}
-              sub_level_options={sub_level_options}
-              employeeName={employeeName}
-              statusList={statusList}
-              selected_status={selected_status}
-              handleAddFormInputChange={this.handleAddFormInputChange}
-              handleSelectedStatus={this.handleSelectedStatus}
-              employedDate={employedDate}
-              effectiveDate={effectiveDate}
-              actualDate={actualDate}
-              salary={salary}
-              disconDate={disconDate}
-              designationList={designationList}
-              selected_designation={selected_designation}
-              branchlist={branchlist}
-              selected_branch={selected_branch}
-              departmentlist={departmentlist}
-              selected_department={selected_department}
-              handleSelectedBranch={this.handleSelectedBranch}
-              handleSelectedDeaprtment={this.handleSelectedDeaprtment}
-              handleSelectedDesignation={this.handleSelectedDesignation}
-              submitAddForm={this.submitAddForm}
-              handleFormCancel={this.handleFormCancel}
-              handleUpdatData={this.handleUpdatData}
-              handleSelectedEmployeeId={this.handleSelectedEmployeeId}
-              handleLevelSelectorChange={this.handleLevelSelectorChange}
-              career_level={career_level}
-              career_sub_level={career_sub_level}
-              employeeIdList={employeeIdList}
-              exitStatusList={exitStatusList}
-              selected_exit_status={selected_exit_status}
-              handleSelectedExitStatus={this.handleSelectedExitStatus}
-              jobList={jobList}
-              selected_job={selected_job}
-              handleSelectedJob={this.handleSelectedJob}
-              disConStatusList={disConStatusList}
-              resignReason={resignReason}
-              selected_disCon_status={selected_disCon_status}
-              handleSelectedDisConStatus={this.handleSelectedDisConStatus}
-            /></>
-        ) : (
-          <>
-            {addNew || edit || tableEdit ? (
-              <EmploymentForm
-                edit={edit}
-                view={view}
+          ) : this.state.singleView ? (
+            <>
+              <EmploymentViewForm
+  
                 selectedEmployeeId={selectedEmployeeId}
                 level_options={level_options}
                 sub_level_options={sub_level_options}
@@ -1137,25 +1097,74 @@ class EmployeeDetailMain extends Component {
                 resignReason={resignReason}
                 selected_disCon_status={selected_disCon_status}
                 handleSelectedDisConStatus={this.handleSelectedDisConStatus}
-              />
-            ) : (
-              <div style={{}}>
-                <EmploymentDetailTable
-
-                  goToEditForm={this.goToEditForm}
-                  goToSingleViewForm={this.goToSingleViewForm}
-                  data={this.state.employeeData ? this.state.employeeData : []}
-                  permission={{
-                    isEdit: 1,
-                    isView: 1,
-                  }}
+              /></>
+          ) : (
+            <>
+              {addNew || edit || tableEdit ? (
+                <EmploymentForm
+                  edit={edit}
+                  view={view}
+                  selectedEmployeeId={selectedEmployeeId}
+                  level_options={level_options}
+                  sub_level_options={sub_level_options}
+                  employeeName={employeeName}
+                  statusList={statusList}
+                  selected_status={selected_status}
+                  handleAddFormInputChange={this.handleAddFormInputChange}
+                  handleSelectedStatus={this.handleSelectedStatus}
+                  employedDate={employedDate}
+                  effectiveDate={effectiveDate}
+                  actualDate={actualDate}
+                  salary={salary}
+                  disconDate={disconDate}
+                  designationList={designationList}
+                  selected_designation={selected_designation}
+                  branchlist={branchlist}
+                  selected_branch={selected_branch}
+                  departmentlist={departmentlist}
+                  selected_department={selected_department}
+                  handleSelectedBranch={this.handleSelectedBranch}
+                  handleSelectedDeaprtment={this.handleSelectedDeaprtment}
+                  handleSelectedDesignation={this.handleSelectedDesignation}
+                  submitAddForm={this.submitAddForm}
+                  handleFormCancel={this.handleFormCancel}
+                  handleUpdatData={this.handleUpdatData}
+                  handleSelectedEmployeeId={this.handleSelectedEmployeeId}
+                  handleLevelSelectorChange={this.handleLevelSelectorChange}
+                  career_level={career_level}
+                  career_sub_level={career_sub_level}
+                  employeeIdList={employeeIdList}
+                  exitStatusList={exitStatusList}
+                  selected_exit_status={selected_exit_status}
+                  handleSelectedExitStatus={this.handleSelectedExitStatus}
+                  jobList={jobList}
+                  selected_job={selected_job}
+                  handleSelectedJob={this.handleSelectedJob}
+                  disConStatusList={disConStatusList}
+                  resignReason={resignReason}
+                  selected_disCon_status={selected_disCon_status}
+                  handleSelectedDisConStatus={this.handleSelectedDisConStatus}
                 />
-              </div>
-            )}
-          </>
-        )}
-      </div>
-    );
+              ) : (
+                <div style={{}}>
+                  <EmploymentDetailTable
+  
+                    goToEditForm={this.goToEditForm}
+                    goToSingleViewForm={this.goToSingleViewForm}
+                    data={this.state.employeeData ? this.state.employeeData : []}
+                    permission={{
+                      isEdit: 1,
+                      isView: 1,
+                    }}
+                  />
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      );
+    }
+    
   }
 }
 

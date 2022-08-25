@@ -75,8 +75,12 @@ class BenefitChildAddNew extends Component {
     }
 
     save() {
-        stopSaving();
+       if(this.state.attachment.length == 0){
+        toast.error("Please Choose Attachment File!");
+
+       }else{
         if (validate('check_form') && this.state.attachment.length > 0) {
+            
             var data = {
                 user_id: this.state.user_info.user_id,
                 child_count: this.state.noOfChildren,
@@ -85,6 +89,7 @@ class BenefitChildAddNew extends Component {
                 createdBy: this.state.createdBy,
                 updatedBy: this.state.updatedBy
             }
+           
 
             const formdata = new FormData();
 
@@ -113,6 +118,8 @@ class BenefitChildAddNew extends Component {
             startSaving();
             form_validate = false;
         }
+       }
+        
     }
 
     render() {

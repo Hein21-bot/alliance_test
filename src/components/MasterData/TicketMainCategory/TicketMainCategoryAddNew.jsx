@@ -46,7 +46,7 @@ class TicketMainCategoryAddNew extends Component {
     }
     handleSave = () => {
 
-        stopSaving();
+        // stopSaving();
         if (validate('check_form')) {
             let status = 0;
             const { category_name, departments_id, ticket_status_id, remark } = this.state;

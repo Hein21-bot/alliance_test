@@ -5,6 +5,7 @@ import Select from 'react-select'
 import { main_url, getFirstDayOfMonth } from "../../utils/CommonFunction";
 import DatePicker from 'react-datetime';
 import moment from "moment";
+import ExpenseBarChart from './ExpenseBarChart';
 
 
 class BenefitBarChart extends Component {
@@ -97,27 +98,27 @@ class BenefitBarChart extends Component {
             })
             .then((res) => {
                 if (res) {
-                    // let data = res.filter(v => v.amount != null)
+                    let data = res.filter(v => v.amount != null)
                     var label = [];
                     var count = [];
-                    // if (data.length < 5) {
-                    //     label.push(null, null)
-                    //     count.push(null, null)
-                    //     data.map((v, i) => {
-                    //         label.push(v.name);
-                    //         count.push(v.amount);
-                    //     });
-                    //     label.push(null, null)
-                    //     count.push(null, null)
-                    // } else {
+                    if (data.length < 5) {
+                        label.push(null, null)
+                        count.push(null, null)
+                        data.map((v, i) => {
+                            label.push(v.name);
+                            count.push(v.amount);
+                        });
+                        label.push(null, null)
+                        count.push(null, null)
+                    } else {
                         res.map((v, i) => {
                             label.push(v.name);
 
                             count.push(v.amount);
                         });
-                    // }
+                    }
 
-                    this.setState({ xAxisDept: label, countDataDept: count,data:res})
+                    this.setState({ xAxisDept: label, countDataDept: count})
                 }
                 this.setChartOption();
             })
@@ -240,7 +241,7 @@ class BenefitBarChart extends Component {
                                     container: base => ({
                                         ...base,
                                         //   flex: 1
-                                        width: 90,
+                                        width: 150,
 
                                     }),
                                     control: base => ({
@@ -267,7 +268,7 @@ class BenefitBarChart extends Component {
                                     container: base => ({
                                         ...base,
                                         //   flex: 1
-                                        width: 90,
+                                        width: 150,
 
                                     }),
                                     control: base => ({
@@ -291,7 +292,7 @@ class BenefitBarChart extends Component {
                         containerProps={{ className: "w-100" }} />
                 </div>
                 <div>
-
+                  <ExpenseBarChart/>     
                 </div>
             </div>
         )

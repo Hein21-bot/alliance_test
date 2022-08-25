@@ -127,24 +127,15 @@ class WeddingBenefitMain extends Component {
                     isEdit={this.state.isEdit} permission={this.state.permission_status} />
 
                 <br />
-                <div>
-          <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
-            <li className="active">
-              <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.requestlist('myrequest')}>My Request</a>
-            </li>
-            <li className="nav-item1">
-              <a className="nav-link" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.requestlist('allrequest')}>All Request</a>
-            </li>
-          </ul>
-        </div>
+                
                 {
                     this.state.isAddNew || this.state.isEdit ?
-                        <BenefitWeddingAddNew goToTable={this.goToTable} data={this.state.datasource} showToast={this.showToast} /> : ''
+                        <BenefitWeddingAddNew goToTable={this.goToTable}  data={this.state.datasource} showToast={this.showToast} /> : ''
                 }
 
                 {
                     this.state.isTable ?
-                        <BenefitWeddingTable data={this.state.requestData} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status} requestType={this.state.requestType} /> : ''
+                        <BenefitWeddingTable data={this.state.requestData} requestlist={this.requestlist} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status} requestType={this.state.requestType} /> : ''
 
                 }
                 {

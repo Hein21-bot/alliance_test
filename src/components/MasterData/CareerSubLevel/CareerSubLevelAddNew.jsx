@@ -45,7 +45,7 @@ class CareerSubLevelAddNew extends Component {
         this.setState(setState)
     }
     handleSave = () => {
-        stopSaving();
+        // stopSaving();
         if (validate('check_form')) {
             let status = 0;
             const { career_sub_level, career_level, career_level_id, remark, active } = this.state;

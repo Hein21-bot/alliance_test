@@ -10,6 +10,8 @@ class LeaveCounrBarChart extends Component {
             chartOptions: {},
             branch: [],
             department: [],
+            region:[],
+            regionId:0,
              branchId: 0,
             departmentId: 0,
             leaveData: [],
@@ -23,6 +25,8 @@ class LeaveCounrBarChart extends Component {
     async componentDidMount() {
         await this.setChartOption();
         await this.leaveDashboard();
+        await this.getRegionList();
+       
         let branch = await getBranch();
         branch.unshift({ label: 'All', value: 0 });
         let department = await getDepartment();
@@ -30,11 +34,21 @@ class LeaveCounrBarChart extends Component {
         this.setState({
             branch: branch,
             department: department,
+            // region:region
         })
     }
-
-    async leaveDashboard(branchId,departmentId) {
-        fetch(`${main_url}dashboard/leaveDashboard/${this.state.branchId.value == undefined ? this.state.branchId: this.state.branchId.value}/${this.state.departmentId.value == undefined ? this.state.departmentId : this.state.departmentId.value} `)
+    getRegionList() {
+        fetch(`${main_url}benefit/getRegionList`)
+          .then(res => { if (res.ok) return res.json() })
+          .then(list => {
+            let lists = list.unshift({ state_id: 0, state_name: 'All' })
+            this.setState({
+              region: list.map(v => ({ ...v, label: v.state_name, value: v.state_id }))
+            })
+          })
+      }
+    async leaveDashboard(branchId,departmentId,regionId) {
+        fetch(`${main_url}dashboard/leaveDashboard/${this.state.branchId.value == undefined ? this.state.branchId: this.state.branchId.value}/${this.state.departmentId.value == undefined ? this.state.departmentId : this.state.departmentId.value}/${this.state.regionId.value == undefined ? this.state.regionId : this.state.regionId.value} `)
             .then(response => {
                 if (response.ok) return response.json()
             })
@@ -122,7 +136,12 @@ class LeaveCounrBarChart extends Component {
            departmentId: event
         })
     }
-
+    handleSelectedRegion = async (event) => {
+       
+        this.setState({
+           regionId: event
+        })
+    }
     render() {
         return (
             <div
@@ -146,7 +165,7 @@ class LeaveCounrBarChart extends Component {
                             container: base => ({
                                 ...base,
                                 //   flex: 1
-                                width: 90
+                                width: 150
                             }),
                             control: base => ({
                                 ...base,
@@ -169,7 +188,7 @@ class LeaveCounrBarChart extends Component {
                             container: base => ({
                                 ...base,
                                 //   flex: 1
-                                width: 90,
+                                width: 150,
                                 marginLeft: 10
                             }),
                             control: base => ({
@@ -182,6 +201,30 @@ class LeaveCounrBarChart extends Component {
                         options={this.state.department}
                         onChange={this.handleSelectedDepartment.bind(this)}
                         value={this.state.departmentId}
+                        className='react-select-container'
+                        classNamePrefix="react-select"
+                    />
+                    </div>
+                    <div style={{ textAlign:'start'}}>
+                        <label htmlFor="">Region</label>
+                    <Select
+                        styles={{
+                            container: base => ({
+                                ...base,
+                                //   flex: 1
+                                width: 150,
+                                marginLeft: 10
+                            }),
+                            control: base => ({
+                                ...base,
+                                minHeight: '18px'
+                            }),
+
+                        }}
+                        placeholder="All"
+                        options={this.state.region}
+                        onChange={this.handleSelectedRegion.bind(this)}
+                        value={this.state.regionId}
                         className='react-select-container'
                         classNamePrefix="react-select"
                     />

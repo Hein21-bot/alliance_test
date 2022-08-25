@@ -277,11 +277,11 @@ class TeamBuildingAddNew extends Component {
     }
 
     save(total_amount) {
-        stopSaving();
+       
 
         let one_benefit = this.state.one_benefit;
         if (validate('check_form')) {
-            stopSaving();
+           
             var data = {
                 location_id: this.state.selected_location.value,
                 quater: this.state.selected_quater.value,

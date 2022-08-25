@@ -211,7 +211,7 @@ export default class ExpenseBarChart extends Component {
                                 container: base => ({
                                     ...base,
                                     //   flex: 1
-                                    width: 90,
+                                    width: 150,
 
                                 }),
                                 control: base => ({
@@ -231,14 +231,14 @@ export default class ExpenseBarChart extends Component {
                         textAlign: 'start',
                         marginLeft: '10px'
                     }}>
-                        <label htmlFor="">Dept</label>
+                        <label htmlFor="">Department</label>
                         <Select
                             styles={{
 
                                 container: base => ({
                                     ...base,
                                     //   flex: 1
-                                    width: 90,
+                                    width: 150,
 
                                 }),
                                 control: base => ({
