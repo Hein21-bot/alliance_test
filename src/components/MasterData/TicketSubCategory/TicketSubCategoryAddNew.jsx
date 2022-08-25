@@ -52,7 +52,7 @@ class TicketSubCategoryAddNew extends Component {
     }
     handleSave = () => {
 
-        stopSaving();
+        // stopSaving();
         if (validate('check_form')) {
             let status = 0;
             const { departments_id, main_category_id, sub_category_name, priorities_id, severity_id, remark } = this.state;

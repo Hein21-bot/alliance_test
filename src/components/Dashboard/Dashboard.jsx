@@ -184,6 +184,7 @@ export class Dashboard extends Component {
             justifyContent: "space-around",
             flexWrap: "wrap",
             marginBottom: 15,
+            marginTop:15,
            
             
           }}

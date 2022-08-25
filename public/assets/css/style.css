@@ -8885,6 +8885,8 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child::
 }
 #attendence_calendar .react-datepicker__header{
   background-color: #23c6c8 !important;
+  border-top-left-radius: 2.5rem !important;
+  border-top-right-radius: 2.5rem !important;
 }
 /* .react-datepicker__navigation-icon{
   color: white !important;

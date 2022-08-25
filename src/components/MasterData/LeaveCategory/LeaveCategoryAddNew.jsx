@@ -36,7 +36,7 @@ class LeaveCategoryAddNew extends Component {
         this.setState(setState)
     }
     handleSave = () => {
-        stopSaving();
+        // stopSaving();
         if (validate('check_form')) {
             let status = 0;
             const { leave_category, description, leave_quota, allow_leave_count, leave_policy } = this.state;
