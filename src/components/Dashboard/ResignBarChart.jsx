@@ -29,7 +29,10 @@ class ResignBarChart extends Component {
             resignCount: [],
             exitStaffData: [],
             exitStaffCount: [],
-            selected_checkbox:1
+            selected_branch:null,
+            selected_region:null,
+            selected_department:null,
+            selected_checkbox:2
         }
     }
 
@@ -47,9 +50,31 @@ class ResignBarChart extends Component {
             department: department,
         })
     }
-
-    async getResignData(checkboxId) {
-        fetch(`${main_url}dashboard/resignRegion/${checkboxId}/${moment(this.state.fromDate).format('YYYY-MM-DD')}/${moment(this.state.toDate).format('YYYY-MM-DD')} `)
+    handleRegionCheckbox=async (event)=>{
+        this.setState({
+            selected_region:event.target.value
+        })
+    }
+    handleBranchCheckbox=async (event)=>{
+        this.setState({
+            selected_branch:event.target.value
+        })
+    }
+    handleDepartmentCheckbox=async (event)=>{
+        this.setState({
+            selected_department:event.target.value
+        })
+    }
+    handleCheckbox=async (event)=>{
+        this.setState({
+            selected_checkbox:event.target.value
+        })
+    }
+    async getResignData() {
+        let regionId=this.state.selected_checkbox ==2 ? 2 : 0
+        let branchId=this.state.selected_checkbox == 3 ? 3 : 0
+        let departmentId=this.state.selected_checkbox ==4 ? 4 : 0
+        fetch(`${main_url}dashboard/resignRegion/${regionId}/${branchId}/${departmentId}/${moment(this.state.fromDate).format('YYYY-MM-DD')}/${moment(this.state.toDate).format('YYYY-MM-DD')} `)
             .then(response => {
                 if (response.ok) return response.json()
             })
@@ -58,21 +83,12 @@ class ResignBarChart extends Component {
                 if (res) {
                     var label = [];
                     var count = [];
-                    if (res.length < 5) {
-                        label.push(null, null)
-                        count.push(null, null)
+                    
                         res.map((v, i) => {
-                            label.push(v.branch_name);
+                            label.push(v.designations ? v.designations: v.state_name ? v.state_name : v.branch_name);
                             count.push(v.count)
                         })
-                        label.push(null, null)
-                        count.push(null, null)
-                    } else {
-                        res.map((v, i) => {
-                            label.push(v.branch_name);
-                            count.push(v.count)
-                        })
-                    }
+                    
 
 
                     this.setState({ resignData: label, resignCount: count })
@@ -242,11 +258,7 @@ class ResignBarChart extends Component {
     //         branchId: event.target.value
     //     })
     // }
-    handleCheckbox=async (event)=>{
-        this.setState({
-            selected_checkbox:event.target.value
-        })
-    }
+    
 
     // handleSelectedDepartment = async (event) => {
        
@@ -261,7 +273,7 @@ class ResignBarChart extends Component {
     // }
 
     onClickResignStaffSearch = () => {
-        this.getResignData(this.state.selected_checkbox ==  undefined ? 1 : this.state.selected_checkbox);
+        this.getResignData();
     }
     onClickExitStaffSearch = () => {
         this.getExitStaffData();
@@ -294,8 +306,8 @@ class ResignBarChart extends Component {
                     }}
                 >
                     <h3 className='' style={{ padding: '10px 0px 0px 0px' }}>Resign Graph</h3>
-
-                    <div className='flex-row' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', margin: '10px 10px 0px 10px' }}>
+                    
+                    <div className='flex-row' style={{ display: 'flex', justifyContent: 'start', alignItems: 'end', margin: '10px 10px 0px 10px' }}>
                     <div style={{ textAlign:'start'}}>
                             <label htmlFor="">Start Date</label>
                         <DatePicker className='fromdate'
@@ -313,25 +325,29 @@ class ResignBarChart extends Component {
                             onChange={this.handleToDate}
                             timeFormat={false} />
                             </div>
-                        <div style={{ textAlign:'end'}}>
-                            
-                        <input type="checkbox"  name='region' checked={this.state.selected_checkbox == 1 ? 'checked': ''} value='1' onChange={this.handleCheckbox} />
-                        <label htmlFor="">Region</label>
-                        </div>
-                        <div style={{ textAlign:'end'}}>
-                            
-                            <input type="checkbox"  name='region' checked={this.state.selected_checkbox == 2 ? 'checked': ''} value='2' onChange={this.handleCheckbox}/>
-                            <label htmlFor="">Branch</label>
-                        </div>
-                        <div style={{textAlign:'end'}}>
-                           
-                            <input type="checkbox"  name='region' checked={this.state.selected_checkbox == 3 ? 'checked': ''} value="3" onChange={this.handleCheckbox} />
-                            <label htmlFor="">Department</label>
-                        </div>
+                        
                        
-                        <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.onClickResignStaffSearch()}>Search</button>
+                        <button className='btn btn-primary text-center' style={{ height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.onClickResignStaffSearch()}>Search</button>
                        
                     </div>
+                    <div style={{display:'flex',justifyContent:'start',alignItems:'end',marginLeft:10,marginTop:20}}>
+                            <div style={{marginRight:50}}>
+                            
+                            <input type="checkbox"  name='region' checked={this.state.selected_checkbox == 2 ? 'checked': ''} value='2' onChange={this.handleCheckbox} />
+                            <label htmlFor="">Region</label>
+                            </div>
+                            <div style={{marginRight:50}}>
+                                
+                                <input type="checkbox"  name='region' checked={this.state.selected_checkbox == 3 ? 'checked': ''} value='3' onChange={this.handleCheckbox}/>
+                                <label htmlFor="">Branch</label>
+                            </div>
+                            <div style={{marginRight:50}}>
+                               
+                                <input type="checkbox"  name='region' checked={this.state.selected_checkbox == 4 ? 'checked': ''} value="4" onChange={this.handleCheckbox} />
+                                <label htmlFor="">Department</label>
+                            </div>
+                    </div>
+                    
                     <HighchartsReact
                         highcharts={Highcharts}
                         options={this.state.chartOptions}
