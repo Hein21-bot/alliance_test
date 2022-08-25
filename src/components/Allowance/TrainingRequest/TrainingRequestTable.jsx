@@ -43,12 +43,13 @@ export default class TravelRequestAdvancedTable extends Component {
 
     async componentDidMount() {
         let branch = await getBranch();
+        branch.unshift({ label: 'All', value: 0 });
         this._getTrainingType();
       
         this.setState({
             branch: branch,
 
-        },()=>{ this._setTableData(this.state.dataSource)})
+        })
        
 
         let that = this

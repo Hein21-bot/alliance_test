@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import Select from 'react-select'
-import { getBranch, getDepartment,getRegion, main_url } from '../../utils/CommonFunction';
+import { getBranch, getDepartment, main_url } from '../../utils/CommonFunction';
 class LeaveCounrBarChart extends Component {
     constructor(props) {
         super(props);
@@ -26,8 +26,7 @@ class LeaveCounrBarChart extends Component {
         await this.setChartOption();
         await this.leaveDashboard();
         await this.getRegionList();
-        // let region = await getRegion();
-        // region.unshift({ label: 'All', value: 0 });
+       
         let branch = await getBranch();
         branch.unshift({ label: 'All', value: 0 });
         let department = await getDepartment();
@@ -42,9 +41,9 @@ class LeaveCounrBarChart extends Component {
         fetch(`${main_url}benefit/getRegionList`)
           .then(res => { if (res.ok) return res.json() })
           .then(list => {
-            let lists = list.unshift({ region_id: 0, region_name: 'All' })
+            let lists = list.unshift({ state_id: 0, state_name: 'All' })
             this.setState({
-              region: list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
+              region: list.map(v => ({ ...v, label: v.state_name, value: v.state_id }))
             })
           })
       }
