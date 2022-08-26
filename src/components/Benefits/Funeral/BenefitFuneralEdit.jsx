@@ -215,7 +215,7 @@ class FuneralBenefitEdit extends Component {
 
 
     save() {
-        stopSaving();
+        
         if (validate('check_form') && (this.state.newDoc.length > 0 || this.state.doc.length > 0)) {
             let { status_title, is_main_role } = this.state;
             const formdata = new FormData();

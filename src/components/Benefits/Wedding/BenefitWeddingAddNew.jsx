@@ -201,7 +201,7 @@ class BenefitWeddingAddNew extends Component {
     }
     this.setState({
       attachment: attachment,
-      newDoc:newDoc
+      newDoc: newDoc
     });
   }
 
@@ -210,17 +210,17 @@ class BenefitWeddingAddNew extends Component {
   };
 
   save() {
-    // stopSaving();
-    if(this.state.attachment.length == 0){
+
+    if (this.state.attachment.length == 0 && this.state.doc.length == 0) {
       toast.error("Please Choose Attachment File!")
-    }else{
+    } else {
       let { one_benefit, status_title, is_main_role, newDoc } = this.state;
       let editData = !Array.isArray(one_benefit) == true ? (this.state.newDoc.length > 0 || this.state.attachment.length > 0 || this.state.doc.length > 0) && !Array.isArray(one_benefit) : !Array.isArray(one_benefit)
       if (
         validate("check_form") &&
         (this.state.attachment.length > 0 || editData)
       ) {
-      
+
         var data = {
           user_id: this.state.one_benefit.user_id
             ? this.state.one_benefit.user_id
@@ -234,10 +234,10 @@ class BenefitWeddingAddNew extends Component {
             : this.state.user_id,
           updatedBy: this.state.user_id,
         };
-  
+
         let status = 0;
         let path = "";
-  
+
         if (!Array.isArray(one_benefit) && one_benefit !== null) {
           if (status_title !== "" && is_main_role) {
             var action = getActionStatus(
@@ -270,7 +270,7 @@ class BenefitWeddingAddNew extends Component {
           path = `saveWeddingBenefit`;
         }
         const formdata = new FormData();
-  
+
         // var obj = document.querySelector("#attach_file").files.length;
         for (var i = 0; i < newDoc.length; i++) {
           // var imagedata = document.querySelector("#attach_file").files[i];
@@ -279,7 +279,7 @@ class BenefitWeddingAddNew extends Component {
         }
         formdata.append("oldDoc", JSON.stringify(this.state.doc));
         formdata.append("wedding_benefit", JSON.stringify(data));
-  
+
         fetch(`${main_url}wedding_benefit/${path}`, {
           method: "POST",
           body: formdata,
@@ -302,8 +302,8 @@ class BenefitWeddingAddNew extends Component {
           draggable: true,
         });
       }
-    } 
-    
+    }
+
   }
 
   render() {
@@ -614,8 +614,8 @@ class BenefitWeddingAddNew extends Component {
 
         <div className="row save-btn">
           {!Array.isArray(one_benefit) &&
-          havePermission(this.state.work_flow_status) &&
-          this.state.one_benefit.user_id != this.state.user_id ? (
+            havePermission(this.state.work_flow_status) &&
+            this.state.one_benefit.user_id != this.state.user_id ? (
             <ApprovalForm
               approvalStatus={this.approvalStatus.bind(this)}
               status={this.state.status}
@@ -626,7 +626,7 @@ class BenefitWeddingAddNew extends Component {
             <div className="float-right">
               <div>
                 {this.state.one_benefit.status == undefined ||
-                this.state.one_benefit.status == 5 ? (
+                  this.state.one_benefit.status == 5 ? (
                   <div>
                     <button
                       onClick={this.save.bind(this)}

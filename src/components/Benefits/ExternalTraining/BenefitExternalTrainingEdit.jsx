@@ -78,7 +78,7 @@ class BenefitFuneralAddNew extends Component {
     }
 
     edit() {
-        stopSaving();
+        
        
         if (validate("check_form") && (this.state.newDoc.length > 0 || this.state.doc.length > 0)) {
             var { status_title, is_main_role } = this.state;

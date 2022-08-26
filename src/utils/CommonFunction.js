@@ -880,7 +880,7 @@ async function setPrintedStatus(path, id) {
 
 function stopSaving() {
     $('#saving_button').attr('disabled', true);
-    toast.error("Please Choose Attachment File!");
+    // toast.error("Please Choose Attachment File!");
 }
 
 function startSaving() {

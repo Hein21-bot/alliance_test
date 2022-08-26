@@ -77,7 +77,7 @@ export default class BirthdayFundEdit extends Component {
     }
 
     edit() {
-        stopSaving();
+       
         if (validate('check_form')) {
             var { status_title, is_main_role } = this.state;
             var data = {
