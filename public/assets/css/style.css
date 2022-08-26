@@ -8881,13 +8881,13 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child::
   color: white !important;
 }
 #attendence_calendar .custom-datePicker{
-  width : 85% !important;
+  /* width : 85% !important; */
 }
 #attendence_calendar .react-datepicker__week{
   display: flex !important;
   justify-content: space-between !important;
   padding: 1px 1px;
-  width : 5px !important; 
+  /* width : 5px !important;  */
   height: 25px !important;
 }
 #leave_calendar .react-datepicker__header{
