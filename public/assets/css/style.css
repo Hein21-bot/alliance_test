@@ -8881,7 +8881,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child::
   color: white !important;
 }
 #attendence_calendar .custom-datePicker{
-  /* width : 85% !important; */
+  width : 110% !important;
 }
 #attendence_calendar .react-datepicker__week{
   display: flex !important;
