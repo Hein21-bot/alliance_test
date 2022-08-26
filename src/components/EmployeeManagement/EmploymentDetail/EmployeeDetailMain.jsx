@@ -142,7 +142,7 @@ class EmployeeDetailMain extends Component {
       });
   }
   getStatusList() {
-    fetch(`${main_url}employee/getStatus`)
+    fetch(`${main_url}benefit/getStatusList`)
       .then((res) => {
         if (res.ok) return res.json();
       })
@@ -251,19 +251,13 @@ class EmployeeDetailMain extends Component {
   }
   getRegionList() {
     fetch(`${main_url}benefit/getRegionList`)
-      .then((res) => {
-        if (res.ok) return res.json();
-      })
-      .then((list) => { 
-        let lists = list.unshift({ region_id: 0, region_name: 'All' })
+      .then(res => { if (res.ok) return res.json() })
+      .then(list => {
+        let lists = list.unshift({ state_id: 0, state_name: 'All' })
         this.setState({
-          regionList: list.map((v) => ({
-            ...v,
-            label:v.region_name,
-            value:v.region_id,
-          })),
-        });
-      });
+          regionList: list.map(v => ({ ...v, label: v.state_name, value: v.state_id }))
+        })
+      })
   }
   getDepartmentList() {
     fetch(`${main_url}benefit/getDepartmentList`)
@@ -423,23 +417,19 @@ class EmployeeDetailMain extends Component {
       loading:true
     })
     e.preventDefault();
-    const regionId = this.state.selected_region
-      ? this.state.selected_region.region_id
-      : 0;
-    const depId = this.state.selected_department
-      ? this.state.selected_department.departments_id
-      : 0;
-    const branchId = this.state.selected_branch
-      ? this.state.selected_branch.branch_id
-      : 0;
-    const designId = this.state.selected_designation
-      ? this.state.selected_designation.value
-      : 0;
-    const statusId = this.state.selected_status
-      ? this.state.selected_status.value
-      :-1;
-    this.getEmployeeList({ regionId, depId, branchId, designId,statusId });
-    fetch(main_url+"employee/getEmployeeDetail/"+regionId+"/"+depId+"/"+branchId+"/"+designId+"/"+statusId)
+   
+    // this.getEmployeeList({ regionId, depId, branchId, designId,statusId });
+    fetch(`${main_url}employee/getEmployeeDetail/${this.state.selected_region
+    ? this.state.selected_region.state_id
+    : 0}/${this.state.selected_department
+    ? this.state.selected_department.departments_id
+    : 0}/${this.state.selected_branch
+    ? this.state.selected_branch.branch_id
+    : 0}/${this.state.selected_designation
+    ? this.state.selected_designation.value
+    : 0}/${this.state.selected_status
+    ? this.state.selected_status.value
+    :-1}`)
       .then((response) => {
         if (response.ok) return response.json();
       })

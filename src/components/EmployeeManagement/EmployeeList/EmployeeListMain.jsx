@@ -82,7 +82,7 @@ class EmployeeListMain extends Component {
       });
   }
   getStatusList() {
-    fetch(`${main_url}employee/getStatus`)
+    fetch(`${main_url}benefit/getStatusList`)
       .then((res) => {
         if (res.ok) return res.json();
       })

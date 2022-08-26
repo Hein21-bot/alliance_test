@@ -20,7 +20,7 @@ export default class LeaveManagementMain extends Component {
             approvedBy: [],
             isTable: true,
             // data: [],
-            active_tab: 2, // 0 for myleave list, 1 for newmyleave, 2 for allleave list, 3 for new allleave, 4 for leave reprot, 5 for leave balance
+            active_tab: 0, // 0 for myleave list, 1 for newmyleave, 2 for allleave list, 3 for new allleave, 4 for leave reprot, 5 for leave balance
             isHR: '',
            
         }
