@@ -107,7 +107,7 @@ class EmployeePieChart extends Component {
           data: [
             {
               name: "Male",
-              color: '#193759',
+              color: '#27568a',
               y: this.state.male_count,
               drilldown: "Male",
             }, {
@@ -171,21 +171,66 @@ class EmployeePieChart extends Component {
           className="col-md-5 col-sm-5"
           style={{ margin: "7px", display: "flex", flexWrap: "wrap" }}
         >
+          {/* <div className="row col-md-12">
+            <div className="col-md-6">
+              <div className="row">
+                <div className="col-12">
+                  <div className="col-6">
+                  <i
+                    className="fa fa-user"
+                    aria-hidden="true"
+                    style={{ fontSize: 18 }}
+                  ></i>
+                  </div>
+                  <div className="col-6">
+                  <button
+                  className="btn text-center"
+                  style={{ height: 22, padding: "0px 5px 0px 5px", fontSize: 12 }}
+                >
+                  More Info
+                  <i
+                    class="fa fa-arrow-circle-right"
+                    style={{ marginLeft: 5 }}
+                    aria-hidden="true"
+                  ></i>
+                </button>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+            <div className="col-md-6">
+              <div className="row">
+                <div className="col-12">
+                <div className="col-6">
+                    Attendance
+              </div>
+              <div className="col-6">
+                123
+              </div>
+                </div>
+              </div>
+              
+            </div>
+          </div> */}
           <div
             className="row col-md-12"
             style={{
               boxShadow: "1px 1px 3px 1px #e6e6e6",
               display: "flex",
+              justifyContent:'space-evenly',
               alignItems: "center",
               borderRadius: 10,
               padding: "5px",
               fontSize: 12,
+              marginTop: 10,
             }}
           >
             <div
               className="col-md-6"
               style={{
                 display: "flex",
+                flexDirection:'column',
                 flexWrap: "wrap",
                 justifyContent: "center",
                 padding: "0px 0px 0px 3px",
@@ -198,7 +243,7 @@ class EmployeePieChart extends Component {
               ></i>
               <button
                 className="btn text-center"
-                style={{ height: 22, padding: "0px 5px 0px 5px", fontSize: 12 }}
+                style={{ height: 22,width:80, padding: "0px 5px 0px 5px", fontSize: 12 }}
               >
                 More Info
                 <i
@@ -212,6 +257,7 @@ class EmployeePieChart extends Component {
               className="col-md-6"
               style={{
                 display: "flex",
+               
                 flexWrap: "wrap",
                 justifyContent: "end",
                 marginLeft: 6,
@@ -222,11 +268,10 @@ class EmployeePieChart extends Component {
                 Attendance
               </div>
               <div className="text-right" style={{ width: "100%" }}>
-                849
+                783
               </div>
             </div>
           </div>
-
           <div
             className="row col-md-12"
             style={{
@@ -243,6 +288,7 @@ class EmployeePieChart extends Component {
               className="col-md-6"
               style={{
                 display: "flex",
+                flexDirection:'column',
                 flexWrap: "wrap",
                 justifyContent: "center",
                 padding: "0px 0px 0px 3px",
@@ -255,7 +301,7 @@ class EmployeePieChart extends Component {
               ></i>
               <button
                 className="btn text-center"
-                style={{ height: 22, padding: "0px 5px 0px 5px", fontSize: 12 }}
+                style={{ height: 22,width:80, padding: "0px 5px 0px 5px", fontSize: 12 }}
               >
                 More Info
                 <i
@@ -283,25 +329,26 @@ class EmployeePieChart extends Component {
               </div>
             </div>
           </div>
-
           <div
             className="row col-md-12"
             style={{
               boxShadow: "1px 1px 3px 1px #e6e6e6",
               display: "flex",
+              justifyContent:'space-evenly',
               alignItems: "center",
               borderRadius: 10,
               padding: "5px",
               fontSize: 12,
-              marginTop: 10,
             }}
           >
             <div
               className="col-md-6"
               style={{
                 display: "flex",
-                flexWrap: "wrap",
-                justifyContent: "center",
+               flexDirection:'column',
+                // justifyContent: "center",
+                justifyContent:'center',
+                // alignContent:'center',
                 padding: "0px 0px 0px 3px",
               }}
             >
@@ -312,7 +359,7 @@ class EmployeePieChart extends Component {
               ></i>
               <button
                 className="btn text-center"
-                style={{ height: 22, padding: "0px 5px 0px 5px", fontSize: 12 }}
+                style={{ height: 22,width:80, padding: "0px 5px 0px 5px", fontSize: 12 }}
               >
                 More Info
                 <i
@@ -336,7 +383,7 @@ class EmployeePieChart extends Component {
                 Leave
               </div>
               <div className="text-right" style={{ width: "100%" }}>
-                20
+                849
               </div>
             </div>
           </div>
@@ -357,6 +404,7 @@ class EmployeePieChart extends Component {
               className="col-md-6"
               style={{
                 display: "flex",
+                flexDirection:'column',
                 flexWrap: "wrap",
                 justifyContent: "center",
                 padding: "0px 0px 0px 3px",
@@ -369,7 +417,7 @@ class EmployeePieChart extends Component {
               ></i>
               <button
                 className="btn text-center"
-                style={{ height: 22, padding: "0px 5px 0px 5px", fontSize: 12 }}
+                style={{ height: 22,width:80, padding: "0px 5px 0px 5px", fontSize: 12 }}
               >
                 More Info
                 <i
@@ -390,13 +438,15 @@ class EmployeePieChart extends Component {
               }}
             >
               <div className="text-right" style={{ width: "100%" }}>
-                Absence
+                Absense
               </div>
               <div className="text-right" style={{ width: "100%" }}>
-                5
+                783
               </div>
             </div>
           </div>
+
+          
         </div>
       </div>
     );
