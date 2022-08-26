@@ -67,6 +67,7 @@ class EmployeeListMain extends Component {
     this.getBankList();
     this.getDegreeList();
     this.getStatusList();
+    // this.getEmployeeList();
   }
   getDegreeList() {
     fetch(`${main_url}employee/getDegree`)
@@ -242,19 +243,13 @@ class EmployeeListMain extends Component {
 
   getRegionList() {
     fetch(`${main_url}benefit/getRegionList`)
-      .then((res) => {
-        if (res.ok) return res.json();
-      })
-      .then((list) => {
-        let lists = list.unshift({ region_id: 0, region_name: "All" });
+      .then(res => { if (res.ok) return res.json() })
+      .then(list => {
+        let lists = list.unshift({ state_id: 0, state_name: 'All' })
         this.setState({
-          region: list.map((v) => ({
-            ...v,
-            label: v.region_name,
-            value: v.region_id,
-          })),
-        });
-      });
+          region: list.map(v => ({ ...v, label: v.state_name, value: v.state_id }))
+        })
+      })
   }
 
   getDesignationList() {
@@ -318,24 +313,17 @@ class EmployeeListMain extends Component {
     this.setState({
       loading:true
     })
-    const regionId = this.state.selected_region
-      ? this.state.selected_region.region_id
-      : 0;
-    const depId = this.state.selected_department
-      ? this.state.selected_department.departments_id
-      : 0;
-    const branchId = this.state.selected_branch
-      ? this.state.selected_branch.branch_id
-      : 0;
-    const designId = this.state.selected_designation
-      ? this.state.selected_designation.value
-      : 0;
-    const statusId = this.state.selected_status
-      ? this.state.selected_status.value
-      :-1;
-    this.getEmployeeList(regionId,depId,branchId,designId,statusId);
+  
     fetch(
-      main_url+"employee/getEmployeeList/"+regionId+"/"+depId+"/"+branchId+"/"+designId+"/"+statusId
+      `${main_url}employee/getEmployeeList/${this.state.selected_region ? this.state.selected_region.state_id : 0}/${this.state.selected_department
+      ? this.state.selected_department.departments_id
+    : 0}/${this.state.selected_branch
+    ? this.state.selected_branch.branch_id
+    : 0}/${this.state.selected_designation
+      ? this.state.selected_designation.value
+      : 0}/${this.state.selected_status
+      ? this.state.selected_status.value
+      :-1}`
     )
       .then((response) => {
         if (response.ok) return response.json();
@@ -362,7 +350,7 @@ class EmployeeListMain extends Component {
       editForm: false,
     });
     const regionId = this.state.selected_region
-      ? this.state.selected_region.region_id
+      ? this.state.selected_region.state_id
       : 0;
     const depId = this.state.selected_department
       ? this.state.selected_department.departments_id
