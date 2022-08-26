@@ -211,7 +211,7 @@ class CycleAddNew extends Component {
     }
 
     save() {
-       if(this.state.attachment.length ==0){
+       if(this.state.attachment.length ==0 && this.state.doc.length ==0){
         toast.error("Please Choose Attachment File!")
        }else{
         let editData = !Array.isArray(this.state.one_benefit) == true ? (this.state.newDoc.length > 0 || this.state.attachment.length > 0 || this.state.doc.length > 0) && !Array.isArray(this.state.one_benefit) : !Array.isArray(this.state.one_benefit)

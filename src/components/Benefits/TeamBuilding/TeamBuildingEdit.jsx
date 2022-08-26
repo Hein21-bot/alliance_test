@@ -185,7 +185,7 @@ class TeamBuildingAddNew extends Component {
         }
     }
     save() {
-        stopSaving();
+       
         let one_benefit = this.state.one_benefit;
         let total_amount = $('#total_amount').val();
         if (validate('check_form')) {
