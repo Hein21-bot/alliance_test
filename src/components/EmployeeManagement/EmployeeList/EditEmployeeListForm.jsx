@@ -163,7 +163,7 @@ class EditEmployeeListForm extends Component {
                         customerCode: res[0].customer_code,
                         ThaPaYaAccount: res[0].thapyay_account,
                         SSCCardNo: res[0].SSC_card_no,
-                        attachmentUrl: res[0].attachment_link,
+                        attachmentUrl: res[0].attachmentUrl,
                         employeeStatus: this.state.employeeStatusList.find(c => c.value == res[0].employee_status),
                         employeeDesignation: this.props.designationList.find(c => c.value == res[0].designations_id),
                         jobTitle: res[0].job_title,
