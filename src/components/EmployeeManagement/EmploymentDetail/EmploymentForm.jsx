@@ -204,7 +204,7 @@ const EmploymentForm = props => {
                                 Salary
                             </div>
                             <div className='col-lg-7  col-md-5'>
-                                <input type='number' placeholder='' required name="salary"  isDisabled={view ? true :false} value={temp_salary} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
+                                <input type='number' placeholder='' required name="salary"  isDisabled={view ? true :false} value={salary} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
                             </div>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>

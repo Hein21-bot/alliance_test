@@ -543,9 +543,9 @@ class EmployeeDetailMain extends Component {
       .then((text) => {
         if (status === 200) {
           toast.success(text);
-          window.location.reload();
+          // window.location.reload();
         } else toast.error(text);
-        window.location.replace("/employment_details");
+        // window.location.replace("/employment_details");
       });
     this.setState({
       addNew: false,
@@ -873,6 +873,7 @@ class EmployeeDetailMain extends Component {
       selected_department,
       edit,
       view,
+      singleView,
       career_level,
       career_sub_level,
       tableEdit,
@@ -894,7 +895,7 @@ class EmployeeDetailMain extends Component {
                 </li>
               </ol>
             </div>
-            {addNew || edit || view ? null : (
+            {addNew || edit || singleView || view ? null : (
               
               <div
                 className=""
@@ -1046,7 +1047,8 @@ class EmployeeDetailMain extends Component {
           ) : this.state.singleView ? (
             <>
               <EmploymentViewForm
-  
+                singleView={singleView}
+                view={view}
                 selectedEmployeeId={selectedEmployeeId}
                 level_options={level_options}
                 sub_level_options={sub_level_options}
@@ -1093,7 +1095,7 @@ class EmployeeDetailMain extends Component {
               {addNew || edit || tableEdit ? (
                 <EmploymentForm
                   edit={edit}
-                  view={view}
+                 
                   selectedEmployeeId={selectedEmployeeId}
                   level_options={level_options}
                   sub_level_options={sub_level_options}
