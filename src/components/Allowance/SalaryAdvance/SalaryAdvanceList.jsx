@@ -296,6 +296,14 @@ export default class SalaryAdvanceList extends Component {
             <div>
                 <div className="row border-bottom white-bg dashboard-header">
                     <div className="row">
+                          <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
+                    <li className="active">
+                    <a className="nav-link active" href="#approve_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.props.approvedlist('myrequest')}>My Request</a>
+                    </li>
+                    <li className="nav-item1">
+                    <a className="nav-link" href="#approve_list" role="tab" data-toggle="tab" onClick={() => this.props.approvedlist('allrequest')}>All Request</a>
+                    </li>
+                    </ul>
                         <div class="btn-group-g ">
                             <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
                             <button type="button" class=" btn label-check g" onClick={this.getCheck.bind(this)}>Check</button>
