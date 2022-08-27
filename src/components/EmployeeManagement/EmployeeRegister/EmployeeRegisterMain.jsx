@@ -168,6 +168,7 @@ class EmployeeRegisterMain extends Component {
     }
 
     createNewEmployee = () => {
+        console.log('create work !!!!!!!!!!!!!!');
         const { selected_NRC_Id, userImage, userImageUrl, employeeId, employeeNameEng, employeeNameMyan, dateOfBirth, gender, nationality, personalPhone, region, officePhone, selected_DistrictCode, nrc_number, selected_gran_NRC_Id, disConDate, disConStatus,
             addedDegreeData, addedQualitificationData, workExpData, contactPerson, contactPhone, checked, guarantor, guarantorPhone, bankData, address, joinDate, martialStatus, fatherName, motherName, parentCount, siblingCount, childCount, pInLawCount,
             trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo, attachmentUrl, employeeStatus, employeeDesignation, jobTitle, carrerLevel, employeeDetailBranch, employedDate, selected_gran_DistrictCode, gran_nrc_number, fromMonthYear, toMonthYear } = this.state
@@ -283,20 +284,24 @@ class EmployeeRegisterMain extends Component {
             body: formdata
         })
             .then(res => {
+                console.log('res ====>', res)
                 status = res.status;
-                if (status == 400 ) {
-                    toast.error('Process unsuccessfully!');
-                    return null;
-                } else {
-                    toast.success('Your information is successfully saved!');
+                if (status == 200) {
                     return res.json();
+                } else {
+                    return res.text();
                 }
+                
 
 
             })
             .then((data) => {
-                if (data) {
+                if (status == 200) {
+                    toast.success('Your information is successfully saved!');
                     this.setState({ visible: true, generateUserId: data[0].user_id });
+                } else {
+                    toast.error(data);
+                    return null;
                 }
 
 
@@ -753,7 +758,7 @@ class EmployeeRegisterMain extends Component {
     }
     handleEmploymentDetail = e => {
         e.preventDefault();
-        // this.createNewEmployee();
+        this.createNewEmployee();
         this.setState({
             tabIndex: 1
         })
@@ -1409,7 +1414,7 @@ class EmployeeRegisterMain extends Component {
                                                                 handleEmploymentDetail={this.handleEmploymentDetail} level_options={level_options} handleSelectedBranch={this.handleSelectedBranch}
                                                                 onCancelClick={this.clearProfileData} designationList={this.state.designationList} handleLevelSelectorChange={this.handleLevelSelectorChange}
                                                                 handlePreviousClick={this.handlePreviousClick} handleSelectedDesignation={this.handleSelectedDesignation} handleSelectedDisConStus={this.handleSelectedDisConStus}
-                                                                createNewEmployee={this.createNewEmployee}
+                                                                // createNewEmployee={this.createNewEmployee}
                                                             />
                                                             : null
                         }
