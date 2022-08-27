@@ -1208,7 +1208,7 @@ class EmployeeRegisterMain extends Component {
         }  else if (number == 7) {
             if (employeeId != '' && employeeNameEng != '' && selected_NRC_Id != null && selected_DistrictCode != null && nrc_number != null && employeeNameMyan != '' && dateOfBirth != '' && gender != '' && nationality != '' && personalPhone != '' && region != '' && officePhone != '' && address != '' && joinDate != ''
                 && martialStatus != "" && fatherName != '' && motherName != '' && parentCount != '' && siblingCount != '' && ((martialStatus == 'UnMarried' && childCount == '') || (martialStatus == 'Married' && childCount != '')) && ((martialStatus == 'UnMarried' && pInLawCount == '') || (martialStatus == 'Married' && pInLawCount != ''))
-                && addedDegreeData.length > 0  && contactPerson != "" && contactPhone != '' && trainingCode != ''
+                && addedDegreeData.length > 0  && contactPerson != "" && contactPhone != ''
                 ) {
                 this.setState({ tabIndex: 7 });
             } else {
