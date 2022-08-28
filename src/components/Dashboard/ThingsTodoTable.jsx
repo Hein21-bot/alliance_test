@@ -4,12 +4,12 @@ import { getUserId } from "../../utils/CommonFunction";
 import { thingsToDoController } from "./DashboardApi/ThingsToDoController";
 const primary = "#1872ab";
 
-const id = getUserId("user_info");
+// const id = getUserId("user_info");
 class ThingsTodoTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // user_id: localStorage.getItem("user_id"),
+      user_id: localStorage.getItem("user_id"),
       birthdayCount: 0,
       childCount: 0,
       externalCount: 0,
@@ -20,65 +20,65 @@ class ThingsTodoTable extends Component {
       weddingCount: 0,
       confirmationCount: 0,
       staffComplainCount: 0,
-      funeralCount:0,
-      teamBuildingCount:0,
-      hospitalCount:0,
-      cycleCount:0,
-      otherCount:0,
-      trainingCount:0,
-      phoneCount:0,
-      petrolCount:0
+      funeralCount: 0,
+      teamBuildingCount: 0,
+      hospitalCount: 0,
+      cycleCount: 0,
+      otherCount: 0,
+      trainingCount: 0,
+      phoneCount: 0,
+      petrolCount: 0
 
 
     };
   }
 
   componentDidMount() {
-    // const id = localStorage.getItem("user_id");
+    const id = localStorage.getItem("user_id");
     thingsToDoController.getBirthdayRequest(id, (data) => {
-      this.setState({ birthdayCount:data.count })
+      this.setState({ birthdayCount: data.count })
     });
     thingsToDoController.getChildRequest(id, (data) => {
-      this.setState({ childCount:data.count })
+      this.setState({ childCount: data.count })
     });
     thingsToDoController.getExternalRequest(id, (data) => {
-      this.setState({ externalCount:data.count })
+      this.setState({ externalCount: data.count })
     });
     thingsToDoController.getLeaveRequest(id, data => {
-      this.setState({ leaveCount:data.count })
+      this.setState({ leaveCount: data.count })
     });
     thingsToDoController.getMedicalRequest(id, data => {
-      this.setState({ medicalCount:data.count })
+      this.setState({ medicalCount: data.count })
     });
     thingsToDoController.getSalaryRequest(id, data => {
-      this.setState({ salaryCount:data.count })
+      this.setState({ salaryCount: data.count })
     });
     thingsToDoController.getTravelRequest(id, data => {
-      this.setState({ travelCount:data.count })
+      this.setState({ travelCount: data.count })
     });
     thingsToDoController.getWeddingRequest(id, data => {
-      this.setState({ weddingCount:data.count })
+      this.setState({ weddingCount: data.count })
     });
     thingsToDoController.getConfirmationRequest(id, data => {
-      this.setState({ confirmationCount:data.count })
+      this.setState({ confirmationCount: data.count })
     })
     thingsToDoController.getFuneralRequest(id, data => {
-      this.setState({ funeralCount:data.count })
+      this.setState({ funeralCount: data.count })
     })
     thingsToDoController.getTeamBulidingRequest(id, data => {
-      this.setState({ teamBuildingCount:data.count })
+      this.setState({ teamBuildingCount: data.count })
     })
     thingsToDoController.getHospitalRequest(id, data => {
-      this.setState({ hospitalCount:data.count })
+      this.setState({ hospitalCount: data.count })
     })
     thingsToDoController.getCycleRequest(id, data => {
-      this.setState({ cycleCount:data.count })
+      this.setState({ cycleCount: data.count })
     })
     thingsToDoController.getOtherRequest(id, data => {
-      this.setState({ otherCount:data.count })
+      this.setState({ otherCount: data.count })
     })
     thingsToDoController.getTrainingRequest(id, data => {
-      this.setState({ trainingCount:data.count })
+      this.setState({ trainingCount: data.count })
     })
     thingsToDoController.getPhoneRequest(id, data => {
       this.setState({ phoneCount: data[0].count })
@@ -110,7 +110,7 @@ class ThingsTodoTable extends Component {
       { request: "Phone Bill Request", count: this.state.phoneCount, link: "/phonebillrequest" },
       { request: "Petrol Request", count: this.state.petrolCount, link: "/petrolRequest" },
       { request: "Bithday Fund Request", count: this.state.birthdayCount, link: "/birthday_fund_benefit" },
-      
+
       { request: "Confirmation Request", count: this.state.confirmationCount, link: "/confirmation_check" },
       { request: "TeamBuilding Request", count: this.state.teamBuildingCount, link: "/team_building_benefit" },
       { request: "Cycle Request", count: this.state.cycleCount, link: "/cycle_insurance_benefit" },
@@ -119,10 +119,11 @@ class ThingsTodoTable extends Component {
       { request: "Other Request", count: this.state.otherCount, link: "/other_benefit" },
       { request: "Training Request", count: this.state.trainingCount, link: "/trainingRequest" },
       { request: "Staff Complain Box", count: this.state.staffComplainCount, link: "/staffComplain" },
-      
+
     ];
 
-    let data_filter = (this.state.user_id == 17 || this.state.user_id == 921) ? dummy_data : dummy_data.filter(v => v.request != 'Staff Complain Box')
+    let data_filter = this.state.user_id == 17 || this.state.user_id == 921 ? dummy_data : dummy_data.filter(v => v.request != 'Staff Complain Box')
+    // let data_filter = dummy_data
 
     return (
       <div

@@ -4,6 +4,7 @@ import DatePicker from 'react-datetime';
 import Select from 'react-select';
 import 'datatables.net-buttons-dt/css/buttons.dataTables.css'
 import moment from "moment";
+import { toast } from 'react-toastify';
 // import moment from "moment-timezone";
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css';
@@ -17,6 +18,7 @@ $.DataTable = require('datatables.net-responsive-bs4');
 $.DataTable = require('datatables.net');
 require('datatables.net-buttons/js/dataTables.buttons.min');
 require('datatables.net-buttons/js/buttons.html5.min');
+
 
 const type = [{
     value: 1,
@@ -416,7 +418,11 @@ export default class TravelAdvancedAddNew
     check = () => {
         stopSaving();
         if (validate('check_form')) {
-            this.props.add(this.state.setupData)
+            if (this.state.setupData.withdraw_location == 0) {
+                toast.error("Please Choose Withdraw Location!");
+            } else {
+                this.props.add(this.state.setupData)
+            }
         }
         else {
             startSaving();
