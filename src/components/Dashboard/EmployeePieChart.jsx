@@ -142,7 +142,7 @@ class EmployeePieChart extends Component {
         }}
       >
         <div
-          className="col-md-8 col-sm-8"
+          className=" col-lg-9 col-md-7 col-sm-8"
           style={{
             boxShadow: "1px 1px 3px 1px #e6e6e6",
             margin: "7px",
@@ -168,7 +168,7 @@ class EmployeePieChart extends Component {
           />
         </div>
         <div
-          className="col-md-4 col-sm-4"
+          className="col-lg-3 col-md-5 col-sm-4"
           style={{ margin: "7px", display: "flex", flexWrap: "wrap" }}
         >
           {/* <div className="row col-md-12">
@@ -223,7 +223,7 @@ class EmployeePieChart extends Component {
               borderRadius: 10,
               padding: "5px",
               fontSize: 12,
-              marginTop: 10,
+              
               border:'1px solid #27568a'
             }}
           >
@@ -264,7 +264,7 @@ class EmployeePieChart extends Component {
             </div>
           </div>
           <div
-            className="row col-md-12"
+            className="row col-md-12 col-sm-12"
             style={{
               // boxShadow: "1px 1px 3px 1px #e6e6e6",
               display: "flex",
@@ -277,7 +277,7 @@ class EmployeePieChart extends Component {
             }}
           >
             <div
-              className="col-md-6"
+              className="col-md-6 col-sm-4"
               style={{
                 display: "flex",
                 flexDirection:'column',
@@ -294,7 +294,7 @@ class EmployeePieChart extends Component {
              
             </div>
             <div
-              className="col-md-6"
+              className="col-md-6 col-sm-8"
               style={{
                 display: "flex",
                 flexWrap: "wrap",
