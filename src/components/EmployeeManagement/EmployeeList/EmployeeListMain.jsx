@@ -365,8 +365,6 @@ class EmployeeListMain extends Component {
       ? this.state.selected_status.value
       :-1;
       this.getEmployeeList(regionId,depId,branchId,designId,statusId);
-    
-    
   };
 
   goToViewForm = (data) => {
