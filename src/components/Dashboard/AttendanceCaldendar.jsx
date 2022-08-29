@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import ReactDatePicker, { CalendarContainer } from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 import { getDate, format } from 'date-fns'
+import * as dateFns from 'date-fns'
+import moment from "moment";
 import 'react-toastify/dist/ReactToastify.css';
 
 const data = [
@@ -29,7 +31,11 @@ export class AttendanceCaldendar extends Component {
     }
 
     renderDayContents = (day, date) => {
-        const highlight = data.filter(v => format(new Date(v.date), 'dd-MM-yyyy') === format(date, 'dd-MM-yyyy'))
+        // console.log('calendar date => ', moment(date).format('DD-MM-YYYY'))
+        // console.log('data is ==> ', data.map(V=> ( moment(V.date).format('DD-MM-YYYY'))), moment((date)).format('DD-MM-YYYY'))
+        const highlight = data.filter(v => v.date == moment(date).format('MM-DD-YYYY'))
+
+        console.log('highlight data ==> ', highlight, data.map(v => v.date), moment(date).format('MM-DD-YYYY'))
         const tooltipText = `<div style="color:red">Tooltip for date: ${date}</div>`;
         return (
             <>
@@ -78,7 +84,7 @@ export class AttendanceCaldendar extends Component {
                     marginLeft: "13px",
                     color: primary, fontWeight: 'bolder'
                 }}>Attendance Calendar</h3>
-                {/* <div className="modal fade" id="leave-detail-modal" role="dialog" aria-labelledby="exampleModalLabel"
+                <div className="modal fade" id="leave-detail-modal" role="dialog" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
                     <div className="modal-dialog modal-dialog-centered" role="document" style={{ width: 200, float: 'right' }}>
                         {
@@ -117,8 +123,8 @@ export class AttendanceCaldendar extends Component {
                             </div>
                         }
                     </div>
-                </div> */}
-                {/* <div className="col-md-8 col-lg-4 col-sm-5" style={{ position: 'relative' }}>
+                </div>
+                <div className="col-md-8 col-lg-4 col-sm-5" style={{ position: 'relative' }}>
                     <ReactDatePicker
                         selected={this.state.startDate}
                         onChange={(date) => this.setState({ startDate: date })}
@@ -181,8 +187,8 @@ export class AttendanceCaldendar extends Component {
                             </div>
                         </div>
                     </div>
-                </div> */}
-                <div className="col-lg-5 col-md-5 col-sm-5" style={{margin:'0px !important'}}>
+                </div>
+                {/* <div className="col-lg-5 col-md-5 col-sm-5" style={{margin:'0px !important'}}>
                 <ReactDatePicker
                         selected={this.state.startDate}
                         onChange={(date) => this.setState({ startDate: date })}
@@ -241,7 +247,7 @@ export class AttendanceCaldendar extends Component {
                                         <p style={{ fontSize: '10px', marginTop: 2, marginBottom: 0 }}>Incomplete <br />Attendance</p>
 
                                     </div>
-                </div>
+                </div> */}
 
             </div>
         )

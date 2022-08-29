@@ -14,7 +14,9 @@ export default class Navigation extends Component {
         }
     }
     async componentDidMount() {
+        console.log('in component did mount....')
         let user = await getLoginUser(this.props.user_id);
+        
         if (user !== null && !Array.isArray(user)) {
             this.setState({
                 user: user
@@ -25,6 +27,7 @@ export default class Navigation extends Component {
 
 
     render() {
+        console.log('in Navigation ==> ', this.state.user)
         return (
             this.state.user !== null ?
                 <div>

@@ -81,6 +81,7 @@ class EmployeePieChart extends Component {
           showInLegend: true,
           dataLabels: {
             enabled: true,
+          
             format: '<b>{point.name}</b>: {point.y} '
           }
         },
@@ -101,6 +102,9 @@ class EmployeePieChart extends Component {
       credits: {
         enabled: false,
       },
+      legend:{
+        useHTML: true
+      },
 
       series: [
         {
@@ -110,9 +114,10 @@ class EmployeePieChart extends Component {
               color: '#27568a',
               y: this.state.male_count,
               drilldown: "Male",
+             
             }, {
               name: "Female",
-              color: '#1f4545',
+              color: '#d72323',
               y: this.state.female_count,
               drilldown: 'Female'
             }
@@ -142,7 +147,7 @@ class EmployeePieChart extends Component {
         }}
       >
         <div
-          className="col-md-7 col-sm-7"
+          className=" col-lg-9 col-md-7 col-sm-7"
           style={{
             boxShadow: "1px 1px 3px 1px #e6e6e6",
             margin: "7px",
@@ -158,8 +163,8 @@ class EmployeePieChart extends Component {
               padding: "0px 10px 0px 10px",
             }}
           >
-            <h4>Total Employees</h4>
-            <h3>{this.state.total_count}</h3>
+            <h4 style={{fontSize:22}}>Total Employees</h4>
+            <h3 style={{fontSize:22}}>{this.state.total_count}</h3>
           </div>
           <HighchartsReact
             highcharts={Highcharts}
@@ -168,7 +173,7 @@ class EmployeePieChart extends Component {
           />
         </div>
         <div
-          className="col-md-5 col-sm-5"
+          className="col-lg-3 col-md-5 col-sm-5"
           style={{ margin: "7px", display: "flex", flexWrap: "wrap" }}
         >
           {/* <div className="row col-md-12">
@@ -214,20 +219,21 @@ class EmployeePieChart extends Component {
             </div>
           </div> */}
           <div
-            className="row col-md-12"
+            className="row col-lg-12 col-md-12 col-sm-12"
             style={{
-              boxShadow: "1px 1px 3px 1px #e6e6e6",
+              // boxShadow: "1px 1px 3px 1px #e6e6e6",
               display: "flex",
               justifyContent:'space-evenly',
               alignItems: "center",
               borderRadius: 10,
               padding: "5px",
               fontSize: 12,
-              marginTop: 10,
+              
+              border:'1px solid #27568a'
             }}
           >
             <div
-              className="col-md-6"
+              className="col-lg-6 col-md-8 col-sm-4"
               style={{
                 display: "flex",
                 flexDirection:'column',
@@ -239,22 +245,12 @@ class EmployeePieChart extends Component {
               <i
                 className="fa fa-user margin-y"
                 aria-hidden="true"
-                style={{ fontSize: 18 }}
+                style={{ fontSize: 26,color:'#17b978' }}
               ></i>
-              <button
-                className="btn text-center"
-                style={{ height: 22,width:80, padding: "0px 5px 0px 5px", fontSize: 12 }}
-              >
-                More Info
-                <i
-                  class="fa fa-arrow-circle-right"
-                  style={{ marginLeft: 5 }}
-                  aria-hidden="true"
-                ></i>
-              </button>
+              
             </div>
             <div
-              className="col-md-6"
+              className=" col-lg-6 col-md-8 col-sm-8"
               style={{
                 display: "flex",
                
@@ -264,144 +260,30 @@ class EmployeePieChart extends Component {
                 padding: 0,
               }}
             >
-              <div className="text-right" style={{ width: "100%" }}>
+              <div className="text-right" style={{ width: "100%",fontWeight:'bold' }}>
                 Attendance
               </div>
-              <div className="text-right" style={{ width: "100%" }}>
+              <div className="text-right" style={{ width: "100%",fontWeight:'bold' }}>
                 783
               </div>
             </div>
           </div>
           <div
-            className="row col-md-12"
+            className="row col-lg-12 col-md-12 col-sm-12"
             style={{
-              boxShadow: "1px 1px 3px 1px #e6e6e6",
-              display: "flex",
-              alignItems: "center",
-              borderRadius: 10,
-              padding: "5px",
-              fontSize: 12,
-              marginTop: 10,
-            }}
-          >
-            <div
-              className="col-md-6"
-              style={{
-                display: "flex",
-                flexDirection:'column',
-                flexWrap: "wrap",
-                justifyContent: "center",
-                padding: "0px 0px 0px 3px",
-              }}
-            >
-              <i
-                className="fa fa-user margin-y"
-                aria-hidden="true"
-                style={{ fontSize: 18 }}
-              ></i>
-              <button
-                className="btn text-center"
-                style={{ height: 22,width:80, padding: "0px 5px 0px 5px", fontSize: 12 }}
-              >
-                More Info
-                <i
-                  class="fa fa-arrow-circle-right"
-                  style={{ marginLeft: 5 }}
-                  aria-hidden="true"
-                ></i>
-              </button>
-            </div>
-            <div
-              className="col-md-6"
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                justifyContent: "end",
-                marginLeft: 6,
-                padding: 0,
-              }}
-            >
-              <div className="text-right" style={{ width: "100%" }}>
-                Field Attendance
-              </div>
-              <div className="text-right" style={{ width: "100%" }}>
-                783
-              </div>
-            </div>
-          </div>
-          <div
-            className="row col-md-12"
-            style={{
-              boxShadow: "1px 1px 3px 1px #e6e6e6",
+              // boxShadow: "1px 1px 3px 1px #e6e6e6",
               display: "flex",
               justifyContent:'space-evenly',
               alignItems: "center",
               borderRadius: 10,
               padding: "5px",
               fontSize: 12,
+              marginTop:10,
+              border:'1px solid #27568a'
             }}
           >
             <div
-              className="col-md-6"
-              style={{
-                display: "flex",
-               flexDirection:'column',
-                // justifyContent: "center",
-                justifyContent:'center',
-                // alignContent:'center',
-                padding: "0px 0px 0px 3px",
-              }}
-            >
-              <i
-                className="fa fa-user margin-y"
-                aria-hidden="true"
-                style={{ fontSize: 18 }}
-              ></i>
-              <button
-                className="btn text-center"
-                style={{ height: 22,width:80, padding: "0px 5px 0px 5px", fontSize: 12 }}
-              >
-                More Info
-                <i
-                  class="fa fa-arrow-circle-right"
-                  style={{ marginLeft: 5 }}
-                  aria-hidden="true"
-                ></i>
-              </button>
-            </div>
-            <div
-              className="col-md-6"
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                justifyContent: "end",
-                marginLeft: 6,
-                padding: 0,
-              }}
-            >
-              <div className="text-right" style={{ width: "100%" }}>
-                Leave
-              </div>
-              <div className="text-right" style={{ width: "100%" }}>
-                849
-              </div>
-            </div>
-          </div>
-
-          <div
-            className="row col-md-12"
-            style={{
-              boxShadow: "1px 1px 3px 1px #e6e6e6",
-              display: "flex",
-              alignItems: "center",
-              borderRadius: 10,
-              padding: "5px",
-              fontSize: 12,
-              marginTop: 10,
-            }}
-          >
-            <div
-              className="col-md-6"
+              className="col-lg-6 col-md-8 col-sm-4"
               style={{
                 display: "flex",
                 flexDirection:'column',
@@ -413,35 +295,126 @@ class EmployeePieChart extends Component {
               <i
                 className="fa fa-user margin-y"
                 aria-hidden="true"
-                style={{ fontSize: 18 }}
+                style={{ fontSize: 26,color:'#27568a' }}
               ></i>
-              <button
-                className="btn text-center"
-                style={{ height: 22,width:80, padding: "0px 5px 0px 5px", fontSize: 12 }}
-              >
-                More Info
-                <i
-                  class="fa fa-arrow-circle-right"
-                  style={{ marginLeft: 5 }}
-                  aria-hidden="true"
-                ></i>
-              </button>
+              
             </div>
             <div
-              className="col-md-6"
+              className=" col-lg-6 col-md-8 col-sm-8"
               style={{
                 display: "flex",
+               
                 flexWrap: "wrap",
                 justifyContent: "end",
                 marginLeft: 6,
                 padding: 0,
               }}
             >
-              <div className="text-right" style={{ width: "100%" }}>
-                Absense
+              <div className="text-right" style={{ width: "100%",fontWeight:'bold' }}>
+                Field Attendance
               </div>
-              <div className="text-right" style={{ width: "100%" }}>
-                783
+              <div className="text-right" style={{ width: "100%",fontWeight:'bold' }}>
+                324
+              </div>
+            </div>
+          </div>
+          <div
+            className="row col-lg-12 col-md-12 col-sm-12"
+            style={{
+              // boxShadow: "1px 1px 3px 1px #e6e6e6",
+              display: "flex",
+              justifyContent:'space-evenly',
+              alignItems: "center",
+              borderRadius: 10,
+              padding: "5px",
+              fontSize: 12,
+              marginTop:10,
+              border:'1px solid #27568a'
+            }}
+          >
+            <div
+              className="col-lg-6 col-md-8 col-sm-4"
+              style={{
+                display: "flex",
+                flexDirection:'column',
+                flexWrap: "wrap",
+                justifyContent: "center",
+                padding: "0px 0px 0px 3px",
+              }}
+            >
+              <i
+                className="fa fa-user margin-y"
+                aria-hidden="true"
+                style={{ fontSize: 26,color:'#5d5d5a' }}
+              ></i>
+              
+            </div>
+            <div
+              className=" col-lg-6 col-md-8 col-sm-8"
+              style={{
+                display: "flex",
+               
+                flexWrap: "wrap",
+                justifyContent: "end",
+                marginLeft: 6,
+                padding: 0,
+              }}
+            >
+              <div className="text-right" style={{ width: "100%",fontWeight:'bold' }}>
+                Leave
+              </div>
+              <div className="text-right" style={{ width: "100%",fontWeight:'bold' }}>
+                56
+              </div>
+            </div>
+          </div>
+          <div
+            className="row col-lg-12 col-md-12 col-sm-12"
+            style={{
+              // boxShadow: "1px 1px 3px 1px #e6e6e6",
+              display: "flex",
+              justifyContent:'space-evenly',
+              alignItems: "center",
+              borderRadius: 10,
+              padding: "5px",
+              fontSize: 12,
+              marginTop:10,
+              border:'1px solid #27568a'
+            }}
+          >
+            <div
+              className="col-lg-6 col-md-8 col-sm-4"
+              style={{
+                display: "flex",
+                flexDirection:'column',
+                flexWrap: "wrap",
+                justifyContent: "center",
+                padding: "0px 0px 0px 3px",
+              }}
+            >
+              <i
+                className="fa fa-user margin-y"
+                aria-hidden="true"
+                style={{ fontSize: 26,color:'#d72323' }}
+              ></i>
+              
+            </div>
+            <div
+              className=" col-lg-6 col-md-8 col-sm-8"
+              style={{
+                display: "flex",
+               
+                flexWrap: "wrap",
+                justifyContent: "end",
+                marginLeft: 6,
+                padding: 0,
+              }}
+            >
+              <div className="text-right" style={{ width: "100%",fontWeight:'bold' }}>
+                Absence
+              </div>
+              <div className="text-right" style={{ width: "100%",fontWeight:'bold' }}>
+                23
               </div>
             </div>
           </div>
