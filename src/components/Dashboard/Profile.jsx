@@ -71,12 +71,12 @@ class Profile extends Component {
                 width: "10%",
                 display: "flex",
                 justifyContent: "center",
-                alignItems: "center",
+                alignItems: "center", 
               }}
             >
               <img
-                src="assets/img/ic_launcher_foreground.png"
-                style={{ width: 80, height: 80, borderRadius: 45 }}
+                src="assets/img/profpic.jpg.png"
+                style={{ width: 80, height: 80, borderRadius: 45,objectFit:"cover" }}
               />
             </div>
             <div style={{ width: "22%" }}>
@@ -172,13 +172,13 @@ class Profile extends Component {
                 </p>
               </div>
               {
-                this.state.userInfo.maratial_status != "unmarried" || this.state.userInfo.maratial_status != "single" ? <div style={styles.smallContainer}>
+                this.state.userInfo.maratial_status == "unmarried" || this.state.userInfo.maratial_status == "Single" ? null : <div style={styles.smallContainer}>
                   <p style={styles.leftProfileText}>Child Count</p>
                   <p style={styles.middleProfileText}>:</p>
                   <p style={styles.rightProfileText}>
                     {this.state.userInfo.child_count}
                   </p>
-                </div> : null
+                </div> 
               }
             </div>
             <div style={{ width: "0.5%", marginRight: 5 }}>

@@ -81,6 +81,7 @@ class EmployeePieChart extends Component {
           showInLegend: true,
           dataLabels: {
             enabled: true,
+          
             format: '<b>{point.name}</b>: {point.y} '
           }
         },
@@ -101,6 +102,9 @@ class EmployeePieChart extends Component {
       credits: {
         enabled: false,
       },
+      legend:{
+        useHTML: true
+      },
 
       series: [
         {
@@ -110,6 +114,7 @@ class EmployeePieChart extends Component {
               color: '#27568a',
               y: this.state.male_count,
               drilldown: "Male",
+             
             }, {
               name: "Female",
               color: '#d72323',
@@ -255,10 +260,10 @@ class EmployeePieChart extends Component {
                 padding: 0,
               }}
             >
-              <div className="text-right" style={{ width: "100%" }}>
+              <div className="text-right" style={{ width: "100%",fontWeight:'bold' }}>
                 Attendance
               </div>
-              <div className="text-right" style={{ width: "100%" }}>
+              <div className="text-right" style={{ width: "100%",fontWeight:'bold' }}>
                 783
               </div>
             </div>
@@ -305,10 +310,10 @@ class EmployeePieChart extends Component {
                 padding: 0,
               }}
             >
-              <div className="text-right" style={{ width: "100%" }}>
+              <div className="text-right" style={{ width: "100%",fontWeight:'bold' }}>
                 Field Attendance
               </div>
-              <div className="text-right" style={{ width: "100%" }}>
+              <div className="text-right" style={{ width: "100%",fontWeight:'bold' }}>
                 324
               </div>
             </div>
@@ -355,10 +360,10 @@ class EmployeePieChart extends Component {
                 padding: 0,
               }}
             >
-              <div className="text-right" style={{ width: "100%" }}>
+              <div className="text-right" style={{ width: "100%",fontWeight:'bold' }}>
                 Leave
               </div>
-              <div className="text-right" style={{ width: "100%" }}>
+              <div className="text-right" style={{ width: "100%",fontWeight:'bold' }}>
                 56
               </div>
             </div>
@@ -405,10 +410,10 @@ class EmployeePieChart extends Component {
                 padding: 0,
               }}
             >
-              <div className="text-right" style={{ width: "100%" }}>
+              <div className="text-right" style={{ width: "100%",fontWeight:'bold' }}>
                 Absence
               </div>
-              <div className="text-right" style={{ width: "100%" }}>
+              <div className="text-right" style={{ width: "100%",fontWeight:'bold' }}>
                 23
               </div>
             </div>

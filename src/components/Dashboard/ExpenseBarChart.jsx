@@ -82,9 +82,34 @@ export default class ExpenseBarChart extends Component {
 
     }
     onClickExpenseCountSearch = () => {
-        // this.getExpense(this.state.branchId.value == undefined ? this.state.branchId : this.state.branchId.value,this.state.deptId.value == undefined ? this.state.deptId : this.state.deptId.value);
-//    console.log("br&dep",this.state.deptId,this.state.branchId)
+        this.getExpense(this.state.branchId.value == undefined ? this.state.branchId : this.state.branchId.value,this.state.deptId.value == undefined ? this.state.deptId : this.state.deptId.value,this.state.s_date,this.state.e_date);
+  
         
+    }
+    async getExpense(branchId, depId, s_date, e_date){
+        fetch(main_url + "dashboard/allowanceExpense/" + branchId + "/" + depId + "/" + moment(s_date).format("YYYY-MM-DD") + "/" + moment(e_date).format("YYYY-MM-DD"))
+            .then((response) => {
+                if (response.ok) return response.json();
+            })
+            .then((res) => {
+                if (res) {
+                    let data = res.filter(v => v.amount != null)
+                    var label = [];
+                    var count = [];
+                    
+                        data.map((v, i) => {
+                            label.push(v.name);
+
+                            count.push(v.amount);
+                        });
+                  
+
+                    this.setState({ xAxisDept: label, countDataDept: count})
+                }
+                this.setChartOption();
+            })
+            .catch((error) => console.error(`Fetch Error =\n`, error));
+
     }
     // filter() {
     //     let s_date = moment(this.state.s_date).format("YYYY-MM-DD");
@@ -111,7 +136,7 @@ export default class ExpenseBarChart extends Component {
             },
 
             xAxis: {
-                categories: ['Maintenance', 'Petrol', 'Salary Advance', 'Travel'],
+                categories: this.state.xAxisDept,
                 title: {
                     text: null
                 }
@@ -145,7 +170,7 @@ export default class ExpenseBarChart extends Component {
             series: [{
                 name: 'Allowance Expense',
                 colorByPoint: true,
-                data: [15, 10, 20, 6],
+                data: this.state.countDataDept,
                 colors: ['#1f4545', '#3d86dy', '#193759', '#419191', '#9bcece', '#59c5c5', '#7ea8d9', '#344545', '#5c7c9f', '#59c5c5']
             }]
         }
