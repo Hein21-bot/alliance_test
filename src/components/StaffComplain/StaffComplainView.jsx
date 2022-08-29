@@ -13,6 +13,7 @@ class StaffComplainAddNew extends Component {
     }
 
     componentDidMount() {
+        console.log("props.data is ====>", this.props.data)
         fetch(`${main_url}staff_complain/getDocument/` + this.props.data.staff_complain_id)
             .then(res => { if (res.ok) return res.json() })
             .then(list => {

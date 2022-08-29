@@ -419,7 +419,7 @@ export default class TravelAdvancedAddNew
         stopSaving();
         if (validate('check_form')) {
             if (this.state.setupData.withdraw_location == 0) {
-                toast.error("Please Choose Withdraw Location!");
+                toast.error("Please choose withdraw location");
             } else {
                 this.props.add(this.state.setupData)
             }
