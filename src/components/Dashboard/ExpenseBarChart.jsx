@@ -82,12 +82,12 @@ export default class ExpenseBarChart extends Component {
 
     }
     onClickExpenseCountSearch = () => {
-        this.getExpense(this.state.branchId.value == undefined ? this.state.branchId : this.state.branchId.value,this.state.deptId.value == undefined ? this.state.deptId : this.state.deptId.value);
+        this.getExpense(this.state.branchId.value == undefined ? this.state.branchId : this.state.branchId.value,this.state.deptId.value == undefined ? this.state.deptId : this.state.deptId.value,this.state.s_date,this.state.e_date);
   
         
     }
     async getExpense(branchId, depId, s_date, e_date){
-        fetch(main_url + "dashboard//" + branchId + "/" + depId + "/" + moment(s_date).format("YYYY-MM-DD") + "/" + moment(e_date).format("YYYY-MM-DD"))
+        fetch(main_url + "dashboard/allowanceExpense/" + branchId + "/" + depId + "/" + moment(s_date).format("YYYY-MM-DD") + "/" + moment(e_date).format("YYYY-MM-DD"))
             .then((response) => {
                 if (response.ok) return response.json();
             })
@@ -96,22 +96,13 @@ export default class ExpenseBarChart extends Component {
                     let data = res.filter(v => v.amount != null)
                     var label = [];
                     var count = [];
-                    if (data.length < 5) {
-                        label.push(null, null)
-                        count.push(null, null)
+                    
                         data.map((v, i) => {
-                            label.push(v.name);
-                            count.push(v.amount);
-                        });
-                        label.push(null, null)
-                        count.push(null, null)
-                    } else {
-                        res.map((v, i) => {
                             label.push(v.name);
 
                             count.push(v.amount);
                         });
-                    }
+                  
 
                     this.setState({ xAxisDept: label, countDataDept: count})
                 }

@@ -111,7 +111,7 @@ class BenefitBarChart extends Component {
                         label.push(null, null)
                         count.push(null, null)
                     } else {
-                        res.map((v, i) => {
+                        data.map((v, i) => {
                             label.push(v.name);
 
                             count.push(v.amount);

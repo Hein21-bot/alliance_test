@@ -153,7 +153,8 @@ class CompensationandBenefit extends Component {
       },
       // colorByPoint: true,
       // colors: ['#1f4545', '#3d86dy', '#193759', '#419191', '#9bcece', '#59c5c5', '#7ea8d9', '#344545', '#5c7c9f', '#59c5c5'],
-      series: [{
+      series: [
+      {
         color:'#1f4545',
         name:'Jan',
         data: [50, 63, 80, 94, 14,]
