@@ -84,14 +84,14 @@ class SalaryAdvanceMain extends Component {
     approvedlist = async (data) => {
         if (data == 'myrequest') {          
           this.setState({
-            dataList: this.state.data.filter(v=>v.user_id === this.state.user_id),
+            dataList: this.state.data.filter(v=>v.user_id == this.state.user_id),
             pending_approve: 'myrequest',
            
           })
         } else {
           this.setState({
             dataList:data,
-            dataList: this.state.data.filter(v=>v.user_id !== this.state.user_id),
+            dataList: this.state.data.filter(v=>v.user_id != this.state.user_id),
             pending_approve: 'allrequest'
           })
         }
@@ -135,15 +135,15 @@ class SalaryAdvanceMain extends Component {
                 {
                     this.state.isTable ?
                     <div>
-                   <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
-                   <li className="active">
-                   <a className="nav-link active" href="#approve_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.approvedlist('myrequest')}>My Request</a>
-                   </li>
-                   <li className="nav-item1">
-                   <a className="nav-link" href="#approve_list" role="tab" data-toggle="tab" onClick={() => this.approvedlist('allrequest')}>All Request</a>
-                   </li>
-                   </ul>
-                        <SalaryAdvanceList goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} setupForm={this.setupForm} data={this.state.dataList} permission={this.state.permission_status} /></div> : ''
+                    {/* <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
+                    <li className="active">
+                    <a className="nav-link active" href="#approve_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.approvedlist('myrequest')}>My Request</a>
+                    </li>
+                    <li className="nav-item1">
+                    <a className="nav-link" href="#approve_list" role="tab" data-toggle="tab" onClick={() => this.approvedlist('allrequest')}>All Request</a>
+                    </li>
+                    </ul> */}
+                        <SalaryAdvanceList goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} setupForm={this.setupForm} data={this.state.dataList} permission={this.state.permission_status} approvedlist={this.approvedlist}/></div> : ''
                 }
 
             </div>
