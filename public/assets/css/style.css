@@ -9023,3 +9023,22 @@ table.dataTable thead tr {
 .mini-navbar .sideList {
   text-align: center;
 }
+/* .highcharts-legend-item {
+  padding: 1em;
+  }
+  
+  .highcharts-legend-item {
+  position: relative;
+  overflow: visible !important;
+  }
+  
+  .highcharts-legend-item :after {
+  content: "";
+  position: absolute;
+  width: 110%;
+  border: 2px solid #ddd;
+  padding: 1em 1em 0.5em;
+  top: -2px;
+  left: -25px;
+  border-radius: 10px;
+  } */
