@@ -10,9 +10,9 @@ const PersonalDetail = props => {
     const { viewForm, editForm } = props
     const { fatherName, handlePersonalDetailInputChange, handlePreviousClick, handlePersonalDetail, onStatusChange, martialStatus, motherName, parentCount, siblingCount, childCount, pInLawCount } = props
 
-    //    const onStatusChange = e =>{
-    //        alert(e.target.value)
-    //    }
+    console.log('martialStatus ias =====>', martialStatus)
+    let update_martialStatus = martialStatus == 'Single' ? 'UnMarried' : martialStatus
+
     return (
         <form onSubmit={handlePersonalDetail} >
             <div className='white-bg ' style={{
@@ -26,11 +26,11 @@ const PersonalDetail = props => {
                     </div>
                     <div className='col-lg-6 col-md-6 col-sm-6' style={{ display: 'flex', justifyContent: 'space-around', }}>
                         <div style={{ display: 'flex', alignItems: 'center', marginRight: 20 }}>
-                            <input type="radio" name="martialStatus" value="UnMarried" required={(viewForm || editForm) ? false : true} checked={martialStatus == "UnMarried"} onChange={onStatusChange} /><div style={{ paddingLeft: 10, whiteSpace: 'nowrap' }}>Un-Married</div>
+                            <input type="radio" name="martialStatus" value="UnMarried" required={(viewForm || editForm) ? false : true} checked={update_martialStatus == "UnMarried"} onChange={onStatusChange} /><div style={{ paddingLeft: 10, whiteSpace: 'nowrap' }}>Un-Married</div>
 
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <input type="radio" name="martialStatus" value="Married" required={(viewForm || editForm) ? false : true} checked={martialStatus == "Married"} onChange={onStatusChange} /><div style={{ paddingLeft: 10, whiteSpace: 'nowrap' }}>Married</div>
+                            <input type="radio" name="martialStatus" value="Married" required={(viewForm || editForm) ? false : true} checked={update_martialStatus == "Married"} onChange={onStatusChange} /><div style={{ paddingLeft: 10, whiteSpace: 'nowrap' }}>Married</div>
 
                         </div>
                     </div>

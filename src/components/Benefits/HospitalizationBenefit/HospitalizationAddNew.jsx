@@ -136,8 +136,8 @@ class HospitalizationAddNew extends Component {
                 selected_hospital_type: { value: one.hospitalization_type, label: one.hospitalization_type_name },
                 createdBy: one.createdBy,
                 is_main_role: havePermission(work_flow),
-                start_date: moment(one.start_date).format('DD/MM/YYYY'),
-                end_date: moment(one.end_date).format('DD/MM/YYYY')
+                start_date: moment(one.start_date).format('YYYY-MM-DD'),
+                end_date: moment(one.end_date).format('YYYY-MM-DD')
             })
         } else {
             //this.getAvailableAmount();
@@ -295,98 +295,98 @@ class HospitalizationAddNew extends Component {
         this.setState({ status_title: text, comment: comment }, () => this.save())
     }
     save() {
-       if(this.state.attachment.length == 0 && this.state.doc.length == 0){
-        toast.error("Please Choose Attachment File!")
-       }else{
-        if (validate('check_form') && (this.state.attachment.length > 0 || !Array.isArray(this.state.one_benefit))) {
-           
-            var data = {
-                employee_id: this.state.one_benefit.employee_id ? this.state.one_benefit.employee_id : this.state.user_id,
-                actual_date: moment(this.state.actual_date).format('YYYY-MM-DD'),
-                case_date: moment(this.state.case_date).format('YYYY-MM-DD'),
-                request_amount: this.state.request_amount,
-                case_detail: this.state.case_details,
-                name_of_disease_or_injury: this.state.injury_name,
-                case_place: this.state.case_place,
-                hospitalization_type: parseInt(this.state.selected_hospital_type.value),
-                available_amount: this.state.max_fund_amount.amount,
-                hospital_name: this.state.hospital_name,
-                injury_or_not: parseInt(this.state.selectedOptionInjury),
-                related_with_work_or_not: parseInt(this.state.selectedOptionWork),
-                status: this.state.status == 5 || this.state.status == -1 ? 0 : this.state.status,
-                updatedBy: this.state.updatedBy,
-                createdBy: this.state.createdBy,
-                withdraw_location: this.state.withdraw_location,
-                start_date: this.state.start_date,
-                end_date: this.state.end_date
+        if (this.state.attachment.length == 0 && this.state.doc.length == 0) {
+            toast.error("Please Choose Attachment File!")
+        } else {
+            if (validate('check_form') && (this.state.attachment.length > 0 || !Array.isArray(this.state.one_benefit))) {
 
-            }
+                var data = {
+                    employee_id: this.state.one_benefit.employee_id ? this.state.one_benefit.employee_id : this.state.user_id,
+                    actual_date: moment(this.state.actual_date).format('YYYY-MM-DD'),
+                    case_date: moment(this.state.case_date).format('YYYY-MM-DD'),
+                    request_amount: this.state.request_amount,
+                    case_detail: this.state.case_details,
+                    name_of_disease_or_injury: this.state.injury_name,
+                    case_place: this.state.case_place,
+                    hospitalization_type: parseInt(this.state.selected_hospital_type.value),
+                    available_amount: this.state.max_fund_amount.amount,
+                    hospital_name: this.state.hospital_name,
+                    injury_or_not: parseInt(this.state.selectedOptionInjury),
+                    related_with_work_or_not: parseInt(this.state.selectedOptionWork),
+                    status: this.state.status == 5 || this.state.status == -1 ? 0 : this.state.status,
+                    updatedBy: this.state.updatedBy,
+                    createdBy: this.state.createdBy,
+                    withdraw_location: this.state.withdraw_location,
+                    start_date: this.state.start_date,
+                    end_date: this.state.end_date
 
-            const formdata = new FormData();
-
-            // var obj = document.querySelector("#attach_file").files.length;
-            for (var i = 0; i < this.state.attachment.length; i++) {
-                formdata.append('uploadfile', this.state.attachment[i]);
-            }
-
-            let status = 0;
-            let path = 'saveHospitalizationBenefit'
-
-            if (!Array.isArray(this.state.one_benefit) && this.state.one_benefit !== null) {
-                if (this.state.status_title !== '' && this.state.is_main_role) {
-                    var action = getActionStatus(this.state.status_title, this.state.one_benefit, this.state.updatedBy, this.state.comment);
-                    data.referback_by = action.referback_by;
-                    data.checked_by = action.checked_by;
-                    data.verified_by = action.verified_by;
-                    data.approved_by = action.approved_by;
-                    data.rejected_by = action.rejected_by;
-                    data.referback_date = action.referback_date;
-                    data.checked_date = action.checked_date;
-                    data.verified_date = action.verified_date;
-                    data.approved_date = action.approved_date;
-                    data.rejected_date = action.rejected_date;
-                    data.referback_comment = action.referback_comment;
-                    data.checked_comment = action.checked_comment;
-                    data.verified_comment = action.verified_comment;
-                    data.approved_comment = action.approved_comment;
-                    data.status = action.status;
                 }
-                path = `editHospitalizationBenefit/${this.state.one_benefit.hospitalization_benefit_id}`
-            }
-            formdata.append('hospitalization_fund', JSON.stringify(data))
-            formdata.append('oldDoc', JSON.stringify(this.state.doc))
-            fetch(`${main_url}hospitalization_benefit/${path}`, {
-                method: "POST",
-                body: formdata
-            })
-                .then(res => {
-                    status = res.status;
-                    return res.text()
-                })
-                .then(text => {
-                    if (status !== 200) {
-                        this.setState({
-                            status: this.state.status
-                        })
-                    }
-                    this.props.showToast(status, text)
 
+                const formdata = new FormData();
+
+                // var obj = document.querySelector("#attach_file").files.length;
+                for (var i = 0; i < this.state.attachment.length; i++) {
+                    formdata.append('uploadfile', this.state.attachment[i]);
+                }
+
+                let status = 0;
+                let path = 'saveHospitalizationBenefit'
+
+                if (!Array.isArray(this.state.one_benefit) && this.state.one_benefit !== null) {
+                    if (this.state.status_title !== '' && this.state.is_main_role) {
+                        var action = getActionStatus(this.state.status_title, this.state.one_benefit, this.state.updatedBy, this.state.comment);
+                        data.referback_by = action.referback_by;
+                        data.checked_by = action.checked_by;
+                        data.verified_by = action.verified_by;
+                        data.approved_by = action.approved_by;
+                        data.rejected_by = action.rejected_by;
+                        data.referback_date = action.referback_date;
+                        data.checked_date = action.checked_date;
+                        data.verified_date = action.verified_date;
+                        data.approved_date = action.approved_date;
+                        data.rejected_date = action.rejected_date;
+                        data.referback_comment = action.referback_comment;
+                        data.checked_comment = action.checked_comment;
+                        data.verified_comment = action.verified_comment;
+                        data.approved_comment = action.approved_comment;
+                        data.status = action.status;
+                    }
+                    path = `editHospitalizationBenefit/${this.state.one_benefit.hospitalization_benefit_id}`
+                }
+                formdata.append('hospitalization_fund', JSON.stringify(data))
+                formdata.append('oldDoc', JSON.stringify(this.state.doc))
+                fetch(`${main_url}hospitalization_benefit/${path}`, {
+                    method: "POST",
+                    body: formdata
                 })
+                    .then(res => {
+                        status = res.status;
+                        return res.text()
+                    })
+                    .then(text => {
+                        if (status !== 200) {
+                            this.setState({
+                                status: this.state.status
+                            })
+                        }
+                        this.props.showToast(status, text)
+
+                    })
+            }
+            else {
+                startSaving();
+                form_validate = false;
+                toast.error(alertText, {
+                    position: 'top-right',
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true
+                });
+            }
         }
-        else {
-            startSaving();
-            form_validate = false;
-            toast.error(alertText, {
-                position: 'top-right',
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true
-            });
-        }
-       }
-        
+
     }
     onChangeInjury(event) {
         this.setState({
