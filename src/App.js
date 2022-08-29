@@ -5,7 +5,7 @@ import './index.css'
 function App() {
   var path = window.location.pathname;
   var id = path.replace('/', '');
-
+  console.log('in app.....', id)
   return (
     // <MuiThemeProvider>
     <div>
