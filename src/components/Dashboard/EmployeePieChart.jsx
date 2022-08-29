@@ -142,7 +142,7 @@ class EmployeePieChart extends Component {
         }}
       >
         <div
-          className=" col-lg-9 col-md-7 col-sm-8"
+          className=" col-lg-9 col-md-7 col-sm-7"
           style={{
             boxShadow: "1px 1px 3px 1px #e6e6e6",
             margin: "7px",
@@ -168,7 +168,7 @@ class EmployeePieChart extends Component {
           />
         </div>
         <div
-          className="col-lg-3 col-md-5 col-sm-4"
+          className="col-lg-3 col-md-5 col-sm-5"
           style={{ margin: "7px", display: "flex", flexWrap: "wrap" }}
         >
           {/* <div className="row col-md-12">
@@ -214,7 +214,7 @@ class EmployeePieChart extends Component {
             </div>
           </div> */}
           <div
-            className="row col-md-12"
+            className="row col-lg-12 col-md-12 col-sm-12"
             style={{
               // boxShadow: "1px 1px 3px 1px #e6e6e6",
               display: "flex",
@@ -228,7 +228,7 @@ class EmployeePieChart extends Component {
             }}
           >
             <div
-              className="col-md-6"
+              className="col-lg-6 col-md-8 col-sm-4"
               style={{
                 display: "flex",
                 flexDirection:'column',
@@ -245,7 +245,7 @@ class EmployeePieChart extends Component {
               
             </div>
             <div
-              className="col-md-6"
+              className=" col-lg-6 col-md-8 col-sm-8"
               style={{
                 display: "flex",
                
@@ -264,55 +264,7 @@ class EmployeePieChart extends Component {
             </div>
           </div>
           <div
-            className="row col-md-12 col-sm-12"
-            style={{
-              // boxShadow: "1px 1px 3px 1px #e6e6e6",
-              display: "flex",
-              alignItems: "center",
-              borderRadius: 10,
-              padding: "5px",
-              fontSize: 12,
-              marginTop: 10,
-              border:'1px solid #27568a'
-            }}
-          >
-            <div
-              className="col-md-6 col-sm-4"
-              style={{
-                display: "flex",
-                flexDirection:'column',
-                flexWrap: "wrap",
-                justifyContent: "center",
-                padding: "0px 0px 0px 3px",
-              }}
-            >
-              <i
-                className="fa fa-user margin-y"
-                aria-hidden="true"
-                style={{ fontSize: 26,color:'#27568a' }}
-              ></i>
-             
-            </div>
-            <div
-              className="col-md-6 col-sm-8"
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                justifyContent: "end",
-                marginLeft: 6,
-                padding: 0,
-              }}
-            >
-              <div className="text-right" style={{ width: "100%" }}>
-                Field Attendance
-              </div>
-              <div className="text-right" style={{ width: "100%" }}>
-               123
-              </div>
-            </div>
-          </div>
-          <div
-            className="row col-md-12"
+            className="row col-lg-12 col-md-12 col-sm-12"
             style={{
               // boxShadow: "1px 1px 3px 1px #e6e6e6",
               display: "flex",
@@ -326,13 +278,62 @@ class EmployeePieChart extends Component {
             }}
           >
             <div
-              className="col-md-6"
+              className="col-lg-6 col-md-8 col-sm-4"
               style={{
                 display: "flex",
-               flexDirection:'column',
-                // justifyContent: "center",
-                justifyContent:'center',
-                // alignContent:'center',
+                flexDirection:'column',
+                flexWrap: "wrap",
+                justifyContent: "center",
+                padding: "0px 0px 0px 3px",
+              }}
+            >
+              <i
+                className="fa fa-user margin-y"
+                aria-hidden="true"
+                style={{ fontSize: 26,color:'#27568a' }}
+              ></i>
+              
+            </div>
+            <div
+              className=" col-lg-6 col-md-8 col-sm-8"
+              style={{
+                display: "flex",
+               
+                flexWrap: "wrap",
+                justifyContent: "end",
+                marginLeft: 6,
+                padding: 0,
+              }}
+            >
+              <div className="text-right" style={{ width: "100%" }}>
+                Field Attendance
+              </div>
+              <div className="text-right" style={{ width: "100%" }}>
+                324
+              </div>
+            </div>
+          </div>
+          <div
+            className="row col-lg-12 col-md-12 col-sm-12"
+            style={{
+              // boxShadow: "1px 1px 3px 1px #e6e6e6",
+              display: "flex",
+              justifyContent:'space-evenly',
+              alignItems: "center",
+              borderRadius: 10,
+              padding: "5px",
+              fontSize: 12,
+              marginTop:10,
+              border:'1px solid #27568a'
+            }}
+          >
+            <div
+              className="col-lg-6 col-md-8 col-sm-4"
+              style={{
+                display: "flex",
+                flexDirection:'column',
+                flexWrap: "wrap",
+                justifyContent: "center",
                 padding: "0px 0px 0px 3px",
               }}
             >
@@ -344,9 +345,10 @@ class EmployeePieChart extends Component {
               
             </div>
             <div
-              className="col-md-6"
+              className=" col-lg-6 col-md-8 col-sm-8"
               style={{
                 display: "flex",
+               
                 flexWrap: "wrap",
                 justifyContent: "end",
                 marginLeft: 6,
@@ -357,26 +359,26 @@ class EmployeePieChart extends Component {
                 Leave
               </div>
               <div className="text-right" style={{ width: "100%" }}>
-               46
+                56
               </div>
             </div>
           </div>
-
           <div
-            className="row col-md-12"
+            className="row col-lg-12 col-md-12 col-sm-12"
             style={{
               // boxShadow: "1px 1px 3px 1px #e6e6e6",
               display: "flex",
+              justifyContent:'space-evenly',
               alignItems: "center",
               borderRadius: 10,
               padding: "5px",
               fontSize: 12,
-              marginTop: 10,
+              marginTop:10,
               border:'1px solid #27568a'
             }}
           >
             <div
-              className="col-md-6"
+              className="col-lg-6 col-md-8 col-sm-4"
               style={{
                 display: "flex",
                 flexDirection:'column',
@@ -393,9 +395,10 @@ class EmployeePieChart extends Component {
               
             </div>
             <div
-              className="col-md-6"
+              className=" col-lg-6 col-md-8 col-sm-8"
               style={{
                 display: "flex",
+               
                 flexWrap: "wrap",
                 justifyContent: "end",
                 marginLeft: 6,
@@ -403,10 +406,10 @@ class EmployeePieChart extends Component {
               }}
             >
               <div className="text-right" style={{ width: "100%" }}>
-                Absense
+                Absence
               </div>
               <div className="text-right" style={{ width: "100%" }}>
-               856
+                23
               </div>
             </div>
           </div>
