@@ -157,11 +157,12 @@ class CompensationandBenefit extends Component {
       {
         color:'#1f4545',
         name:'Jan',
-        data: [50, 63, 80, 94, 14,]
+        data: [50, 63, 80, 94, 14]
+        // data:[["Payroll",50],["Monthly Incentive",63],['Quarterly Incentive',80],["Benefit",90],["Allowance",12]]
       }, {
         color:'#344545',
         name:'Feb',
-        data: [10, 17, 11, 33, 22]
+        data: [10, 17, 11, 33, 0]
       }, {
         color:'#193759',
         name:'March',

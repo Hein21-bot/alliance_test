@@ -313,7 +313,7 @@ export default class TravelRequestAddNew
 
     // addHelpDesk = (data, newDoc) => {
     addHelpDesk = () => {
-        stopSaving();
+       
         if (validate('check_form')) {
             var data = this.state.data
             var newDoc = this.state.newDoc
