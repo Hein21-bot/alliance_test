@@ -97,10 +97,7 @@ class HelpDeskLineChart extends Component {
     getHelpDeskGraphData(s_date, e_date) {
         // fetch(`${main_url}dashboard/helpDeskGraph/0/0/2021-04-01/2021-04-30`)
         fetch(main_url +
-            "dashboard/helpDeskGraph/" + this.state.id.branchId.value + "/" + this.state.id.deptId.value + "/" +
-            moment(s_date).format('YYYY-MM-DD') +
-            "/" +
-            moment(e_date).format('YYYY-MM-DD')
+            `dashboard/helpDeskGraph/${this.state.id.branchId.value}/${this.state.id.deptId.value}/${moment(s_date).format('YYYY-MM-DD')}/${moment(e_date).format('YYYY-MM-DD')}`
         )
             .then(res => { if (res.ok) return res.json() })
             .then((res) => {
@@ -134,7 +131,7 @@ class HelpDeskLineChart extends Component {
     }
 
     componentDidMount() {
-        this.getHelpDeskGraphData()
+        this.getHelpDeskGraphData(getFirstDayOfMonth(), new Date())
         this.getBranch()
         this.getDesignation()
         // this.filter()
