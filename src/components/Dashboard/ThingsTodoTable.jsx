@@ -27,8 +27,8 @@ class ThingsTodoTable extends Component {
       otherCount:0,
       trainingCount:0,
       phoneCount:0,
-      petrolCount:0
-
+      petrolCount:0,
+      helpDeskCount: 0
 
     };
   }
@@ -89,6 +89,10 @@ class ThingsTodoTable extends Component {
     thingsToDoController.getStaffComplainRequest(id, data => {
       this.setState({ staffComplainCount: data[0].count })
     })
+    thingsToDoController.getHelpDeskRequest(id, data => {
+      console.log('helpdesk count ===>', data)
+      this.setState({ helpDeskCount: data[0].count})
+    })
   }
 
 
@@ -119,10 +123,10 @@ class ThingsTodoTable extends Component {
       { request: "Other Request", count: this.state.otherCount, link: "/other_benefit" },
       { request: "Training Request", count: this.state.trainingCount, link: "/trainingRequest" },
       { request: "Staff Complain Box", count: this.state.staffComplainCount, link: "/staffComplain" },
-      
+      { request: "Help Desk Request", count: this.state.helpDeskCount, link: "/helpDesk" },
     ];
 
-    let data_filter = (this.state.user_id == 17 || this.state.user_id == 921) ? dummy_data : dummy_data.filter(v => v.request != 'Staff Complain Box')
+    let data_filter = (this.state.user_id == 17 || this.state.user_id == 921) ? dummy_data.filter(a => a.count != 0) : dummy_data.filter(v => v.request != 'Staff Complain Box' && v.count != 0)
 
     return (
       <div
@@ -213,7 +217,7 @@ class ThingsTodoTable extends Component {
                       </button>
                     </div>
                   </div>
-                  {k != dummy_data.length - 1 && <div style={{ width: '95%', height: "0.5px", backgroundColor: 'black', margin: '0px auto' }} />}
+                  {k != data_filter.length - 1 && <div style={{ width: '95%', height: "0.5px", backgroundColor: 'black', margin: '0px auto' }} />}
                 </> : ""
               }
 

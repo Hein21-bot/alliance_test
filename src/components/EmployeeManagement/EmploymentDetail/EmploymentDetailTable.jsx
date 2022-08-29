@@ -102,6 +102,7 @@ export default class BenefitChildTable extends Component {
 
 
     _setTableData = (data) => {
+    //     console.log('branchList ===>', this.state.branchlist)
         var table;
         var l = [];
         var status;
@@ -110,13 +111,16 @@ export default class BenefitChildTable extends Component {
         for (var i = 0; i < data.length; i++) {
             let result = data[i];
             let obj = [];
+            // console.log('branch id ===>', data[i].branch);
+            // var tempBranch = this.state.branchlist.filter(v => v.branch_id == parseInt(data[i].branch));
+            // console.log( 'branchFilter ===>', tempBranch[0]);
             obj = {
                 no: i + 1,
                 employee_id: data[i].employee_code ? data[i].employee_code : '',
                 employee_name: data[i].employee_name ? data[i].employee_name : "",
                 position: data[i].designations ? data[i].designations : '-',
                 employee_status: data[i].employed_status ? data[i].employed_status == 1 ? 'Permanent' : data[i].employed_status == 2 ? 'Part-Time' : data[i].employed_status == 3 ? 'Training' : data[i].employed_status : '-',
-                branch: data[i].branch ? this.state.branchlist.length > 0 && this.state.branchlist.filter(v => v.branch_id == data[i].branch)[0].branch_name : '',
+                branch: data[i].branch_name ? data[i].branch_name : '',
                 date: data[i].employee_date ? moment(data[i].employee_date).format('DD-MM-YYYY') : '-',
                 employed_date: data[i].employee_date ? moment(data[i].employee_date).format('DD-MM-YYYY') : '',
                 effective_date: data[i].effective_date ? moment(data[i].effective_date).format('DD-MM-YYYY') : '',
