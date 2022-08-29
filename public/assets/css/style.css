@@ -9025,20 +9025,24 @@ table.dataTable thead tr {
 }
 /* .highcharts-legend-item {
   padding: 1em;
-  }
+ border: 1px solid tomato;
+ width: 70px;
+ border-radius: 10px;
+  } */
   
-  .highcharts-legend-item {
+  /* .highcharts-legend-item > span {
   position: relative;
   overflow: visible !important;
   }
   
-  .highcharts-legend-item :after {
+  .highcharts-legend-item > span:after {
   content: "";
   position: absolute;
-  width: 110%;
+  width: 70px;
   border: 2px solid #ddd;
   padding: 1em 1em 0.5em;
   top: -2px;
   left: -25px;
   border-radius: 10px;
+  margin-right: 20px;
   } */

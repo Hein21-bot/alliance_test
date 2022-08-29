@@ -102,6 +102,9 @@ class EmployeePieChart extends Component {
       credits: {
         enabled: false,
       },
+      legend:{
+        useHTML: true
+      },
 
       series: [
         {
