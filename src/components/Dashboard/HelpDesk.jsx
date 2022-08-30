@@ -227,7 +227,7 @@ class HelpDesk extends Component {
                                 }}>TICKET</p>
                                 <p style={{
                                     fontWeight: 'bold'
-                                }}>4</p>
+                                }}>{this.state.Ticket.length != 0 ? this.state.Ticket[0].total_ticket : 0}</p>
                             </div>
                             <div style={{
                                 width: '40px',
@@ -262,7 +262,7 @@ class HelpDesk extends Component {
                                     
 
 
-                                }}>Main Category</p>
+                                }}>Ticket Status</p>
 
                                 <p style={{
                                     display: 'flex',
@@ -345,7 +345,7 @@ class HelpDesk extends Component {
                                 }}>TICKET STATUS</p>
                                 <p style={{
                                     fontWeight: 'bold'
-                                }}>4</p>
+                                }}>{this.state.Ticket.length != 0 ? this.state.Ticket[0].total_ticket : 0}</p>
                             </div>
                             <div style={{
                                 width: '40px',
