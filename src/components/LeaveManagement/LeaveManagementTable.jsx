@@ -336,7 +336,7 @@ export default class LeaveManagementTable extends Component {
                 {
                     this.state.tab ==2 ? <>
                          <div className="col-md-3">
-                            <div><label className="col-sm-12">Select Category</label></div>
+                            <div><label className="col-sm-12">Leave Status</label></div>
                             <div className="col-md-10">
                             <Select
                             options={this.state.categoryList}

@@ -35,8 +35,8 @@ export default class Sidebar extends Component {
     if (pathname.includes("staffComplain")) {
       return "/staffComplain";
     }
-    if (pathname.includes("leave_management")) {
-      return "/leave_management";
+    if (pathname.includes("leavemanagement")) {
+      return "/leavemanagement";
     }
     if (pathname.includes("attendance_leave_report")) {
       return "/attendance_leave_report";
@@ -64,7 +64,7 @@ export default class Sidebar extends Component {
 
   render() {
     const { pathname, user } = this.state;
-    
+    console.log("pathname",window.location.pathname)
     return (
       <div>
         <nav className="navbar-default navbar-static-side">
@@ -126,7 +126,7 @@ export default class Sidebar extends Component {
                     <span className="sideText">Dashboard</span>
                   </a>
                 </li>
-                <li
+                {/* <li
                 className={
                   this.checkPathName() === "/leave_management" ? "active" : ""
                 }
@@ -135,7 +135,42 @@ export default class Sidebar extends Component {
                   <i className="far fa-sticky-note sideIcon"></i>
                   <span className="sideText">Leave</span>
                 </a>
+              </li> */}
+               <li
+                className={
+                  this.checkPathName() === "/leavemanagement" || pathname === '/leave_management' || pathname === '/new_leave' || pathname === '/leave_report'|| pathname === '/earned_leave_opening_balance' ? "active" : ""
+                }
+              >
+                <a href="/leave_management" className="sideList">
+                <i className="far fa-sticky-note sideIcon"></i>
+                  <span className="sideText">Leave</span>
+                </a>
+                <ul className="nav nav-second-level collapse">
+                  <li className={pathname === "/leave_management" ? "active" : ""}>
+                    <a href="/leave_management">Leave Management</a>
+                  </li>
+                  <li
+                    className={pathname === "/new_leave" ? "active" : ""}
+                  >
+                    <a href="/new_leave">New Leave</a>
+                  </li>
+                  <li
+                    className={pathname === "/leave_report" ? "active" : ""}
+                  >
+                    <a href="/leave_report">Leave Report</a>
+                  </li>
+                  <li
+                    className={pathname === "/earned_leave_opening_balance" ? "active" : ""}
+                  >
+                    <a href="/earned_leave_opening_balance">Earned Leave Opening Balance</a>
+                  </li>
+                  
+                </ul>
+             
               </li>
+              
+              
+              
               <li
                 className={this.checkPathName() === "/benefit" ? "active" : ""}
               >
@@ -234,25 +269,7 @@ export default class Sidebar extends Component {
                     <a href="/petrolRequest">Petrol Request</a>
                   </li>
                 </ul>
-                {/* <ul className="nav nav-second-level">
-                                        <li className={pathname === '/travelRequest' ? 'active' : ''}><a href="/travelRequest" refresh="true"><i className="fas fa-plane"></i>Travel Request</a></li>
-
-                                    </ul>
-                                    <ul className="nav nav-second-level">
-                                        <li className={pathname === '/trainingRequest' ? 'active' : ''}><a href="/trainingRequest" refresh="true"><i className="fas fa-users"></i>Training Request</a></li>
-
-                                    </ul>
-                                    <ul className="nav nav-second-level">
-                                        <li className={pathname === '/salary_advance' ? 'active' : ''}><a href="/salary_advance"><i className="fas fa-money-bill-alt"></i>Salary Advance</a></li>
-
-                                    </ul>
-                                    <ul className='nav nav-second-level'>
-                                        <li className={pathname === 'phonebillrequest' ? 'active' : ''}><a href='phonebillrequest' refresh='true'> <i className="fas fa-phone-alt"></i>Phone Bill</a></li>
-                                    </ul>
-                                    <ul className='nav nav-second-level'>
-                                        <li className={pathname === '/petrolRequest' ? 'active' : ''}><a href='/petrolRequest' refresh='true'> <i className="fas fa-gas-pump"></i>Petrol Request</a></li>
-                                    </ul> */}
-                {/* {@KPK} */}
+             
               </li>
               <li
                 className={this.checkPathName() === "/helpDesk" ? "active" : ""}

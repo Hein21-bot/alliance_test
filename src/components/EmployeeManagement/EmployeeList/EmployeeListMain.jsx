@@ -36,7 +36,11 @@ class EmployeeListMain extends Component {
       selected_branch: null,
       selected_department: null,
       selected_designation: null,
+      selected_jobTitleList:null,
+      selected_exit_status:null,
       branchlist: null,
+      JobTitleList:null,
+      exitList:null,
       region: null,
       districtCodeList: null,
       granDistrictCodeList: null,
@@ -67,6 +71,8 @@ class EmployeeListMain extends Component {
     this.getBankList();
     this.getDegreeList();
     this.getStatusList();
+    // this.getJobTitleList();
+    // this.getExitStatus();
     // this.getEmployeeList();
   }
   getDegreeList() {
@@ -264,6 +270,30 @@ class EmployeeListMain extends Component {
         });
       });
   }
+  // getJobTitleList(){
+  //   fetch(`${main_url}main/`)
+  //     .then((res) => {
+  //       if (res.ok) return res.json();
+  //     })
+  //     .then((list) => {
+  //       let lists = list.unshift({ value: 0, label: "All" });
+  //       this.setState({
+  //         JobTitleList: list, //list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
+  //       });
+  //     });
+  // }
+  // getExitStatus(){
+  //   fetch(`${main_url}main/`)
+  //     .then((res) => {
+  //       if (res.ok) return res.json();
+  //     })
+  //     .then((list) => {
+  //       let lists = list.unshift({ value: 0, label: "All" });
+  //       this.setState({
+  //         exitList: list, //list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
+  //       });
+  //     });
+  // }
 
   showToast = (status, text) => {
     if (status === 200) {
@@ -307,6 +337,19 @@ class EmployeeListMain extends Component {
       selected_status :event
     });
   };
+  // handleSelectedJobTitle=(event)=>{
+  //   if (event !== null)
+  //     this.setState({
+  //       selected_jobTitleList: event,
+  //     });
+  // }
+  // handleSelectedExitStatus=(event)=>{
+  //   if (event !== null)
+  //     this.setState({
+  //       selected_exit_status: event,
+  //     });
+  // }
+
 
   handleSearch = (e) => {
     e.preventDefault();
@@ -549,7 +592,34 @@ class EmployeeListMain extends Component {
                     Add New
                   </button>
                 </div>
-                
+                {/* <div
+                  className="col-lg-2 col-md-3 col-sm-12"
+                  style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
+                >
+                  <div style={{ paddingBottom: 10 }}>Job Title</div>
+  
+                  <Select
+                    options={this.state.JobTitleList}
+                    value={this.state.selected_jobTitleList}
+                    onChange={this.handleSelectedJobTitle.bind(this)}
+                    className="react-select-container checkValidate"
+                    classNamePrefix="react-select"
+                  />
+                </div>
+                <div
+                  className="col-lg-2 col-md-3 col-sm-12"
+                  style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
+                >
+                  <div style={{ paddingBottom: 10 }}>Exit Status</div>
+  
+                  <Select
+                    options={this.state.exitList}
+                    value={this.state.selected_exit_status}
+                    onChange={this.handleSelectedExitStatus.bind(this)}
+                    className="react-select-container checkValidate"
+                    classNamePrefix="react-select"
+                  />
+                </div> */}
               </div>
               <EmployeeListTable
                 goToViewForm={this.goToViewForm}
