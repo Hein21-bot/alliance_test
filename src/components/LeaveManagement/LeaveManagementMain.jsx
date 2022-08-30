@@ -8,9 +8,12 @@ import NewLeave from './NewLeave';
 import LeaveReport from './LeaveReport';
 import LeaveBalance from './LeaveBalance';
 import CalculateEarnLeave from './CalculateEarnLeave'
+import { useLocation } from 'react-router-dom';
 // import {LeaveView} from './LeaveView';
 const $ = require('jquery');
+
 export default class LeaveManagementMain extends Component {
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -25,6 +28,8 @@ export default class LeaveManagementMain extends Component {
            
         }
     }
+    
+    
 
     componentDidMount() {
         // this.getEmployeeList();
@@ -33,10 +38,29 @@ export default class LeaveManagementMain extends Component {
             .then(response => response.json())
             .then(data =>
                 this.setState({ isHR: data.map(v => v.user_id).find(v => v === this.state.user_id) }));
+               
     }
-
-
-
+    componentDidUpdate(prevProps) {
+        if (this.props.location !== prevProps.location) {
+          this.onRouteChanged();
+        }
+      }
+    
+      onRouteChanged() {
+        
+        if(this.props.location== "/leave_management"){
+            this.changeTab(0);
+        }else if(this.props.location== "/new_leave"){
+            this.changeTab(3)
+        }else if(this.props.location== "/leave_report"){
+            this.changeTab(4)
+        }else{
+            this.changeTab(5)
+        }
+        
+       
+      }
+    
     changeTab(tab) {
         this.setState({ active_tab: tab, isView: false, isEdit: false, isCancel: false })
     }
@@ -103,16 +127,8 @@ export default class LeaveManagementMain extends Component {
                         </div>
                     </div>}
                 <div className="row mt20">
-                    <div className="col-sm-2">
-                        <div className="list-group leave-list-group tab" role="tabList" >
-                            <a className="list-group-item list-group-item-action" aria-selected='true' id='myleave' href="#myLeave_list" role="tab" onClick={() => this.changeTab(0)} >Leave Management</a>
-                            <a className="list-group-item list-group-item-action " id='all_leave' href="#allLeave_list" role="tab" onClick={() => this.changeTab(3)} >New Leave</a>
-                            <a className="list-group-item list-group-item-action" id='leave_report' href="#leaveReport" role="tab" onClick={() => this.changeTab(4)} >Leave Report</a>
-                            <a className="list-group-item list-group-item-action" id='leave_balance' href="#leaveBalance" role="tab" onClick={() => this.changeTab(5)} >Leave Balance</a>
-                            {this.state.user_id == 1 ? <a className="list-group-item list-group-item-action" id='calculate_leave' href="#calculateLeave" role="tab" onClick={() => this.changeTab(6)} >Calculate Leave Balance</a> : ""}
-                        </div>
-                    </div>
-                    <div className="col-sm-10" style={{ paddingRight: '20px' }}>
+                    
+                    <div className="col-sm-12" style={{ paddingRight: '20px' }}>
                         <div className="white-bg container" style={{ padding: '20px' }}>
                             {
                                 (active_tab === 0  ||  active_tab === 2 ?

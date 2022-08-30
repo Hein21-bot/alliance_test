@@ -1,4 +1,5 @@
 import React from 'react';
+import {browserHistory} from 'react-router';
 import { Redirect, Route, Switch } from 'react-router-dom';
 //staff loan
 import ApplyForm from '../components/Allowance/StaffLoan/ApplyForm';
@@ -98,6 +99,10 @@ import RegionWiseStaffReportCount from './Reports/RegionWiseStaffReportCount';
 import ResignStaffReport from './Reports/ResignStaffReport';
 import EmployeeFixedAsset from './Reports/EmployeeFixedAsset';
 import HistoryReport from './Reports/EmployeeHistoryReport';
+import LeaveManagementTable from './LeaveManagement/LeaveManagementTable';
+import NewLeave from './LeaveManagement/NewLeave';
+import LeaveReport from './LeaveManagement/LeaveReport';
+import LeaveBalance from './LeaveManagement/LeaveBalance';
 
 
 const Main = () => (
@@ -200,6 +205,11 @@ const Main = () => (
         <Route path='/RegionWiseStaffReportCount' component={RegionWiseStaffReportCount}></Route>
         <Route path='/ResignStaffReport' component={ResignStaffReport}></Route>
         <Route path='/EmployeeFixedAsset' component={EmployeeFixedAsset}></Route>
+        {/* <Route path='/leave_management' component={LeaveManagementMain}></Route> */}
+        <Route path='/leave_management' component={LeaveManagementTable}></Route>
+        <Route path='/new_leave' component={NewLeave}></Route>
+        <Route path='/leave_report' component={LeaveReport}></Route>
+        <Route path='/earned_leave_opening_balance' component={LeaveBalance}></Route>
 
         <Redirect to="/dashboard" />
 
