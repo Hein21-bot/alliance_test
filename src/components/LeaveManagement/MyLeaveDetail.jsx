@@ -134,7 +134,7 @@ export default class MyLeaveDetail extends Component {
 
       return (
         <div className="col-sm-4 white-bg mt20 border-class">
-          <div className="form-group">
+          <div className="form-group" style={{marginTop:20}}>
             <h4>My Leave Details</h4>
             <hr />
             <div className="row">

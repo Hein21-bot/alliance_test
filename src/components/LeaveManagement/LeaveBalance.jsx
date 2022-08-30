@@ -165,7 +165,7 @@ export default class LeaveBalance extends Component {
             return (
                 <div>
                     <div className="row border-bottom white-bg dashboard-header">
-                        <div className="row">
+                        <div className="row" style={{marginBottom:10}}>
                             <div className="col-md-3">
                                 <div><label className="col-sm-12">Select Year</label></div>
                                 <div className="col-md-10">

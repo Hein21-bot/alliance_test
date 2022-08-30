@@ -107,9 +107,9 @@ export default class LeaveManagementMain extends Component {
                 {this.state.isTable ?
                     <div className="row wrapper border-bottom white-bg page-heading">
                         <div className="col-lg-10">
-                            <h2>HR Management System</h2>
-                            <ol className="breadcrumb">
-                                <li>{active_tab === 2 ? "All Leave" : active_tab === 0 ?
+                            
+                            <ol className="breadcrumb" >
+                                <li style={{marginTop:15}}>{active_tab === 2 ? "All Leave" : active_tab === 0 ?
                                     "My Leave" : active_tab ===3 ? "New Leave" : active_tab === 4 ? "Leave Report" : "Leave Balance"
                                 }</li>
                             </ol>
