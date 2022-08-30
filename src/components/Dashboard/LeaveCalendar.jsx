@@ -151,16 +151,15 @@ export default class LeaveCalendar extends Component {
     };
     return (
       <div
-        className="row col-lg-12 col-md-12 col-sm-12"
-        style={{
-          background: "#fff",
-          color: "#222",
-          WebkitBoxShadow: "0px 0px 3px 0px rgba(194,194,194,1)",
-          boxShadow: "0px 0px 3px 0px rgba(194,194,194,1)",
-          borderRadius: "0px 20px 20px 20px",
-          padding: "5px",
-          margin: "5px 0px",
-        }}
+      className='row col-lg-12 col-md-12 col-sm-12' 
+      style={{
+          background: '#fff',
+          color: '#222',
+          WebkitBoxShadow: '0px 0px 3px 0px rgba(194,194,194,1)',
+          boxShadow: '0px 0px 3px 0px rgba(194,194,194,1)',
+          borderRadius: '0px 0px 20px 20px',
+         marginTop:"10px"
+      }}
       >
         <h3
           style={{

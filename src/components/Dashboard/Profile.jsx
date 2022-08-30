@@ -8,7 +8,9 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userInfo: {},
+      userInfo: null,
+      // avatar:"",
+      // userPhoto:"",
     };
   }
 
@@ -27,17 +29,36 @@ class Profile extends Component {
     return returnData;
   }
 
-  componentDidMount() {
+ async componentDidMount() {
     const id = localStorage.getItem("user_id");
-    fetch(main_url + `main/getUserInfo/${id}`)
+     fetch(main_url + `main/getUserInfo/${id}`)
       .then((response) => {
         if (response.ok) return response.json();
         else return null;
       })
-      .then((res) => this.setState({ userInfo: res[0] }));
+      .then((res) => {this.setState({ 
+        userInfo: res[0],
+        });
+        //  this.getProfile(res[0].avatar) 
+        });     
   }
+  // getProfile(userId){
+  //   fetch(main_url + `dashboard/getProfile/1655108588597&@HMH.jpg`)
+  // .then((response) => {
+  //   if (response.ok){
+  //     this.setState({
+  //       userPhoto:response
+  //     })
+  //   }
+  //   else{
+  //     this.setState({
+  //       userPhoto:'/assets/img/SeekPng.com_profile-icon-png_9665493.png'
+  //     })
+  //   } ;
+  // })
+  // }
 
-  render() {
+  render() { 
     const btn = {
       // backgroundColor:this.state.tapButtonTitle == "title" ? "green" : "blue",
      
@@ -49,9 +70,7 @@ class Profile extends Component {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-      
     };
-
     return (
       <div>
         {this.state.userInfo != undefined ? (
@@ -75,7 +94,8 @@ class Profile extends Component {
               }}
             >
               <img
-                src="assets/img/profpic.jpg.png"
+               src="assets/img/SeekPng.com_profile-icon-png_9665493.png"
+              //  src={this.state.userPhoto}
                 style={{ width: 80, height: 80, borderRadius: 45,objectFit:"cover" }}
               />
             </div>
@@ -191,7 +211,7 @@ class Profile extends Component {
                 }}
               />
             </div>
-            <div style={{ width: "16%" }}>
+            <div className= "col" style={{ width: "19%" }}>
               <h4 style={{ color: "transparent" }}>hahahahaha</h4>
               <div style={styles.smallContainer}>
                 <p style={styles.leftProfileText}>Parent Count</p>

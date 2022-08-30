@@ -26,7 +26,7 @@ const main_url = "http://192.168.100.38:8082/" // local
 
 // const php_url = "http://103.29.91.26:8032/marter_hrm/admin/dashboard";
 // const remote_url = "http://103.29.91.26:8032/marter_hrm"; // live server
-const remote_url = "http://103.29.91.26:50090/marter_hrm"; // test server
+const remote_url = "http://103.29.91.26:50093"; // test server
 // const remote_url = "http://192.168.1.32:8080/marter_hrm";
 //const remote_url = "http://192.168.100.199:8087/";
 // const main_url = "http://192.168.100.208:8087/";
@@ -72,7 +72,7 @@ async function calculationWorkingExp(startDate, endDate) {
     let months = Math.floor(noOfDays % 365 / 30);
     let days = Math.floor(noOfDays % 365 % 30);
     let formatMonth = Math.floor(noOfDays / 30)
-    let formatYear = years == 0 ? months + ' months ' : years + ' years ' + parseInt(months)  + ' months '
+    let formatYear = years == 0 ? months + ' months ' : years + ' years ' + parseInt(months) + ' months '
     let returnData = formatYear
     return returnData;
 }

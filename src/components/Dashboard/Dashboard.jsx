@@ -349,7 +349,7 @@ export class Dashboard extends Component {
                 <div className="col-md-4 col-lg-4 col-sm-12">
                   <ThingsTodoTable />
                 </div>
-                <div className="col-md-8 col-lg-8 col-sm-12 d-flex column" >
+                <div className="col-md-8 col-lg-8 col-sm-12 d-flex column"style={{marginTop:5,marginRight:0}} >
                   <AttendanceCaldendar />
                   <LeaveCalendar />
                 </div></div>
