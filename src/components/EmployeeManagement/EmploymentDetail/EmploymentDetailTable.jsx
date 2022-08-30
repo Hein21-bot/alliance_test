@@ -110,6 +110,7 @@ export default class BenefitChildTable extends Component {
         var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
         for (var i = 0; i < data.length; i++) {
             let result = data[i];
+            console.log('result ===>', result);
             let obj = [];
             // console.log('branch id ===>', data[i].branch);
             // var tempBranch = this.state.branchlist.filter(v => v.branch_id == parseInt(data[i].branch));
