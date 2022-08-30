@@ -73,11 +73,7 @@ export class AttendanceCaldendar extends Component {
                     color: '#222',
                     WebkitBoxShadow: '0px 0px 3px 0px rgba(194,194,194,1)',
                     boxShadow: '0px 0px 3px 0px rgba(194,194,194,1)',
-                    borderRadius: '0px 20px 20px 20px',
-                    // padding: '5px',
-                    // margin: '5px 0px',
-                    margin:'0px !important'
-
+                    borderRadius: '20px 20px 0px 0px',
                 }}
             >
                 <h3 style={{
