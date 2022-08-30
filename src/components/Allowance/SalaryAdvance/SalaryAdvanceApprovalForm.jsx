@@ -112,7 +112,64 @@ export default class SalaryAdvanceApprovalForm extends Component {
 
     save() {
         stopSaving();
-        if (validate('check_form')) {
+        if (this.state.one_advance.status != 2) {
+            let updatedBy = this.state.created_user;
+            let one_advance = this.state.one_advance;
+            let { status_title } = this.state;
+            const formdata = new FormData()
+            let path = 'saveSalaryAdvance';
+            if (!Array.isArray(one_advance)) {
+                path = `editSalaryAdvance/${one_advance.salary_advance_id}`
+            }
+            var data = {
+                user_id: one_advance.user_id,
+                requested_amount: this.state.requested_amount,
+                purpose: this.state.purpose,
+                duration: parseInt(this.state.duration),
+                issue_date: this.state.issue_date,
+                repayment_date: this.state.repayment_date,
+                monthly_installment: this.monthlyInstallment(),
+                // this.state.monthly_installment,
+                approved_amount: parseInt(this.state.approved_amount),
+                comment: this.state.verifier_comment,
+                updatedBy: updatedBy,
+
+            };
+
+            if (status_title !== '') {
+                var action = getActionStatus(status_title, this.state.one_advance, updatedBy, this.state.comment);
+                data.referback_by = action.referback_by;
+                data.checked_by = action.checked_by;
+                data.verified_by = action.verified_by;
+                data.approved_by = action.approved_by;
+                data.rejected_by = action.rejected_by;
+                data.referback_date = action.referback_date;
+                data.checked_date = action.checked_date;
+                data.verified_date = action.verified_date;
+                data.approved_date = action.approved_date;
+                data.rejected_date = action.rejected_date;
+                data.referback_comment = action.referback_comment;
+                data.checked_comment = action.checked_comment;
+                data.verified_comment = action.verified_comment;
+                data.approved_comment = action.approved_comment;
+                data.status = action.status;
+            }
+            formdata.append('advance', JSON.stringify(data))
+            formdata.append('oldDoc', JSON.stringify(this.state.doc))
+            let status = 0;
+            fetch(`${main_url}salary_advance/${path}`, {
+                method: 'POST',
+                body: formdata
+            })
+                .then(res => {
+                    status = res.status;
+                    return res.text()
+                })
+                .then(text => {
+                    this.props.showToast(status, text);
+                })
+        }
+        else if (validate('check_form')) {
             let updatedBy = this.state.created_user;
             let one_advance = this.state.one_advance;
             let { status_title } = this.state;

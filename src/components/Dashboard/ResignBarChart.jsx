@@ -66,6 +66,30 @@ class ResignBarChart extends Component {
         })
     }
     handleCheckbox=async (event)=>{
+        let regionId=event.target.value ==2 ? 2 : 0
+        let branchId=event.target.value == 3 ? 3 : 0
+        let departmentId=event.target.value ==4 ? 4 : 0
+        fetch(`${main_url}dashboard/resignRegion/${regionId}/${branchId}/${departmentId}/${moment(this.state.fromDate).format('YYYY-MM-DD')}/${moment(this.state.toDate).format('YYYY-MM-DD')} `)
+            .then(response => {
+                if (response.ok) return response.json()
+            })
+            .then(res => {
+                if (res) {
+                    var label = [];
+                    var count = [];
+                    
+                        res.map((v, i) => {
+                            label.push(v.designations ? v.designations: v.state_name ? v.state_name : v.branch_name);
+                            count.push(v.count)
+                        })
+                    
+
+
+                    this.setState({ resignData: label, resignCount: count })
+                }
+                this.setChartOption()
+            })
+            .catch(error => console.error(`Fetch Error =\n`, error));
         this.setState({
             selected_checkbox:event.target.value
         })
@@ -173,7 +197,7 @@ class ResignBarChart extends Component {
             series: [{
                 colorByPoint: true,
                 data: this.state.resignCount,
-                colors: ['#1f4545', '#3d86dy', '#193759', '#419191', '#9bcece', '#59c5c5', '#7ea8d9', '#344545', '#5c7c9f', '#59c5c5'],
+                colors: ['#1f4545', '#000000', '#193759', '#419191', '#9bcece', '#59c5c5', '#7ea8d9', '#344545', '#5c7c9f', '#59c5c5'],
                 
             }]
         }
@@ -330,21 +354,21 @@ class ResignBarChart extends Component {
                         <button className='btn btn-primary text-center' style={{ height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.onClickResignStaffSearch()}>Search</button>
                        
                     </div>
-                    <div style={{display:'flex',justifyContent:'start',alignItems:'end',marginLeft:10,marginTop:20}}>
-                            <div style={{marginRight:50}}>
+                    <div style={{display:'flex',justifyContent:'start',alignItems:'end',marginLeft:10,marginTop:10}}>
+                            <div style={{marginRight:50, height: 20}}>
                             
-                            <input type="checkbox"  name='region' checked={this.state.selected_checkbox == 2 ? 'checked': ''} value='2' onChange={this.handleCheckbox} />
-                            <label htmlFor="">Region</label>
+                            <input type="checkbox" id='region'  name='region' checked={this.state.selected_checkbox == 2 ? 'checked': ''} value='2' onChange={this.handleCheckbox}/>
+                            <label for="region" style={{marginLeft: 5, marginBottom: 5}}> Region</label>
                             </div>
-                            <div style={{marginRight:50}}>
+                            <div style={{marginRight:50, height: 20}}>
                                 
-                                <input type="checkbox"  name='region' checked={this.state.selected_checkbox == 3 ? 'checked': ''} value='3' onChange={this.handleCheckbox}/>
-                                <label htmlFor="">Branch</label>
+                                <input type="checkbox" id='branch'  name='branch' checked={this.state.selected_checkbox == 3 ? 'checked': ''} value='3' onChange={this.handleCheckbox}/>
+                                <label for='branch' style={{marginLeft: 5, marginBottom: 5}}> Branch</label>
                             </div>
-                            <div style={{marginRight:50}}>
+                            <div style={{marginRight:50, height: 20}}>
                                
-                                <input type="checkbox"  name='region' checked={this.state.selected_checkbox == 4 ? 'checked': ''} value="4" onChange={this.handleCheckbox} />
-                                <label htmlFor="">Department</label>
+                                <input type="checkbox" id='department'  name='department' checked={this.state.selected_checkbox == 4 ? 'checked': ''} value="4" onChange={this.handleCheckbox} />
+                                <label for='department'  style={{marginLeft: 5, marginBottom: 5}}> Department</label>
                             </div>
                     </div>
                     

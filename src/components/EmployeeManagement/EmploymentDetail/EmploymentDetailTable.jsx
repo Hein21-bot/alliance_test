@@ -102,7 +102,7 @@ export default class BenefitChildTable extends Component {
 
 
     _setTableData = (data) => {
-    //     console.log('branchList ===>', this.state.branchlist)
+        console.log('data source ===>', data)
         var table;
         var l = [];
         var status;
@@ -114,26 +114,51 @@ export default class BenefitChildTable extends Component {
             // console.log('branch id ===>', data[i].branch);
             // var tempBranch = this.state.branchlist.filter(v => v.branch_id == parseInt(data[i].branch));
             // console.log( 'branchFilter ===>', tempBranch[0]);
+//             approve: null
+// branch: "Head Office"
+// branch_name: "Head Office"
+// career_level: 6
+// career_level_name: "Level 6"
+// career_sub_level: 24
+// career_sub_level_name: "Level 6 D"
+// date: null
+// department: "IT"
+// deptname: "IT"
+// designation: null
+// designation_name: "IT Manager"
+// discontinute_date: null
+// discontinute_status: null
+// effective_date: null
+// employed_status: null
+// employee_code: "A-00035"
+// employee_date: "2015-07-06T00:00:00.000Z"
+// employee_name: "Soe Thiha Tun"
+// exit_status: null
+// fullname: "Soe Thiha Tun"
+// id: 1756
+// job_title: null
+// resign_reason: null
+// salary: 1385000
             obj = {
                 no: i + 1,
-                employee_id: data[i].employee_code ? data[i].employee_code : '',
-                employee_name: data[i].employee_name ? data[i].employee_name : "",
-                position: data[i].designations ? data[i].designations : '-',
-                employee_status: data[i].employed_status ? data[i].employed_status == 1 ? 'Permanent' : data[i].employed_status == 2 ? 'Part-Time' : data[i].employed_status == 3 ? 'Training' : data[i].employed_status : '-',
+                employee_id: data[i].id ? data[i].id : '',
+                employee_name: data[i].fullname ? data[i].fullname : "",
+                position: data[i].designation_name ? data[i].designation_name : '-',
+                employee_status: data[i].status ? data[i].status == 1 ? 'Permanent' : data[i].status == 2 ? 'Part-Time' : data[i].status == 3 ? 'Training' : data[i].status : '-',
                 branch: data[i].branch_name ? data[i].branch_name : '',
-                date: data[i].employee_date ? moment(data[i].employee_date).format('DD-MM-YYYY') : '-',
-                employed_date: data[i].employee_date ? moment(data[i].employee_date).format('DD-MM-YYYY') : '',
+                date: data[i].employ_date ? moment(data[i].employ_date).format('DD-MM-YYYY') : '-',
+                employed_date: data[i].employ_date ? moment(data[i].employ_date).format('DD-MM-YYYY') : '',
                 effective_date: data[i].effective_date ? moment(data[i].effective_date).format('DD-MM-YYYY') : '',
                 job_title: data[i].job_title ? data[i].job_title : '',
-                carrer_level: data[i].career_level ? data[i].career_level : '',
-                carrer_sub_level: data[i].career_sub_level ? data[i].career_sub_level : '',
+                carrer_level: data[i].career_level_name ? data[i].career_level_name : '',
+                carrer_sub_level: data[i].career_sub_level_name ? data[i].career_sub_level_name : '',
                 salary: data[i].salary ? data[i].salary : '',
                 department: data[i].deptname ? data[i].deptname : '',
                 discon_status: data[i].discontinute_status ? data[i].discontinute_status == 0 ? 'False' : 'True' : 'False',
                 discon_date: data[i].discontinute_date ? moment(data[i].discontinute_date).format('YYYY-MM-DD') : '',
                 resign_reason: data[i].resign_reason ? data[i].resign_reason : '',
-                exit_status: data[i].status ? data[i].status : '',
-                actual_date: data[i].actual_date ? moment(data[i].actual_date).format('DD-MM-YYYY') : '',
+                exit_status: data[i].exit_status ? data[i].exit_status : '',
+                actual_date: data[i].joining_date ? moment(data[i].joining_date).format('DD-MM-YYYY') : '',
             }
             if (has_action) {
 
