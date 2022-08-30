@@ -339,7 +339,7 @@ export default class NewLeave extends Component {
                         <div className="form-group"  style={{marginTop:20}}>
                             <div><label className="col-sm-4" >Employee Name<span className="text-danger">*</span></label></div>
                             <div className="col-sm-8">
-                                {
+                                {/* {
                                     this.state.tab === 1 || this.state.tab === 3 ?
                                         <input type='text' className='form-control' value={this.state.user_info.fullname} disabled />
                                         : <Select
@@ -350,7 +350,8 @@ export default class NewLeave extends Component {
                                             className='react-select-container checkValidate'
                                             classNamePrefix="react-select"
                                         />
-                                }
+                                } */}
+                                <input type="text" className='form-control' value={this.state.user_info.fullname} disabled/>
                             </div>
                         </div>
                         <div className="form-group"  >

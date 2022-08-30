@@ -28,6 +28,7 @@ export default class LeaveManagementTable extends Component {
             year: moment(getFirstDayOfMonth()),
             loading: false,
             categoryList:[
+                {label:'All',value:0},
                 {label:'Request',value:1},
                 {label:'Verify',value:2},
                 {label:'Approve',value:3},
@@ -131,9 +132,15 @@ export default class LeaveManagementTable extends Component {
         }
     }
     filterCategory(){
-        let selectedCategoryValue=this.state.selected_category_value ? this.state.selected_category_value : 1
-        let data=this.state.data.filter(v=>v.application_status == selectedCategoryValue);
-        this._setTableData(data)
+        let selectedCategoryValue=this.state.selected_category_value ? this.state.selected_category_value : 0
+        let filterData=this.state.data.filter(v=>v.application_status == selectedCategoryValue);
+        if(this.state.selected_category_value == 0){
+            this._setTableData(this.state.data)
+           
+        }else{
+            this._setTableData(filterData)
+        }
+       
     }
 
 
