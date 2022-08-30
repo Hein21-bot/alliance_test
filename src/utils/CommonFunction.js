@@ -16,7 +16,7 @@ const CryptoJS = require('crypto-js');
 
 const main_url = "http://192.168.100.38:8082/" // local
 // const main_url = "http://localhost:8082/"
-// const main_url = "http://103.29.91.26:50092/"; 
+// const main_url = "http://103.29.91.26:50092/";
 
 // test new
 // const main_url = "http://192.168.43.10:50092/";
@@ -419,15 +419,21 @@ async function getLoginUser(id) {
     var user = getCookieData("user_info");
     if (user === null) {
         if (id !== '') {
-            user = await getUserInfo(id);
+            user = await getUserInfoLogin(id);
             if (user.length > 0) {
                 setCookieData("user_info", JSON.stringify(user[0]));
-                localStorage.setItem('user_id', id);
+                localStorage.setItem('user_id', user[0].user_id);
                 return user[0];
             } else return user;
         } else return user;
 
     } else return user;
+}
+
+async function getUserInfoLogin(id) {
+    var res = await fetch(`${main_url}main/getUserInfoLogin/${id}`)
+    if (res.ok) return res.json();
+    else return null;
 }
 
 async function getUserInfo(id) {
