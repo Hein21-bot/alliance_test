@@ -16,7 +16,13 @@ class CompensationandBenefit extends Component {
       name: [],
       amount: [],
       branchData: [],
-      deptData: []
+      deptData: [],
+      date:[],
+      dataRow:[],
+      uniqueMap:null,
+      mapValue:null,
+      finalMap:[],
+      seriesData:[]
     }
   }
 
@@ -66,17 +72,103 @@ class CompensationandBenefit extends Component {
     },()=>{console.log(">><<??",moment(this.state.toDate).format("YYYY-MM-DD"))});
   };
   getBenefit = () => {
-    fetch(main_url + 'dashboard/benefitExpense'+'/'+ moment(this.state.fromDate).format("YYYY-MM-DD")+'/'+ moment(this.state.toDate).format("YYYY-MM-DD")
+    fetch(main_url + 'dashboard/compensationBenefit'+'/'+ moment(this.state.fromDate).format("YYYY-MM-DD")+'/'+ moment(this.state.toDate).format("YYYY-MM-DD")
     // , {method: 'GET'}
     ).then(res =>
       res.json()
     ).then(data => {
-      console.log(data)
+      let uniquedate=new Set();
+      data.forEach(v=>{
+        v.amount.forEach(v1=>{
+          uniquedate.add(v1.Date);
+        })
+      })
+      let uniqueMap = new Map();
+                uniquedate.forEach(v=>{
+                    uniqueMap.set(v, {
+                        "Date": v,
+                        "amount":0
+                    })
+                });
+
+                let mapValue = [...uniqueMap.values()]
+                
+                let dataRow = data;
+                dataRow = dataRow.map(v=>{
+                    let temp = [...v.amount];
+                    console.log("temp",temp)
+                    v.amount = mapValue;
+                    console.log("v.amount",v.amount)
+
+                    v.amount = v.amount.map(amount=>{
+                        temp.forEach(originValue=>{
+                            if(amount.Date == originValue.Date){
+                                amount = originValue;
+                            }
+                            
+                        })
+                        return amount;
+                    })
+                    return v;
+                })
+                
+                let finalMap = new Map();
+                // this.state.dataRow.forEach(v=>{
+                //     v.amount.forEach(v1=>{
+                //       finalMap.set(v1,{
+                //         name:v1.Date,
+                //         data:[v.amount[0].amount]
+                //       })
+                //     })
+                // });
+                // console.log("finalMap",finalMap)
+               
+                dataRow.forEach(v=>{
+                  //already exsit May 2020
+                  v.amount.forEach(v1=>{
+                    if(finalMap.has(v1.Date)){
+                      let arrAmt = finalMap.get(v1.Date);
+                      arrAmt.push(v1.amount);
+                      finalMap.set(v1.Date, arrAmt);
+                    }else{
+                      //May 2020 , 
+                      finalMap.set(v1.Date, [v1.amount]);
+                    }
+                  })
+                 
+                  
+                  // v.amount.map(v1=>{
+                  //     this.state.finalMap.push({name:v1.Date,data:[...v1.amount]})
+                  // })
+                })
+                console.log("finalmap=============>",finalMap)
+                
+                let dates = [...finalMap.keys()];
+                let seriesData = dates.map(v=>{
+                  let result = {
+                    name: v,
+                    data: finalMap.get(v)
+                  }
+                  return result;
+                })
+
+
+                
+                console.log('series',seriesData)
+
+
+      console.log("unique date",uniquedate)
       let listName = data.map(v => v.name);
+      console.log("listname",listName)
       let listAmt = data.map(v => v.amount);
-      this.setState({ name: listName, amount: listAmt })
+      let listmap=listAmt.map(v=>v.amount)
+      this.setState({ name: listName, amount: listmap,date:uniquedate,dataRow:dataRow,
+        uniqueMap:uniqueMap,
+        mapValue:mapValue,seriesData:seriesData })
       console.log("benefit name==>", this.state.name)
       console.log('benefit amount==>', this.state.amount)
+      console.log("mapValue",mapValue)
+      console.log("dataRow",this.state.dataRow)
       this.setChartOption();
     })
 
@@ -107,17 +199,17 @@ class CompensationandBenefit extends Component {
         text: ''
       },
       yAxis: {
-        min: 0, max: 100, tickInterval: 10,
+        min: 0, max: 100000000, tickInterval: 10000000,
         title: {
           text: ""
         },
         labels: {
-          format: '{value}%',
+          format: '{value}',
         }
       },
 
       xAxis: {
-        categories: ['Payroll','Monthly Incentive','Quarterly Incentive','Benefit','Allowance'],
+        categories: this.state.name,
         tickmarkPlacement: 'on',
         title: {
           enabled: false
@@ -153,29 +245,20 @@ class CompensationandBenefit extends Component {
       },
       // colorByPoint: true,
       // colors: ['#1f4545', '#3d86dy', '#193759', '#419191', '#9bcece', '#59c5c5', '#7ea8d9', '#344545', '#5c7c9f', '#59c5c5'],
-      series: [
-      {
-        color:'#1f4545',
-        name:'Jan',
-        data: [50, 63, 80, 94, 14]
-        // data:[["Payroll",50],["Monthly Incentive",63],['Quarterly Incentive',80],["Benefit",90],["Allowance",12]]
-      }, {
-        color:'#344545',
-        name:'Feb',
-        data: [10, 17, 11, 33, 0]
-      }, {
-        color:'#193759',
-        name:'March',
-        data: [16, 23, 26, 48, 57,]
-      }, {
-        color:'#419191',
-        name:'April',
-        data: [18, 31, 54, 56, 33]
-      }, {
-        color:'#59c5c5',
-        name:'May',
-        data: [2, 2, 2, 6, 13,]
-      }],
+      // series: [
+      // {
+      //   color:'#1f4545',
+      //   name:this.state.dataRow.map(v=>{
+      //     v.amount.map(v1=>v1.Date)
+      //   }),
+      //   data: this.state.dataRow.map(v=>{
+      //     v.amount.map(v1=>
+      //       v1.amount
+      //     )
+      //   })
+       
+      // }],
+      series:this.state.seriesData
 
     };
 
