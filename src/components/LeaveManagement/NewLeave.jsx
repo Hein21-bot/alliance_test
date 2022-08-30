@@ -336,7 +336,7 @@ export default class NewLeave extends Component {
                 {/* <ToastContainer /> */}
                 <div className="col-sm-8 white-bg mt20">
                     <div className="form-horizontal" id="check_form">
-                        <div className="form-group"  >
+                        <div className="form-group"  style={{marginTop:20}}>
                             <div><label className="col-sm-4" >Employee Name<span className="text-danger">*</span></label></div>
                             <div className="col-sm-8">
                                 {

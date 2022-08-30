@@ -253,9 +253,9 @@ export default class LeaveReport extends Component {
             return <div style={{ display: 'flex', justifyContent: 'center' }}><h2>Loading...</h2></div>
         } else {
             return (
-                <div>
-                    <div className="row border-bottom white-bg dashboard-header">
-                        <div className="row">
+                <div className="row border-bottom white-bg dashboard-header">
+                    
+                        <div className="row" style={{marginBottom:10}}>
                             <div className="col-md-3">
                                 <div><label className="col-sm-12">Select Year</label></div>
                                 <div className="col-md-10">
@@ -276,8 +276,8 @@ export default class LeaveReport extends Component {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="row">
+                   
+                    <div className="row ">
                         <div className="form-group col-md-6">
                             <div><label htmlFor="region-name" className="col-sm-12">Region</label></div>
                             <div className="col-sm-10">
