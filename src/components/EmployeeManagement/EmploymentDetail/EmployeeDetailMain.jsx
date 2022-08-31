@@ -564,18 +564,20 @@ class EmployeeDetailMain extends Component {
       selectedEmployeeId: this.state.employeeIdList.find(
         (v) => v.user_id == data.user_id
       ),
-      employeeName: data.employee_name,
+      employeeName: data.fullname,
       selected_designation: this.state.designationList.find(
-        (c) => c.label == data.designations
+        (c) => c.label == data.designation_name
       ), //
       selected_branch: this.state.branchlist.find(
         (c) =>
           parseInt(c.branch_id) ==
-          (data.branch ? parseInt(data.branch) : data.branch)
+          data.branch_id
       ),
-      selected_department: this.state.departmentlist,
+      selected_department: this.state.departmentlist.find(
+      (v) => v.label == data.deptname
+      ),
       selected_status: this.state.statusList.find(
-        (v) => v.value == parseInt(data.employed_status)
+        (v) => v.value == parseInt(data.status)
       ),
       selected_exit_status: this.state.exitStatusList.find(
         (v) => v.id == parseInt(data.exit_status)
@@ -597,10 +599,10 @@ class EmployeeDetailMain extends Component {
         (v) => v.label == data.job_title
       ),
       career_level: this.state.level_options.find(
-        (v) => v.career_level == data.career_level
+        (v) => v.career_level_id == data.career_level
       ),
       career_sub_level: this.state.sub_level_options.find(
-        (v) => v.career_sub_level == data.career_sub_level
+        (v) => v.career_sub_level_id == data.career_sub_level
       ),
     });
   };
@@ -622,6 +624,8 @@ class EmployeeDetailMain extends Component {
   };
 
   goToSingleViewForm = (data) => {
+    console.log('view Data ===>', data)
+
     this.setState({
       selectedEmploymentData: data,
       edit: false,
@@ -633,18 +637,20 @@ class EmployeeDetailMain extends Component {
       selectedEmployeeId: this.state.employeeIdList.find(
         (v) => v.user_id == data.user_id
       ),
-      employeeName: data.employee_name,
+      employeeName: data.fullname,
       selected_designation: this.state.designationList.find(
-        (c) => c.label == data.designations
+        (c) => c.label == data.designation_name
       ), //
       selected_branch: this.state.branchlist.find(
         (c) =>
           parseInt(c.branch_id) ==
-          (data.branch ? parseInt(data.branch) : data.branch)
+          data.branch_id
       ),
-      selected_department: this.state.departmentlist,
+      selected_department: this.state.departmentlist.find(
+        (v) => v.label == data.deptname
+      ),
       selected_status: this.state.statusList.find(
-        (v) => v.value == parseInt(data.employed_status)
+        (v) => v.value == parseInt(data.status)
       ),
       selected_exit_status: this.state.exitStatusList.find(
         (v) => v.id == parseInt(data.exit_status)
@@ -666,10 +672,10 @@ class EmployeeDetailMain extends Component {
         (v) => v.label == data.job_title
       ),
       career_level: this.state.level_options.find(
-        (v) => v.career_level == data.career_level
+        (v) => v.career_level_id == data.career_level
       ),
       career_sub_level: this.state.sub_level_options.find(
-        (v) => v.career_sub_level == data.career_sub_level
+        (v) => v.career_sub_level_id == data.career_sub_level
       ),
     });
   }
