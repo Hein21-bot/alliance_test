@@ -147,7 +147,7 @@ export default class Sidebar extends Component {
                 </a>
                 <ul className="nav nav-second-level collapse">
                   <li className={pathname === "/leave_management" ? "active" : ""}>
-                    <a href="/leave_management">Leave Management</a>
+                    <a href="/leave_management">Leave Request</a>
                   </li>
                   <li
                     className={pathname === "/new_leave" ? "active" : ""}

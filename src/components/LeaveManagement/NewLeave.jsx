@@ -36,15 +36,19 @@ export default class NewLeave extends Component {
             holidays: 0
         }
     }
+    
 
     componentDidMount() {
         this.getEmployeeList();
         this.leaveCategory();
+        // this.getApprovedBy();
+        // this.getVerifyBy();
         fetch(`${main_url}leave/getLeaveDetailUser/${this.state.user_id}`)
             .then((response) => response.json())
             .then((data) =>
                 this.setState({ leaveDetail: data })
             );
+            console.log("user_id=========>",this.state.user_info.user_id)
     }
 
     componentDidUpdate(prevProps) {
@@ -99,17 +103,17 @@ export default class NewLeave extends Component {
 
 
     getVerifyBy() {
-        let user_id = 0;
+        // let user_id = 0;
         let category_id = 0;
-        if (this.state.tab === 1 || this.state.tab === 3) {
-            user_id = this.state.user_info.user_id;
-        } else {
-            var user = this.state.selectedEmployee;
-            user_id = !Array.isArray(user) ? user.value : 0;
-        }
+        // if (this.state.tab === 1 || this.state.tab === 3) {
+        //     user_id = this.state.user_id;
+        // } else {
+        //     var user = this.state.selectedEmployee;
+        //     user_id = !Array.isArray(user) ? user.value : 0;
+        // }
         var category = this.state.selectedCategory;
         category_id = !Array.isArray(category) ? category.value : 0;
-        fetch(`${main_url}leave/getVerifyBy/${user_id}/${category_id}`)
+        fetch(`${main_url}leave/getVerifyBy/${this.state.user_info.user_id}/${category_id}`)
             .then(response => {
                 if (response.ok) return response.json()
             })
@@ -120,17 +124,17 @@ export default class NewLeave extends Component {
     }
 
     getApprovedBy() {
-        let user_id = 0;
+        // let user_id = 0;
         let category_id = 0;
-        if (this.state.tab === 1 || this.state.tab === 3) {
-            user_id = this.state.user_info.user_id;
-        } else {
-            var user = this.state.selectedEmployee;
-            user_id = !Array.isArray(user) ? user.value : 0;
-        }
+        // if (this.state.tab === 1 || this.state.tab === 3) {
+        //     user_id = this.state.user_info.user_id;
+        // } else {
+        //     var user = this.state.selectedEmployee;
+        //     user_id = !Array.isArray(user) ? user.value : 0;
+        // }
         var category = this.state.selectedCategory;
         category_id = !Array.isArray(category) ? category.value : 0;
-        fetch(`${main_url}leave/getApprovedBy/${user_id}/${category_id}`)
+        fetch(`${main_url}leave/getApprovedBy/${this.state.user_info.user_id}/${category_id}`)
             .then(response => {
 
                 if (response.ok) return response.json()
@@ -254,22 +258,22 @@ export default class NewLeave extends Component {
 
     save() {
         let path = 'addLeave';
-        let user_id = 0;
+        // let user_id = 0;
         if(this.state.attachment.length == 0 && (this.state.selectedCategory.value !=1 && this.state.selectedCategory.value !=5)){
             toast.error("Please Choose Attachment File!")
         }else{
             if (validate('check_form')) {
                 if (this.state.leave_days1 != -1) {
     
-                    if (this.state.tab === 1 || this.state.tab == 3) {
-                        user_id = this.state.user_info.user_id;
-                    } else {
-                        var user = this.state.selectedEmployee;
-                        user_id = !Array.isArray(user) ? user.value : 0;
-                    }
+                    // if (this.state.tab === 1 || this.state.tab == 3) {
+                    //     user_id = this.state.user_info.user_id;
+                    // } else {
+                    //     var user = this.state.selectedEmployee;
+                    //     user_id = !Array.isArray(user) ? user.value : 0;
+                    // }
     
                     let data = {
-                        user_id: user_id,
+                        user_id: this.state.user_info.user_id,
                         child_delivery_date: this.state.childDeliveryDate,
                         leave_start_date: this.state.startDate,
                         leave_end_date: this.state.endDate,
@@ -301,7 +305,7 @@ export default class NewLeave extends Component {
                         .then(text => {
                             if (status === 200) {
                                 toast.success(text);
-                                window.location.reload();
+                                window.location.replace('/leave_management');
                             }
                             else toast.error(text);
                         })
