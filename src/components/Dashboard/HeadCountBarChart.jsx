@@ -73,7 +73,7 @@ class HeadCountBarChart extends Component {
 
   getHeadCountbyDepartment = (branchId, regionId) => {
 
-    fetch(main_url + `dashboard/headCountByDepartments/${branchId}/${regionId}`)
+    fetch(main_url + `dashboard/headCountByDepartments/${regionId}/${branchId}`)
       .then((response) => {
         if (response.ok) return response.json();
       })
@@ -142,7 +142,7 @@ class HeadCountBarChart extends Component {
           name: "Head Count by Department",
           colorByPoint: true,
           data: this.state.countDataDept,
-          colors: ['#1f4545', '#3d86dy', '#193759', '#419191', '#9bcece', '#59c5c5', '#7ea8d9', '#344545', '#5c7c9f', '#59c5c5']
+          colors: ['#1f4545', '#000000', '#193759', '#419191', '#9bcece', '#59c5c5', '#7ea8d9', '#344545', '#5c7c9f', '#59c5c5']
         },
       ],
     };
@@ -232,7 +232,7 @@ class HeadCountBarChart extends Component {
           name: "Head Count by Designation",
           colorByPoint: true,
           data: this.state.countDataDesign,
-          colors: ['#1f4545', '#3d86dy', '#193759', '#419191', '#9bcece', '#59c5c5', '#7ea8d9', '#344545', '#5c7c9f', '#59c5c5']
+          colors: ['#1f4545', '#000000', '#193759', '#419191', '#9bcece', '#59c5c5', '#7ea8d9', '#344545', '#5c7c9f', '#59c5c5']
         },
       ],
     };

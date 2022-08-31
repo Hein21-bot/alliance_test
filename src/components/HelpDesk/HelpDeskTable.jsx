@@ -206,8 +206,8 @@ export default class HelpDeskTable extends Component {
                 assign_branch: this.getBranchName(data[i].branchId),
                 assign_person: data[i].assign_person_name,
                 req_comment: data[i].request_comment,
-                request_date: moment(result.createdAt).format('MM-DD-YYYY HH:mm a'),//moment(result.createdAt).format('YYYY-MM-DD HH:mm:ss'),
-                response_date: moment(result.updatedAt).format('MM-DD-YYYY HH:mm a'),
+                request_date: moment(result.createdAt).utc().format('DD-MM-YYYY hh:mm a'),//moment(result.createdAt).format('YYYY-MM-DD HH:mm:ss'),
+                response_date: moment(result.updatedAt).utc().format('DD-MM-YYYY hh:mm a'),
                 calculation_time: diffTime,
                 ticketStatus: ticket_status,
                 action_status: result.action_status === 1 ? 'Accept' : result.action_status === 2 ? 'Reject' : 'Request',
@@ -297,9 +297,10 @@ export default class HelpDeskTable extends Component {
             <div>
                 <div className="row border-bottom white-bg dashboard-header">
                     <div className="row">
-                        <div className="col-md-2">
+                        <div className='col-md-10'>
+                        <div className="col-md-3">
                             <div><label className="col-sm-12">Start Date</label></div>
-                            <div className="col-md-10">
+                            <div className="col-md-12">
                                 <DatePicker
                                     dateFormat="DD/MM/YYYY"
                                     value={this.state.s_date}
@@ -308,9 +309,9 @@ export default class HelpDeskTable extends Component {
                                 />
                             </div>
                         </div>
-                        <div className="col-md-2">
+                        <div className="col-md-3">
                             <div><label className="col-sm-12">End Date</label></div>
-                            <div className="col-md-10">
+                            <div className="col-md-12">
                                 <DatePicker
                                     dateFormat="DD/MM/YYYY"
                                     value={this.state.e_date}
@@ -322,7 +323,7 @@ export default class HelpDeskTable extends Component {
 
                         <div className="col-md-3">
                             <div><label className="col-sm-12">Ticket Status</label></div>
-                            <div className="col-md-10">
+                            <div className="col-md-12" style={{alignSelf: 'center'}}>
                                 <Select
                                     options={this.state.ticket_status}
                                     value={this.state.selected_ticket_status}
@@ -332,7 +333,7 @@ export default class HelpDeskTable extends Component {
                         </div>
                         <div className="col-md-3">
                             <div><label className="col-sm-12">Ticket Main Category</label></div>
-                            <div className="col-md-10">
+                            <div className="col-md-12" style={{alignSelf: 'center'}}>
                                 <Select
                                     options={this.state.main_category}
                                     value={this.state.selected_main_category}
@@ -340,11 +341,16 @@ export default class HelpDeskTable extends Component {
                                 />
                             </div>
                         </div>
-                        <div className="col-md-2">
-                            <div className="col-md-10 margin-top-20">
+                        </div>
+                        <div className='col-md-2'>
+                        <div className="col-md-12">
+                            <div className="col-md-12 margin-top-20">
                                 <button type='button' className='btn btn-primary' onClick={this.search.bind(this)} >Search</button>
                             </div>
                         </div>
+                        </div>
+                        
+                       
                     </div>
                     <hr />
                     <div className="row">

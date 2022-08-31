@@ -128,7 +128,7 @@ class ThingsTodoTable extends Component {
 
     ];
 
-    let data_filter = this.state.user_id == 17 || this.state.user_id == 921 ? dummy_data : dummy_data.filter(v => v.request != 'Staff Complain Box')
+    let data_filter = this.state.user_id == 17 || this.state.user_id == 921 ? dummy_data.filter(a => a.count != 0) : dummy_data.filter(v => v.request != 'Staff Complain Box' && v.count != 0)
     // let data_filter = dummy_data
 
     return (
