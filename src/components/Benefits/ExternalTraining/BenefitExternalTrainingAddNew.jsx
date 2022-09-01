@@ -114,9 +114,9 @@ class BenefitFuneralAddNew extends Component {
     
                 const formdata = new FormData();
     
-                var obj = document.querySelector("#attach_file").files.length;
+                var obj = this.state.newDoc.length;
                 for (var i = 0; i < obj; i++) {
-                    var imagedata = document.querySelector("#attach_file").files[i];
+                    var imagedata = this.state.newDoc[i];
                     formdata.append('uploadfile', imagedata);
                 }
     

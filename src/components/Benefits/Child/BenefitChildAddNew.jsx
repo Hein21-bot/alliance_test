@@ -95,7 +95,8 @@ class BenefitChildAddNew extends Component {
             }
            
 
-            const formdata = new FormData();
+                const formdata = new FormData();
+
 
             // var obj = document.querySelector("#attach_file").files.length;
             // for (var i = 0; i < obj; i++) {
@@ -110,25 +111,25 @@ class BenefitChildAddNew extends Component {
            
             formdata.append('child_benefit', JSON.stringify(data))
 
-            let status = 0;
-            fetch(`${main_url}child_benefit/saveChildBenefit`, {
-                method: "POST",
-                body: formdata
-            })
-                .then(res => {
-                    status = res.status;
-                    return res.text()
+                let status = 0;
+                fetch(`${main_url}child_benefit/saveChildBenefit`, {
+                    method: "POST",
+                    body: formdata
                 })
-                .then(text => {
-                    this.props.showToast(status, text);
-                })
+                    .then(res => {
+                        status = res.status;
+                        return res.text()
+                    })
+                    .then(text => {
+                        this.props.showToast(status, text);
+                    })
+            }
+            else {
+                startSaving();
+                form_validate = false;
+            }
         }
-        else {
-            startSaving();
-            form_validate = false;
-        }
-       }
-        
+
     }
 
     render() {
@@ -213,7 +214,7 @@ class BenefitChildAddNew extends Component {
                             <div className="form-group col-md-6">
                                 <div>
                                     <label htmlFor="attachment" className="col-sm-12 custom-file-label">Provide At Least One Or At Most Two
-                                    Attachment</label>
+                                        Attachment</label>
                                 </div>
                                 <div className="col-sm-10">
                                     <input className="dropZone " type="file" id="attach_file" multiple onChange={this.checkFiles.bind(this)}></input>
