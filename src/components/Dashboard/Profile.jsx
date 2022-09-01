@@ -211,26 +211,26 @@ class Profile extends Component {
                 }}
               />
             </div>
-            <div className= "col" style={{ width: "19%" }}>
+            <div className= "col" style={{ width: "20%" }}>
               <h4 style={{ color: "transparent" }}>hahahahaha</h4>
               <div style={styles.smallContainer}>
-                <p style={styles.leftProfileText}>Parent Count</p>
-                <p style={styles.middleProfileText}>:</p>
-                <p style={styles.rightProfileText}>
+                <p style={styles.leftprofileText}>Parent Count</p>
+                <p style={styles.middleprofileText}>:</p>
+                <p style={styles.rightprofileText}>
                   {this.state.userInfo.parent_count}
                 </p>
               </div>
               <div style={styles.smallContainer}>
-                <p style={styles.leftProfileText}>Bank Account</p>
-                <p style={styles.middleProfileText}>:</p>
-                <p style={styles.rightProfileText}>
+                <p style={styles.leftprofileText}>Bank Account</p>
+                <p style={styles.middleprofileText}>:</p>
+                <p style={styles.rightprofileText}>
                   {this.state.userInfo.bank}
                 </p>
               </div>
             </div>
             <div
               style={{
-                width: "10%",
+                width: "9%",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -292,6 +292,23 @@ const styles = {
   },
   rightProfileText: {
     width: "47%",
+    color: primary,
+    fontSize: 12,
+    display: "flex",
+    alignSelf: "flex-start",
+  },
+  leftprofileText: {
+    width: "40%",
+    color: primary,
+    fontSize: 12,
+  },
+  middleprofileText: {
+    width: "3%",
+    color: primary,
+    fontSize: 12,
+  },
+  rightprofileText: {
+    width: "57%",
     color: primary,
     fontSize: 12,
     display: "flex",
