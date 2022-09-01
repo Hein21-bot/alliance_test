@@ -134,13 +134,13 @@ export class AttendanceCaldendar extends Component {
                 </div>
                 <div className="col-md-7 col-lg-8 col-sm-7">
                     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', }}>
-                        <div className="col-md-12 col-lg-12" style={{ display: 'flex', marginBottom: '30px', flexDirection: 'column', marginLeft: 20 }}>
-                            <div style={{ display: 'flex', flexDirection: 'row', width: 'col-12' }}>
+                        <div className="col-md-12 col-lg-12" style={{ display: 'flex',width:'100%', marginBottom: '30px', flexDirection: 'column', marginLeft: 20 }}>
+                            <div style={{ display: 'flex', flexDirection: 'row', width: 'col-12',textAlign:'start' }}>
                                 <div className="col-md-7 col-lg-5" style={{ height: '30px', borderRadius: '5px 0px 0px 5px', backgroundColor: '#efefef', display: 'flex', justifyContent: 'center', alignItems: 'center', color: primary, fontSize: '12px' }}>Total Working Days
                                 </div>
-                                <div style={{ width: '20%', height: '30px', borderRadius: '5px', backgroundColor: primary, display: "flex", justifyContent: "center", alignItems: "center", fontSize: '16px', color: 'white' }}>21</div>
+                                <div style={{ width: '10%', height: '30px', borderRadius: '5px', backgroundColor: primary, display: "flex", justifyContent: "center", alignItems: "center", fontSize: '16px', color: 'white' }}>21</div>
                             </div>
-                            <div style={{ display: 'flex', flexDirection: 'row', width: 'col-12', alignItems: 'end', justifyContent: 'space-between', marginTop: 20 }}>
+                            <div style={{ display: 'flex', flexDirection: 'row', width: 'col-12', alignItems: 'center', justifyContent: 'space-between', marginTop: 20 }}>
                                 <div className="col-md-12 col-lg-12" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'left' }}>
                                     <div style={{ width: '20%', height: '130px', backgroundColor: secondary, borderRadius: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center', marginRight: 5 }}>
                                         <p style={{ fontSize: '30px', color: 'white' }}>19</p>

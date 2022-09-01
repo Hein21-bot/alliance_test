@@ -23,7 +23,7 @@ export default class LeaveManagementMain extends Component {
             approvedBy: [],
             isTable: true,
             // data: [],
-            active_tab: 0, // 0 for myleave list, 1 for newmyleave, 2 for allleave list, 3 for new allleave, 4 for leave reprot, 5 for leave balance
+            active_tab: 2, // 0 for myleave list, 1 for newmyleave, 2 for allleave list, 3 for new allleave, 4 for leave reprot, 5 for leave balance
             isHR: '',
            
         }
@@ -137,7 +137,7 @@ export default class LeaveManagementMain extends Component {
                                         <li className="nav-item">
                                             <a className="nav-link active" href="#myLeave_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(0)}>My Leave</a>
                                         </li>
-                                        <li className="nav-item1">
+                                        <li className="nav-item1 active">
                                         <a className="nav-link  active" href="#allLeave_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(2)}>All Leave</a>
                                         </li>
                                     </ul> : active_tab === 3 ?

@@ -573,11 +573,11 @@ export default class TravelRequestAdvancedTable extends Component {
                     <div className="row">
                         <div>
                             <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
-                                <li className="active">
-                                    <a className="nav-link active" href="#approve_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.approvedlist('myrequest')}>My Request</a>
+                                <li className="nav-item">
+                                    <a className="nav-link " href="#approve_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.approvedlist('myrequest')}>My Request</a>
                                 </li>
-                                <li className="nav-item1">
-                                    <a className="nav-link" href="#approve_list" role="tab" data-toggle="tab" onClick={() => this.approvedlist('allrequest')}>All Request</a>
+                                <li className="nav-item1 active">
+                                    <a className="nav-link active" href="#approve_list" role="tab" data-toggle="tab" onClick={() => this.approvedlist('allrequest')}>All Request</a>
                                 </li>
                             </ul>
                         </div>

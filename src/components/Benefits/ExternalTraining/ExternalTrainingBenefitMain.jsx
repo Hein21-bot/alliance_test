@@ -20,7 +20,8 @@ class ExternalTrainingBenefitMain extends Component {
             user_info: getCookieData("user_info"),
             is_main_role: getMainRole(),
             permission_status: {},
-            requestData:[]
+            requestData:[],
+            
         }
     }
 
@@ -43,7 +44,7 @@ class ExternalTrainingBenefitMain extends Component {
 
                 if (res) {
 
-                    this.setState({ data: res,requestData:res.filter(v=>v.createdBy ==this.state.user_id) })
+                    this.setState({ data: res,requestData:res.filter(v=>v.createdBy !=this.state.user_id) })
                 }
             })
             .catch(error => console.error(`Fetch Error =\n`, error));
@@ -100,19 +101,21 @@ class ExternalTrainingBenefitMain extends Component {
 
     }
     requestlist = async (data) => {
-        if (data == 'myrequest') {
-          this.setState({
-            requestData: this.state.data.filter(v => v.createdBy==this.state.user_id),
-            requestType:"myrequest"
-            
-          })
-        } else if (data == 'allrequest') {
-          this.setState({
-            requestData: this.state.data.filter(v => v.createdBy !=this.state.user_id),
-            requestType:"allrequest"
-            
-          })
-        }
+        if (data == 'allrequest') {
+            this.setState({
+              requestData: this.state.data.filter(v => v.createdBy !=this.state.user_id),
+              requestType:"allrequest"
+              
+            })
+          }else if (data == 'myrequest') {
+            this.setState({
+              requestData: this.state.data.filter(v => v.createdBy==this.state.user_id),
+              requestType:"myrequest"
+              
+            })
+          }
+         
+        
       }
 
     render() {
