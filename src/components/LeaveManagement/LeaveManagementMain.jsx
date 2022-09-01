@@ -134,10 +134,10 @@ export default class LeaveManagementMain extends Component {
                                 (active_tab === 0  ||  active_tab === 2 || active_tab === 3 ?
 
                                     <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
-                                        <li className="nav-item active">
+                                        <li className="nav-item">
                                             <a className="nav-link active" href="#myLeave_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(0)}>My Leave</a>
                                         </li>
-                                        <li className="nav-item1 ">
+                                        <li className="nav-item1 active">
                                         <a className="nav-link  active" href="#allLeave_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(2)}>All Leave</a>
                                         </li>
                                         <li className="nav-item2 ">
