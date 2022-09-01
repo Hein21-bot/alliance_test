@@ -520,7 +520,7 @@ class EmployeeDetailMain extends Component {
       employee_date: employedDate ? employedDate : "",
       effective_date: effectiveDate ? effectiveDate : "",
       salary: salary ? salary : "",
-      job_title: selected_job ? selected_job.value : null,
+      job_title: selected_job ? selected_job.id : null,
       discontinute_status: selected_disCon_status
         ? selected_disCon_status.value
         : null,
@@ -596,7 +596,9 @@ class EmployeeDetailMain extends Component {
       salary: data.salary,
       resignReason: data.resign_reason,
       selected_job: this.state.jobList.find(
-        (v) => v.label == data.job_title
+        (c) =>
+          parseInt(c.id) ==
+          data.job_title
       ),
       career_level: this.state.level_options.find(
         (v) => v.career_level_id == data.career_level
@@ -669,7 +671,9 @@ class EmployeeDetailMain extends Component {
       salary: data.salary,
       resignReason: data.resign_reason,
       selected_job: this.state.jobList.find(
-        (v) => v.label == data.job_title
+        (c) =>
+          parseInt(c.id) ==
+          data.job_title
       ),
       career_level: this.state.level_options.find(
         (v) => v.career_level_id == data.career_level
@@ -730,7 +734,7 @@ class EmployeeDetailMain extends Component {
         : null,
       date: actualDate ? moment(actualDate).format("YYYY-MM-DD") : null,
       salary: salary ? salary : "",
-      job_title: selected_job ? selected_job.value : null,
+      job_title: selected_job ? selected_job.id : null,
       discontinute_status: selected_disCon_status
         ? selected_disCon_status.value
         : null,
@@ -1147,7 +1151,7 @@ class EmployeeDetailMain extends Component {
                 <div style={{}}>
                   <EmploymentDetailTable
   
-                    goToEditForm={this.goToEditForm}
+                    goToEditForm={this.goToEditForm} jobList={jobList}
                     goToSingleViewForm={this.goToSingleViewForm}
                     data={this.state.employeeData ? this.state.employeeData : []}
                     permission={{

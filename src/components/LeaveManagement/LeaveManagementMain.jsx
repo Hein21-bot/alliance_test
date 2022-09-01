@@ -140,13 +140,16 @@ export default class LeaveManagementMain extends Component {
                                         <li className="nav-item1">
                                         <a className="nav-link  active" href="#allLeave_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(2)}>All Leave</a>
                                         </li>
-                                    </ul> : active_tab === 3 ?
+                                        <li className="nav-item2">
+                                        <a className="nav-link  active" href="#allLeave_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(3)}>New Leave</a>
+                                        </li>
+                                    </ul> : active_tab === 4 ?
                                         <ul className="nav nav-tabs a2" role="tablist">
                                            
                                             <li className="nav-item1 white-bg">
-                                                <a className="nav-link" href="#allLeave_create" role="tab" data-toggle="tab" onClick={() => this.changeTab(3)}>New Leave</a>
+                                                <a className="nav-link" href="#allLeave_create" role="tab" data-toggle="tab" onClick={() => this.changeTab(4)}>New Leave</a>
                                             </li>
-                                        </ul> : active_tab === 4 ? '' : active_tab === 5 ? '' : active_tab === 6 ? '' : '')
+                                        </ul> : active_tab === 5 ? '' : active_tab === 6 ? ''  : '')
                             }
                             {
                                 this.state.isView ? <LeaveManagementView data={this.state.data} /> : ''
