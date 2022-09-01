@@ -42,18 +42,18 @@ export default class TravelRequestAdvancedTable extends Component {
       selected_branch: [],
       s_date: moment(getFirstDayOfMonth()),
       e_date: moment(),
-      dataList:[],
-      data:[],
-      pending_approve:"allrequest"
+      dataList: [],
+      data: [],
+      pending_approve: "allrequest"
     };
   }
 
   async componentDidMount() {
     let branch = await getBranch();
-  
+
     this.setState({
       branch: branch,
-    },()=>{ this._setTableData(this.state.dataSource)});
+    }, () => { this._setTableData(this.state.dataSource) });
     // this._setTableData(this.state.dataSource);
     this.getTravelRequestAllowance(this.state.user_id);
 
@@ -257,8 +257,8 @@ export default class TravelRequestAdvancedTable extends Component {
     });
   };
   handleSearchData = async (s_date, e_date, user_id) => {
-    let branchId=this.state.selected_branch.value==undefined ?  0 : this.state.selected_branch.value 
-      fetch(
+    let branchId = this.state.selected_branch.value == undefined ? 0 : this.state.selected_branch.value
+    fetch(
       main_url +
       "allowance/getTravelRequestFilter/" +
       s_date +
@@ -272,30 +272,31 @@ export default class TravelRequestAdvancedTable extends Component {
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
         if (this.state.pending_approve == 'myrequest') {
-         this.setState({ dataList:list,data: list.filter(v=>v.user_id === this.state.user_id) }, () => this._setTableData(this.state.data));
+          this.setState({ dataList: list, data: list.filter(v => v.user_id === this.state.user_id) }, () => this._setTableData(this.state.data));
         } else if (this.state.pending_approve == 'allrequest') {
-          this.setState({ dataList:list,data: list.filter(v=>v.user_id !== this.state.user_id) }, () =>this._setTableData(this.state.data) );
+          this.setState({ dataList: list, data: list.filter(v => v.user_id !== this.state.user_id) }, () => this._setTableData(this.state.data));
 
         }
 
       })
   }
- 
+
   approvedlist = async (data) => {
     if (data == 'myrequest') {
       console.log("pendingg", this.state.user_id)
       this.setState({
-        data: this.state.dataList.filter(v=>v.user_id === this.state.user_id),
+        data: this.state.dataList.filter(v => v.user_id === this.state.user_id),
         pending_approve: 'myrequest',
-       
-      }, () =>{
+
+      }, () => {
         console.log()
-        this._setTableData(this.state.data)})
+        this._setTableData(this.state.data)
+      })
     } else {
       this.setState({
-        data: this.state.dataList.filter(v=>v.user_id !== this.state.user_id),
+        data: this.state.dataList.filter(v => v.user_id !== this.state.user_id),
         pending_approve: 'allrequest'
-      }, () =>this._setTableData(this.state.data))
+      }, () => this._setTableData(this.state.data))
     }
   }
 
@@ -310,8 +311,8 @@ export default class TravelRequestAdvancedTable extends Component {
       })
       .then((res) => {
         if (res) {
-          
-          this.setState({ data: res }, () => this._setTableData(res),()=>{console.log("<<>>>",this.state.data)});
+
+          this.setState({ data: res }, () => this._setTableData(res), () => { console.log("<<>>>", this.state.data) });
         }
       })
       .catch((error) => console.error(`Fetch Error =\n`, error));
@@ -736,127 +737,127 @@ export default class TravelRequestAdvancedTable extends Component {
     var permission = this.props.permission;
     var has_action =
       permission.isView === 1 || permission.isEdit === 1 ? true : false;
-     if (data){
-    for (var i = 0; i < data.length; i++) {
-      let result = data[i];
-      let status = "";
-      let obj = [];
-      if (result.status === 0) {
-        status =
-          '<small class="label label-warning" style="background-color:#509aed"> Request </small>';
-      } else if (result.status === 1) {
-        status =
-          '<small class="label label-warning" style="background-color:#b33ce0"> Check </small>';
-      } else if (result.status === 2) {
-        status =
-          '<small class="label label-warning" style="background-color:#f2a509"> Verify </small>';
-      } else if (result.status === 3) {
-        status =
-          '<small class="label label-warning" style="background-color:#29a50a"> Approve </small>';
-      } else if (result.status === 4) {
-        status =
-          '<small class="label label-warning" style="background-color:#f60e2f"> Reject </small>';
-      }
-      else if (result.status === 5) {
-        status = '<small class="label label-warning" style="background-color:#cc0066"> ReferBack </small>'
-      }
-
-      if (result.isClaim === 0) {
-        btnview = "toView";
-        btnedit = "toEdit";
-        view = "view";
-        edit = "edit";
-      } else if (result.isClaim === 1) {
-        btnview = "toClaimRequestView";
-        btnedit = "toClaimRequestEdit";
-        view = "CRView";
-        edit = "CREdit";
-      } else if (result.isClaim === 2) {
-        btnview = "toAdvanceClaimRequestView";
-        btnedit = "toAdvanceClaimRequestEdit";
-        view = "ACRView";
-        edit = "ACREdit";
-      }
-      obj = {
-        no: i + 1,
-        form_no: fno.fno_travel + result.form_no,
-        employee_id: result.employment_id,
-        employee: result.fullname,
-        position: result.designations ? result.designations : "-",
-        branch: result.branch_name,
-        locationUnder: result.locationUnder ? result.locationUnder : "",
-        // advancedNo: result.form_no,
-        request_amount: result.advanced_amount,
-        claim_amount: result.actual_amount,
-        date: moment(result.createdAt).format("DD-MM-YYYY"),
-
-        status: status,
-        title:
-          result.isClaim === 0
-            ? '<small class="label label-warning" style="background-color:#b33ce0"> Advanced  </small>'
-            : ' <small class="label label-warning" style="background-color:#f2a509"> Claimed  </small>',
-      };
-      if (has_action) {
-        if (result.status !== 3) {
-          obj.action =
-            permission.isView === 1
-              ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="' +
-              btnview +
-              '" ><span id="' +
-              view +
-              '"  class="hidden" >' +
-              JSON.stringify(result) +
-              '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>'
-              : "";
-          obj.action +=
-            permission.isEdit === 1
-              || (result.status == 5 && result.createdBy == this.state.user_id) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="' +
-              btnedit +
-              '" ><span id="' +
-              edit +
-              '"  class="hidden" >' +
-              JSON.stringify(result) +
-            '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>'
-              : "";
-        } else {
-          obj.action =
-            permission.isView === 1
-              ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="' +
-              btnview +
-              '" ><span id="' +
-              view +
-              '"  class="hidden" >' +
-              JSON.stringify(result) +
-              '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>'
-              : "";
-          if (result.print === 1) {
-            obj.action +=
-              '<button style="margin-right:10px" class="btn btn-info btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-              JSON.stringify(result) +
-              '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
-          } else {
-            obj.action +=
-              '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-              JSON.stringify(result) +
-              '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
-          }
-
+    if (data) {
+      for (var i = 0; i < data.length; i++) {
+        let result = data[i];
+        let status = "";
+        let obj = [];
+        if (result.status === 0) {
+          status =
+            '<small class="label label-warning" style="background-color:#509aed"> Request </small>';
+        } else if (result.status === 1) {
+          status =
+            '<small class="label label-warning" style="background-color:#b33ce0"> Check </small>';
+        } else if (result.status === 2) {
+          status =
+            '<small class="label label-warning" style="background-color:#f2a509"> Verify </small>';
+        } else if (result.status === 3) {
+          status =
+            '<small class="label label-warning" style="background-color:#29a50a"> Approve </small>';
+        } else if (result.status === 4) {
+          status =
+            '<small class="label label-warning" style="background-color:#f60e2f"> Reject </small>';
         }
+        else if (result.status === 5) {
+          status = '<small class="label label-warning" style="background-color:#cc0066"> ReferBack </small>'
+        }
+
+        if (result.isClaim === 0) {
+          btnview = "toView";
+          btnedit = "toEdit";
+          view = "view";
+          edit = "edit";
+        } else if (result.isClaim === 1) {
+          btnview = "toClaimRequestView";
+          btnedit = "toClaimRequestEdit";
+          view = "CRView";
+          edit = "CREdit";
+        } else if (result.isClaim === 2) {
+          btnview = "toAdvanceClaimRequestView";
+          btnedit = "toAdvanceClaimRequestEdit";
+          view = "ACRView";
+          edit = "ACREdit";
+        }
+        obj = {
+          no: i + 1,
+          form_no: fno.fno_travel + result.form_no,
+          employee_id: result.employment_id,
+          employee: result.fullname,
+          position: result.designations ? result.designations : "-",
+          branch: result.branch_name,
+          locationUnder: result.locationUnder ? result.locationUnder : "",
+          // advancedNo: result.form_no,
+          request_amount: result.advanced_amount,
+          claim_amount: result.actual_amount,
+          date: moment(result.createdAt).format("DD-MM-YYYY"),
+
+          status: status,
+          title:
+            result.isClaim === 0
+              ? '<small class="label label-warning" style="background-color:#b33ce0"> Advanced  </small>'
+              : ' <small class="label label-warning" style="background-color:#f2a509"> Claimed  </small>',
+        };
+        if (has_action) {
+          if (result.status !== 3) {
+            obj.action =
+              permission.isView === 1
+                ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="' +
+                btnview +
+                '" ><span id="' +
+                view +
+                '"  class="hidden" >' +
+                JSON.stringify(result) +
+                '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>'
+                : "";
+            obj.action +=
+              permission.isEdit === 1
+                || (result.status == 5 && result.createdBy == this.state.user_id) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="' +
+                btnedit +
+                '" ><span id="' +
+                edit +
+                '"  class="hidden" >' +
+                JSON.stringify(result) +
+              '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>'
+                : "";
+          } else {
+            obj.action =
+              permission.isView === 1
+                ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="' +
+                btnview +
+                '" ><span id="' +
+                view +
+                '"  class="hidden" >' +
+                JSON.stringify(result) +
+                '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>'
+                : "";
+            if (result.print === 1) {
+              obj.action +=
+                '<button style="margin-right:10px" class="btn btn-info btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                JSON.stringify(result) +
+                '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
+            } else {
+              obj.action +=
+                '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                JSON.stringify(result) +
+                '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
+            }
+
+          }
+        }
+        if (
+          result.isClaim === 0 &&
+          result.advancedClaim === 0 &&
+          result.status === 3 &&
+          result.createdBy === this.state.user_info.user_id
+        ) {
+          obj.action +=
+            '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toClaim" ><span id="claim" class="hidden" >' +
+            JSON.stringify(result) +
+            '</span>  <i className="fa fa-cogs"></i>&nbsp;Claim</button>';
+        }
+        l.push(obj);
       }
-      if (
-        result.isClaim === 0 &&
-        result.advancedClaim === 0 &&
-        result.status === 3 &&
-        result.createdBy === this.state.user_info.user_id
-      ) {
-        obj.action +=
-          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toClaim" ><span id="claim" class="hidden" >' +
-          JSON.stringify(result) +
-          '</span>  <i className="fa fa-cogs"></i>&nbsp;Claim</button>';
-      }
-      l.push(obj);
     }
-  }
     if ($.fn.dataTable.isDataTable("#dataTables-table")) {
       table = $("#dataTables-table").dataTable();
       table.fnClearTable();
@@ -932,16 +933,16 @@ export default class TravelRequestAdvancedTable extends Component {
       <div>
         <div className="row border-bottom white-bg dashboard-header">
           <div className="row">
-             <div>
-          <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
-            <li className="nav-item">
-              <a className="nav-link" href="#approve_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.approvedlist('myrequest')}>My Request</a>
-            </li>
-            <li className="nav-item1 active">
-              <a className="nav-link active" href="#approve_list" role="tab" data-toggle="tab" onClick={() => this.approvedlist('allrequest')}>All Request</a>
-            </li>
-          </ul>
-        </div>
+            <div>
+              <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
+                <li className="nav-item">
+                  <a className="nav-link" href="#approve_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.approvedlist('myrequest')}>My Request</a>
+                </li>
+                <li className="nav-item1 active">
+                  <a className="nav-link active" href="#approve_list" role="tab" data-toggle="tab" onClick={() => this.approvedlist('allrequest')}>All Request</a>
+                </li>
+              </ul>
+            </div>
             <div className="col-md-3">
               <div>
                 <label className="col-sm-12">Start Date</label>
@@ -987,7 +988,7 @@ export default class TravelRequestAdvancedTable extends Component {
                 <button
                   type="button"
                   className="btn btn-primary"
-                  onClick={() => this.handleSearchData(moment(this.state.s_date).format("YYYY-MM-DD"), moment(this.state.e_date).format("YYYY-MM-DD"),this.state.user_info.user_id)}
+                  onClick={() => this.handleSearchData(moment(this.state.s_date).format("YYYY-MM-DD"), moment(this.state.e_date).format("YYYY-MM-DD"), this.state.user_info.user_id)}
                 >
                   Search
                 </button>
