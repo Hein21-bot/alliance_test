@@ -26,7 +26,8 @@ export default class BenefitChildTable extends Component {
             dataSource: props.data,
             selectedRequest: '',
             is_main_role: getMainRole(),
-            branchlist: []
+            branchlist: [],
+            jobList: props.jobList
 
         }
     }
@@ -78,7 +79,7 @@ export default class BenefitChildTable extends Component {
             }, () => {
                 this._setTableData(this.state.dataSource);
 
-            },()=>{console.log("data====>>>>>>>", this._setTableData)})
+            })
         }
     }
 
@@ -102,7 +103,6 @@ export default class BenefitChildTable extends Component {
 
 
     _setTableData = (data) => {
-        console.log('data source ===>', data)
         var table;
         var l = [];
         var status;
@@ -110,36 +110,7 @@ export default class BenefitChildTable extends Component {
         var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
         for (var i = 0; i < data.length; i++) {
             let result = data[i];
-            console.log('result ===>', result);
             let obj = [];
-            // console.log('branch id ===>', data[i].branch);
-            // var tempBranch = this.state.branchlist.filter(v => v.branch_id == parseInt(data[i].branch));
-            // console.log( 'branchFilter ===>', tempBranch[0]);
-//             approve: null
-// branch: "Head Office"
-// branch_name: "Head Office"
-// career_level: 6
-// career_level_name: "Level 6"
-// career_sub_level: 24
-// career_sub_level_name: "Level 6 D"
-// date: null
-// department: "IT"
-// deptname: "IT"
-// designation: null
-// designation_name: "IT Manager"
-// discontinute_date: null
-// discontinute_status: null
-// effective_date: null
-// employed_status: null
-// employee_code: "A-00035"
-// employee_date: "2015-07-06T00:00:00.000Z"
-// employee_name: "Soe Thiha Tun"
-// exit_status: null
-// fullname: "Soe Thiha Tun"
-// id: 1756
-// job_title: null
-// resign_reason: null
-// salary: 1385000
             obj = {
                 no: i + 1,
                 employee_id: data[i].id ? data[i].id : '',
@@ -150,7 +121,7 @@ export default class BenefitChildTable extends Component {
                 date: data[i].employ_date ? moment(data[i].employ_date).format('DD-MM-YYYY') : '-',
                 employed_date: data[i].employ_date ? moment(data[i].employ_date).format('DD-MM-YYYY') : '',
                 effective_date: data[i].effective_date ? moment(data[i].effective_date).format('DD-MM-YYYY') : '',
-                job_title: data[i].job_title ? data[i].job_title : '',
+                job_title: data[i].job_title ? this.state.jobList.filter(d => d.id == data[i].job_title)[0].job_title : '',
                 carrer_level: data[i].career_level_name ? data[i].career_level_name : '',
                 carrer_sub_level: data[i].career_sub_level_name ? data[i].career_sub_level_name : '',
                 salary: data[i].salary ? data[i].salary : '',

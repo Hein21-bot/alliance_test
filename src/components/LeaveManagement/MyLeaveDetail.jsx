@@ -130,11 +130,11 @@ export default class MyLeaveDetail extends Component {
         compassionateCount +
         leaveWithoutPay;
 
-      const totalLeaveCount = casualLeaveBalance + 120 + 10 + earnedLeaveCount1 + 30 + 5 + 90;
+      const totalLeaveCount = casualLeaveBalance + 120 + 10 + earnedLeaveCount + 30 + 5 + 90;
 
       return (
         <div className="col-sm-4 white-bg mt20 border-class">
-          <div className="form-group" style={{marginTop:20}}>
+          <div className="form-group" style={{ marginTop: 20 }}>
             <h4>My Leave Details</h4>
             <hr />
             <div className="row">
@@ -151,7 +151,7 @@ export default class MyLeaveDetail extends Component {
             </div>
             <div className="row mt20">
               <div className="col-sm-8">Earned Leave:</div>
-              <div className="col-sm-4">{earnedLeaveCount}/{earnedLeaveCount1}</div>
+              <div className="col-sm-4">{earnedLeaveCount1}/{earnedLeaveCount}</div>
             </div>
             <div className="row mt20">
               <div className="col-sm-8">Medical Leave:</div>
