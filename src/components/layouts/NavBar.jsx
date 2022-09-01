@@ -292,7 +292,7 @@ class NavBar extends Component {
                                     <img
                                     alt="logo"
                                     className="logostyle"
-                                    src="assets/img/profpic.jpg.png" style={{
+                                    src="assets/img/SeekPng.com_profile-icon-png_9665493.png" style={{
                                         width:"57px",
                                         height:'57px',
                                         borderRadius:'50%',

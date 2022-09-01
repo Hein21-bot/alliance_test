@@ -113,7 +113,7 @@ export default class BenefitChildTable extends Component {
             let obj = [];
             obj = {
                 no: i + 1,
-                employee_id: data[i].id ? data[i].id : '',
+                employee_id: data[i].emp_id ? data[i].emp_id : '',
                 employee_name: data[i].fullname ? data[i].fullname : "",
                 position: data[i].designation_name ? data[i].designation_name : '-',
                 employee_status: data[i].status ? data[i].status == 1 ? 'Permanent' : data[i].status == 2 ? 'Part-Time' : data[i].status == 3 ? 'Training' : data[i].status : '-',
@@ -169,7 +169,7 @@ export default class BenefitChildTable extends Component {
         var column = [
             { title: "No", data: "no" },
             { title: " Date", data: "date" },
-            { title: "Employee Code", data: "employee_id", value: "emloyee_id" },
+            { title: "Employee Code", data: "employee_id"},
             // { title: "Form No", data: "form_no" },
             { title: "Employee Name", data: "employee_name" },
             { title: "Employee Status", data: "employee_status" },

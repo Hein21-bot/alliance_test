@@ -285,11 +285,11 @@ export default class BenefitChildTable extends Component {
             <div>
                 <div>
           <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
-            <li className="active">
-              <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.props.requestlist('myrequest')}>My Request</a>
+            <li className="nav-item">
+              <a className="nav-link" href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.props.requestlist('myrequest')}>My Request</a>
             </li>
-            <li className="nav-item1">
-              <a className="nav-link" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.props.requestlist('allrequest')}>All Request</a>
+            <li className="nav-item1 active">
+              <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.props.requestlist('allrequest')}>All Request</a>
             </li>
           </ul>
         </div>

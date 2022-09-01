@@ -198,7 +198,7 @@ export default class ExpenseBarChart extends Component {
                     }}>
                         <label>Start Date</label>
                         <div style={{
-                            width: '90px'
+                            width: '120px'
                         }}>
                             <DatePicker
                                 dateFormat="DD/MM/YYYY"
@@ -216,7 +216,7 @@ export default class ExpenseBarChart extends Component {
                     }}>
                         <label htmlFor="">End Date</label>
                         <div style={{
-                            width: '90px'
+                            width: '120px'
                         }}>
                             <DatePicker
                                 dateFormat="DD/MM/YYYY"
