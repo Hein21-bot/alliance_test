@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import '../../Benefits/Benefits.css';
+import $ from 'jquery';
 import { main_url, getCookieData, validate, getUserId, alertText, stopSaving, startSaving } from "../../../utils/CommonFunction";
 
 var form_validate = true;
@@ -42,6 +43,14 @@ class BenefitChildAddNew extends Component {
             noOfChildren: event.target.value,
         })
     };
+    removeNewDocument(index, event) {
+        var array = this.state.newDoc;
+        array.splice(index, 1);
+        this.setState({
+            newDoc: array
+        })
+        console.log('new doc',this.state.newDoc)
+    }
 
     checkFiles(e) {
         var files = document.getElementById("attach_file").files;
@@ -66,21 +75,16 @@ class BenefitChildAddNew extends Component {
         })
     }
     //@kpk
-    removeNewDocument(index, event) {
-        var array = this.state.newDoc;
-        array.splice(index, 1);
-        this.setState({
-            newDoc: array
-        })
-    }
+
 
     save() {
-       if(this.state.attachment.length == 0){
+       if(this.state.newDoc.length ==0 && this.state.doc.length ==0){
         toast.error("Please Choose Attachment File!");
 
        }else{
         if (validate('check_form') && this.state.attachment.length > 0) {
-            
+            console.log("save new doc",this.state.newDoc)
+            $('#saving_button').attr('disabled', true);
             var data = {
                 user_id: this.state.user_info.user_id,
                 child_count: this.state.noOfChildren,
@@ -93,12 +97,17 @@ class BenefitChildAddNew extends Component {
 
             const formdata = new FormData();
 
-            var obj = document.querySelector("#attach_file").files.length;
-            for (var i = 0; i < obj; i++) {
-                var imagedata = document.querySelector("#attach_file").files[i];
+            // var obj = document.querySelector("#attach_file").files.length;
+            // for (var i = 0; i < obj; i++) {
+            //     var imagedata = document.querySelector("#attach_file").files[i];
+            //     formdata.append('uploadfile', imagedata);
+            // }
+             var obj = this.state.newDoc.length;
+             for (var i = 0; i < obj; i++) {
+                var imagedata = this.state.newDoc[i];
                 formdata.append('uploadfile', imagedata);
             }
-
+           
             formdata.append('child_benefit', JSON.stringify(data))
 
             let status = 0;

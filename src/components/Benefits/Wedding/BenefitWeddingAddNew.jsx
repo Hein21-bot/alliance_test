@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Select from "react-select";
 import "../../Benefits/Benefits.css";
 import { ToastContainer, toast } from "react-toastify";
+import $ from 'jquery';
 import {
   main_url,
   getCookieData,
@@ -220,7 +221,7 @@ class BenefitWeddingAddNew extends Component {
         validate("check_form") &&
         (this.state.attachment.length > 0 || editData)
       ) {
-
+        $('#saving_button').attr('disabled', true);
         var data = {
           user_id: this.state.one_benefit.user_id
             ? this.state.one_benefit.user_id

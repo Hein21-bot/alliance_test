@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import ApprovalForm from '../../Common/ApprovalForm';
 import DocumentList from '../../Common/DocumentList';
 import moment from 'moment';
+import $ from 'jquery'
 import {
     main_url, getCookieData, getWorkFlowStatus, validate, getActionStatus,
     alertText, havePermission, stopSaving, startSaving, isRequestedUser
@@ -202,7 +203,7 @@ class BenefitMedicalAddNew extends Component {
         }else{
             let editData = !Array.isArray(this.state.one_benefit) == true ? (this.state.newDoc.length > 0 || this.state.attachment.length > 0 || this.state.doc.length > 0) && !Array.isArray(this.state.one_benefit) : !Array.isArray(this.state.one_benefit)
             if (validate('check_form') && (this.state.attachment.length > 0 || editData)) {
-                
+                $('#saving_button').attr('disabled', true);
                 var data = {
                     user_id: this.state.one_benefit.user_id ? this.state.one_benefit.user_id : this.state.user_id,
                     available_amount: this.state.available_amount,
@@ -217,11 +218,15 @@ class BenefitMedicalAddNew extends Component {
     
                 const formdata = new FormData();
     
-                var obj = document.querySelector("#attach_file").files.length;
-                for (var i = 0; i < obj; i++) {
-                    var imagedata = document.querySelector("#attach_file").files[i];
-                    formdata.append('uploadfile', imagedata);
-                }
+                // var obj = document.querySelector("#attach_file").files.length;
+                // for (var i = 0; i < obj; i++) {
+                //     var imagedata = document.querySelector("#attach_file").files[i];
+                //     formdata.append('uploadfile', imagedata);
+                // }
+                for (var i = 0; i < this.state.newDoc.length; i++) {
+                        var imagedata = this.state.newDoc[i];
+                        formdata.append('uploadfile', imagedata);
+                    }
     
                 let status = 0;
                 let path = 'saveMedicalBenefit'

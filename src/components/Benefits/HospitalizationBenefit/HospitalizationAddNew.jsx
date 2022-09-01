@@ -5,6 +5,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import ApprovalForm from '../../Common/ApprovalForm';
 import moment from "moment";
 import DocumentList from '../../Common/DocumentList';
+import $ from 'jquery';
 import {
     main_url, getCookieData, getWorkFlowStatus, validate, getActionStatus,
     alertText, havePermission, stopSaving, startSaving, isRequestedUser, getBranch
@@ -299,7 +300,7 @@ class HospitalizationAddNew extends Component {
             toast.error("Please Choose Attachment File!")
         } else {
             if (validate('check_form') && (this.state.attachment.length > 0 || !Array.isArray(this.state.one_benefit))) {
-
+                $('#saving_button').attr('disabled', true);
                 var data = {
                     employee_id: this.state.one_benefit.employee_id ? this.state.one_benefit.employee_id : this.state.user_id,
                     actual_date: moment(this.state.actual_date).format('YYYY-MM-DD'),

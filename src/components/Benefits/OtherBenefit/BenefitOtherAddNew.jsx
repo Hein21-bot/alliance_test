@@ -3,6 +3,7 @@ import Select from 'react-select';
 import CustomFileInput from '../CustomFileInput';
 import '../../Benefits/Benefits.css';
 import { toast, ToastContainer } from 'react-toastify';
+import $ from 'jquery';
 import { main_url, getUserId, getCookieData, validate, alertText, stopSaving, startSaving, getBranch } from "../../../utils/CommonFunction";
 
 let form_validate = true;
@@ -97,7 +98,7 @@ class BenefitOtherAddNew extends Component {
         toast.error("Please Choose Attachment File!")
        }else{
         if (validate('check_form') && this.state.attachment.length > 0) {
-
+            $('#saving_button').attr('disabled', true);
             var data = {
                 createdBy: this.state.user_id,
                 employeeId: this.state.user_info.user_id,
@@ -106,8 +107,11 @@ class BenefitOtherAddNew extends Component {
                 withdraw_location: this.state.withdraw_location
             }
             const formdata = new FormData();
-            for (var i = 0; i < this.state.attachment.length; i++) {
-                formdata.append('uploadfile', this.state.attachment[i]);
+            // for (var i = 0; i < this.state.attachment.length; i++) {
+            //     formdata.append('uploadfile', this.state.attachment[i]);
+            // }
+               for (var i = 0; i < this.state.newDoc.length; i++) {
+                formdata.append('uploadfile', this.state.newDoc[i]);
             }
             formdata.append('info', JSON.stringify(data))
             let status = 0;
@@ -140,15 +144,23 @@ class BenefitOtherAddNew extends Component {
        }
        
     }
+    // removeNewDocument(index, event) {
+    //     var array = this.state.newDoc;
+    //     var attch = this.state.attachment;
+    //     attch.splice(index, 1);
+    //     array.splice(index, 1);
+    //     this.setState({
+    //         newDoc: array,
+    //         attachment: attch
+    //     })
+    // }
     removeNewDocument(index, event) {
         var array = this.state.newDoc;
-        var attch = this.state.attachment;
-        attch.splice(index, 1);
         array.splice(index, 1);
         this.setState({
-            newDoc: array,
-            attachment: attch
+            newDoc: array
         })
+        console.log('new doc',this.state.newDoc)
     }
 
     render() {
