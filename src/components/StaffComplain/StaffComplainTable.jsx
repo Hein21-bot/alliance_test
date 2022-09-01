@@ -72,7 +72,7 @@ export default class StaffComplainTable extends Component {
         var l = [];
         var status;
         var anonymous;
-        for (var i = 0; i < data.length; i++) {
+        for (var i = 0; i < data.length; i++) { console.log("dataa",data[i])
             let result = data[i];
             let obj = [];
             if (result.isAnonymous === 1) {
@@ -81,23 +81,23 @@ export default class StaffComplainTable extends Component {
             if (result.isAnonymous === 0) {
                 anonymous = '<img src="assets/img/cancel.svg"  style="width:20px;"></img>'
             }
-            if (result.status === 0) {
+            if (result.is_view === 0) {
                 status = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
 
             }
-            else if (result.status === 1) {
-                status = '<small class="label label-warning" style="background-color:#b33ce0"> Check By </small>'
+            else if (result.is_view === 1) {
+                status = '<small class="label label-warning" style="background-color:#1872ab"> Accept </small>'
             }
-            else if (result.status === 2) {
-                status = '<small class="label label-warning" style="background-color:#f2a509"> Approve By </small>'
-            }
-            else if (result.status === 3) {
-                status = '<small class="label label-warning" style="background-color:#29a50a"> Verify By </small>'
-            }
-            else if (result.status === 4) {
+            // else if (result.status === 2) {
+            //     status = '<small class="label label-warning" style="background-color:#f2a509"> Approve By </small>'
+            // }
+            // else if (result.is_view === 1) {
+            //     status = '<small class="label label-warning" style="background-color:#1872ab"> Accept </small>'
+            // }
+            // else if (result.status === 4) {
 
-                status = '<small class="label label-warning" style="background-color:#f60e2f"> Reject By </small>'
-            }
+            //     status = '<small class="label label-warning" style="background-color:#f60e2f"> Reject By </small>'
+            // }
             obj = {
                 no: i + 1,
                 isAnonymous: anonymous,

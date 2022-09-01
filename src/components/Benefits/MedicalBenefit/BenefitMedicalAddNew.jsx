@@ -183,11 +183,21 @@ class BenefitMedicalAddNew extends Component {
         }
         else {
             for (let i = 0; i < files.length; i++) {
-                attachment.push(files[i])
+                var getfile = document.querySelector("#attach_file").files[i];
+                attachment.push(getfile)
             }
         }
+        let newDoc = this.state.newDoc;
+        var obj = document.querySelector("#attach_file").files.length;
+        for (var i = 0; i < obj; i++) {
+            var getfile = document.querySelector("#attach_file").files[i];
+            newDoc.push(getfile)
+        }
+
+
         this.setState({
-            attachment: attachment
+            attachment: attachment,
+            newDoc: newDoc
         })
     }
 
@@ -397,90 +407,102 @@ class BenefitMedicalAddNew extends Component {
                         </div>
 
                         {
-                            !Array.isArray(this.state.one_benefit) ?
-                                this.state.is_main_role ?
-                                    this.state.doc.length > 0 ?
-                                        <div className="row document-main">
-                                            <input className="full_width hidden" type="file" id="attach_file" ></input>
+                        !Array.isArray(this.state.one_benefit) ?
+                            this.state.is_main_role ?
+                                this.state.doc.length > 0 ?
+                                    <div className="row document-main">
+                                        <input className="full_width hidden" type="file" id="attach_file" ></input>
 
-                                            <DocumentList title='Medical Benefit Document' doc={this.state.doc} path="medical_benefit" />
-                                        </div> : <input className="full_width hidden" type="file" id="attach_file" ></input>
-                                    :
+                                        <DocumentList title='Medical Benefit Document' doc={this.state.doc} path="medical_benefit" />
+                                    </div> : <input className="full_width hidden" type="file" id="attach_file" ></input>
+                                :
 
-                                    <div className="row">
-                                        <div className="form-group col-md-12" style={{ overflowX: "auto" }}>
-                                            <div className="ownspacing"></div>
-                                            <h4>Medical Benefit Document</h4>
-                                            <div className="col-md-12">
-                                                <input type="file" className="dropZone" id="attach_file" onChange={this.handlefileChanged.bind(this)} multiple /></div>
+                                <div className="row">
+                                    <div className="form-group col-md-12" style={{ overflowX: "auto" }}>
+                                        <div className="ownspacing"></div>
+                                        <h4>Medical Benefit Document</h4>
+                                        <div className="col-md-12">
+                                            <input type="file" accept="image/*" className="dropZone" id="attach_file" onChange={this.checkFiles.bind(this)} multiple /></div>
 
-                                            <div className="ibox float-e-margins">
-                                                <div className="p-md col-md-12" style={{ float: 'left', }}>
+                                        <div className="ibox float-e-margins">
+                                            <div className="p-md col-md-12" style={{ float: 'left', }}>
 
-                                                    {Array.isArray(this.state.one_benefit) && this.state.doc.map((data, index) =>
-                                                        <div className="fileuploader-items col-md-4"><ul className="fileuploader-items-list">
-                                                            <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
-                                                                <div className="columns">
-                                                                    <div className="column-title">
-                                                                        <a href={`${main_url}medical_benefit/getCRDocumentData/${data.name}`}
-                                                                            download target='_blank'
-                                                                            className="btn btn-primary document-body-bt document-width">
-                                                                            {data.name.split("&@")[1]}
-                                                                        </a>
-                                                                    </div>
-                                                                    <div className="column-actions">
-                                                                        <a className="fileuploader-action fileuploader-action-remove" onClick={(event) => this.removeOldDocument(index, event)}> <i></i></a>
-                                                                    </div>
-                                                                </div></li></ul>
+                                                {this.state.doc.map((data, index) =>
+                                                    <div className="fileuploader-items col-md-4"><ul className="fileuploader-items-list">
+                                                        <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
+                                                            <div className="columns">
+                                                                <div className="column-title">
+                                                                    <a href={`${main_url}medical_benefit/getCRDocumentData/${data.name}`}
+                                                                        download target='_blank'
+                                                                        className="btn btn-primary document-body-bt document-width">
+                                                                        {data.name.split("&@")[1]}
+                                                                    </a>
+                                                                </div>
+                                                                <div className="column-actions">
+                                                                    <a className="fileuploader-action fileuploader-action-remove" onClick={(event) => this.removeOldDocument(index, event)}> <i></i></a>
+                                                                </div>
+                                                            </div></li></ul>
 
-                                                        </div>
-                                                    )
-                                                    }
+                                                    </div>
+                                                )
+                                                }
 
-                                                    {this.state.newDoc.map((data, index) =>
+                                                {this.state.newDoc.map((data, index) =>
 
-                                                        <div className="fileuploader-items col-md-4"><ul className="fileuploader-items-list">
+                                                    <div className="fileuploader-items col-md-4"><ul className="fileuploader-items-list">
 
-                                                            <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
-                                                                <div className="columns">
-                                                                    <div className="column-title">
-                                                                        <a href='#'
-                                                                            className="btn btn-primary document-body-bt document-width">
-                                                                            {data.name}
-                                                                        </a>
-                                                                    </div>
-                                                                    <div className="column-actions">
-                                                                        <a className="fileuploader-action fileuploader-action-remove" onClick={(event) => this.removeNewDocument(index, event)}> <i></i></a>
-                                                                    </div>
-                                                                </div></li></ul>
-                                                        </div>
-                                                    )
-                                                    }
-                                                </div>
+                                                        <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
+                                                            <div className="columns">
+                                                                <div className="column-title">
+                                                                    <a href='#'
+                                                                        className="btn btn-primary document-body-bt document-width">
+                                                                        {data.name}
+                                                                    </a>
+                                                                </div>
+                                                                <div className="column-actions">
+                                                                    <a className="fileuploader-action fileuploader-action-remove" onClick={(event) => this.removeNewDocument(index, event)}> <i></i></a>
+                                                                </div>
+                                                            </div>
+                                                        </li></ul>
+                                                    </div>
+                                                )
+                                                }
                                             </div>
                                         </div>
                                     </div>
-                                :
-                                <div className="row">
-                                    <div className="form-group col-md-6">
-                                        <div>
-                                            <label htmlFor="attachment" className="col-sm-12 custom-file-label">Provide At Least One Or At Most Two
-                                    Attachment</label>
-                                        </div>
-
-                                        <div className="col-sm-10">
-                                            <input className="dropZone" type="file" id="attach_file" multiple onChange={this.checkFiles.bind(this)}></input>
-
-                                            {/* <CustomFileInput
-                                        btnName="Upload"
-                                        onChange={this.checkFiles.bind(this)}
-                                        id="attach_file"
-                                    /> */}
-                                        </div>
-
-                                    </div>
                                 </div>
-                        }
+                            :
+                            <div className="form-group col-md-6">
+                                <div>
+                                    <label htmlFor="attachment" className="col-sm-12 custom-file-label">Provide  One Or More
+                                        Attachment</label>
+                                </div>
+                                <div className="col-sm-10">
+                                    <input className="dropZone" accept="image/*" type="file" id="attach_file" multiple onChange={this.checkFiles.bind(this)}></input>
+                                </div>
+                                <div>
+                                    {
+                                        this.state.newDoc.map((data, index) =>
+
+                                            <div className="fileuploader-items col-md-4"><ul className="fileuploader-items-list">
+
+                                                <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
+                                                    <div className="columns"><div className="column-thumbnail">
+                                                        <div className="fileuploader-item-image fileuploader-no-thumbnail">
+                                                            <div className="fileuploader-item-icon" style={{ backgroundColor: '#3f4fd3' }}><i>{data.name.split(".")[1]}</i>
+                                                            </div></div><span className="fileuploader-action-popup"></span></div>
+                                                        <div className="column-title">
+                                                            <span className="own-text">
+                                                                {data.name}</span></div>
+                                                        <div className="column-actions">
+                                                            <a className="fileuploader-action fileuploader-action-remove" onClick={(event) => this.removeNewDocument(index, event)}> <i></i></a>
+                                                        </div></div></li></ul>
+                                            </div>
+                                        )
+                                    }
+                                </div>
+                            </div>
+                    }
                         <div className="row save-btn">
                             {
                                 !Array.isArray(this.state.one_benefit) && havePermission(this.state.work_flow_status , this.state.one_benefit.createdBy) ?
