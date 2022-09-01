@@ -131,17 +131,17 @@ export default class LeaveManagementMain extends Component {
                     <div className="col-sm-12" style={{ paddingRight: '20px' }}>
                         <div className="white-bg container" style={{ padding: '20px' }}>
                             {
-                                (active_tab === 0  ||  active_tab === 2 ?
+                                (active_tab === 0  ||  active_tab === 2 || active_tab === 3 ?
 
                                     <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
-                                        <li className="nav-item">
+                                        <li className="nav-item active">
                                             <a className="nav-link active" href="#myLeave_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(0)}>My Leave</a>
                                         </li>
-                                        <li className="nav-item1 active">
+                                        <li className="nav-item1 ">
                                         <a className="nav-link  active" href="#allLeave_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(2)}>All Leave</a>
                                         </li>
-                                        <li className="nav-item2">
-                                        <a className="nav-link  active" href="#allLeave_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(3)}>New Leave</a>
+                                        <li className="nav-item2 ">
+                                        <a className="nav-link  active" href="#newLeave_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(3)}>New Leave</a>
                                         </li>
                                     </ul> : active_tab === 4 ?
                                         <ul className="nav nav-tabs a2" role="tablist">
