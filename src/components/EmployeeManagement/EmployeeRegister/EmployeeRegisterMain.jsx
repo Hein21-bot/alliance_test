@@ -173,7 +173,7 @@ class EmployeeRegisterMain extends Component {
             addedDegreeData, addedQualitificationData, workExpData, contactPerson, contactPhone, checked, guarantor, guarantorPhone, bankData, address, joinDate, martialStatus, fatherName, motherName, parentCount, siblingCount, childCount, pInLawCount,
             trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo, attachmentUrl, employeeStatus, employeeDesignation, jobTitle, carrerLevel, employeeDetailBranch, employedDate, selected_gran_DistrictCode, gran_nrc_number, fromMonthYear, toMonthYear } = this.state
         let fullNRCNO = `${selected_NRC_Id ? selected_NRC_Id.label : ''}/${selected_DistrictCode ? selected_DistrictCode.label : ''}(N)${nrc_number}`
-        let guarantorNRC = `${selected_gran_NRC_Id ? selected_gran_NRC_Id.label : ''} ${selected_gran_DistrictCode ? selected_gran_DistrictCode.label : ''} ${gran_nrc_number}`
+        let guarantorNRC = `${selected_gran_NRC_Id ? selected_gran_NRC_Id.label : ''} /${selected_gran_DistrictCode ? selected_gran_DistrictCode.label : ''}(N) ${gran_nrc_number}`
         var data = {
             employeeId: employeeId,
             employeeNameEng: employeeNameEng,
