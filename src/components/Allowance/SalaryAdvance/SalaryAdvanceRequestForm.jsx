@@ -110,8 +110,8 @@ export default class SalaryAdvanceRequestForm extends Component {
             let path = 'saveSalaryAdvance';
             const formdata = new FormData();
 
-            for (var i = 0; i < this.state.attachment.length; i++) {
-                formdata.append('uploadfile', this.state.attachment[i]);
+            for (var i = 0; i < this.state.newDoc.length; i++) {
+                formdata.append('uploadfile', this.state.newDoc[i]);
             }
 
             if (!Array.isArray(this.state.one_advance)) {
