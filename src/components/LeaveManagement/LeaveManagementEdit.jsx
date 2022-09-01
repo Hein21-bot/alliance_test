@@ -554,8 +554,8 @@ class LeaveManagementEdit extends Component {
                         <div className="form-group"  >
                             <div><label className="col-sm-4" >Leave Category<span className="text-danger">*</span></label></div>
                             <div className="col-sm-8">
-                                {/* <input type='text' className='form-control' value={this.props.data.leave_category} disabled /> */}
-                                <Select
+                                <input type='text' className='form-control' value={this.props.data.leave_category} disabled />
+                                {/* <Select
                                     placeholder={this.props.data.leave_category}
                                     options={this.state.leaveCategory}
                                     value={this.state.selectedCategory}
@@ -563,7 +563,7 @@ class LeaveManagementEdit extends Component {
                                     onChange={this.handleChangeCategory}
                                     className='react-select-container'
                                     classNamePrefix="react-select"
-                                />
+                                /> */}
 
                             </div>
                         </div>

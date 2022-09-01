@@ -3,6 +3,7 @@ import Select from 'react-select';
 import '../../Benefits/Benefits.css';
 import { ToastContainer, toast } from 'react-toastify';
 import moment from 'moment'
+import $ from 'jquery'
 import { main_url, getUserId, getCookieData, validate, stopSaving, startSaving } from "../../../utils/CommonFunction";
 let limit_amount = 17500;
 let form_validate = true;
@@ -281,7 +282,7 @@ class TeamBuildingAddNew extends Component {
 
         let one_benefit = this.state.one_benefit;
         if (validate('check_form')) {
-           
+            $('#saving_button').attr('disabled', true);
             var data = {
                 location_id: this.state.selected_location.value,
                 quater: this.state.selected_quater.value,

@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import moment from "moment";
 import DatePicker from 'react-datetime';
 import DocumentList from '../../Common/DocumentList';
+import $ from 'jquery';
 import ApprovalForm from '../../Common/ApprovalForm';
 import Select from 'react-select';
 import { toast, ToastContainer } from 'react-toastify';
+
 import {
     main_url, getCookieData, getWorkFlowStatus, validate, getActionStatus,
     alertText, havePermission, stopSaving, startSaving, isRequestedUser, approveAmount, getBranch
@@ -216,7 +218,7 @@ class CycleAddNew extends Component {
        }else{
         let editData = !Array.isArray(this.state.one_benefit) == true ? (this.state.newDoc.length > 0 || this.state.attachment.length > 0 || this.state.doc.length > 0) && !Array.isArray(this.state.one_benefit) : !Array.isArray(this.state.one_benefit)
         if (validate('check_form') && (this.state.attachment.length > 0 || editData)) {
-           
+            $('#saving_button').attr('disabled', true);
             var data = {
                 requested_date: moment(this.state.requested_date).format('YYYY-MM-DD'),
                 user_id: this.state.one_benefit.user_id ? this.state.one_benefit.user_id : this.state.user_id,

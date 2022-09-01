@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../../Benefits/Benefits.css';
+import $ from 'jquery';
 import { ToastContainer, toast } from 'react-toastify';
 import { main_url, getCookieData, validate, alertText, stopSaving, startSaving } from "../../../utils/CommonFunction";
 import moment from 'moment';
@@ -97,6 +98,7 @@ class BenefitFuneralAddNew extends Component {
             toast.error("Please Choose Attachment File!")
         }else{
             if (validate("check_form") && this.state.attachment.length > 0) {
+                $('#saving_button').attr('disabled', true);
                 var data = {
                     user_id: this.state.user_id,
                     available_amount: this.state.available_amount,
@@ -112,9 +114,9 @@ class BenefitFuneralAddNew extends Component {
     
                 const formdata = new FormData();
     
-                var obj = document.querySelector("#attach_file").files.length;
+                var obj = this.state.newDoc.length;
                 for (var i = 0; i < obj; i++) {
-                    var imagedata = document.querySelector("#attach_file").files[i];
+                    var imagedata = this.state.newDoc[i];
                     formdata.append('uploadfile', imagedata);
                 }
     

@@ -5,6 +5,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import ApprovalForm from '../../Common/ApprovalForm';
 import moment from "moment";
 import DocumentList from '../../Common/DocumentList';
+import $ from 'jquery';
 import {
     main_url, getCookieData, getWorkFlowStatus, validate, getActionStatus,
     alertText, havePermission, stopSaving, startSaving, isRequestedUser, getBranch
@@ -256,14 +257,21 @@ class HospitalizationAddNew extends Component {
         });
     }
 
+    // removeNewDocument(index, event) {
+    //     var array = this.state.newDoc;
+    //     var attch = this.state.attachment;
+    //     attch.splice(index, 1);
+    //     array.splice(index, 1);
+    //     this.setState({
+    //         newDoc: array,
+    //         attachment: attch
+    //     })
+    // }
     removeNewDocument(index, event) {
         var array = this.state.newDoc;
-        var attch = this.state.attachment;
-        attch.splice(index, 1);
         array.splice(index, 1);
         this.setState({
-            newDoc: array,
-            attachment: attch
+            newDoc: array
         })
     }
     checkFiles(e) {
@@ -299,7 +307,7 @@ class HospitalizationAddNew extends Component {
             toast.error("Please Choose Attachment File!")
         } else {
             if (validate('check_form') && (this.state.attachment.length > 0 || !Array.isArray(this.state.one_benefit))) {
-
+                $('#saving_button').attr('disabled', true);
                 var data = {
                     employee_id: this.state.one_benefit.employee_id ? this.state.one_benefit.employee_id : this.state.user_id,
                     actual_date: moment(this.state.actual_date).format('YYYY-MM-DD'),
@@ -325,8 +333,8 @@ class HospitalizationAddNew extends Component {
                 const formdata = new FormData();
 
                 // var obj = document.querySelector("#attach_file").files.length;
-                for (var i = 0; i < this.state.attachment.length; i++) {
-                    formdata.append('uploadfile', this.state.attachment[i]);
+                for (var i = 0; i < this.state.newDoc.length; i++) {
+                    formdata.append('uploadfile', this.state.newDoc[i]);
                 }
 
                 let status = 0;
