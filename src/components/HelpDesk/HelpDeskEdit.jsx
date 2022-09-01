@@ -718,7 +718,7 @@ export default class HelpDeskView
                                                             {data.name.split("&@")[1]}
                                                         </a>
                                                     </div>
-                                                    {this.state.data.createdBy == this.state.updatedBy ? <div className="column-actions">
+                                                    {this.state.data.createdBy == this.state.updatedBy || this.state.data.assign_person_id == this.state.updatedBy? <div className="column-actions">
                                                         <a className="fileuploader-action fileuploader-action-remove" onClick={(event) => this.removeOldDocument(index, event)}> <i></i></a>
                                                     </div> : ""}
                                                 </div>
@@ -743,7 +743,7 @@ export default class HelpDeskView
                                                             {data.name}
                                                         </a>
                                                     </div>
-                                                    {this.state.data.createdBy == this.state.updatedBy ?
+                                                    {this.state.data.createdBy == this.state.updatedBy || this.state.data.assign_person_id == this.state.updatedBy  ?
                                                         <div className="column-actions">
                                                             <a className="fileuploader-action fileuploader-action-remove" onClick={(event) => this.removeOldDocument(index, event)}> <i></i></a>
                                                         </div> : ""}
