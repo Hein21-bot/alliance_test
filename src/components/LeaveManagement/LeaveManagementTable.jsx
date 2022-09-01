@@ -120,41 +120,39 @@ export default class LeaveManagementTable extends Component {
             })
             .catch(error => console.error(`Fetch Error =\n`, error));
     }
-
-    filter() {
-        if (this.state.tab == 2) {
-            let year = moment(this.state.year).format('YYYY')
-            this.getAllLeave(year);
-        } else if (this.state.tab == 0) {
-            let year = moment(this.state.year).format('YYYY')
-            let data = this.state.data.filter(v => moment(v.leave_start_date).format('YYYY') == year)
-            this._setTableData(data)
-        }
-    }
-    filterCategory(){
-        let selectedCategoryValue=this.state.selected_category_value ? this.state.selected_category_value : 0
-        let filterData=this.state.data.filter(v=>v.application_status == selectedCategoryValue);
-        if(this.state.selected_category_value == 0){
-            this._setTableData(this.state.data)
-           
-        }else{
-            this._setTableData(filterData)
-        }
-       
-    }
-
-
-    handleYear = (event) => {
-        this.setState({
-            year: event
-        })
-    }
     handleCategory=(event)=>{
         this.setState({
             selected_category:event,
             selected_category_value:event.value
         })
     }
+
+    filter() {
+        if (this.state.tab == 0) {
+            let year = moment(this.state.year).format('YYYY')
+            this.getAllLeave(year);
+        } else if (this.state.tab == 2) {
+            let year = moment(this.state.year).format('YYYY')
+            let data = this.state.data.filter(v => moment(v.leave_start_date).format('YYYY') == year)
+            let selectedCategoryValue=this.state.selected_category_value ? this.state.selected_category_value : 0
+            let filterData=this.state.data.filter(v=>v.application_status == selectedCategoryValue);
+            if(this.state.selected_category_value == 0){
+                this._setTableData(data)
+               
+            }else{
+                this._setTableData(filterData)
+            }
+           
+
+        }
+    }
+   
+    handleYear = (event) => {
+        this.setState({
+            year: event
+        })
+    }
+   
 
     _setTableData = (data) => {
         var table;
@@ -316,7 +314,7 @@ export default class LeaveManagementTable extends Component {
             <div>
                 <div className="row border-bottom white-bg dashboard-header">
                     <div className="row">
-                    {this.state.tab == 2 || this.state.tab == 0 ? 
+                    {this.state.tab == 0 ? 
                     <>
                         <div className="col-md-3">
                             <div><label className="col-sm-12">Select Year</label></div>
@@ -342,7 +340,21 @@ export default class LeaveManagementTable extends Component {
                 : ''}
                 {
                     this.state.tab ==2 ? <>
-                         <div className="col-md-3">
+                    <div className="col-md-3">
+                            <div><label className="col-sm-12">Select Year</label></div>
+                            <div className="col-md-10">
+                                <DatePicker
+
+                                    dateFormat="YYYY"
+                                    // dateFormat="DD/MM/YYYY"
+                                    value={moment(this.state.year).format('YYYY')}
+                                    onChange={this.handleYear}
+                                    selected={moment(this.state.year).format('YYYY')}
+                                    timeFormat={false}
+                                />
+                            </div>
+                        </div>
+                        <div className="col-md-3">
                             <div><label className="col-sm-12">Leave Status</label></div>
                             <div className="col-md-10">
                             <Select
@@ -357,9 +369,11 @@ export default class LeaveManagementTable extends Component {
                         </div>
                         <div className="col-md-3">
                             <div className="col-md-10 margin-top-20">
-                                <button type="button" className="btn btn-primary" onClick={this.filterCategory.bind(this)}>Search</button>
+                                <button type="button" className="btn btn-primary" onClick={this.filter.bind(this)}>Search</button>
                             </div>
                         </div>
+                         
+                        
                     </> : ''
                 }
                     </div>
