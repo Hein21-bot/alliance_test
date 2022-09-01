@@ -75,51 +75,56 @@ class BenefitChildAddNew extends Component {
     }
 
     save() {
-       if(this.state.attachment.length == 0){
-        toast.error("Please Choose Attachment File!");
+        if (this.state.newDoc.length == 0) {
+            toast.error("Please Choose Attachment File!");
 
-       }else{
-        if (validate('check_form') && this.state.attachment.length > 0) {
-            
-            var data = {
-                user_id: this.state.user_info.user_id,
-                child_count: this.state.noOfChildren,
-                available_amount: this.state.available_amount,
-                status: this.state.status,
-                createdBy: this.state.createdBy,
-                updatedBy: this.state.updatedBy
-            }
-           
+        } else {
+            if (validate('check_form') && this.state.newDoc.length > 0) {
 
-            const formdata = new FormData();
+                var data = {
+                    user_id: this.state.user_info.user_id,
+                    child_count: this.state.noOfChildren,
+                    available_amount: this.state.available_amount,
+                    status: this.state.status,
+                    createdBy: this.state.createdBy,
+                    updatedBy: this.state.updatedBy
+                }
 
-            var obj = document.querySelector("#attach_file").files.length;
-            for (var i = 0; i < obj; i++) {
-                var imagedata = document.querySelector("#attach_file").files[i];
-                formdata.append('uploadfile', imagedata);
-            }
 
-            formdata.append('child_benefit', JSON.stringify(data))
+                const formdata = new FormData();
 
-            let status = 0;
-            fetch(`${main_url}child_benefit/saveChildBenefit`, {
-                method: "POST",
-                body: formdata
-            })
-                .then(res => {
-                    status = res.status;
-                    return res.text()
+                // var obj = document.querySelector("#attach_file").files.length;
+                // for (var i = 0; i < obj; i++) {
+                //     var imagedata = document.querySelector("#attach_file").files[i];
+                //     console.log('image data is ====>', imagedata)
+                //     formdata.append('uploadfile', imagedata);
+                // }
+                var obj = this.state.newDoc.length
+                for (var i = 0; i < obj; i++) {
+                    var doc = this.state.newDoc[i];
+                    formdata.append('uploadfile', doc);
+                }
+                formdata.append('child_benefit', JSON.stringify(data))
+
+                let status = 0;
+                fetch(`${main_url}child_benefit/saveChildBenefit`, {
+                    method: "POST",
+                    body: formdata
                 })
-                .then(text => {
-                    this.props.showToast(status, text);
-                })
+                    .then(res => {
+                        status = res.status;
+                        return res.text()
+                    })
+                    .then(text => {
+                        this.props.showToast(status, text);
+                    })
+            }
+            else {
+                startSaving();
+                form_validate = false;
+            }
         }
-        else {
-            startSaving();
-            form_validate = false;
-        }
-       }
-        
+
     }
 
     render() {
@@ -204,7 +209,7 @@ class BenefitChildAddNew extends Component {
                             <div className="form-group col-md-6">
                                 <div>
                                     <label htmlFor="attachment" className="col-sm-12 custom-file-label">Provide At Least One Or At Most Two
-                                    Attachment</label>
+                                        Attachment</label>
                                 </div>
                                 <div className="col-sm-10">
                                     <input className="dropZone " type="file" id="attach_file" multiple onChange={this.checkFiles.bind(this)}></input>
