@@ -303,7 +303,7 @@ class HospitalizationAddNew extends Component {
         this.setState({ status_title: text, comment: comment }, () => this.save())
     }
     save() {
-        if (this.state.attachment.length == 0 && this.state.doc.length == 0) {
+        if (this.state.newDoc.length == 0 && this.state.doc.length == 0) {
             toast.error("Please Choose Attachment File!")
         } else {
             if (validate('check_form') && (this.state.attachment.length > 0 || !Array.isArray(this.state.one_benefit))) {

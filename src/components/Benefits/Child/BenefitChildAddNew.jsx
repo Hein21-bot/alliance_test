@@ -45,6 +45,7 @@ class BenefitChildAddNew extends Component {
     };
     removeNewDocument(index, event) {
         var array = this.state.newDoc;
+        
         array.splice(index, 1);
         this.setState({
             newDoc: array
@@ -78,11 +79,13 @@ class BenefitChildAddNew extends Component {
 
 
     save() {
-       if(this.state.newDoc.length ==0 && this.state.doc.length ==0){
+        console.log("new doc",this.state.newDoc)
+        console.log("doc",this.state.doc)
+       if(this.state.newDoc.length ==0){
         toast.error("Please Choose Attachment File!");
 
        }else{
-        if (validate('check_form') && this.state.attachment.length > 0) {
+        if (validate('check_form') && this.state.newDoc.length > 0) {
             console.log("save new doc",this.state.newDoc)
             $('#saving_button').attr('disabled', true);
             var data = {
