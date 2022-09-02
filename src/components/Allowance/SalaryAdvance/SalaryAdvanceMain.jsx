@@ -78,7 +78,7 @@ class SalaryAdvanceMain extends Component {
             .then(res => {
                 this.setState({ 
                     data : res,
-                    dataList: res.filter(v=>v.user_id===this.state.user_id),
+                    dataList: res.filter(v=>v.user_id != this.state.user_id),
                 })
     })}
     approvedlist = async (data) => {
@@ -109,7 +109,7 @@ class SalaryAdvanceMain extends Component {
         }
     }
 
-    render() {   console.log("dataaa==========>",this.state.data)
+    render() {
         return (
             <div >
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />

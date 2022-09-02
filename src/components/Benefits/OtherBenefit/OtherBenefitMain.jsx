@@ -75,7 +75,7 @@ class OtherBenefitMain extends Component {
             .then(res => {
 
                 if (res) {
-                    this.setState({ data: res,requestData:res.filter(v=>v.createdBy ==this.state.user_id) })
+                    this.setState({ data: res,requestData:res.filter(v=>v.createdBy != this.state.user_id) })
                 }
             })
             .catch(error => console.error(`Fetch Error =\n`, error));
