@@ -187,7 +187,8 @@ class ThingsTodoTable extends Component {
                       >
                         <p
                           style={{
-                            fontSize: 11,
+                            fontSize: 13,
+                            fontWeight: "bold",
                             color: primary,
                             textAlign: "center",
                             marginTop: "3px",
@@ -198,21 +199,20 @@ class ThingsTodoTable extends Component {
                         </p>
                       </div>
                     </div>
-                    <div className="col-lg-7 col-md-7 col-sm-7" style={{ color: primary, fontSize: 11, marginTop: 5 }}>
+                    <div className="col-lg-7 col-md-7 col-sm-7" style={{ color: primary, fontSize: 12, marginTop: 5,fontWeight:"bold" }}>
                       {v.request}
                     </div>
-                    <div className="col-lg-4 col-md-3 col-sm-3">
+                    <div className="col-lg-3 col-md-3 col-sm-3" style={{display:"flex",justifyContent:"end"}}>
                       <button
                         className="btn text-center"
                         onClick={() => this.props.history.push(v.link)}
                         style={{
                           height: 22,
                           padding: "0px 5px 0px 5px",
-                          fontSize: 10,
+                        
                         }}
                       >
-                        More Info
-                        <i
+                         <i
                           class="fa fa-arrow-circle-right"
                           style={{ marginLeft: 5 }}
                           aria-hidden="true"
