@@ -408,7 +408,7 @@ export default class HelpDeskView
     check = () => {
         stopSaving();
         if (validate('check_form')) {
-            this.props.editHelpDesk(this.state.updatedBy, this.state.data, this.state.document);
+            this.props.editHelpDesk(this.state.updatedBy, this.state.data, this.state.document, this.state.newDoc);
         } else {
             startSaving();
             form_validate = false;

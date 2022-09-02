@@ -73,12 +73,12 @@ export default class HelpDeskParent extends Component {
 
     }
 
-    editHelpDesk = (userId, data, doc) => {
+    editHelpDesk = (userId, data, doc, newDoc) => {
         const formdata = new FormData();
         data.updatedBy = userId;
         var obj = document.querySelector("#HDEdit").files.length;
-        for (var i = 0; i < obj; i++) {
-            var imagedata = document.querySelector("#HDEdit").files[i];
+        for (var i = 0; i < newDoc.length; i++) {
+            var imagedata = newDoc[i];
 
             formdata.append('uploadfile', imagedata);
         }
