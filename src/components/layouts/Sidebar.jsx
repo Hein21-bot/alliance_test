@@ -122,7 +122,7 @@ export default class Sidebar extends Component {
               </li>
               <li className={((pathname === "/dashboard") || (pathname == `${'/'+user.user_id}`) ? 'active':'')} id="dashboard">
                   <a href="/dashboard"  className="sideList">
-                    <img src={"assets/icons/Dashboard.png"} alt="" width="15px"  />
+                    <img src={"assets/icons/Dashboard.svg"} alt="" height="20" width="20" style={{marginRight:5}}  />
                     <span className="sideText">Dashboard</span>
                   </a>
                 </li>
@@ -130,7 +130,7 @@ export default class Sidebar extends Component {
                 className={this.checkPathName() === "/setting" ? "active" : ""}
               >
                 <a href="/attendance_policy_setting" className="sideList">
-                  <i className="fas fa-cog sideIcon"></i>
+                  <i className="fas fa-cog sideIcon" style={{color:'white'}}></i>
                   <span className="sideText">Setting</span>
                 </a>
                 <ul className="nav nav-second-level collapse">
@@ -186,7 +186,7 @@ export default class Sidebar extends Component {
                 }
               >
                 <a href="/career_level_master_data" className="sideList">
-                  <i className="fa fa-key sideIcon"></i>
+                  <i className="fa fa-key sideIcon" style={{color:'white'}}></i>
                   <span className="sideText">Master Data</span>
                 </a>
                 <ul className="nav nav-second-level collapse">
@@ -320,7 +320,7 @@ export default class Sidebar extends Component {
                 }
               >
                 <a href="/employee_list" className="sideList">
-                  <i className="fas fa-user-cog"></i>
+                  <i className="fas fa-user-cog" style={{color:'white'}}></i>
                   <span className="sideText">Employee Management</span>
                 </a>
                 <ul className="nav nav-second-level collapse">
@@ -349,7 +349,7 @@ export default class Sidebar extends Component {
                   className="sideList"
                   refresh="true"
                 >
-                  <i className="fa fa-level-down sideIcon"></i>
+                  <img src="assets/icons/Attendance.svg" alt="" width="20" height="20" style={{marginRight:5}} />
                   <span className="sideText">Attendance and Leave</span>
                 </a>
               </li>
@@ -369,7 +369,8 @@ export default class Sidebar extends Component {
                 }
               >
                 <a href="/leave_management" className="sideList">
-                <i className="far fa-sticky-note sideIcon"></i>
+                  
+                  <img src="assets/icons/Leave (1).svg" alt="" width="20" height="20" style={{marginRight:5}} />
                   <span className="sideText">Leave</span>
                 </a>
                 <ul className="nav nav-second-level collapse">
@@ -402,7 +403,7 @@ export default class Sidebar extends Component {
                 className={this.checkPathName() === "/benefit" ? "active" : ""}
               >
                 <a href="/wedding_benefit" className="sideList">
-                  <i className="fas fa-plus-circle sideIcon"></i>
+                 <img src="assets/icons/Benefit.svg" width="20" height="20" alt="" style={{marginRight:5}} />
                   <span className="sideText">Benefits</span>
                 </a>
                 <ul className="nav nav-second-level collapse">
@@ -470,7 +471,7 @@ export default class Sidebar extends Component {
                 }
               >
                 <a href="/travelRequest" className="sideList">
-                  <i className="fas fa-hand-holding-usd sideIcon"></i>
+                <img src="assets/icons/Allowance (1).svg" alt="" width="20" height="20" style={{marginRight:5}} />
                   <span className="sideText">Allowance</span>
                 </a>
                 <ul className="nav nav-second-level collapse">
@@ -502,7 +503,7 @@ export default class Sidebar extends Component {
                 className={this.checkPathName() === "/helpDesk" ? "active" : ""}
               >
                 <a href="/helpDesk" className="sideList" refresh="true">
-                  <i className="fas fa-hands-helping sideIcon"></i>
+                <img src="assets/icons/Helpdesk (1).svg" alt="" width="20" height="20" style={{marginRight:5}} />
                   <span className="sideText">Help Desk</span>
                 </a>
               </li>
@@ -512,7 +513,7 @@ export default class Sidebar extends Component {
                 }
               >
                 <a href="/staffComplain" className="sideList" refresh="true">
-                  <i className="fas fa-question-circle sideIcon"></i>
+                <img src="assets/icons/aa.svg" width="20" height="20" style={{marginRight:5}} alt="" />
                   <span className="sideText">Staff Complain Box</span>
                 </a>
               </li>
@@ -523,7 +524,7 @@ export default class Sidebar extends Component {
                 }
               >
                 <a href="/staff_loan" className="sideList">
-                  <i className="fas fa-landmark sideIcon"></i>
+                  <img src="assets/icons/bb.svg" width="20" height="20" style={{marginRight:5}} alt="" />
                   <span className="sideText">Staff Loan</span>
                 </a>
                 <ul className="nav nav-second-level collapse">
@@ -560,7 +561,7 @@ export default class Sidebar extends Component {
                 className={this.checkPathName() === "/confirmation" ? "active" : ""}
               >
                 <a href="/confirmation_list" className="sideList">
-                  <i className="fas fa-user-check"></i>
+                  <i className="fas fa-user-check" style={{color:'white'}}></i>
                   <span className="sideText">Confirmation</span>
                 </a>
                 <ul className="nav nav-second-level collapse">
@@ -602,7 +603,7 @@ export default class Sidebar extends Component {
                 className={this.checkPathName() === "/reports" || pathname === "/EmployeeDirectory" || pathname ==="/ResignStaffReport" || pathname==="/RegionStaffReport" || pathname ==="/BranchStaffReport" || pathname==="/HoStaffReport" || pathname==="/EmployeeReport" || pathname==="/ReportbyServiceYear" || pathname==="/HistoryReport" || pathname==="/FRDReport" || pathname==="/ExtensionReport" || pathname==="/RegionWiseStaffReportCount" ? "active" : ""}
               >
                 <a href="/EmployeeDirectory" className="sideList">
-                  <i className="fa fa-folder sideIcon"></i>
+                  <i className="fa fa-folder sideIcon" style={{color:'white'}}></i>
                   <span className="sideText">Reports</span>
                 </a>
                 <ul className="nav nav-second-level collapse">
@@ -664,14 +665,14 @@ export default class Sidebar extends Component {
                 }
               >
                 <a href="/notification" className="sideList" refresh="true">
-                  <i className="fa fa-bell sideIcon"></i>
+                  <i className="fa fa-bell sideIcon" style={{color:'white'}}></i>
                   <span className="sideText">Notification</span>
                 </a>
               </li>
               {
                 <li className={pathname === "/Announcement" ? "active" : ""}>
-                  <a href="/Announcement" className="sideList">
-                    <i className="fas fa-atlas sideIcon"></i>
+                  <a href="/Announcement" className="sideList" >
+                    <i className="fas fa-atlas sideIcon" style={{color:'white'}}></i>
                     <span className="sideText">Announcement Setting</span>
                   </a>
                 </li>
@@ -679,7 +680,7 @@ export default class Sidebar extends Component {
               
               <li>
                   <a href={remote_url} className="sideList" onClick={this.logout.bind(this)}>
-                      <i className="fa fa-sign-out sideIcon"></i> <span className="sideText">Log out</span>
+                      <i className="fa fa-sign-out sideIcon" style={{color:'white'}}></i> <span className="sideText">Log out</span>
                   </a>
               </li>
               {/* <li className={pathname === '/notification' ? 'active' : ''}>
