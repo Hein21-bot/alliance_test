@@ -75,6 +75,7 @@ class BenefitChildEdit extends Component {
             newDoc.push(getfile)
 
         }
+        document.getElementById('dropEditChildBenefit').value=''
 
         this.setState({
             newDoc: newDoc,
@@ -133,9 +134,9 @@ class BenefitChildEdit extends Component {
                 child_count: this.state.datasource.child_count,
             }
             const formdata = new FormData();
-            var obj = document.querySelector("#dropEditChildBenefit").files.length;
+            var obj = this.state.newDoc.length;
             for (var i = 0; i < obj; i++) {
-                var imagedata = document.querySelector("#dropEditChildBenefit").files[i];
+                var imagedata = this.state.newDoc[i];
                 formdata.append('uploadfile', imagedata);
             }
 

@@ -55,23 +55,20 @@ class BenefitChildAddNew extends Component {
 
     checkFiles(e) {
         var files = document.getElementById("attach_file").files;
-        var attachment = [];
+       
         if (files.length > 2) {
             toast.warning('You can only upload a maximum of 2 files!')
         }
-        else {
-            for (let i = 0; i < files.length; i++) {
-                attachment.push(files[i])
-            }
-        }
+        
         let newDoc = this.state.newDoc;
         var obj = document.querySelector("#attach_file").files.length;
         for (var i = 0; i < obj; i++) {
             var getfile = document.querySelector("#attach_file").files[i];
             newDoc.push(getfile)
         }
+        document.getElementById('attach_file').value=''
         this.setState({
-            attachment: attachment,
+            // attachment: attachment,
             newDoc: newDoc
         })
     }

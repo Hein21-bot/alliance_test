@@ -112,7 +112,7 @@ class BenefitOtherEdit extends Component {
             var getfile = document.querySelector("#dropOther").files[i];
             newDoc.push(getfile)
         }
-
+        document.getElementById("dropOther").value=''
         this.setState({
             newDoc: newDoc
 
@@ -137,9 +137,9 @@ class BenefitOtherEdit extends Component {
             }
             const formdata = new FormData();
 
-            var obj = document.querySelector("#dropOther").files.length;
+            var obj = this.state.newDoc.length;
             for (var i = 0; i < obj; i++) {
-                var imagedata = document.querySelector("#dropOther").files[i];
+                var imagedata = this.state.newDoc[i];
 
                 formdata.append('uploadfile', imagedata);
             }
@@ -213,10 +213,6 @@ class BenefitOtherEdit extends Component {
         array.splice(index, 1);
         this.setState({
             newDoc: array
-        },()=>{
-            if(this.state.newDoc.length == 0){
-                document.getElementById("dropOther").value=""
-            }
         })
     }
 

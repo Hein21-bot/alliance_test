@@ -200,10 +200,12 @@ class BenefitWeddingAddNew extends Component {
       var getfile = document.querySelector("#attach_file").files[i];
       newDoc.push(getfile);
     }
+    document.getElementById('attach_file').value=''
     this.setState({
       attachment: attachment,
       newDoc: newDoc
     });
+    console.log("new doc",this.state.newDoc)
   }
 
   approvalStatus = (text, comment) => {

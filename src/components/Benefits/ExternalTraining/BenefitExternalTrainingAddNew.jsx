@@ -4,6 +4,7 @@ import $ from 'jquery';
 import { ToastContainer, toast } from 'react-toastify';
 import { main_url, getCookieData, validate, alertText, stopSaving, startSaving } from "../../../utils/CommonFunction";
 import moment from 'moment';
+import { DotLoader } from 'react-spinners';
 
 var form_validate = true;
 class BenefitFuneralAddNew extends Component {
@@ -177,6 +178,7 @@ class BenefitFuneralAddNew extends Component {
             var getfile = document.querySelector("#attach_file").files[j];
             newDoc.push(getfile)
         }
+        document.getElementById('attach_file').value=''
         this.setState({
             newDoc: newDoc,
             attachment: attachment

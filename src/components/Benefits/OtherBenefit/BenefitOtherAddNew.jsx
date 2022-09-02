@@ -85,7 +85,7 @@ class BenefitOtherAddNew extends Component {
             newDoc.push(getfile)
         }
 
-
+        document.getElementById("attach_file").value=''
         this.setState({
             attachment: attachment,
             newDoc: newDoc
@@ -168,10 +168,6 @@ class BenefitOtherAddNew extends Component {
                     document.getElementById("attach_file").value=''
              
                 
-            }else{
-                for (var i = 0; i < this.state.newDoc.length; i++) {
-                    document.getElementById("attach_file").value=this.state.newDoc[i]
-                }
             }
         })
         

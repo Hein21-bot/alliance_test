@@ -84,9 +84,9 @@ class BenefitFuneralAddNew extends Component {
             var { status_title, is_main_role } = this.state;
             const formdata = new FormData();
 
-            var obj = document.querySelector("#dropExternalEdit").files.length;
+            var obj = this.state.newDoc.length;
             for (var i = 0; i < obj; i++) {
-                var imagedata = document.querySelector("#dropExternalEdit").files[i];
+                var imagedata = this.state.newDoc[i];
 
                 formdata.append('uploadfile', imagedata);
             }

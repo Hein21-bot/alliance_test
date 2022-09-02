@@ -199,7 +199,7 @@ class BenefitMedicalAddNew extends Component {
             newDoc.push(getfile)
         }
 
-
+        document.querySelector("#attach_file").value=''
         this.setState({
             attachment: attachment,
             newDoc: newDoc

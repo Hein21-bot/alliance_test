@@ -141,6 +141,7 @@ class FuneralBenefitEdit extends Component {
             var getfile = document.querySelector("#dropFuneralEdit").files[i];
             newDoc.push(getfile)
         }
+        document.getElementById('dropFuneralEdit').value=''
         this.setState({
             newDoc: newDoc
 
@@ -224,9 +225,9 @@ class FuneralBenefitEdit extends Component {
             let { status_title, is_main_role } = this.state;
             const formdata = new FormData();
 
-            var obj = document.querySelector("#dropFuneralEdit").files.length;
+            var obj = this.state.newDoc.length;
             for (var i = 0; i < obj; i++) {
-                var imagedata = document.querySelector("#dropFuneralEdit").files[i];
+                var imagedata = this.state.newDoc[i];
 
                 formdata.append('uploadfile', imagedata);
             }
