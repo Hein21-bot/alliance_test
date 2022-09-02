@@ -144,14 +144,14 @@ class LeaveManagementView extends Component {
                         <div className="form-group">
                             <div><label className="col-sm-4">Approved Date<span className="text-danger">*</span></label> </div>
                             <div className="col-sm-8 ">
-                                <input type='text' className='form-control' value={this.props.data.approved_date != null ? moment(this.props.data.approved_date).format("YYYY-MM-DD"): "-"} disabled />
+                                <input type='text' className='form-control' value={this.props.data.approved_date != null ? moment(this.props.data.approved_date).format("YYYY-MM-DD") : "-"} disabled />
 
                             </div>
                         </div>
                         <div className="form-group">
                             <div><label className="col-sm-4">Applied On<span className="text-danger">*</span></label> </div>
                             <div className="col-sm-8 ">
-                                <input type='text' className='form-control' value={moment(this.props.data.application_date).format('YYYY-MM-DD h:mm a')} disabled />
+                                <input type='text' className='form-control' value={moment(this.props.data.application_date).format('YYYY-MM-DD')} disabled />
 
                             </div>
                         </div>
