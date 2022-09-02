@@ -135,7 +135,6 @@ export default class SalaryAdvanceRequestForm extends Component {
                 }
                 formdata.append('advance', JSON.stringify(data))
                 formdata.append('oldDoc', JSON.stringify(this.state.newDoc))
-                console.log('form data is ====>', formdata, this.state.newDoc)
                 let status = 0;
                 fetch(`${main_url}salary_advance/${path}`, {
                     method: 'POST',
