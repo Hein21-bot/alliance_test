@@ -156,11 +156,27 @@ class BenefitOtherAddNew extends Component {
     // }
     removeNewDocument(index, event) {
         var array = this.state.newDoc;
+        var attch=this.state.attachment;
+        attch.splice(index,1);
         array.splice(index, 1);
         this.setState({
-            newDoc: array
+            newDoc: array,
+            attachment:attch
+        },()=>{
+            if(this.state.newDoc.length == 0){
+                
+                    document.getElementById("attach_file").value=''
+             
+                
+            }else{
+                for (var i = 0; i < this.state.newDoc.length; i++) {
+                    document.getElementById("attach_file").value=this.state.newDoc[i]
+                }
+            }
         })
+        
         console.log('new doc',this.state.newDoc)
+        console.log('attchment',this.state.attachment)
     }
 
     render() {

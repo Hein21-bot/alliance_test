@@ -122,7 +122,7 @@ export default class Sidebar extends Component {
               </li>
               <li className={((pathname === "/dashboard") || (pathname == `${'/'+user.user_id}`) ? 'active':'')} id="dashboard">
                   <a href="/dashboard"  className="sideList">
-                    <i className="fa fa-th-large"></i>
+                    <img src={"assets/icons/Dashboard.png"} alt="" width="15px"  />
                     <span className="sideText">Dashboard</span>
                   </a>
                 </li>

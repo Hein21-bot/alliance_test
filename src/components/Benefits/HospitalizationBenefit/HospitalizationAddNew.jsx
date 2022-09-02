@@ -272,6 +272,10 @@ class HospitalizationAddNew extends Component {
         array.splice(index, 1);
         this.setState({
             newDoc: array
+        },()=>{
+            if(this.state.newDoc.length == 0){
+                document.getElementById('attach_file').value=''
+            }
         })
     }
     checkFiles(e) {

@@ -132,16 +132,16 @@ export class AttendanceCaldendar extends Component {
                         formatWeekDay={nameOfDay => nameOfDay.substr(0, 3)}
                     />
                 </div>
-                <div className="col-md-7 col-lg-8 col-sm-7">
-                    <div style={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', }}>
-                        <div className="col-md-12 col-lg-12" style={{ display: 'flex',width:'100%', marginBottom: '30px', flexDirection: 'column', marginLeft: 20 }}>
-                            <div style={{ display: 'flex', flexDirection: 'row', width: 'col-12',textAlign:'start' }}>
+                <div className="col-md-7 col-lg-6 col-sm-7">
+                    <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', }}>
+                        <div className="col-md-12 col-lg-12" style={{ display: 'flex',width:'100%',  flexDirection: 'column'}}>
+                            <div style={{ display: 'flex', flexDirection: 'row', width: '100%',textAlign:'start',marginBottom: '30px', }}>
                                 <div className="col-md-7 col-lg-5" style={{ height: '30px', borderRadius: '5px 0px 0px 5px', backgroundColor: '#efefef', display: 'flex', justifyContent: 'center', alignItems: 'center', color: primary, fontSize: '12px' }}>Total Working Days
                                 </div>
                                 <div style={{ width: '10%', height: '30px', borderRadius: '5px', backgroundColor: primary, display: "flex", justifyContent: "center", alignItems: "center", fontSize: '16px', color: 'white' }}>21</div>
                             </div>
-                            <div style={{ display: 'flex', flexDirection: 'row', width: 'col-12', alignItems: 'center', justifyContent: 'space-between', marginTop: 20 }}>
-                                <div className="col-md-12 col-lg-12" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'left' }}>
+                           
+                                <div className="col-md-12 col-lg-12" style={{ display: 'flex', flexDirection: 'row', textAlign:'start' }}>
                                     <div style={{ width: '20%', height: '130px', backgroundColor: secondary, borderRadius: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center', marginRight: 5 }}>
                                         <p style={{ fontSize: '30px', color: 'white' }}>19</p>
                                         <p style={{ fontWeight: 'bold', textAlign: 'center', fontSize: '10px', color: 'white' }}>Attendance Day</p>
@@ -155,7 +155,12 @@ export class AttendanceCaldendar extends Component {
                                         <p style={{ fontWeight: 'bold', textAlign: 'center', fontSize: '10px', color: 'white' }}>Absense Day</p>
                                     </div>
                                 </div>
-                                <div className="">
+                               
+                        </div>
+                    </div>
+                </div>
+                <div>
+                <div className="col-lg-2">
                                     <div style={{ display: 'flex', width: '100%', marginBottom: '5px' }}>
                                         <div style={{ width: '20px', height: '20px', borderRadius: '5px', backgroundColor: darky, marginRight: 5 }}>
                                         </div>
@@ -179,12 +184,8 @@ export class AttendanceCaldendar extends Component {
 
                                     </div>
                                 </div>
-
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                {/* <div className="col-lg-5 col-md-5 col-sm-5" style={{margin:'0px !important'}}>
+                {/* <div className="col-lg-4 col-md-8 col-sm-5" style={{margin:'0px !important'}}>
                 <ReactDatePicker
                         selected={this.state.startDate}
                         onChange={(date) => this.setState({ startDate: date })}
@@ -197,7 +198,7 @@ export class AttendanceCaldendar extends Component {
                     />
                 </div>
                
-                <div className="col-lg-5 col-md-5 col-sm-5" style={{margin:'0px !important'}}>
+                <div className="col-lg-4 col-md-4 col-sm-4" style={{margin:'0px !important'}}>
                     <div style={{ display: 'flex', flexDirection: 'row', width: 'col-12',marginBottom:5 }}>
                         <div className="col-lg-12 col-md-12 col-sm-12" style={{ height: '30px', borderRadius: '5px 0px 0px 5px', backgroundColor: '#efefef', display: 'flex', justifyContent: 'center', alignItems: 'center', color: primary, fontSize: '12px' }}>Total Working Days
                         </div>
