@@ -43,7 +43,7 @@ class BirthdayFundMain extends Component {
                 if (res) {
                     this.setState({ 
                         data: res,
-                        requestData:res.filter(v=>v.createdBy ==this.state.user_id)
+                        requestData:res.filter(v=>v.createdBy !=this.state.user_id)
                     })
                 }
             })

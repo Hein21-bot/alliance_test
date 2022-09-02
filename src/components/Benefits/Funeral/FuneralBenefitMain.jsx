@@ -39,7 +39,7 @@ class FuneralBenefitMain extends Component {
             })
             .then(res => {
                 if (res) {
-                    this.setState({ datasource: res,requestData:res.filter(v=>v.createdBy ==this.state.user_id) })
+                    this.setState({ datasource: res,requestData:res.filter(v=>v.createdBy != this.state.user_id) })
                 }
             })
             .catch(error => console.error(`Fetch Error =\n`, error));

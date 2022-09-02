@@ -302,30 +302,25 @@ export default class TravelRequestAdvancedTable extends Component {
             })
             .then(list => {
                 if (this.state.pending_approve == 'myrequest') {
-                    this.setState({ dataList: list, data: list.length > 0 && list.filter(v => v.user_id === this.state.user_id) }, () => this._setTableData(this.state.data));
+                    this.setState({ dataList: list, data: list.length > 0 && list.filter(v => v.user_id == this.state.user_id) }, () => this._setTableData(this.state.data));
                 } else if (this.state.pending_approve == 'allrequest') {
-                    this.setState({ dataList: list, data: list.length > 0 && list.filter(v => v.user_id !== this.state.user_id) }, () => this._setTableData(this.state.data));
+                    this.setState({ dataList: list, data: list.length > 0 && list.filter(v => v.user_id != this.state.user_id) }, () => this._setTableData(this.state.data));
 
                 }
 
             })
     }
     approvedlist = async (data) => {
-        console.log("><<<", data)
+        
         if (data == 'myrequest') {
-            console.log("pendingg", this.state.user_id)
             this.setState({
-                data: this.state.dataList != undefined && this.state.dataList.filter(v => v.user_id === this.state.user_id),
+                data: this.state.dataList != undefined && this.state.dataList.filter(v => v.user_id == this.state.user_id),
                 pending_approve: 'myrequest',
 
-            }, () => {
-                console.log()
-                this._setTableData(this.state.data)
             })
         } else {
-            console.log('data list is ===>', this.state.dataList)
             this.setState({
-                data: this.state.dataList != undefined && this.state.dataList.filter(v => v.user_id !== this.state.user_id),
+                data: this.state.dataList != undefined && this.state.dataList.filter(v => v.user_id != this.state.user_id),
                 pending_approve: 'allrequest'
             }, () => this._setTableData(this.state.data))
         }

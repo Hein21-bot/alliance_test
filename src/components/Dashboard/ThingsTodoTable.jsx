@@ -209,14 +209,14 @@ class ThingsTodoTable extends Component {
                         style={{
                           height: 22,
                           padding: "0px 5px 0px 5px",
-                        
+                          backgroundColor:"#ffff"
                         }}
-                      >
-                         <i
-                          class="fa fa-arrow-circle-right"
-                          style={{ marginLeft: 5 }}
+                      > 
+                          <i
+                           class="fa fa-angle-right fa-1.5x" 
+                          style={{ marginLeft: 5,color:""}}
                           aria-hidden="true"
-                        ></i>
+                        >    </i>
                       </button>
                     </div>
                   </div>

@@ -109,7 +109,7 @@ class ExternalTrainingBenefitMain extends Component {
             })
           }else if (data == 'myrequest') {
             this.setState({
-              requestData: this.state.data.filter(v => v.createdBy==this.state.user_id),
+              requestData: this.state.data.filter(v => v.createdBy != this.state.user_id),
               requestType:"myrequest"
               
             })

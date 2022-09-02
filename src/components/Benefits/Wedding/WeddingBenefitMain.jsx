@@ -43,7 +43,7 @@ class WeddingBenefitMain extends Component {
                 if (res) {
                     this.setState({ 
                         datasource: res,
-                        requestData:res.filter(v=>v.createdBy ==this.state.user_id)
+                        requestData:res.filter(v=>v.createdBy != this.state.user_id)
                     })
                 }
             })

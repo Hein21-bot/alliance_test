@@ -38,7 +38,7 @@ class HospitalizationMain extends Component {
                 if (response.ok) return response.json()
             })
             .then(res => {
-                this.setState({ data: res,requestData:res.filter(v=>v.createdBy ==this.state.user_id) })
+                this.setState({ data: res,requestData:res.filter(v=>v.createdBy != this.state.user_id) })
             })
             
             .catch(error => console.error(`Fetch Error =\n`, error));
