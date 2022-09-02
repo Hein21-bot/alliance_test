@@ -118,7 +118,7 @@ export default class BenefitChildTable extends Component {
                 position: data[i].designation_name ? data[i].designation_name : '-',
                 employee_status: data[i].status ? data[i].status == 1 ? 'Permanent' : data[i].status == 2 ? 'Part-Time' : data[i].status == 3 ? 'Training' : data[i].status : '-',
                 branch: data[i].branch_name ? data[i].branch_name : '',
-                date: data[i].employ_date ? moment(data[i].employ_date).format('DD-MM-YYYY') : '-',
+                date: data[i].createdAt ? moment(data[i].createdAt).format('DD-MM-YYYY') : '-',
                 employed_date: data[i].employ_date ? moment(data[i].employ_date).format('DD-MM-YYYY') : '',
                 effective_date: data[i].effective_date ? moment(data[i].effective_date).format('DD-MM-YYYY') : '',
                 job_title: data[i].job_title ? this.state.jobList.filter(d => d.id == data[i].job_title)[0].job_title : '',
@@ -130,7 +130,7 @@ export default class BenefitChildTable extends Component {
                 discon_date: data[i].discontinute_date ? moment(data[i].discontinute_date).format('YYYY-MM-DD') : '',
                 resign_reason: data[i].resign_reason ? data[i].resign_reason : '',
                 exit_status: data[i].exit_status ? data[i].exit_status : '',
-                actual_date: data[i].joining_date ? moment(data[i].joining_date).format('DD-MM-YYYY') : '',
+                actual_date: data[i].actual_date ? moment(data[i].actual_date).format('DD-MM-YYYY') : '',
             }
             if (has_action) {
 
@@ -169,7 +169,7 @@ export default class BenefitChildTable extends Component {
         var column = [
             { title: "No", data: "no" },
             { title: " Date", data: "date" },
-            { title: "Employee Code", data: "employee_id"},
+            { title: "Employee Code", data: "employee_id" },
             // { title: "Form No", data: "form_no" },
             { title: "Employee Name", data: "employee_name" },
             { title: "Employee Status", data: "employee_status" },

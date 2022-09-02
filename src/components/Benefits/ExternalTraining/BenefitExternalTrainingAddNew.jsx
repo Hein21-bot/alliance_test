@@ -94,7 +94,7 @@ class BenefitFuneralAddNew extends Component {
     }
 
     save() {
-        if(this.state.attachment.length == 0){
+        if(this.state.newDoc.length == 0){
             toast.error("Please Choose Attachment File!")
         }else{
             if (validate("check_form") && this.state.attachment.length > 0) {

@@ -30,7 +30,7 @@ const Attachment = props => {
 
                 </div>
                 <div className='col-lg-8' style={{ display: 'flex', justifyContent: 'center' }}>
-                    <a className='' target="_blank" href={attachmentUrl} style={{ borderRadius: 5, textDecoration: 'none', display: 'flex', alignItems: 'center', marginTop: 20, marginLeft: -20, padding: 10, cursor: 'pointer', background: '#337ab7', color: 'white', border: 'none', textAlign: 'center', justifyContent: 'center' }}>
+                    <a className='' target="_blank" href={attachmentUrl} style={{ borderRadius: 5, textDecoration: 'none', display: 'flex', alignItems: 'center', marginTop: 20, marginLeft: -20, padding: 10, cursor: 'pointer', background: '#337ab7', color: 'white', border: 'none', textAlign: 'center', justifyContent: 'center',pointerEvents: !attachmentUrl? 'none' :'' }}>
                         View Attachment
                     </a>
                 </div>
