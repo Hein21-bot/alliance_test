@@ -358,6 +358,7 @@ export default class TravelClaimRequestEdit extends Component {
       var getfile = document.querySelector("#dropTravelCREdit").files[i];
       newDoc.push(getfile);
     }
+    document.querySelector("#dropTravelCREdit").value=''
     this.setState({
       newDoc: newDoc,
     });
@@ -403,9 +404,9 @@ export default class TravelClaimRequestEdit extends Component {
       }
       const formdata = new FormData();
 
-      var obj = document.querySelector("#dropTravelCREdit").files;
-      for (var i = 0; i < obj.length; i++) {
-        var imagedata = obj[i];
+      var obj = this.state.newDoc.length;
+      for (var i = 0; i < obj; i++) {
+        var imagedata = this.state.newDoc[i];
         formdata.append("uploadfile", imagedata);
       }
 

@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { main_url, getUserId, getCookieData, validate, stopSaving, startSaving, isRequestedUser } from '../../../utils/CommonFunction';
 import { toast, ToastContainer } from 'react-toastify';
 import DocumentList from '../../Common/DocumentList';
+import $ from 'jquery';
 var form_validate = true;
+
 
 export default class SalaryAdvanceRequestForm extends Component {
 
@@ -22,7 +24,7 @@ export default class SalaryAdvanceRequestForm extends Component {
             newDoc: []
         }
     }
-    
+
 
     componentDidMount() {
         this.getDocument()
@@ -68,12 +70,11 @@ export default class SalaryAdvanceRequestForm extends Component {
 
     removeNewDocument(index, event) {
         var array = this.state.newDoc;
-        var attch = this.state.attachment;
-        attch.splice(index, 1);
+
         array.splice(index, 1);
         this.setState({
             newDoc: array,
-            attachment: attch
+
         })
     }
     checkFiles(e) {
@@ -95,7 +96,7 @@ export default class SalaryAdvanceRequestForm extends Component {
             newDoc.push(getfile)
         }
 
-
+        document.querySelector("#attach_file").value = ''
         this.setState({
             attachment: attachment,
             newDoc: newDoc
@@ -103,51 +104,58 @@ export default class SalaryAdvanceRequestForm extends Component {
     }
 
     save() {
-        stopSaving();
-        if (validate('check_form')) {
-            let createdBy = this.state.created_user;
-            let updatedBy = this.state.created_user;
-            let path = 'saveSalaryAdvance';
-            const formdata = new FormData();
-
-            for (var i = 0; i < this.state.newDoc.length; i++) {
-                formdata.append('uploadfile', this.state.newDoc[i]);
-            }
-
-            if (!Array.isArray(this.state.one_advance)) {
-
-                createdBy = this.state.one_advance.createdBy;
-                path = `editSalaryAdvance/${this.state.one_advance.salary_advance_id}`
-            }
-            var data = {
-                user_id: this.state.user_info.user_id,
-                requested_amount: this.state.requested_amount,
-                purpose: this.state.purpose,
-                available_amount: this.state.available_amount,
-                createdBy: createdBy,
-                updatedBy: updatedBy,
-                status: this.state.one_advance.status == 5 ? 0 : this.state.one_advance.status
-            }
-            formdata.append('advance', JSON.stringify(data))
-            formdata.append('oldDoc', JSON.stringify(this.state.newDoc))
-            let status = 0;
-            fetch(`${main_url}salary_advance/${path}`, {
-                method: 'POST',
-                body: formdata
-            })
-                .then(res => {
-                    status = res.status;
-                    return res.text()
-                })
-                .then(text => {
-                    this.props.showToast(status, text);
-                })
+        // stopSaving();
+        if (this.state.newDoc.length == 0) {
+            toast.error("Please Choose Attachment File!")
         } else {
-            form_validate = false;
-            startSaving();
+            if (validate('check_form')) {
+                $('#saving_button').attr('disabled', true);
+                let createdBy = this.state.created_user;
+                let updatedBy = this.state.created_user;
+                let path = 'saveSalaryAdvance';
+                const formdata = new FormData();
+
+                for (var i = 0; i < this.state.newDoc.length; i++) {
+                    formdata.append('uploadfile', this.state.newDoc[i]);
+                }
+
+                if (!Array.isArray(this.state.one_advance)) {
+
+                    createdBy = this.state.one_advance.createdBy;
+                    path = `editSalaryAdvance/${this.state.one_advance.salary_advance_id}`
+                }
+                var data = {
+                    user_id: this.state.user_info.user_id,
+                    requested_amount: this.state.requested_amount,
+                    purpose: this.state.purpose,
+                    available_amount: this.state.available_amount,
+                    createdBy: createdBy,
+                    updatedBy: updatedBy,
+                    status: this.state.one_advance.status == 5 ? 0 : this.state.one_advance.status
+                }
+                formdata.append('advance', JSON.stringify(data))
+                formdata.append('oldDoc', JSON.stringify(this.state.newDoc))
+                console.log('form data is ====>', formdata, this.state.newDoc)
+                let status = 0;
+                fetch(`${main_url}salary_advance/${path}`, {
+                    method: 'POST',
+                    body: formdata
+                })
+                    .then(res => {
+                        status = res.status;
+                        return res.text()
+                    })
+                    .then(text => {
+                        this.props.showToast(status, text);
+                    })
+            } else {
+                form_validate = false;
+                startSaving();
+            }
         }
+
     }
-    
+
     render() {
         return (
             <div>

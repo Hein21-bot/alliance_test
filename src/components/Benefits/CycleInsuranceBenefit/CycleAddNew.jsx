@@ -181,7 +181,7 @@ class CycleAddNew extends Component {
             var getfile = document.querySelector("#attach_file").files[i];
             newDoc.push(getfile)
         }
-
+        document.querySelector("#attach_file").value=''
 
         this.setState({
             attachment: attachment,
@@ -235,9 +235,9 @@ class CycleAddNew extends Component {
 
             const formdata = new FormData();
 
-            var obj = document.querySelector("#attach_file").files.length;
-            for (var i = 0; i < this.state.attachment.length; i++) {
-                formdata.append('uploadfile', this.state.attachment[i]);
+            var obj = this.state.newDoc.length;
+            for (var i = 0; i < obj; i++) {
+                formdata.append('uploadfile', this.state.newDoc[i]);
             }
 
             let status = 0;

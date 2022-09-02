@@ -111,7 +111,7 @@ export default class SalaryAdvanceApprovalForm extends Component {
     }
 
     save() {
-        stopSaving();
+       
         if (this.state.one_advance.status != 2) {
             let updatedBy = this.state.created_user;
             let one_advance = this.state.one_advance;

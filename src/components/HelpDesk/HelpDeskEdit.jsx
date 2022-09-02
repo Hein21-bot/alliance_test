@@ -51,6 +51,7 @@ export default class HelpDeskView
             var getfile = document.querySelector("#HDEdit").files[i];
             newDoc.push(getfile)
         }
+        document.querySelector("#HDEdit").value=''
         this.setState({
             newDoc: newDoc
         })

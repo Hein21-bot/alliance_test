@@ -252,7 +252,7 @@ export default class TravelClaimRequestAddNew
     }
 
     check = () => {
-        if(this.state.attachment.length == 0){
+        if(this.state.newDoc.length == 0){
             toast.error("Please Choose Attachment File!")
         }else{
             if (validate("check_form")) {
@@ -323,7 +323,7 @@ export default class TravelClaimRequestAddNew
             var getfile = document.querySelector("#travelCRDrop").files[j];
             newDoc.push(getfile)
         }
-
+        document.querySelector("#travelCRDrop").value=''
         this.setState({
             newDoc: newDoc,
             attachment: attachment

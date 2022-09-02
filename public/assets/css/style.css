@@ -8884,7 +8884,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child::
   color: white !important;
 }
 #attendence_calendar .custom-datePicker{
-  width : 110% !important;
+  width : 100% !important;
 }
 #attendence_calendar .react-datepicker__week{
   display: flex !important;
@@ -8895,8 +8895,8 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child::
 }
 #leave_calendar .react-datepicker__header{
   background-color: #1872ab !important;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  border-top-left-radius: 2.5rem !important;
+  border-top-right-radius: 2.5rem !important;
 }
 #attendence_calendar .react-datepicker__header{
   background-color: #23c6c8 !important;
@@ -8930,9 +8930,9 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child::
 }
 
 .custom-datePicker .react-datepicker__day-names{
-  display: flex !important;
-  justify-content: space-between !important;
-  padding: 4px 5px 2px 5px;
+  /* display: flex !important;
+  justify-content: space-between !important; */
+  /* padding: 4px 5px 2px 5px; */
 }
 
 .custom-datePicker .react-datepicker__day-name{

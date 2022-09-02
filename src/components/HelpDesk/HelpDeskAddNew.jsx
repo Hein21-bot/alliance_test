@@ -244,6 +244,7 @@ export default class TravelRequestAddNew
             var getfile = document.querySelector("#HDDropZone").files[i];
             newDoc.push(getfile)
         }
+        document.querySelector("#HDDropZone").value=''
 
         this.setState({
             attachment: attachment,
