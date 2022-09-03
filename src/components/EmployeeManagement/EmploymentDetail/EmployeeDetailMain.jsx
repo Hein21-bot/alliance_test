@@ -75,11 +75,13 @@ class EmployeeDetailMain extends Component {
       employmentDataForSingleUser: null,
       salaryList: [],
       singleView: false,
-      statusList: [{ label: 'All', value: -1 }, { label: 'Active', value: 0 }, { label: "Exit", value: 1 }]
+      statusList: [{ label: 'All', value: -1 }, { label: 'Active', value: 0 }, { label: "Exit", value: 1 }],
+      salaryPermission: []
     };
   }
 
   async componentDidMount() {
+    this.salaryPermission()
     this.getEmployeeList();
     this.getDesignationList();
     this.getBranchList();
@@ -139,6 +141,20 @@ class EmployeeDetailMain extends Component {
         this.setState({
           salaryList: list,
         });
+      });
+  }
+  salaryPermission() {
+    fetch(`${main_url}dashboard/salaryPermission/${this.state.user_id}`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        if (list.length) {
+          this.setState({
+            salaryPermission: list,
+          });
+        }
+
       });
   }
   getStatusList() {
@@ -1044,6 +1060,7 @@ class EmployeeDetailMain extends Component {
               <EmploymentDetailsForSingleUserTable
                 goToViewForm={null}
                 goToEditForm={null}
+                salaryPermission={this.state.salaryPermission}
                 data={
                   this.state.employmentDataForSingleUser
                     ? this.state.employmentDataForSingleUser
@@ -1101,6 +1118,7 @@ class EmployeeDetailMain extends Component {
                 resignReason={resignReason}
                 selected_disCon_status={selected_disCon_status}
                 handleSelectedDisConStatus={this.handleSelectedDisConStatus}
+                salaryPermission={this.state.salaryPermission}
               /></>
           ) : (
             <>
@@ -1148,6 +1166,7 @@ class EmployeeDetailMain extends Component {
                   resignReason={resignReason}
                   selected_disCon_status={selected_disCon_status}
                   handleSelectedDisConStatus={this.handleSelectedDisConStatus}
+                  salaryPermission={this.state.salaryPermission}
                 />
               ) : (
                 <div style={{}}>
@@ -1156,6 +1175,7 @@ class EmployeeDetailMain extends Component {
                     goToSingleViewForm={this.goToSingleViewForm}
                     data={this.state.employeeData ? this.state.employeeData : []}
                     jobList={jobList}
+                    salaryPermission={this.state.salaryPermission}
                     permission={{
                       isEdit: 1,
                       isView: 1,
