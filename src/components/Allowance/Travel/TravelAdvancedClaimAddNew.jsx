@@ -15,8 +15,8 @@ export default class TravelAdvancedClaimAddNew
     constructor(props) {
         super(props);
         this.state = {
-            fileArray:[],
-            newDoc:[],
+            fileArray: [],
+            newDoc: [],
             advanceData: props.data[0],
             branch: [],
             selected_location: [],
@@ -272,7 +272,7 @@ export default class TravelAdvancedClaimAddNew
             arr.push(getfile);
 
         }
-        document.getElementById('travelDropzone').value=''
+        document.getElementById('travelDropzone').value = ''
         this.setState({
             fileArray: arr
         })
@@ -280,21 +280,21 @@ export default class TravelAdvancedClaimAddNew
     }
     removeNewDocument(index, event) {
         var array = this.state.fileArray;
-        
+
         array.splice(index, 1);
         this.setState({
             fileArray: array
         })
-        
+
     }
 
     // checkFiles(e) {
     //     var files = document.getElementById("travelDropzone").files;
-       
+
     //     if (files.length > 2) {
     //         toast.warning('You can only upload a maximum of 2 files!')
     //     }
-        
+
     //     let newDoc = this.state.newDoc;
     //     var obj = document.querySelector("#travelDropzone").files.length;
     //     for (var i = 0; i < obj; i++) {
@@ -310,34 +310,14 @@ export default class TravelAdvancedClaimAddNew
 
 
     check = () => {
-<<<<<<< HEAD
-        stopSaving();
-        // if (this.state.newDoc.length == 0) {
-        //     toast.error("Please Choose Attachment File!")
-        // } else {
-        if (saveBtn) {
-            this.props.addTravelAdvancedClaim(this.state.dataSource, this.state.data, this.state.advanceData.advanced_amount)
-        }
-        else {
-            startSaving();
-            toast.error(' Please Add Full Information', {
-                position: 'top-right',
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true
-            });
-        }
-        // }
-=======
-        if(this.state.fileArray.length == 0){
+
+        if (this.state.fileArray.length == 0) {
             toast.error("Please Choose Attachment File!")
-        }else{
+        } else {
             if (saveBtn) {
                 $('#saving_button').attr('disabled', true);
-                this.props.addTravelAdvancedClaim(this.state.dataSource, this.state.data, this.state.advanceData.advanced_amount,this.state.fileArray)
-    
+                this.props.addTravelAdvancedClaim(this.state.dataSource, this.state.data, this.state.advanceData.advanced_amount, this.state.fileArray)
+
             }
             else {
                 startSaving();
@@ -351,8 +331,7 @@ export default class TravelAdvancedClaimAddNew
                 });
             }
         }
-        
->>>>>>> 96d1ee1b8e04f9fd5e730d381d273ee3b1c3d3d1
+
     }
 
 
@@ -739,27 +718,27 @@ export default class TravelAdvancedClaimAddNew
                             marginTop: 30
                         }}>
                             <input type="file" className="dropZone" id="travelDropzone" onChange={this.handlefileChanged.bind(this)} multiple /></div>
-                            <div>
-                                    {this.state.fileArray.map((data, index) =>
+                        <div>
+                            {this.state.fileArray.map((data, index) =>
 
-                                        <div className="fileuploader-items col-md-4"><ul className="fileuploader-items-list">
+                                <div className="fileuploader-items col-md-4"><ul className="fileuploader-items-list">
 
-                                            <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
-                                                <div className="columns"><div className="column-thumbnail">
-                                                    <div className="fileuploader-item-image fileuploader-no-thumbnail">
-                                                        <div className="fileuploader-item-icon" style={{ backgroundColor: '#3f4fd3' }}><i>{data.name.split(".")[1]}</i>
-                                                        </div></div><span className="fileuploader-action-popup"></span></div>
-                                                    <div className="column-title">
-                                                        <span className="own-text">
-                                                            {data.name}
-                                                        </span></div>
-                                                    <div className="column-actions">
-                                                        <a className="fileuploader-action fileuploader-action-remove" onClick={(event) => this.removeNewDocument(index, event)}> <i></i></a>
-                                                    </div></div></li></ul>
-                                        </div>
-                                    )
-                                    }
+                                    <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
+                                        <div className="columns"><div className="column-thumbnail">
+                                            <div className="fileuploader-item-image fileuploader-no-thumbnail">
+                                                <div className="fileuploader-item-icon" style={{ backgroundColor: '#3f4fd3' }}><i>{data.name.split(".")[1]}</i>
+                                                </div></div><span className="fileuploader-action-popup"></span></div>
+                                            <div className="column-title">
+                                                <span className="own-text">
+                                                    {data.name}
+                                                </span></div>
+                                            <div className="column-actions">
+                                                <a className="fileuploader-action fileuploader-action-remove" onClick={(event) => this.removeNewDocument(index, event)}> <i></i></a>
+                                            </div></div></li></ul>
                                 </div>
+                            )
+                            }
+                        </div>
                         <div className="col-md-12 btn-rightend mt20">
                             <button onClick={this.check.bind(this)} id="saving_button" className="btn btn-primary"><span>Confirm</span> </button>
                         </div>
