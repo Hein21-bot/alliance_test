@@ -322,8 +322,9 @@ export default class TravelRequestParent extends Component {
             })
     }
 
-    addTravelAdvancedClaim = (claimDetail, claimData, advancedAmount) => {
-        const formdata = new FormData();
+    addTravelAdvancedClaim = (claimDetail, claimData, advancedAmount,image) => {
+        
+        
         var form_no = 'AC' + Date.now();
         var info = {
             actual_amount: claimData.actual_amount,
@@ -339,17 +340,20 @@ export default class TravelRequestParent extends Component {
             withdraw_location: claimData.withdraw_location
 
         }
-        var obj = document.querySelector("#travelDropzone").files.length;
+        var formdata = new FormData();
+        var obj = image.length;
         for (var i = 0; i < obj; i++) {
-            var imagedata = document.querySelector("#travelDropzone").files[i];
-
-            formdata.append('uploadfile', imagedata);
+            var imagedata = image[i];
+           
+            formdata.append('uploadfile', image[i]);
+            
         }
 
         formdata.append('info', JSON.stringify(info))
         formdata.append('array', JSON.stringify(claimDetail))
+        
         let status = 0
-        // stopSaving();
+        stopSaving();
         fetch(main_url + 'allowance/addAdvancedClaimTravelRequestAllowance', {
             method: "POST",
 
@@ -405,7 +409,7 @@ export default class TravelRequestParent extends Component {
     showToast = (status, text) => {
         if (status === 200) {
             toast.success("Your Information is successfully save!");
-            window.location.reload();
+            // window.location.reload();
         }
         else {
             startSaving();

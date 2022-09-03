@@ -416,7 +416,7 @@ export default class TravelAdvancedAddNew
     }
 
     check = () => {
-        stopSaving();
+       
         if (validate('check_form')) {
             if (this.state.setupData.withdraw_location == 0) {
                 toast.error("Please choose withdraw location");
