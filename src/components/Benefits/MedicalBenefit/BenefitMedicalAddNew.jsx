@@ -431,7 +431,7 @@ class BenefitMedicalAddNew extends Component {
                                         <div className="ownspacing"></div>
                                         <h4>Medical Benefit Document</h4>
                                         <div className="col-md-12">
-                                            <input type="file" accept="image/*" className="dropZone" id="attach_file" onChange={this.checkFiles.bind(this)} multiple /></div>
+                                            <input type="file"  className="dropZone" id="attach_file" onChange={this.checkFiles.bind(this)} multiple /></div>
 
                                         <div className="ibox float-e-margins">
                                             <div className="p-md col-md-12" style={{ float: 'left', }}>
@@ -487,7 +487,7 @@ class BenefitMedicalAddNew extends Component {
                                         Attachment</label>
                                 </div>
                                 <div className="col-sm-10">
-                                    <input className="dropZone" accept="image/*" type="file" id="attach_file" multiple onChange={this.checkFiles.bind(this)}></input>
+                                    <input className="dropZone"  type="file" id="attach_file" multiple onChange={this.checkFiles.bind(this)}></input>
                                 </div>
                                 <div>
                                     {

@@ -109,6 +109,7 @@ export default class BenefitChildTable extends Component {
         var permission = this.props.permission;
         var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
         for (var i = 0; i < data.length; i++) {
+            console.log("data i in table is =====>", data[i].career_sub_level)
             let result = data[i];
             let obj = [];
             obj = {
@@ -124,7 +125,8 @@ export default class BenefitChildTable extends Component {
                 job_title: data[i].job_title ? this.state.jobList.filter(d => d.id == data[i].job_title)[0].job_title : '',
                 carrer_level: data[i].career_level_name ? data[i].career_level_name : '',
                 carrer_sub_level: data[i].career_sub_level_name ? data[i].career_sub_level_name : '',
-                salary: data[i].salary ? data[i].salary : '',
+                // salary: data[i].salary ? data[i].salary : '',
+                salary: this.props.salaryPermission.length > 0 ? data[i].salary ? data[i].salary : '' : data[i].career_sub_level > 20 ? 'Not Available' : data[i].salary ? data[i].salary : '',
                 department: data[i].deptname ? data[i].deptname : '',
                 discon_status: data[i].discontinute_status ? data[i].discontinute_status == 0 ? 'False' : 'True' : 'False',
                 discon_date: data[i].discontinute_date ? moment(data[i].discontinute_date).format('YYYY-MM-DD') : '',

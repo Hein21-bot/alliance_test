@@ -421,6 +421,7 @@ export default class TravelAdvancedAddNew
             if (this.state.setupData.withdraw_location == 0) {
                 toast.error("Please choose withdraw location");
             } else {
+                $('#saving_button').attr('disabled', true);
                 this.props.add(this.state.setupData)
             }
         }

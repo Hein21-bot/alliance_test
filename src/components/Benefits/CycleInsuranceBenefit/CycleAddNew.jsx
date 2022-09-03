@@ -441,7 +441,7 @@ class CycleAddNew extends Component {
                                         <div className="ownspacing"></div>
                                         <div className="col-sm-10"><h4>Cycle Insurance Benefit Document</h4></div>
                                         <div className="col-md-12">
-                                            <input type="file" accept="image/*" className="dropZone" id="attach_file" onChange={this.checkFiles.bind(this)} multiple /></div>
+                                            <input type="file"  className="dropZone" id="attach_file" onChange={this.checkFiles.bind(this)} multiple /></div>
 
                                         <div className="ibox float-e-margins">
                                             <div className="p-md col-md-12" style={{ float: 'left', }}>
@@ -496,7 +496,7 @@ class CycleAddNew extends Component {
                                     <label htmlFor="attachment" className="col-sm-12 custom-file-label">Provide At Least One Or More Attachment</label>
                                 </div>
                                 <div className="col-sm-10">
-                                    <input className="dropZone " accept="image/*" type="file" id="attach_file" multiple onChange={this.checkFiles.bind(this)}></input>
+                                    <input className="dropZone"  type="file" id="attach_file" multiple onChange={this.checkFiles.bind(this)}></input>
                                 </div>
                                 <div>
                                     {

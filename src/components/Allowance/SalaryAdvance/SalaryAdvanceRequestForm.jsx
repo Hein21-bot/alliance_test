@@ -231,7 +231,7 @@ export default class SalaryAdvanceRequestForm extends Component {
                                                         Attachment</label>
                                                 </div>
                                                 <div className="col-sm-10">
-                                                    <input className="dropZone" accept="image/*" type="file" id="attach_file" multiple onChange={this.checkFiles.bind(this)}></input>
+                                                    <input className="dropZone"  type="file" id="attach_file" multiple onChange={this.checkFiles.bind(this)}></input>
                                                 </div>
                                                 <div>
                                                     {
