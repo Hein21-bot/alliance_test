@@ -552,7 +552,7 @@ class HospitalizationAddNew extends Component {
                                                     <input type="radio" value={0} name="work" checked={this.state.selectedOptionWork == 0 ? true : false} disabled={this.state.is_main_role ? true : false} /> NO
                                                 </div>
                                             </div> :
-                                            <div onChange={this.onChangeWork.bind(this)} className="col-sm-10 checkValidate">
+                                            <div onChange={this.onChangeWork.bind(this)} className="col-sm-6 checkValidate" style={{display:"flex",justifyContent:'space-around'}}>
                                                 <input type="radio" value={1} name="work" /> Yes
                                                 <input type="radio" value={0} name="work" defaultChecked /> No
                                             </div>
@@ -570,7 +570,7 @@ class HospitalizationAddNew extends Component {
                                                 </div>
                                             </div> :
 
-                                            <div onChange={this.onChangeInjury.bind(this)} className="col-sm-10">
+                                            <div onChange={this.onChangeInjury.bind(this)} className="col-sm-10" style={{display:"flex",justifyContent:"space-between"}}>
                                                 <input type="radio" value={1} name="injury" /> Yes
                                                 <input type="radio" value={0} name="injury" defaultChecked /> No
                                             </div>
@@ -662,7 +662,7 @@ class HospitalizationAddNew extends Component {
                         </div>
                         <div className="row">
                             <div className="col-md-6 form-group" id="check_form">
-                                <div><label className="col-sm-12">Start Date </label></div>
+                                <div><label className="col-sm-12">Hospitalization Start Date </label></div>
                                 <div className="col-sm-10">
                                     <DatePicker
                                         dateFormat="DD/MM/YYYY"
@@ -674,7 +674,7 @@ class HospitalizationAddNew extends Component {
                             </div>
 
                             <div className="col-md-6 form-group" id="check_form">
-                                <div><label className="col-sm-12">End Date </label></div>
+                                <div><label className="col-sm-12">Hospitalization End Date </label></div>
                                 <div className="col-sm-10">
                                     <DatePicker
                                         dateFormat="DD/MM/YYYY"
