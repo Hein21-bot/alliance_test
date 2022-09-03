@@ -8,46 +8,47 @@ class HelpDesk extends Component {
         this.state = {
             Ticket: [],
             TicketStatus: [],
-            TicketMainCategory:[]
+            TicketMainCategory: []
         }
     }
-    componentDidMount() {
-        this.getTicket()
-        this.getTicketStatus()
-        this.getTicketMainCategory()
+    async componentDidMount() {
+        const id = localStorage.getItem("user_id");
+        await this.getTicket(id)
+        await this.getTicketStatus(id)
+        await this.getTicketMainCategory(id)
     }
-    getTicket = () => {
-        fetch(main_url + `dashboard/helpDeskTicket`)
+    getTicket = async (id) => {
+        await fetch(main_url + `dashboard/helpDeskTicket/${id}`)
             .then((res) => {
                 if (res.ok) return res.json();
             })
             .then((res1) => {
                 this.setState({ Ticket: res1 });
-                
+
 
             })
             .catch((error) => console.error(`Fetch Error =\n`, error));
     };
-    getTicketStatus = () => {
-        fetch(main_url + `dashboard/helpDeskStatus`)
+    getTicketStatus = async (id) => {
+        await fetch(main_url + `dashboard/helpDeskStatus/${id}`)
             .then((res) => {
                 if (res.ok) return res.json();
             })
             .then((res1) => {
                 this.setState({ TicketStatus: res1 });
-                
+
 
             })
             .catch((error) => console.error(`Fetch Error =\n`, error));
     };
-    getTicketMainCategory = () => {
-        fetch(main_url + `dashboard/helpDeskMainCategory`)
+    getTicketMainCategory = async (id) => {
+        await fetch(main_url + `dashboard/helpDeskMainCategory/${id}`)
             .then((res) => {
                 if (res.ok) return res.json();
             })
             .then((res1) => {
                 this.setState({ TicketMainCategory: res1 });
-                
+
 
             })
             .catch((error) => console.error(`Fetch Error =\n`, error));
@@ -64,10 +65,10 @@ class HelpDesk extends Component {
                 }}>
                     <div className="row no-gutters">
                         <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12" style={{
-                        //    marginLeft:'5px',
-                        //    marginRight:'5px',
-                       
-                           
+                            //    marginLeft:'5px',
+                            //    marginRight:'5px',
+
+
                         }}>
                             <div style={{
                                 display: 'flex',
@@ -76,7 +77,7 @@ class HelpDesk extends Component {
                                 background: "#fff",
                                 boxShadow: "3px 3px 3px #e5e5e5",
                                 borderRadius: 6,
-                                marginLeft:0,
+                                marginLeft: 0,
 
                                 marginTop: '20px'
 
@@ -120,7 +121,7 @@ class HelpDesk extends Component {
                                 background: "#fff",
                                 boxShadow: "3px 3px 3px #e5e5e5",
                                 borderRadius: 6,
-                                
+
 
                                 marginTop: '10px'
 
@@ -163,7 +164,7 @@ class HelpDesk extends Component {
                                 background: "#fff",
                                 boxShadow: "3px 3px 3px #e5e5e5",
                                 borderRadius: 6,
-                               
+
                                 marginTop: '10px'
 
                             }}>
@@ -200,88 +201,88 @@ class HelpDesk extends Component {
                                 </div>
                             </div>
                         </div>
-                       
+
                         <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12" style={{
-                            margin:0,
-                            padding:0
-                        }}>
-                        <div style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            background: "#fff",
-                            boxShadow: "3px 3px 3px #e5e5e5",
-                            borderTopRightRadius: 6,
-                            borderTopLeftRadius: 6,
-                            
-
-                            marginTop: '20px'
-
+                            margin: 0,
+                            padding: 0
                         }}>
                             <div style={{
-                                paddingLeft:'10px',
-                                paddingRight:'10px'
-                            }}>
-                                <p style={{
-
-                                }}>TICKET</p>
-                                <p style={{
-                                    fontWeight: 'bold'
-                                }}>{this.state.Ticket.length != 0 ? this.state.Ticket[0].total_ticket : 0}</p>
-                            </div>
-                            <div style={{
-                                width: '40px',
-                                height: '40px',
-                                backgroundColor: '#9c1de7',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                borderRadius: '50%',
-                                margin: '15px'
-
-                            }}>
-                                <i className='fa fa-bars' style={{
-
-                                    color: 'white'
-                                }}></i>
-                            </div>
-                        </div>
-                        <div>
-                            <div style={{
-                                
-                                backgroundColor: '#1872ab',
-                                color: 'white',
                                 display: 'flex',
                                 justifyContent: 'space-between',
                                 alignItems: 'center',
+                                background: "#fff",
+                                boxShadow: "3px 3px 3px #e5e5e5",
+                                borderTopRightRadius: 6,
+                                borderTopLeftRadius: 6,
+
+
+                                marginTop: '20px'
 
                             }}>
-                                <p style={{
-                                    display: 'inline',
-                                    marginLeft: '10px',
-                                    
+                                <div style={{
+                                    paddingLeft: '10px',
+                                    paddingRight: '10px'
+                                }}>
+                                    <p style={{
 
-
-                                }}>Ticket Status</p>
-
-                                <p style={{
+                                    }}>TICKET</p>
+                                    <p style={{
+                                        fontWeight: 'bold'
+                                    }}>{this.state.Ticket.length != 0 ? this.state.Ticket[0].total_ticket : 0}</p>
+                                </div>
+                                <div style={{
+                                    width: '40px',
+                                    height: '40px',
+                                    backgroundColor: '#9c1de7',
                                     display: 'flex',
                                     justifyContent: 'center',
                                     alignItems: 'center',
-                                  
-                                    width: '70px',
-                                    height: '30px',
-                                    borderLeft: '1px solid white',
+                                    borderRadius: '50%',
+                                    margin: '15px'
 
-                                }}>Tickets</p>
+                                }}>
+                                    <i className='fa fa-bars' style={{
+
+                                        color: 'white'
+                                    }}></i>
+                                </div>
                             </div>
-                        </div>
-                        <div>
-                        {
+                            <div>
+                                <div style={{
+
+                                    backgroundColor: '#1872ab',
+                                    color: 'white',
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+
+                                }}>
+                                    <p style={{
+                                        display: 'inline',
+                                        marginLeft: '10px',
+
+
+
+                                    }}>Ticket Status</p>
+
+                                    <p style={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+
+                                        width: '70px',
+                                        height: '30px',
+                                        borderLeft: '1px solid white',
+
+                                    }}>Tickets</p>
+                                </div>
+                            </div>
+                            <div>
+                                {
                                     this.state.TicketMainCategory.map(status => (
 
                                         <div style={{
-                                           
+
                                             backgroundColor: '#dee1ec',
                                             color: 'white',
                                             display: 'flex',
@@ -292,7 +293,7 @@ class HelpDesk extends Component {
                                             <p style={{
                                                 display: 'inline',
                                                 marginLeft: '10px',
-                                                
+
                                                 color: 'black'
 
 
@@ -304,7 +305,7 @@ class HelpDesk extends Component {
                                                 display: 'flex',
                                                 justifyContent: 'center',
                                                 alignItems: 'center',
-                                                
+
                                                 width: '70px',
                                                 height: '30px',
                                                 color: 'black',
@@ -314,105 +315,105 @@ class HelpDesk extends Component {
                                         </div>
                                     ))
                                 }
-                            
-                        </div>
+
+                            </div>
                         </div>
                         <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12" style={{
-                            margin:0,
-                            paddingLeft:'15px',
-                            paddingRight:0
-                           
-                        }}>
-                            <div style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            background: "#fff",
-                            boxShadow: "3px 3px 3px #e5e5e5",
-                            borderTopRightRadius: 6,
-                            borderTopLeftRadius: 6,
-                            
-
-                            marginTop: '20px'
+                            margin: 0,
+                            paddingLeft: '15px',
+                            paddingRight: 0
 
                         }}>
                             <div style={{
-                                paddingLeft:'10px',
-                                paddingRight:'10px'
-                            }}>
-                                <p style={{
-
-                                }}>TICKET STATUS</p>
-                                <p style={{
-                                    fontWeight: 'bold'
-                                }}>{this.state.Ticket.length != 0 ? this.state.Ticket[0].total_ticket : 0}</p>
-                            </div>
-                            <div style={{
-                                width: '40px',
-                                height: '40px',
-                                backgroundColor: '#9c1de7',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                borderRadius: '50%',
-                                margin: '15px'
-
-                            }}>
-                                <i className='fa fa-bars' style={{
-
-                                    color: 'white'
-                                }}></i>
-                            </div>
-                        </div>
-                        <div>
-                            <div style={{
-                                
-                                backgroundColor: '#1872ab',
-                                color: 'white',
                                 display: 'flex',
                                 justifyContent: 'space-between',
                                 alignItems: 'center',
+                                background: "#fff",
+                                boxShadow: "3px 3px 3px #e5e5e5",
+                                borderTopRightRadius: 6,
+                                borderTopLeftRadius: 6,
+
+
+                                marginTop: '20px'
 
                             }}>
-                                <p style={{
-                                    display: 'inline',
-                                    marginLeft: '10px',
-                                    
+                                <div style={{
+                                    paddingLeft: '10px',
+                                    paddingRight: '10px'
+                                }}>
+                                    <p style={{
 
-
-                                }}>Main Category</p>
-
-                                <p style={{
+                                    }}>TICKET STATUS</p>
+                                    <p style={{
+                                        fontWeight: 'bold'
+                                    }}>{this.state.Ticket.length != 0 ? this.state.Ticket[0].total_ticket : 0}</p>
+                                </div>
+                                <div style={{
+                                    width: '40px',
+                                    height: '40px',
+                                    backgroundColor: '#9c1de7',
                                     display: 'flex',
                                     justifyContent: 'center',
                                     alignItems: 'center',
-                                  
-                                    width: '70px',
-                                    height: '30px',
-                                    borderLeft: '1px solid white',
+                                    borderRadius: '50%',
+                                    margin: '15px'
 
-                                }}>Tickets</p>
+                                }}>
+                                    <i className='fa fa-bars' style={{
+
+                                        color: 'white'
+                                    }}></i>
+                                </div>
                             </div>
-                        </div>
+                            <div>
+                                <div style={{
+
+                                    backgroundColor: '#1872ab',
+                                    color: 'white',
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+
+                                }}>
+                                    <p style={{
+                                        display: 'inline',
+                                        marginLeft: '10px',
+
+
+
+                                    }}>Main Category</p>
+
+                                    <p style={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+
+                                        width: '70px',
+                                        height: '30px',
+                                        borderLeft: '1px solid white',
+
+                                    }}>Tickets</p>
+                                </div>
+                            </div>
                             <div>
 
                                 {
                                     this.state.TicketStatus.map(status => (
 
                                         <div style={{
-                                           
+
                                             backgroundColor: '#dee1ec',
                                             color: 'white',
                                             display: 'flex',
                                             justifyContent: 'space-between',
                                             alignItems: 'center',
-                                            
+
 
                                         }}>
                                             <p style={{
                                                 display: 'inline',
                                                 marginLeft: '10px',
-                                               
+
                                                 color: 'black'
 
 
@@ -424,7 +425,7 @@ class HelpDesk extends Component {
                                                 display: 'flex',
                                                 justifyContent: 'center',
                                                 alignItems: 'center',
-                                               
+
                                                 width: '70px',
                                                 height: '30px',
                                                 color: 'black',
@@ -437,15 +438,15 @@ class HelpDesk extends Component {
 
 
 
-                            
 
-                        </div>
+
+                            </div>
                         </div>
 
                     </div>
 
                 </div>
-                
+
             </div >
         );
     }

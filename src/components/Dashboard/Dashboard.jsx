@@ -181,7 +181,7 @@ export class Dashboard extends Component {
       <div>
         {/* <h3>Dashboard</h3> */}
         {/* <LeaveCalendar /> */}
-        <div className=""
+        {/* <div className=""
           style={{
             width: "100%",
             display: "flex",
@@ -232,7 +232,7 @@ export class Dashboard extends Component {
           <button style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "resign" ? '#23c6c8' : "#1872ab" }} onClick={() => this.tapButtonClick("resign")}
           >Resign</button>
 
-        </div>
+        </div> */}
         <Profile onClickFixAssetList={this.onClickFixAssetList}tapButtonTitle={this.state.tapButtonTitle} />
         {this.state.tapButtonTitle == "headCount" ? (
           <div className="row mt-4" style={{ marginTop: 15, position: "relative", left: "18%" }}>

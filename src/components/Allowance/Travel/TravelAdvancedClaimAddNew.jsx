@@ -278,21 +278,23 @@ export default class TravelAdvancedClaimAddNew
 
     check = () => {
         stopSaving();
-        if (saveBtn) {
-
-            this.props.addTravelAdvancedClaim(this.state.dataSource, this.state.data, this.state.advanceData.advanced_amount)
-
-        }
-        else {
-            startSaving();
-            toast.error(' Please Add Full Information', {
-                position: 'top-right',
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true
-            });
+        if (this.state.newDoc.length == 0) {
+            toast.error("Please Choose Attachment File!")
+        } else {
+            if (saveBtn) {
+                this.props.addTravelAdvancedClaim(this.state.dataSource, this.state.data, this.state.advanceData.advanced_amount)
+            }
+            else {
+                startSaving();
+                toast.error(' Please Add Full Information', {
+                    position: 'top-right',
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true
+                });
+            }
         }
     }
 
