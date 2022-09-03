@@ -893,6 +893,7 @@ class EmployeeDetailMain extends Component {
       return <div style={{ display: 'flex', justifyContent: 'center' }}><h2>Loading...</h2></div>
     } else {
       return (
+
         <div className=" border-bottom white-bg dashboard-header">
           <ToastContainer position={toast.POSITION.TOP_RIGHT} />
           {/* <form > */}
@@ -905,7 +906,7 @@ class EmployeeDetailMain extends Component {
                 </li>
               </ol>
             </div>
-            {addNew || edit || singleView || view ? null : (
+            {addNew || edit || singleView || view || this.state.tableView ? null : (
 
               <div
                 className=""
@@ -1026,8 +1027,9 @@ class EmployeeDetailMain extends Component {
             <div style={{}}>
               <button
                 onClick={() => {
-                  this.setState({ tableView: false });
+                  this.setState({ tableView: false, });
                   this.getEmployeeList();
+                  window.location.replace("/employee_list")
                 }}
                 style={{
                   borderRadius: 5,
