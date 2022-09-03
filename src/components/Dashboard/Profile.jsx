@@ -91,12 +91,14 @@ class Profile extends Component {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center", 
+                
+                
               }}
             >
               <img
                src="assets/img/SeekPng.com_profile-icon-png_9665493.png"
               //  src={this.state.userPhoto}
-                style={{ width: 80, height: 80, borderRadius: 45,objectFit:"cover" }}
+                style={{ width: 90, height: 90, borderRadius: 45,objectFit:"cover",border:"5px solid #23c6c8" }}
               />
             </div>
             <div style={{ width: "22%" }}>
