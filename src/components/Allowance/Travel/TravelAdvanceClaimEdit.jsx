@@ -1067,61 +1067,69 @@ export default class TravelAdvancedClaimEdit extends Component {
                                     </div> : <input className="full_width hidden" type="file" id="dropTravelACEdit" ></input>
                                 :
 
-                                <div className="col-md-12" style={{ overflowX: "auto" }}>
-                                    <div className="ownspacing"></div>
-                                    <h4>Travel Document</h4>
-                                    <div className="col-md-12">
-                                        <input type="file" className="dropZone" id="dropTravelACEdit" onChange={this.handlefileChanged.bind(this)} multiple /></div>
+                                this.state.claimData[0].status == 5 && this.state.claimData[0].createdBy == this.state.data.user_id ?
 
-                                    <div className="ibox float-e-margins">
-                                        <div className="p-md col-md-12" style={{ float: 'left', }}>
+                                    <div className="col-md-12" style={{ overflowX: "auto" }}>
+                                        <div className="ownspacing"></div>
+                                        <h4>Travel Document</h4>
+                                        <div className="col-md-12">
+                                            <input type="file" className="dropZone" id="dropTravelACEdit" onChange={this.handlefileChanged.bind(this)} multiple /></div>
 
-                                            {this.state.document.map((data, index) =>
-                                                <div className="fileuploader-items col-md-4"><ul className="fileuploader-items-list">
-                                                    <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
-                                                        <div className="columns">
-                                                            <div className="column-title">
-                                                                <a href={`${main_url}travel/getCRDocumentData/${data.name}`}
-                                                                    download target='_blank'
-                                                                    className="btn btn-primary document-body-bt document-width">
-                                                                    {data.name}
-                                                                </a>
-                                                            </div>
-                                                            <div className="column-actions">
-                                                                <a className="fileuploader-action fileuploader-action-remove" onClick={(event) => this.removeOldDocument(index, event)}> <i></i></a>
-                                                            </div>
-                                                        </div></li></ul>
+                                        <div className="ibox float-e-margins">
+                                            <div className="p-md col-md-12" style={{ float: 'left', }}>
 
-                                                </div>
-                                            )
-                                            }
-                                            {this.state.newDoc.map((data, index) =>
+                                                {this.state.document.map((data, index) =>
+                                                    <div className="fileuploader-items col-md-4"><ul className="fileuploader-items-list">
+                                                        <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
+                                                            <div className="columns">
+                                                                <div className="column-title">
+                                                                    <a href={`${main_url}travel/getCRDocumentData/${data.name}`}
+                                                                        download target='_blank'
+                                                                        className="btn btn-primary document-body-bt document-width">
+                                                                        {data.name}
+                                                                    </a>
+                                                                </div>
+                                                                <div className="column-actions">
+                                                                    <a className="fileuploader-action fileuploader-action-remove" onClick={(event) => this.removeOldDocument(index, event)}> <i></i></a>
+                                                                </div>
+                                                            </div></li></ul>
 
-                                                <div className="fileuploader-items col-md-4"><ul className="fileuploader-items-list">
+                                                    </div>
+                                                )
+                                                }
+                                                {this.state.newDoc.map((data, index) =>
 
-                                                    <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
-                                                        <div className="columns">
-                                                            <div className="column-title">
-                                                                <a href='#'
-                                                                    className="btn btn-primary document-body-bt document-width">
-                                                                    {data.name}
-                                                                </a>
-                                                            </div>
-                                                            <div className="column-actions">
-                                                                <a className="fileuploader-action fileuploader-action-remove" onClick={(event) => this.removeNewDocument(index, event)}> <i></i></a>
-                                                            </div>
-                                                        </div></li></ul>
+                                                    <div className="fileuploader-items col-md-4"><ul className="fileuploader-items-list">
 
-                                                </div>
-                                            )
+                                                        <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
+                                                            <div className="columns">
+                                                                <div className="column-title">
+                                                                    <a href='#'
+                                                                        className="btn btn-primary document-body-bt document-width">
+                                                                        {data.name}
+                                                                    </a>
+                                                                </div>
+                                                                <div className="column-actions">
+                                                                    <a className="fileuploader-action fileuploader-action-remove" onClick={(event) => this.removeNewDocument(index, event)}> <i></i></a>
+                                                                </div>
+                                                            </div></li></ul>
+
+                                                    </div>
+                                                )
 
 
-                                            }
+                                                }
 
 
+                                            </div>
                                         </div>
+                                    </div> :
+                                    <div className="row col-md-12 document-main">
+                                        <input className="full_width hidden" type="file" id="dropTravelACEdit" ></input>
+
+                                        <DocumentList title='Travel Document' doc={this.state.document} path="travel" />
                                     </div>
-                                </div>
+
                         }
 
 
@@ -1130,15 +1138,16 @@ export default class TravelAdvancedClaimEdit extends Component {
                                 is_main_role ?
                                     <ApprovalForm approvalStatus={this.approvalStatus.bind(this)} status={this.state.claimData[0].status} work_flow={this.props.work_flow_status} total_amount={this.state.claimData[0].total_amount} />
                                     :
-
-                                    <div className="col-md-12 btn-rightend" style={{ marginTop: 50 }}>
-                                        <button onClick={this.check.bind(this)} id="saving_button" className="btn btn-primary"><span>Confirm</span> </button>
-                                    </div>
+                                    this.state.claimData[0].status == 5 && this.state.claimData[0].createdBy == this.state.data.user_id ?
+                                        < div className="col-md-12 btn-rightend" style={{ marginTop: 50 }}>
+                                            <button onClick={this.check.bind(this)} id="saving_button" className="btn btn-primary"><span>Confirm</span> </button>
+                                        </div>
+                                        : null
                             }
                         </div>
                     </div>
                 </div>
-            </ div>
+            </ div >
         )
     }
 

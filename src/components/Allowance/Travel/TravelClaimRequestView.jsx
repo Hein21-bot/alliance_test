@@ -179,7 +179,7 @@ export default class TravelClaimRequestView extends Component {
                                 <label>Branch</label>
                                 <input
                                     className="form-control"
-                                    value={this.props.data.claimData[0].branch_name}
+                                    value={this.props.data.claimData[0].location_master_name}
                                     disabled
 
                                 />

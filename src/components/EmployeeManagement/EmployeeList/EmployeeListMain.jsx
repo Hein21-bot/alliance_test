@@ -22,7 +22,7 @@ class EmployeeListMain extends Component {
     super();
     this.state = {
       isAddNew: false,
-      loading:false,
+      loading: false,
       user_info: getCookieData("user_info"),
       user_id: getUserId("user_info"),
       is_main_role: getMainRole(),
@@ -36,11 +36,11 @@ class EmployeeListMain extends Component {
       selected_branch: null,
       selected_department: null,
       selected_designation: null,
-      selected_jobTitleList:null,
-      selected_exit_status:null,
+      selected_jobTitleList: null,
+      selected_exit_status: null,
       branchlist: null,
-      JobTitleList:null,
-      exitList:null,
+      JobTitleList: null,
+      // exitList: null,
       region: null,
       districtCodeList: null,
       granDistrictCodeList: null,
@@ -55,7 +55,8 @@ class EmployeeListMain extends Component {
       bankList: null,
       degreeList: null,
       detailForm: false,
-      statusList:null,
+      statusList: null,
+      exitList: [{ label: 'Active', value: 0 }, { label: 'Exit', value: 1 }]
     };
   }
 
@@ -71,7 +72,7 @@ class EmployeeListMain extends Component {
     this.getBankList();
     this.getDegreeList();
     this.getStatusList();
-    // this.getJobTitleList();
+    this.getJobTitleList();
     // this.getExitStatus();
     // this.getEmployeeList();
   }
@@ -197,7 +198,7 @@ class EmployeeListMain extends Component {
   }
 
   getEmployeeList(id) {
-    
+
     fetch(
       `${main_url}employee/getEmployeeList/${id.regionId}/${id.depId}/${id.branchId}/${id.designId}`
     )
@@ -206,9 +207,9 @@ class EmployeeListMain extends Component {
       })
       .then((res) => {
         if (res) {
-          this.setState({ employeeData: res});
+          this.setState({ employeeData: res });
         }
-      
+
       })
       .catch((error) => console.error(`Fetch Error =\n`, error));
   }
@@ -270,18 +271,18 @@ class EmployeeListMain extends Component {
         });
       });
   }
-  // getJobTitleList(){
-  //   fetch(`${main_url}main/`)
-  //     .then((res) => {
-  //       if (res.ok) return res.json();
-  //     })
-  //     .then((list) => {
-  //       let lists = list.unshift({ value: 0, label: "All" });
-  //       this.setState({
-  //         JobTitleList: list, //list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
-  //       });
-  //     });
-  // }
+  getJobTitleList() {
+    fetch(`${main_url}main/getJobLabel`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        let lists = list.unshift({ value: 0, label: "All" });
+        this.setState({
+          JobTitleList: list, //list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
+        });
+      });
+  }
   // getExitStatus(){
   //   fetch(`${main_url}main/`)
   //     .then((res) => {
@@ -331,54 +332,58 @@ class EmployeeListMain extends Component {
         selected_designation: event,
       });
   };
-  handleSelectedstatus =(event) => {
-    if (event !==null)
-    this.setState({
-      selected_status :event
-    });
+  handleSelectedstatus = (event) => {
+    if (event !== null)
+      this.setState({
+        selected_status: event
+      });
   };
-  // handleSelectedJobTitle=(event)=>{
-  //   if (event !== null)
-  //     this.setState({
-  //       selected_jobTitleList: event,
-  //     });
-  // }
-  // handleSelectedExitStatus=(event)=>{
-  //   if (event !== null)
-  //     this.setState({
-  //       selected_exit_status: event,
-  //     });
-  // }
+  handleSelectedJobTitle = (event) => {
+    if (event !== null)
+      this.setState({
+        selected_jobTitleList: event,
+      });
+  }
+  handleSelectedExitStatus = (event) => {
+    if (event !== null)
+      this.setState({
+        selected_exit_status: event,
+      });
+  }
 
 
   handleSearch = (e) => {
     e.preventDefault();
     this.setState({
-      loading:true
+      loading: true
     })
-  
+
     fetch(
       `${main_url}employee/getEmployeeList/${this.state.selected_region ? this.state.selected_region.state_id : 0}/${this.state.selected_department
-      ? this.state.selected_department.departments_id
-    : 0}/${this.state.selected_branch
-    ? this.state.selected_branch.branch_id
-    : 0}/${this.state.selected_designation
-      ? this.state.selected_designation.value
-      : 0}/${this.state.selected_status
-      ? this.state.selected_status.value
-      :-1}`
+        ? this.state.selected_department.departments_id
+        : 0}/${this.state.selected_branch
+          ? this.state.selected_branch.branch_id
+          : 0}/${this.state.selected_designation
+            ? this.state.selected_designation.value
+            : 0}/${this.state.selected_status
+              ? this.state.selected_status.value
+              : -1}/${this.state.selected_jobTitleList
+                ? this.state.selected_jobTitleList.value
+                : 0}/${this.state.selected_exit_status
+                  ? this.state.selected_exit_status.value
+                  : 0}`
     )
       .then((response) => {
         if (response.ok) return response.json();
       })
       .then((res) => {
         if (res) {
-          this.setState({ employeeData: res,loading:false });
+          this.setState({ employeeData: res, loading: false });
         }
-      
+
       })
       .catch((error) => console.error(`Fetch Error =\n`, error));
- 
+
   };
 
   handleAddNew = () => {
@@ -404,10 +409,10 @@ class EmployeeListMain extends Component {
     const designId = this.state.selected_designation
       ? this.state.selected_designation.value
       : 0;
-      const statusId = this.state.selected_status
+    const statusId = this.state.selected_status
       ? this.state.selected_status.value
-      :-1;
-      this.getEmployeeList(regionId,depId,branchId,designId,statusId);
+      : -1;
+    this.getEmployeeList(regionId, depId, branchId, designId, statusId);
   };
 
   goToViewForm = (data) => {
@@ -428,21 +433,27 @@ class EmployeeListMain extends Component {
     this.setState({
       detailForm: true,
       selectedEmployeeData: data,
+      isTable : false,
+      isView : false,
+      isEdit : false,
+      isAddNew : false,
     });
   };
 
   render() {
-    if(this.state.loading == true){
+    if (this.state.loading == true) {
       return <div style={{ display: 'flex', justifyContent: 'center' }}><h2>Loading...</h2></div>
-    }else{
+    } else {
       return (
         <div className=" border-bottom white-bg dashboard-header">
+          { this.state.isAddNew ||this.state.isView || this.state.isEdit || this.state.isTable ?  (
+            <>
           <ToastContainer position={toast.POSITION.TOP_RIGHT} />
           <div className="row wrapper border-bottom white-bg page-heading">
             <div className="col-lg-12">
               <ol className="breadcrumb">
-                <li style={{fontSize: 18}}>Employee</li>
-                <li className="active" style={{fontSize: 18}}>
+                <li style={{ fontSize: 18 }}>Employee</li>
+                <li className="active" style={{ fontSize: 18 }}>
                   <a href="#">List</a>
                 </li>
                 {this.state.viewForm && (
@@ -457,7 +468,7 @@ class EmployeeListMain extends Component {
                 )}
               </ol>
             </div>
-          </div>
+          </div> </>) : null}
           {this.state.viewForm ? (
             <EmployeeListView
               selectedEmployeeData={this.state.selectedEmployeeData}
@@ -508,7 +519,7 @@ class EmployeeListMain extends Component {
                   style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
                 >
                   <div style={{ paddingBottom: 10 }}>Region</div>
-  
+
                   <Select
                     options={this.state.region}
                     value={this.state.selected_region}
@@ -522,7 +533,7 @@ class EmployeeListMain extends Component {
                   style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
                 >
                   <div style={{ paddingBottom: 10 }}>Department</div>
-  
+
                   <Select
                     options={this.state.departmentlist}
                     value={this.state.selected_department}
@@ -536,7 +547,7 @@ class EmployeeListMain extends Component {
                   style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
                 >
                   <div style={{ paddingBottom: 10 }}>Branch</div>
-  
+
                   <Select
                     options={this.state.branchlist}
                     value={this.state.selected_branch}
@@ -550,7 +561,7 @@ class EmployeeListMain extends Component {
                   style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
                 >
                   <div style={{ paddingBottom: 10 }}>Designation</div>
-  
+
                   <Select
                     options={this.state.designationList}
                     value={this.state.selected_designation}
@@ -564,7 +575,7 @@ class EmployeeListMain extends Component {
                   style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
                 >
                   <div style={{ paddingBottom: 10 }}>Status</div>
-  
+
                   <Select
                     options={this.state.statusList}
                     value={this.state.selected_status}
@@ -575,12 +586,12 @@ class EmployeeListMain extends Component {
                 </div>
                 <div
                   className="col-lg-2 col-md-3 col-sm-12"
-                  style={{ display: "flex",marginBottom:10 }}
+                  style={{ display: "flex", marginBottom: 10 }}
                 >
                   <button
                     onClick={this.handleSearch}
                     className="btn btn-primary"
-                    style={{ borderRadius: 3, width: 80, marginRight: 15}}
+                    style={{ borderRadius: 3, width: 80, marginRight: 15 }}
                   >
                     Search
                   </button>
@@ -592,12 +603,12 @@ class EmployeeListMain extends Component {
                     Add New
                   </button>
                 </div>
-                {/* <div
+                <div
                   className="col-lg-2 col-md-3 col-sm-12"
                   style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
                 >
                   <div style={{ paddingBottom: 10 }}>Job Title</div>
-  
+
                   <Select
                     options={this.state.JobTitleList}
                     value={this.state.selected_jobTitleList}
@@ -611,7 +622,7 @@ class EmployeeListMain extends Component {
                   style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
                 >
                   <div style={{ paddingBottom: 10 }}>Exit Status</div>
-  
+
                   <Select
                     options={this.state.exitList}
                     value={this.state.selected_exit_status}
@@ -619,7 +630,7 @@ class EmployeeListMain extends Component {
                     className="react-select-container checkValidate"
                     classNamePrefix="react-select"
                   />
-                </div> */}
+                </div>
               </div>
               <EmployeeListTable
                 goToViewForm={this.goToViewForm}
@@ -636,8 +647,8 @@ class EmployeeListMain extends Component {
         </div>
       );
     }
-    
-    
+
+
   }
 }
 

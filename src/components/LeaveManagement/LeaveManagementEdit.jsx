@@ -293,7 +293,7 @@ class LeaveManagementEdit extends Component {
     verifySave() {
         // let path = `updateLeave`;
         let user_id = 0;
-        
+
         if (validate('check_form')) {
             if (this.state.tab === 1) {
                 user_id = this.state.user_info.user_id;
@@ -343,7 +343,7 @@ class LeaveManagementEdit extends Component {
     approvedSave() {
         // let path = `updateLeave`;
         let user_id = 0;
-        
+
         if (validate('check_form')) {
             if (this.state.tab === 1) {
                 user_id = this.state.user_info.user_id;
@@ -391,7 +391,7 @@ class LeaveManagementEdit extends Component {
     rejectSave() {
         // let path = `updateLeave`;
         let user_id = 0;
-       
+
         if (validate('check_form')) {
             if (this.state.tab === 1) {
                 user_id = this.state.user_info.user_id;
@@ -436,7 +436,7 @@ class LeaveManagementEdit extends Component {
     referBackSave() {
         // let path = `updateLeave`;
         let user_id = 0;
-        
+
         if (validate('check_form')) {
             if (this.state.tab === 1) {
                 user_id = this.state.user_info.user_id;
@@ -481,7 +481,7 @@ class LeaveManagementEdit extends Component {
 
     save() {
         let user_id = 0;
-        
+
         if (validate('check_form')) {
             let leave_days = calculationDate1(this.state.startDate == '' ? this.props.data.leave_start_date : this.state.startDate, this.state.endDate == '' ? this.props.data.leave_end_date : this.state.endDate) > 5 && this.state.selectedCategory.value != 4 ? calculationDate(this.state.startDate == '' ? this.props.data.leave_start_date : this.state.startDate, this.state.endDate == '' ? this.props.data.leave_end_date : this.state.endDate) : calculationDate1(this.state.startDate == '' ? this.props.data.leave_start_date : this.state.startDate, this.state.endDate == '' ? this.props.data.leave_end_date : this.state.endDate)
 
@@ -554,16 +554,18 @@ class LeaveManagementEdit extends Component {
                         <div className="form-group"  >
                             <div><label className="col-sm-4" >Leave Category<span className="text-danger">*</span></label></div>
                             <div className="col-sm-8">
-                                {/* <input type='text' className='form-control' value={this.props.data.leave_category} disabled /> */}
-                                <Select
-                                    placeholder={this.props.data.leave_category}
-                                    options={this.state.leaveCategory}
-                                    value={this.state.selectedCategory}
-                                    // value={this.state.selectedCategory}
-                                    onChange={this.handleChangeCategory}
-                                    className='react-select-container'
-                                    classNamePrefix="react-select"
-                                />
+
+                                {this.state.data.user_id == this.state.user_info.user_id || this.props.data.application_status == 3 ?
+                                    <Select
+                                        placeholder={this.props.data.leave_category}
+                                        options={this.state.leaveCategory}
+                                        value={this.state.selectedCategory}
+                                        // value={this.state.selectedCategory}
+                                        onChange={this.handleChangeCategory}
+                                        className='react-select-container'
+                                        classNamePrefix="react-select"
+                                    /> :
+                                    <input type='text' className='form-control' value={this.props.data.leave_category} disabled />}
 
                             </div>
                         </div>

@@ -358,7 +358,7 @@ export default class TravelClaimRequestEdit extends Component {
       var getfile = document.querySelector("#dropTravelCREdit").files[i];
       newDoc.push(getfile);
     }
-    document.querySelector("#dropTravelCREdit").value=''
+    document.querySelector("#dropTravelCREdit").value = ''
     this.setState({
       newDoc: newDoc,
     });
@@ -736,7 +736,7 @@ export default class TravelClaimRequestEdit extends Component {
     for (var i = 0; i < data.length; i++) {
       const index = i
       const obj = {
-        no: i+1,
+        no: i + 1,
         actual_date: moment(data[i].actual_date).format("DD/MM/YYYY"),
         start_location: data[i].start_location,
         destination: data[i].destination,
@@ -764,7 +764,7 @@ export default class TravelClaimRequestEdit extends Component {
 
       data: l,
       columns: [
-        { title: 'No', data: 'no'},
+        { title: 'No', data: 'no' },
         { title: "Acutal Date", data: "actual_date" },
         { title: "Start Location", data: "start_location" },
         { title: "Destination", data: "destination" },
@@ -838,6 +838,7 @@ export default class TravelClaimRequestEdit extends Component {
             accumulator + currentValue
         ) : 0;
     let { is_main_role, selectedPicker, editPosition } = this.state;
+
     return (
       <div>
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />

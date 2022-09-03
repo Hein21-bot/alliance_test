@@ -35,7 +35,7 @@ export class AttendanceCaldendar extends Component {
         // console.log('data is ==> ', data.map(V=> ( moment(V.date).format('DD-MM-YYYY'))), moment((date)).format('DD-MM-YYYY'))
         const highlight = data.filter(v => v.date == moment(date).format('MM-DD-YYYY'))
 
-        console.log('highlight data ==> ', highlight, data.map(v => v.date), moment(date).format('MM-DD-YYYY'))
+        // console.log('highlight data ==> ', highlight, data.map(v => v.date), moment(date).format('MM-DD-YYYY'))
         const tooltipText = `<div style="color:red">Tooltip for date: ${date}</div>`;
         return (
             <>
@@ -55,7 +55,7 @@ export class AttendanceCaldendar extends Component {
     render() {
 
         const { modalData } = this.state;
-        console.log('modalData ===>', modalData)
+        // console.log('modalData ===>', modalData)
         const MyContainer = ({ className, children }) => {
             return (
                 <div style={{ color: "#fff", fontSize: 14, width: '100%' }}>

@@ -252,11 +252,11 @@ export default class TravelClaimRequestAddNew
     }
 
     check = () => {
-        if(this.state.newDoc.length == 0){
+        if (this.state.newDoc.length == 0) {
             toast.error("Please Choose Attachment File!")
-        }else{
+        } else {
             if (validate("check_form")) {
-           
+
                 // @lucy
                 const dataTostring = this.state.dataSource.map((v) => {
                     return {
@@ -273,6 +273,7 @@ export default class TravelClaimRequestAddNew
                         start_time: moment(v.start_time).format(),
                         transport: v.transport,
                         withdraw_location: v.withdraw_location,
+                        createdBy: this.state.data.user_id
                     };
                 });
                 if (saveBtn) {
@@ -302,7 +303,7 @@ export default class TravelClaimRequestAddNew
                 });
             }
         }
-        
+
     };
 
     handlefileChanged(e) {
@@ -323,7 +324,7 @@ export default class TravelClaimRequestAddNew
             var getfile = document.querySelector("#travelCRDrop").files[j];
             newDoc.push(getfile)
         }
-        document.querySelector("#travelCRDrop").value=''
+        document.querySelector("#travelCRDrop").value = ''
         this.setState({
             newDoc: newDoc,
             attachment: attachment
