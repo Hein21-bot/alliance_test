@@ -9,9 +9,11 @@ import TravelClaimRequestView from './TravelClaimRequestView';
 import TravelClaimRequestEdit from './TravelClaimRequestEdit';
 import TravelAdvanceClaimView from './TravelAdvanceClaimView';
 import TravelAdvanceClaimEdit from './TravelAdvanceClaimEdit';
+import $ from 'jquery'
 import PageHeader from '../../layouts/PageHeader';
 import 'react-toastify/dist/ReactToastify.min.css'
 import moment from "moment";
+
 import {
     main_url, getCookieData, getWorkFlowStatus, getPermissionStatus, alertText,
     startSaving, stopSaving
@@ -353,7 +355,7 @@ export default class TravelRequestParent extends Component {
         formdata.append('array', JSON.stringify(claimDetail))
         
         let status = 0
-        stopSaving();
+        $('#saving_button').attr('disabled', true);
         fetch(main_url + 'allowance/addAdvancedClaimTravelRequestAllowance', {
             method: "POST",
 
@@ -409,7 +411,7 @@ export default class TravelRequestParent extends Component {
     showToast = (status, text) => {
         if (status === 200) {
             toast.success("Your Information is successfully save!");
-            // window.location.reload();
+            window.location.reload();
         }
         else {
             startSaving();
