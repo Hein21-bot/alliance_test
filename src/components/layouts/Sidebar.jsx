@@ -10,6 +10,8 @@ export default class Sidebar extends Component {
       pathname: window.location.pathname,
       isHR: false,
     };
+    
+  this.checkHR = this.checkHR.bind(this)
   }
   logout() {
     removeCookieData("user_info");
@@ -63,19 +65,18 @@ export default class Sidebar extends Component {
     else return "/dashboard";
   }
 
-  componentDidMount() {
-    this.checkHR()
+  async componentDidMount() {
+   await this.checkHR()
   }
 
-  checkHR = () => {
-    fetch(`${main_url}dashboard/sidebarPermission/${this.state.user.account_details_id}`)
+  checkHR = async() => {
+   await  fetch(`${main_url}dashboard/sidebarPermission/${this.state.user.account_details_id}`)
       .then(res => res.json())
       .then(data => {
-        console.log("data -----------> ", data)
         if (Object.keys(data).length > 0) {
-          const isHR = data[0].deptname === "HR";
+          const checkHRVal = data[0].deptname == "HR";
           this.setState({
-            isHR
+            isHR: checkHRVal,
           });
         }
       })
@@ -83,7 +84,6 @@ export default class Sidebar extends Component {
 
   render() {
     const { pathname, user, isHR } = this.state;
-    console.log("data ----------->", isHR)
     return (
       <div>
         <nav className="navbar-default navbar-static-side">
@@ -145,69 +145,69 @@ export default class Sidebar extends Component {
                   <span className="sideText">Dashboard</span>
                 </a>
               </li>
-              {
-                isHR ?
-                <li
-                  className={this.checkPathName() === "/setting" ? "active" : ""}
-                >
-                  <a href="/attendance_policy_setting" className="sideList">
-                    <i className="fas fa-cog sideIcon" style={{ color: 'white' }}></i>
-                    <span className="sideText">Setting</span>
-                  </a>
-                  <ul className="nav nav-second-level collapse">
-                    <li
-                      className={
-                        pathname === "/attendance_policy_setting" ? "active" : ""
-                      }
-                    >
-                      <a href="/attendance_policy_setting">Attendance Policy</a>
-                    </li>
-                    <li
-                      className={
-                        pathname === "/benefit_setup_setting" ? "active" : ""
-                      }
-                    >
-                      <a href="/benefit_setup_setting">Benefit</a>
-                    </li>
-                    <li
-                      className={pathname === "/holiday_setting" ? "active" : ""}
-                    >
-                      <a href="/holiday_setting">Holiday</a>
-                    </li>
-                    <li
-                      className={
-                        pathname === "/salary_template_setting" ? "active" : ""
-                      }
-                    >
-                      <a href="/salary_template_setting">Salary Template</a>
-                    </li>
-                    <li
-                      className={pathname === "/ssb_rate_setting" ? "active" : ""}
-                    >
-                      <a href="/ssb_rate_setting">SSB Rate</a>
-                    </li>
-                    <li
-                      className={
-                        pathname === "/career_path_setting" ? "active" : ""
-                      }
-                    >
-                      <a href="/career_path_setting">Career Path</a>
-                    </li>
-                    <li
-                      className={pathname === "/payroll_setting" ? "active" : ""}
-                    >
-                      <a href="/payroll_setting">Payroll</a>
-                    </li>
-                  </ul>
-                </li>
-                : null
-              }
-              {
-                isHR ?
+              
+                  <li
+                    className={this.checkPathName() === "/setting" ? "active" : ""}
+                    style={{
+                      display: isHR ? 'block' : "none"
+                    }}
+                  >
+                    <a href="/attendance_policy_setting" className="sideList">
+                      <i className="fas fa-cog sideIcon" style={{ color: 'white' }}></i>
+                      <span className="sideText">Setting</span>
+                    </a>
+                    <ul className="nav nav-second-level collapse">
+                        <li
+                          className={
+                            pathname === "/attendance_policy_setting" ? "active" : ""
+                          }
+                        >
+                          <a href="/attendance_policy_setting">Attendance Policy</a>
+                        </li>
+                        <li
+                          className={
+                            pathname === "/benefit_setup_setting" ? "active" : ""
+                          }
+                        >
+                          <a href="/benefit_setup_setting">Benefit</a>
+                        </li>
+                        <li
+                          className={pathname === "/holiday_setting" ? "active" : ""}
+                        >
+                          <a href="/holiday_setting">Holiday</a>
+                        </li>
+                        <li
+                          className={
+                            pathname === "/salary_template_setting" ? "active" : ""
+                          }
+                        >
+                          <a href="/salary_template_setting">Salary Template</a>
+                        </li>
+                        <li
+                          className={pathname === "/ssb_rate_setting" ? "active" : ""}
+                        >
+                          <a href="/ssb_rate_setting">SSB Rate</a>
+                        </li>
+                        <li
+                          className={
+                            pathname === "/career_path_setting" ? "active" : ""
+                          }
+                        >
+                          <a href="/career_path_setting">Career Path</a>
+                        </li>
+                        <li
+                          className={pathname === "/payroll_setting" ? "active" : ""}
+                        >
+                          <a href="/payroll_setting">Payroll</a>
+                        </li>
+                      </ul>
+                  </li>
+              
                 <li
                   className={
                     this.checkPathName() === "/master_data" ? "active" : ""
                   }
+                  style={{display: isHR ? 'block' : "none"}}
                 >
                   <a href="/career_level_master_data" className="sideList">
                     <i className="fa fa-key sideIcon" style={{ color: 'white' }}></i>
@@ -336,16 +336,14 @@ export default class Sidebar extends Component {
                     </li>
                   </ul>
                 </li>
-                : null
-              }
-              {
-                isHR ?
+               
                 <li
                   className={
                     this.checkPathName() === "/employee_management"
                       ? "active"
                       : " "
                   }
+                  style={{display: isHR ? 'block' : "none"}}
                 >
                   <a href="/employee_list" className="sideList">
                     <i className="fas fa-user-cog" style={{ color: 'white' }}></i>
@@ -365,8 +363,6 @@ export default class Sidebar extends Component {
   
                   </ul>
                 </li>
-                : null
-              }
               {/* <li
                 className={
                   this.checkPathName() === "/attendance_leave_report"

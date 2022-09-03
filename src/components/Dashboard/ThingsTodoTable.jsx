@@ -53,9 +53,9 @@ class ThingsTodoTable extends Component {
     thingsToDoController.getSalaryRequest(id, data => {
       this.setState({ salaryCount: data.count })
     });
-    thingsToDoController.getTravelRequest(id, data => {
-      this.setState({ travelCount: data.count })
-    });
+    // thingsToDoController.getTravelRequest(id, data => {
+    //   this.setState({ travelCount: data.count })
+    // });
     thingsToDoController.getWeddingRequest(id, data => {
       this.setState({ weddingCount: data.count })
     });
@@ -80,12 +80,12 @@ class ThingsTodoTable extends Component {
     thingsToDoController.getTrainingRequest(id, data => {
       this.setState({ trainingCount: data.count })
     })
-    thingsToDoController.getPhoneRequest(id, data => {
-      this.setState({ phoneCount: data[0].count })
-    })
-    thingsToDoController.getPetrolRequest(id, data => {
-      this.setState({ petrolCount: data[0].count })
-    })
+    // thingsToDoController.getPhoneRequest(id, data => {
+    //   this.setState({ phoneCount: data[0].count })
+    // })
+    // thingsToDoController.getPetrolRequest(id, data => {
+    //   this.setState({ petrolCount: data[0].count })
+    // })
     thingsToDoController.getStaffComplainRequest(id, data => {
       this.setState({ staffComplainCount: data[0].count })
     })

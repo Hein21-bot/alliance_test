@@ -102,6 +102,7 @@ export default class BenefitChildTable extends Component {
         var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
         for (var i = 0; i < data.length; i++) {
             let result = data[i];
+            console.log('result is =====>', result)
             let obj = [];
             obj = {
                 no: i + 1,
@@ -117,7 +118,8 @@ export default class BenefitChildTable extends Component {
                 job_title: data[i].job_title ? this.state.job_title.length > 0 && this.state.job_title.filter(v => v.id == data[i].job_title)[0].job_title : '',
                 carrer_level: data[i].career_level ? data[i].career_level : '',
                 carrer_sub_level: data[i].career_sub_level ? data[i].career_sub_level : '',
-                salary: data[i].salary ? data[i].salary : '',
+                // salary: data[i].salary ? data[i].salary : '',
+                salary: this.props.salaryPermission.length > 0 ? data[i].salary ? data[i].salary : '' : data[i].career_sub_level_id > 20 ? 'Not Available' : data[i].salary ? data[i].salary : '',
                 department: data[i].deptname ? data[i].deptname : '',
                 discon_status: data[i].discontinute_status ? data[i].discontinute_status == 0 ? 'False' : 'True' : 'False',
                 discon_date: data[i].discontinute_date ? moment(data[i].discontinute_date).format('DD-MM-YYYY') : '',
@@ -221,6 +223,7 @@ export default class BenefitChildTable extends Component {
 
 
     render() {
+        console.log('single user table is ====>', this.props.salaryPermission)
         return (
             <div>
                 <div className="row border-bottom white-bg dashboard-header">
