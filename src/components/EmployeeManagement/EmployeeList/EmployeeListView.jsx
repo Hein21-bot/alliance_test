@@ -53,7 +53,7 @@ class EmployeeListView extends Component {
             bankList: [],
             disConstatusList: [
                 { value: 1, label: 'True' },
-                { value: 2, label: 'False' },
+                { value: 0, label: 'False' },
             ],
             selected_bank: null,
             accountName: '',
@@ -177,7 +177,7 @@ class EmployeeListView extends Component {
                         carrerLevel: level_options && level_options.find(c => c.value == res[0].career_level_id) ? level_options.find(c => c.value == res[0].career_level_id) : null,
                         employeeDetailBranch: branchlist && branchlist.find(c => c.value == res[0].branch_name) ? branchlist.find(c => c.value == res[0].branch_name) : null,
                         employedDate: res[0].employ_date,
-                        disConStatus: res[0].discontinued_status == 1 ? disConstatusList.find(c => c.value == 1) : disConstatusList.find(c => c.value == 1),
+                        disConStatus: res[0].discontinued == 1 ? disConstatusList.find(c => c.value == 1) : disConstatusList.find(c => c.value == 0),
                         disConDate: res[0].discontinued_date,
                         selected_NRC_Id: nrcList && nrcList.find(c => c.value == res[0].NRC_SD_code) ? nrcList.find(c => c.value == res[0].NRC_SD_code) : null,
                         selected_DistrictCode: districtCodeList && districtCodeList.find(c => c.value == res[0].NRC_District_code) ? districtCodeList.find(c => c.value == res[0].NRC_District_code) : null,////

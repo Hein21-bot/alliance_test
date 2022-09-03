@@ -433,6 +433,10 @@ class EmployeeListMain extends Component {
     this.setState({
       detailForm: true,
       selectedEmployeeData: data,
+      isTable : false,
+      isView : false,
+      isEdit : false,
+      isAddNew : false,
     });
   };
 
@@ -442,6 +446,8 @@ class EmployeeListMain extends Component {
     } else {
       return (
         <div className=" border-bottom white-bg dashboard-header">
+          { this.state.isAddNew ||this.state.isView || this.state.isEdit || this.state.isTable ?  (
+            <>
           <ToastContainer position={toast.POSITION.TOP_RIGHT} />
           <div className="row wrapper border-bottom white-bg page-heading">
             <div className="col-lg-12">
@@ -462,7 +468,7 @@ class EmployeeListMain extends Component {
                 )}
               </ol>
             </div>
-          </div>
+          </div> </>) : null}
           {this.state.viewForm ? (
             <EmployeeListView
               selectedEmployeeData={this.state.selectedEmployeeData}
