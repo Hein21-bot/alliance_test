@@ -90,7 +90,7 @@ class ThingsTodoTable extends Component {
       this.setState({ staffComplainCount: data[0].count })
     })
     thingsToDoController.getHelpDeskRequest(id, data => {
-      console.log('helpdesk count ===>', data)
+      // console.log('helpdesk count ===>', data)
       this.setState({ helpDeskCount: data[0].count })
     })
   }

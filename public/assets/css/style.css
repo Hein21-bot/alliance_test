@@ -8930,8 +8930,8 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child::
 }
 
 .custom-datePicker .react-datepicker__day-names{
-  /* display: flex !important;
-  justify-content: space-between !important; */
+  display: flex !important;
+  justify-content: space-around !important;
   /* padding: 4px 5px 2px 5px; */
 }
 
