@@ -561,7 +561,7 @@ export default class TravelAdvancedClaimAddNew
                                             <label>No Of Days</label>
                                             <input
                                                 className="form-control checkValidate"
-                                                type="text"
+                                                type="number"
                                                 data-name='noOfDays'
                                                 value={this.state.claimData.noOfDays}
                                                 placeholder="No Of Days"
@@ -573,7 +573,7 @@ export default class TravelAdvancedClaimAddNew
                                             <label>No Of Nights</label>
                                             <input
                                                 className="form-control"
-                                                type="text"
+                                                type="number"
                                                 data-name='noOfNights'
                                                 value={this.state.claimData.noOfNights}
                                                 placeholder="No Of Nights"
@@ -587,7 +587,7 @@ export default class TravelAdvancedClaimAddNew
                                             <label>Meals</label>
                                             <input
                                                 className="form-control"
-                                                type="text"
+                                                type="number"
                                                 data-name='meals'
                                                 value={this.state.claimData.meals}
                                                 placeholder="Enter Meals"
@@ -599,7 +599,7 @@ export default class TravelAdvancedClaimAddNew
                                             <label>Lodging</label>
                                             <input
                                                 className="form-control"
-                                                type="text"
+                                                type="number"
                                                 data-name='lodging'
                                                 value={this.state.claimData.lodging}
                                                 placeholder="Enter Lodging"
@@ -611,7 +611,7 @@ export default class TravelAdvancedClaimAddNew
                                             <label>Transport</label>
                                             <input
                                                 className="form-control"
-                                                type="text"
+                                                type="number"
                                                 data-name='transport'
                                                 value={this.state.claimData.transport}
                                                 placeholder="Enter Meals"
