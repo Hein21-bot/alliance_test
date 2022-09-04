@@ -293,7 +293,7 @@ class NavBar extends Component {
                                     alt="logo"
                                     className="logostyle"
                                     onError={imageError}
-                                    src={main_url + `dashboard/getProfile/`+  this.state.user.avatar}
+                                    src={this.state.user.avatar ? main_url + `dashboard/getProfile/`+  this.state.user.avatar : 'assets/img/SeekPng.com_profile-icon-png_9665493.png'}
                                     style={{
                                         width:"57px",
                                         height:'57px',

@@ -85,9 +85,8 @@ class Profile extends Component {
               paddingTop: 10
             }}
           >
-            <div
+            <div className="col-lg-1 col-md-1"
               style={{
-                width: "10%",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center", 
@@ -97,11 +96,13 @@ class Profile extends Component {
             >
               <img
                onError={imageError}
-               src={main_url + `dashboard/getProfile/`+  this.state.userInfo.avatar}
+               src={this.state.userInfo.avatar ? main_url + `dashboard/getProfile/`+  this.state.userInfo.avatar : 'assets/img/SeekPng.com_profile-icon-png_9665493.png'}
                 style={{ width: 90, height: 90, borderRadius: 45,objectFit:"cover",border:"5px solid #23c6c8" }}
               />
             </div>
-            <div style={{ width: "22%" }}>
+            
+            <div className="col-lg-3  col-md-3" style={{display:"flex"}}>
+              <div className="col-lg-11">
               <h4 style={{ color: primary }}>{this.state.userInfo.fullname}</h4>
               <div style={styles.smallContainer}>
                 <p style={styles.profileLeftText}>Gender</p>
@@ -121,9 +122,8 @@ class Profile extends Component {
                 <p style={styles.profileLeftText}>NRC</p>
                 <p style={styles.profileMiddleText}>:</p>
                 <p style={styles.profileRightText}>{this.state.userInfo.nrc}</p>
-              </div>
-            </div>
-            <div style={{ width: "0.5%", marginRight: 5 }}>
+              </div></div>
+              <div  className="col-lg-1" style={{  marginRight: 5 }}>
               <div
                 style={{
                   width: 1,
@@ -133,8 +133,11 @@ class Profile extends Component {
                 }}
               />
             </div>
+            </div>
+           
 
-            <div style={{ width: "20%" }}>
+            <div className="col-lg-3  col-md-3" style={{display:"flex"}}>
+            <div className="col-lg-11">
               <h4 style={{ color: primary }}>
                 {this.state.userInfo.designations}
               </h4>
@@ -161,9 +164,8 @@ class Profile extends Component {
                     new Date(this.state.userInfo.employ_date)
                   )}
                 </p>
-              </div>
-            </div>
-            <div style={{ width: "0.5%", marginRight: 5 }}>
+              </div></div>
+              <div style={{marginRight: 5 }}>
               <div
                 style={{
                   width: 1,
@@ -173,7 +175,10 @@ class Profile extends Component {
                 }}
               />
             </div>
-            <div style={{ width: "16%" }}>
+            </div>
+            
+            <div className="col-lg-2  col-md-2" style={{display:"flex"}}>
+            <div className="col-lg-11">
               <h4 style={{ color: primary }}>
                 Staff ID: {this.state.userInfo.employment_id}
               </h4>
@@ -203,7 +208,7 @@ class Profile extends Component {
                 </div> 
               }
             </div>
-            <div style={{ width: "0.5%", marginRight: 5 }}>
+            <div style={{ marginRight: 5 }}>
               <div
                 style={{
                   width: 1,
@@ -212,8 +217,8 @@ class Profile extends Component {
                   marginTop: 30,
                 }}
               />
-            </div>
-            <div className= "col" style={{ width: "20%" }}>
+            </div></div>
+            <div className= "col lg-2  col-md-2">
               <h4 style={{ color: "transparent" }}>hahahahaha</h4>
               <div style={styles.smallContainer}>
                 <p style={styles.leftprofileText}>Parent Count</p>
@@ -230,9 +235,9 @@ class Profile extends Component {
                 </p>
               </div>
             </div>
-            <div
+            <div className="col-lg-1 col-md-1"
               style={{
-                width: "9%",
+             
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
