@@ -277,6 +277,7 @@ export default class TravelClaimRequestAddNew
                     };
                 });
                 if (saveBtn) {
+                    $('#saving_button').attr('disabled', true);
                     this.props.addClaimRequest(dataTostring, this.state.data, this.state.newDoc);
                 } else {
                     startSaving();
