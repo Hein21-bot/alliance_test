@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
-import { main_url, remote_url, removeCookieData, getUserId } from '../../utils/CommonFunction';
+import { main_url, remote_url, removeCookieData, getUserId,imageError } from '../../utils/CommonFunction';
 import { withRouter } from 'react-router-dom';
 import { getCookieData } from "../../utils/CommonFunction";
 
@@ -292,7 +292,9 @@ class NavBar extends Component {
                                     <img
                                     alt="logo"
                                     className="logostyle"
-                                    src="assets/img/SeekPng.com_profile-icon-png_9665493.png" style={{
+                                    onError={imageError}
+                                    src={main_url + `dashboard/getProfile/`+  this.state.user.avatar}
+                                    style={{
                                         width:"57px",
                                         height:'57px',
                                         borderRadius:'50%',

@@ -365,7 +365,7 @@ export default class TravelClaimRequestEdit extends Component {
   }
 
   check = () => {
-
+    console.log("fjaksfjsjfj")
     if (validate("check_form")) {
       stopSaving();
       var { status_title, is_main_role } = this.state;
@@ -416,24 +416,24 @@ export default class TravelClaimRequestEdit extends Component {
       formdata.append("claimDetail", JSON.stringify(newData));
       formdata.append("updatedBy", JSON.stringify(info));
       let status = 0;
-      fetch(
-        main_url +
-        "allowance/editClaimTravelRequestAllowance/" +
-        this.props.data.claimData[0].travel_allowance_id,
-        {
-          method: "POST",
-          body: formdata,
-        }
-      )
-        .then((res) => {
-          status = res.status;
-          return res.text();
-        })
-        .then((text) => {
-          this.props.showToast(status, text);
-        });
+      // fetch(
+      //   main_url +
+      //   "allowance/editClaimTravelRequestAllowancefas/" +
+      //   this.props.data.claimData[0].travel_allowance_id,
+      //   {
+      //     method: "POST",
+      //     body: formdata,
+      //   }
+      // )
+      //   .then((res) => {
+      //     status = res.status;
+      //     return res.text();
+      //   })
+      //   .then((text) => {
+      //     this.props.showToast(status, text);
+      //   });
     } else {
-      startSaving();
+      // startSaving();
       form_validate = false;
     }
   };
