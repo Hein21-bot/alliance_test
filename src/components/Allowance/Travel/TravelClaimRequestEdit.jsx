@@ -365,7 +365,6 @@ export default class TravelClaimRequestEdit extends Component {
   }
 
   check = () => {
-    console.log("fjaksfjsjfj")
     if (validate("check_form")) {
       stopSaving();
       var { status_title, is_main_role } = this.state;
@@ -375,8 +374,8 @@ export default class TravelClaimRequestEdit extends Component {
       }))[0];
       var newData = this.state.dataSource.map((v) => ({
         ...v,
-        start_time: moment(v.start_time).utc().format('YYYY-MM-DD HH:mm:ss'),
-        end_time: moment(v.end_time).utc().format('YYYY-MM-DD HH:mm:ss')
+        start_time: moment(v.start_time).format('YYYY-MM-DD HH:mm:ss'),
+        end_time: moment(v.end_time).format('YYYY-MM-DD HH:mm:ss')
       }))
       //	TR22030002
       if (status_title !== "" && is_main_role) {
@@ -475,7 +474,7 @@ export default class TravelClaimRequestEdit extends Component {
                         class="form-control ${"start_time" + i}"
                         value='${data.start_time}'
                       >
-                      ${moment(data.start_time).format("h:mm a")}
+                      ${moment(data.start_time).utc().format("h:mm a")}
                       </button>`,
           endTime: `<button
                     id='${i}'
@@ -483,7 +482,7 @@ export default class TravelClaimRequestEdit extends Component {
                     class="form-control ${'end_time' + i}"
                     value='${data.end_time}'
                   >
-                  ${moment(data.end_time).format("h:mm a")}
+                  ${moment(data.end_time).utc().format("h:mm a")}
                   </button>`,
           noOfDays: `<input type="number"
                         id='${i}'
@@ -680,6 +679,7 @@ export default class TravelClaimRequestEdit extends Component {
         const index = data.findIndex(v => v.travel_detail_id === this.state.editId)
         const editData = { travel_detail_id: this.state.editId, ...this.state.claimDetailData[0] }
         data.splice(index, 1, editData)
+        this.setState({ editId: null })
       } else {
         data.push(this.state.claimDetailData[0])
       }
@@ -740,8 +740,8 @@ export default class TravelClaimRequestEdit extends Component {
         actual_date: moment(data[i].actual_date).format("DD/MM/YYYY"),
         start_location: data[i].start_location,
         destination: data[i].destination,
-        start_time: data[i].start_time ? moment(data[i].start_time).format('h:mm a') : 0,
-        end_time: data[i].end_time ? moment(data[i].end_time).format('h:mm a') : 0,
+        start_time: data[i].start_time ? moment(data[i].start_time).format('hh:mm a') : 0,
+        end_time: data[i].end_time ? moment(data[i].end_time).format('hh:mm a') : 0,
         noOfDays: data[i].noOfDays,
         noOfNights: data[i].noOfNights,
         meals: data[i].meals,
@@ -749,7 +749,7 @@ export default class TravelClaimRequestEdit extends Component {
         transport: data[i].transport,
         amount: data[i].amount,
         action:
-          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(data[i]) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button><button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toRemove" ><span id="remove" class="hidden" >' + index + '</span>  <i className="fa fa-cogs"></i>&nbsp;Remove</button>'
+          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(data[i]) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button><button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-remove" id="toRemove" ><span id="remove" class="hidden" >' + index + '</span>  <i className="fa fa-cogs"></i>&nbsp;Remove</button>'
       }
       l.push(obj)
     }
