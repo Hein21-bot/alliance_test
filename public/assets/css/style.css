@@ -261,7 +261,7 @@ body:not(.fixed-sidebar):not(.canvas-menu).mini-navbar .nav li:hover > .nav-seco
   border-radius: 0 2px 2px 0;
   min-width: 160px;
 
-  max-height: 280px !important;
+  max-height: 190px !important;
   overflow-y: scroll;
  
 }
