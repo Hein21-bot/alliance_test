@@ -787,7 +787,7 @@ export default class TravelRequestAdvancedTable extends Component {
           // advancedNo: result.form_no,
           request_amount: result.advanced_amount,
           claim_amount: result.actual_amount,
-          date: moment(result.createdAt).format("DD-MM-YYYY"),
+          date: moment(result.createdAt).utc().format("DD-MM-YYYY"),
 
           status: status,
           title:
