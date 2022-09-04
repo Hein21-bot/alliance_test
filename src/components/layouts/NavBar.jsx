@@ -29,6 +29,7 @@ class NavBar extends Component {
     
 
     componentDidMount() {
+        document.getElementById("gg").addEventListener("click",this.afterClick)
         try {
             this.getNotiCount();
             socket_noti.on('noti', count => {
@@ -207,6 +208,13 @@ class NavBar extends Component {
                 })
             })
     }
+    afterClick=()=>{
+        document.body.classList.toggle('mini-navbar')
+    }
+    
+    
+    // const add=document.querySelector('#gg');
+    // add.addEventListener('click',afterClick)
 
     render() {
         let count = (parseInt(this.state.count) + parseInt(this.state.benefit_allowance_noti_count) + parseInt(this.state.wedding_benefit_count)
@@ -215,12 +223,13 @@ class NavBar extends Component {
 
         let count1 = count + parseInt(this.state.noti_count)
 
+        
 
         return (
             <div>
                 <div className="row border-bottom">
                     <nav className="navbar navbar-static-top" role="navigation" >
-                        <div className="navbar-header" style={{marginTop:"8px"}}>
+                        <div className="navbar-header" id="gg" style={{marginTop:"8px"}}>
                             <a href="#" className="navbar-minimalize minimalize-styl-2 btn btn-primary" ><i className="fa fa-bars"></i> </a>
                             
                         </div>
