@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { NonceProvider } from "react-select/dist/react-select.cjs.prod";
-import { main_url } from "../../utils/CommonFunction";
+import { main_url ,imageError} from "../../utils/CommonFunction";
 const primary = "#1872ab";
 
 class Profile extends Component {
@@ -39,11 +39,11 @@ class Profile extends Component {
       .then((res) => {this.setState({ 
         userInfo: res[0],
         });
-        //  this.getProfile(res[0].avatar) 
+        //  this.getProfile() 
         });     
   }
-  // getProfile(userId){
-  //   fetch(main_url + `dashboard/getProfile/1655108588597&@HMH.jpg`)
+  // getProfile(){
+  //   fetch(main_url + `dashboard/getProfile`)
   // .then((response) => {
   //   if (response.ok){
   //     this.setState({
@@ -96,8 +96,8 @@ class Profile extends Component {
               }}
             >
               <img
-               src="assets/img/SeekPng.com_profile-icon-png_9665493.png"
-              //  src={this.state.userPhoto}
+               onError={imageError}
+               src={main_url + `dashboard/getProfile/`+  this.state.userInfo.avatar}
                 style={{ width: 90, height: 90, borderRadius: 45,objectFit:"cover",border:"5px solid #23c6c8" }}
               />
             </div>
