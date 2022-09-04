@@ -475,7 +475,7 @@ export default class TravelClaimRequestEdit extends Component {
                         class="form-control ${"start_time" + i}"
                         value='${data.start_time}'
                       >
-                      ${moment(data.start_time).utc().format("h:mm a")}
+                      ${moment(data.start_time).format("h:mm a")}
                       </button>`,
           endTime: `<button
                     id='${i}'
@@ -483,7 +483,7 @@ export default class TravelClaimRequestEdit extends Component {
                     class="form-control ${'end_time' + i}"
                     value='${data.end_time}'
                   >
-                  ${moment(data.end_time).utc().format("h:mm a")}
+                  ${moment(data.end_time).format("h:mm a")}
                   </button>`,
           noOfDays: `<input type="number"
                         id='${i}'
@@ -740,8 +740,8 @@ export default class TravelClaimRequestEdit extends Component {
         actual_date: moment(data[i].actual_date).format("DD/MM/YYYY"),
         start_location: data[i].start_location,
         destination: data[i].destination,
-        start_time: data[i].start_time ? moment(data[i].start_time).utc().format(' h:mm a') : 0,
-        end_time: data[i].end_time ? moment(data[i].end_time).utc().format(' h:mm a') : 0,
+        start_time: data[i].start_time ? moment(data[i].start_time).format('h:mm a') : 0,
+        end_time: data[i].end_time ? moment(data[i].end_time).format('h:mm a') : 0,
         noOfDays: data[i].noOfDays,
         noOfNights: data[i].noOfNights,
         meals: data[i].meals,
