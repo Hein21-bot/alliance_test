@@ -50,7 +50,6 @@ export default class TravelRequestAdvancedTable extends Component {
 
   async componentDidMount() {
     let branch = await getBranch();
-
     this.setState({
       branch: branch,
     }, () => { this._setTableData(this.state.dataSource) });
@@ -272,9 +271,9 @@ export default class TravelRequestAdvancedTable extends Component {
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
         if (this.state.pending_approve == 'myrequest') {
-          this.setState({ dataList: list, data: list.filter(v => v.user_id == this.state.user_id) }, () => this._setTableData(this.state.data));
+          this.setState({ dataList: list, data: list.filter(v => v.user_id == this.state.user_id) }, () => { this._setTableData(this.state.data) });
         } else if (this.state.pending_approve == 'allrequest') {
-          this.setState({ dataList: list, data: list.filter(v => v.user_id != this.state.user_id) }, () => this._setTableData(this.state.data));
+          this.setState({ dataList: list, data: list.filter(v => v.user_id != this.state.user_id) }, () => { this._setTableData(this.state.data) });
 
         }
 
@@ -282,6 +281,7 @@ export default class TravelRequestAdvancedTable extends Component {
   }
 
   approvedlist = async (data) => {
+    console.log('data is =====>', data)
     if (data == 'myrequest') {
       this.setState({
         data: this.state.dataList.filter(v => v.user_id == this.state.user_id),
@@ -290,7 +290,7 @@ export default class TravelRequestAdvancedTable extends Component {
       }, () => {
         this._setTableData(this.state.data)
       })
-    } else if (data == 'allrequest') {
+    } else {
       this.setState({
         data: this.state.dataList.filter(v => v.user_id != this.state.user_id),
         pending_approve: 'allrequest'
@@ -309,8 +309,8 @@ export default class TravelRequestAdvancedTable extends Component {
       })
       .then((res) => {
         if (res) {
-
-          this.setState({ dataList: res }, () => this._setTableData(res) );
+          const filterData = res.filter(d => d.user_id != this.state.user_id)
+          this.setState({ dataList: res }, () => this._setTableData(filterData));
         }
       })
       .catch((error) => console.error(`Fetch Error =\n`, error));

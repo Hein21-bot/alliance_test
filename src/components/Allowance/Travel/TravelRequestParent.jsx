@@ -156,7 +156,6 @@ export default class TravelRequestParent extends Component {
             })
             .then(res => {
                 if (res) {
-
                     this.setState({ data: res })
                 }
             })
@@ -324,9 +323,9 @@ export default class TravelRequestParent extends Component {
             })
     }
 
-    addTravelAdvancedClaim = (claimDetail, claimData, advancedAmount,image) => {
-        
-        
+    addTravelAdvancedClaim = (claimDetail, claimData, advancedAmount, image) => {
+
+
         var form_no = 'AC' + Date.now();
         var info = {
             actual_amount: claimData.actual_amount,
@@ -346,14 +345,14 @@ export default class TravelRequestParent extends Component {
         var obj = image.length;
         for (var i = 0; i < obj; i++) {
             var imagedata = image[i];
-           
+
             formdata.append('uploadfile', image[i]);
-            
+
         }
 
         formdata.append('info', JSON.stringify(info))
         formdata.append('array', JSON.stringify(claimDetail))
-        
+
         let status = 0
         $('#saving_button').attr('disabled', true);
         fetch(main_url + 'allowance/addAdvancedClaimTravelRequestAllowance', {
