@@ -585,7 +585,7 @@ class TeamBuildingAddNew extends Component {
                 </div>
 
                 <div className="row save-btn">
-                    <button className="btn btn-primary" id="saving_button" type="button" onClick={this.save.bind(this, this.total_amount)}>Add </button>
+                    <button className="btn btn-primary" id="saving_button" type="button" onClick={this.save.bind(this, this.total_amount)}>Save </button>
                 </div>
                 <hr />
 

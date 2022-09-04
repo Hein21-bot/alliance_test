@@ -395,7 +395,7 @@ export default class Sidebar extends Component {
 
               <li
                 className={
-                  this.checkPathName() === "/leavemanagement" || pathname === '/leave_management' || pathname === '/leave_report' || pathname === '/earned_leave_opening_balance' ? "active" : ""
+                  this.checkPathName() === "/leavemanagement" || pathname === '/leave_management' || pathname === '/leave_report' || pathname === '/earned_leave_opening_balance' || pathname === '/attendance_leave_report' ? "active" : ""
                 }
               >
                 <a href="/leave_management" className="sideList">
@@ -422,7 +422,9 @@ export default class Sidebar extends Component {
                   >
                     <a href="/earned_leave_opening_balance">Earned Leave Opening Balance</a>
                   </li>
-
+                  <li className={pathname === "/attendance_leave_report" ? "active" : ""}>
+                    <a href="/attendance_leave_report">Attendance And Leave </a>
+                  </li>
                 </ul>
 
               </li>

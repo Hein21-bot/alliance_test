@@ -256,28 +256,28 @@ export default class TravelAdvancedClaimAddNew
     }
 
 
-    handlefileChanged(event) {
-        console.log(event.target.files)
-        event.preventDefault();
+    // handlefileChanged(event) {
+    //     console.log(event.target.files)
+    //     event.preventDefault();
 
-        let arr = [];
-        let url = [];
-        for (let i = 0; i < event.target.files.length; i++) {
-            let reader = new FileReader();
-            let getfile = event.target.files[i];
-            reader.onloadend = (r) => {
-                url.push(r.target.result);
-            }
-            reader.readAsDataURL(getfile);
-            arr.push(getfile);
+    //     let arr = [];
+    //     let url = [];
+    //     for (let i = 0; i < event.target.files.length; i++) {
+    //         let reader = new FileReader();
+    //         let getfile = event.target.files[i];
+    //         reader.onloadend = (r) => {
+    //             url.push(r.target.result);
+    //         }
+    //         reader.readAsDataURL(getfile);
+    //         arr.push(getfile);
 
-        }
-        document.getElementById('travelDropzone').value = ''
-        this.setState({
-            fileArray: arr
-        })
+    //     }
+    //     document.getElementById('travelDropzone').value = ''
+    //     this.setState({
+    //         fileArray: arr
+    //     })
 
-    }
+    // }
     removeNewDocument(index, event) {
         var array = this.state.fileArray;
 
@@ -288,25 +288,25 @@ export default class TravelAdvancedClaimAddNew
 
     }
 
-    // checkFiles(e) {
-    //     var files = document.getElementById("travelDropzone").files;
+    checkFiles(e) {
+        var files = document.getElementById("travelDropzone").files;
 
-    //     if (files.length > 2) {
-    //         toast.warning('You can only upload a maximum of 2 files!')
-    //     }
+        if (files.length > 2) {
+            toast.warning('You can only upload a maximum of 2 files!')
+        }
 
-    //     let newDoc = this.state.newDoc;
-    //     var obj = document.querySelector("#travelDropzone").files.length;
-    //     for (var i = 0; i < obj; i++) {
-    //         var getfile = document.querySelector("#travelDropzone").files[i];
-    //         newDoc.push(getfile)
-    //     }
-    //     document.getElementById('attach_file').value=''
-    //     this.setState({
-    //         // attachment: attachment,
-    //         newDoc: newDoc
-    //     })
-    // }
+        let fileArray = this.state.fileArray;
+        var obj = document.querySelector("#travelDropzone").files.length;
+        for (var i = 0; i < obj; i++) {
+            var getfile = document.querySelector("#travelDropzone").files[i];
+            fileArray.push(getfile)
+        }
+        document.getElementById('travelDropzone').value=''
+        this.setState({
+            // attachment: attachment,
+            fileArray: fileArray
+        })
+    }
 
 
     check = () => {
@@ -561,7 +561,7 @@ export default class TravelAdvancedClaimAddNew
                                             <label>No Of Days</label>
                                             <input
                                                 className="form-control checkValidate"
-                                                type="text"
+                                                type="number"
                                                 data-name='noOfDays'
                                                 value={this.state.claimData.noOfDays}
                                                 placeholder="No Of Days"
@@ -573,7 +573,7 @@ export default class TravelAdvancedClaimAddNew
                                             <label>No Of Nights</label>
                                             <input
                                                 className="form-control"
-                                                type="text"
+                                                type="number"
                                                 data-name='noOfNights'
                                                 value={this.state.claimData.noOfNights}
                                                 placeholder="No Of Nights"
@@ -587,7 +587,7 @@ export default class TravelAdvancedClaimAddNew
                                             <label>Meals</label>
                                             <input
                                                 className="form-control"
-                                                type="text"
+                                                type="number"
                                                 data-name='meals'
                                                 value={this.state.claimData.meals}
                                                 placeholder="Enter Meals"
@@ -599,7 +599,7 @@ export default class TravelAdvancedClaimAddNew
                                             <label>Lodging</label>
                                             <input
                                                 className="form-control"
-                                                type="text"
+                                                type="number"
                                                 data-name='lodging'
                                                 value={this.state.claimData.lodging}
                                                 placeholder="Enter Lodging"
@@ -611,7 +611,7 @@ export default class TravelAdvancedClaimAddNew
                                             <label>Transport</label>
                                             <input
                                                 className="form-control"
-                                                type="text"
+                                                type="number"
                                                 data-name='transport'
                                                 value={this.state.claimData.transport}
                                                 placeholder="Enter Meals"
@@ -717,7 +717,7 @@ export default class TravelAdvancedClaimAddNew
                         <div className="col-md-12" style={{
                             marginTop: 30
                         }}>
-                            <input type="file" className="dropZone" id="travelDropzone" onChange={this.handlefileChanged.bind(this)} multiple /></div>
+                            <input type="file" className="dropZone" id="travelDropzone" onChange={this.checkFiles.bind(this)} multiple /></div>
                         <div>
                             {this.state.fileArray.map((data, index) =>
 

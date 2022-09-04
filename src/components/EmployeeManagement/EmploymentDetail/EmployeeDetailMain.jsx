@@ -1040,7 +1040,8 @@ class EmployeeDetailMain extends Component {
             )}
           </div>
           {this.state.tableView ? (
-            <div style={{}}>
+            <div >
+             <div  style={{display:"flex",justifyContent:"end"}}>
               <button
                 onClick={() => {
                   this.setState({ tableView: false, });
@@ -1055,8 +1056,8 @@ class EmployeeDetailMain extends Component {
                   border: "none",
                 }}
               >
-                {"< Back"}
-              </button>
+                {"Back To List"}
+              </button></div>
               <EmploymentDetailsForSingleUserTable
                 goToViewForm={null}
                 goToEditForm={null}
