@@ -50,7 +50,7 @@ export default class HospitalizationTypeTable extends Component {
             one = {
                 no: i + 1,
                 hospitalization_type: obj.hospitalization_type,
-                remark: obj.remark,
+                remark: obj.remark ? obj.remark : '-',
                 active: obj.active == 0 ? 'Inactive' : 'Active',
                 action: '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="View" ><span id="view" class="hidden" >' + JSON.stringify(obj) + '</span>&nbsp;View</button><button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="Edit" ><span id="edit" class="hidden" >' + JSON.stringify(obj) + '</span>&nbsp;Edit</button>',
             }

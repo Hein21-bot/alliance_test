@@ -14,9 +14,10 @@ const CryptoJS = require('crypto-js');
 //  const main_url = "http://192.168.:8087/";  
 // server 
 
-const main_url = "http://192.168.100.38:8082/" // local
+// const main_url = "http://192.168.100.38:8082/" // local
 // const main_url = "http://localhost:8082/"
-// const main_url = "http://103.29.91.26:50092/";
+// const main_url = "http://103.29.91.26:50092/"; // test server
+const main_url = "http://103.29.91.26:8032/";  // live server
 
 // test new
 // const main_url = "http://192.168.43.10:50092/";

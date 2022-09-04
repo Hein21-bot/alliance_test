@@ -56,8 +56,8 @@ export default class HolidayTable extends Component {
                 // start_date: obj.start_date,
                 end_date: moment(obj.end_date).format("YYYY-MM-DD"),
                 // end_date: obj.end_date,
-                holiday_count: obj.holiday_count,
-                remark: obj.remark,
+                holiday_count: obj.holiday_count ? obj.holiday_count : '-',
+                remark: obj.remark ? obj.remark : '-',
                 action: '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="View" ><span id="view" class="hidden" >' + JSON.stringify(obj) + '</span>&nbsp;View</button><button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="Edit" ><span id="edit" class="hidden" >' + JSON.stringify(obj) + '</span>&nbsp;Edit</button>',
             }
 

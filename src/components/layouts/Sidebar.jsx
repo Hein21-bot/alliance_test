@@ -509,24 +509,24 @@ export default class Sidebar extends Component {
                   <li className={pathname === "/travelRequest" ? "active" : ""}>
                     <a href="/travelRequest">Travel Request</a>
                   </li>
-                  <li
+                  {/* <li
                     className={pathname === "/trainingRequest" ? "active" : ""}
                   >
                     <a href="/trainingRequest">Training Request</a>
-                  </li>
+                  </li> */}
                   <li
                     className={pathname === "/salary_advance" ? "active" : ""}
                   >
                     <a href="/salary_advance">Salary Advance</a>
                   </li>
-                  <li
+                  {/* <li
                     className={pathname === "/phonebillrequest" ? "active" : ""}
                   >
                     <a href="/phonebillrequest">Phone Bill</a>
-                  </li>
-                  <li className={pathname === "/petrolRequest" ? "active" : ""}>
+                  </li> */}
+                  {/* <li className={pathname === "/petrolRequest" ? "active" : ""}>
                     <a href="/petrolRequest">Petrol Request</a>
-                  </li>
+                  </li> */}
                 </ul>
 
               </li>

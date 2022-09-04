@@ -51,7 +51,7 @@ export default class CareerSubLevelTable extends Component {
                 no: i + 1,
                 career_level: obj.career_level,
                 career_sub_level: obj.career_sub_level,
-                remark: obj.remark,
+                remark: obj.remark ? obj.remark : '-',
                 active: obj.active == 1 ? "Active" : "Inactive",
                 action: '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="View" ><span id="view" class="hidden" >' + JSON.stringify(obj) + '</span>&nbsp;View</button><button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="Edit" ><span id="edit" class="hidden" >' + JSON.stringify(obj) + '</span>&nbsp;Edit</button>',
             }

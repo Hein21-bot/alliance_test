@@ -409,7 +409,7 @@ export default class TravelRequestParent extends Component {
     showToast = (status, text) => {
         if (status === 200) {
             toast.success("Your Information is successfully save!");
-            // window.location.reload();
+            window.location.reload();
         }
         else {
             startSaving();

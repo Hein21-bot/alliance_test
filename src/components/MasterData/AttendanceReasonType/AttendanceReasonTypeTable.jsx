@@ -49,9 +49,9 @@ export default class AttendanceReasonTypeTable extends Component {
             obj = data[i];
             one = {
                 no: i + 1,
-                reason: obj.reason,
-                attendance_type: obj.attendance_type,
-                remark: obj.remark,
+                reason: obj.reason ? obj.reason : '-',
+                attendance_type: obj.attendance_type ? obj.attendance_type : '-',
+                remark: obj.remark ? obj.remark : '-',
                 active: obj.active == 1 ? 'Active' : 'Inactive',
                 action: '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="View" ><span id="view" class="hidden" >' + JSON.stringify(obj) + '</span>&nbsp;View</button><button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="Edit" ><span id="edit" class="hidden" >' + JSON.stringify(obj) + '</span>&nbsp;Edit</button>',
             }

@@ -50,10 +50,10 @@ export default class LeaveCategoryTable extends Component {
             one = {
                 no: i + 1,
                 leave_category: obj.leave_category,
-                description: obj.description,
-                leave_quota: obj.leave_quota,
+                description: obj.description ? obj.description : '-',
+                leave_quota: obj.leave_quota ? obj.leave_quota:'-',
                 allow_leave_count: obj.allow_leave_count == 0 ? "Calendar Day" : "Working Day",
-                leave_policy: obj.leave_policy,
+                leave_policy: obj.leave_policy ? obj.leave_policy : '-',
                 action: '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="View" ><span id="view" class="hidden" >' + JSON.stringify(obj) + '</span>&nbsp;View</button><button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="Edit" ><span id="edit" class="hidden" >' + JSON.stringify(obj) + '</span>&nbsp;Edit</button>',
             }
 

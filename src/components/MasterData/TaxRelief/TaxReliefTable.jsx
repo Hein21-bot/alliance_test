@@ -54,7 +54,7 @@ export default class TaxReliefTable extends Component {
                 allowance_reason: obj.name,
                 allowance_percent: obj.allowance_percent,
                 allowance_amount: obj.allowance_amount,
-                remark: obj.remark,
+                remark: obj.remark ? obj.remark : '-',
                 action: '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="View" ><span id="view" class="hidden" >' + JSON.stringify(obj) + '</span>&nbsp;View</button><button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="Edit" ><span id="edit" class="hidden" >' + JSON.stringify(obj) + '</span>&nbsp;Edit</button>',
             }
 

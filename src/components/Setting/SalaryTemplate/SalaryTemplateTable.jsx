@@ -76,7 +76,7 @@ export default class SalaryTemplateTable extends Component {
                 basic_salary: obj.basic_salary,
                 career_level: ((level_options.find(v => Number(v.career_level_id) === Number(obj.career_level)) ? level_options.find(v => Number(v.career_level_id) === Number(obj.career_level)).career_level : '')),
                 career_sub_level: (sub_level_options.find(v => Number(v.career_sub_level_id) === Number(obj.career_sub_level)) ? sub_level_options.find(v => Number(v.career_sub_level_id) === Number(obj.career_sub_level)).career_sub_level : ''),
-                remark: obj.remark,
+                remark: obj.remark ? obj.remark : '-',
                 action: '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="View" ><span id="view" class="hidden" >' + JSON.stringify(obj) + '</span>&nbsp;View</button><button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="Edit" ><span id="edit" class="hidden" >' + JSON.stringify(obj) + '</span>&nbsp;Edit</button>',
             }
 
