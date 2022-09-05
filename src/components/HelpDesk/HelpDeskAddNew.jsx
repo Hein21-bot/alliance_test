@@ -316,9 +316,7 @@ export default class TravelRequestAddNew
 
     // addHelpDesk = (data, newDoc) => {
     addHelpDesk = () => {
-       if(this.state.newDoc.length == 0){
-        toast.error("Please Choose Attachment File!")
-       }else{
+       
         if (validate('check_form')) {
             $('#saving_button').attr('disabled', true);
             var data = this.state.data
@@ -350,7 +348,7 @@ export default class TravelRequestAddNew
             startSaving();
             form_validate = false;
         }
-       }
+       
        
     }
 
