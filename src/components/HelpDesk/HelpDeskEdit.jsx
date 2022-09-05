@@ -422,10 +422,11 @@ export default class HelpDeskView
     }
 
     getActionStatusForCreateUser(status) {
-        if (status === 0) return { label: 'Request', value: 0 };
-        else {
-            var action = user_status.filter(function (one) { return Number(one.value) === Number(status) });
-            return action[0];
+        if (status === 0) return 'Request'
+        else if (status  == 1 ) {
+           return 'Accept'
+        } else {
+            return 'Reject'
         }
     }
 
@@ -436,6 +437,7 @@ export default class HelpDeskView
 
 
     render() {
+        console.log("?>>",this.state.data)
         return (
             <div>
                 <div className="form-horizontal mt20" name="demo-form" id="check_form">
@@ -642,7 +644,7 @@ export default class HelpDeskView
                                 {
                                     this.checkCreateUser() ?
                                         <div className="col-sm-10">
-                                            <input type="text" className="form-control full_width" value={this.getActionStatusForCreateUser(this.state.data.action_status).label} disabled="true">
+                                            <input type="text" className="form-control full_width" value={this.getActionStatusForCreateUser(this.state.data.action_status)} disabled="true">
                                             </input>
                                         </div> :
 
