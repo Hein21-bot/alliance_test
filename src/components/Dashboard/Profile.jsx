@@ -85,6 +85,7 @@ class Profile extends Component {
               paddingTop: 10
             }}
           >
+            
             <div className="col-lg-1 col-md-1"
               style={{
                 display: "flex",
@@ -101,27 +102,28 @@ class Profile extends Component {
               />
             </div>
             
+            <div className="col-lg-10 col-md-10">
             <div className="col-lg-3  col-md-3" style={{display:"flex"}}>
               <div className="col-lg-11">
               <h4 style={{ color: primary }}>{this.state.userInfo.fullname}</h4>
               <div style={styles.smallContainer}>
                 <p style={styles.profileLeftText}>Gender</p>
                 <p style={styles.profileMiddleText}>:</p>
-                <p style={styles.profileRightText}>
+                <p style={this.state.userInfo.gender.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>
                   {this.state.userInfo.gender}
                 </p>
               </div>
               <div style={styles.smallContainer}>
                 <p style={styles.profileLeftText}>Date of Birth</p>
                 <p style={styles.profileMiddleText}>:</p>
-                <p style={styles.profileRightText}>
+                <p style={this.state.userInfo.date_of_birth.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>
                   {this.state.userInfo.date_of_birth}
                 </p>
               </div>
               <div style={styles.smallContainer}>
                 <p style={styles.profileLeftText}>NRC</p>
                 <p style={styles.profileMiddleText}>:</p>
-                <p style={styles.profileRightText}>{this.state.userInfo.nrc}</p>
+                <p style={this.state.userInfo.nrc.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>{this.state.userInfo.nrc}</p>
               </div></div>
               <div  className="col-lg-1" style={{  marginRight: 5 }}>
               <div
@@ -144,14 +146,14 @@ class Profile extends Component {
               <div style={styles.smallContainer}>
                 <p style={styles.profileLeftText}>Employed Date</p>
                 <p style={styles.profileMiddleText}>:</p>
-                <p style={styles.profileRightText}>
+                <p style={this.state.userInfo.employ_date.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>
                   {this.state.userInfo.employ_date}
                 </p>
               </div>
               <div style={styles.smallContainer}>
                 <p style={styles.profileLeftText}>Branch</p>
                 <p style={styles.profileMiddleText}>:</p>
-                <p style={styles.profileRightText}>
+                <p style={this.state.userInfo.branch_name.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>
                   {this.state.userInfo.branch_name}
                 </p>
               </div>
@@ -177,7 +179,7 @@ class Profile extends Component {
             </div>
             </div>
             
-            <div className="col-lg-2  col-md-2" style={{display:"flex"}}>
+            <div className="col-lg-3  col-md-3" style={{display:"flex"}}>
             <div className="col-lg-11">
               <h4 style={{ color: primary }}>
                 Staff ID: {this.state.userInfo.employment_id}
@@ -218,22 +220,23 @@ class Profile extends Component {
                 }}
               />
             </div></div>
-            <div className= "col lg-2  col-md-2">
+            <div className= "col-lg-3  col-md-3">
               <h4 style={{ color: "transparent" }}>hahahahaha</h4>
               <div style={styles.smallContainer}>
-                <p style={styles.leftprofileText}>Parent Count</p>
-                <p style={styles.middleprofileText}>:</p>
-                <p style={styles.rightprofileText}>
+                <p style={styles.profileLeftText}>Parent Count</p>
+                <p style={styles.profileMiddleText}>:</p>
+                <p style={styles.profileRightText}>
                   {this.state.userInfo.parent_count}
                 </p>
               </div>
               <div style={styles.smallContainer}>
-                <p style={styles.leftprofileText}>Bank Account</p>
-                <p style={styles.middleprofileText}>:</p>
-                <p style={styles.rightprofileText}>
+                <p style={styles.profileLeftText}>Bank Account</p>
+                <p style={styles.profileMiddleText}>:</p>
+                <p style={this.state.userInfo.bank.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>
                   {this.state.userInfo.bank}
                 </p>
               </div>
+            </div>
             </div>
             <div className="col-lg-1 col-md-1"
               style={{
@@ -273,34 +276,42 @@ const styles = {
   profileLeftText: {
     width: "40%",
     color: primary,
-    fontSize: 12,
+    fontSize: 11,
   },
   profileMiddleText: {
     width: "3%",
     color: primary,
-    fontSize: 12,
+    fontSize: 11,
   },
   profileRightText: {
     width: "57%",
     color: primary,
-    fontSize: 12,
+    fontSize: 11,
     display: "flex",
     alignSelf: "flex-start",
+  },
+  profileRightTextSmall: {
+    width: "57%",
+    color: primary,
+    fontSize: 9,
+    display: "flex",
+    alignSelf: "flex-start",
+    marginTop: 2
   },
   leftProfileText: {
     width: "50%",
     color: primary,
-    fontSize: 12,
+    fontSize: 11,
   },
   middleProfileText: {
     width: "3%",
     color: primary,
-    fontSize: 12,
+    fontSize: 11,
   },
   rightProfileText: {
     width: "47%",
     color: primary,
-    fontSize: 12,
+    fontSize: 11,
     display: "flex",
     alignSelf: "flex-start",
   },
