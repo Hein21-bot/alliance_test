@@ -75,6 +75,7 @@ class Profile extends Component {
       <div>
         {this.state.userInfo != undefined ? (
           <div
+          className="col-lg-12 col-md-12 col-sm-12"
             style={{
               // height: 120,
               display: "flex",
@@ -85,7 +86,7 @@ class Profile extends Component {
               paddingTop: 10
             }}
           >
-            <div className="col-lg-1 col-md-1"
+            <div className="col-lg-1 col-md-1 col-sm-12"
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -100,30 +101,31 @@ class Profile extends Component {
                 style={{ width: 90, height: 90, borderRadius: 45,objectFit:"cover",border:"5px solid #23c6c8" }}
               />
             </div>
+            <div className="col-lg-10 col-md-10 col-sm-12" style={{display: 'flex', flexWrap: 'wrap'}}>
+            <div style={{width: 200 , display: 'flex', flexDirection: 'row'}}>
             
-            <div className="col-lg-3  col-md-3" style={{display:"flex"}}>
-              <div className="col-lg-11">
+              <div style={{ width: '95%'}}>
               <h4 style={{ color: primary }}>{this.state.userInfo.fullname}</h4>
               <div style={styles.smallContainer}>
                 <p style={styles.profileLeftText}>Gender</p>
                 <p style={styles.profileMiddleText}>:</p>
-                <p style={styles.profileRightText}>
+                <p style={this.state.userInfo.gender.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>
                   {this.state.userInfo.gender}
                 </p>
               </div>
               <div style={styles.smallContainer}>
                 <p style={styles.profileLeftText}>Date of Birth</p>
                 <p style={styles.profileMiddleText}>:</p>
-                <p style={styles.profileRightText}>
+                <p style={this.state.userInfo.date_of_birth.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>
                   {this.state.userInfo.date_of_birth}
                 </p>
               </div>
               <div style={styles.smallContainer}>
                 <p style={styles.profileLeftText}>NRC</p>
                 <p style={styles.profileMiddleText}>:</p>
-                <p style={styles.profileRightText}>{this.state.userInfo.nrc}</p>
+                <p style={this.state.userInfo.nrc.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>{this.state.userInfo.nrc}</p>
               </div></div>
-              <div  className="col-lg-1" style={{  marginRight: 5 }}>
+              <div style={{ width: '5%' }}>
               <div
                 style={{
                   width: 1,
@@ -136,22 +138,22 @@ class Profile extends Component {
             </div>
            
 
-            <div className="col-lg-3  col-md-3" style={{display:"flex"}}>
-            <div className="col-lg-11">
+            <div style={{width: 200, display: 'flex', flexDirection: 'row'}} >
+            <div  style={{ width: '95%'}}>
               <h4 style={{ color: primary }}>
                 {this.state.userInfo.designations}
               </h4>
               <div style={styles.smallContainer}>
                 <p style={styles.profileLeftText}>Employed Date</p>
                 <p style={styles.profileMiddleText}>:</p>
-                <p style={styles.profileRightText}>
+                <p style={this.state.userInfo.employ_date.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>
                   {this.state.userInfo.employ_date}
                 </p>
               </div>
               <div style={styles.smallContainer}>
                 <p style={styles.profileLeftText}>Branch</p>
                 <p style={styles.profileMiddleText}>:</p>
-                <p style={styles.profileRightText}>
+                <p style={this.state.userInfo.branch_name.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>
                   {this.state.userInfo.branch_name}
                 </p>
               </div>
@@ -165,7 +167,7 @@ class Profile extends Component {
                   )}
                 </p>
               </div></div>
-              <div style={{marginRight: 5 }}>
+              <div style={{ width: '5%' }}>
               <div
                 style={{
                   width: 1,
@@ -177,38 +179,38 @@ class Profile extends Component {
             </div>
             </div>
             
-            <div className="col-lg-2  col-md-2" style={{display:"flex"}}>
-            <div className="col-lg-11">
+            <div style={{width: 200, display: 'flex', flexDirection: 'row'}}>
+            <div style={{ width: '95%'}}>
               <h4 style={{ color: primary }}>
                 Staff ID: {this.state.userInfo.employment_id}
               </h4>
               <div style={styles.smallContainer}>
-                <p style={styles.leftProfileText}>Promotion Date</p>
-                <p style={styles.middleProfileText}>:</p>
-                <p style={styles.rightProfileText}>
+                <p style={styles.profileLeftText}>Promotion Date</p>
+                <p style={styles.profileMiddleText}>:</p>
+                <p style={styles.profileRightText}>
                   {this.state.userInfo.last_promotion_date == null
                     ? "-"
                     : this.state.userInfo.last_promotion_date}
                 </p>
               </div>
               <div style={styles.smallContainer}>
-                <p style={styles.leftProfileText}>Martial Status</p>
-                <p style={styles.middleProfileText}>:</p>
-                <p style={styles.rightProfileText}>
+                <p style={styles.profileLeftText}>Martial Status</p>
+                <p style={styles.profileMiddleText}>:</p>
+                <p style={this.state.userInfo.maratial_status.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>
                   {this.state.userInfo.maratial_status}
                 </p>
               </div>
               {
                 this.state.userInfo.maratial_status == "unmarried" || this.state.userInfo.maratial_status == "Single" ? null : <div style={styles.smallContainer}>
-                  <p style={styles.leftProfileText}>Child Count</p>
-                  <p style={styles.middleProfileText}>:</p>
-                  <p style={styles.rightProfileText}>
+                  <p style={styles.profileLeftText}>Child Count</p>
+                  <p style={styles.profileMiddleText}>:</p>
+                  <p style={styles.profileRightText}>
                     {this.state.userInfo.child_count}
                   </p>
                 </div> 
               }
             </div>
-            <div style={{ marginRight: 5 }}>
+            <div style={{  width: '5%'  }}>
               <div
                 style={{
                   width: 1,
@@ -217,25 +219,29 @@ class Profile extends Component {
                   marginTop: 30,
                 }}
               />
-            </div></div>
-            <div className= "col lg-2  col-md-2">
+            </div>
+            </div>
+            <div style={{width: 200}}>
+            <div style={{  width: '100%'}}>
               <h4 style={{ color: "transparent" }}>hahahahaha</h4>
               <div style={styles.smallContainer}>
-                <p style={styles.leftprofileText}>Parent Count</p>
-                <p style={styles.middleprofileText}>:</p>
-                <p style={styles.rightprofileText}>
+                <p style={styles.profileLeftText}>Parent Count</p>
+                <p style={styles.profileMiddleText}>:</p>
+                <p style={styles.profileRightText}>
                   {this.state.userInfo.parent_count}
                 </p>
               </div>
               <div style={styles.smallContainer}>
-                <p style={styles.leftprofileText}>Bank Account</p>
-                <p style={styles.middleprofileText}>:</p>
-                <p style={styles.rightprofileText}>
+                <p style={styles.profileLeftText}>Bank Account</p>
+                <p style={styles.profileMiddleText}>:</p>
+                <p style={this.state.userInfo.bank.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>
                   {this.state.userInfo.bank}
                 </p>
               </div>
             </div>
-            <div className="col-lg-1 col-md-1"
+            </div>
+            </div>
+            <div className="col-lg-1 col-md-1 col-sm-12"
               style={{
              
                 display: "flex",
@@ -269,23 +275,32 @@ const styles = {
     flexDirection: "row",
     justifyContent: "space-between",
     flexWrap: "wrap",
+    // backgroundColor: 'red',
   },
   profileLeftText: {
     width: "40%",
     color: primary,
-    fontSize: 12,
+    fontSize: 11,
   },
   profileMiddleText: {
     width: "3%",
     color: primary,
-    fontSize: 12,
+    fontSize: 11,
   },
   profileRightText: {
     width: "57%",
     color: primary,
-    fontSize: 12,
+    fontSize: 11,
     display: "flex",
     alignSelf: "flex-start",
+  },
+  profileRightTextSmall: {
+    width: "57%",
+    color: primary,
+    fontSize: 9,
+    display: "flex",
+    alignSelf: "flex-start",
+    marginTop: 2
   },
   leftProfileText: {
     width: "50%",

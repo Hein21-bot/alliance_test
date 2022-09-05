@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 import moment from 'moment';
+import $ from 'jquery';
 import {
     main_url, getTicketMainCategory, getTicketStatus, getBranch, getTicketCategoryType, getTicketSubCategory,
     getPriority, getUserId, getDepartment, validate, getSeverity, startSaving, stopSaving
 } from '../../utils/CommonFunction';
+import { toast } from 'react-toastify';
 
 const ticketType = [{
     value: 1,
@@ -314,8 +316,11 @@ export default class TravelRequestAddNew
 
     // addHelpDesk = (data, newDoc) => {
     addHelpDesk = () => {
-       
+       if(this.state.newDoc.length == 0){
+        toast.error("Please Choose Attachment File!")
+       }else{
         if (validate('check_form')) {
+            $('#saving_button').attr('disabled', true);
             var data = this.state.data
             var newDoc = this.state.newDoc
             const formdata = new FormData();
@@ -345,6 +350,8 @@ export default class TravelRequestAddNew
             startSaving();
             form_validate = false;
         }
+       }
+       
     }
 
     // check = () => {
