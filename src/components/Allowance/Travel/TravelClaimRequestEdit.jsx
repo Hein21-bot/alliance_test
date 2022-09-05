@@ -374,8 +374,8 @@ export default class TravelClaimRequestEdit extends Component {
       }))[0];
       var newData = this.state.dataSource.map((v) => ({
         ...v,
-        start_time: moment(v.start_time).utc().format('YYYY-MM-DD HH:mm:ss'),
-        end_time: moment(v.end_time).utc().format('YYYY-MM-DD HH:mm:ss')
+        start_time: moment(v.start_time).format('YYYY-MM-DD HH:mm:ss'),
+        end_time: moment(v.end_time).format('YYYY-MM-DD HH:mm:ss')
       }))
       //	TR22030002
       if (status_title !== "" && is_main_role) {
