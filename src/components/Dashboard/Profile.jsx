@@ -75,7 +75,6 @@ class Profile extends Component {
       <div>
         {this.state.userInfo != undefined ? (
           <div
-          className="col-lg-12 col-md-12 col-sm-12"
             style={{
               // height: 120,
               display: "flex",
@@ -86,7 +85,8 @@ class Profile extends Component {
               paddingTop: 10
             }}
           >
-            <div className="col-lg-1 col-md-1 col-sm-12"
+            
+            <div className="col-lg-1 col-md-1"
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -101,10 +101,10 @@ class Profile extends Component {
                 style={{ width: 90, height: 90, borderRadius: 45,objectFit:"cover",border:"5px solid #23c6c8" }}
               />
             </div>
-            <div className="col-lg-10 col-md-10 col-sm-12" style={{display: 'flex', flexWrap: 'wrap'}}>
-            <div style={{width: 200 , display: 'flex', flexDirection: 'row'}}>
             
-              <div style={{ width: '95%'}}>
+            <div className="col-lg-10 col-md-10">
+            <div className="col-lg-3  col-md-3" style={{display:"flex"}}>
+              <div className="col-lg-11">
               <h4 style={{ color: primary }}>{this.state.userInfo.fullname}</h4>
               <div style={styles.smallContainer}>
                 <p style={styles.profileLeftText}>Gender</p>
@@ -125,7 +125,7 @@ class Profile extends Component {
                 <p style={styles.profileMiddleText}>:</p>
                 <p style={this.state.userInfo.nrc.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>{this.state.userInfo.nrc}</p>
               </div></div>
-              <div style={{ width: '5%' }}>
+              <div  className="col-lg-1" style={{  marginRight: 5 }}>
               <div
                 style={{
                   width: 1,
@@ -138,8 +138,8 @@ class Profile extends Component {
             </div>
            
 
-            <div style={{width: 200, display: 'flex', flexDirection: 'row'}} >
-            <div  style={{ width: '95%'}}>
+            <div className="col-lg-3  col-md-3" style={{display:"flex"}}>
+            <div className="col-lg-11">
               <h4 style={{ color: primary }}>
                 {this.state.userInfo.designations}
               </h4>
@@ -167,7 +167,7 @@ class Profile extends Component {
                   )}
                 </p>
               </div></div>
-              <div style={{ width: '5%' }}>
+              <div style={{marginRight: 5 }}>
               <div
                 style={{
                   width: 1,
@@ -179,38 +179,38 @@ class Profile extends Component {
             </div>
             </div>
             
-            <div style={{width: 200, display: 'flex', flexDirection: 'row'}}>
-            <div style={{ width: '95%'}}>
+            <div className="col-lg-3  col-md-3" style={{display:"flex"}}>
+            <div className="col-lg-11">
               <h4 style={{ color: primary }}>
                 Staff ID: {this.state.userInfo.employment_id}
               </h4>
               <div style={styles.smallContainer}>
-                <p style={styles.profileLeftText}>Promotion Date</p>
-                <p style={styles.profileMiddleText}>:</p>
-                <p style={styles.profileRightText}>
+                <p style={styles.leftProfileText}>Promotion Date</p>
+                <p style={styles.middleProfileText}>:</p>
+                <p style={styles.rightProfileText}>
                   {this.state.userInfo.last_promotion_date == null
                     ? "-"
                     : this.state.userInfo.last_promotion_date}
                 </p>
               </div>
               <div style={styles.smallContainer}>
-                <p style={styles.profileLeftText}>Martial Status</p>
-                <p style={styles.profileMiddleText}>:</p>
-                <p style={this.state.userInfo.maratial_status.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>
+                <p style={styles.leftProfileText}>Martial Status</p>
+                <p style={styles.middleProfileText}>:</p>
+                <p style={styles.rightProfileText}>
                   {this.state.userInfo.maratial_status}
                 </p>
               </div>
               {
                 this.state.userInfo.maratial_status == "unmarried" || this.state.userInfo.maratial_status == "Single" ? null : <div style={styles.smallContainer}>
-                  <p style={styles.profileLeftText}>Child Count</p>
-                  <p style={styles.profileMiddleText}>:</p>
-                  <p style={styles.profileRightText}>
+                  <p style={styles.leftProfileText}>Child Count</p>
+                  <p style={styles.middleProfileText}>:</p>
+                  <p style={styles.rightProfileText}>
                     {this.state.userInfo.child_count}
                   </p>
                 </div> 
               }
             </div>
-            <div style={{  width: '5%'  }}>
+            <div style={{ marginRight: 5 }}>
               <div
                 style={{
                   width: 1,
@@ -219,10 +219,8 @@ class Profile extends Component {
                   marginTop: 30,
                 }}
               />
-            </div>
-            </div>
-            <div style={{width: 200}}>
-            <div style={{  width: '100%'}}>
+            </div></div>
+            <div className= "col-lg-3  col-md-3">
               <h4 style={{ color: "transparent" }}>hahahahaha</h4>
               <div style={styles.smallContainer}>
                 <p style={styles.profileLeftText}>Parent Count</p>
@@ -240,8 +238,7 @@ class Profile extends Component {
               </div>
             </div>
             </div>
-            </div>
-            <div className="col-lg-1 col-md-1 col-sm-12"
+            <div className="col-lg-1 col-md-1"
               style={{
              
                 display: "flex",
@@ -275,7 +272,6 @@ const styles = {
     flexDirection: "row",
     justifyContent: "space-between",
     flexWrap: "wrap",
-    // backgroundColor: 'red',
   },
   profileLeftText: {
     width: "40%",
@@ -305,17 +301,17 @@ const styles = {
   leftProfileText: {
     width: "50%",
     color: primary,
-    fontSize: 12,
+    fontSize: 11,
   },
   middleProfileText: {
     width: "3%",
     color: primary,
-    fontSize: 12,
+    fontSize: 11,
   },
   rightProfileText: {
     width: "47%",
     color: primary,
-    fontSize: 12,
+    fontSize: 11,
     display: "flex",
     alignSelf: "flex-start",
   },
