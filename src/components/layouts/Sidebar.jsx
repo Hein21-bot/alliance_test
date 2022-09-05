@@ -10,8 +10,8 @@ export default class Sidebar extends Component {
       pathname: window.location.pathname,
       isHR: false,
     };
-    
-  this.checkHR = this.checkHR.bind(this)
+
+    this.checkHR = this.checkHR.bind(this)
   }
   logout() {
     removeCookieData("user_info");
@@ -66,11 +66,11 @@ export default class Sidebar extends Component {
   }
 
   async componentDidMount() {
-   await this.checkHR()
+    await this.checkHR()
   }
 
-  checkHR = async() => {
-   await  fetch(`${main_url}dashboard/sidebarPermission/${this.state.user.account_details_id}`)
+  checkHR = async () => {
+    await fetch(`${main_url}dashboard/sidebarPermission/${this.state.user.account_details_id}`)
       .then(res => res.json())
       .then(data => {
         if (Object.keys(data).length > 0) {
@@ -145,224 +145,224 @@ export default class Sidebar extends Component {
                   <span className="sideText">Dashboard</span>
                 </a>
               </li>
-              
+
+              <li
+                className={this.checkPathName() === "/setting" ? "active" : ""}
+                style={{
+                  display: (isHR || this.state.user.user_id != 1382 || this.state.user.user_id != 1049) ? 'block' : "none"
+                }}
+              >
+                <a href="/attendance_policy_setting" className="sideList">
+                  <i className="fas fa-cog sideIcon" style={{ color: 'white' }}></i>
+                  <span className="sideText">Setting</span>
+                </a>
+                <ul className="nav nav-second-level collapse">
                   <li
-                    className={this.checkPathName() === "/setting" ? "active" : ""}
-                    style={{
-                      display: isHR ? 'block' : "none"
-                    }}
+                    className={
+                      pathname === "/attendance_policy_setting" ? "active" : ""
+                    }
                   >
-                    <a href="/attendance_policy_setting" className="sideList">
-                      <i className="fas fa-cog sideIcon" style={{ color: 'white' }}></i>
-                      <span className="sideText">Setting</span>
-                    </a>
-                    <ul className="nav nav-second-level collapse">
-                        <li
-                          className={
-                            pathname === "/attendance_policy_setting" ? "active" : ""
-                          }
-                        >
-                          <a href="/attendance_policy_setting">Attendance Policy</a>
-                        </li>
-                        <li
-                          className={
-                            pathname === "/benefit_setup_setting" ? "active" : ""
-                          }
-                        >
-                          <a href="/benefit_setup_setting">Benefit</a>
-                        </li>
-                        <li
-                          className={pathname === "/holiday_setting" ? "active" : ""}
-                        >
-                          <a href="/holiday_setting">Holiday</a>
-                        </li>
-                        <li
-                          className={
-                            pathname === "/salary_template_setting" ? "active" : ""
-                          }
-                        >
-                          <a href="/salary_template_setting">Salary Template</a>
-                        </li>
-                        <li
-                          className={pathname === "/ssb_rate_setting" ? "active" : ""}
-                        >
-                          <a href="/ssb_rate_setting">SSB Rate</a>
-                        </li>
-                        <li
-                          className={
-                            pathname === "/career_path_setting" ? "active" : ""
-                          }
-                        >
-                          <a href="/career_path_setting">Career Path</a>
-                        </li>
-                        <li
-                          className={pathname === "/payroll_setting" ? "active" : ""}
-                        >
-                          <a href="/payroll_setting">Payroll</a>
-                        </li>
-                      </ul>
+                    <a href="/attendance_policy_setting">Attendance Policy</a>
                   </li>
-              
-                <li
-                  className={
-                    this.checkPathName() === "/master_data" ? "active" : ""
-                  }
-                  style={{display: isHR ? 'block' : "none"}}
-                >
-                  <a href="/career_level_master_data" className="sideList">
-                    <i className="fa fa-key sideIcon" style={{ color: 'white' }}></i>
-                    <span className="sideText">Master Data</span>
-                  </a>
-                  <ul className="nav nav-second-level collapse">
-                    <li
-                      className={
-                        pathname === "/career_level_master_data" ? "active" : ""
-                      }
-                    >
-                      <a href="/career_level_master_data">
-                        {/* <i className="fa fa-user"></i> */}
-                        Career Level
-                      </a>
-                    </li>
-                    <li
-                      className={
-                        pathname === "/career_sub_level_master_data"
-                          ? "active"
-                          : ""
-                      }
-                    >
-                      <a href="/career_sub_level_master_data">
-                        {/* <i className="fa fa-user-o"></i> */}
-                        Career Sub Level
-                      </a>
-                    </li>
-                    <li
-                      className={
-                        pathname === "/designations_master_data" ? "active" : ""
-                      }
-                    >
-                      <a href="/designations_master_data">
-                        {/* <i className="fa fa-id-badge"></i> */}
-                        Designations
-                      </a>
-                    </li>
-                    <li
-                      className={
-                        pathname === "/job_title_master_data" ? "active" : ""
-                      }
-                    >
-                      <a href="/job_title_master_data">
-                        {/* <i className="fa fa-suitcase"></i> */}
-                        Job Title
-                      </a>
-                    </li>
-                    <li
-                      className={
-                        pathname === "/leave_category_master_data" ? "active" : ""
-                      }
-                    >
-                      <a href="/leave_category_master_data">
-                        {/* <i className="fa fa-calendar-times-o"></i> */}
-                        Leave Catyegory
-                      </a>
-                    </li>
-                    <li
-                      className={
-                        pathname === "/attendance_reason_type_master_data"
-                          ? "active"
-                          : ""
-                      }
-                    >
-                      <a href="/attendance_reason_type_master_data">
-                        {/* <i className="fa fa-check-square-o"></i> */}
-                        Attendance Reason Type
-                      </a>
-                    </li>
-                    <li
-                      className={
-                        pathname === "/hospitalization_type_master_data"
-                          ? "active"
-                          : ""
-                      }
-                    >
-                      <a href="/hospitalization_type_master_data">
-                        {/* <i className="fa fa-check-square-o"></i> */}
-                        Hospitalization Type
-                      </a>
-                    </li>
-                    <li
-                      className={
-                        pathname === "/ticket_main_category_master_data"
-                          ? "active"
-                          : ""
-                      }
-                    >
-                      <a href="/ticket_main_category_master_data">
-                        {/* <i className="fa fa-ticket"></i> */}
-                        Ticket Main Category
-                      </a>
-                    </li>
-                    <li
-                      className={
-                        pathname === "/ticket_sub_category_master_data"
-                          ? "active"
-                          : ""
-                      }
-                    >
-                      <a href="/ticket_sub_category_master_data">
-                        {/* <i className="fa fa-tags"></i> */}
-                        Ticket Sub Category
-                      </a>
-                    </li>
-                    <li
-                      className={
-                        pathname === "/tax_rage_master_data" ? "active" : ""
-                      }
-                    >
-                      <a href="/tax_rage_master_data">
-                        {/* <i className="fa fa-file-text"></i> */}
-                        Tax Rage
-                      </a>
-                    </li>
-                    <li
-                      className={
-                        pathname === "/tax_relief_master_data" ? "active" : ""
-                      }
-                    >
-                      <a href="/tax_relief_master_data">
-                        {/* <i className="fa fa-level-down"></i> */}
-                        Tax Relief
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-               
-                <li
-                  className={
-                    this.checkPathName() === "/employee_management"
-                      ? "active"
-                      : " "
-                  }
-                  style={{display: isHR ? 'block' : "none"}}
-                >
-                  <a href="/employee_list" className="sideList">
-                    <i className="fas fa-user-cog" style={{ color: 'white' }}></i>
-                    <span className="sideText">Employee Management</span>
-                  </a>
-                  <ul className="nav nav-second-level collapse">
-                    <li className={pathname === "/employee_list" ? "active" : " "}>
-                      <a href="/employee_list">Employee Lists</a>
-                    </li>
-                    <li
-                      className={
-                        pathname === "/employment_details" ? "active" : " "
-                      }
-                    >
-                      <a href="/employment_details">Employment Details</a>
-                    </li>
-  
-                  </ul>
-                </li>
+                  <li
+                    className={
+                      pathname === "/benefit_setup_setting" ? "active" : ""
+                    }
+                  >
+                    <a href="/benefit_setup_setting">Benefit</a>
+                  </li>
+                  <li
+                    className={pathname === "/holiday_setting" ? "active" : ""}
+                  >
+                    <a href="/holiday_setting">Holiday</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/salary_template_setting" ? "active" : ""
+                    }
+                  >
+                    <a href="/salary_template_setting">Salary Template</a>
+                  </li>
+                  <li
+                    className={pathname === "/ssb_rate_setting" ? "active" : ""}
+                  >
+                    <a href="/ssb_rate_setting">SSB Rate</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/career_path_setting" ? "active" : ""
+                    }
+                  >
+                    <a href="/career_path_setting">Career Path</a>
+                  </li>
+                  <li
+                    className={pathname === "/payroll_setting" ? "active" : ""}
+                  >
+                    <a href="/payroll_setting">Payroll</a>
+                  </li>
+                </ul>
+              </li>
+
+              <li
+                className={
+                  this.checkPathName() === "/master_data" ? "active" : ""
+                }
+                style={{ display: (isHR || this.state.user.user_id != 1382 || this.state.user.user_id != 1049) ? 'block' : "none" }}
+              >
+                <a href="/career_level_master_data" className="sideList">
+                  <i className="fa fa-key sideIcon" style={{ color: 'white' }}></i>
+                  <span className="sideText">Master Data</span>
+                </a>
+                <ul className="nav nav-second-level collapse">
+                  <li
+                    className={
+                      pathname === "/career_level_master_data" ? "active" : ""
+                    }
+                  >
+                    <a href="/career_level_master_data">
+                      {/* <i className="fa fa-user"></i> */}
+                      Career Level
+                    </a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/career_sub_level_master_data"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/career_sub_level_master_data">
+                      {/* <i className="fa fa-user-o"></i> */}
+                      Career Sub Level
+                    </a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/designations_master_data" ? "active" : ""
+                    }
+                  >
+                    <a href="/designations_master_data">
+                      {/* <i className="fa fa-id-badge"></i> */}
+                      Designations
+                    </a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/job_title_master_data" ? "active" : ""
+                    }
+                  >
+                    <a href="/job_title_master_data">
+                      {/* <i className="fa fa-suitcase"></i> */}
+                      Job Title
+                    </a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/leave_category_master_data" ? "active" : ""
+                    }
+                  >
+                    <a href="/leave_category_master_data">
+                      {/* <i className="fa fa-calendar-times-o"></i> */}
+                      Leave Catyegory
+                    </a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/attendance_reason_type_master_data"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/attendance_reason_type_master_data">
+                      {/* <i className="fa fa-check-square-o"></i> */}
+                      Attendance Reason Type
+                    </a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/hospitalization_type_master_data"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/hospitalization_type_master_data">
+                      {/* <i className="fa fa-check-square-o"></i> */}
+                      Hospitalization Type
+                    </a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/ticket_main_category_master_data"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/ticket_main_category_master_data">
+                      {/* <i className="fa fa-ticket"></i> */}
+                      Ticket Main Category
+                    </a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/ticket_sub_category_master_data"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/ticket_sub_category_master_data">
+                      {/* <i className="fa fa-tags"></i> */}
+                      Ticket Sub Category
+                    </a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/tax_rage_master_data" ? "active" : ""
+                    }
+                  >
+                    <a href="/tax_rage_master_data">
+                      {/* <i className="fa fa-file-text"></i> */}
+                      Tax Rage
+                    </a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/tax_relief_master_data" ? "active" : ""
+                    }
+                  >
+                    <a href="/tax_relief_master_data">
+                      {/* <i className="fa fa-level-down"></i> */}
+                      Tax Relief
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <li
+                className={
+                  this.checkPathName() === "/employee_management"
+                    ? "active"
+                    : " "
+                }
+                style={{ display: (isHR || this.state.user.user_id != 1382 || this.state.user.user_id != 1049) ? 'block' : "none" }}
+              >
+                <a href="/employee_list" className="sideList">
+                  <i className="fas fa-user-cog" style={{ color: 'white' }}></i>
+                  <span className="sideText">Employee Management</span>
+                </a>
+                <ul className="nav nav-second-level collapse">
+                  <li className={pathname === "/employee_list" ? "active" : " "}>
+                    <a href="/employee_list">Employee Lists</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/employment_details" ? "active" : " "
+                    }
+                  >
+                    <a href="/employment_details">Employment Details</a>
+                  </li>
+
+                </ul>
+              </li>
               {/* <li
                 className={
                   this.checkPathName() === "/attendance_leave_report"
@@ -635,7 +635,7 @@ export default class Sidebar extends Component {
                 </ul>
               </li> */}
 
-              
+
               {/* <li
                 className={this.checkPathName() === "/reports" || pathname === "/EmployeeDirectory" || pathname === "/ResignStaffReport" || pathname === "/RegionStaffReport" || pathname === "/BranchStaffReport" || pathname === "/HoStaffReport" || pathname === "/EmployeeReport" || pathname === "/ReportbyServiceYear" || pathname === "/HistoryReport" || pathname === "/FRDReport" || pathname === "/ExtensionReport" || pathname === "/RegionWiseStaffReportCount" ? "active" : ""}
               >
@@ -706,7 +706,7 @@ export default class Sidebar extends Component {
                 </a>
               </li> */}
 
-                {/* <li className={pathname === "/Announcement" ? "active" : ""}>
+              {/* <li className={pathname === "/Announcement" ? "active" : ""}>
                   <a href="/Announcement" className="sideList" >
                     <i className="fas fa-atlas sideIcon" style={{ color: 'white' }}></i>
                     <span className="sideText">Announcement Setting</span>
@@ -722,7 +722,7 @@ export default class Sidebar extends Component {
               {/* <li className={pathname === '/notification' ? 'active' : ''}>
                                     <a href="/notification" refresh="true"><i className="fa fa-bell"></i>Notification</a>
                                 </li> */}
-              
+
               {this.state.user && this.state.user.user_id === 1 ? (
                 <li className="">
                   <a href="/workflow" className="sideList" refresh="true">
