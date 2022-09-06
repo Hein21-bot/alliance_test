@@ -103,8 +103,9 @@ export default class TravelClaimRequestView extends Component {
         let total_lodging = this.state.claimDetailData.map(v => v.lodging).reduce((accumulator, currentValue, currentIndex, array) => accumulator + currentValue)
         let total_meals = this.state.claimDetailData.map(v => v.meals).reduce((accumulator, currentValue, currentIndex, array) => accumulator + currentValue)
         let total_transport = this.state.claimDetailData.map(v => v.transport).reduce((accumulator, currentValue, currentIndex, array) => accumulator + currentValue)
+        let total_amount = this.state.claimDetailData.map(v => v.amount).reduce((accumulator, currentValue, currentIndex, array) => accumulator + currentValue)
 
-        
+
         return (
 
             <div className="row wrapper border-bottom white-bg">
@@ -137,7 +138,7 @@ export default class TravelClaimRequestView extends Component {
                                 <label>Total Amount </label>
                                 <input
                                     className="form-control"
-                                    value={this.state.claimData[0].actual_amount}
+                                    value={total_amount}
                                     disabled
                                 />
                             </div>
@@ -179,7 +180,7 @@ export default class TravelClaimRequestView extends Component {
                                 <label>Branch</label>
                                 <input
                                     className="form-control"
-                                    value={this.props.data.claimData[0].location_master_name}
+                                    value={this.props.data.claimData[0].branch_name}
                                     disabled
 
                                 />

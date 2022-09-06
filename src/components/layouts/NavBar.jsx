@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
-import { main_url, remote_url, removeCookieData, getUserId,imageError } from '../../utils/CommonFunction';
+import { main_url, remote_url, removeCookieData, getUserId, imageError } from '../../utils/CommonFunction';
 import { withRouter } from 'react-router-dom';
 import { getCookieData } from "../../utils/CommonFunction";
 
@@ -150,11 +150,11 @@ class NavBar extends Component {
     }
 
     readNoti = () => {
-        this.props.history.push("/notification")        
+        this.props.history.push("/notification")
         setTimeout(() => {
             fetch(`${main_url}noti/readNotiBenefit`)
             window.location.reload()
-            
+
         }, 3000);
 
         // const query = queryString.parse(window.location.search)
@@ -287,7 +287,7 @@ class NavBar extends Component {
 
         let count1 = count + parseInt(this.state.noti_count)
 
-        
+
 
         return (
             <div>
@@ -298,21 +298,21 @@ class NavBar extends Component {
                             
                         </div>
                         <div className='nav  navbar-left'>
-                        <h2 className='font-bold' >HR Management System</h2>
+                            <h2 className='font-bold' >HR Management System</h2>
                         </div>
-                        
+
                         <div style={{
-                            marginRight:'40px'
+                            marginRight: '40px'
                         }}>
-                       
+
                             <ul className="nav navbar-top-links navbar-right" style={{
-                                display:"flex",
-                                justifyContent:"center",
-                                alignItems:"center",
-                                
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+
                             }}>
-                                
-                                
+
+
                                 <li className="dropdown">
                                     {/* <div className="h1">count: {this.state.benefit_allowance_noti_count}</div> */}
                                     <a className="dropdown-toggle count-info" data-toggle="dropdown" href="#" >
@@ -334,8 +334,8 @@ class NavBar extends Component {
                                                         <div>
                                                             <i className="fas fa-envelope-open-text"></i>
                                                             &nbsp;&nbsp;
-                                                    You have {this.state.noti_count} help desk message(s).
-                                                    <span className="pull-right text-muted small">{this.state.time} ago</span>
+                                                            You have {this.state.noti_count} help desk message(s).
+                                                            <span className="pull-right text-muted small">{this.state.time} ago</span>
                                                         </div>
                                                     </a>
                                                 </li>
@@ -347,8 +347,8 @@ class NavBar extends Component {
                                                         <div>
                                                             <i className="fas fa-envelope-open-text"></i>
                                                             &nbsp;&nbsp;
-                                                    You have {count} benefit  message(s).
-                                                    <span className="pull-right text-muted small">{this.state.benefit_allowance_noti_count} ago</span>
+                                                            You have {count} benefit  message(s).
+                                                            <span className="pull-right text-muted small">{this.state.benefit_allowance_noti_count} ago</span>
                                                         </div>
                                                     </a>
                                                 </li>
@@ -356,47 +356,48 @@ class NavBar extends Component {
                                     }
                                 </li>
                                 <li style={{
-                                    display:"flex",
-                                    justifyContent:"space-between",
-                                    alignItems:"center",
-                                    marginRight:"20px"
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    marginRight: "20px"
                                 }}>
-                                   
+
                                     <img
-                                    alt="logo"
-                                    className="logostyle"
-                                    onError={imageError}
-                                    src={this.state.user.avatar ? main_url + `dashboard/getProfile/`+  this.state.user.avatar : 'assets/img/SeekPng.com_profile-icon-png_9665493.png'}
-                                    style={{
-                                        width:"57px",
-                                        height:'57px',
-                                        borderRadius:'50%',
-                                        objectFit:'cover'
-                                    }} />
-                                    
-                                
+                                        alt="logo"
+                                        className="logostyle"
+                                        onError={imageError}
+                                        // src={this.state.user.avatar ? main_url + `dashboard/getProfile/`+  this.state.user.avatar : 'assets/img/SeekPng.com_profile-icon-png_9665493.png'}
+                                        src={'assets/img/SeekPng.com_profile-icon-png_9665493.png'}
+                                        style={{
+                                            width: "57px",
+                                            height: '57px',
+                                            borderRadius: '50%',
+                                            objectFit: 'cover'
+                                        }} />
+
+
                                     <div style={{
-                                        margin:"0",
-                                        padding:"0"
+                                        margin: "0",
+                                        padding: "0"
                                     }}>
-                                    <p style={{
-                                        margin:"0",
-                                        fontSize:"12px",
-                                        fontWeight:"bold"
-                                    }}>
-                                        {this.state.user ? this.state.user.fullname : ""}
-                                    </p>
-                                   
-                                    <p style={{
-                                        margin:"0",
-                                        padding:"0"
-                                    }}>
-                                        {this.state.user ? this.state.user.designations : ""}
-                                    </p>
+                                        <p style={{
+                                            margin: "0",
+                                            fontSize: "12px",
+                                            fontWeight: "bold"
+                                        }}>
+                                            {this.state.user ? this.state.user.fullname : ""}
+                                        </p>
+
+                                        <p style={{
+                                            margin: "0",
+                                            padding: "0"
+                                        }}>
+                                            {this.state.user ? this.state.user.designations : ""}
+                                        </p>
                                     </div>
-                            
+
                                 </li>
-                                
+
                             </ul>
                         </div>
                     </nav>

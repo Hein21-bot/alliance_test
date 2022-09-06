@@ -260,29 +260,29 @@ export default class TravelRequestParent extends Component {
 
             formdata.append('uploadfile', imagedata);
         }
-        if (newDoc.length == 0) {
-            this.showToast(400, 'Please Add Attachment')
-        } else {
-            formdata.append('claimData', JSON.stringify(info))
-            formdata.append('array', JSON.stringify(claimDetail))
+        // if (newDoc.length == 0) {
+        //     this.showToast(400, 'Please Add Attachment')
+        // } else {
+        formdata.append('claimData', JSON.stringify(info))
+        formdata.append('array', JSON.stringify(claimDetail))
 
-            let status = 0;
-            // stopSaving();
-            // if (obj.length > 0) {
-            fetch(main_url + 'allowance/addClaimTravelRequestAllowance', {
-                method: "POST",
+        let status = 0;
+        // stopSaving();
+        // if (obj.length > 0) {
+        fetch(main_url + 'allowance/addClaimTravelRequestAllowance', {
+            method: "POST",
 
-                body: formdata
+            body: formdata
 
+        })
+            .then(res => {
+                status = res.status;
+                return res.text()
             })
-                .then(res => {
-                    status = res.status;
-                    return res.text()
-                })
-                .then(text => {
-                    this.showToast(status, text);
-                }).catch(error => startSaving())
-        }
+            .then(text => {
+                this.showToast(status, text);
+            }).catch(error => startSaving())
+        // }
 
         // } else {
         //     toast.error(alertText, {

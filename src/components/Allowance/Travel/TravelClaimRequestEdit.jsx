@@ -116,7 +116,7 @@ export default class TravelClaimRequestEdit extends Component {
   }
 
   changeStartTime(index, value) {
-    var array = this.state.dataSource;
+    var array = [...this.state.dataSource];
     let data = this.state.claimDetailData[index];
     data.start_time = value;
     array[index] = data;
@@ -126,7 +126,7 @@ export default class TravelClaimRequestEdit extends Component {
   }
 
   changeEndTime(index, value) {
-    var array = this.state.dataSource;
+    var array = [...this.state.dataSource];
     let data = this.state.claimDetailData[index];
     data.end_time = value;
     array[index] = data;
@@ -252,7 +252,8 @@ export default class TravelClaimRequestEdit extends Component {
 
 
   changeactual_date(index, value) {
-    var array = this.state.dataSource;
+    // var array = this.state.editId == undefined || this.state.editId == null ? [...this.state.dataSource] : this.state.dataSource;
+    var array = [...this.state.dataSource]
     let data = this.state.claimDetailData[index];
     data.actual_date = value;
     array[index] = data;
@@ -317,8 +318,9 @@ export default class TravelClaimRequestEdit extends Component {
       var data = $(this).find("#edit").text();
       data = $.parseJSON(data);
       var newObj = { ...that.state.claimDetailData[0] }
+      newObj.no = data.no
       newObj.purpose = data.purpose
-      newObj.actual_date = moment(data.actual_date).format('DD/MM/YYYY')
+      newObj.actual_date = moment(data.actual_date).format('YYYY-MM-DD')
       newObj.start_location = data.start_location
       newObj.destination = data.destination
       newObj.start_time = data.start_time
@@ -451,7 +453,7 @@ export default class TravelClaimRequestEdit extends Component {
                           class="form-control ${"actual_date" + i}"
                           value='${data.actual_date}'
                         >
-                        ${moment(data.actual_date).format("DD/MM/YYYY")}  
+                        ${moment(data.actual_date).format("YYYY-MM-DD")}  
                         </button>
                 `,
           startLoc: `<input
@@ -675,8 +677,9 @@ export default class TravelClaimRequestEdit extends Component {
       var data = this.state.dataSource;
       let claimData = this.state.data;
       var totalAmount = 0
-      if (this.state.editId) {
-        const index = data.findIndex(v => v.travel_detail_id === this.state.editId)
+      if (this.state.editId || this.state.claimDetailData[0].no) {
+        console.log('data is =================>', this.state.claimDetailData[0])
+        const index = this.state.claimDetailData[0].no - 1
         const editData = { travel_detail_id: this.state.editId, ...this.state.claimDetailData[0] }
         data.splice(index, 1, editData)
         this.setState({ editId: null })
@@ -735,9 +738,10 @@ export default class TravelClaimRequestEdit extends Component {
     var l = []
     for (var i = 0; i < data.length; i++) {
       const index = i
+      data[i].no = i + 1
       const obj = {
         no: i + 1,
-        actual_date: moment(data[i].actual_date).format("DD/MM/YYYY"),
+        actual_date: moment(data[i].actual_date).format("YYYY-MM-DD"),
         start_location: data[i].start_location,
         destination: data[i].destination,
         start_time: data[i].start_time ? moment(data[i].start_time).format('hh:mm a') : 0,
@@ -808,6 +812,8 @@ export default class TravelClaimRequestEdit extends Component {
   };
 
   render() {
+
+
     let total_lodging = this.state.dataSource.length > 0 ?
       this.state.dataSource
         .map((v) => v.lodging ? parseInt(v.lodging) : v.lodging)
@@ -902,7 +908,7 @@ export default class TravelClaimRequestEdit extends Component {
                       <div className="col-md-3">
                         <label>Actual Date</label>
                         <DatePicker1_
-                          dateFormat="DD/MM/YYYY"
+                          dateFormat="YYYY-MM-DD"
                           value={(this.state.claimDetailData[0].actual_date)}
                           timeFormat={false}
                           onChange={this.changeactual_date.bind(this, 0)}
