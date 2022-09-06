@@ -293,9 +293,16 @@ class NavBar extends Component {
             <div>
                 <div className="row border-bottom">
                     <nav className="navbar navbar-static-top" role="navigation" >
-                        <div className="navbar-header"   style={{marginTop:"8px"}}>
+                        {/* <div className="navbar-header"   style={{marginTop:"8px"}}>
                             <div className="navbar-minimalize minimalize-styl-2 btn btn-primary" id="gg"><i className="fa fa-bars" ></i> </div>
-                            
+                            <button className="navbar-minimalize minimalize-styl-2 btn btn-primary" type="button" data-toggle="collapse" data-target="/navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <i className="fa fa-bars" ></i> 
+                            </button>
+                        </div> */}
+                        <div className='navbar-header' style={{marginTop:'8px'}}>
+                            <div className='minimalize-styl-2 btn btn-primary'>
+                                <i className='fa fa-bars'></i>
+                            </div>
                         </div>
                         <div className='nav  navbar-left'>
                             <h2 className='font-bold' >HR Management System</h2>
