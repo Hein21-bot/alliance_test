@@ -59,7 +59,7 @@ class Profile extends Component {
   // })
   // }
 
-  render() { 
+  render() {
     const btn = {
       // backgroundColor:this.state.tapButtonTitle == "title" ? "green" : "blue",
       padding: 5,
@@ -98,7 +98,8 @@ class Profile extends Component {
             >
               <img
                 onError={imageError}
-                src={this.state.userInfo.avatar ? main_url + `dashboard/getProfile/` + this.state.userInfo.avatar : 'assets/img/SeekPng.com_profile-icon-png_9665493.png'}
+                src={'assets/img/SeekPng.com_profile-icon-png_9665493.png'}
+                // src={this.state.userInfo.avatar ? main_url + `dashboard/getProfile/` + this.state.userInfo.avatar : 'assets/img/SeekPng.com_profile-icon-png_9665493.png'}
                 style={{ width: 90, height: 90, borderRadius: 45, objectFit: "cover", border: "5px solid #23c6c8" }}
               />
             </div>
@@ -233,7 +234,7 @@ class Profile extends Component {
                 <div style={styles.smallContainer}>
                   <p style={styles.profileLeftText}>Bank Account</p>
                   <p style={styles.profileMiddleText}>:</p>
-                  <p style={this.state.userInfo.bank.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>
+                  <p style={(this.state.userInfo.bank && this.state.userInfo.bank.length > 15) ? styles.profileRightTextSmall : styles.profileRightText}>
                     {this.state.userInfo.bank}
                   </p>
                 </div>
