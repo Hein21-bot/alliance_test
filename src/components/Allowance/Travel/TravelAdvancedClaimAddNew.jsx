@@ -60,17 +60,26 @@ export default class TravelAdvancedClaimAddNew
             var data = $(this).find("#remove").text();
             data = $.parseJSON(data);
 
+            var advanceData = $(this).find("#removeData").text();
+            advanceData = $.parseJSON(advanceData);
+
             let newData = that.state.dataSource;
             newData.splice(data, 1);
 
             let claimData = that.state.data;
             var totalAmount = 0
+            var settleAmount=0
 
             for (var i = 0; i < newData.length; i++) {
 
                 totalAmount += newData[i].amount;
             }
+            console.log("total amount",totalAmount)
             claimData.actual_amount = totalAmount;
+
+            console.log("advanced amount",advanceData)
+            settleAmount =  advanceData-totalAmount
+            claimData.settle_amount = settleAmount;
             that.setState({
                 dataSource: newData,
                 data: claimData
@@ -156,8 +165,9 @@ export default class TravelAdvancedClaimAddNew
 
                 totalAmount += data[i].amount;
             }
-
-            settleAmount = totalAmount - this.state.advanceData.advanced_amount
+            console.log(this.state.advanceData.advanced_amount)
+            console.log(totalAmount)
+            settleAmount =  this.state.advanceData.advanced_amount-totalAmount
 
             let claimData = this.state.data;
             claimData.settle_amount = settleAmount;
@@ -192,6 +202,7 @@ export default class TravelAdvancedClaimAddNew
     }
 
     setDataTable(data) {
+        // console.log('advance daa ===> ', this.state.advanceData)
 
         var table;
         if ($.fn.dataTable.isDataTable('#dataTables-claimTable')) {
@@ -218,7 +229,7 @@ export default class TravelAdvancedClaimAddNew
                 amount: data[i].amount,
                 purpose: data[i].purpose,
                 action:
-                    '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toRemove" ><span id="remove" class="hidden" >' + index + '</span>  <i className="fa fa-cogs"></i>&nbsp;Remove</button>'
+                    '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toRemove" ><span id="remove" class="hidden" >' + index + '</span> <span id="removeData" class="hidden">'+ this.state.advanceData.advanced_amount +'</span>  <i className="fa fa-cogs"></i>&nbsp;Remove</button>'
             }
 
             l.push(obj)
