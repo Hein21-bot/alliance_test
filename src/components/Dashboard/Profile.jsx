@@ -111,21 +111,21 @@ class Profile extends Component {
                   <div style={styles.smallContainer}>
                     <p style={styles.profileLeftText}>Gender</p>
                     <p style={styles.profileMiddleText}>:</p>
-                    <p style={this.state.userInfo.gender.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>
+                    <p style={ this.state.userInfo.gender && this.state.userInfo.gender.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>
                       {this.state.userInfo.gender}
                     </p>
                   </div>
                   <div style={styles.smallContainer}>
                     <p style={styles.profileLeftText}>Date of Birth</p>
                     <p style={styles.profileMiddleText}>:</p>
-                    <p style={this.state.userInfo.date_of_birth.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>
+                    <p style={ this.state.userInfo.date_of_birth && this.state.userInfo.date_of_birth.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>
                       {this.state.userInfo.date_of_birth}
                     </p>
                   </div>
                   <div style={styles.smallContainer}>
                     <p style={styles.profileLeftText}>NRC</p>
                     <p style={styles.profileMiddleText}>:</p>
-                    <p style={this.state.userInfo.nrc.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>{this.state.userInfo.nrc}</p>
+                    <p style={this.state.userInfo.nrc && this.state.userInfo.nrc.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>{this.state.userInfo.nrc}</p>
                   </div></div>
                 <div className="col-lg-1" style={{ marginRight: 5 }}>
                   <div
@@ -148,14 +148,14 @@ class Profile extends Component {
                   <div style={styles.smallContainer}>
                     <p style={styles.profileLeftText}>Employed Date</p>
                     <p style={styles.profileMiddleText}>:</p>
-                    <p style={this.state.userInfo.employ_date.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>
+                    <p style={ this.state.userInfo.employ_date && this.state.userInfo.employ_date.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>
                       {this.state.userInfo.employ_date}
                     </p>
                   </div>
                   <div style={styles.smallContainer}>
                     <p style={styles.profileLeftText}>Branch</p>
                     <p style={styles.profileMiddleText}>:</p>
-                    <p style={this.state.userInfo.branch_name.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>
+                    <p style={ this.state.userInfo.branch_name && this.state.userInfo.branch_name.length > 15 ? styles.profileRightTextSmall : styles.profileRightText}>
                       {this.state.userInfo.branch_name}
                     </p>
                   </div>
