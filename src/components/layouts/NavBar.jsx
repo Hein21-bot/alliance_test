@@ -21,15 +21,17 @@ class NavBar extends Component {
             time: '',
             benefit_allownace_noti_count: 0,
             benefit_allownace_time: '',
-            count: 0
+            count: 0,
+            isOpen:true,
+            isOpenDashboard: false,
         }
 
     }
 
-
-
     componentDidMount() {
-        document.getElementById("gg").addEventListener("click", this.afterClick)
+       
+        // document.querySelector(".minimalize-styl-2").addEventListener("click",this.afterClick)
+         document.querySelector(".minimalize-styl-2").addEventListener("click",this.clickButton)
         try {
             this.getNotiCount();
             socket_noti.on('noti', count => {
@@ -103,6 +105,25 @@ class NavBar extends Component {
             console.log(error);
         }
     }
+
+    // componentDidUpdate() {
+    //     if (window.location.pathname.includes(`/${this.state.user.user_id}`) || window.location.pathname.includes('/dashboard') ) {
+    //     if (this.state.isOpenDashboard) {
+    //         document.body.classList.add('mini-navbar')
+    //     } else {
+    //         console.log("open")
+    //         document.body.classList.remove('mini-navbar')
+    //     }
+    // }else{
+
+    //     if (this.state.isOpen) {
+    //         document.body.classList.remove('mini-navbar')
+    //     } else {
+    //         document.body.classList.add('mini-navbar')
+    //     }
+    // }
+       
+    // }
 
     getNotiCount = () => {
         fetch(`${main_url}noti/getNotiCountForOneUser/${id}`)
@@ -208,11 +229,54 @@ class NavBar extends Component {
                 })
             })
     }
-    afterClick = () => {
+    clickButton=()=>{
         document.body.classList.toggle('mini-navbar')
     }
-
-
+    // afterClick=()=>{
+    //     console.log('open ====>', this.state.isOpen, this.state.isOpenDashboard)
+        
+    //     // console.log("shi ma shi",document.body.classList.contains('mini-navbar'))
+    //     // document.body.classList.contains('mini-navbar').remove('mini-navbar');
+    //     if (window.location.pathname.includes(`/${this.state.user.user_id}`) || window.location.pathname.includes('/dashboard') ) {
+    //         console.log('a pyin 1',this.state.isOpenDashboard)
+    //         this.setState({ isOpenDashboard: !this.state.isOpenDashboard});
+    //         console.log('a pyin',this.state.isOpenDashboard)
+    //         // if (this.state.isOpenDashboard) {
+    //         //     document.body.classList.add('mini-navbar')
+    //         // } else {
+    //         //     console.log("open")
+    //         //     document.body.classList.remove('mini-navbar')
+    //         // }
+    //     } else {
+    //         this.setState({
+    //             isOpen: !this.state.isOpen
+    //         })
+    //         // if (this.state.isOpen) {
+    //         //     document.body.classList.remove('mini-navbar')
+    //         // } else {
+    //         //     document.body.classList.add('mini-navbar')
+    //         // }
+    //     }
+        
+        
+    //     // if(this.state.isOpen){
+    //     //     if (window.location.pathname == '/dashboard') {
+    //     //         document.body.classList.add('mini-navbar')
+    //     //     } else {
+    //     //         document.body.classList.remove('mini-navbar')
+    //     //     }
+            
+    //     // }else{
+    //     //     if (window.location.pathname == '/dashboard') {
+    //     //         document.body.classList.remove('mini-navbar')
+    //     //     } else {
+    //     //         document.body.classList.add('mini-navbar')
+    //     //     }
+            
+    //     // }
+    // }
+    
+    
     // const add=document.querySelector('#gg');
     // add.addEventListener('click',afterClick)
 
@@ -229,10 +293,16 @@ class NavBar extends Component {
             <div>
                 <div className="row border-bottom">
                     <nav className="navbar navbar-static-top" role="navigation" >
-                    <div className="navbar-minimalize minimalize-styl-2 btn btn-primary" ><i className="fa fa-bars"></i> </div>
-                        <div className="navbar-header" id="gg" style={{ marginTop: "8px" }}>
-                            
-
+                        {/* <div className="navbar-header"   style={{marginTop:"8px"}}>
+                            <div className="navbar-minimalize minimalize-styl-2 btn btn-primary" id="gg"><i className="fa fa-bars" ></i> </div>
+                            <button className="navbar-minimalize minimalize-styl-2 btn btn-primary" type="button" data-toggle="collapse" data-target="/navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <i className="fa fa-bars" ></i> 
+                            </button>
+                        </div> */}
+                        <div className='navbar-header' style={{marginTop:'8px'}}>
+                            <div className='minimalize-styl-2 btn btn-primary'>
+                                <i className='fa fa-bars'></i>
+                            </div>
                         </div>
                         <div className='nav  navbar-left'>
                             <h2 className='font-bold' >HR Management System</h2>
