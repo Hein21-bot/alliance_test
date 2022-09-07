@@ -103,17 +103,22 @@ export default class TravelAdvancedClaimEdit extends Component {
         $(document).on('click', '#toRemove', function () {
             var data = $(this).find("#remove").text();
             data = $.parseJSON(data);
+            var advanceData = $(this).find("#removeData").text();
+            advanceData = $.parseJSON(advanceData);
             let newData = that.state.claimDetailData;
             newData.splice(data, 1);
 
             let claimData = that.state.data;
             var totalAmount = 0
+            var settleAmount =0
 
             for (var i = 0; i < newData.length; i++) {
 
                 totalAmount += newData[i].amount;
             }
             claimData.actual_amount = totalAmount;
+            settleAmount =  advanceData-totalAmount
+            claimData.settle_amount = settleAmount;
             that.setState({
                 claimDetailData: newData,
                 data: claimData
@@ -247,7 +252,7 @@ export default class TravelAdvancedClaimEdit extends Component {
             totalAmount += Number(array[i].amount);
         }
         claimData[0].actual_amount = totalAmount;
-        claimData[0].settle_amount = totalAmount - advanced_amount;
+        claimData[0].settle_amount = advanced_amount - totalAmount;
         this.setState({
             claimDetailData: array,
             claimData: claimData
@@ -269,7 +274,7 @@ export default class TravelAdvancedClaimEdit extends Component {
             totalAmount += Number(array[i].amount);
         }
         claimData[0].actual_amount = totalAmount;
-        claimData[0].settle_amount = totalAmount - advanced_amount;
+        claimData[0].settle_amount =  advanced_amount - totalAmount;
         this.setState({
             claimDetailData: array,
             claimData: claimData
@@ -290,7 +295,7 @@ export default class TravelAdvancedClaimEdit extends Component {
             totalAmount += Number(array[i].amount);
         }
         claimData[0].actual_amount = totalAmount;
-        claimData[0].settle_amount = totalAmount - advanced_amount;
+        claimData[0].settle_amount =  advanced_amount - totalAmount;
         this.setState({
             claimDetailData: array,
             claimData: claimData
@@ -432,6 +437,7 @@ export default class TravelAdvancedClaimEdit extends Component {
     }
 
     addData = (e) => {
+        console.log("add data")
         if (validate('check_form')) {
             var data = this.state.claimDetailData;
             var totalAmount = 0
@@ -447,9 +453,10 @@ export default class TravelAdvancedClaimEdit extends Component {
 
                 totalAmount += parseInt(data[i].amount);
             }
+            console.log("advanced amouont",this.state.advancedData[0].advanced_amount)
 
-            settleAmount = totalAmount - this.state.advancedData[0].advanced_amount
-
+            settleAmount = this.state.advancedData[0].advanced_amount - totalAmount
+            console.log("settleamount",settleAmount)
             let claimData1 = this.state.data;
             claimData1.settle_amount = settleAmount;
             claimData1.actual_amount = totalAmount;
@@ -483,6 +490,7 @@ export default class TravelAdvancedClaimEdit extends Component {
     }
 
     updateData = (e) => {
+        console.log("updatedata")
         if (validate('check_form')) {
             var data = this.state.claimDetailData;
             var totalAmount = 0
@@ -499,8 +507,8 @@ export default class TravelAdvancedClaimEdit extends Component {
                 totalAmount += parseInt(data[i].amount);
             }
 
-            settleAmount = totalAmount - this.state.advancedData[0].advanced_amount
-
+            settleAmount =  this.state.advancedData[0].advanced_amount - totalAmount
+ 
             let claimData1 = this.state.data;
             claimData1.settle_amount = settleAmount;
             claimData1.actual_amount = totalAmount;
@@ -534,6 +542,7 @@ export default class TravelAdvancedClaimEdit extends Component {
     }
 
     showClaimData(data1) {
+        console.log("advanced data====>",this.state.advancedData)
         var claimDetail = [];
         var table;
         // for (var i = 0; i < this.state.claimDetailData.length; i++) {
@@ -555,7 +564,7 @@ export default class TravelAdvancedClaimEdit extends Component {
                     transport: data.transport,
                     amount: data.amount,
                     purpose: data.purpose,
-                    action: '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toRemove" ><span id="remove" class="hidden" >' + index + '</span>  <i className="fa fa-cogs"></i>&nbsp;Remove</button>',
+                    action: '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toRemove" ><span id="remove" class="hidden" >' + index + '</span><span id="removeData" class="hidden">'+ this.state.advancedData[0].advanced_amount +'</span>  <i className="fa fa-cogs"></i>&nbsp;Remove</button>',
                     action1: '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden"  >' + index + '</span>  <i className="fa fa-cogs" ></i>&nbsp;Edit</button>',
 
                     //     actualDate: `<input
