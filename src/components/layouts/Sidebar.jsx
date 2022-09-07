@@ -149,7 +149,7 @@ export default class Sidebar extends Component {
               <li
                 className={this.checkPathName() === "/setting" ? "active" : ""}
                 style={{
-                  display: (isHR || this.state.user.user_id != 1382 || this.state.user.user_id != 1049) ? 'block' : "none"
+                  display: (isHR || this.state.user.user_id == 1110 || this.state.user.user_id == 1467) ? 'block' : "none"
                 }}
               >
                 <a href="/attendance_policy_setting" className="sideList">
@@ -207,7 +207,7 @@ export default class Sidebar extends Component {
                 className={
                   this.checkPathName() === "/master_data" ? "active" : ""
                 }
-                style={{ display: (isHR || this.state.user.user_id != 1382 || this.state.user.user_id != 1049) ? 'block' : "none" }}
+                style={{ display: (isHR || this.state.user.user_id == 1110 || this.state.user.user_id == 1467) ? 'block' : "none" }}
               >
                 <a href="/career_level_master_data" className="sideList">
                   <i className="fa fa-key sideIcon" style={{ color: 'white' }}></i>
@@ -343,7 +343,7 @@ export default class Sidebar extends Component {
                     ? "active"
                     : " "
                 }
-                style={{ display: (isHR || this.state.user.user_id != 1382 || this.state.user.user_id != 1049) ? 'block' : "none" }}
+                style={{ display: (isHR || this.state.user.user_id == 1110 || this.state.user.user_id == 1467) ? 'block' : "none" }}
               >
                 <a href="/employee_list" className="sideList">
                   <i className="fas fa-user-cog" style={{ color: 'white' }}></i>
