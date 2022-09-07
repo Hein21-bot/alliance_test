@@ -374,11 +374,15 @@ export default class TravelClaimRequestEdit extends Component {
         ...v,
         status: v.status == 5 ? 0 : v.status,
       }))[0];
+     
       var newData = this.state.dataSource.map((v) => ({
         ...v,
         start_time: moment(v.start_time).format('YYYY-MM-DD HH:mm:ss'),
         end_time: moment(v.end_time).format('YYYY-MM-DD HH:mm:ss')
+        
       }))
+      var temp=this.state.dataSource.reduce((r,c)=>r+c.amount,0)
+     
       //	TR22030002
       if (status_title !== "" && is_main_role) {
         var action = getActionStatus(
@@ -402,7 +406,11 @@ export default class TravelClaimRequestEdit extends Component {
         info.verified_comment = action.verified_comment;
         info.approved_comment = action.approved_comment;
         info.status = action.status;
+        
+       
+
       }
+      info.actual_amount=temp
       const formdata = new FormData();
 
       var obj = this.state.newDoc.length;
@@ -678,7 +686,7 @@ export default class TravelClaimRequestEdit extends Component {
       let claimData = this.state.data;
       var totalAmount = 0
       if (this.state.editId || this.state.claimDetailData[0].no) {
-        console.log('data is =================>', this.state.claimDetailData[0])
+       
         const index = this.state.claimDetailData[0].no - 1
         const editData = { travel_detail_id: this.state.editId, ...this.state.claimDetailData[0] }
         data.splice(index, 1, editData)
