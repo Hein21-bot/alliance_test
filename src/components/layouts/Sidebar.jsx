@@ -66,11 +66,12 @@ export default class Sidebar extends Component {
   }
 
   async componentDidMount() {
-    await this.checkHR()
+    const id = localStorage.getItem("user_id");
+    await this.checkHR(id)
   }
 
-  checkHR = async () => {
-    await fetch(`${main_url}dashboard/sidebarPermission/${this.state.user.account_details_id}`)
+  checkHR = async (id) => {
+    await fetch(`${main_url}dashboard/sidebarPermission/${id}`)
       .then(res => res.json())
       .then(data => {
         if (Object.keys(data).length > 0) {
