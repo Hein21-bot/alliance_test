@@ -382,6 +382,9 @@ export default class TravelRequestAdvancedTable extends Component {
     let advanced_amount = data.advanced_amount == null ? 0 : data.advanced_amount
     let settle_amount = data.settle_amount == null ? 0 : data.settle_amount
     let actual_amount = data.actual_amount == null ? 0 : data.actual_amount
+    console.log("advacned amount",advanced_amount)
+    console.log("settle amount",settle_amount)
+    console.log("actual amount",actual_amount)
     var col = [
       "Actual Travel Date",
       "Location From",
@@ -429,7 +432,7 @@ export default class TravelRequestAdvancedTable extends Component {
       );
       doc.text("Purpose:" + claim[0].purpose, 150, y + default_y * 2);
     }
-    rows.push(["Total Amount", "", "", "", "", "", "", data.actual_amount]);
+    rows.push(["Total Amount", "", "", "", "", "", "", claim.reduce((r,c)=>r+c.amount,0)]);
     doc.autoTable(col, rows, { startY: y + default_y * 3 });
     doc.text(
       "Advanced Amount:" + advanced_amount,
@@ -437,7 +440,7 @@ export default class TravelRequestAdvancedTable extends Component {
       doc.previousAutoTable.finalY + default_y
     );
     doc.text(
-      "Actual Amount:" + actual_amount,
+      "Actual Amount:" + claim.reduce((r,c)=>r+c.amount,0),
       100,
       doc.previousAutoTable.finalY + default_y
     );
