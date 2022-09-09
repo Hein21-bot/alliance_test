@@ -60,7 +60,9 @@ class EmployeeDirectory extends Component {
           () => {
             this._setTableData(this.state.dataSource);
           }
+         
         );
+        this.handleSearchData();
     }
     getBranchList() {
       fetch(`${main_url}benefit/getBranchList`)
@@ -102,12 +104,12 @@ class EmployeeDirectory extends Component {
           if (res.ok) return res.json();
         })
         .then((list) => {
-          let lists = list.unshift({ region_id: 0, region_name: "All" });
+          let lists = list.unshift({ state_id: 0, state_name: "All" });
           this.setState({
             regionList: list.map((v) => ({
               ...v,
-              label: v.region_name,
-              value: v.region_id,
+              label: v.state_name,
+              value: v.state_id,
             })),
           });
         });
@@ -158,7 +160,7 @@ class EmployeeDirectory extends Component {
       const branchId = this.state.selected_Branch ? this.state.selected_Branch.branch_id : 0
       const departmentId = this.state.selected_department ? this.state.selected_department.departments_id : 0
       const phoneno=this.state.selected_phoneno ? this.state.selected_phoneno : 0
-      const regionId = this.state.selected_region ? this.state.selected_region.region_id : 0
+      const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
       const employee = this.state.selected_employee ? this.state.selected_employee.value : 0
         fetch(main_url+"report/employeeDirectory/"+employee+"/"+regionId+"/"+branchId+"/"+phoneno+"/"+departmentId)
           .then(res => { if (res.ok) return res.json() })

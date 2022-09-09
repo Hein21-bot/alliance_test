@@ -31,7 +31,7 @@ class BranchStaffReport extends Component {
                 totalList.forEach((v1,i1)=>{
                     let total=0;
                     v1.designations.forEach(v2=>{
-                        let maleSubTotal=(v2.gender[0].toLowerCase() == "male" && v2.gender.length == 2) ? v2.gender[1] : (v2.gender.length == 4) ? v2.gender[3] : 0
+                        let maleSubTotal=(v2.gender[0] !=null && v2.gender[0].toLowerCase() == "male" && v2.gender.length == 2) ? v2.gender[1] : (v2.gender.length == 4) ? v2.gender[3] : 0
                         console.log("malesubtotal===>",maleSubTotal)
                         total +=maleSubTotal;
                         
@@ -43,7 +43,7 @@ class BranchStaffReport extends Component {
                 totalList.forEach((v1,i1)=>{
                     let total=0;
                     v1.designations.forEach(v2=>{
-                        let femaleSubTotal=v2.gender[0].toLowerCase() == "female" ? v2.gender[1] : 0
+                        let femaleSubTotal=(v2.gender[0] !=null && v2.gender[0].toLowerCase() == "female") ? v2.gender[1] : 0
                         total +=femaleSubTotal;
                         
                     })
@@ -112,8 +112,8 @@ class BranchStaffReport extends Component {
                                                 {i === 0 ? <td rowSpan={state.designations.length}>{state.branch_name}</td> : null}
                                                
                                                 <td>{designation.designations}</td>
-                                                <td>{(designation.gender[0].toLowerCase() == "male" && designation.gender.length == 2) ? designation.gender[1] : (designation.gender.length == 4) ? designation.gender[3] : "-"}</td>
-                                                <td> {designation.gender[0].toLowerCase() == "female" ? designation.gender[1] : "-"}</td>
+                                                <td>{(designation.gender[0] !=null && designation.gender[0].toLowerCase() == "male" && designation.gender.length == 2) ? designation.gender[1] : (designation.gender.length == 4) ? designation.gender[3] : "-"}</td>
+                                                <td> {designation.gender[0] !=null &&  designation.gender[0].toLowerCase() == "female" ? designation.gender[1] : "-"}</td>
                                                
                                                 {i === 0 ? <td rowSpan={state.designations.length}>{this.state.listTotal[k]}</td> : null}
                                                 

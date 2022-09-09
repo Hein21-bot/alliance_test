@@ -51,12 +51,12 @@ class HolidayReport extends Component {
         let department = await getDepartment();
        department.unshift({ label: 'All', value: 0 });
         let region = await getRegion();
-        region.unshift({region_name: 'ALL', region_id: 0});
+        region.unshift({state_name: 'ALL', state_id: 0});
         // await getStatus();
         this.setState({
             branch: branch,
             department: department,
-            region: region.map(v => ({ ...v, label: v.region_name, value: v.region_id })),
+            region: region.map(v => ({ ...v, label: v.state_name, value: v.state_id })),
             // status:status
         })
     }

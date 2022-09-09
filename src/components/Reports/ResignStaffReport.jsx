@@ -49,6 +49,7 @@ class ResignStaffReport extends Component {
           this.getBranchList();
           this.getDesignationList();
           this.getStatusList();
+          this.handleSearchData();
     }
     getStatusList() {
       fetch(`${main_url}employee/getStatus`)
@@ -67,12 +68,12 @@ class ResignStaffReport extends Component {
           if (res.ok) return res.json();
         })
         .then((list) => {
-          let lists = list.unshift({ region_id: 0, region_name: "All" });
+          let lists = list.unshift({ state_id: 0, state_name: "All" });
           this.setState({
             regionList: list.map((v) => ({
               ...v,
-              label: v.region_name,
-              value: v.region_id,
+              label: v.state_name,
+              value: v.state_id,
             })),
           });
         });
@@ -151,7 +152,7 @@ class ResignStaffReport extends Component {
       const branchId = this.state.selected_Branch ? this.state.selected_Branch.branch_id : 0
       
       const designationId=this.state.selected_designation ? this.state.selected_designation.value : 0
-      const regionId = this.state.selected_region ? this.state.selected_region.region_id : 0
+      const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
       const employee = this.state.selected_employee ? this.state.selected_employee.value : 0
       const exitStatusId= this.state.selected_exitstatus ? this.state.selected_exitstatus.value : -1
         fetch(main_url+"report/employeeResign/"+regionId+"/"+branchId+"/"+designationId+"/"+employee+"/"+exitStatusId)

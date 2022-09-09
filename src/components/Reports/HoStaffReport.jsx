@@ -160,8 +160,8 @@ class HoStaffReport extends Component {
                                                 {i === 0 ? <td rowSpan={state.designations.length}>{state.deptname}</td> : null}
                                                 {/* <td rowSpan={state.designations.length}>{state.deptname}</td> */}
                                                 <td>{designation.designations}</td>
-                                                <td>{(designation.gender[0].toLowerCase() == "male" && designation.gender.length == 2) ? designation.gender[1] : (designation.gender.length == 4) ? designation.gender[3] : "-"}</td>
-                                                <td> {designation.gender[0].toLowerCase() == "female" ? designation.gender[1] : "-"}</td>
+                                                <td>{(designation.gender[0] !=null && designation.gender[0].toLowerCase() == "male" && designation.gender.length == 2) ? designation.gender[1] : (designation.gender.length == 4) ? designation.gender[3] : "-"}</td>
+                                                <td> {designation.gender[0] !=null && designation.gender[0].toLowerCase() == "female" ? designation.gender[1] : "-"}</td>
                                                 {/* <td rowSpan={state.designations.length}>{this.state.listTotal[k]}</td> */}
                                                 {i === 0 ? <td rowSpan={state.designations.length}>{this.state.listTotal[k]}</td> : null}
                                             </tr>

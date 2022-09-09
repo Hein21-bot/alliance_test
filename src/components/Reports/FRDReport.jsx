@@ -22,7 +22,7 @@ class FRDReport extends Component {
         }
     }
     componentDidMount() {
-       
+       this.handleSearchData();
     }
     handleDate=async(event)=>{
         
