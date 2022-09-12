@@ -379,6 +379,7 @@ export default class TravelRequestAdvancedTable extends Component {
   }
 
   async setTravelClaimData(doc, data, id, y) {
+    console.log("settle amount",data.settle_amount)
     let advanced_amount = data.advanced_amount == null ? 0 : data.advanced_amount
     let settle_amount = data.settle_amount == null ? 0 : data.settle_amount
     let actual_amount = data.actual_amount == null ? 0 : data.actual_amount
@@ -445,7 +446,7 @@ export default class TravelRequestAdvancedTable extends Component {
       doc.previousAutoTable.finalY + default_y
     );
     doc.text(
-      "Settle Amount:" + settle_amount,
+      "Settle Amount:" + (advanced_amount== 0 ? settle_amount : (advanced_amount-claim.reduce((r,c)=>r+c.amount,0))),
       200,
       doc.previousAutoTable.finalY + default_y
     );

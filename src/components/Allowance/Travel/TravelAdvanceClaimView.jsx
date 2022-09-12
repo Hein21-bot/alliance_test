@@ -310,7 +310,7 @@ export default class TravelAdvanceClaimView extends Component {
                                 <input
                                     className="form-control"
 
-                                    value={this.state.claimData[0].settle_amount}
+                                    value={this.state.advancedData[0].advanced_amount-this.state.claimData[0].actual_amount}
 
                                 />
                             </div>
