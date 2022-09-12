@@ -541,7 +541,7 @@ export default class Sidebar extends Component {
                 }
               >
                 <a href="/attendance_report" className="sideList">
-                  <img src="assets/icons/Allowance (1).svg" alt="" width="20" height="20" style={{ marginRight: 5 }} />
+                <i class="fa fa-square" aria-hidden="true"></i>
                   <span className="sideText">AttendanceRelateReport</span>
                 </a>
                 <ul className="nav nav-second-level collapse">
