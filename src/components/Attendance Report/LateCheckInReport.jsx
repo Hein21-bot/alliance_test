@@ -1,5 +1,5 @@
 import React,{Component} from "react";
-import {getBranch,getRegion,getDepartment,main_url,getFirstDayOfMonth, getTicketStatus} from '../../utils/CommonFunction';
+import {getBranch,getRegion,getDepartment,main_url,getFirstDayOfMonth} from '../../utils/CommonFunction';
 import DatePicker from 'react-datetime';
 import moment from "moment";
 import Select from "react-select";
@@ -18,20 +18,19 @@ require('datatables.net-buttons/js/dataTables.buttons.min');
 require('datatables.net-buttons/js/buttons.html5.min');
 
 
-class HolidayReport extends Component {
+class LateCheckInReport extends Component {
     constructor(props) {
         super(props);
         this.state = {
             branch:[],
             region:[],
-            status_list:[],
             department:[],
-            branchId:0,
-            status:0,
-            regionId:0,
-            departmentId:0,
+            branchId:null,
+            regionId:null,
+            departmentId:null,
             from_date:moment(),
-            to_date:moment() 
+            to_date:moment(),
+            
         }
     }
     
@@ -46,41 +45,38 @@ class HolidayReport extends Component {
             this._setTableData(this.state.dataSource);
           }
         );
+    
+
         let branch = await getBranch();
         branch.unshift({ label: 'All', value: 0 });
         let department = await getDepartment();
        department.unshift({ label: 'All', value: 0 });
         let region = await getRegion();
         region.unshift({state_name: 'ALL', state_id: 0});
-        // await getStatus();
         this.setState({
             branch: branch,
             department: department,
             region: region.map(v => ({ ...v, label: v.state_name, value: v.state_id })),
-            // status:status
+           
         })
+        this.handleSearchData();
     }
     handleSelectedBranch = async (event) => {
         this.setState({
            branchId : event
-        })
+          })
     }
     
     handleSelectedDepartment = async (event) => {
         this.setState({
            departmentId : event
-        })
+          })
     }
     handleSelectedRegion = async (event) => {
         this.setState({
            regionId : event
         })
     }
-    // handleSelectedStatus = async (event) => {
-    //     this.setState({
-    //        status : event
-    //     })
-    // }
     handleSelectedFromdate = async (event) => {
         this.setState({
            from_date : event
@@ -91,39 +87,39 @@ class HolidayReport extends Component {
            to_date : event
         })
     }
-    // handleSearchData=()=>{
-    //   console.log(">>>>>",this.state.branchId,this.state.departmentId,this.state.regionId,this.state.designationId)
-    //   }
-    // handleSearchData = (branchId, departmentId, regionId,empName, designationId) => {
-    //     fetch(`${main_url}.../${regionId == undefined ? 0 : regionId}/${departmentId == undefined ? 0 : departmentId}/${designationId == undefined ? 0 : designationId}/${branchId == undefined ? 0 : branchId}/${empName == undefined ? 0 : empName}`)
-    //       .then(res => { if (res.ok) return res.json() })
-    //       .then(list => {
-    //         this._setTableData(list);
-    //       })
-    //   }
+    handleSearchData = () => {
+        fetch(`${main_url}report/extensionReport/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}`)
+          .then(res => { if (res.ok) return res.json() })
+          .then(list => { 
+            this._setTableData(list);
+          })
+      }
 
-    _setTableData = (data) => {
+    _setTableData = (data) => { 
         var table;
         var l = [];
-        // for (var i = 0; i < data.length; i++) {
-        //     let result = data[i];
-        //     let obj = [];
-        //         obj = {
-        //         no: i + 1,
-        //         date:date
-        //         employee_id: employment_id,
-        //         employee_name: employee_name,
-        //         position:position,
-        //         branch: branch_name, 
-        //         late_checkin:late_checkin,
-        //         check_out:check_out,
-        //         working_hour:working_hour,
-        //         reason:reason,
-        //         status:status,
-        //     }    
-        //     l.push(obj)
-
-        // }
+        if (data){
+        for (var i = 0; i < data.length; i++) {
+            let result = data[i];
+            let obj = [];
+                obj = {
+                no: i + 1,
+                employee_id:data[i].employment_id ? data[i].employment_id :"-",
+                employee_name:data[i].fullname ? data[i].fullname : "-",
+                branch: data[i].branch_name ? data[i].branch_name: "-",
+                designation:data[i].designations ? data[i].designations : "-",
+                level:data[i].career_level ? data[i].career_level : "-",
+                department:data[i].deptname ? data[i].deptname : "-",
+                region:data[i].region_name ? data[i].region_name : '-',
+                pa_score:data[i].performance_score ? data[i].performance_score : '-',
+                target_achievement:data[i].target_achievement ? data[i].target_achievement : '-',
+                overall_performance:data[i].comment_overall_performance ? data[i].comment_overall_performance : '-',
+                extension_period:data[i].extension_period ? data[i].extension_period : '-'
+            }
+            
+            l.push(obj)
+        }
+        }
         if ($.fn.dataTable.isDataTable('#dataTables-table')) {
             table = $('#dataTables-table').dataTable();
             table.fnClearTable();
@@ -131,17 +127,19 @@ class HolidayReport extends Component {
             $('#dataTables-table').empty();
         }
         var column = [
-            { title: " Sr No", data: "no" },
-            { title: " Date", data: "date" },
+            { title: "Sr No", data: "no" },
+            {title :"Date",data:'date'},
             { title: "Employee Id", data: "employee_id" },
             { title: "Employee Name", data: "employee_name" },
-            { title: "Position", data: "position" },
-            { title: "Branch", data: "branch" },
-            { title: "Check In", data: "checkin" },
-            { title: "Check Out", data: "check_out" },
-            { title: "Working Hour", data: "working_hour" },
-            { title: "Reason", data: "reason" },
-            { title: "Status", data: "status" },
+            { title: "Position", data: "designation" },
+            { title: "Branch", data: "level" },
+            { title: "Late Check in", data: "department" },
+            { title: "Check Out", data: "branch" },
+            { title: "Working Hour", data: "region" },
+            { title: "Late Min", data: "pa_score" },
+            { title: "Reason", data: "target_achievement" },
+            { title: "Status", data: "overall_performance" },
+          
         ]
         table = $("#dataTables-table").DataTable({
 
@@ -174,53 +172,39 @@ class HolidayReport extends Component {
             data: l,
             columns: column
         });
-
     }
+   
+  
         render(){
           
         return (
             <div>
             <div className="row  white-bg dashboard-header">
-           
+           <h3 className="" style={{paddingLeft:"10px"}}>Late Check-In Report</h3>
               <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
+              <div style={{marginRight:10,width:150}}>
               <DatePicker
                   dateFormat="DD/MM/YYYY"
                   value={this.state.from_date}
                   onChange={this.handleSelectedFromdate}
                   timeFormat={false}
                 />
+              </div>
+              <div style={{marginRight:10,width:150}}>
               <DatePicker
                  dateFormat="DD/MM/YYYY"
                  value={this.state.to_date}
                  onChange={this.handleSelectedTodate}
                  timeFormat={false}
                 />
+              </div>
               <Select
               styles={{
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
-                }),
-                control: base => ({
-                  ...base,
-                  minHeight: '18px'
-                }),
-
-              }}
-              placeholder="Region"
-              options={this.state.region}
-              onChange={this.handleSelectedRegion}
-              value={this.state.regionId}
-              className='react-select-container'
-              classNamePrefix="react-select"
-            /> 
-            <Select
-              styles={{
-                container: base => ({
-                  ...base,
-                  //   flex: 1
-                  width: 150
+                  width: 150,
+                  marginRight:10
                 }),
                 control: base => ({
                   ...base,
@@ -235,6 +219,28 @@ class HolidayReport extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
+              <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginRight:10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Region"
+              options={this.state.region}
+              onChange={this.handleSelectedRegion}
+              value={this.state.regionId}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            /> 
+           
             <Select
               styles={{
                 container: base => ({
@@ -255,35 +261,16 @@ class HolidayReport extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
-            <Select
-              styles={{
-                container: base => ({
-                  ...base,
-                  //   flex: 1
-                  width: 150
-                }),
-                control: base => ({
-                  ...base,
-                  minHeight: '18px'
-                }),
-
-              }}
-              placeholder="Status"
-              options={this.state.status_list}
-              onChange={this.handleSelectedStatus}
-              value={this.state.status}
-              className='react-select-container'
-              classNamePrefix="react-select"
-            />
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
             </div>
-           </div>
+           
             <table width="99%"
                     className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
                     id="dataTables-table"
                 />
            </div>
+           </div>
         )
     }
 }
-    export default HolidayReport;
+    export default LateCheckInReport;

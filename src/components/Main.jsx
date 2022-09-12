@@ -103,6 +103,11 @@ import LeaveManagementTable from './LeaveManagement/LeaveManagementTable';
 import NewLeave from './LeaveManagement/NewLeave';
 import LeaveReport from './LeaveManagement/LeaveReport';
 import LeaveBalance from './LeaveManagement/LeaveBalance';
+import AttendanceReport from './Attendance Report/AttendanceReport';
+import LateCheckInReport from './Attendance Report/LateCheckInReport';
+import HolidayAttendanceReport from './Attendance Report/HolidayAttendanceReport';
+import EarlyCheckOutReport from './Attendance Report/EarlyCheckOutReport';
+import WeeklyAttendanceReport from './Attendance Report/WeeklyAttendanceReport';
 
 
 const Main = () => (
@@ -210,6 +215,11 @@ const Main = () => (
         <Route path='/new_leave' component={NewLeave}></Route>
         <Route path='/leave_report' component={LeaveReport}></Route>
         <Route path='/earned_leave_opening_balance' component={LeaveBalance}></Route>
+        <Route path="/attendance_report" component={AttendanceReport}></Route>
+        <Route path='/late_checkin_report' component={LateCheckInReport}></Route>
+        <Route path='/holiday_attendance_report' component={HolidayAttendanceReport}></Route>
+        <Route path='/early_checkout_report' component={EarlyCheckOutReport}></Route>
+        <Route path='/weekly_attendance_report' component={WeeklyAttendanceReport}></Route>
 
         <Redirect to="/dashboard" />
 

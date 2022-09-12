@@ -18,7 +18,7 @@ require('datatables.net-buttons/js/dataTables.buttons.min');
 require('datatables.net-buttons/js/buttons.html5.min');
 
 
-class ExtensionReport extends Component {
+class AttendanceReport extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -29,7 +29,16 @@ class ExtensionReport extends Component {
             regionId:null,
             departmentId:null,
             from_date:moment(),
-            to_date:moment() 
+            to_date:moment(),
+            AttendanceTypeList:[],
+            AttendanceStatusList:[],
+            StatusList:[],
+            AttendanceReasonList:[],
+            selectedAttendanceType:null,
+            selectedAttendanceStatus:null,
+            selectedstatus:null,
+            selectedEmployeeName:null,
+            selectedAttendanceReason:null
         }
     }
     
@@ -86,6 +95,31 @@ class ExtensionReport extends Component {
            to_date : event
         })
     }
+    handleSelectedAttendanceType=async(event)=>{
+      this.setState({
+        selectedAttendanceType:event
+      })
+    }
+    handleSelectedAttendanceStatus=async(event)=>{
+      this.setState({
+        selectedAttendanceStatus:event
+      })
+    }
+    handleSelectedStatus=async(event)=>{
+      this.setState({
+        selectedstatus:event
+      })
+    }
+    handleSelectedEmployeeName=async(event)=>{
+      this.setState({
+        selectedEmployeeName:event.target.value
+      })
+    }
+    handleSelectedAttendanceReason=async(event)=>{
+      this.setState({
+        selectedAttendanceReason:event
+      })
+    }
     handleSearchData = () => {
         fetch(`${main_url}report/extensionReport/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}`)
           .then(res => { if (res.ok) return res.json() })
@@ -126,18 +160,19 @@ class ExtensionReport extends Component {
             $('#dataTables-table').empty();
         }
         var column = [
-            { title: "  No", data: "no" },
-            { title: "Employee Id", data: "employee_id" },
-            { title: " Name", data: "employee_name" },
-            { title: "Designation", data: "designation" },
-            { title: "Level", data: "level" },
-            { title: "Department", data: "department" },
-            { title: "Branch", data: "branch" },
-            { title: "Region", data: "region" },
-            { title: "PA Score", data: "pa_score" },
-            { title: "Target Achievement", data: "target_achievement" },
-            { title: "Comment for overall Performance", data: "overall_performance" },
-            { title: "Extension Period", data: "extension_period" },
+            { title: "Sr No", data: "no" },
+            { title: "Date", data: "employee_id" },
+            { title: "Employee ID", data: "employee_name" },
+            { title: "Employee Name", data: "designation" },
+            { title: "Position", data: "level" },
+            { title: "Branch", data: "department" },
+            { title: "Check in", data: "branch" },
+            { title: "Check Out", data: "region" },
+            { title: "Working Hour", data: "pa_score" },
+            { title: "Attendance Type", data: "target_achievement" },
+            { title: "Attendance Status", data: "overall_performance" },
+            { title: "Attenedacne Reason", data: "extension_period" },
+            { title: "Status", data: "extension_period" },
         ]
         table = $("#dataTables-table").DataTable({
 
@@ -178,7 +213,7 @@ class ExtensionReport extends Component {
         return (
             <div>
             <div className="row  white-bg dashboard-header">
-           <h3 className="" style={{paddingLeft:"10px"}}>Extension Report</h3>
+           <h3 className="" style={{paddingLeft:"10px"}}>Attendance Report</h3>
               <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
               <div style={{marginRight:10,width:150}}>
               <DatePicker
@@ -259,7 +294,96 @@ class ExtensionReport extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
+            <div style={{width:150,marginLeft:10}}>
+            <input type="text" className="form-control" onChange={this.handleSelectedEmployeeName} placeholder='Employee Name'/>
+            </div>
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
+            </div>
+            <div className="flex-row" style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
+            <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginRight:10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Attendance Type"
+              options={this.state.AttendanceTypeList}
+              onChange={this.handleSelectedAttendanceType}
+              value={this.state.selectedAttendanceType}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+            <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginRight:10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Attendance Status"
+              options={this.state.AttendanceStatusList}
+              onChange={this.handleSelectedAttendanceStatus}
+              value={this.state.selectedAttendanceStatus}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+            <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginRight:10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="AttendanceReason"
+              options={this.state.AttendanceReasonList}
+              onChange={this.handleSelectedAttendanceReason}
+              value={this.state.selectedAttendanceReason}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+            <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginRight:10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Status"
+              options={this.state.StatusList}
+              onChange={this.handleSelectedStatus}
+              value={this.state.selectedstatus}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
             </div>
            
             <table width="99%"
@@ -271,4 +395,4 @@ class ExtensionReport extends Component {
         )
     }
 }
-    export default ExtensionReport;
+    export default AttendanceReport;

@@ -51,7 +51,7 @@ class HistoryReport extends Component {
         let branch = await getBranch();
         branch.unshift({ label: 'All', value: 0 });
         let region = await getRegion();
-        region.unshift({ region_name: 'ALL', region_id: 0 });
+        region.unshift({ state_name: 'ALL', state_id: 0 });
         await this.getEmployeeName();
         await this.getEmployeeList();
         // await getDate;
@@ -60,9 +60,10 @@ class HistoryReport extends Component {
         this.setState({
             branch: branch,
             department: department,
-            region: region.map(v => ({ ...v, label: v.region_name, value: v.region_id })),
+            region: region.map(v => ({ ...v, label: v.state_name, value: v.state_id })),
             // empNameList:empNameList
         })
+        this.handleSearchData();
     }
     getEmployeeList() {
         fetch(`${main_url}main/getEmployeeWithDesignation/0`)

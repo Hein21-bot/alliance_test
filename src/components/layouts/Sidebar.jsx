@@ -62,6 +62,9 @@ export default class Sidebar extends Component {
     if (pathname.includes('reports')) {
       return "/reports";
     }
+    if(pathname.includes('attendancerelatedreports')){
+      return '/attendancerelatedreports'
+    }
     else return "/dashboard";
   }
 
@@ -533,6 +536,34 @@ export default class Sidebar extends Component {
                 </ul>
 
               </li>
+              {/* <li
+                className={
+                  this.checkPathName() === "/attendancerelatedreports" || pathname === '/attendance_report' || pathname === '/late_checkin_report' || pathname === '/holiday_attendance_report' || pathname === '/early_checkout_report' || pathname === '/weekly_attendance_report' ? "active" : ""
+                }
+              >
+                <a href="/attendance_report" className="sideList">
+                  <img src="assets/icons/Allowance (1).svg" alt="" width="20" height="20" style={{ marginRight: 5 }} />
+                  <span className="sideText">AttendanceRelateReport</span>
+                </a>
+                <ul className="nav nav-second-level collapse">
+                  <li className={pathname === "/attendance_report" ? "active" : ""}>
+                    <a href="/attendance_report">Attendance Report</a>
+                  </li>
+                  <li className={pathname === "/late_checkin_report" ? "active" : ""}>
+                    <a href="/late_checkin_report">Late Check In Report</a>
+                  </li>
+                  <li className={pathname === "/holiday_attendance_report" ? "active" : ""}>
+                    <a href="/holiday_attendance_report">Holiday Attendance Report</a>
+                  </li>
+                  <li className={pathname === "/early_checkout_report" ? "active" : ""}>
+                    <a href="/early_checkout_report">Early Checkout Report</a>
+                  </li>
+                  <li className={pathname === "/weekly_attendance_report" ? "active" : ""}>
+                    <a href="/weekly_attendance_report">Weekly Attendance Report</a>
+                  </li>
+                </ul>
+
+              </li> */}
 
 
               <li
