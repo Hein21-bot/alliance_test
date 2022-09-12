@@ -24,7 +24,8 @@ class HeadCountBarChart extends Component {
       department_male: [],
       department_female: [],
       designation_male: [],
-      designation_female: []
+      designation_female: [],
+      branchlist:[]
 
     };
   }
@@ -39,7 +40,7 @@ class HeadCountBarChart extends Component {
 
     this.setChartOptionDepartment();
     this.getRegionList()
-    this.getBranch()
+    this.getBranchList()
     
 
 
@@ -55,21 +56,25 @@ class HeadCountBarChart extends Component {
         })
       })
   }
-
-
-  getBranch = () => {
-
-    fetch(main_url + `main/getBranch`)
+  getBranchList() {
+    fetch(`${main_url}benefit/getBranchList`)
       .then((res) => {
         if (res.ok) return res.json();
       })
-      .then((res1) => {
-        res1.unshift({ label: 'All', value: 0 })
-        this.setState({ branchData: res1 });
+      .then((list) => {
+        let lists = list.unshift({ branch_id: 0, branch_name: "All" });
+        this.setState({
+          branchlist: list.map((v) => ({
+            ...v,
+            label: v.branch_name,
+            value: v.branch_id,
+          })),
+        });
+      });
+  }
 
-      })
-      .catch((error) => console.error(`Fetch Error =\n`, error));
-  };
+
+  
 
   getHeadCountbyDepartment = (branchId, regionId) => {
 
@@ -360,7 +365,7 @@ class HeadCountBarChart extends Component {
                     })
                   }}
                   placeholder="All"
-                  options={this.state.branchData}
+                  options={this.state.branchlist}
                   onChange={this.handleSelectedBranch}
                   value={this.state.dep_branchId}
                   className="react-select-container"
@@ -508,7 +513,7 @@ class HeadCountBarChart extends Component {
                     }),
                   }}
                   placeholder="All"
-                  options={this.state.branchData}
+                  options={this.state.branchlist}
                   onChange={this.handleSelectedBranchDesignation}
                   value={this.state.des_branchId}
                   className="react-select-container"

@@ -17,7 +17,8 @@ class LeaveCounrBarChart extends Component {
             leaveData: [],
             countData: [],
             chartData: [],
-            data:[]
+            data:[],
+            branchlist:[]
         }
     }
 
@@ -27,16 +28,32 @@ class LeaveCounrBarChart extends Component {
         await this.leaveDashboard();
         await this.getRegionList();
        
-        let branch = await getBranch();
-        branch.unshift({ label: 'All', value: 0 });
+       
         let department = await getDepartment();
         department.unshift({ label: 'All', value: 0 });
         this.setState({
-            branch: branch,
+           
             department: department,
             // region:region
         })
+        this.getBranchList();
     }
+    getBranchList() {
+        fetch(`${main_url}benefit/getBranchList`)
+          .then((res) => {
+            if (res.ok) return res.json();
+          })
+          .then((list) => {
+            let lists = list.unshift({ branch_id: 0, branch_name: "All" });
+            this.setState({
+              branchlist: list.map((v) => ({
+                ...v,
+                label: v.branch_name,
+                value: v.branch_id,
+              })),
+            });
+          });
+      }
     getRegionList() {
         fetch(`${main_url}benefit/getRegionList`)
           .then(res => { if (res.ok) return res.json() })
@@ -174,7 +191,7 @@ class LeaveCounrBarChart extends Component {
 
                         }}
                         placeholder="All"
-                        options={this.state.branch}
+                        options={this.state.branchlist}
                         onChange={this.handleSelectedBranch.bind(this)}
                         value={this.state.branchId}
                         className='react-select-container'

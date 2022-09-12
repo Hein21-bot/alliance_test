@@ -19,6 +19,7 @@ export default class ExpenseBarChart extends Component {
             deptData: [],
             s_date: moment(getFirstDayOfMonth()),
             e_date: moment(),
+            branchlist:[]
 
         }
     }
@@ -27,6 +28,7 @@ export default class ExpenseBarChart extends Component {
         this.setChartOption()
         this.getBranch();
         this.getDesignation();
+        this.getBranchList();
         // this.getExpense();
 
     }
@@ -41,7 +43,22 @@ export default class ExpenseBarChart extends Component {
             e_date: event,
         });
     };
-
+    getBranchList() {
+        fetch(`${main_url}benefit/getBranchList`)
+          .then((res) => {
+            if (res.ok) return res.json();
+          })
+          .then((list) => {
+            let lists = list.unshift({ branch_id: 0, branch_name: "All" });
+            this.setState({
+              branchlist: list.map((v) => ({
+                ...v,
+                label: v.branch_name,
+                value: v.branch_id,
+              })),
+            });
+          });
+      }
     getBranch = () => {
 
         fetch(main_url + `main/getBranch`)
@@ -245,7 +262,7 @@ export default class ExpenseBarChart extends Component {
                                 })
                             }}
                             placeholder="All"
-                            options={this.state.branchData}
+                            options={this.state.branchlist}
                             onChange={this.handleSelectedBranch}
                             value={this.state.branchId}
                             className="react-select-container"

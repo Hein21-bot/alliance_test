@@ -22,7 +22,8 @@ class BenefitBarChart extends Component {
             branchData: [],
             s_date: moment(getFirstDayOfMonth()),
             e_date: moment(),
-            data:[]
+            data:[],
+            branchlist:[]
         }
     }
 
@@ -30,21 +31,37 @@ class BenefitBarChart extends Component {
     async componentDidMount() {
        await this.setChartOption()
        await this.getBenefit(this.state.branchId, this.state.depId, this.state.s_date, this.state.e_date)
-      await  this.getBranch()
+      await  this.getBranchList()
        await this.getDesignation()
     }
+    getBranchList() {
+        fetch(`${main_url}benefit/getBranchList`)
+          .then((res) => {
+            if (res.ok) return res.json();
+          })
+          .then((list) => {
+            let lists = list.unshift({ branch_id: 0, branch_name: "All" });
+            this.setState({
+              branchlist: list.map((v) => ({
+                ...v,
+                label: v.branch_name,
+                value: v.branch_id,
+              })),
+            });
+          });
+      }
 
-    getBranch = () => {
-        fetch(main_url + `main/getBranch`)
-            .then((res) => {
-                if (res.ok) return res.json();
-            })
-            .then((res1) => {
-                res1.unshift({ label: 'All', value: 0 })
-                this.setState({ branchData: res1 });
-            })
-            .catch((error) => console.error(`Fetch Error =\n`, error));
-    };
+    // getBranch = () => {
+    //     fetch(main_url + `main/getBranch`)
+    //         .then((res) => {
+    //             if (res.ok) return res.json();
+    //         })
+    //         .then((res1) => {
+    //             res1.unshift({ label: 'All', value: 0 })
+    //             this.setState({ branchData: res1 });
+    //         })
+    //         .catch((error) => console.error(`Fetch Error =\n`, error));
+    // };
 
     getDesignation = () => {
         fetch(main_url + `main/getDepartment`)
@@ -250,7 +267,7 @@ class BenefitBarChart extends Component {
                                     })
                                 }}
                                 placeholder="All"
-                                options={this.state.branchData}
+                                options={this.state.branchlist}
                                 onChange={this.handleSelectedBranch}
                                 value={this.state.branchId}
                                 className="react-select-container"
