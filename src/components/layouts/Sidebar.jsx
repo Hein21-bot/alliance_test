@@ -586,7 +586,7 @@ export default class Sidebar extends Component {
                 </a>
               </li>
 
-              {/* <li
+              <li
                 className={
                   this.checkPathName() === "/staff_loan" ? "active" : ""
                 }
@@ -620,10 +620,10 @@ export default class Sidebar extends Component {
                     </a>
                   </li>
                 </ul>
-              </li> */}
+              </li>
 
 
-              {/* <li
+              <li
                 className={this.checkPathName() === "/confirmation" ? "active" : ""}
               >
                 <a href="/confirmation_list" className="sideList">
@@ -664,10 +664,10 @@ export default class Sidebar extends Component {
                         <a href="/confirmation_request_list">Confirmation Request</a>
                       </li>
                 </ul>
-              </li> */}
+              </li>
 
 
-              {/* <li
+              <li
                 className={this.checkPathName() === "/reports" || pathname === "/EmployeeDirectory" || pathname === "/ResignStaffReport" || pathname === "/RegionStaffReport" || pathname === "/BranchStaffReport" || pathname === "/HoStaffReport" || pathname === "/EmployeeReport" || pathname === "/ReportbyServiceYear" || pathname === "/HistoryReport" || pathname === "/FRDReport" || pathname === "/ExtensionReport" || pathname === "/RegionWiseStaffReportCount" ? "active" : ""}
               >
                 <a href="/EmployeeDirectory" className="sideList">
@@ -723,10 +723,10 @@ export default class Sidebar extends Component {
                     <a href="/RegionWiseStaffReportCount">RegionWiseStaffReport</a>
                   </li>
                 </ul>
-              </li> */}
+              </li>
 
 
-              {/* <li
+              <li
                 className={
                   this.checkPathName() === "/notification" ? "active" : ""
                 }
@@ -735,14 +735,14 @@ export default class Sidebar extends Component {
                   <i className="fa fa-bell sideIcon" style={{ color: 'white' }}></i>
                   <span className="sideText">Notification</span>
                 </a>
-              </li> */}
+              </li>
 
-              {/* <li className={pathname === "/Announcement" ? "active" : ""}>
+              <li className={pathname === "/Announcement" ? "active" : ""}>
                   <a href="/Announcement" className="sideList" >
                     <i className="fas fa-atlas sideIcon" style={{ color: 'white' }}></i>
                     <span className="sideText">Announcement Setting</span>
                   </a>
-                </li> */}
+                </li>
 
               <li>
                 <a href={remote_url} className="sideList" onClick={this.logout.bind(this)}>
@@ -750,9 +750,9 @@ export default class Sidebar extends Component {
                 </a>
               </li>
 
-              {/* <li className={pathname === '/notification' ? 'active' : ''}>
+              <li className={pathname === '/notification' ? 'active' : ''}>
                                     <a href="/notification" refresh="true"><i className="fa fa-bell"></i>Notification</a>
-                                </li> */}
+                                </li>
 
               {this.state.user && this.state.user.user_id === 1 ? (
                 <li className="">
