@@ -37,8 +37,8 @@ class EmployeeDirectory extends Component {
             departmentlist:null,
             regionList:null,
             EmployeeNameList:null,
-            selected_bracnh:null,
-            selected_deparment:null,
+            selected_Branch:null,
+            selected_department:null,
             selected_region:null,
             selected_employee:null,
             selected_phoneno:null
@@ -130,13 +130,13 @@ class EmployeeDirectory extends Component {
     }
     handleSelectedBranch = async (event) => {
         this.setState({
-           selected_bracnh:event
+          selected_Branch:event
         })
     }
    
     handleSelectedDepartment = async (event) => {
         this.setState({
-           selected_deparment : event
+           selected_department : event
         })
     }
     handleSelectedRegion = async (event) => {
@@ -151,6 +151,7 @@ class EmployeeDirectory extends Component {
         })
     }
     handleSelectedPhoneno= async (event)=>{
+      console.log("event=====>",event)
       this.setState({
         selected_phoneno:event.target.value
       })
@@ -312,7 +313,7 @@ class EmployeeDirectory extends Component {
               placeholder="Department"
               options={this.state.departmentlist}
               onChange={this.handleSelectedDepartment}
-              value={this.state.selected_deparment}
+              value={this.state.selected_department}
               className='react-select-container'
               classNamePrefix="react-select"
             />
@@ -337,7 +338,7 @@ class EmployeeDirectory extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
-             <input type="number" value={this.state.selected_phoneno} placeholder="Phone No" className="form-control" onChange={this.handleSelectedPhoneno} style={{width:150}} />
+             <input type="text" value={this.state.selected_phoneno} placeholder="Phone No" className="form-control" onChange={this.handleSelectedPhoneno} style={{width:150}} />
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
             </div>
            

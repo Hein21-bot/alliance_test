@@ -29,7 +29,8 @@ class ExtensionReport extends Component {
             regionId:null,
             departmentId:null,
             from_date:moment(),
-            to_date:moment() 
+            to_date:moment(),
+            branchlist:[]
         }
     }
     
@@ -46,19 +47,35 @@ class ExtensionReport extends Component {
         );
     
 
-        let branch = await getBranch();
-        branch.unshift({ label: 'All', value: 0 });
+       
         let department = await getDepartment();
        department.unshift({ label: 'All', value: 0 });
         let region = await getRegion();
         region.unshift({state_name: 'ALL', state_id: 0});
         this.setState({
-            branch: branch,
+           
             department: department,
             region: region.map(v => ({ ...v, label: v.state_name, value: v.state_id })),
            
         })
+        this.getBranchList();
         this.handleSearchData();
+    }
+    getBranchList() {
+      fetch(`${main_url}benefit/getBranchList`)
+        .then((res) => {
+          if (res.ok) return res.json();
+        })
+        .then((list) => {
+          let lists = list.unshift({ branch_id: 0, branch_name: "All" });
+          this.setState({
+            branchlist: list.map((v) => ({
+              ...v,
+              label: v.branch_name,
+              value: v.branch_id,
+            })),
+          });
+        });
     }
     handleSelectedBranch = async (event) => {
         this.setState({
@@ -211,7 +228,7 @@ class ExtensionReport extends Component {
 
               }}
               placeholder="Branch"
-              options={this.state.branch}
+              options={this.state.branchlist}
               onChange={this.handleSelectedBranch}
               value={this.state.branchId}
               className='react-select-container'
