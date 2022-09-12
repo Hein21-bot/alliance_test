@@ -366,7 +366,7 @@ export default class Sidebar extends Component {
 
                 </ul>
               </li>
-              {/* <li
+              <li
                 className={
                   this.checkPathName() === "/attendance_leave_report"
                     ? "active"
@@ -381,7 +381,7 @@ export default class Sidebar extends Component {
                   <img src="assets/icons/Attendance.svg" alt="" width="20" height="20" style={{ marginRight: 5 }} />
                   <span className="sideText">Attendance and Leave</span>
                 </a>
-              </li> */}
+              </li>
 
 
               {/* <li
@@ -514,28 +514,28 @@ export default class Sidebar extends Component {
                   <li className={pathname === "/travelRequest" ? "active" : ""}>
                     <a href="/travelRequest">Travel Request</a>
                   </li>
-                  {/* <li
+                  <li
                     className={pathname === "/trainingRequest" ? "active" : ""}
                   >
                     <a href="/trainingRequest">Training Request</a>
-                  </li> */}
+                  </li>
                   <li
                     className={pathname === "/salary_advance" ? "active" : ""}
                   >
                     <a href="/salary_advance">Salary Advance</a>
                   </li>
-                  {/* <li
+                  <li
                     className={pathname === "/phonebillrequest" ? "active" : ""}
                   >
                     <a href="/phonebillrequest">Phone Bill</a>
-                  </li> */}
-                  {/* <li className={pathname === "/petrolRequest" ? "active" : ""}>
+                  </li>
+                  <li className={pathname === "/petrolRequest" ? "active" : ""}>
                     <a href="/petrolRequest">Petrol Request</a>
-                  </li> */}
+                  </li>
                 </ul>
 
               </li>
-              {/* <li
+              <li
                 className={
                   this.checkPathName() === "/attendancerelatedreports" || pathname === '/attendance_report' || pathname === '/late_checkin_report' || pathname === '/holiday_attendance_report' || pathname === '/early_checkout_report' || pathname === '/weekly_attendance_report' ? "active" : ""
                 }
@@ -562,7 +562,7 @@ export default class Sidebar extends Component {
                   </li>
                 </ul>
 
-              </li> */}
+              </li>
 
 
               <li
@@ -750,9 +750,9 @@ export default class Sidebar extends Component {
                 </a>
               </li>
 
-              <li className={pathname === '/notification' ? 'active' : ''}>
+              {/* <li className={pathname === '/notification' ? 'active' : ''}>
                                     <a href="/notification" refresh="true"><i className="fa fa-bell"></i>Notification</a>
-                                </li>
+                                </li> */}
 
               {this.state.user && this.state.user.user_id === 1 ? (
                 <li className="">
