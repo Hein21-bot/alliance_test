@@ -16,8 +16,7 @@ class AttendenceBarChart extends Component {
             },
             leaveData: [],
             countData: [],
-            chartData: [],
-            branchlist:[]
+            chartData: []
         }
     }
 
@@ -25,31 +24,16 @@ class AttendenceBarChart extends Component {
     async componentDidMount() {
         await this.setChartOption();
         await this.attendenceDashboard();
-        
+        let branch = await getBranch();
+        branch.unshift({ label: 'All', value: 0 });
         let department = await getDepartment();
         department.unshift({ label: 'All', value: 0 });
         this.setState({
-           
+            branch: branch,
             department: department,
         })
-        this.getBranchList();
     }
-    getBranchList() {
-        fetch(`${main_url}benefit/getBranchList`)
-          .then((res) => {
-            if (res.ok) return res.json();
-          })
-          .then((list) => {
-            let lists = list.unshift({ branch_id: 0, branch_name: "All" });
-            this.setState({
-              branchlist: list.map((v) => ({
-                ...v,
-                label: v.branch_name,
-                value: v.branch_id,
-              })),
-            });
-          });
-      }
+
     async attendenceDashboard(branchId,departmentId) {
         fetch(`${main_url}dashboard/leaveDashboard/${this.state.data.branchId.value == undefined ? this.state.data.branchId : this.state.data.branchId.value}/${this.state.data.departmentId.value == undefined ? this.state.data.departmentId : this.state.data.departmentId.value} `)
             .then(response => {
@@ -188,7 +172,7 @@ class AttendenceBarChart extends Component {
                             }),
                           }}
                         placeholder="All"
-                        options={this.state.branchlist}
+                        options={this.state.branch}
                         onChange={this.handleSelectedBranch}
                         value={this.state.data.branchId}
                         className='react-select-container'
