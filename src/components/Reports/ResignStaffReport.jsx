@@ -29,9 +29,7 @@ class ResignStaffReport extends Component {
            selected_branch:null,
            designationList:null,
            selected_designation:null,
-           exitStatusList: null,
-           selected_Branch:null,
-           selected_exitstatus:null           
+           exitStatusList: null,           
         }
     }
     
@@ -124,7 +122,7 @@ class ResignStaffReport extends Component {
     }
     handleSelectedBranch = async (event) => {
         this.setState({
-          selected_Branch : event
+           selected_branch : event
         })
     }
     
@@ -263,7 +261,7 @@ class ResignStaffReport extends Component {
               placeholder="Branch"
               options={this.state.branchlist}
               onChange={this.handleSelectedBranch}
-              value={this.state.selected_Branch}
+              value={this.state.selected_branch}
               className='react-select-container'
               classNamePrefix="react-select"
             />

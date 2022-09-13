@@ -33,8 +33,7 @@ class HistoryReport extends Component {
             empId: null,
             empName: null,
             employeeName: null,
-            empProfile: [],
-            branchlist:[]
+            empProfile: []
         }
     }
 
@@ -64,26 +63,8 @@ class HistoryReport extends Component {
             region: region.map(v => ({ ...v, label: v.state_name, value: v.state_id })),
             // empNameList:empNameList
         })
-        this.getBranchList();
         this.handleSearchData();
     }
-    getBranchList() {
-        fetch(`${main_url}benefit/getBranchList`)
-          .then((res) => {
-            if (res.ok) return res.json();
-          })
-          .then((list) => {
-            let lists = list.unshift({ branch_id: 0, branch_name: "All" });
-            this.setState({
-              branchlist: list.map((v) => ({
-                ...v,
-                label: v.branch_name,
-                value: v.branch_id,
-              })),
-            });
-          });
-      }
-   
     getEmployeeList() {
         fetch(`${main_url}main/getEmployeeWithDesignation/0`)
             .then(res => res.json())
@@ -272,7 +253,7 @@ class HistoryReport extends Component {
 
                                 }}
                                 placeholder="Branch"
-                                options={this.state.branchlist}
+                                options={this.state.branch}
                                 onChange={this.handleSelectedBranch}
                                 value={this.state.branchId}
                                 className='react-select-container'

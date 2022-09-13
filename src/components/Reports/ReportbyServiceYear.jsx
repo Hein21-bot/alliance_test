@@ -31,7 +31,6 @@ class ReportbyServiceYear extends Component {
             empIdList:[],
             designation:[],
             branchId:null,
-            branchlist:[],
             regionId:null,
             departmentId:null,
             designationId:null,
@@ -59,7 +58,8 @@ class ReportbyServiceYear extends Component {
         );
     
 
-       
+        let branch = await getBranch();
+        branch.unshift({ label: 'All', value: 0 });
         let designation  = await getDesignation();
         designation.unshift({label: 'ALL', value: 0});
         let region = await getRegion();
@@ -70,30 +70,13 @@ class ReportbyServiceYear extends Component {
         let department = await getDepartment();
         department.unshift({label:'ALL', value: 0});
         this.setState({
-            
+            branch: branch,
             department: department,
             designation:designation,
             region: region.map(v => ({ ...v, label: v.state_name, value: v.state_id })),
             // empNameList:empNameList
         })
-        this.getBranchList();
         this.handleSearchData();
-    }
-    getBranchList() {
-      fetch(`${main_url}benefit/getBranchList`)
-        .then((res) => {
-          if (res.ok) return res.json();
-        })
-        .then((list) => {
-          let lists = list.unshift({ branch_id: 0, branch_name: "All" });
-          this.setState({
-            branchlist: list.map((v) => ({
-              ...v,
-              label: v.branch_name,
-              value: v.branch_id,
-            })),
-          });
-        });
     }
     getEmployeeList() {
       fetch(`${main_url}main/getEmployeeWithDesignation/0`)
@@ -124,7 +107,7 @@ class ReportbyServiceYear extends Component {
         })
     }
     handleSelectedEmpId = async (event) => {
-     console.log("event===>",event)
+     
         this.setState({
            empId : event,
           name: event.name
@@ -138,7 +121,7 @@ class ReportbyServiceYear extends Component {
         })
     }
     handleSearchData = (regionId,date,designationId,branchId,empId) => {
-        fetch(`${main_url}report/employeeReportServiceYear/${this.state.regionId  ? this.state.regionId.value : 0}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.designationId ? this.state.designationId.value :0 }/${this.state.empId ?this.state.empId.value :0 }/${this.state.date}`)
+        fetch(`${main_url}report/employeeReportServiceYear/${this.state.regionId  ? this.state.regionId.value : 0}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.designationId ? this.state.designationId.value :0 }/${this.state.empId ?this.state.empId.name :0 }/${this.state.date}`)
         .then(res => { if (res.ok) return res.json() })
           .then(list => { console.log(list)
             // let data=list
@@ -247,7 +230,7 @@ class ReportbyServiceYear extends Component {
 
               }}
               placeholder="Branch"
-              options={this.state.branchlist}
+              options={this.state.branch}
               onChange={this.handleSelectedBranch}
               value={this.state.branchId}
               className='react-select-container'
