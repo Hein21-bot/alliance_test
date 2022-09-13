@@ -37,8 +37,8 @@ class EmployeeDirectory extends Component {
             departmentlist:null,
             regionList:null,
             EmployeeNameList:null,
-            selected_bracnh:null,
-            selected_deparment:null,
+            selected_branch:null,
+            selected_department:null,
             selected_region:null,
             selected_employee:null,
             selected_phoneno:null
@@ -70,12 +70,11 @@ class EmployeeDirectory extends Component {
           if (res.ok) return res.json();
         })
         .then((list) => {
-          let lists = list.unshift({ branch_id: 0, branch_name: "All" });
+          let lists = list.unshift({ value: 0, label: "All" });
           this.setState({
             branchlist: list.map((v) => ({
               ...v,
-              label: v.branch_name,
-              value: v.branch_id,
+              
             })),
           });
         });
@@ -130,13 +129,13 @@ class EmployeeDirectory extends Component {
     }
     handleSelectedBranch = async (event) => {
         this.setState({
-           selected_bracnh:event
+           selected_branch:event
         })
     }
    
     handleSelectedDepartment = async (event) => {
         this.setState({
-           selected_deparment : event
+           selected_department : event
         })
     }
     handleSelectedRegion = async (event) => {
@@ -157,7 +156,7 @@ class EmployeeDirectory extends Component {
     }
 
     handleSearchData = () => {
-      const branchId = this.state.selected_Branch ? this.state.selected_Branch.branch_id : 0
+      const branchId = this.state.selected_branch? this.state.selected_branch.value : 0
       const departmentId = this.state.selected_department ? this.state.selected_department.departments_id : 0
       const phoneno=this.state.selected_phoneno ? this.state.selected_phoneno : 0
       const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
@@ -270,7 +269,7 @@ class EmployeeDirectory extends Component {
               placeholder="Branch"
               options={this.state.branchlist}
               onChange={this.handleSelectedBranch}
-              value={this.state.selected_bracnh}
+              value={this.state.selected_branch}
               className='react-select-container'
               classNamePrefix="react-select"
             />
