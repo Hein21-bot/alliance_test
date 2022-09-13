@@ -89,12 +89,11 @@ class EmployeeReport extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        let lists = list.unshift({ branch_id: 0, branch_name: "All" });
+        let lists = list.unshift({ value: 0, label: "All" });
         this.setState({
           branchlist: list.map((v) => ({
             ...v,
-            label: v.branch_name,
-            value: v.branch_id,
+            
           })),
         });
       });
@@ -265,7 +264,7 @@ class EmployeeReport extends Component {
   }
   handleSearchData = () => {
     // this.setState({
-    const branchId = this.state.selected_Branch ? this.state.selected_Branch.branch_id : 0
+    const branchId = this.state.selected_Branch ? this.state.selected_Branch.value : 0
     const departmentId = this.state.selected_department ? this.state.selected_department.departments_id : 0
     const designationId = this.state.selected_designation ? this.state.selected_designation.value : 0
     const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
