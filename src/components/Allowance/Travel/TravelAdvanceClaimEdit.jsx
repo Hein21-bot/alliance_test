@@ -889,7 +889,7 @@ export default class TravelAdvancedClaimEdit extends Component {
                                                 <label>Start Time</label>
                                                 <DatePicker
                                                     // value={this.state.claimData1.start_time}
-                                                    value={moment(this.state.claimData1.start_time).utc().format("hh:mm A")}
+                                                    value={moment(this.state.claimData1.start_time).format("hh:mm A")}
                                                     timeFormat='hh:mm A'
                                                     dateFormat={false}
 
@@ -900,7 +900,7 @@ export default class TravelAdvancedClaimEdit extends Component {
                                                 <label>End Time</label>
                                                 <DatePicker
                                                     // value={this.state.claimData1.end_time}
-                                                    value={moment(this.state.claimData1.end_time).utc().format("hh:mm A")}
+                                                    value={moment(this.state.claimData1.end_time).format("hh:mm A")}
                                                     timeFormat='hh:mm A'
                                                     dateFormat={false}
 
