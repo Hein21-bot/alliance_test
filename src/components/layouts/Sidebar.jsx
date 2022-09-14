@@ -751,9 +751,9 @@ export default class Sidebar extends Component {
                 </a>
               </li>
 
-              <li className={pathname === '/notification' ? 'active' : ''}>
+              {/* <li className={pathname === '/notification' ? 'active' : ''}>
                                     <a href="/notification" refresh="true"><i className="fa fa-bell"></i>Notification</a>
-                                </li>
+                                </li> */}
 
               {this.state.user && this.state.user.user_id === 1 ? (
                 <li className="">

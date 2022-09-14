@@ -60,7 +60,7 @@ export default class ApprovalInformation extends Component {
                                     <div>
                                         <label>
                                             {
-                                                info.requested.requested_date ? moment(info.requested.requested_date).format('YYYY-MM-DD') : '-'
+                                                info.requested.requested_date ? moment(info.requested.requested_date).utc().format('YYYY-MM-DD') : '-'
                                             }
                                         </label>
                                     </div>
