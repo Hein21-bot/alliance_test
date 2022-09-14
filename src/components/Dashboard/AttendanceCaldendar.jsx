@@ -34,6 +34,9 @@ export class AttendanceCaldendar extends Component {
         // console.log('calendar date => ', moment(date).format('DD-MM-YYYY'))
         // console.log('data is ==> ', data.map(V=> ( moment(V.date).format('DD-MM-YYYY'))), moment((date)).format('DD-MM-YYYY'))
         const highlight = data.filter(v => v.date == moment(date).format('MM-DD-YYYY'))
+        
+        console.log("highligt=====>",highlight)
+        console.log(getDate(date),date)
 
         // console.log('highlight data ==> ', highlight, data.map(v => v.date), moment(date).format('MM-DD-YYYY'))
         const tooltipText = `<div style="color:red">Tooltip for date: ${date}</div>`;
@@ -41,7 +44,10 @@ export class AttendanceCaldendar extends Component {
             <>
                 <div onClick={() => this.setModalData(highlight)} data-toggle={highlight.length > 0 && "modal"} data-target={highlight.length > 0 && "#leave-detail-modal"} style={{ border: highlight.length > 0 && '1px solid red', padding: '0px 2px', borderRadius: 50, minWidth: 29, minHeight: 29, paddingTop: 5, width: 29, height: 29 }}>
                     {getDate(date)}
+                    {'2022-09-15'==format(date,'yyyy-MM-dd') ? <div style={{width:5,height:5,borderRadius:'50%',backgroundColor:'red',marginLeft:10}}></div> : ''}
+                    {'2022-09-17'==format(date,'yyyy-MM-dd') ? <div style={{width:5,height:5,borderRadius:'50%',backgroundColor:'blue',marginLeft:10}}></div> : ''}
                 </div>
+                
                 {
                     highlight.length > 0 &&
                     <span className="white-bg" style={{ fontSize: 12, color: 'red', position: 'relative', top: -35, left: 8, fontWeight: 'bold', borderRadius: '15px' }}>
@@ -130,6 +136,7 @@ export class AttendanceCaldendar extends Component {
                         style={{ width: '50%' }}
                         calendarContainer={MyContainer}
                         formatWeekDay={nameOfDay => nameOfDay.substr(0, 3)}
+                        
                     />
                 </div>
                 <div className="col-md-7 col-lg-7 col-sm-7" style={{ padding: 0, display: 'flex', alignItems: 'center' }}>
