@@ -105,9 +105,9 @@ export default class SalaryAdvanceRequestForm extends Component {
 
     save() {
         // stopSaving();
-        if (this.state.newDoc.length == 0) {
-            toast.error("Please Choose Attachment File!")
-        } else {
+        // if (this.state.newDoc.length == 0) {
+        //     toast.error("Please Choose Attachment File!")
+        // } else {
             if (validate('check_form')) {
                 $('#saving_button').attr('disabled', true);
                 let createdBy = this.state.created_user;
@@ -151,7 +151,7 @@ export default class SalaryAdvanceRequestForm extends Component {
                 form_validate = false;
                 startSaving();
             }
-        }
+        // }
 
     }
 
