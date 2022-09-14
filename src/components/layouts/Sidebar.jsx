@@ -515,28 +515,28 @@ export default class Sidebar extends Component {
                   <li className={pathname === "/travelRequest" ? "active" : ""}>
                     <a href="/travelRequest">Travel Request</a>
                   </li>
-                  <li
+                  {/* <li
                     className={pathname === "/trainingRequest" ? "active" : ""}
                   >
                     <a href="/trainingRequest">Training Request</a>
-                  </li>
+                  </li> */}
                   <li
                     className={pathname === "/salary_advance" ? "active" : ""}
                   >
                     <a href="/salary_advance">Salary Advance</a>
                   </li>
-                  <li
+                  {/* <li
                     className={pathname === "/phonebillrequest" ? "active" : ""}
                   >
                     <a href="/phonebillrequest">Phone Bill</a>
                   </li>
                   <li className={pathname === "/petrolRequest" ? "active" : ""}>
                     <a href="/petrolRequest">Petrol Request</a>
-                  </li>
+                  </li> */}
                 </ul>
 
               </li>
-              <li
+              {/* <li
                 className={
                   this.checkPathName() === "/attendancerelatedreports" || pathname === '/attendance_report' || pathname === '/late_checkin_report' || pathname === '/holiday_attendance_report' || pathname === '/early_checkout_report' || pathname === '/weekly_attendance_report' ? "active" : ""
                 }
@@ -563,7 +563,7 @@ export default class Sidebar extends Component {
                   </li>
                 </ul>
 
-              </li>
+              </li> */}
 
 
               <li
@@ -587,7 +587,7 @@ export default class Sidebar extends Component {
                 </a>
               </li>
 
-              <li
+              {/* <li
                 className={
                   this.checkPathName() === "/staff_loan" ? "active" : ""
                 }
@@ -621,10 +621,10 @@ export default class Sidebar extends Component {
                     </a>
                   </li>
                 </ul>
-              </li>
+              </li> */}
 
 
-              <li
+              {/* <li
                 className={this.checkPathName() === "/confirmation" ? "active" : ""}
               >
                 <a href="/confirmation_list" className="sideList">
@@ -665,10 +665,10 @@ export default class Sidebar extends Component {
                         <a href="/confirmation_request_list">Confirmation Request</a>
                       </li>
                 </ul>
-              </li>
+              </li> */}
 
 
-              <li
+              {/* <li
                 className={this.checkPathName() === "/reports" || pathname === "/EmployeeDirectory" || pathname === "/ResignStaffReport" || pathname === "/RegionStaffReport" || pathname === "/BranchStaffReport" || pathname === "/HoStaffReport" || pathname === "/EmployeeReport" || pathname === "/ReportbyServiceYear" || pathname === "/HistoryReport" || pathname === "/FRDReport" || pathname === "/ExtensionReport" || pathname === "/RegionWiseStaffReportCount" ? "active" : ""}
               >
                 <a href="/EmployeeDirectory" className="sideList">
@@ -724,10 +724,10 @@ export default class Sidebar extends Component {
                     <a href="/RegionWiseStaffReportCount">RegionWiseStaffReport</a>
                   </li>
                 </ul>
-              </li>
+              </li> */}
 
 
-              <li
+              {/* <li
                 className={
                   this.checkPathName() === "/notification" ? "active" : ""
                 }
@@ -743,7 +743,7 @@ export default class Sidebar extends Component {
                     <i className="fas fa-atlas sideIcon" style={{ color: 'white' }}></i>
                     <span className="sideText">Announcement Setting</span>
                   </a>
-                </li>
+                </li> */}
 
               <li>
                 <a href={remote_url} className="sideList" onClick={this.logout.bind(this)}>
