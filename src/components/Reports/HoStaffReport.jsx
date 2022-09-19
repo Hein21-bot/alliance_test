@@ -51,7 +51,7 @@ class HoStaffReport extends Component {
                 if (res.ok) return res.json();
             })
             .then((list) => {
-                let totalList = list;
+                let totalList = list.filter(d=>d.deptname !="Head Department");
                 let HeadDepartment = list;
                 let headData = HeadDepartment.filter(d => d.deptname == 'Head Department')
                

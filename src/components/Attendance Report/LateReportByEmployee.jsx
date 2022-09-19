@@ -1,14 +1,13 @@
 import React,{Component} from "react";
-import {getBranch,getDepartment,getRegion,getDesignation,main_url} from '../../utils/CommonFunction';
+import {getBranch,getRegion,getDepartment,main_url,getFirstDayOfMonth} from '../../utils/CommonFunction';
+import DatePicker from 'react-datetime';
+import moment from "moment";
+import Select from "react-select";
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css';
 import 'datatables.net-dt/css/jquery.dataTables.css'
 import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 import 'jspdf-autotable';
-import Select from 'react-select' ;
-import DatePicker from 'react-datetime';
-import 'react-calendar/dist/Calendar.css';
-import moment from 'moment';
 const $ = require('jquery');
 const jzip = require('jzip');
 window.JSZip = jzip;
@@ -19,29 +18,20 @@ require('datatables.net-buttons/js/dataTables.buttons.min');
 require('datatables.net-buttons/js/buttons.html5.min');
 
 
-class ReportbyServiceYear extends Component {
+class LateReportByEmployee extends Component {
     constructor(props) {
         super(props);
         this.state = {
             branch:[],
             region:[],
-            EmployeeNameList:[],
             department:[],
-            dateRange:[],
-            empIdList:[],
-            designation:[],
             branchId:null,
             regionId:null,
             departmentId:null,
-            designationId:null,
-            empName:null,              
-            phone_no:null,
-            empId:null,
-            date:moment().format("YYYY-MM-DD"),
-            name:"",
-            dataSource:[],
-            regionvalue:null
-           
+            from_date:moment(),
+            to_date:moment(),
+            EmployeeNameList:[],
+            selectedEmployeeName:null
         }
     }
     
@@ -60,94 +50,95 @@ class ReportbyServiceYear extends Component {
 
         let branch = await getBranch();
         branch.unshift({ label: 'All', value: 0 });
-        let designation  = await getDesignation();
-        designation.unshift({label: 'ALL', value: 0});
+        let department = await getDepartment();
+       department.unshift({ label: 'All', value: 0 });
         let region = await getRegion();
         region.unshift({state_name: 'ALL', state_id: 0});
-        // await this.getEmployeeName();
-        await this.getEmployeeList();
-        // await getDate;
-        let department = await getDepartment();
-        department.unshift({label:'ALL', value: 0});
         this.setState({
             branch: branch,
             department: department,
-            designation:designation,
             region: region.map(v => ({ ...v, label: v.state_name, value: v.state_id })),
-            // empNameList:empNameList
+           
         })
+        this.getEmployeeName();
         this.handleSearchData();
     }
-    getEmployeeList() {
-      fetch(`${main_url}main/getEmployeeWithDesignation/0`)
-          .then(res => res.json())
-          .then(data => {
-              // const all = data.map(v => (v.employment_id).trim())
-              this.setState({
-                  employeeList: data.map(v => ({ ...v, label: v.employment_id, value: v.value,name:v.label })),
-                  // allEmployeeID: all
-              })
-
+    getEmployeeName() {
+      fetch(`${main_url}report/employeeName`)
+        .then((res) => {
+          if (res.ok) return res.json();
+        })
+        .then((list) => {
+          let lists = list.unshift({ value: 0, label: "All" });
+          this.setState({
+            EmployeeNameList: list.map((v) => ({
+              ...v
+            }))
           })
-  }
+        })
+    }
     handleSelectedBranch = async (event) => {
         this.setState({
            branchId : event
-        })
+          })
     }
-    handleSelectedDate = async (event) => {
+    handleSelectedEmployeeName=async(event)=>{
       this.setState({
-          date : event
+        selectedEmployeeName:event
       })
     }
-   
-    handleSelectedDesignation = async (event) => {
+    
+    handleSelectedDepartment = async (event) => {
         this.setState({
-           designationId : event
-        })
+           departmentId : event
+          })
     }
-    handleSelectedEmpId = async (event) => {
-     
-        this.setState({
-           empId : event,
-          name: event.name
-        })
-    }
-  
     handleSelectedRegion = async (event) => {
         this.setState({
-           regionId : event,
-           
+           regionId : event
         })
     }
-    handleSearchData = (regionId,date,designationId,branchId,empId) => {
-        fetch(`${main_url}report/employeeReportServiceYear/${this.state.regionId  ? this.state.regionId.value : 0}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.designationId ? this.state.designationId.value :0 }/${this.state.empId ?this.state.empId.value :0 }/${this.state.date}`)
-        .then(res => { if (res.ok) return res.json() })
-          .then(list => { console.log(list)
-            // let data=list
+    handleSelectedFromdate = async (event) => {
+        this.setState({
+           from_date : event
+        })
+    }
+     handleSelectedTodate = async (event) => {
+        this.setState({
+           to_date : event
+        })
+    }
+    handleSearchData = () => {
+        fetch(`${main_url}report/extensionReport/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}`)
+          .then(res => { if (res.ok) return res.json() })
+          .then(list => { 
             this._setTableData(list);
           })
       }
 
     _setTableData = (data) => { 
-      
         var table;
         var l = [];
-        if(data){
-          for (var i = 0; i < data.length; i++) {
+        if (data){
+        for (var i = 0; i < data.length; i++) {
             let result = data[i];
             let obj = [];
                 obj = {
                 no: i + 1,
-                employee_id:data[i].employment_id ? data[i].employment_id: "-",
-                employee_name:data[i].fullname ? data[i].fullname:"-",
-                branch:data[i].branch_name? data[i].branch_name: "-", 
-                designation:data[i].designations ? data[i].designations:"-",
-                join_date:data[i].joining_date ? data[i].joining_date : "-",
-                service_year:data[i].service_year[0] ? data[i].service_year[0] : "-",     
-            }    
-            l.push(obj)
+                employee_id:data[i].employment_id ? data[i].employment_id :"-",
+                employee_name:data[i].fullname ? data[i].fullname : "-",
+                branch: data[i].branch_name ? data[i].branch_name: "-",
+                designation:data[i].designations ? data[i].designations : "-",
+                level:data[i].career_level ? data[i].career_level : "-",
+                department:data[i].deptname ? data[i].deptname : "-",
+                region:data[i].region_name ? data[i].region_name : '-',
+                pa_score:data[i].performance_score ? data[i].performance_score : '-',
+                target_achievement:data[i].target_achievement ? data[i].target_achievement : '-',
+                overall_performance:data[i].comment_overall_performance ? data[i].comment_overall_performance : '-',
+                extension_period:data[i].extension_period ? data[i].extension_period : '-'
+            }
             
+            l.push(obj)
         }
         }
         if ($.fn.dataTable.isDataTable('#dataTables-table')) {
@@ -157,14 +148,19 @@ class ReportbyServiceYear extends Component {
             $('#dataTables-table').empty();
         }
         var column = [
-            { title: " Sr No", data: "no" },
+            { title: "No", data: "no" },
             { title: "Employee Id", data: "employee_id" },
             { title: "Employee Name", data: "employee_name" },
             { title: "Designation", data: "designation" },
-            { title: "Branch", data: "branch" },
-            { title: "Join Date", data: "join_date" },
-            { title: "Service Year", data: "service_year" },
-            
+            { title: "Branch", data: "level" },
+            {title:"Region",data:'region'},
+            { title: "Late Check In", data: "department" },
+            { title: "Early Check Out", data: "branch" },
+            { title: "Incomplete", data: "region" },
+            { title: "Missing Attendance", data: "pa_score" },
+            { title: "Absence", data: "target_achievement" },
+            { title: "Leave", data: "target_achievement" },
+           
         ]
         table = $("#dataTables-table").DataTable({
 
@@ -197,22 +193,31 @@ class ReportbyServiceYear extends Component {
             data: l,
             columns: column
         });
-
     }
-        render(){ 
-         
+   
+  
+        render(){
+          
         return (
             <div>
             <div className="row  white-bg dashboard-header">
-             <h3 className="" style={{paddingLeft:10}}>Employee Report by Service Year</h3>
-              <div className='flex-row' style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
-              <div style={{width:150,marginRight:10}}>
+           <h3 className="" style={{paddingLeft:"10px"}}>Late Report By Employee</h3>
+              <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
+              <div style={{marginRight:10,width:150}}>
               <DatePicker
-                            dateFormat="DD/MM/YYYY"
-                            value={this.state.date}
-                            onChange={this.handleSelectedDate}
-                            timeFormat={false}
-                        />
+                  dateFormat="DD/MM/YYYY"
+                  value={this.state.from_date}
+                  onChange={this.handleSelectedFromdate}
+                  timeFormat={false}
+                />
+              </div>
+              <div style={{marginRight:10,width:150}}>
+              <DatePicker
+                 dateFormat="DD/MM/YYYY"
+                 value={this.state.to_date}
+                 onChange={this.handleSelectedTodate}
+                 timeFormat={false}
+                />
               </div>
               <Select
               styles={{
@@ -221,7 +226,6 @@ class ReportbyServiceYear extends Component {
                   //   flex: 1
                   width: 150,
                   marginRight:10
-                  
                 }),
                 control: base => ({
                   ...base,
@@ -256,14 +260,14 @@ class ReportbyServiceYear extends Component {
               value={this.state.regionId}
               className='react-select-container'
               classNamePrefix="react-select"
-            />
+            /> 
+           
             <Select
               styles={{
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150,
-                  marginRight:10
+                  width: 150
                 }),
                 control: base => ({
                   ...base,
@@ -271,10 +275,10 @@ class ReportbyServiceYear extends Component {
                 }),
 
               }}
-              placeholder="Designation"
-              options={this.state.designation}
-              onChange={this.handleSelectedDesignation}
-              value={this.state.designationId}
+              placeholder="Department"
+              options={this.state.department}
+              onChange={this.handleSelectedDepartment}
+              value={this.state.departmentId}
               className='react-select-container'
               classNamePrefix="react-select"
             />
@@ -284,7 +288,7 @@ class ReportbyServiceYear extends Component {
                   ...base,
                   //   flex: 1
                   width: 150,
-                  marginRight:10
+                marginLeft:10
                 }),
                 control: base => ({
                   ...base,
@@ -292,20 +296,17 @@ class ReportbyServiceYear extends Component {
                 }),
 
               }}
-              placeholder="Employee ID"
-              options={this.state.employeeList}
-              onChange={this.handleSelectedEmpId}
-              value={this.state.empId}
+              placeholder="Employee Name"
+              options={this.state.EmployeeNameList}
+              onChange={this.handleSelectedEmployeeName}
+              value={this.state.selectedEmployeeName}
               className='react-select-container'
               classNamePrefix="react-select"
             />
-           <input type="value"  placeholder="Employee Name" className="form-control input-md" style={{width:150,marginRight:10}} value={this.state.name} />
-             
-            
             
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
             </div>
-           
+            
             <table width="99%"
                     className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
                     id="dataTables-table"
@@ -315,4 +316,4 @@ class ReportbyServiceYear extends Component {
         )
     }
 }
-    export default ReportbyServiceYear;
+    export default LateReportByEmployee;

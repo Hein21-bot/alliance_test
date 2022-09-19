@@ -108,6 +108,9 @@ import LateCheckInReport from './Attendance Report/LateCheckInReport';
 import HolidayAttendanceReport from './Attendance Report/HolidayAttendanceReport';
 import EarlyCheckOutReport from './Attendance Report/EarlyCheckOutReport';
 import WeeklyAttendanceReport from './Attendance Report/WeeklyAttendanceReport';
+import ImcompleteAndMissingReport from './Attendance Report/ImcompleteAndMissingReport';
+import LateReportByEmployee from './Attendance Report/LateReportByEmployee';
+import AbsenceReport from './Attendance Report/AbsenceReport';
 
 
 const Main = () => (
@@ -220,6 +223,10 @@ const Main = () => (
         <Route path='/holiday_attendance_report' component={HolidayAttendanceReport}></Route>
         <Route path='/early_checkout_report' component={EarlyCheckOutReport}></Route>
         <Route path='/weekly_attendance_report' component={WeeklyAttendanceReport}></Route>
+        <Route path='/incomplete_and_missing_report' component={ImcompleteAndMissingReport}></Route>
+        <Route path='/late_reportby_employee' component={LateReportByEmployee}></Route>
+        <Route path='/absence_report' component={AbsenceReport}></Route>
+
 
         <Redirect to="/dashboard" />
 
