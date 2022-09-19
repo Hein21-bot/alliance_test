@@ -8872,9 +8872,21 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child::
   text-align: center;
   background-color: #efefef;
   margin: 0 !important;
-  height: 140px;
+
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
+}
+/* .react-datepicker__month:has(div:nth-child(5):last-child){
+  height: 140px;
+}
+.react-datepicker__month:has(div:nth-child(6):last-child){
+  height: 160px;
+} */
+/* .react-datepicker__month:nth-child(-n+5){
+  height: 140px;
+} */
+.react-datepicker__month:nth-child(-n+6){
+  padding-bottom: 15px;
 }
 .react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header {
   margin-top: 0;
@@ -9049,3 +9061,4 @@ table.dataTable thead tr {
   #Layer_1{
     fill: #ffffff;
   }
+  

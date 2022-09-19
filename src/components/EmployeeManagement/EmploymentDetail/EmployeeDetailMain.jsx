@@ -255,12 +255,11 @@ class EmployeeDetailMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        let lists = list.unshift({ branch_id: 0, branch_name: 'All' })
+        let lists = list.unshift({ value: 0, label: 'All' })
         this.setState({
           branchlist: list.map((v) => ({
             ...v,
-            label: v.branch_name,
-            value: v.branch_id,
+           
           })),
         });
       });
@@ -733,7 +732,7 @@ class EmployeeDetailMain extends Component {
         ? selectedEmployeeId.label.trim()
         : null,
       designation: selected_designation ? selected_designation.value : null,
-      branch: selected_branch ? parseInt(selected_branch.branch_id) : null,
+      branch: selected_branch ? parseInt(selected_branch.value) : null,
       deparment: selected_department
         ? selected_department.departments_id
         : null,
