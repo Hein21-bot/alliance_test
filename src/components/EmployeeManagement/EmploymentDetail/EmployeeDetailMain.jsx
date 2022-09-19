@@ -524,7 +524,7 @@ class EmployeeDetailMain extends Component {
         ? selectedEmployeeId.label.trim()
         : null,
       designation: selected_designation ? selected_designation.value : null,
-      branch: selected_branch ? parseInt(selected_branch.branch_id) : null,
+      branch: selected_branch ? parseInt(selected_branch.value) : null,
       department: selected_department
         ? selected_department.departments_id
         : null,
@@ -696,6 +696,7 @@ class EmployeeDetailMain extends Component {
   }
 
   handleUpdatData = (e) => {
+    console.log(this.state.selected_branch.value)
     e.preventDefault();
     const {
       selected_status,
