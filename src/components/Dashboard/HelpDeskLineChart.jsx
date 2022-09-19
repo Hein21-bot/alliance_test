@@ -70,6 +70,7 @@ class HelpDeskLineChart extends Component {
     handleSelectedBranch = async (event) => {
         let data = this.state.id
         data.branchId = event
+        console.log(data)
         this.setState({
             id: data
         })

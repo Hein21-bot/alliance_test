@@ -121,7 +121,7 @@ class ReportbyServiceYear extends Component {
         })
     }
     handleSearchData = (regionId,date,designationId,branchId,empId) => {
-        fetch(`${main_url}report/employeeReportServiceYear/${this.state.regionId  ? this.state.regionId.value : 0}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.designationId ? this.state.designationId.value :0 }/${this.state.empId ?this.state.empId.name :0 }/${this.state.date}`)
+        fetch(`${main_url}report/employeeReportServiceYear/${this.state.regionId  ? this.state.regionId.value : 0}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.designationId ? this.state.designationId.value :0 }/${this.state.empId ?this.state.empId.value :0 }/${this.state.date}`)
         .then(res => { if (res.ok) return res.json() })
           .then(list => { console.log(list)
             // let data=list
