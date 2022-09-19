@@ -439,7 +439,7 @@ class EmployeeDetailMain extends Component {
       : 0}/${this.state.selected_department
         ? this.state.selected_department.departments_id
         : 0}/${this.state.selected_branch
-          ? this.state.selected_branch.branch_id
+          ? this.state.selected_branch.value
           : 0}/${this.state.selected_designation
             ? this.state.selected_designation.value
             : 0}/${this.state.selected_status
