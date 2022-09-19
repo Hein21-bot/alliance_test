@@ -255,12 +255,11 @@ class EmployeeDetailMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        let lists = list.unshift({ branch_id: 0, branch_name: 'All' })
+        let lists = list.unshift({ value: 0, label: 'All' })
         this.setState({
           branchlist: list.map((v) => ({
             ...v,
-            label: v.branch_name,
-            value: v.branch_id,
+            
           })),
         });
       });
@@ -308,7 +307,7 @@ class EmployeeDetailMain extends Component {
             selectedEmployeeId: data.map((v) => ({ user_id: v.user_id, label: v.employment_id, value: v.employment_id }))[0],
             employeeName: data[0].employee_name,
             selected_designation: this.state.designationList.find((c) => c.value == data[0].designations_id),//
-            selected_branch: this.state.branchlist.find((c) => parseInt(c.branch_id) === (data[0].branch_name ? parseInt(data[0].branch_name) : data[0].branch_name)),
+            selected_branch: this.state.branchlist.find((c) => parseInt(c.value) === (data[0].label ? parseInt(data[0].label) : data[0].label)),
             selected_department: this.state.departmentlist.find((c) => c.departments_id == data[0].departments_id),
             selected_status: this.state.statusList.find((v) => v.value === parseInt(data[0].employee_status)),
             selected_exit_status: this.state.exitStatusList.find((v) => v.id === parseInt(data[0].exit_status == null ? 0 : data[0].exit_status)),
@@ -569,7 +568,8 @@ class EmployeeDetailMain extends Component {
   };
 
   goToEditForm = (data) => {
-
+    console.log("branch list",this.state.branchlist)
+    console.log("data",data)
     this.setState({
       selectedEmploymentData: data,
       edit: true,
@@ -584,11 +584,7 @@ class EmployeeDetailMain extends Component {
       selected_designation: this.state.designationList.find(
         (c) => c.label == data.designation_name
       ), //
-      selected_branch: this.state.branchlist.find(
-        (c) =>
-          parseInt(c.branch_id) ==
-          data.branch_id
-      ),
+      selected_branch: this.state.branchlist.filter(v=>v.label== data.branch_name),
       selected_department: this.state.departmentlist.find(
         (v) => v.label == data.deptname
       ),
@@ -659,11 +655,7 @@ class EmployeeDetailMain extends Component {
       selected_designation: this.state.designationList.find(
         (c) => c.label == data.designation_name
       ), //
-      selected_branch: this.state.branchlist.find(
-        (c) =>
-          parseInt(c.branch_id) ==
-          data.branch_id
-      ),
+      selected_branch: this.state.branchlist.filter(v=>v.label== data.branch_name),
       selected_department: this.state.departmentlist.find(
         (v) => v.label == data.deptname
       ),
@@ -733,7 +725,7 @@ class EmployeeDetailMain extends Component {
         ? selectedEmployeeId.label.trim()
         : null,
       designation: selected_designation ? selected_designation.value : null,
-      branch: selected_branch ? parseInt(selected_branch.branch_id) : null,
+      branch: selected_branch ? parseInt(selected_branch.value) : null,
       deparment: selected_department
         ? selected_department.departments_id
         : null,
