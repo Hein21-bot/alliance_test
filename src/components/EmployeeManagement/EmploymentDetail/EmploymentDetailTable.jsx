@@ -136,25 +136,25 @@ export default class BenefitChildTable extends Component {
             }
             if (has_action) {
 
-                if (result.status !== 3) {
+                // if (result.status !== 3) {
                     obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
                     obj.action += permission.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
-                } else {
-                    obj.action = permission.isView === 1 ?
-                        '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+                // } else {
+                //     obj.action = permission.isView === 1 ?
+                //         '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
 
-                    if (result.print === 1) {
-                        obj.action +=
-                            '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-                            JSON.stringify(result) +
-                            '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
-                    } else {
-                        obj.action +=
-                            '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-                            JSON.stringify(result) +
-                            '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
-                    }
-                }
+                //     if (result.print === 1) {
+                //         obj.action +=
+                //             '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                //             JSON.stringify(result) +
+                //             '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
+                //     } else {
+                //         obj.action +=
+                //             '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                //             JSON.stringify(result) +
+                //             '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
+                //     }
+                // }
             }
 
             l.push(obj)

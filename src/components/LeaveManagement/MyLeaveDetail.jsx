@@ -27,7 +27,7 @@ export default class MyLeaveDetail extends Component {
       .then((data) => this.setState({ leaveDetail: data }));
   }
 
-  render() {
+  render() { 
     let casualLeaveBalance = this.state.leaveDetail != null &&
       parseFloat(this.state.leaveDetail[0].leave[0].leave_quota)
     let casualLeaveCount = this.state.leaveDetail != null &&
@@ -125,11 +125,11 @@ export default class MyLeaveDetail extends Component {
         casualLeaveCount +
         maternityCount +
         paternityCount +
-        earnedLeaveCount +
+        earnedLeaveCount1 +
         medicalCount +
         compassionateCount +
         leaveWithoutPay;
-
+        console.log("><><><><>total",casualLeaveCount,maternityCount,paternityCount,earnedLeaveCount1,medicalCount,compassionateCount,leaveWithoutPay)
       const totalLeaveCount = casualLeaveBalance + 120 + 10 + earnedLeaveCount + 30 + 5 + 90;
 
       return (
