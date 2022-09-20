@@ -89,6 +89,7 @@ class HoStaffReport extends Component {
                         total += subTotal;
                     })
                     collectedTotal[i1] = total;
+                    console.log("collected total",collectedTotal[i1])
                     middleTotal+=collectedTotal[i1];
                 });
                 finalTotal=middleTotal+headcollectedTotal
@@ -97,7 +98,7 @@ class HoStaffReport extends Component {
                 this.setState({
                     listTotal: collectedTotal,
                     headlistTotal:headcollectedTotal,
-                    data: list,
+                    data: totalList,
                     headData:headData,
                     head:head,
                     FinalHeadTotal:finalHeadTotal,
@@ -151,7 +152,7 @@ class HoStaffReport extends Component {
                             <>
 
                                 {state.designations.filter(d => d.designations != "CEO" && d.designations != "CFO" && d.designations != "COO").map((designation, i) => {
-
+                                    console.log("list total",this.state.listTotal[k],k)
                                     return (
                                         <>
 
