@@ -899,7 +899,8 @@ class EmployeeDetailMain extends Component {
       career_level,
       career_sub_level,
       tableEdit,
-      tableView
+      tableView,
+      salaryList
     } = this.state;
     if (this.state.loading == true) {
       return <div style={{ display: 'flex', justifyContent: 'center' }}><h2>Loading...</h2></div>
@@ -1075,6 +1076,7 @@ class EmployeeDetailMain extends Component {
               <EmploymentViewForm
                 singleView={singleView}
                 view={view}
+                salaryList={salaryList}
                 selectedEmployeeId={selectedEmployeeId}
                 level_options={level_options}
                 sub_level_options={sub_level_options}
@@ -1122,7 +1124,7 @@ class EmployeeDetailMain extends Component {
               {addNew || edit || tableEdit ? (
                 <EmploymentForm
                   edit={edit}
-
+                  salaryList={salaryList}
                   selectedEmployeeId={selectedEmployeeId}
                   level_options={level_options}
                   sub_level_options={sub_level_options}

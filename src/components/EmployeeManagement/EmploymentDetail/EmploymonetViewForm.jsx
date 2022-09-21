@@ -8,12 +8,12 @@ import moment from 'moment';
 
 
 const EmploymentViewForm = props => {
-    const { handleAddFormInputChange, selectedEmployeeId, exitStatusList, selected_exit_status, disConStatusList, selected_disCon_status, handleSelectedDisConStatus, jobList, selected_job, handleSelectedJob, handleSelectedExitStatus, handleSelectedEmployeeId, employeeIdList, handleLevelSelectorChange, career_level, career_sub_level, level_options, sub_level_options, submitAddForm, handleUpdatData, tableView, employeeName, statusList, handleFormCancel, resignReason, handleSelectedBranch, disconDate, handleSelectedDeaprtment, effectiveDate, salary, branchlist, selected_branch, departmentlist, selected_department, handleSelectedDesignation, designationList, selected_designation, actualDate, selected_status, handleSelectedStatus, employedDate, view, salaryPermission } = props
+    const { handleAddFormInputChange, selectedEmployeeId, exitStatusList, selected_exit_status, disConStatusList, selected_disCon_status, handleSelectedDisConStatus, jobList, selected_job,salaryList, handleSelectedJob, handleSelectedExitStatus, handleSelectedEmployeeId, employeeIdList, handleLevelSelectorChange, career_level, career_sub_level, level_options, sub_level_options, submitAddForm, handleUpdatData, tableView, employeeName, statusList, handleFormCancel, resignReason, handleSelectedBranch, disconDate, handleSelectedDeaprtment, effectiveDate, salary, branchlist, selected_branch, departmentlist, selected_department, handleSelectedDesignation, designationList, selected_designation, actualDate, selected_status, handleSelectedStatus, employedDate, view, salaryPermission } = props
     let department = selected_designation != null && departmentlist.filter(v => v.departments_id == selected_designation.departments_id)[0]
 
 
     let name = employeeName == null ? '' : employeeName
-    let temp_salary = salary == null ? 0 : salary
+    // let temp_salary = salary == null ? 0 : salary
     return (
         <form >
             <div className='white-bg ' style={{ paddingTop: 20, border: '1px solid lightgrey', display: 'grid', marginTop: 10, paddingBottom: 20, boxShadow: '5px 5px 5px lightgrey' }}>
@@ -205,7 +205,7 @@ const EmploymentViewForm = props => {
                                     Salary
                                 </div>
                                 <div className='col-lg-7  col-md-5'>
-                                    <input type='number' placeholder='' name="salary" isDisabled value={temp_salary} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
+                                    <input type='number' placeholder='' name="salary" isDisabled value={salary == null ? salaryList.filter(v=>v.career_sub_level == career_sub_level.career_sub_level_id)[0].basic_salary : salary} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
                                 </div>
                             </div> : ((career_sub_level ? career_sub_level.career_sub_level_id : null) > 20) ? null :
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
@@ -213,7 +213,7 @@ const EmploymentViewForm = props => {
                                         Salary
                                     </div>
                                     <div className='col-lg-7  col-md-5'>
-                                        <input type='number' placeholder='' name="salary" isDisabled value={temp_salary} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
+                                        <input type='number' placeholder='' name="salary" isDisabled value={salary == null ? salaryList.filter(v=>v.career_sub_level == career_sub_level.career_sub_level_id)[0].basic_salary : salary} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
                                     </div>
                                 </div>}
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
