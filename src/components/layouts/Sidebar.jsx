@@ -385,7 +385,7 @@ export default class Sidebar extends Component {
               </li>
 
 
-              <li
+              {/* <li
                 className={
                   this.checkPathName() === "/leave_management" ? "active" : ""
                 }
@@ -394,7 +394,7 @@ export default class Sidebar extends Component {
                   <i className="far fa-sticky-note sideIcon"></i>
                   <span className="sideText">Leave</span>
                 </a>
-              </li>
+              </li> */}
 
 
               <li
