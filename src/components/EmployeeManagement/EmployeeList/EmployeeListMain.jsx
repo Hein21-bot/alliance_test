@@ -220,12 +220,10 @@ class EmployeeListMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        let lists = list.unshift({ branch_id: 0, branch_name: "All" });
+        let lists = list.unshift({ value: 0, label: "All" });
         this.setState({
           branchlist: list.map((v) => ({
-            ...v,
-            label: v.branch_name,
-            value: v.branch_id,
+            ...v
           })),
         });
       });
@@ -362,7 +360,7 @@ class EmployeeListMain extends Component {
       `${main_url}employee/getEmployeeList/${this.state.selected_region ? this.state.selected_region.state_id : 0}/${this.state.selected_department
         ? this.state.selected_department.departments_id
         : 0}/${this.state.selected_branch
-          ? this.state.selected_branch.branch_id
+          ? this.state.selected_branch.value
           : 0}/${this.state.selected_designation
             ? this.state.selected_designation.value
             : 0}/${this.state.selected_status
@@ -433,10 +431,10 @@ class EmployeeListMain extends Component {
     this.setState({
       detailForm: true,
       selectedEmployeeData: data,
-      isTable : false,
-      isView : false,
-      isEdit : false,
-      isAddNew : false,
+      isTable: false,
+      isView: false,
+      isEdit: false,
+      isAddNew: false,
     });
   };
 
@@ -446,29 +444,29 @@ class EmployeeListMain extends Component {
     } else {
       return (
         <div className=" border-bottom white-bg dashboard-header">
-          { this.state.isAddNew ||this.state.isView || this.state.isEdit || this.state.isTable ?  (
+          {this.state.isAddNew || this.state.isView || this.state.isEdit || this.state.isTable ? (
             <>
-          <ToastContainer position={toast.POSITION.TOP_RIGHT} />
-          <div className="row wrapper border-bottom white-bg page-heading">
-            <div className="col-lg-12">
-              <ol className="breadcrumb">
-                <li style={{ fontSize: 18 }}>Employee</li>
-                <li className="active" style={{ fontSize: 18 }}>
-                  <a href="#">List</a>
-                </li>
-                {this.state.viewForm && (
-                  <li className="active">
-                    <a href="#">View</a>
-                  </li>
-                )}
-                {this.state.editForm && (
-                  <li className="active">
-                    <a href="#">Edit</a>
-                  </li>
-                )}
-              </ol>
-            </div>
-          </div> </>) : null}
+              <ToastContainer position={toast.POSITION.TOP_RIGHT} />
+              <div className="row wrapper border-bottom white-bg page-heading">
+                <div className="col-lg-12">
+                  <ol className="breadcrumb">
+                    <li style={{ fontSize: 18 }}>Employee</li>
+                    <li className="active" style={{ fontSize: 18 }}>
+                      <a href="#">List</a>
+                    </li>
+                    {this.state.viewForm && (
+                      <li className="active">
+                        <a href="#">View</a>
+                      </li>
+                    )}
+                    {this.state.editForm && (
+                      <li className="active">
+                        <a href="#">Edit</a>
+                      </li>
+                    )}
+                  </ol>
+                </div>
+              </div> </>) : null}
           {this.state.viewForm ? (
             <EmployeeListView
               selectedEmployeeData={this.state.selectedEmployeeData}
