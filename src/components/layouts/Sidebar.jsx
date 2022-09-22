@@ -587,7 +587,7 @@ export default class Sidebar extends Component {
                 </a>
               </li>
 
-              <li
+              {/* <li
                 className={
                   this.checkPathName() === "/staff_loan" ? "active" : ""
                 }
@@ -621,7 +621,7 @@ export default class Sidebar extends Component {
                     </a>
                   </li>
                 </ul>
-              </li>
+              </li> */}
 
 
               {/* <li
