@@ -361,7 +361,7 @@ class EmployeeListMain extends Component {
       `${main_url}employee/getEmployeeList/${this.state.selected_region ? this.state.selected_region.state_id : 0}/${this.state.selected_department
         ? this.state.selected_department.departments_id
         : 0}/${this.state.selected_branch
-          ? this.state.selected_branch.branch_id
+          ? this.state.selected_branch.value
           : 0}/${this.state.selected_designation
             ? this.state.selected_designation.value
             : 0}/${this.state.selected_status
@@ -403,7 +403,7 @@ class EmployeeListMain extends Component {
       ? this.state.selected_department.departments_id
       : 0;
     const branchId = this.state.selected_branch
-      ? this.state.selected_branch.branch_id
+      ? this.state.selected_branch.value
       : 0;
     const designId = this.state.selected_designation
       ? this.state.selected_designation.value
