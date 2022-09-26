@@ -27,15 +27,13 @@ export default class BenefitChildTable extends Component {
             selectedRequest: '',
             is_main_role: getMainRole(),
             branchlist: [],
-            jobList: props.jobList
-
+            jobList: props.jobList,
         }
     }
 
     componentDidMount() {
-        this.getBranchList()
+        this.getBranchList();
         this.$el = $(this.el);
-
         this.setState({
             dataSource: this.props.data
         }, () => {
@@ -77,12 +75,11 @@ export default class BenefitChildTable extends Component {
             this.setState({
                 dataSource: this.props.data
             }, () => {
-                this._setTableData(this.state.dataSource);
-
+                this._setTableData(this.state.dataSource)
             })
         }
     }
-
+  
     getBranchList() {
         fetch(`${main_url}benefit/getBranchList`)
             .then((res) => {
@@ -116,6 +113,7 @@ export default class BenefitChildTable extends Component {
         for (var i = 0; i < data.length; i++) {
             let result = data[i];
             let obj = [];
+          
             obj = {
                 no: i + 1,
                 employee_id: data[i].emp_id ? data[i].emp_id : '',
@@ -129,8 +127,9 @@ export default class BenefitChildTable extends Component {
                 job_title: data[i].job_title ? this.state.jobList.filter(d => d.id == data[i].job_title)[0].job_title : '',
                 carrer_level: data[i].career_level_name ? data[i].career_level_name : '',
                 carrer_sub_level: data[i].career_sub_level_name ? data[i].career_sub_level_name : '',
-                // salary: data[i].salary ? data[i].salary : '',
-                salary: this.props.salaryPermission.length > 0 ? data[i].salary ? data[i].salary : '' : data[i].career_sub_level > 20 ? 'Not Available' : data[i].salary ? data[i].salary : '',
+                // salary: data[i].salary ? data[i].salary : '', .length > 0 ? (dta > 20 ? (data ==0 ? ('data is 0") : ("data")) : ()) : ()
+                salary: this.props.salaryPermission.length > 0 ? data[i].salary ? data[i].salary : this.props.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0] ? this.props.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0].basic_salary: ''
+                : data[i].career_sub_level > 20 ? 'Not Available' : data[i].salary ? data[i].salary : this.props.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0].basic_salary,
                 department: data[i].deptname ? data[i].deptname : '',
                 discon_status: data[i].discontinute_status ? data[i].discontinute_status == 0 ? 'False' : 'True' : 'False',
                 discon_date: data[i].discontinute_date ? moment(data[i].discontinute_date).format('YYYY-MM-DD') : '',
@@ -162,7 +161,7 @@ export default class BenefitChildTable extends Component {
             }
 
             l.push(obj)
-
+        
         }
 
         if ($.fn.dataTable.isDataTable('#dataTables-table')) {
@@ -236,7 +235,7 @@ export default class BenefitChildTable extends Component {
     }
 
 
-    render() {
+    render() { 
         return (
             <div>
                 <table width="99%"
