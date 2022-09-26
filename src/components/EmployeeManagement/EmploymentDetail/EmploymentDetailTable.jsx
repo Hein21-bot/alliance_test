@@ -96,6 +96,10 @@ export default class BenefitChildTable extends Component {
 
     search(status) {
         let data = this.state.dataSource;
+        // data.sort(data[1].createdAt);
+        // for (let key in data){
+        //     console.log("dayaaa",key)
+        // }
         data = data.filter(d => { return status === d.status });
         this._setTableData(data)
     }
@@ -103,13 +107,13 @@ export default class BenefitChildTable extends Component {
 
 
     _setTableData = (data) => {
+        data.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
         var table;
         var l = [];
         var status;
         var permission = this.props.permission;
         var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
         for (var i = 0; i < data.length; i++) {
-           
             let result = data[i];
             let obj = [];
             obj = {
