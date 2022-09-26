@@ -53,9 +53,9 @@ class ThingsTodoTable extends Component {
     thingsToDoController.getSalaryRequest(id, data => {
       this.setState({ salaryCount: data.count })
     });
-    // thingsToDoController.getTravelRequest(id, data => {
-    //   this.setState({ travelCount: data.count })
-    // });
+    thingsToDoController.getTravelRequest(id, data => {
+      this.setState({ travelCount: data.count })
+    });
     thingsToDoController.getWeddingRequest(id, data => {
       this.setState({ weddingCount: data.count })
     });
