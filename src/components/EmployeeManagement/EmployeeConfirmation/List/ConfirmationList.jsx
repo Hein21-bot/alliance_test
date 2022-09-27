@@ -192,7 +192,7 @@ class ConfirmationList extends Component {
       ? this.state.selected_region.state_id
       : 0;
     const branchId = this.state.selected_branch
-      ? this.state.selected_branch.branch_id
+      ? this.state.selected_branch.value
       : 0;
     const departmentId = this.state.selected_department
       ? this.state.selected_department.departments_id
@@ -235,12 +235,11 @@ class ConfirmationList extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        let lists = list.unshift({ branch_id: 0, branch_name: "All" });
+        let lists = list.unshift({ value: 0, label: "All" });
         this.setState({
           branchlist: list.map((v) => ({
             ...v,
-            label: v.branch_name,
-            value: v.branch_id,
+            
           })),
         });
       });
@@ -263,22 +262,6 @@ class ConfirmationList extends Component {
       });
   }
 
-  // getRegionList() {
-  //   fetch(`${main_url}benefit/getRegionList`)
-  //     .then((res) => {
-  //       if (res.ok) return res.json();
-  //     })
-  //     .then((list) => {
-  //       let lists = list.unshift({ state_id: 0, state_name: "All" });
-  //       this.setState({
-  //         regionList: list.map((v) => ({
-  //           ...v,
-  //           label: v.state_name,
-  //           value: v.state_id,
-  //         })),
-  //       });
-  //     });
-  // }
   getRegionList() {
     fetch(`${main_url}benefit/getRegionList`)
       .then(res => { if (res.ok) return res.json() })
@@ -339,7 +322,7 @@ class ConfirmationList extends Component {
   };
 
   handleSelectedBranch = (event) => {
-    console.log("event==>",event.map(v=>v.branch_id))
+   
     if (event !== null){
       this.setState({
         selected_branch: event,
@@ -372,7 +355,7 @@ class ConfirmationList extends Component {
       })
       .then((list) => {
         this.setState({
-          titleList: list.map((v) => ({ ...v, label: v.name, value: v.value })),
+          titleList: list.map((v) => ({ ...v})),
         });
       });
   }
