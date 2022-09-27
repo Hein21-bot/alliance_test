@@ -54,7 +54,6 @@ class HoStaffReport extends Component {
                 let totalList = list.filter(d=>d.deptname !="Head Department");
                 let HeadDepartment = list;
                 let headData = HeadDepartment.filter(d => d.deptname == 'Head Department')
-               
                 let head = headData.reduce((p,c)=>{
                     let result = p;
                     if(p == null){
@@ -65,8 +64,9 @@ class HoStaffReport extends Component {
                     
                     return result
                 }, null);
-                console.log("head",head)
-                
+                let temp = head.designations[2];
+                head.designations[2] = head.designations[0];
+                head.designations[0] = temp;
                 let headcollectedTotal=[];
                 let finalHeadTotal=0;
                 let finalTotal=0;
@@ -136,7 +136,9 @@ class HoStaffReport extends Component {
                                 return(
                                     <>
                                         <tr style={{textAlign:'center'}}>
-                                            <td colSpan={2}>{designation.designations}</td>
+                                            <td colSpan={2}>
+                                                <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>{designation.designations}</div>
+                                            </td>
                                             <td >{(designation.gender[0].toLowerCase() == "male" && designation.gender.length == 2) ? designation.gender[1] : (designation.gender.length == 4) ? designation.gender[3] : "-"}</td>
                                                 <td > {designation.gender[0].toLowerCase() == "female" ? designation.gender[1] : "-"}</td>
                                                 {i==-0 ? <td  rowSpan={3}>{this.state.headCollectedTotal}</td> : null}

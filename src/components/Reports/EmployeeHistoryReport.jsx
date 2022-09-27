@@ -33,6 +33,7 @@ class HistoryReport extends Component {
             empId: null,
             empName: null,
             employeeName: null,
+            selectedEmployeeName:null,
             empProfile: []
         }
     }
@@ -63,7 +64,7 @@ class HistoryReport extends Component {
             region: region.map(v => ({ ...v, label: v.state_name, value: v.state_id })),
             // empNameList:empNameList
         })
-        this.handleSearchData();
+       
     }
     getEmployeeList() {
         fetch(`${main_url}main/getEmployeeWithDesignation/0`)
@@ -113,8 +114,10 @@ class HistoryReport extends Component {
         }, () => { console.log("region>>>>", this.state.regionId) })
     }
     handleSelectedName = async (event) => {
+        console.log("selected name",event)
         this.setState({
             employeeName: event,
+            selectedEmployeeName:event.label
         })
     }
     handleSelectedDepartment = async (event) => {
@@ -124,7 +127,7 @@ class HistoryReport extends Component {
             })
     }
     handleSearchData = () => {
-        fetch(`${main_url}report/historyReport/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.depId ? this.state.depId.value : 0}/${this.state.empId ? this.state.empId.label : 0}/${this.state.empName ? this.state.empName : 0}`)
+        fetch(`${main_url}report/historyReport/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.depId ? this.state.depId.value : 0}/${this.state.empId ? this.state.empId.label : 0}/${this.state.selectedEmployeeName ? this.state.selectedEmployeeName : 0}`)
             .then(res => { if (res.ok) return res.json() })
             .then(list => {
                 // let data=list
