@@ -93,7 +93,7 @@ export default class BenefitChildTable extends Component {
     let designations = await getDesignation();
     designations.unshift({ label: "All", value: 0 });
     let region = await getRegion();
-    region.unshift({ region_name: "All", region_id: 0 });
+    region.unshift({ state_name: "All", state_id: 0 });
     let branch = await getBranch();
     branch.unshift({ label: 'All', vlaue: 0 });
     let department = await getDepartment();
@@ -101,7 +101,7 @@ export default class BenefitChildTable extends Component {
     this.setState({
       branch: branch,
       department: department,
-      region: region.map(v => ({ ...v, label: v.region_name, value: v.region_id })),
+      region: region.map(v => ({ ...v, label: v.state_name, value: v.state_id })),
       level: level,
       designations: designations,
 
@@ -184,7 +184,7 @@ export default class BenefitChildTable extends Component {
   //   this.getEmployeeList()
   // }
   handleSearchData = (branchId, departmentId, regionId, levelStatus, designationId) => {
-    fetch(`${main_url}confirmation/getConfirmationdata/${getCookieData("user_info").user_id}/${getCookieData("user_info").user_id}/${branchId.value == undefined ? 0 : branchId.value}/${departmentId.value == undefined ? 0 : departmentId.value}/${regionId.region_id == undefined ? 0 : regionId.region_id}/${levelStatus.value == undefined ? 0 : levelStatus.value}/${designationId.value == undefined ? 0 : designationId.value}`)
+    fetch(`${main_url}confirmation/getConfirmationdata/${getCookieData("user_info").user_id}/${getCookieData("user_info").user_id}/${branchId.value == undefined ? 0 : branchId.value}/${departmentId.value == undefined ? 0 : departmentId.value}/${regionId.state_id == undefined ? 0 : regionId.state_id}/${levelStatus.value == undefined ? 0 : levelStatus.value}/${designationId.value == undefined ? 0 : designationId.value}`)
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
         if (list) {
@@ -346,7 +346,7 @@ export default class BenefitChildTable extends Component {
   }
 
 
-  render() {
+  render() { console.log(".>>>>>>",this.state.regionId)
     return (
       <div>
         <div className="row  white-bg dashboard-header">
