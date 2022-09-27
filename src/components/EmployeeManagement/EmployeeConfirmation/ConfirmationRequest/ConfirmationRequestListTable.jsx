@@ -82,7 +82,7 @@ export default class ConfirmationRequestListTable extends Component {
     let designations = await getDesignation();
     designations.unshift({ label: "All", value: 0 });
     let region = await getRegion();
-    region.unshift({ region_name: "All", region_id: 0 });
+    region.unshift({ state_name: "All", state_id: 0 });
     let branch = await getBranch();
     branch.unshift({ label: 'All', vlaue: 0 });
     let department = await getDepartment();
@@ -90,7 +90,8 @@ export default class ConfirmationRequestListTable extends Component {
     this.setState({
       branch: branch,
       department: department,
-      region: region.map(v => ({ ...v, label: v.region_name, value: v.region_id })),
+      region: region.map(v => ({ ...v, label: v.state_name, value: v.state_id
+      })),
       level: level,
       designations: designations,
     })
@@ -365,7 +366,7 @@ export default class ConfirmationRequestListTable extends Component {
   };
 
   render() {
-    console.log('salary list is =====>', this.props.salaryList)
+    console.log('salary list is =====>', this.state.region)
     return (
       <div>
         <div className="row  white-bg dashboard-header">
