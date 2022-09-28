@@ -196,7 +196,7 @@ class EmployeeReport extends Component {
           branch: data[i].branch_name ? data[i].branch_name : "-",
           phone_no: data[i].phone ? data[i].phone : "-",
           designation: data[i].designations ? data[i].designations : "-",
-          employee_date: moment(data[i].employ_date).format("YYYY-MM-DD") ? moment(data[i].employ_date).format("YYYY-MM-DD") : "-",
+          employee_date:data[i].employ_date == null ? "-": moment(data[i].employ_date).format("YYYY-MM-DD"),
           region: data[i].region_name ? data[i].region_name : "-",
           martial_status: data[i].martial_status ? data[i].martial_status : '-',
           contact_person: data[i].contact_person ? data[i].contact_person : '-',
@@ -237,21 +237,22 @@ class EmployeeReport extends Component {
         responsive: true,
         pageLength: 50,
         paging: true,
-        //     // buttons: true,
+            buttons: true,
         dom: 'Bfrtip',
-        //     // buttons: [
+         buttons: [
         //     //     'copy', 'csv', 'excel', 'pdf'
-        //     // ],
+        'excel'
+         ],
         buttons: [
           //         // 'copy',
           //         // {
           //         //         extend: 'csvHtml5',
           //         //         title: 'Child Benefit',
           //         // },
-          //         // {
-          //         //     extend: 'excelHtml5',
-          //         //     title: 'Child Benefit',
-          //         // },
+          {
+              extend: 'excelHtml5',
+              title: 'Child Benefit',
+          },
           //         // {
           //         //     extend: 'pdfHtml5',
           //         //     title: 'Child Benefit',

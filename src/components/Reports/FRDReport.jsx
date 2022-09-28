@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { main_url } from '../../utils/CommonFunction';
 import DatePicker from 'react-datetime';
 import moment from "moment";
-
+import ReactHTMLTableToExcel from "react-html-table-to-excel"
 class FRDReport extends Component {
 
     constructor(props) {
@@ -103,7 +103,7 @@ class FRDReport extends Component {
         return (
             <div>
                 <div className="row  white-bg dashboard-header">
-                  <h3 className="" style={{paddingLeft:"5px"}}>Staff Information</h3>
+                  <h3 className="" style={{paddingLeft:"5px"}}>FRD Report</h3>
                 <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 0px' }}>
                 <DatePicker
                   dateFormat="DD/MM/YYYY"
@@ -114,7 +114,14 @@ class FRDReport extends Component {
            <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
                 </div>
                 <div>
-                <table className="table table-bordered">
+                    <ReactHTMLTableToExcel 
+                    className="btn-excel"
+                    table="FRD_report"
+                    filename="FRD Report"
+                    buttonText="Excel"
+                    sheet="Sheet"
+                    />
+                <table className="table table-bordered" id="FRD_report">
                     <thead>
                         
                         <tr style={{ backgroundColor: 'blue', color: 'white' }}>

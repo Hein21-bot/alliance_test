@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { main_url } from '../../utils/CommonFunction';
-
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 class BranchStaffReport extends Component {
 
     constructor(props) {
@@ -84,7 +84,14 @@ class BranchStaffReport extends Component {
             <div>
                 <div className="row  white-bg dashboard-header">
                   <h3 className="">Branch Staff Report</h3>
-                <table className="table table-bordered">
+                  <ReactHTMLTableToExcel 
+                    className="btn-excel"
+                    table="branch_staff"
+                    filename="Branch Staff Report"
+                    buttonText="Excel"
+                    sheet="Sheet"
+                    />
+                <table className="table table-bordered" id="branch_staff">
                     <thead>
                         <tr style={{ backgroundColor: '#27568a', color: 'white' }}>
                             <th style={{ width: 100, textAlign: 'center',borderColor:'white' }}>Branch</th>

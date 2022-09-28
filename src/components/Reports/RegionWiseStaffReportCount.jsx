@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { main_url } from '../../utils/CommonFunction';
-
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 class RegionWiseStaffReportCount extends Component {
 
     constructor(props) {
@@ -98,8 +98,15 @@ class RegionWiseStaffReportCount extends Component {
 
         return (
             <div style={{overflowX:'auto'}}>
-                <h3 className="">RegionWiseStaff Report</h3>
-                <table className="table table-bordered" style={{overflow:'scroll'}}>
+                <h3 className="">Region Wise Staff Count Report</h3>
+                <ReactHTMLTableToExcel 
+                    className="btn-excel"
+                    table="reg_wise_staff"
+                    filename="Region Wise Staff Report"
+                    buttonText="Excel"
+                    sheet="Sheet"
+                    />
+                <table className="table table-bordered" id="reg_wise_staff" style={{overflow:'scroll'}}>
                     <thead>
                         <tr style={{ backgroundColor: 'blue', color: 'white',overflow:'scroll' }}>
                             <th style={{textAlign:'center',width:100}} rowSpan={2}><div style={{width:100}}>Region</div></th>
