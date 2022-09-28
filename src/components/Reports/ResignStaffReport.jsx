@@ -213,19 +213,20 @@ class ResignStaffReport extends Component {
             paging: true,
         //     // buttons: true,
             dom: 'Bfrtip',
-        //     // buttons: [
+       buttons: [
         //     //     'copy', 'csv', 'excel', 'pdf'
-        //     // ],
+        'excel'
+         ],
             buttons: [
         //         // 'copy',
         //         // {
         //         //         extend: 'csvHtml5',
         //         //         title: 'Child Benefit',
         //         // },
-        //         // {
-        //         //     extend: 'excelHtml5',
-        //         //     title: 'Child Benefit',
-        //         // },
+         {
+             extend: 'excelHtml5',
+             title: 'Child Benefit',
+         },
         //         // {
         //         //     extend: 'pdfHtml5',
         //         //     title: 'Child Benefit',
