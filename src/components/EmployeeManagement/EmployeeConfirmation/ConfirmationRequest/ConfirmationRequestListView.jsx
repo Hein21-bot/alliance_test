@@ -28,6 +28,8 @@ const ConfirmationRequestListView = (props) => {
     extension_comment,
     recommendation,
     status,
+    state_name,
+    location_master_name,
     date,
     target_achievement,
     recommend_level,
@@ -195,7 +197,7 @@ const ConfirmationRequestListView = (props) => {
                 >
                   <div className="col-lg-5 col-md-5 col-sm-5">Branch</div>
                   <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-                  <div className="col-lg-5 col-md-5 col-sm-5">{branch_name}</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">{location_master_name}</div>
                 </div>
               </div>
               <div
@@ -216,7 +218,7 @@ const ConfirmationRequestListView = (props) => {
                 >
                   <div className="col-lg-5 col-md-5 col-sm-5">Region</div>
                   <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-                  <div className="col-lg-5 col-md-5 col-sm-5">{region_name}</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">{state_name}</div>
                 </div>
               </div>
               <div
@@ -344,7 +346,7 @@ const ConfirmationRequestListView = (props) => {
                     Last Promotion Date
                   </div>
                   <div className="col-lg-2 col-md-2 col-sm-2">:</div>
-                  <div className="col-lg-5 col-md-5 col-sm-5">{moment(promotion_date).format('DD-MM-YYYY')}</div>
+                  <div className="col-lg-5 col-md-5 col-sm-5">{promotion_date ? moment(promotion_date).format('DD-MM-YYYY') : '-'}</div>
                 </div>
               </div>
               <div

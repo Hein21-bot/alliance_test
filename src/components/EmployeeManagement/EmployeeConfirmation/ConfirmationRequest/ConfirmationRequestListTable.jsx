@@ -272,8 +272,8 @@ export default class ConfirmationRequestListTable extends Component {
             ? data[i].career_sub_level
             : "-",
           department: data[i].deptname ? data[i].deptname : "-",
-          branch: data[i].branch_name ? data[i].branch_name : "-",
-          region: data[i].region_name ? data[i].region_name : "-",
+          branch: data[i].location_master_name ? data[i].location_master_name : "-",
+          region: data[i].state_name ? data[i].state_name : "-",
           employ_date: data[i].employ_date ? moment(data[i].employ_date).format('DD-MM-YYYY') : "-",
           promotion_date: data[i].promotion_date ? moment(data[i].promotion_date).format("DD-MM-YYYY") : "-",
           date: moment(result.createdAt).format("DD-MM-YYYY"),
