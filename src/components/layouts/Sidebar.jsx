@@ -343,7 +343,7 @@ export default class Sidebar extends Component {
 
               <li
                 className={
-                  this.checkPathName() === "/employee_management"
+                  this.checkPathName() === "/employee_management"||this.checkPathName() === "/reports" || pathname == "/EmployeeDirectory"|| pathname === "/ResignStaffReport" || pathname === "/RegionStaffReport" || pathname === "/BranchStaffReport" || pathname === "/HoStaffReport" || pathname === "/EmployeeReport" || pathname === "/ReportbyServiceYear" || pathname === "/HistoryReport" || pathname === "/FRDReport" || pathname === "/ExtensionReport" || pathname === "/RegionWiseStaffReportCount"  
                     ? "active"
                     : " "
                 }
@@ -364,11 +364,62 @@ export default class Sidebar extends Component {
                   >
                     <a href="/employment_details">Employment Details</a>
                   </li>
-
+                  <li className={this.checkPathName() === "/reports" || pathname == "/EmployeeDirectory"|| pathname === "/ResignStaffReport" || pathname === "/RegionStaffReport" || pathname === "/BranchStaffReport" || pathname === "/HoStaffReport" || pathname === "/EmployeeReport" || pathname === "/ReportbyServiceYear" || pathname === "/HistoryReport" || pathname === "/FRDReport" || pathname === "/ExtensionReport" || pathname === "/RegionWiseStaffReportCount"   ? "active" : " "}>
+                    <a href="/reports" className="sideText">Employee Related Reports</a>
+                    <ul className="nav nav-third-level collapse">
+                  <li
+                    className={pathname === "/EmployeeReport" ? "active" : ""}
+                  >
+                    <a href="/EmployeeReport">Employee Report</a>
+                  </li>
+                  <li
+                    className={pathname === "/ReportbyServiceYear" ? "active" : ""}
+                  >
+                    <a href="/ReportbyServiceYear">Employee Report by Service Year</a>
+                  </li>
+                  <li
+                    className={pathname === "/HistoryReport" ? "active" : ""}
+                  >
+                    <a href="/HistoryReport"> Employee History Report</a>
+                  </li>
+                  <li
+                    className={pathname === "/EmployeeDirectory" ? "active" : ""}
+                  >
+                    <a href="/EmployeeDirectory">Employee Directory Reoprt</a>
+                  </li>
+                  <li className={pathname === "/HoStaffReport" ? "active" : ""}>
+                    <a href="/HoStaffReport">Ho Staff Report</a>
+                  </li>
+                  <li className={pathname === "/BranchStaffReport" ? "active" : ""}>
+                    <a href="/BranchStaffReport">Branch Staff Report</a>
+                  </li>
+                  <li className={pathname === "/RegionStaffReport" ? "active" : ""}>
+                    <a href="/RegionStaffReport">Regional Staff Report</a>
+                  </li>
+                  <li
+                    className={pathname === "/FRDReport" ? "active" : ""}
+                  >
+                    <a href="/FRDReport">FRD Report</a>
+                  </li>
+                  <li className={pathname === "/ResignStaffReport" ? "active" : ""}>
+                    <a href="/ResignStaffReport">Resign Staff Report</a>
+                  </li>
+                  <li
+                    className={pathname === "/ExtensionReport" ? "active" : ""}
+                  >
+                    <a href="/ExtensionReport">Extension Report</a>
+                  </li>
+                  <li
+                    className={pathname === "/RegionWiseStaffReportCount" ? "active" : ""}
+                  >
+                    <a href="/RegionWiseStaffReportCount">Region Wise Staff Count Report</a>
+                  </li>
+                </ul>
+                  </li>
                 </ul>
               </li>
 
-              <li
+              {/* <li
                 className={this.checkPathName() === "/reports" || pathname === "/EmployeeDirectory" || pathname === "/ResignStaffReport" || pathname === "/RegionStaffReport" || pathname === "/BranchStaffReport" || pathname === "/HoStaffReport" || pathname === "/EmployeeReport" || pathname === "/ReportbyServiceYear" || pathname === "/HistoryReport" || pathname === "/FRDReport" || pathname === "/ExtensionReport" || pathname === "/RegionWiseStaffReportCount" ? "active" : ""}
               >
                 <a href="/EmployeeDirectory" className="sideList">
@@ -424,7 +475,7 @@ export default class Sidebar extends Component {
                     <a href="/RegionWiseStaffReportCount">Region Wise Staff Count Report</a>
                   </li>
                 </ul>
-              </li>
+              </li> */}
 
               <li
                 className={

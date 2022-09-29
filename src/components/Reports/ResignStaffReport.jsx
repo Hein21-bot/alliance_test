@@ -1,11 +1,13 @@
 import React,{Component} from "react";
 import Select from 'react-select' ;
-import {main_url} from '../../utils/CommonFunction';
+import {main_url,getFirstDayOfMonth} from '../../utils/CommonFunction';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css';
 import 'datatables.net-dt/css/jquery.dataTables.css'
 import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 import 'jspdf-autotable';
+import DatePicker from 'react-datetime';
+import moment from "moment";
 import { region } from "caniuse-lite";
 const $ = require('jquery');
 const jzip = require('jzip');
@@ -29,7 +31,9 @@ class ResignStaffReport extends Component {
            selected_branch:null,
            designationList:null,
            selected_designation:null,
-           exitStatusList: null,           
+           exitStatusList: null, 
+           s_date:moment(getFirstDayOfMonth()),
+           e_date:moment(),           
         }
     }
     
@@ -118,6 +122,16 @@ class ResignStaffReport extends Component {
             designationList: list
           });
         });
+    }
+    handleStartDate = async (event) => {
+      this.setState({
+        s_date:event
+      })
+    }
+    handleEndDate = async (event) => {
+      this.setState({
+        e_date:event
+      })
     }
     handleSelectedBranch = async (event) => {
         this.setState({
@@ -244,6 +258,22 @@ class ResignStaffReport extends Component {
             <div className="row  white-bg dashboard-header">
            <h3 className="" style={{paddingLeft:"10px"}}>Resign Staff Report</h3>
               <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
+              {/* <div style={{width:150,marginRight:10}}>
+               <DatePicker
+                  placeholder="Start Date"
+                  dateFormat="DD/MM/YYYY"
+                  value={this.state.s_date}
+                  onChange={this.handleStartDate}
+                  timeFormat={false}
+                  /></div>
+              <div style={{width:150,marginRight:10,borderRadius:8}}>
+                <DatePicker
+                  placeholder="End Date"
+                  dateFormat="DD/MM/YYYY"
+                  value={this.state.e_date}
+                  onChange={this.handleEndDate}
+                   timeFormat={false}          
+                  /></div> */}
               <Select
               styles={{
                 container: base => ({

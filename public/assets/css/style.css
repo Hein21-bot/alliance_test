@@ -250,6 +250,10 @@ ul.nav-second-level {
   padding-left: 52px;
 }
 .nav-third-level li a {
+  padding: 7px 10px 7px 10px;
+  padding-left: 72px;
+}
+.nav-third-level li a {
   padding-left: 62px;
 }
 .nav-second-level li:last-child {
