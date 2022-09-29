@@ -102,10 +102,11 @@ class HistoryReport extends Component {
         console.log("empName List====>",this.state.empNameList.filter(v=>v.value==event.value))
         this.setState({
             empId: event,
-           
             employeeName: this.state.empNameList.filter(v => v.value == event.value),
-
-        }, () => { console.log("name>>>>>", this.state.empId) })
+            
+        }, 
+        // () => { console.log("name>>>>>",this.state.empId.value,this.state.employeeName.value) }
+        )
     }
 
     handleSelectedRegion = async (event) => {
@@ -116,11 +117,12 @@ class HistoryReport extends Component {
         }, () => { console.log("region>>>>", this.state.regionId) })
     }
     handleSelectedName = async (event) => {
-        console.log("selected name",event)
+        console.log("selected name",event.label)
         this.setState({
             employeeName: event,
-            selectedEmployeeName:event.label
-        })
+            empId: this.state.employeeList.filter(v => v.value == event.value)[0],
+            selectedEmployeeName:event
+        },()=>{console.log("listnaem",this.state.employeeName.value,this.state.empId.value)})
     }
     handleSelectedDepartment = async (event) => {
         if (event != null)
@@ -129,7 +131,7 @@ class HistoryReport extends Component {
             })
     }
     handleSearchData = () => {
-        fetch(`${main_url}report/historyReport/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.depId ? this.state.depId.value : 0}/${this.state.empId ? this.state.empId.label : 0}/${this.state.selectedEmployeeName ? this.state.selectedEmployeeName : 0}`)
+        fetch(`${main_url}report/historyReport/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.depId ? this.state.depId.value : 0}/${this.state.empId ? this.state.empId.value: 0}`)
             .then(res => { if (res.ok) return res.json() })
             .then(list => {
                 // let data=list
