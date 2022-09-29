@@ -24,6 +24,18 @@ class BranchStaffReport extends Component {
             })
             .then((list) => {
                 let totalList = list;
+                let prepSortedList = [];
+                prepSortedList['Branch Manager']=1;
+                prepSortedList['DBM']=2;
+                prepSortedList['Sr Manager']=3
+                prepSortedList['Field Executive']=4;
+                prepSortedList['Recovery Officer']=5
+                prepSortedList['Client Officer']=6;
+                prepSortedList['Senior Client Officer']=7;
+                prepSortedList['FOX']=8;
+                prepSortedList['Senior BA / Cashier']=9;
+                prepSortedList['Security']=10;
+                prepSortedList['Cleaner']=11;
                 let collectedTotal = [];
                 let finalTotal=0;
                 let finalMaleTotal=0;
@@ -32,12 +44,25 @@ class BranchStaffReport extends Component {
                     let total=0;
                     v1.designations.forEach(v2=>{
                         let maleSubTotal=(v2.gender[0] !=null && v2.gender[0].toLowerCase() == "male" && v2.gender.length == 2) ? v2.gender[1] : (v2.gender.length == 4) ? v2.gender[3] : 0
-                        console.log("malesubtotal===>",maleSubTotal)
+                      
                         total +=maleSubTotal;
                         
                     })
+
+                    v1.designations.sort((a,b)=>{
+                        let v1 = prepSortedList[a.designations];
+                        let v2 = prepSortedList[b.designations];
+                        if(!v1){
+                            v1 = 10
+                        }
+                        if(!v2){
+                            v2 = 10
+                        }
+                        
+                        return v1-v2;
+                    });
                     finalMaleTotal+= total;
-                    console.log("final male total===>",finalMaleTotal)
+                   
 
                 })
                 totalList.forEach((v1,i1)=>{
@@ -55,9 +80,9 @@ class BranchStaffReport extends Component {
                     let total = 0;
                     v1.designations.forEach(v2 => {
                         let subTotal = v2.gender.filter(v => typeof v == "number").reduce((p, c) => { return p + c }, 0);
-                        // console.log("sub total ====>", subTotal)
+                        
                         total +=subTotal;
-                        // console.log("total===>",total)
+                       
                     })
                     collectedTotal[i1] = total;
                    finalTotal+=collectedTotal[i1]

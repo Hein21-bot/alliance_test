@@ -62,7 +62,7 @@ class HistoryReport extends Component {
             branch: branch,
             department: department,
             region: region.map(v => ({ ...v, label: v.state_name, value: v.state_id })),
-            // empNameList:empNameList
+           
         })
        
     }
@@ -70,7 +70,7 @@ class HistoryReport extends Component {
         fetch(`${main_url}main/getEmployeeWithDesignation/0`)
             .then(res => res.json())
             .then(data => {
-                // const all = data.map(v => (v.employment_id).trim())
+             
                 this.setState({
                     employeeList: data.map(v => ({ ...v, label: v.employment_id, value: v.value, name: v.label })),
                     // allEmployeeID: all
@@ -98,11 +98,13 @@ class HistoryReport extends Component {
         })
     }
     handleSelectedEmpId = async (event) => {
-
+        console.log("event=======>",event)
+        console.log("empName List====>",this.state.empNameList.filter(v=>v.value==event.value))
         this.setState({
             empId: event,
-            empName: event.name,
-            empNameList: this.state.empNameList.filter(v => v.value == event.value)
+           
+            employeeName: this.state.empNameList.filter(v => v.value == event.value),
+
         }, () => { console.log("name>>>>>", this.state.empId) })
     }
 
@@ -325,7 +327,6 @@ class HistoryReport extends Component {
                                 placeholder="Employee Name"
                                 options={this.state.empNameList}
                                 onChange={this.handleSelectedName}
-                                type="value"
                                 value={this.state.employeeName}
                                 className='react-select-container'
                                 classNamePrefix="react-select"
