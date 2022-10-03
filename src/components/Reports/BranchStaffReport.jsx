@@ -53,10 +53,10 @@ class BranchStaffReport extends Component {
                         let v1 = prepSortedList[a.designations];
                         let v2 = prepSortedList[b.designations];
                         if(!v1){
-                            v1 = 10
+                            v1 = 13
                         }
                         if(!v2){
-                            v2 = 10
+                            v2 = 13
                         }
                         
                         return v1-v2;

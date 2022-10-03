@@ -175,7 +175,7 @@ class ConfirmationList extends Component {
         .then((list) => {
           this.setState({
             confirmationListData: list,loading:false
-          });
+          },()=>{console.log("list>>>>>>",this.state.confirmationListData)});
         });
     }
   }
@@ -391,8 +391,8 @@ class ConfirmationList extends Component {
       career_sub_level: data.career_sub_level ? data.career_sub_level : "-",
       department: data.deptname ? data.deptname : "-",
       branch_id: data.branch_id ? data.branch_id : '-',
-      branch: data.branch_name ? data.branch_name : "-",
-      region: data.region_name ? data.region_name : "-",
+      branch: data.location_master_name? data.location_master_name : "-",
+      region: data.state_name ? data.state_name : "-",
       employee_date: data.employee_date ? moment(data.employee_date).format('DD-MM-YYYY') : "-",
       promotion_date: data.promotion_date
         ? data.promotion_date
@@ -551,8 +551,8 @@ class ConfirmationList extends Component {
           career_sub_level: v.career_sub_level ? v.career_sub_level : "-",
           department: v.deptname ? v.deptname : "-",
           branch_id: v.branch_id ? v.branch_id : '-',
-          branch: v.branch_name ? v.branch_name : "-",
-          region: v.region_name ? v.region_name : "-",
+          branch: v.location_master_name ? v.location_master_name : "-",
+          region: v.state_name ? v.state_name : "-",
           employee_date: v.employee_date ? moment(v.employee_date).format('DD-MM-YYYY') : "-",
           promotion_date: v.promotion_date
             ? v.promotion_date
