@@ -144,6 +144,7 @@ function calculationDate1(startDate, endDate) {
     } else {
         days = days + 1
     }
+    console.log('datys is ===========>', days)
     return days;
 }
 
