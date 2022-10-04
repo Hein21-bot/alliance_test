@@ -534,6 +534,7 @@ class LeaveManagementEdit extends Component {
 
 
     render() {
+        console.log('data is ===========>', this.props.data)
         let leave_left = this.state.leaveDetail != null && this.state.leaveDetail[0].leave.filter(v => v.leave_category_id == parseInt(this.state.selectedCategory.value == undefined ? this.props.data.leave_category_id : this.state.selectedCategory.value))
         this.state.max_days = leave_left.length != 0 && leave_left[0] != undefined && leave_left[0].leave_quota - leave_left[0].leave_count
         return (
@@ -574,8 +575,8 @@ class LeaveManagementEdit extends Component {
                             <div className="col-sm-8">
                                 <input
                                     type="text"
-                                    className="form-control checkValidate"
-                                    value={this.state.max_days}
+                                    className="form-control"
+                                    value={this.props.data.leave_category_id == 11 ? this.props.data.leave_days : this.state.max_days}
                                     disabled
                                 >
                                 </input>
@@ -704,14 +705,14 @@ class LeaveManagementEdit extends Component {
                                         id="reason"
                                         cols="30"
                                         rows="5"
-                                        className="form-control checkValidate"
+                                        className="form-control"
                                         value={this.props.data.reason}
                                         disabled
                                     ></textarea>
                                 }
                             </div>
                         </div>
-                        {this.props.data.user_id != this.state.user_info.user_id ?
+                        {this.props.data.leave_category_id != 11 ? this.props.data.user_id != this.state.user_info.user_id ?
                             < div className="form-group">
                                 <div><label className="col-sm-4">Comments</label></div>
                                 <div className="col-sm-8">
@@ -741,7 +742,7 @@ class LeaveManagementEdit extends Component {
                                     >
                                     </textarea>
                                 </div>
-                            </div>}
+                            </div> : ''}
                         {this.state.data.user_id == this.state.user_info.user_id ? <div className="form-group">
                             <div><label htmlFor="attachment" className="col-sm-4">Attachment</label></div>
                             <div className="col-sm-8">
@@ -795,23 +796,8 @@ class LeaveManagementEdit extends Component {
                     </div>
                     <div className="mt20">
 
-                        {this.state.data.user_id == this.state.user_info.user_id ?
-                            <div className="row">
-                                <div className="col-sm-4  btn-rightend ">
-                                    {
-                                        <button className="btn btn-success" style={{ fontSize: 11, cursor: 'pointer' }} onClick={() => this.save()} ><span><i class="far fa-thumbs-up" style={{ paddingRight: '5px' }} ></i>Save</span></button>
-                                    }
-                                </div>
-                            </div> :
-                            <div className="row" style={{ display: 'flex', justifyContent: 'center' }}>
-
-                                <div className="col-sm-4 " style={{}}>
-                                    {(this.props.data.application_status == 8 || this.props.data.application_status == 1 && this.props.data.verify_by == this.state.user_info.user_id == false) || (this.props.data.application_status == 2 && this.props.data.approve_by == this.state.user_info.user_id == false) || (this.props.data.application_status == 3 || (this.props.data.approved_date != null && this.props.data.application_status == 9)) || this.props.data.application_status == 4 || this.props.data.application_status == 5 || (this.props.data.previous_status == 2 && this.props.data.verify_by == this.state.user_info.user_id == true && this.props.data.verify_by != this.props.data.approve_by) ?
-                                        <button className="btn" style={{ fontSize: 11, cursor: 'pointer', backgroundColor: "#cc0066", color: "white" }} onClick={() => this.referBackSave()} disabled><span><i class="fas fa-times" style={{ paddingRight: '5px' }}></i>Refer Back</span></button>
-                                        :
-                                        <button className="btn" style={{ fontSize: 11, cursor: 'pointer', backgroundColor: "#cc0066", color: "white" }} onClick={() => this.referBackSave()}><span><i class="fas fa-times" style={{ paddingRight: '5px' }}></i>Refer Back</span></button>
-                                    }
-                                </div>
+                        {this.props.data.leave_category_id == 11 ?
+                            <div className="row" style={{ display: 'flex', justifyContent: 'flex-end' }}>
                                 <div className="col-sm-4 " >
                                     {this.props.data.application_status == 8 || (this.props.data.application_status > 5 ? this.props.data.verify_date != null : this.props.data.application_status != 1) || this.props.data.verify_by == this.state.user_info.user_id == false || (this.props.data.previous_status == 2 && this.props.data.application_status == 9) ?
                                         <button className="btn btn-success" style={{ fontSize: 11, cursor: 'pointer' }} onClick={() => this.verifySave()} disabled><span><i class="far fa-thumbs-up" style={{ paddingRight: '5px' }} ></i>Verified</span></button> :
@@ -824,22 +810,52 @@ class LeaveManagementEdit extends Component {
                                         <button className="btn btn-success" style={{ fontSize: 11, cursor: 'pointer' }} onClick={() => this.approvedSave()}><span><i class="far fa-thumbs-up" style={{ paddingRight: '5px' }}></i>Approved</span></button>
                                     }
                                 </div>
-                                <div className="col-sm-4 " style={{}}>
-                                    {this.props.data.application_status == 8 || (this.props.data.application_status == 1 && this.props.data.verify_by == this.state.user_info.user_id == false) || (this.props.data.application_status < 6 ? this.props.data.application_status == 3 : (this.props.data.approved_date != null && this.props.data.application_status == 9)) || this.props.data.application_status == 4 || this.props.data.application_status == 5 || (this.props.data.application_status == 2 && this.props.data.approve_by == this.state.user_info.user_id == false) || (this.props.data.previous_status == 2 && this.props.data.verify_by == this.state.user_info.user_id == true && this.props.data.verify_by != this.props.data.approve_by) ?
-                                        <button className="btn btn-danger" style={{ fontSize: 11, cursor: 'pointer' }} onClick={() => this.rejectSave()} disabled><span><i class="fas fa-times" style={{ paddingRight: '5px' }}></i>Reject</span></button>
-                                        :
-                                        <button className="btn btn-danger" style={{ fontSize: 11, cursor: 'pointer' }} onClick={() => this.rejectSave()}><span><i class="fas fa-times" style={{ paddingRight: '5px' }}></i>Reject</span></button>
-                                    }
-                                </div>
-                                <div className="col-sm-4 " style={{}}>
+                            </div>
+                            : this.state.data.user_id == this.state.user_info.user_id ?
+                                <div className="row">
+                                    <div className="col-sm-4  btn-rightend ">
+                                        {
+                                            <button className="btn btn-success" style={{ fontSize: 11, cursor: 'pointer' }} onClick={() => this.save()} ><span><i class="far fa-thumbs-up" style={{ paddingRight: '5px' }} ></i>Save</span></button>
+                                        }
+                                    </div>
+                                </div> :
+                                <div className="row" style={{ display: 'flex', justifyContent: 'center' }}>
 
-                                    {(this.props.data.application_status == 3 || (this.props.data.approved_date != null && this.props.data.application_status == 9)) && this.state.user_info.user_id == this.state.data.approve_by && (this.props.data.leave_category_id == 1 || this.props.data.leave_category_id == 5) ?
-                                        <button className="btn btn-success" style={{ fontSize: 11, cursor: 'pointer' }} onClick={() => this.approvedSave()} ><span><i class="far fa-thumbs-up" style={{ paddingRight: '5px' }} ></i>Edit</span></button> :
-                                        <button className="btn btn-success" style={{ fontSize: 11, cursor: 'pointer' }} onClick={() => this.approvedSave()} disabled><span><i class="far fa-thumbs-up" style={{ paddingRight: '5px' }} ></i>Edit</span></button>
-                                    }
-                                </div>
+                                    <div className="col-sm-4 " style={{}}>
+                                        {(this.props.data.application_status == 8 || this.props.data.application_status == 1 && this.props.data.verify_by == this.state.user_info.user_id == false) || (this.props.data.application_status == 2 && this.props.data.approve_by == this.state.user_info.user_id == false) || (this.props.data.application_status == 3 || (this.props.data.approved_date != null && this.props.data.application_status == 9)) || this.props.data.application_status == 4 || this.props.data.application_status == 5 || (this.props.data.previous_status == 2 && this.props.data.verify_by == this.state.user_info.user_id == true && this.props.data.verify_by != this.props.data.approve_by) ?
+                                            <button className="btn" style={{ fontSize: 11, cursor: 'pointer', backgroundColor: "#cc0066", color: "white" }} onClick={() => this.referBackSave()} disabled><span><i class="fas fa-times" style={{ paddingRight: '5px' }}></i>Refer Back</span></button>
+                                            :
+                                            <button className="btn" style={{ fontSize: 11, cursor: 'pointer', backgroundColor: "#cc0066", color: "white" }} onClick={() => this.referBackSave()}><span><i class="fas fa-times" style={{ paddingRight: '5px' }}></i>Refer Back</span></button>
+                                        }
+                                    </div>
+                                    <div className="col-sm-4 " >
+                                        {this.props.data.application_status == 8 || (this.props.data.application_status > 5 ? this.props.data.verify_date != null : this.props.data.application_status != 1) || this.props.data.verify_by == this.state.user_info.user_id == false || (this.props.data.previous_status == 2 && this.props.data.application_status == 9) ?
+                                            <button className="btn btn-success" style={{ fontSize: 11, cursor: 'pointer' }} onClick={() => this.verifySave()} disabled><span><i class="far fa-thumbs-up" style={{ paddingRight: '5px' }} ></i>Verified</span></button> :
+                                            <button className="btn btn-success" style={{ fontSize: 11, cursor: 'pointer' }} onClick={() => this.verifySave()} ><span><i class="far fa-thumbs-up" style={{ paddingRight: '5px' }} ></i>Verified</span></button>
+                                        }
+                                    </div>
+                                    <div className="col-sm-4 " style={{ paddingRight: '20px' }}>
+                                        {(this.props.data.application_status > 5 ? (this.props.data.previous_status == 1 || this.props.data.previous_status == 3 && this.props.data.application_status == 9) : this.props.data.application_status !== 2) || this.props.data.approve_by == this.state.user_info.user_id == false ?
+                                            <button className="btn btn-success" style={{ fontSize: 11, cursor: 'pointer' }} onClick={() => this.approvedSave()} disabled><span><i class="far fa-thumbs-up" style={{ paddingRight: '5px' }}></i>Approved</span></button> :
+                                            <button className="btn btn-success" style={{ fontSize: 11, cursor: 'pointer' }} onClick={() => this.approvedSave()}><span><i class="far fa-thumbs-up" style={{ paddingRight: '5px' }}></i>Approved</span></button>
+                                        }
+                                    </div>
+                                    <div className="col-sm-4 " style={{}}>
+                                        {this.props.data.application_status == 8 || (this.props.data.application_status == 1 && this.props.data.verify_by == this.state.user_info.user_id == false) || (this.props.data.application_status < 6 ? this.props.data.application_status == 3 : (this.props.data.approved_date != null && this.props.data.application_status == 9)) || this.props.data.application_status == 4 || this.props.data.application_status == 5 || (this.props.data.application_status == 2 && this.props.data.approve_by == this.state.user_info.user_id == false) || (this.props.data.previous_status == 2 && this.props.data.verify_by == this.state.user_info.user_id == true && this.props.data.verify_by != this.props.data.approve_by) ?
+                                            <button className="btn btn-danger" style={{ fontSize: 11, cursor: 'pointer' }} onClick={() => this.rejectSave()} disabled><span><i class="fas fa-times" style={{ paddingRight: '5px' }}></i>Reject</span></button>
+                                            :
+                                            <button className="btn btn-danger" style={{ fontSize: 11, cursor: 'pointer' }} onClick={() => this.rejectSave()}><span><i class="fas fa-times" style={{ paddingRight: '5px' }}></i>Reject</span></button>
+                                        }
+                                    </div>
+                                    <div className="col-sm-4 " style={{}}>
 
-                            </div>}
+                                        {(this.props.data.application_status == 3 || (this.props.data.approved_date != null && this.props.data.application_status == 9)) && this.state.user_info.user_id == this.state.data.approve_by && (this.props.data.leave_category_id == 1 || this.props.data.leave_category_id == 5) ?
+                                            <button className="btn btn-success" style={{ fontSize: 11, cursor: 'pointer' }} onClick={() => this.approvedSave()} ><span><i class="far fa-thumbs-up" style={{ paddingRight: '5px' }} ></i>Edit</span></button> :
+                                            <button className="btn btn-success" style={{ fontSize: 11, cursor: 'pointer' }} onClick={() => this.approvedSave()} disabled><span><i class="far fa-thumbs-up" style={{ paddingRight: '5px' }} ></i>Edit</span></button>
+                                        }
+                                    </div>
+
+                                </div>}
                     </div>
                 </div>
 

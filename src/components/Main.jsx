@@ -1,5 +1,5 @@
 import React from 'react';
-import {browserHistory} from 'react-router';
+import { browserHistory } from 'react-router';
 import { Redirect, Route, Switch } from 'react-router-dom';
 //staff loan
 import ApplyForm from '../components/Allowance/StaffLoan/ApplyForm';
@@ -112,6 +112,11 @@ import ImcompleteAndMissingReport from './Attendance Report/ImcompleteAndMissing
 import LateReportByEmployee from './Attendance Report/LateReportByEmployee';
 import AbsenceReport from './Attendance Report/AbsenceReport';
 
+import AttendanceType from './Attendance/AttendanceType'
+import AttendanceHistory from './Attendance/AttendanceHistory'
+import HolidayAttendance from './Attendance/HolidayAttendance'
+import AttendanceReportMonthly from './Attendance/AttendanceReport'
+
 
 const Main = () => (
     <Switch>
@@ -183,7 +188,7 @@ const Main = () => (
         <Route path='/attendance_leave_report' component={AttendanceAndLeaveReport} />
 
         <Route path='/leave_management' component={LeaveManagementMain} />
-        
+
         <Route path="/employee_management" component={EmployeeListMain}></Route>
         <Route path="/employee_register" component={EmployeeRegisterMain}></Route>
         <Route path="/employment_details" component={EmploymentDetails}></Route>
@@ -193,12 +198,12 @@ const Main = () => (
         <Route path="/confirmation_list" component={ConfirmationList}></Route>
         <Route path="/confirmation_request_list" component={ConfirmationRequestList}></Route>
         <Route path="/confirmation_approve_list" component={ConfirmationRequestList}></Route>
-        
-        <Route path='/EmployeeReport' component={EmployeeReport} ></Route>
-        
-        
 
-        <Route path='/dashboard'  component={Dashboard} ></Route>
+        <Route path='/EmployeeReport' component={EmployeeReport} ></Route>
+
+
+
+        <Route path='/dashboard' component={Dashboard} ></Route>
         <Route path='/reports' component={EmployeeDirectory}></Route>
         <Route path='/HoStaffReport' component={HoStaffReport} />
         <Route path='/EmployeeDirectory' component={EmployeeDirectory} ></Route>
@@ -226,6 +231,11 @@ const Main = () => (
         <Route path='/incomplete_and_missing_report' component={ImcompleteAndMissingReport}></Route>
         <Route path='/late_reportby_employee' component={LateReportByEmployee}></Route>
         <Route path='/absence_report' component={AbsenceReport}></Route>
+
+        <Route path='/attendance_type' component={AttendanceType}></Route>
+        <Route path='/attendance_history' component={AttendanceHistory}></Route>
+        <Route path='/holiday_attendance' component={HolidayAttendance}></Route>
+        <Route path='/attendance_report_monthly' component={AttendanceReportMonthly}></Route>
 
 
         <Redirect to="/dashboard" />

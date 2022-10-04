@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactDatePicker, { CalendarContainer } from 'react-datepicker'
+import { main_url } from "../../utils/CommonFunction";
 import "react-datepicker/dist/react-datepicker.css";
 import { getDate, format } from 'date-fns'
 import * as dateFns from 'date-fns'
@@ -20,8 +21,25 @@ export class AttendanceCaldendar extends Component {
         super(props);
         this.state = {
             startDate: new Date(),
-            modalData: {}
+            modalData: {},
+            att_data: [],
+            cal_data: []
         }
+    }
+
+    componentDidMount() {
+        this.getAttendanceData()
+    }
+
+    getAttendanceData() {
+        fetch(`${main_url}attendance/attendanceCalendar/1110/2022-09-20/2022-09-30`)
+            .then(res => { if (res.ok) return res.json() })
+            .then(list => {
+                this.setState({
+                    att_data: list,
+                    cal_data: list.finalData
+                })
+            })
     }
 
     setModalData = (data) => {
@@ -31,23 +49,16 @@ export class AttendanceCaldendar extends Component {
     }
 
     renderDayContents = (day, date) => {
-        // console.log('calendar date => ', moment(date).format('DD-MM-YYYY'))
-        // console.log('data is ==> ', data.map(V=> ( moment(V.date).format('DD-MM-YYYY'))), moment((date)).format('DD-MM-YYYY'))
         const highlight = data.filter(v => v.date == moment(date).format('MM-DD-YYYY'))
-        
-        console.log("highligt=====>",highlight)
-        console.log(getDate(date),date)
 
-        // console.log('highlight data ==> ', highlight, data.map(v => v.date), moment(date).format('MM-DD-YYYY'))
         const tooltipText = `<div style="color:red">Tooltip for date: ${date}</div>`;
         return (
             <>
                 <div onClick={() => this.setModalData(highlight)} data-toggle={highlight.length > 0 && "modal"} data-target={highlight.length > 0 && "#leave-detail-modal"} style={{ border: highlight.length > 0 && '1px solid red', padding: '0px 2px', borderRadius: 50, minWidth: 29, minHeight: 29, paddingTop: 5, width: 29, height: 29 }}>
                     {getDate(date)}
-                    {'2022-09-15'==format(date,'yyyy-MM-dd') ? <div style={{width:5,height:5,borderRadius:'50%',backgroundColor:'red',marginLeft:10}}></div> : ''}
-                    {'2022-09-17'==format(date,'yyyy-MM-dd') ? <div style={{width:5,height:5,borderRadius:'50%',backgroundColor:'blue',marginLeft:10}}></div> : ''}
+                    {this.state.cal_data.length > 0 && this.state.cal_data.map(v => v.date == format(date, 'yyyy-MM-dd') && v.attendanceStatus == 'Attendance' ? <div style={{ width: 5, height: 5, borderRadius: '50%', backgroundColor: primary, marginLeft: 10 }}></div> : v.date == format(date, 'yyyy-MM-dd') && v.attendanceStatus == 'Leave' ? <div style={{ width: 5, height: 5, borderRadius: '50%', backgroundColor: secondary, marginLeft: 10 }}></div> : v.date == format(date, 'yyyy-MM-dd') && v.attendanceStatus == 'Absence' ? <div style={{ width: 5, height: 5, borderRadius: '50%', backgroundColor: darky, marginLeft: 10 }}></div> : '')}
                 </div>
-                
+
                 {
                     highlight.length > 0 &&
                     <span className="white-bg" style={{ fontSize: 12, color: 'red', position: 'relative', top: -35, left: 8, fontWeight: 'bold', borderRadius: '15px' }}>
@@ -59,9 +70,7 @@ export class AttendanceCaldendar extends Component {
     };
 
     render() {
-
         const { modalData } = this.state;
-        // console.log('modalData ===>', modalData)
         const MyContainer = ({ className, children }) => {
             return (
                 <div style={{ color: "#fff", fontSize: 14, width: '100%' }}>
@@ -136,7 +145,7 @@ export class AttendanceCaldendar extends Component {
                         style={{ width: '50%' }}
                         calendarContainer={MyContainer}
                         formatWeekDay={nameOfDay => nameOfDay.substr(0, 3)}
-                        
+
                     />
                 </div>
                 <div className="col-md-7 col-lg-7 col-sm-7" style={{ padding: 0, display: 'flex', alignItems: 'center' }}>
@@ -170,30 +179,30 @@ export class AttendanceCaldendar extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className=" col-lg-4" style={{padding:0  }}>
-                        <div className="row" style={{height:30}}></div>
-                        <div className="row" style={{ margin: '5px 0px 0px 5px'}}>
-                        <div style={{ display: 'flex', width: '100%' }}>
-                            <div style={{ width: '20px', height: '20px', borderRadius: '5px', backgroundColor: darky, marginRight: 5 }}>
+                    <div className=" col-lg-4" style={{ padding: 0 }}>
+                        <div className="row" style={{ height: 30 }}></div>
+                        <div className="row" style={{ margin: '5px 0px 0px 5px' }}>
+                            <div style={{ display: 'flex', width: '100%' }}>
+                                <div style={{ width: '20px', height: '20px', borderRadius: '5px', backgroundColor: darky, marginRight: 5 }}>
+                                </div>
+                                <p style={{ fontSize: '10px', marginTop: 2 }}>Absense</p>
                             </div>
-                            <p style={{ fontSize: '10px', marginTop: 2 }}>Absense</p>
-                        </div>
-                        <div style={{ display: 'flex', width: '100%', marginBottom: '5px' }}>
-                            <div style={{ width: '20px', height: '20px', borderRadius: '5px', backgroundColor: secondary, marginRight: 5, }}>
+                            <div style={{ display: 'flex', width: '100%', marginBottom: '5px' }}>
+                                <div style={{ width: '20px', height: '20px', borderRadius: '5px', backgroundColor: secondary, marginRight: 5, }}>
+                                </div>
+                                <p style={{ fontSize: '10px', marginTop: 2 }}>Attendance</p>
                             </div>
-                            <p style={{ fontSize: '10px', marginTop: 2 }}>Attendance</p>
-                        </div>
-                        <div style={{ display: 'flex', width: '100%', marginBottom: '5px' }}>
-                            <div style={{ width: '20px', height: '20px', borderRadius: '5px', backgroundColor: primary, marginRight: 5 }}>
+                            <div style={{ display: 'flex', width: '100%', marginBottom: '5px' }}>
+                                <div style={{ width: '20px', height: '20px', borderRadius: '5px', backgroundColor: primary, marginRight: 5 }}>
 
+                                </div>
+                                <p style={{ fontSize: '10px', marginTop: 2 }}>Leave</p>
                             </div>
-                            <p style={{ fontSize: '10px', marginTop: 2 }}>Leave</p>
-                        </div>
-                        <div style={{ display: 'flex', width: '100%', marginBottom: '5px' }}>
-                            <div style={{ width: '20px', height: '20px', borderRadius: '5px', backgroundColor: softblue, marginRight: 5, }}>
+                            <div style={{ display: 'flex', width: '100%', marginBottom: '5px' }}>
+                                <div style={{ width: '20px', height: '20px', borderRadius: '5px', backgroundColor: softblue, marginRight: 5, }}>
+                                </div>
+                                <p style={{ fontSize: '10px', marginTop: 2, marginBottom: 0 }}>Incomplete Attendance</p>
                             </div>
-                            <p style={{ fontSize: '10px', marginTop: 2, marginBottom: 0 }}>Incomplete Attendance</p>
-                        </div>
                         </div>
                     </div>
                     {/* </div> */}

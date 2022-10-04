@@ -223,8 +223,7 @@ class EmployeeListMain extends Component {
         let lists = list.unshift({ value: 0, label: "All" });
         this.setState({
           branchlist: list.map((v) => ({
-            ...v,
-            
+            ...v
           })),
         });
       });
@@ -432,10 +431,10 @@ class EmployeeListMain extends Component {
     this.setState({
       detailForm: true,
       selectedEmployeeData: data,
-      isTable : false,
-      isView : false,
-      isEdit : false,
-      isAddNew : false,
+      isTable: false,
+      isView: false,
+      isEdit: false,
+      isAddNew: false,
     });
   };
 
@@ -445,29 +444,29 @@ class EmployeeListMain extends Component {
     } else {
       return (
         <div className=" border-bottom white-bg dashboard-header">
-          { this.state.isAddNew ||this.state.isView || this.state.isEdit || this.state.isTable ?  (
+          {this.state.isAddNew || this.state.isView || this.state.isEdit || this.state.isTable ? (
             <>
-          <ToastContainer position={toast.POSITION.TOP_RIGHT} />
-          <div className="row wrapper border-bottom white-bg page-heading">
-            <div className="col-lg-12">
-              <ol className="breadcrumb">
-                <li style={{ fontSize: 18 }}>Employee</li>
-                <li className="active" style={{ fontSize: 18 }}>
-                  <a href="#">List</a>
-                </li>
-                {this.state.viewForm && (
-                  <li className="active">
-                    <a href="#">View</a>
-                  </li>
-                )}
-                {this.state.editForm && (
-                  <li className="active">
-                    <a href="#">Edit</a>
-                  </li>
-                )}
-              </ol>
-            </div>
-          </div> </>) : null}
+              <ToastContainer position={toast.POSITION.TOP_RIGHT} />
+              <div className="row wrapper border-bottom white-bg page-heading">
+                <div className="col-lg-12">
+                  <ol className="breadcrumb">
+                    <li style={{ fontSize: 18 }}>Employee</li>
+                    <li className="active" style={{ fontSize: 18 }}>
+                      <a href="#">List</a>
+                    </li>
+                    {this.state.viewForm && (
+                      <li className="active">
+                        <a href="#">View</a>
+                      </li>
+                    )}
+                    {this.state.editForm && (
+                      <li className="active">
+                        <a href="#">Edit</a>
+                      </li>
+                    )}
+                  </ol>
+                </div>
+              </div> </>) : null}
           {this.state.viewForm ? (
             <EmployeeListView
               selectedEmployeeData={this.state.selectedEmployeeData}

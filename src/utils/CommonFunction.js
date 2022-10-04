@@ -14,10 +14,12 @@ const CryptoJS = require('crypto-js');
 //  const main_url = "http://192.168.:8087/";  
 // server 
 
-// const main_url = "http://192.168.100.38:8082/" // local
+const main_url = "http://192.168.100.38:8082/" // local
 // const main_url = "http://localhost:8082/"
 
-const main_url = "http://103.29.91.26:50092/"; // test server
+
+// const main_url = "http://103.29.91.26:50092/"; // test server
+
 // const main_url = "http://103.29.91.26:8032/";  // live server
 
 
@@ -668,8 +670,8 @@ async function getTrainingVenue() {
         return res.json()
     else return []
 }
-async function imageError(e){
-e.target.src="assets/img/SeekPng.com_profile-icon-png_9665493.png";
+async function imageError(e) {
+    e.target.src = "assets/img/SeekPng.com_profile-icon-png_9665493.png";
 
 }
 async function getTicketMainCategory() {
@@ -939,5 +941,5 @@ export {
     print, stopSaving, startSaving, fno, getFirstDayOfMonth, checkLimitAmount,
     checkHRManager, checkHRAssistant, checkApprovalStatus, isApprover, havePermissionForAmount,
     calculationDate, isRequestedUser, atten_report, approveAmount, calculationDate1, getAttendancePolicy,
-    getDesignationData, calculationWorkingExp, getLastDayOfMonth ,imageError
+    getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError
 }
