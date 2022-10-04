@@ -109,7 +109,7 @@ export default class BenefitChildTable extends Component {
         var permission = this.props.permission;
         var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
         for (var i = 0; i < data.length; i++) {
-            console.log("data i in table is =====>", data[i].career_sub_level)
+           
             let result = data[i];
             let obj = [];
             obj = {

@@ -667,8 +667,8 @@ async function getTrainingVenue() {
         return res.json()
     else return []
 }
-async function imageError(e){
-e.target.src="assets/img/SeekPng.com_profile-icon-png_9665493.png";
+async function imageError(e) {
+    e.target.src = "assets/img/SeekPng.com_profile-icon-png_9665493.png";
 
 }
 async function getTicketMainCategory() {
@@ -938,5 +938,5 @@ export {
     print, stopSaving, startSaving, fno, getFirstDayOfMonth, checkLimitAmount,
     checkHRManager, checkHRAssistant, checkApprovalStatus, isApprover, havePermissionForAmount,
     calculationDate, isRequestedUser, atten_report, approveAmount, calculationDate1, getAttendancePolicy,
-    getDesignationData, calculationWorkingExp, getLastDayOfMonth ,imageError
+    getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError
 }

@@ -113,6 +113,9 @@ import LateReportByEmployee from './Attendance Report/LateReportByEmployee';
 import AbsenceReport from './Attendance Report/AbsenceReport';
 
 import AttendanceType from './Attendance/AttendanceType'
+import AttendanceHistory from './Attendance/AttendanceHistory'
+import HolidayAttendance from './Attendance/HolidayAttendance'
+import AttendanceReportMonthly from './Attendance/AttendanceReport'
 
 
 const Main = () => (
@@ -230,6 +233,9 @@ const Main = () => (
         <Route path='/absence_report' component={AbsenceReport}></Route>
 
         <Route path='/attendance_type' component={AttendanceType}></Route>
+        <Route path='/attendance_history' component={AttendanceHistory}></Route>
+        <Route path='/holiday_attendance' component={HolidayAttendance}></Route>
+        <Route path='/attendance_report_monthly' component={AttendanceReportMonthly}></Route>
 
 
         <Redirect to="/dashboard" />
