@@ -82,11 +82,12 @@ class ReportbyServiceYear extends Component {
       fetch(`${main_url}main/getEmployeeWithDesignation/0`)
           .then(res => res.json())
           .then(data => {
+            data.unshift({employment_id:'All',label:"All",value:0})
               // const all = data.map(v => (v.employment_id).trim())
               this.setState({
                   employeeList: data.map(v => ({ ...v, label: v.employment_id, value: v.value,name:v.label })),
                   // allEmployeeID: all
-              })
+              },()=>{console.log("dsasdasd",this.state.employeeList)})
 
           })
   }
@@ -123,8 +124,8 @@ class ReportbyServiceYear extends Component {
     handleSearchData = (regionId,date,designationId,branchId,empId) => {
         fetch(`${main_url}report/employeeReportServiceYear/${this.state.regionId  ? this.state.regionId.value : 0}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.designationId ? this.state.designationId.value :0 }/${this.state.empId ?this.state.empId.value :0 }/${this.state.date}`)
         .then(res => { if (res.ok) return res.json() })
-          .then(list => { console.log(list)
-            // let data=list
+          .then(list => {
+            let data=list
             this._setTableData(list);
           })
       }
@@ -176,23 +177,24 @@ class ReportbyServiceYear extends Component {
             paging: true,
         //     // buttons: true,
             dom: 'Bfrtip',
-        //     // buttons: [
+        buttons: [
         //     //     'copy', 'csv', 'excel', 'pdf'
-        //     // ],
+        'excel'
+        ],
             buttons: [
-        //         // 'copy',
+        //  'copy',
         //         // {
         //         //         extend: 'csvHtml5',
         //         //         title: 'Child Benefit',
         //         // },
-        //         // {
-        //         //     extend: 'excelHtml5',
-        //         //     title: 'Child Benefit',
-        //         // },
+        {
+            extend: 'excelHtml5',
+             title: 'Child Benefit',
+        },
         //         // {
         //         //     extend: 'pdfHtml5',
         //         //     title: 'Child Benefit',
-        //         // }
+      //  }
             ],
             data: l,
             columns: column

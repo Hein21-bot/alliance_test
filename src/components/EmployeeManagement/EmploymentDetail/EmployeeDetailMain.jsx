@@ -1171,9 +1171,11 @@ class EmployeeDetailMain extends Component {
                 <div style={{}}>
                   <EmploymentDetailTable
                     goToEditForm={this.goToEditForm}
+                    career_sub_level={career_sub_level}
                     goToSingleViewForm={this.goToSingleViewForm}
                     data={this.state.employeeData ? this.state.employeeData : []}
                     jobList={jobList}
+                    salaryList={salaryList}
                     salaryPermission={this.state.salaryPermission}
                     permission={{
                       isEdit: 1,

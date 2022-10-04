@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { main_url, getBranch, getRegion, getDepartment } from '../../utils/CommonFunction';
+import { main_url, getBranch, getRegion, getDepartment,getUserId } from '../../utils/CommonFunction';
 import DatePicker from 'react-datetime';
 import moment from "moment";
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
@@ -18,6 +18,7 @@ require('datatables.net-buttons/js/dataTables.buttons.min');
 require('datatables.net-buttons/js/buttons.html5.min');
 
 
+const id = getUserId("user_info")
 class HistoryReport extends Component {
     constructor(props) {
         super(props);
@@ -33,7 +34,10 @@ class HistoryReport extends Component {
             empId: null,
             empName: null,
             employeeName: null,
-            empProfile: []
+            selectedEmployeeName:null,
+            empProfile: [],
+         
+            
         }
     }
 
@@ -54,6 +58,7 @@ class HistoryReport extends Component {
         region.unshift({ state_name: 'ALL', state_id: 0 });
         await this.getEmployeeName();
         await this.getEmployeeList();
+        await this.getRerportList();
         // await getDate;
         let department = await getDepartment();
         department.unshift({ label: 'ALL', value: 0 });
@@ -61,15 +66,27 @@ class HistoryReport extends Component {
             branch: branch,
             department: department,
             region: region.map(v => ({ ...v, label: v.state_name, value: v.state_id })),
-            // empNameList:empNameList
+           
         })
-        this.handleSearchData();
+       
+    }
+    getRerportList(){
+        fetch(`${main_url}report/historyReport/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.depId ? this.state.depId.value : 0}/${this.state.empId ? this.state.empId.value: id}`)
+        .then(res => { if (res.ok) return res.json() })
+        .then(list => {
+            // let data=list
+            
+            this.setState({
+                empProfile: list
+            })
+            this._setTableData(this.state.empProfile[0].history);
+        })
     }
     getEmployeeList() {
         fetch(`${main_url}main/getEmployeeWithDesignation/0`)
             .then(res => res.json())
             .then(data => {
-                // const all = data.map(v => (v.employment_id).trim())
+             
                 this.setState({
                     employeeList: data.map(v => ({ ...v, label: v.employment_id, value: v.value, name: v.label })),
                     // allEmployeeID: all
@@ -97,12 +114,15 @@ class HistoryReport extends Component {
         })
     }
     handleSelectedEmpId = async (event) => {
-
+        console.log("event=======>",event)
+        console.log("empName List====>",this.state.empNameList.filter(v=>v.value==event.value))
         this.setState({
             empId: event,
-            empName: event.name,
-            empNameList: this.state.empNameList.filter(v => v.value == event.value)
-        }, () => { console.log("name>>>>>", this.state.empId) })
+            employeeName: this.state.empNameList.filter(v => v.value == event.value),
+            
+        }, 
+        // () => { console.log("name>>>>>",this.state.empId.value,this.state.employeeName.value) }
+        )
     }
 
     handleSelectedRegion = async (event) => {
@@ -113,9 +133,12 @@ class HistoryReport extends Component {
         }, () => { console.log("region>>>>", this.state.regionId) })
     }
     handleSelectedName = async (event) => {
+        console.log("selected name",event.label)
         this.setState({
             employeeName: event,
-        })
+            empId: this.state.employeeList.filter(v => v.value == event.value)[0],
+            selectedEmployeeName:event
+        },()=>{console.log("listnaem",this.state.employeeName.value,this.state.empId.value)})
     }
     handleSelectedDepartment = async (event) => {
         if (event != null)
@@ -124,7 +147,7 @@ class HistoryReport extends Component {
             })
     }
     handleSearchData = () => {
-        fetch(`${main_url}report/historyReport/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.depId ? this.state.depId.value : 0}/${this.state.empId ? this.state.empId.label : 0}/${this.state.empName ? this.state.empName : 0}`)
+        fetch(`${main_url}report/historyReport/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.depId ? this.state.depId.value : 0}/${this.state.empId ? this.state.empId.value: 0}`)
             .then(res => { if (res.ok) return res.json() })
             .then(list => {
                 // let data=list
@@ -180,19 +203,20 @@ class HistoryReport extends Component {
 
             //     // buttons: true,
             dom: 'Btiprl',
-            //     // buttons: [
+             buttons: [
             //     //     'copy', 'csv', 'excel', 'pdf'
-            //     // ],
+            'excel'
+            ],
             buttons: [
                 //         // 'copy',
                 //         // {
                 //         //         extend: 'csvHtml5',
                 //         //         title: 'Child Benefit',
                 //         // },
-                //         // {
-                //         //     extend: 'excelHtml5',
-                //         //     title: 'Child Benefit',
-                //         // },
+               {
+                   extend: 'excelHtml5',
+                   title: 'Child Benefit',
+               },
                 //         // {
                 //         //     extend: 'pdfHtml5',
                 //         //     title: 'Child Benefit',
@@ -204,14 +228,14 @@ class HistoryReport extends Component {
     }
 
 
-    render() {
+    render() { console.log(id)
 
         return (
             <div className="col-12">
                     <div className='white-bg ' style={{ paddingTop: 20, border: '1px solid lightgrey', display: 'grid', borderTop: 'none', marginTop: -10, paddingBottom: 20, boxShadow: '5px 5px 5px lightgrey',paddingLeft: 20}}>
                         <h3 className=""style={{paddingLeft:"40px"}} >Employee History Report</h3>
                         <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px', paddingLeft: 20, paddingRight: 20 }}>
-                            <Select
+                            {/* <Select
                                 styles={{
                                     container: base => ({
                                         ...base,
@@ -280,7 +304,7 @@ class HistoryReport extends Component {
                                 value={this.state.depId}
                                 className="react-select-container"
                                 classNamePrefix="react-select"
-                            />
+                            /> */}
                             <Select
                                 styles={{
                                     container: base => ({
@@ -321,7 +345,6 @@ class HistoryReport extends Component {
                                 placeholder="Employee Name"
                                 options={this.state.empNameList}
                                 onChange={this.handleSelectedName}
-                                type="value"
                                 value={this.state.employeeName}
                                 className='react-select-container'
                                 classNamePrefix="react-select"

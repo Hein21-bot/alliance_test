@@ -243,7 +243,6 @@ class LeaveManagementView extends Component {
 
                     </div>
                 </div>
-                <MyLeaveDetail />
             </div>
         )
     }

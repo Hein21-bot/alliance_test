@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { main_url } from '../../utils/CommonFunction';
 import { thingsToDoController } from "../Dashboard/DashboardApi/ThingsToDoController";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 class HoStaffReport extends Component {
 
     constructor(props) {
@@ -54,7 +55,6 @@ class HoStaffReport extends Component {
                 let totalList = list.filter(d=>d.deptname !="Head Department");
                 let HeadDepartment = list;
                 let headData = HeadDepartment.filter(d => d.deptname == 'Head Department')
-               
                 let head = headData.reduce((p,c)=>{
                     let result = p;
                     if(p == null){
@@ -65,8 +65,9 @@ class HoStaffReport extends Component {
                     
                     return result
                 }, null);
-                console.log("head",head)
-                
+                let temp = head.designations[2];
+                head.designations[2] = head.designations[0];
+                head.designations[0] = temp;
                 let headcollectedTotal=[];
                 let finalHeadTotal=0;
                 let finalTotal=0;
@@ -118,7 +119,14 @@ class HoStaffReport extends Component {
             <div>
                  <div className="row  white-bg dashboard-header">
                   <h3 className="">HO Staff Report</h3>
-                <table className="table table-bordered">
+                  <ReactHTMLTableToExcel 
+                    className="btn-excel"
+                    table="ho_staff"
+                    filename="HO Staff Report"
+                    buttonText="Excel"
+                    sheet="Sheet"
+                    />
+                <table className="table table-bordered" id="ho_staff">
                     <thead>
                         <tr style={{ backgroundColor: '#27568a', color: 'white' }}>
                             <th style={{ width: 100, textAlign: 'center', borderColor: 'white' }}>Department</th>
@@ -136,7 +144,9 @@ class HoStaffReport extends Component {
                                 return(
                                     <>
                                         <tr style={{textAlign:'center'}}>
-                                            <td colSpan={2}>{designation.designations}</td>
+                                            <td colSpan={2}>
+                                                <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>{designation.designations}</div>
+                                            </td>
                                             <td >{(designation.gender[0].toLowerCase() == "male" && designation.gender.length == 2) ? designation.gender[1] : (designation.gender.length == 4) ? designation.gender[3] : "-"}</td>
                                                 <td > {designation.gender[0].toLowerCase() == "female" ? designation.gender[1] : "-"}</td>
                                                 {i==-0 ? <td  rowSpan={3}>{this.state.headCollectedTotal}</td> : null}

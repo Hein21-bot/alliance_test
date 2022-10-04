@@ -250,6 +250,10 @@ ul.nav-second-level {
   padding-left: 52px;
 }
 .nav-third-level li a {
+  padding: 7px 10px 7px 10px;
+  padding-left: 72px;
+}
+.nav-third-level li a {
   padding-left: 62px;
 }
 .nav-second-level li:last-child {
@@ -628,6 +632,17 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   .menu-visible-lg {
     display: block !important;
   }
+}
+.btn-excel{
+  width:60px;
+  height:30px;
+  border:1px solid #8B91A0;
+  border-radius: 3px;
+
+}
+.btn-excel:hover{
+  background-color:#e4e5e9 ;
+  border: 1px solid black;
 }
 .btn {
   border-radius: 3px;

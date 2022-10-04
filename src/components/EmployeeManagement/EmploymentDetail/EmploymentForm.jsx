@@ -206,7 +206,7 @@ const EmploymentForm = props => {
                                     Salary
                                 </div>
                                 <div className='col-lg-7  col-md-5'>
-                                    <input type='number' placeholder='' required name="salary" isDisabled={view ? true : false} value={salary == null ? salaryList.filter(v=>v.career_sub_level == career_sub_level.career_sub_level_id)[0].basic_salary : salary} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
+                                    <input type='number' placeholder='' required name="salary" isDisabled={view ? true : false} value={salary == null ? career_sub_level ? salaryList.filter(v=>v.career_sub_level == career_sub_level.career_sub_level_id)[0].basic_salary : 0 : salary} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
                                 </div>
                             </div>
                             : ((career_sub_level ? career_sub_level.career_sub_level_id : null) > 20) ? null :
@@ -215,7 +215,7 @@ const EmploymentForm = props => {
                                         Salary
                                     </div>
                                     <div className='col-lg-7  col-md-5'>
-                                        <input type='number' placeholder='' required name="salary" isDisabled={view ? true : false} value={salary == null ? salaryList.filter(v=>v.career_sub_level == career_sub_level.career_sub_level_id)[0].basic_salary : salary} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
+                                        <input type='number' placeholder='' required name="salary" isDisabled={view ? true : false} value={salary == null ? career_sub_level ? salaryList.filter(v=>v.career_sub_level == career_sub_level.career_sub_level_id)[0].basic_salary : 0 : salary} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
                                     </div>
                                 </div>}
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>

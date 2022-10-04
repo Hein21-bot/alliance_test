@@ -343,7 +343,7 @@ export default class Sidebar extends Component {
 
               <li
                 className={
-                  this.checkPathName() === "/employee_management"
+                  this.checkPathName() === "/employee_management"||this.checkPathName() === "/reports" || pathname == "/EmployeeDirectory"|| pathname === "/ResignStaffReport" || pathname === "/RegionStaffReport" || pathname === "/BranchStaffReport" || pathname === "/HoStaffReport" || pathname === "/EmployeeReport" || pathname === "/ReportbyServiceYear" || pathname === "/HistoryReport" || pathname === "/FRDReport" || pathname === "/ExtensionReport" || pathname === "/RegionWiseStaffReportCount"  
                     ? "active"
                     : " "
                 }
@@ -364,10 +364,120 @@ export default class Sidebar extends Component {
                   >
                     <a href="/employment_details">Employment Details</a>
                   </li>
-
+                  <li className={this.checkPathName() === "/reports" || pathname == "/EmployeeDirectory"|| pathname === "/ResignStaffReport" || pathname === "/RegionStaffReport" || pathname === "/BranchStaffReport" || pathname === "/HoStaffReport" || pathname === "/EmployeeReport" || pathname === "/ReportbyServiceYear" || pathname === "/HistoryReport" || pathname === "/FRDReport" || pathname === "/ExtensionReport" || pathname === "/RegionWiseStaffReportCount"   ? "active" : " "}>
+                    <a href="/reports" className="sideText">Employee Related Reports</a>
+                    <ul className="nav nav-third-level collapse">
+                  <li
+                    className={pathname === "/EmployeeReport" ? "active" : ""}
+                  >
+                    <a href="/EmployeeReport">Employee Report</a>
+                  </li>
+                  <li
+                    className={pathname === "/ReportbyServiceYear" ? "active" : ""}
+                  >
+                    <a href="/ReportbyServiceYear">Employee Report by Service Year</a>
+                  </li>
+                  <li
+                    className={pathname === "/HistoryReport" ? "active" : ""}
+                  >
+                    <a href="/HistoryReport"> Employee History Report</a>
+                  </li>
+                  <li
+                    className={pathname === "/EmployeeDirectory" ? "active" : ""}
+                  >
+                    <a href="/EmployeeDirectory">Employee Directory Reoprt</a>
+                  </li>
+                  <li className={pathname === "/HoStaffReport" ? "active" : ""}>
+                    <a href="/HoStaffReport">Ho Staff Report</a>
+                  </li>
+                  <li className={pathname === "/BranchStaffReport" ? "active" : ""}>
+                    <a href="/BranchStaffReport">Branch Staff Report</a>
+                  </li>
+                  <li className={pathname === "/RegionStaffReport" ? "active" : ""}>
+                    <a href="/RegionStaffReport">Regional Staff Report</a>
+                  </li>
+                  <li
+                    className={pathname === "/FRDReport" ? "active" : ""}
+                  >
+                    <a href="/FRDReport">FRD Report</a>
+                  </li>
+                  <li className={pathname === "/ResignStaffReport" ? "active" : ""}>
+                    <a href="/ResignStaffReport">Resign Staff Report</a>
+                  </li>
+                  <li
+                    className={pathname === "/ExtensionReport" ? "active" : ""}
+                  >
+                    <a href="/ExtensionReport">Extension Report</a>
+                  </li>
+                  <li
+                    className={pathname === "/RegionWiseStaffReportCount" ? "active" : ""}
+                  >
+                    <a href="/RegionWiseStaffReportCount">Region Wise Staff Count Report</a>
+                  </li>
+                </ul>
+                  </li>
                 </ul>
               </li>
+
               {/* <li
+                className={this.checkPathName() === "/reports" || pathname === "/EmployeeDirectory" || pathname === "/ResignStaffReport" || pathname === "/RegionStaffReport" || pathname === "/BranchStaffReport" || pathname === "/HoStaffReport" || pathname === "/EmployeeReport" || pathname === "/ReportbyServiceYear" || pathname === "/HistoryReport" || pathname === "/FRDReport" || pathname === "/ExtensionReport" || pathname === "/RegionWiseStaffReportCount" ? "active" : ""}
+              >
+                <a href="/EmployeeDirectory" className="sideList">
+                  <i className="fa fa-folder sideIcon" style={{ color: 'white' }}></i>
+                  <span className="sideText">Employee Related Reports</span>
+                </a>
+                <ul className="nav nav-second-level collapse">
+                  <li
+                    className={pathname === "/EmployeeReport" ? "active" : ""}
+                  >
+                    <a href="/EmployeeReport">Employee Report</a>
+                  </li>
+                  <li
+                    className={pathname === "/ReportbyServiceYear" ? "active" : ""}
+                  >
+                    <a href="/ReportbyServiceYear">Employee Report by Service Year</a>
+                  </li>
+                  <li
+                    className={pathname === "/HistoryReport" ? "active" : ""}
+                  >
+                    <a href="/HistoryReport"> Employee History Report</a>
+                  </li>
+                  <li
+                    className={pathname === "/EmployeeDirectory" ? "active" : ""}
+                  >
+                    <a href="/EmployeeDirectory">Employee Directory Reoprt</a>
+                  </li>
+                  <li className={pathname === "/HoStaffReport" ? "active" : ""}>
+                    <a href="/HoStaffReport">Ho Staff Report</a>
+                  </li>
+                  <li className={pathname === "/BranchStaffReport" ? "active" : ""}>
+                    <a href="/BranchStaffReport">Branch Staff Report</a>
+                  </li>
+                  <li className={pathname === "/RegionStaffReport" ? "active" : ""}>
+                    <a href="/RegionStaffReport">Regional Staff Report</a>
+                  </li>
+                  <li
+                    className={pathname === "/FRDReport" ? "active" : ""}
+                  >
+                    <a href="/FRDReport">FRD Report</a>
+                  </li>
+                  <li className={pathname === "/ResignStaffReport" ? "active" : ""}>
+                    <a href="/ResignStaffReport">Resign Staff Report</a>
+                  </li>
+                  <li
+                    className={pathname === "/ExtensionReport" ? "active" : ""}
+                  >
+                    <a href="/ExtensionReport">Extension Report</a>
+                  </li>
+                  <li
+                    className={pathname === "/RegionWiseStaffReportCount" ? "active" : ""}
+                  >
+                    <a href="/RegionWiseStaffReportCount">Region Wise Staff Count Report</a>
+                  </li>
+                </ul>
+              </li> */}
+
+              <li
                 className={
                   this.checkPathName() === "/attendance_leave_report"
                     ? "active"
@@ -382,20 +492,7 @@ export default class Sidebar extends Component {
                   <img src="assets/icons/Attendance.svg" alt="" width="20" height="20" style={{ marginRight: 5 }} />
                   <span className="sideText">Attendance and Leave</span>
                 </a>
-              </li> */}
-
-
-              {/* <li
-                className={
-                  this.checkPathName() === "/leave_management" ? "active" : ""
-                }
-              >
-                <a href="/leave_management" className="sideList" refresh="true">
-                  <i className="far fa-sticky-note sideIcon"></i>
-                  <span className="sideText">Leave</span>
-                </a>
-              </li> */}
-
+              </li>
 
               <li
                 className={
@@ -515,24 +612,24 @@ export default class Sidebar extends Component {
                   <li className={pathname === "/travelRequest" ? "active" : ""}>
                     <a href="/travelRequest">Travel Request</a>
                   </li>
-                  {/* <li
+                  <li
                     className={pathname === "/trainingRequest" ? "active" : ""}
                   >
                     <a href="/trainingRequest">Training Request</a>
-                  </li> */}
+                  </li>
                   <li
                     className={pathname === "/salary_advance" ? "active" : ""}
                   >
                     <a href="/salary_advance">Salary Advance</a>
                   </li>
-                  {/* <li
+                  <li
                     className={pathname === "/phonebillrequest" ? "active" : ""}
                   >
                     <a href="/phonebillrequest">Phone Bill</a>
                   </li>
                   <li className={pathname === "/petrolRequest" ? "active" : ""}>
                     <a href="/petrolRequest">Petrol Request</a>
-                  </li> */}
+                  </li>
                 </ul>
 
               </li>
@@ -587,7 +684,7 @@ export default class Sidebar extends Component {
                 </a>
               </li>
 
-              {/* <li
+              <li
                 className={
                   this.checkPathName() === "/staff_loan" ? "active" : ""
                 }
@@ -621,10 +718,10 @@ export default class Sidebar extends Component {
                     </a>
                   </li>
                 </ul>
-              </li> */}
+              </li>
 
 
-              {/* <li
+              <li
                 className={this.checkPathName() === "/confirmation" ? "active" : ""}
               >
                 <a href="/confirmation_list" className="sideList">
@@ -665,69 +762,12 @@ export default class Sidebar extends Component {
                         <a href="/confirmation_request_list">Confirmation Request</a>
                       </li>
                 </ul>
-              </li> */}
+              </li>
 
 
-              {/* <li
-                className={this.checkPathName() === "/reports" || pathname === "/EmployeeDirectory" || pathname === "/ResignStaffReport" || pathname === "/RegionStaffReport" || pathname === "/BranchStaffReport" || pathname === "/HoStaffReport" || pathname === "/EmployeeReport" || pathname === "/ReportbyServiceYear" || pathname === "/HistoryReport" || pathname === "/FRDReport" || pathname === "/ExtensionReport" || pathname === "/RegionWiseStaffReportCount" ? "active" : ""}
-              >
-                <a href="/EmployeeDirectory" className="sideList">
-                  <i className="fa fa-folder sideIcon" style={{ color: 'white' }}></i>
-                  <span className="sideText">Reports</span>
-                </a>
-                <ul className="nav nav-second-level collapse">
-                  <li
-                    className={pathname === "/EmployeeReport" ? "active" : ""}
-                  >
-                    <a href="/EmployeeReport">EmployeeReport</a>
-                  </li>
-                  <li
-                    className={pathname === "/ReportbyServiceYear" ? "active" : ""}
-                  >
-                    <a href="/ReportbyServiceYear">ReportByServiceYear</a>
-                  </li>
-                  <li
-                    className={pathname === "/HistoryReport" ? "active" : ""}
-                  >
-                    <a href="/HistoryReport">HistoryReport</a>
-                  </li>
-                  <li
-                    className={pathname === "/EmployeeDirectory" ? "active" : ""}
-                  >
-                    <a href="/EmployeeDirectory">Employee Directory</a>
-                  </li>
-                  <li className={pathname === "/HoStaffReport" ? "active" : ""}>
-                    <a href="/HoStaffReport">HoStaffReport</a>
-                  </li>
-                  <li className={pathname === "/BranchStaffReport" ? "active" : ""}>
-                    <a href="/BranchStaffReport">BranchStaffReport</a>
-                  </li>
-                  <li className={pathname === "/RegionStaffReport" ? "active" : ""}>
-                    <a href="/RegionStaffReport">RegionalStaffReport</a>
-                  </li>
-                  <li
-                    className={pathname === "/FRDReport" ? "active" : ""}
-                  >
-                    <a href="/FRDReport">FRDReport</a>
-                  </li>
-                  <li className={pathname === "/ResignStaffReport" ? "active" : ""}>
-                    <a href="/ResignStaffReport">ResignStaffReport</a>
-                  </li>
-                  <li
-                    className={pathname === "/ExtensionReport" ? "active" : ""}
-                  >
-                    <a href="/ExtensionReport">ExtensionReport</a>
-                  </li>
-                  <li
-                    className={pathname === "/RegionWiseStaffReportCount" ? "active" : ""}
-                  >
-                    <a href="/RegionWiseStaffReportCount">RegionWiseStaffReport</a>
-                  </li>
-                </ul>
-              </li> */}
+            
 
-
-              {/* <li
+              <li
                 className={
                   this.checkPathName() === "/notification" ? "active" : ""
                 }
@@ -743,7 +783,7 @@ export default class Sidebar extends Component {
                     <i className="fas fa-atlas sideIcon" style={{ color: 'white' }}></i>
                     <span className="sideText">Announcement Setting</span>
                   </a>
-                </li> */}
+                </li>
 
               <li>
                 <a href={remote_url} className="sideList" onClick={this.logout.bind(this)}>

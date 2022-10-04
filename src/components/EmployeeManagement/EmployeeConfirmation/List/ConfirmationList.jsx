@@ -175,7 +175,7 @@ class ConfirmationList extends Component {
         .then((list) => {
           this.setState({
             confirmationListData: list,loading:false
-          });
+          },()=>{console.log("list>>>>>>",this.state.confirmationListData)});
         });
     }
   }
@@ -192,7 +192,7 @@ class ConfirmationList extends Component {
       ? this.state.selected_region.state_id
       : 0;
     const branchId = this.state.selected_branch
-      ? this.state.selected_branch.branch_id
+      ? this.state.selected_branch.value
       : 0;
     const departmentId = this.state.selected_department
       ? this.state.selected_department.departments_id
@@ -235,12 +235,11 @@ class ConfirmationList extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        let lists = list.unshift({ branch_id: 0, branch_name: "All" });
+        let lists = list.unshift({ value: 0, label: "All" });
         this.setState({
           branchlist: list.map((v) => ({
             ...v,
-            label: v.branch_name,
-            value: v.branch_id,
+            
           })),
         });
       });
@@ -263,22 +262,6 @@ class ConfirmationList extends Component {
       });
   }
 
-  // getRegionList() {
-  //   fetch(`${main_url}benefit/getRegionList`)
-  //     .then((res) => {
-  //       if (res.ok) return res.json();
-  //     })
-  //     .then((list) => {
-  //       let lists = list.unshift({ state_id: 0, state_name: "All" });
-  //       this.setState({
-  //         regionList: list.map((v) => ({
-  //           ...v,
-  //           label: v.state_name,
-  //           value: v.state_id,
-  //         })),
-  //       });
-  //     });
-  // }
   getRegionList() {
     fetch(`${main_url}benefit/getRegionList`)
       .then(res => { if (res.ok) return res.json() })
@@ -339,7 +322,7 @@ class ConfirmationList extends Component {
   };
 
   handleSelectedBranch = (event) => {
-    console.log("event==>",event.map(v=>v.branch_id))
+   
     if (event !== null){
       this.setState({
         selected_branch: event,
@@ -372,7 +355,7 @@ class ConfirmationList extends Component {
       })
       .then((list) => {
         this.setState({
-          titleList: list.map((v) => ({ ...v, label: v.name, value: v.value })),
+          titleList: list.map((v) => ({ ...v})),
         });
       });
   }
@@ -408,8 +391,8 @@ class ConfirmationList extends Component {
       career_sub_level: data.career_sub_level ? data.career_sub_level : "-",
       department: data.deptname ? data.deptname : "-",
       branch_id: data.branch_id ? data.branch_id : '-',
-      branch: data.branch_name ? data.branch_name : "-",
-      region: data.region_name ? data.region_name : "-",
+      branch: data.location_master_name? data.location_master_name : "-",
+      region: data.state_name ? data.state_name : "-",
       employee_date: data.employee_date ? moment(data.employee_date).format('DD-MM-YYYY') : "-",
       promotion_date: data.promotion_date
         ? data.promotion_date
@@ -568,8 +551,8 @@ class ConfirmationList extends Component {
           career_sub_level: v.career_sub_level ? v.career_sub_level : "-",
           department: v.deptname ? v.deptname : "-",
           branch_id: v.branch_id ? v.branch_id : '-',
-          branch: v.branch_name ? v.branch_name : "-",
-          region: v.region_name ? v.region_name : "-",
+          branch: v.location_master_name ? v.location_master_name : "-",
+          region: v.state_name ? v.state_name : "-",
           employee_date: v.employee_date ? moment(v.employee_date).format('DD-MM-YYYY') : "-",
           promotion_date: v.promotion_date
             ? v.promotion_date
