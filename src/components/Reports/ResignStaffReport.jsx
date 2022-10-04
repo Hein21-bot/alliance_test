@@ -239,7 +239,7 @@ class ResignStaffReport extends Component {
         //         // },
          {
              extend: 'excelHtml5',
-             title: 'Child Benefit',
+             title: 'Resign Staff Report',
          },
         //         // {
         //         //     extend: 'pdfHtml5',

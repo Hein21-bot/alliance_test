@@ -240,23 +240,16 @@ class EmployeeReport extends Component {
             buttons: true,
         dom: 'Bfrtip',
          buttons: [
-        //     //     'copy', 'csv', 'excel', 'pdf'
+       
         'excel'
          ],
         buttons: [
-          //         // 'copy',
-          //         // {
-          //         //         extend: 'csvHtml5',
-          //         //         title: 'Child Benefit',
-          //         // },
+          
           {
               extend: 'excelHtml5',
-              title: 'Child Benefit',
+              title: 'Employee Report',
           },
-          //         // {
-          //         //     extend: 'pdfHtml5',
-          //         //     title: 'Child Benefit',
-          //         // }
+         
         ],
         data: l,
         columns: column

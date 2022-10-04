@@ -161,7 +161,7 @@ class ExtensionReport extends Component {
         //         // },
          {
              extend: 'excelHtml5',
-             title: 'Child Benefit',
+             title: 'Extension Report',
          },
         //         // {
         //         //     extend: 'pdfHtml5',

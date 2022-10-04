@@ -149,7 +149,7 @@ class HoStaffReport extends Component {
                                             </td>
                                             <td >{(designation.gender[0].toLowerCase() == "male" && designation.gender.length == 2) ? designation.gender[1] : (designation.gender.length == 4) ? designation.gender[3] : "-"}</td>
                                                 <td > {designation.gender[0].toLowerCase() == "female" ? designation.gender[1] : "-"}</td>
-                                                {i==-0 ? <td  rowSpan={3}>{this.state.headCollectedTotal}</td> : null}
+                                                {i==-0 ? <td  rowSpan={3} style={{verticalAlign:'middle'}}>{this.state.headCollectedTotal}</td> : null}
                                         </tr>
                                     </>
                                 )
@@ -168,13 +168,13 @@ class HoStaffReport extends Component {
 
                                             <tr style={{ textAlign: 'center', borderColor: 'white' }}>
 
-                                                {i === 0 ? <td rowSpan={state.designations.length}>{state.deptname}</td> : null}
+                                                {i === 0 ? <td rowSpan={state.designations.length} style={{verticalAlign:'middle'}}>{state.deptname}</td> : null}
                                                 {/* <td rowSpan={state.designations.length}>{state.deptname}</td> */}
                                                 <td>{designation.designations}</td>
                                                 <td>{(designation.gender[0] !=null && designation.gender[0].toLowerCase() == "male" && designation.gender.length == 2) ? designation.gender[1] : (designation.gender.length == 4) ? designation.gender[3] : "-"}</td>
                                                 <td> {designation.gender[0] !=null && designation.gender[0].toLowerCase() == "female" ? designation.gender[1] : "-"}</td>
                                                 {/* <td rowSpan={state.designations.length}>{this.state.listTotal[k]}</td> */}
-                                                {i === 0 ? <td rowSpan={state.designations.length}>{this.state.listTotal[k]}</td> : null}
+                                                {i === 0 ? <td rowSpan={state.designations.length} style={{verticalAlign:'middle'}}>{this.state.listTotal[k]}</td> : null}
                                             </tr>
                                         </>
 

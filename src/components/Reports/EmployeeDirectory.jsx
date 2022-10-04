@@ -234,7 +234,7 @@ class EmployeeDirectory extends Component {
         //         // },
         {
             extend: 'excelHtml5',
-            title: 'Child Benefit',
+            title: 'Employee Directory Report',
         },
         //         // {
         //         //     extend: 'pdfHtml5',

@@ -215,7 +215,7 @@ class HistoryReport extends Component {
                 //         // },
                {
                    extend: 'excelHtml5',
-                   title: 'Child Benefit',
+                   title: 'Employee History Report',
                },
                 //         // {
                 //         //     extend: 'pdfHtml5',

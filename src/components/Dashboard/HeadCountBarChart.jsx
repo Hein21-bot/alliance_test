@@ -71,7 +71,7 @@ class HeadCountBarChart extends Component {
       .catch((error) => console.error(`Fetch Error =\n`, error));
   };
 
-  getHeadCountbyDepartment = (branchId, regionId) => {
+  getHeadCountbyDepartment = (regionId, branchId) => {
 
     fetch(main_url + `dashboard/headCountByDepartments/${regionId}/${branchId}`)
       .then((response) => {
@@ -272,12 +272,14 @@ class HeadCountBarChart extends Component {
 
   // Department handle chagne start 
   handleSelectedBranch = async (event) => {
+    
     this.setState({
       dep_branchId: event
     })
   }
 
   handleSelectedRegion = async (event) => {
+    
     this.setState({
       dep_regionId: event
     })

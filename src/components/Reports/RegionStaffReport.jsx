@@ -118,13 +118,13 @@ class RegionStaffReport extends Component {
 
                                             <tr style={{ textAlign: 'center'}}>
 
-                                                {i === 0 ? <td rowSpan={state.designations.length}>{state.branch_name}</td> : null}
+                                                {i === 0 ? <td rowSpan={state.designations.length} style={{verticalAlign:'middle'}}>{state.branch_name}</td> : null}
                                                
                                                 <td>{designation.designations}</td>
                                                 <td>{(designation.gender[0].toLowerCase() == "male" && designation.gender.length == 2) ? designation.gender[1] : (designation.gender.length == 4) ? designation.gender[3] : "-"}</td>
                                                 <td> {designation.gender[0].toLowerCase() == "female" ? designation.gender[1] : "-"}</td>
                                                
-                                                {i === 0 ? <td rowSpan={state.designations.length}>{this.state.listTotal[k]}</td> : null}
+                                                {i === 0 ? <td rowSpan={state.designations.length} style={{verticalAlign:'middle'}}>{this.state.listTotal[k]}</td> : null}
                                             </tr>
                                         </>
 
