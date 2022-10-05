@@ -286,12 +286,25 @@ class ConfirmationCheck extends Component {
     handleSelectAllChange = () => {
         this.setState({
             checkedAll: !this.state.checkedAll,
-            selected_checkList: this.state.checkListData.map(v => {
-                let R = {}
-                R.id = v.table_id
-                return R
-            })
+            
+        },()=>{
+            if(this.state.checkedAll == true){
+                this.setState({
+                    selected_checkList: this.state.checkListData.map(v => {
+                        let R = {}
+                        R.id = v.table_id
+                        return R
+                    })
+                })
+            }else {
+                this.setState({
+                    selected_checkList:[]
+                })
+                
+            }
         })
+        
+        console.log(this.state.checkedAll,this.state.selected_checkList)
     }
 
     handleConfirmRequest = () => {
@@ -373,8 +386,6 @@ class ConfirmationCheck extends Component {
 
     handleApproveRequest = () => {
         if (this.state.selected_checkList.length > 0) {
-
-
             let data = {
                 person: getCookieData("user_info").user_id,
                 list: this.state.selected_checkList,
