@@ -66,7 +66,6 @@ export default class BenefitChildTable extends Component {
 
         });
         $("#dataTables-table").on('click', '#toSelect', function () {
-
             var data = $(this).find("#select").text();
             data = $.parseJSON(data);
             that.props.handleCheckBoxChange(data);
@@ -105,14 +104,10 @@ export default class BenefitChildTable extends Component {
             console.log("Changes");
 /////            this.state.dataSource;
             if(this.props.checkboxAll){
-                let select = $("#toSelect input")
-                console.log(select);
-                select.attr("checked", true);  
+                $('.ipSelect').prop('checked', true);  
             }
             else{
-                let select = $("#toSelect input")
-                console.log(select);
-                select.removeAttr("checked");
+                $('.ipSelect').prop('checked', false);
             }
         }
     }
@@ -173,7 +168,7 @@ export default class BenefitChildTable extends Component {
 
             }
             if (has_select) {
-                obj.select = permission.isSelect === 1 ? `<div style="alignItems:center" id="toSelect" class="select-btn"  ><input  type="checkbox" /><span id="select" class="hidden" >` + JSON.stringify(result) + '</span>  </div>' : '' //'<div style="margin-right:0px;height:20px;width:20px;border:1px solid red" class="btn" id="toSelect" ><i className="fas fa-address-card" style="color:red"></i><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '';
+                obj.select = permission.isSelect === 1 ? `<div style="alignItems:center" id="toSelect" class="select-btn"  ><input class="ipSelect" type="checkbox" /><span id="select" class="hidden" >` + JSON.stringify(result) + '</span>  </div>' : '' //'<div style="margin-right:0px;height:20px;width:20px;border:1px solid red" class="btn" id="toSelect" ><i className="fas fa-address-card" style="color:red"></i><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '';
             }
             if (has_action) {
                 if (result.status !== 3) {

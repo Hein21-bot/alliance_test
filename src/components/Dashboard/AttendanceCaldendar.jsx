@@ -35,10 +35,10 @@ export class AttendanceCaldendar extends Component {
         fetch(`${main_url}attendance/attendanceCalendar/1110/2022-09-20/2022-09-30`)
             .then(res => { if (res.ok) return res.json() })
             .then(list => {
-                this.setState({
-                    att_data: list,
-                    cal_data: list.finalData
-                })
+                // this.setState({
+                //     att_data: list,
+                //     cal_data: list.finalData
+                // })
             })
     }
 

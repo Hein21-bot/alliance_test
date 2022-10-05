@@ -414,7 +414,7 @@ class ConfirmationList extends Component {
         {
           checkedListData: checkedListData_,
         },
-        () => console.log(this.state.checkedListData)
+        () => console.log(checkedListData_)
       );
     } else if (
       checkedListData_.filter((c) => c.id === data.user_id).length > 0
@@ -534,8 +534,8 @@ class ConfirmationList extends Component {
   // };
 
   handleCheckboxAll = async (e) => {
-    this.setState({checkboxAll: e});
-    const tempCheckListData = this.state.checkedListData;
+    this.setState({checkboxAll: e  });
+    const tempCheckListData = [];
     if ( e == true) {
       await this.state.confirmationListData.map(async(v) => {
         var tempArray = [];

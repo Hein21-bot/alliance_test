@@ -258,7 +258,7 @@ export default class ConfirmationRequest extends Component {
   // });
   // };
 
-  render() {
+  render() { 
     const { dataSource, leaveCategory } = this.state;
     console.log('leaveCategory ===>', leaveCategory)
     return (
@@ -573,10 +573,10 @@ const RowData = ({ v, i, handleSelectedCheckPerson, title, leaveCategory }) => {
         {v.service_year}
       </td>
       <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
-        {v.date}
+        {v.current_level_service_year}
       </td>
       <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
-        {v.date}
+        {v.current_sub_level_service_year}
       </td>
       <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
         {v.leave==true ? "Leave Taken" : "No Leave"}

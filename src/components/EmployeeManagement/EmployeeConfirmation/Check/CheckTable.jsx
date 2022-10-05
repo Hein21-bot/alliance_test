@@ -120,10 +120,10 @@ export default class BenefitChildTable extends Component {
     }
     else if (prevProps.checkedAll !== this.props.checkedAll) {
       if (this.props.checkedAll) {
-        $("input[type='checkbox']").prop("checked", true);
+        $('.ipSelect').prop('checked', true);
       }
       else {
-        $("input[type='checkbox']").prop("checked", false);
+        $('.ipSelect').prop('checked', false);   console.log("data",this.props.checkedAll)
       }
     }
   }
@@ -208,6 +208,7 @@ export default class BenefitChildTable extends Component {
     let data = this.state.dataSource;
     data = data.filter(d => { return status == 4 ? status === d.status || 10 === d.status : status === d.status });
     this._setTableData(data)
+    console.log("data",data)
   }
 
   _setTableData = (data) => {
@@ -260,7 +261,7 @@ export default class BenefitChildTable extends Component {
       }
 
       if (has_select) {
-        obj.select = permission.isSelect === 1 ? '<div style=" alignItems:center" class="btn" id="toSelect" ><input type="checkbox" /><span id="select" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '' //'<div style="margin-right:0px;height:20px;width:20px;border:1px solid red" class="btn" id="toSelect" ><i className="fas fa-address-card" style="color:red"></i><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '';
+        obj.select = permission.isSelect === 1 ? '<div style=" alignItems:center" class="btn" id="toSelect" ><input class="ipSelect" type="checkbox" /><span id="select" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '' //'<div style="margin-right:0px;height:20px;width:20px;border:1px solid red" class="btn" id="toSelect" ><i className="fas fa-address-card" style="color:red"></i><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '';
       }
       if (has_action) {
         if (result.status !== 4) {
@@ -346,7 +347,7 @@ export default class BenefitChildTable extends Component {
   }
 
 
-  render() { console.log(".>>>>>>",this.state.regionId)
+  render() { 
     return (
       <div>
         <div className="row  white-bg dashboard-header">
