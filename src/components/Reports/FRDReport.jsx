@@ -46,6 +46,7 @@ class FRDReport extends Component {
                 let TotalStaff_Final_Total=0;
                 let NewStaff_Final_Total=0;
                 let QuitStaff_Final_Total=0;
+                let Field_Staff_Final_Total=0;
 
                 totalList.forEach((v1,i1)=>{
                     let Managerial_total=0;
@@ -53,14 +54,21 @@ class FRDReport extends Component {
                     let TotalStaff_total=0;
                     let NewStaff_total=0;
                     let QuitStaff_total=0;
+                    let FieldStaff_total=0;
                     let Managerial_subTotal=v1.Managerial_staff;
                     let OtherStaff_subTotal=v1.Other_staff;
                     let TotalStaff_subTotal=v1.Total_staff;
                     let NewStaff_subTotal=v1.New_staff;
                     let QuitStaff_subTotal=v1.Quit_staff;
+                    let FieldStaff_subTotal=v1.Field_staff;
+                    
                     
                     Managerial_total+=Managerial_subTotal;
                     Managerial_Final_Total+=Managerial_total;
+                    FieldStaff_total+=FieldStaff_subTotal;
+                    console.log("Field Staff total",FieldStaff_total)
+                    Field_Staff_Final_Total+=FieldStaff_total;
+                    console.log("Field Staff Fianl Total",Field_Staff_Final_Total)
                     OtherStaff_total+=OtherStaff_subTotal;
                     OtherStaff_Final_Total+=OtherStaff_total;
                     TotalStaff_total+=TotalStaff_subTotal;
@@ -70,7 +78,7 @@ class FRDReport extends Component {
                     QuitStaff_total+=QuitStaff_subTotal;
                     QuitStaff_Final_Total+=QuitStaff_total;
 
-                    console.log("Managerial Final total",Managerial_Final_Total)
+                    
                 })
                 // totalList.forEach((v1, i1) => {
                 //     let total = 0;
@@ -89,7 +97,8 @@ class FRDReport extends Component {
                     TotalStaff_Final_Total:TotalStaff_Final_Total,
                     NewStaff_Final_Total:NewStaff_Final_Total,
                     QuitStaff_Final_Total:QuitStaff_Final_Total,
-                    data: list
+                    data: list,
+                    Field_Staff_Final_Total:Field_Staff_Final_Total
                 })
 
 
@@ -147,7 +156,7 @@ class FRDReport extends Component {
                                             <td style={{textAlign:'center'}}>{i+1}</td>
                                             <td style={{textAlign:'center'}}>{v1.branch_name}</td>
                                             <td style={{textAlign:'center'}}>{v1.region_name}</td>
-                                            <td style={{textAlign:'center'}}>-</td>
+                                            <td style={{textAlign:'center'}}>{v1.Field_staff}</td>
                                             <td style={{textAlign:'center'}}>{v1.Managerial_staff}</td>
                                             <td style={{textAlign:'center'}}>{v1.Other_staff}</td>
                                             <td style={{textAlign:'center'}}>{v1.Total_staff}</td>
@@ -162,7 +171,7 @@ class FRDReport extends Component {
                                 <td style={{textAlign:'center'}} colSpan={3}>
                                     Total
                                 </td>
-                                <td style={{textAlign:'center'}}>-</td>
+                                <td style={{textAlign:'center'}}>{this.state.Field_Staff_Final_Total}</td>
                                 <td style={{textAlign:'center'}}>{this.state.Managerial_Final_Total}</td>
                                 <td style={{textAlign:'center'}}>{this.state.OtherStaff_Final_Total}</td>
                                 <td style={{textAlign:'center'}}>{this.state.TotalStaff_Final_Total}</td>

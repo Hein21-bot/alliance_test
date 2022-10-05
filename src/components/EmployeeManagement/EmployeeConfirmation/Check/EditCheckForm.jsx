@@ -7,7 +7,8 @@ import moment from "moment";
 import ApprovalInformation from '../InfoForConfirmation';
 
 const EditCheckForm = props => {
-    const { handleSubmit, handleEditCheckInputChange, status, onRecommendationChange, handleLetterWarningChange, view, fullname, BackToTable, extensionPeriod, extensionComment, comment, effectiveDate, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, recommendation, date, check_person, verify_person, sub_level_options, career_level_id, selected_sub_level, handleSelectedSubLevel, recommend_level, status_info, confirmPerson,edit } = props
+    const { handleSubmit, handleEditCheckInputChange, status, onRecommendationChange, handleLetterWarningChange, view, fullname, BackToTable, extensionPeriod, extensionComment, comment, effectiveDate, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, recommendation, date, check_person, verify_person, sub_level_options, career_level_id, selected_sub_level, handleSelectedSubLevel, recommend_level, status_info, confirmPerson,edit,checkListData } = props
+    console.log("check list data=====>",checkListData)
     const filter_sub_level = sub_level_options.filter(v => v.career_level_id == career_level_id)
     const selected_level = sub_level_options.filter(v => v.career_sub_level_id == recommend_level)
     
@@ -254,7 +255,7 @@ const EditCheckForm = props => {
                             </div> : confirmPerson == props.user_id && status == 1 ?
                                 <div className='w-100 mx-2' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                                     <button type='submit' className='btn btn-primary' style={{ borderRadius: 10, width: 120 }}>Confirm </button> </div> :
-                                props.user_id == 17 && status == 2 ? <div className='w-100 mx-2' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                                checkListData.filter(c=>c.isHR == "HR").map(v => ({ ...v, select: true })) && status == 2 ? <div className='w-100 mx-2' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                                     <button type='submit' className='btn btn-primary' style={{ borderRadius: 10, width: 120 }}>Verify </button> </div> :
                                     ""
                     }
