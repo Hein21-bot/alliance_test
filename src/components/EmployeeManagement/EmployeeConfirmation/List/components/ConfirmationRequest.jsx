@@ -258,7 +258,7 @@ export default class ConfirmationRequest extends Component {
   // });
   // };
 
-  render() { 
+  render() {
     const { dataSource, leaveCategory } = this.state;
     console.log('leaveCategory ===>', leaveCategory)
     return (
