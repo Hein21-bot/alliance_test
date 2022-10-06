@@ -419,65 +419,42 @@ export default class Sidebar extends Component {
                 </ul>
               </li>
 
-              {/* <li
-                className={this.checkPathName() === "/reports" || pathname === "/EmployeeDirectory" || pathname === "/ResignStaffReport" || pathname === "/RegionStaffReport" || pathname === "/BranchStaffReport" || pathname === "/HoStaffReport" || pathname === "/EmployeeReport" || pathname === "/ReportbyServiceYear" || pathname === "/HistoryReport" || pathname === "/FRDReport" || pathname === "/ExtensionReport" || pathname === "/RegionWiseStaffReportCount" ? "active" : ""}
+              <li
+                className={this.checkPathName() === "/confirmation" ? "active" : ""}
               >
-                <a href="/EmployeeDirectory" className="sideList">
-                  <i className="fa fa-folder sideIcon" style={{ color: 'white' }}></i>
-                  <span className="sideText">Employee Related Reports</span>
+                <a href="/confirmation_list" className="sideList">
+                  <i className="fas fa-user-check" style={{ color: 'white' }}></i>
+                  <span className="sideText">Confirmation</span>
                 </a>
                 <ul className="nav nav-second-level collapse">
                   <li
-                    className={pathname === "/EmployeeReport" ? "active" : ""}
+                    className={
+                      pathname === "/confirmation_list" ? "active" : " "
+                    }
                   >
-                    <a href="/EmployeeReport">Employee Report</a>
+                    <a href="/confirmation_list">Confirmation Prepare List</a>
                   </li>
                   <li
-                    className={pathname === "/ReportbyServiceYear" ? "active" : ""}
+                    className={
+                      pathname === "/confirmation_check" ? "active" : " "
+                    }
                   >
-                    <a href="/ReportbyServiceYear">Employee Report by Service Year</a>
+                    <a href="/confirmation_check">Confirm List</a>
                   </li>
                   <li
-                    className={pathname === "/HistoryReport" ? "active" : ""}
+                    className={
+                      pathname === "/confirmation_approve_list"
+                        ? "active"
+                        : ""
+                    }
                   >
-                    <a href="/HistoryReport"> Employee History Report</a>
+                    <a href="/confirmation_approve_list">Approve List</a>
                   </li>
-                  <li
-                    className={pathname === "/EmployeeDirectory" ? "active" : ""}
-                  >
-                    <a href="/EmployeeDirectory">Employee Directory Reoprt</a>
-                  </li>
-                  <li className={pathname === "/HoStaffReport" ? "active" : ""}>
-                    <a href="/HoStaffReport">Ho Staff Report</a>
-                  </li>
-                  <li className={pathname === "/BranchStaffReport" ? "active" : ""}>
-                    <a href="/BranchStaffReport">Branch Staff Report</a>
-                  </li>
-                  <li className={pathname === "/RegionStaffReport" ? "active" : ""}>
-                    <a href="/RegionStaffReport">Regional Staff Report</a>
-                  </li>
-                  <li
-                    className={pathname === "/FRDReport" ? "active" : ""}
-                  >
-                    <a href="/FRDReport">FRD Report</a>
-                  </li>
-                  <li className={pathname === "/ResignStaffReport" ? "active" : ""}>
-                    <a href="/ResignStaffReport">Resign Staff Report</a>
-                  </li>
-                  <li
-                    className={pathname === "/ExtensionReport" ? "active" : ""}
-                  >
-                    <a href="/ExtensionReport">Extension Report</a>
-                  </li>
-                  <li
-                    className={pathname === "/RegionWiseStaffReportCount" ? "active" : ""}
-                  >
-                    <a href="/RegionWiseStaffReportCount">Region Wise Staff Count Report</a>
-                  </li>
+                  
                 </ul>
-              </li> */}
+              </li>
 
-              
+
 
               <li
                 className={
@@ -706,41 +683,7 @@ export default class Sidebar extends Component {
               </li>
 
 
-              <li
-                className={this.checkPathName() === "/confirmation" ? "active" : ""}
-              >
-                <a href="/confirmation_list" className="sideList">
-                  <i className="fas fa-user-check" style={{ color: 'white' }}></i>
-                  <span className="sideText">Confirmation</span>
-                </a>
-                <ul className="nav nav-second-level collapse">
-                  <li
-                    className={
-                      pathname === "/confirmation_list" ? "active" : " "
-                    }
-                  >
-                    <a href="/confirmation_list">Confirmation Prepare List</a>
-                  </li>
-                  <li
-                    className={
-                      pathname === "/confirmation_check" ? "active" : " "
-                    }
-                  >
-                    <a href="/confirmation_check">Confirm List</a>
-                  </li>
-                  <li
-                    className={
-                      pathname === "/confirmation_approve_list"
-                        ? "active"
-                        : ""
-                    }
-                  >
-                    <a href="/confirmation_approve_list">Approve List</a>
-                  </li>
-                  
-                </ul>
-              </li>
-
+              
 
             
 
