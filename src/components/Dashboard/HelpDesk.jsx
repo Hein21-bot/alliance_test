@@ -276,47 +276,54 @@ class HelpDesk extends Component {
 
                                     }}>Tickets</p>
                                 </div>
-                            </div>
+                            </div>  
                             <div>
-                                {
-                                    this.state.TicketMainCategory.map(status => (
 
-                                        <div style={{
+{
+    this.state.TicketStatus.map(status => (
 
-                                            backgroundColor: '#dee1ec',
-                                            color: 'white',
-                                            display: 'flex',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'center',
+        <div style={{
 
-                                        }}>
-                                            <p style={{
-                                                display: 'inline',
-                                                marginLeft: '10px',
-
-                                                color: 'black'
+            backgroundColor: '#dee1ec',
+            color: 'white',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
 
 
-                                            }}>
-                                                {status.total_ticket}
+        }}>
+            <p style={{
+                display: 'inline',
+                marginLeft: '10px',
 
-                                            </p>
-                                            <p style={{
-                                                display: 'flex',
-                                                justifyContent: 'center',
-                                                alignItems: 'center',
+                color: 'black'
 
-                                                width: '70px',
-                                                height: '30px',
-                                                color: 'black',
-                                                borderLeft: '1px solid white',
 
-                                            }}>{status.total}</p>
-                                        </div>
-                                    ))
-                                }
+            }}>
+                {status.total_ticket}
+
+            </p>
+            <p style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+
+                width: '70px',
+                height: '30px',
+                color: 'black',
+                borderLeft: '1px solid white',
+
+            }}>{status.total}</p>
+        </div>
+    ))
+}
+
+
+
+
 
                             </div>
+                           
                         </div>
                         <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12" style={{
                             margin: 0,
@@ -396,9 +403,8 @@ class HelpDesk extends Component {
                                 </div>
                             </div>
                             <div>
-
                                 {
-                                    this.state.TicketStatus.map(status => (
+                                    this.state.TicketMainCategory.map(status => (
 
                                         <div style={{
 
@@ -407,7 +413,6 @@ class HelpDesk extends Component {
                                             display: 'flex',
                                             justifyContent: 'space-between',
                                             alignItems: 'center',
-
 
                                         }}>
                                             <p style={{
@@ -435,10 +440,6 @@ class HelpDesk extends Component {
                                         </div>
                                     ))
                                 }
-
-
-
-
 
                             </div>
                         </div>
