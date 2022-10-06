@@ -477,22 +477,7 @@ export default class Sidebar extends Component {
                 </ul>
               </li> */}
 
-              <li
-                className={
-                  this.checkPathName() === "/attendance_leave_report"
-                    ? "active"
-                    : ""
-                }
-              >
-                <a
-                  href="/attendance_leave_report"
-                  className="sideList"
-                  refresh="true"
-                >
-                  <img src="assets/icons/Attendance.svg" alt="" width="20" height="20" style={{ marginRight: 5 }} />
-                  <span className="sideText">Attendance and Leave</span>
-                </a>
-              </li>
+              
 
               <li
                 className={
