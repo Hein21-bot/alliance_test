@@ -107,7 +107,7 @@ class ConfirmationCheck extends Component {
             })
             .then(res => {
                 if (res) {
-                    let data = this.state.user_id == 921 ? res.filter(c => c.status == 3).map(v => ({ ...v, select: true })) : res.filter(c => c.check_person == this.state.user_id || c.confirm_person == this.state.user_id || this.state.user_id == 17 || c.request_person == this.state.user_id).map(v => ({ ...v, select: true }))
+                    let data = this.state.user_id == 921 ? res.filter(c => c.status == 3).map(v => ({ ...v, select: true })) : res.filter(c => c.check_person == this.state.user_id || c.confirm_person == this.state.user_id || c.isHR == "HR" || c.request_person == this.state.user_id).map(v => ({ ...v, select: true }))
                     this.setState({
                         checkListData: data,
                     })
@@ -484,7 +484,7 @@ class ConfirmationCheck extends Component {
     render() {
         let verify_person = this.state.checkListData && (this.state.checkListData[0] ? this.state.checkListData[0].verify_person : null)
         let check_person = this.state.checkListData && (this.state.checkListData[0] ? this.state.checkListData[0].check_person : null)
-        const { selected_checkList, extensionPeriod, extensionComment, comment, effectiveDate, checkedAll, edit, view, selectedTableData, fullname, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, status, recommendation, date, checkPerson, verifyPerson, sub_level_options, career_level_id, selected_sub_level, recommend_level, status_info, confirmPerson, checkAt, confirmAt, verifyAt, approveAt, } = this.state
+        const { selected_checkList, extensionPeriod, extensionComment, comment, effectiveDate, checkedAll, edit, view, selectedTableData, fullname, employment_id, designations, department, level, letterWarning, score, achievement, warningDate, status, recommendation, date, checkPerson, verifyPerson, sub_level_options, career_level_id, selected_sub_level, recommend_level, status_info, confirmPerson, checkAt, confirmAt, verifyAt, approveAt,checkListData } = this.state
         return (
             <div className=" border-bottom white-bg dashboard-header">
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -547,7 +547,7 @@ class ConfirmationCheck extends Component {
                             selected_sub_level={selected_sub_level}
                             handleSelectedSubLevel={this.handleSelectedSubLevel}
                             recommend_level={recommend_level}
-                           
+                            checkListData={checkListData}
                             edit={edit}
                             date={date} />
                         :
@@ -576,7 +576,7 @@ class ConfirmationCheck extends Component {
                                 sub_level_options={sub_level_options}
                                 recommend_level={recommend_level}
                                 date={date}
-                               
+                                
                                 status={status}
                                 status_info={status_info} />
                             :

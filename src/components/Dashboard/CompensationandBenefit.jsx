@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Highcharts from 'highcharts'
+import Highcharts from 'highcharts/highstock'
 import HighchartsReact from 'highcharts-react-official'
 import Select from 'react-select'
 import { main_url, getFirstDayOfMonth } from '../../utils/CommonFunction'
@@ -22,7 +22,8 @@ class CompensationandBenefit extends Component {
       uniqueMap:null,
       mapValue:null,
       finalMap:[],
-      seriesData:[]
+      seriesData:[],
+      chartData: [],
     }
   }
 
@@ -77,42 +78,63 @@ class CompensationandBenefit extends Component {
     ).then(res =>
       res.json()
     ).then(data => {
-      let uniquedate=new Set();
-      data.forEach(v=>{
-        v.amount.forEach(v1=>{
-          uniquedate.add(v1.Date);
+      let temp = [];
+      let dateArray = [];
+      data.map((v) => {
+        var obj = {};
+        obj['name'] = v.name;
+        let temp1 = [];
+        v.amount.map((a) => {
+          if (!dateArray.includes(a.Date)) {
+            dateArray.push(a.Date);
+          }
+          
+          temp1.push([a.Date, a.amount]);
         })
+        obj['data'] = temp1;
+        temp.push(obj);
       })
-      let uniqueMap = new Map();
-                uniquedate.forEach(v=>{
-                    uniqueMap.set(v, {
-                        "Date": v,
-                        "amount":0
-                    })
-                });
+      var labelArray = [];
+      temp.map(v => {
+        labelArray.push(v.name);
+      })
+      this.setState({chartData: temp, date: dateArray});
+      // data.forEach(v=>{
+      //   v.amount.forEach(v1=>{
+      //     uniquedate.add(v1.Date);
+      //   })
+      // })
+      // console.log('uniqueDate ===>', uniquedate);
+      // let uniqueMap = new Map();
+      //           uniquedate.forEach(v=>{
+      //               uniqueMap.set(v, {
+      //                   "Date": v,
+      //                   "amount":0
+      //               })
+      //           });
 
-                let mapValue = [...uniqueMap.values()]
+                // let mapValue = [...uniqueMap.values()]
                 
-                let dataRow = data;
-                dataRow = dataRow.map(v=>{
-                    let temp = [...v.amount];
-                    console.log("temp",temp)
-                    v.amount = mapValue;
-                    console.log("v.amount",v.amount)
+                // let dataRow = data;
+                // dataRow = dataRow.map(v=>{
+                //     let temp = [...v.amount];
+                //     // console.log("temp",temp)
+                //     v.amount = mapValue;
+                //     // console.log("v.amount",v.amount)
 
-                    v.amount = v.amount.map(amount=>{
-                        temp.forEach(originValue=>{
-                            if(amount.Date == originValue.Date){
-                                amount = originValue;
-                            }
+                //     v.amount = v.amount.map(amount=>{
+                //         temp.forEach(originValue=>{
+                //             if(amount.Date == originValue.Date){
+                //                 amount = originValue;
+                //             }
                             
-                        })
-                        return amount;
-                    })
-                    return v;
-                })
+                //         })
+                //         return amount;
+                //     })
+                //     return v;
+                // })
                 
-                let finalMap = new Map();
+                // let finalMap = new Map();
                 // this.state.dataRow.forEach(v=>{
                 //     v.amount.forEach(v1=>{
                 //       finalMap.set(v1,{
@@ -123,52 +145,54 @@ class CompensationandBenefit extends Component {
                 // });
                 // console.log("finalMap",finalMap)
                
-                dataRow.forEach(v=>{
-                  //already exsit May 2020
-                  v.amount.forEach(v1=>{
-                    if(finalMap.has(v1.Date)){
-                      let arrAmt = finalMap.get(v1.Date);
-                      arrAmt.push(v1.amount);
-                      finalMap.set(v1.Date, arrAmt);
-                    }else{
-                      //May 2020 , 
-                      finalMap.set(v1.Date, [v1.amount]);
-                    }
-                  })
+                // dataRow.forEach(v=>{
+                //   //already exsit May 2020
+                //   v.amount.forEach(v1=>{
+                //     if(finalMap.has(v1.Date)){
+                //       let arrAmt = finalMap.get(v1.Date);
+                //       arrAmt.push(v1.amount);
+                //       finalMap.set(v1.Date, arrAmt);
+                //     }else{
+                //       //May 2020 , 
+                //       finalMap.set(v1.Date, [v1.amount]);
+                //     }
+                //   })
                  
                   
                   // v.amount.map(v1=>{
                   //     this.state.finalMap.push({name:v1.Date,data:[...v1.amount]})
                   // })
-                })
-                console.log("finalmap=============>",finalMap)
+                // })
+                // console.log("finalmap=============>",finalMap)
                 
-                let dates = [...finalMap.keys()];
-                let seriesData = dates.map(v=>{
-                  let result = {
-                    name: v,
-                    data: finalMap.get(v)
-                  }
-                  return result;
-                })
+                // let dates = [...finalMap.keys()];
+                // let seriesData = dates.map(v=>{
+                //   let result = {
+                //     name: v,
+                //     data: finalMap.get(v)
+                //   }
+                //   return result;
+                // })
+                // console.log('seriesData ===>', seriesData)
 
 
                 
-                console.log('series',seriesData)
+                // console.log('series',seriesData)
 
 
-      console.log("unique date",uniquedate)
-      let listName = data.map(v => v.name);
-      console.log("listname",listName)
-      let listAmt = data.map(v => v.amount);
-      let listmap=listAmt.map(v=>v.amount)
-      this.setState({ name: listName, amount: listmap,date:uniquedate,dataRow:dataRow,
-        uniqueMap:uniqueMap,
-        mapValue:mapValue,seriesData:seriesData })
-      console.log("benefit name==>", this.state.name)
-      console.log('benefit amount==>', this.state.amount)
-      console.log("mapValue",mapValue)
-      console.log("dataRow",this.state.dataRow)
+      // console.log("unique date",uniquedate)
+      // let listName = data.map(v => v.name);
+      // // console.log("listname",listName)
+      // let listAmt = data.map(v => v.amount);
+      // let listmap=listAmt.map(v=>v.amount)
+      // this.setState({ name: listName, amount: listmap,date:uniquedate,dataRow:dataRow,
+      //   uniqueMap:uniqueMap,
+      //   mapValue:mapValue,seriesData:seriesData,
+      //  })
+      // console.log("benefit name==>", this.state.name)
+      // console.log('benefit amount==>', this.state.amount)
+      // console.log("mapValue",mapValue)
+      // console.log("dataRow",this.state.dataRow)
       this.setChartOption();
     })
 
@@ -195,11 +219,11 @@ class CompensationandBenefit extends Component {
         text: '',
       },
 
-      subtitle: {
-        text: ''
-      },
+      // subtitle: {
+      //   text: ''
+      // },
       yAxis: {
-        min: 0, max: 100000000, tickInterval: 10000000,
+        min: 0, tickInterval: 10000000,
         title: {
           text: ""
         },
@@ -209,10 +233,10 @@ class CompensationandBenefit extends Component {
       },
 
       xAxis: {
-        categories: this.state.name,
-        tickmarkPlacement: 'on',
+        categories: this.state.date,
+        // tickmarkPlacement: 'on',
         title: {
-          enabled: false
+          enabled: true
         }
       },
       accessibility: {
@@ -226,10 +250,10 @@ class CompensationandBenefit extends Component {
         x: 0,
         y: 0
       },
-      tooltip: {
-        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y:,.0f} millions)<br/>',
-        split: true
-      },
+      // tooltip: {
+      //   pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y:,.0f} millions)<br/>',
+      //   split: true
+      // },
       plotOptions: {
       
 
@@ -258,13 +282,15 @@ class CompensationandBenefit extends Component {
       //   })
        
       // }],
-      series:this.state.seriesData
+      series:this.state.chartData
 
     };
 
     this.setState({ chartOptions })
 
   }
+
+  
 
   render() {
     return (
