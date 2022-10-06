@@ -900,7 +900,8 @@ class EmployeeDetailMain extends Component {
       career_sub_level,
       tableEdit,
       tableView,
-      salaryList
+      salaryList,
+      salaryPermission
     } = this.state;
     if (this.state.loading == true) {
       return <div style={{ display: 'flex', justifyContent: 'center' }}><h2>Loading...</h2></div>
@@ -1058,7 +1059,8 @@ class EmployeeDetailMain extends Component {
               <EmploymentDetailsForSingleUserTable
                 goToViewForm={null}
                 goToEditForm={null}
-                salaryPermission={this.state.salaryPermission}
+                salaryList={salaryList}
+                salaryPermission={salaryPermission}
                 data={
                   this.state.employmentDataForSingleUser
                     ? this.state.employmentDataForSingleUser
