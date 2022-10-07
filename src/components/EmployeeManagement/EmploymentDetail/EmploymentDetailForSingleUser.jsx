@@ -113,7 +113,7 @@ export default class BenefitChildTable extends Component {
                 position: data[i].designations ? data[i].designations : '-',
                 branch: data[i].branch_name ? data[i].branch_name : '',
                 phone_no: '0979XXXXXX',//data[i].phone_no,
-                date: moment(new Date()).format('DD-MM-YYYY'),
+                date: data[i].last_promotion_date ? data[i].last_promotion_date :"-",
                 employed_date: data[i].employee_date ? moment(data[i].employee_date).format('DD-MM-YYYY') : '',
                 effective_date: data[i].effective_date ? moment(data[i].effective_date).format('DD-MM-YYYY') : '',
                 job_title: data[i].job_title ? this.state.job_title.length > 0 && this.state.job_title.filter(v => v.id == data[i].job_title)[0].job_title : '',
