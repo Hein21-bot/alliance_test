@@ -421,7 +421,11 @@ function getFirstDayOfMonth() {
     var firstDay = new Date(y, m, 1);
     return firstDay;
 }
-
+function getFirstDayOfYear() {
+    var date = new Date(), y = date.getFullYear(), m = date.getMonth();
+    var firstDay = new Date(y, 0, 1);
+    return firstDay;
+}
 function getLastDayOfMonth(y, m) {
     return new Date(y, m + 1, 0).getDate();
 }
@@ -938,7 +942,7 @@ export {
     validate, checkForStaffComplain, getDepartment, getWorkFlowStatus,
     getCOEmployeeList, getFXEmployeeList, alertText, getLevel, havePermission,
     getInformation, checkAmount, setPrintedStatus, removeCookieData, getLoginUser,
-    print, stopSaving, startSaving, fno, getFirstDayOfMonth, checkLimitAmount,
+    print, stopSaving, startSaving, fno, getFirstDayOfMonth, getFirstDayOfYear, checkLimitAmount,
     checkHRManager, checkHRAssistant, checkApprovalStatus, isApprover, havePermissionForAmount,
     calculationDate, isRequestedUser, atten_report, approveAmount, calculationDate1, getAttendancePolicy,
     getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError
