@@ -19,7 +19,8 @@ export default class AlternativeLeave extends Component {
             verifyBy: [],
             approvedBy: [],
             leave_days1: 0,
-            history: 0
+            history: 0,
+            id: this.props.id
         }
     }
 
@@ -132,7 +133,10 @@ export default class AlternativeLeave extends Component {
                         .then(text => {
                             if (status === 200) {
                                 toast.success(text);
-                                window.location.reload()
+                                fetch(`${main_url}attendance/alternativeLeaveRequest/${this.state.id}`)
+                                    .then((res) => {
+                                        window.location.reload()
+                                    })
                             }
                             else toast.error(text);
                         })
@@ -147,6 +151,7 @@ export default class AlternativeLeave extends Component {
 
 
     render() {
+        console.log('id is =====>', this.state.id)
         return (
             <div className='col-12' style={{ display: 'flex', justifyContent: 'center' }}>
                 <ToastContainer
