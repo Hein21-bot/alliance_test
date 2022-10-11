@@ -29,7 +29,8 @@ class AttendanceHistory extends Component {
             e_date: moment(),
             user_id: localStorage.getItem("user_id"),
             alternative: 0,
-            alternativeData: null
+            alternativeData: null,
+            alter_id: null
         }
     }
 
@@ -41,7 +42,7 @@ class AttendanceHistory extends Component {
 
             var data = $(this).find("#edit").text();
             data = $.parseJSON(data);
-            that.setState({ alternative: 1, alternativeData: data })
+            that.setState({ alternative: 1, alternativeData: data, alter_id: data.id })
 
         });
         // window.location.reload();
@@ -82,7 +83,6 @@ class AttendanceHistory extends Component {
                 let result = data[i];
                 let status = "";
                 let obj = [];
-                console.log('result is ====>', result)
                 if (result.holiday_checkin == 1 && result.check_out_status == 1 && result.status == 0) {
                     status +=
                         '<small class="label label-warning" style="background-color:#509aed"> Request </small>';
@@ -101,10 +101,10 @@ class AttendanceHistory extends Component {
                     attendance_type_check_in: result.late_check_in == 1 ? 'Late Check In' : result.field_checkin == 1 ? 'Field Check In' : result.holiday_checkin ? 'Holiday Check In' : 'Normal Check In',
                     attendance_type_check_out: result.early_checkout == 1 ? 'Early Check Out' : result.field_checkout == 1 ? 'Field Check Out' : result.holiday_checkout == 1 ? 'Holiday Check Out' : 'Normal Check Out',
                     status: status,
-                    action: result.holiday_checkin == 1 && result.check_out_status == 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Apply Leave</button>' : ''
+                    action: result.holiday_checkin == 1 && result.check_out_status == 1 ? result.leave_status == 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" disabled><span id="edit" class="hidden" disabled>' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Applied </button>' : '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" disabled>' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Apply Leave</button>' : ''
                 }
 
-                if (result.holiday_checkin == 1 && result.check_out_status == 1 && result.status == 1 && result.leave_allow_day > 0) {
+                if ((result.holiday_checkin == 1 || result.check_out_status == 1) && result.status == 1 && result.leave_allow_day > 0) {
                     action.push(i)
                 }
 
@@ -166,7 +166,7 @@ class AttendanceHistory extends Component {
     render() {
         return (
             <div>
-                {this.state.alternative == 1 ? <AlternativeLeave data={this.state.alternativeData} /> : <div className="row border-bottom white-bg dashboard-header">
+                {this.state.alternative == 1 ? <AlternativeLeave data={this.state.alternativeData} id={this.state.alter_id} /> : <div className="row border-bottom white-bg dashboard-header">
                     <div >
                         <div className="row" style={{ marginBottom: 10 }}>
                             <h3 style={{ margin: 7 }}>Attendance Type</h3>
