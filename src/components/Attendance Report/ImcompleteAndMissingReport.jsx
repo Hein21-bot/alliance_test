@@ -32,7 +32,7 @@ class ImcompleteAndMissingReport extends Component {
             to_date:moment(),
             EmployeeNameList:[],
             selectedEmployeeName:null,
-            selected_checkbox:2,
+            selected_checkbox:1,
             incomplete:0,
             missingAttendance:0,
             AttendanceType:null,
@@ -68,6 +68,16 @@ class ImcompleteAndMissingReport extends Component {
         this.getEmployeeName();
         this.getAttendanceType();
         this.handleSearchData();
+        $("#dataTables-table").on('click', '#toEdit', function () {
+
+          var data = $(this).find("#edit").text();
+          data = $.parseJSON(data);
+          this.goToEditForm(data);
+      
+      });
+    }
+    goToEditForm(){
+
     }
     getEmployeeName() {
       fetch(`${main_url}report/employeeName`)
@@ -135,20 +145,26 @@ class ImcompleteAndMissingReport extends Component {
       })
     }
     handleCheckbox=async (event)=>{
-      let incomplete=event.target.value ==2 ? 2 : 0
-      let missingAttendance=event.target.value == 3 ? 3 : 0
+      let incomplete=event.target.value ==1 ? 1 : 0
+      let missingAttendance=event.target.value == 2 ? 2 : 0
      
       this.setState({
           selected_checkbox:event.target.value
       })
   }
+  
     handleSearchData = () => {
       
-        fetch(`${main_url}report/extensionReport/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}/${this.state.selected_checkbox ? this.state.selected_checkbox : 0}/${this.state.selectedAttendance ? this.state.selectedAttendance.value : 0}`)
+        fetch(`${main_url}attendance/incompleteAttReport/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.selectedAttendance ? this.state.selectedAttendance.value : 0}/${this.state.selectedEmployeeName ? this.state.selectedEmployeeName.value : 0}/${this.state.selected_checkbox ? this.state.selected_checkbox : 0}/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}`)
           .then(res => { if (res.ok) return res.json() })
           .then(list => { 
             this._setTableData(list);
           })
+        // fetch(`${main_url}attendance/incompleteAttReport`)
+        //   .then(res => { if (res.ok) return res.json() })
+        //   .then(list => { 
+        //     this._setTableData(list);
+        //   })
       }
 
     _setTableData = (data) => { 
@@ -160,18 +176,21 @@ class ImcompleteAndMissingReport extends Component {
             let obj = [];
                 obj = {
                 no: i + 1,
-                employee_id:data[i].employment_id ? data[i].employment_id :"-",
-                employee_name:data[i].fullname ? data[i].fullname : "-",
-                branch: data[i].branch_name ? data[i].branch_name: "-",
+                date:data[i].date ? data[i].date :"-",
+                employee_id:data[i].employee_id ? data[i].employee_id : "-",
+                employee_name:data[i].employee_name ? data[i].employee_name : "-",
                 designation:data[i].designations ? data[i].designations : "-",
+                branch: data[i].location_master_name ? data[i].location_master_name: "-",
                 level:data[i].career_level ? data[i].career_level : "-",
                 department:data[i].deptname ? data[i].deptname : "-",
                 region:data[i].region_name ? data[i].region_name : '-',
                 pa_score:data[i].performance_score ? data[i].performance_score : '-',
                 target_achievement:data[i].target_achievement ? data[i].target_achievement : '-',
                 overall_performance:data[i].comment_overall_performance ? data[i].comment_overall_performance : '-',
-                extension_period:data[i].extension_period ? data[i].extension_period : '-'
+                extension_period:data[i].extension_period ? data[i].extension_period : '-',
+                
             }
+            obj.action='<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>'
             
             l.push(obj)
         }
@@ -188,12 +207,12 @@ class ImcompleteAndMissingReport extends Component {
             { title: "Employee Id", data: "employee_id" },
             { title: "Employee Name", data: "employee_name" },
             { title: "Position", data: "designation" },
-            { title: "Branch", data: "level" },
+            { title: "Branch", data: "branch" },
             { title: "Check In", data: "department" },
-            { title: "Check Out", data: "branch" },
+            { title: "Check Out", data: "checkout" },
             { title: "Attendance Type", data: "region" },
             { title: "Option", data: "pa_score" },
-            { title: "Action", data: "target_achievement" },
+            { title: "Action", data: "action" },
            
         ]
         table = $("#dataTables-table").DataTable({
@@ -237,7 +256,8 @@ class ImcompleteAndMissingReport extends Component {
             <div className="row  white-bg dashboard-header">
            <h3 className="" style={{paddingLeft:"10px"}}>Incomplete Attendance and Missing Attendance Report</h3>
               <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
-              <div style={{marginRight:10,width:150}}>
+              <div style={{marginRight:10,width:300}}>
+              <label htmlFor="">Start Date</label>
               <DatePicker
                   dateFormat="DD/MM/YYYY"
                   value={this.state.from_date}
@@ -245,7 +265,8 @@ class ImcompleteAndMissingReport extends Component {
                   timeFormat={false}
                 />
               </div>
-              <div style={{marginRight:10,width:150}}>
+              <div style={{marginRight:10,width:300}}>
+                <label htmlFor="">End Date</label>
               <DatePicker
                  dateFormat="DD/MM/YYYY"
                  value={this.state.to_date}
@@ -253,12 +274,17 @@ class ImcompleteAndMissingReport extends Component {
                  timeFormat={false}
                 />
               </div>
+              <div tyle={{
+                textAlign: 'start',
+                marginLeft: 10
+              }}>
+              <label htmlFor="">Branch</label>
               <Select
               styles={{
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150,
+                  width: 300,
                   marginRight:10
                 }),
                 control: base => ({
@@ -274,12 +300,15 @@ class ImcompleteAndMissingReport extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
+              </div>
+              <div style={{textAlign:'start'}}>
+                <label htmlFor="">Region</label>
               <Select
               styles={{
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150,
+                  width: 300,
                   marginRight:10
                 }),
                 control: base => ({
@@ -295,13 +324,16 @@ class ImcompleteAndMissingReport extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             /> 
+              </div>
            
+            <div style={{textAlign:'start'}}>
+              <label htmlFor="">Department</label>
             <Select
               styles={{
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 300
                 }),
                 control: base => ({
                   ...base,
@@ -316,16 +348,19 @@ class ImcompleteAndMissingReport extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
+            </div>
             
-            <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
+            <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 35, padding: '0px 5px 0px 5px',marginTop:20 }} onClick={() => this.handleSearchData()}>Search</button>
             </div>
             <div className="flex-row" style={{display:'flex',justifyContent:'left',alignItems:'center',margin:'10px 10px 10px 10px'}}>
-            <Select
+           <div>
+            <label htmlFor="">Employee Name</label>
+           <Select
               styles={{
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150,
+                  width: 300,
                   marginRight:10
                 }),
                 control: base => ({
@@ -341,12 +376,15 @@ class ImcompleteAndMissingReport extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
+           </div>
+             <div>
+              <label htmlFor="">Attendance Type</label>
              <Select
               styles={{
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150,
+                  width: 300,
                   marginRight:10
 
                 }),
@@ -363,17 +401,18 @@ class ImcompleteAndMissingReport extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
+             </div>
             <div>
               <label htmlFor="">Status</label>
               <div style={{display:'flex',justifyContent:'start',alignItems:'end',marginLeft:10}}>
                             <div style={{marginRight:50, height: 20}}>
                             
-                            <input type="checkbox" id='region'  name='region' checked={this.state.selected_checkbox == 2 ? 'checked': ''} value='2' onChange={this.handleCheckbox}/>
+                            <input type="checkbox" id='region'  name='region' checked={this.state.selected_checkbox == 1 ? 'checked': ''} value='1' onChange={this.handleCheckbox}/>
                             <label for="region" style={{marginLeft: 5, marginBottom: 5}}> Incomplete</label>
                             </div>
                             <div style={{marginRight:50, height: 20}}>
                                 
-                                <input type="checkbox" id='branch'  name='branch' checked={this.state.selected_checkbox == 3 ? 'checked': ''} value='3' onChange={this.handleCheckbox}/>
+                                <input type="checkbox" id='branch'  name='branch' checked={this.state.selected_checkbox == 2 ? 'checked': ''} value='2' onChange={this.handleCheckbox}/>
                                 <label for='branch' style={{marginLeft: 5, marginBottom: 5}}> Missing Attendance</label>
                             </div>
                             
