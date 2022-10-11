@@ -94,13 +94,14 @@ export default class BenefitChildTable extends Component {
 
 
 
-    _setTableData = (data) => {
+    _setTableData = (data) => { 
         var table;
         var l = [];
         var status;
         var permission = this.props.permission;
         var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
         for (var i = 0; i < data.length; i++) {
+            console.log("salary5",this.props.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level_id) ? this.props.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level_id)[0].basic_salary:"sdfsdf",this.props.salaryList)
             let result = data[i];
             console.log('result is =====>', result)
             let obj = [];
@@ -112,14 +113,15 @@ export default class BenefitChildTable extends Component {
                 position: data[i].designations ? data[i].designations : '-',
                 branch: data[i].branch_name ? data[i].branch_name : '',
                 phone_no: '0979XXXXXX',//data[i].phone_no,
-                date: moment(new Date()).format('DD-MM-YYYY'),
+                date: data[i].last_promotion_date ? data[i].last_promotion_date :"-",
                 employed_date: data[i].employee_date ? moment(data[i].employee_date).format('DD-MM-YYYY') : '',
                 effective_date: data[i].effective_date ? moment(data[i].effective_date).format('DD-MM-YYYY') : '',
                 job_title: data[i].job_title ? this.state.job_title.length > 0 && this.state.job_title.filter(v => v.id == data[i].job_title)[0].job_title : '',
                 carrer_level: data[i].career_level ? data[i].career_level : '',
                 carrer_sub_level: data[i].career_sub_level ? data[i].career_sub_level : '',
                 // salary: data[i].salary ? data[i].salary : '',
-                salary: this.props.salaryPermission.length > 0 ? data[i].salary ? data[i].salary : '' : data[i].career_sub_level_id > 20 ? 'Not Available' : data[i].salary ? data[i].salary : '',
+                salary: this.props.salaryPermission.length > 0 ? data[i].salary ? data[i].salary : this.props.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level_id)[0] ? this.props.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level_id)[0].basic_salary: ''
+                : data[i].career_sub_level_id > 20 ? 'Not Available' : data[i].salary ? data[i].salary : this.props.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level_id)[0].basic_salary,
                 department: data[i].deptname ? data[i].deptname : '',
                 discon_status: data[i].discontinute_status ? data[i].discontinute_status == 0 ? 'False' : 'True' : 'False',
                 discon_date: data[i].discontinute_date ? moment(data[i].discontinute_date).format('DD-MM-YYYY') : '',
@@ -222,8 +224,7 @@ export default class BenefitChildTable extends Component {
     }
 
 
-    render() {
-        console.log('single user table is ====>', this.props.salaryPermission)
+    render() { 
         return (
             <div>
                 <div className="row border-bottom white-bg dashboard-header">

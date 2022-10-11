@@ -424,7 +424,7 @@ class EmployeeDetailMain extends Component {
     if (event !== null)
       this.setState({
         selected_job: event,
-      });
+      },()=>{console.log(this.state.selected_job.value)});
   };
 
 
@@ -443,6 +443,8 @@ class EmployeeDetailMain extends Component {
           ? this.state.selected_branch.value
           : 0}/${this.state.selected_designation
             ? this.state.selected_designation.value
+            : 0}/${this.state.selected_job
+              ? this.state.selected_job.value
             : 0}/${this.state.selected_status
               ? this.state.selected_status.value
               : -1}`)
@@ -900,7 +902,8 @@ class EmployeeDetailMain extends Component {
       career_sub_level,
       tableEdit,
       tableView,
-      salaryList
+      salaryList,
+      salaryPermission
     } = this.state;
     if (this.state.loading == true) {
       return <div style={{ display: 'flex', justifyContent: 'center' }}><h2>Loading...</h2></div>
@@ -990,8 +993,20 @@ class EmployeeDetailMain extends Component {
                   className="col-lg-2 col-md-3 col-sm-12"
                   style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
                 >
+                  <div style={{ paddingBottom: 10 }}>Job Title</div>
+                  <Select
+                    options={this.state.jobList}
+                    value={this.state.selected_job}
+                    onChange={this.handleSelectedJob.bind(this)}
+                    className="react-select-container checkValidate"
+                    classNamePrefix="react-select"
+                  />
+                </div>
+                <div
+                  className="col-lg-2 col-md-3 col-sm-12"
+                  style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
+                >
                   <div style={{ paddingBottom: 10 }}>Status</div>
-
                   <Select
                     options={this.state.statusList}
                     value={this.state.selected_status}
@@ -1058,7 +1073,8 @@ class EmployeeDetailMain extends Component {
               <EmploymentDetailsForSingleUserTable
                 goToViewForm={null}
                 goToEditForm={null}
-                salaryPermission={this.state.salaryPermission}
+                salaryList={salaryList}
+                salaryPermission={salaryPermission}
                 data={
                   this.state.employmentDataForSingleUser
                     ? this.state.employmentDataForSingleUser

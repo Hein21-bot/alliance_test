@@ -190,7 +190,7 @@ class HeadCountBarChart extends Component {
     const chartOptions = {
       chart: {
         type: "bar",
-        height: "300px",
+        height: "500px",
       },
       title: {
         text: "",

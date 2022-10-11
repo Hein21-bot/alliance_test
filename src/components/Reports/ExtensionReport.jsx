@@ -28,8 +28,8 @@ class ExtensionReport extends Component {
             branchId:null,
             regionId:null,
             departmentId:null,
-            from_date:moment(),
-            to_date:moment() 
+            from_date:getFirstDayOfMonth() ,
+            to_date:moment()
         }
     }
     
