@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import Select from 'react-select' ;
-import {main_url,getFirstDayOfMonth} from '../../utils/CommonFunction';
+import {main_url,getFirstDayOfYear} from '../../utils/CommonFunction';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css';
 import 'datatables.net-dt/css/jquery.dataTables.css'
@@ -32,7 +32,7 @@ class ResignStaffReport extends Component {
            designationList:null,
            selected_designation:null,
            exitStatusList: null, 
-           s_date:moment(getFirstDayOfMonth()),
+           s_date:moment(getFirstDayOfYear()),
            e_date:moment(),           
         }
     }
@@ -42,12 +42,12 @@ class ResignStaffReport extends Component {
         this.setState(
           {
             dataSource: this.props.data,
-    
           },
           () => {
             this._setTableData(this.state.dataSource);
           }
         );
+          // this.getResignList();
           this.getRegionList();
           this.getEmployeeName();
           this.getBranchList();
@@ -55,6 +55,9 @@ class ResignStaffReport extends Component {
           this.getStatusList();
           this.handleSearchData();
     }
+    // getResignList(){
+
+    // }
     getStatusList() {
       fetch(`${main_url}employee/getStatus`)
         .then((res) => {
@@ -126,12 +129,12 @@ class ResignStaffReport extends Component {
     handleStartDate = async (event) => {
       this.setState({
         s_date:event
-      })
+      },()=>{console.log(this.state.s_date)})
     }
     handleEndDate = async (event) => {
       this.setState({
         e_date:event
-      })
+      },()=>{console.log(this.state.e_date)})
     }
     handleSelectedBranch = async (event) => {
         this.setState({
@@ -168,10 +171,15 @@ class ResignStaffReport extends Component {
       const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
       const employee = this.state.selected_employee ? this.state.selected_employee.value : 0
       const exitStatusId= this.state.selected_exitstatus ? this.state.selected_exitstatus.value : -1
-        fetch(main_url+"report/employeeResign/"+regionId+"/"+branchId+"/"+designationId+"/"+employee+"/"+exitStatusId)
+      const start_date = this.state.s_date
+      const end_date = this.state.e_date
+        fetch(main_url+"report/employeeResign/"+regionId+"/"+branchId+"/"+designationId+"/"+employee+"/"+exitStatusId+"/"+moment(start_date).format("YYYY-MM-DD")+"/"+moment(end_date).format("YYYY-MM-DD"))
           .then(res => { if (res.ok) return res.json() })
           .then(list => {
-            this._setTableData(list);
+          
+            this._setTableData(list
+              .filter((v,i,a)=>a.findIndex(v2=>((v2.employment_id).trim()===(v.employment_id).trim()))===i)
+            );
           })
       }
 
@@ -191,7 +199,7 @@ class ResignStaffReport extends Component {
                 employee_date:data[i].employ_date ? data[i].employ_date : '-',
                 
                 last_date: data[i].discontinued_date ? data[i].discontinued_date : '-',
-                exit_status: data[i].exit_status ? data[i].exit_status : '-',
+                exit_status: data[i].status ? data[i].status : '-',
                 resign_reason: data[i].resign_reason ? data[i].resign_reason : '-'
 
             }    
@@ -258,7 +266,7 @@ class ResignStaffReport extends Component {
             <div className="row  white-bg dashboard-header">
            <h3 className="" style={{paddingLeft:"10px"}}>Resign Staff Report</h3>
               <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
-              {/* <div style={{width:150,marginRight:10}}>
+              <div style={{width:150,marginRight:10}}>
                <DatePicker
                   placeholder="Start Date"
                   dateFormat="DD/MM/YYYY"
@@ -273,7 +281,7 @@ class ResignStaffReport extends Component {
                   value={this.state.e_date}
                   onChange={this.handleEndDate}
                    timeFormat={false}          
-                  /></div> */}
+                  /></div>
               <Select
               styles={{
                 container: base => ({

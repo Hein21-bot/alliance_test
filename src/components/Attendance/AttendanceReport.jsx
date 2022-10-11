@@ -35,6 +35,7 @@ class AttendanceReportMonthly extends Component {
             attendance_status: 0,
             attendance_reason: 0,
             status: 0,
+            EmployeeNameList:[],
             regionList: [],
             departmentlist: [],
             branchlist: [],
@@ -68,6 +69,9 @@ class AttendanceReportMonthly extends Component {
         this.getBranchList()
         this.getAttendanceTypeList()
         this.getAttendanceStatusList()
+        this.handleSearchData()
+        this.getEmployeeName();
+
     }
 
     getRegionList() {
@@ -97,7 +101,20 @@ class AttendanceReportMonthly extends Component {
                 });
             });
     }
-
+    getEmployeeName() {
+        fetch(`${main_url}report/employeeName`)
+          .then((res) => {
+            if (res.ok) return res.json();
+          })
+          .then((list) => {
+            let lists = list.unshift({ value: 0, label: "All" });
+            this.setState({
+              EmployeeNameList: list.map((v) => ({
+                ...v
+              }))
+            })
+          })
+      }
     getBranchList() {
         fetch(`${main_url}benefit/getBranchList`)
             .then((res) => {
@@ -156,14 +173,14 @@ class AttendanceReportMonthly extends Component {
         if (event !== null)
             this.setState({
                 selected_department: event,
-            });
+            },()=>{console.log("wer",this.state.selected_department)});
     };
 
     handleSelectedBranch = (event) => {
         if (event !== null)
             this.setState({
                 selected_branch: event,
-            });
+            },()=>{console.log("wer",this.state.selected_branch)});
     };
 
     handleStartDate = (event) => {
@@ -182,7 +199,7 @@ class AttendanceReportMonthly extends Component {
         if (event !== null)
             this.setState({
                 selected_att_type: event,
-            });
+            },()=>{console.log("wer",this.state.selected_att_type)});
     };
 
     handleSelectedAttStatus = (event) => {
@@ -191,7 +208,13 @@ class AttendanceReportMonthly extends Component {
                 selected_att_status: event,
             });
     };
-
+    handleSelectedEmployeeName = (event) => {
+        if (event !== null)
+        this.setState({
+            selected_selected_employee_name: event,
+        });
+};
+    
     handleSelectedStatus = (event) => {
         if (event !== null)
             this.setState({
@@ -207,11 +230,32 @@ class AttendanceReportMonthly extends Component {
                 if (res.ok) return res.json();
             })
             .then((list) => {
-                this.setState({ data: list }, () => {
-                    this._setTableData(list);
+                this.setState({ data: list },()=>{
+                this._setTableData(list);   
                 })
             })
     }
+    handleSearchData = () => {
+        let start_date = moment(this.state.s_date).format('YYYY-MM-DD')
+        let end_date = moment(this.state.e_date).format('YYYY-MM-DD')
+        let region = this.state.selected_region ? this.state.selected_region.state_id : 0
+        let branch = this.state.selected_branch? this.state.selected_branch.value : 0
+        let department = this.state.selected_department ? this.state.selected_department.value : 0
+        let user_id = this.state.selected_selected_employee_name ? this.state.selected_selected_employee_name .value :0
+        let attendance_status = this.state.selected_status ? this.state.selected_status.value :0
+        let attendance_reason =  this.state.selected_att_type ? this.state.selected_att_type.value :0
+        let status = this.state.selected_status ? this.state.selected_status.value : 0
+         fetch(`${main_url}attendance/attendanceReport/${region}/${branch}/${department}/${user_id}/${attendance_status}/${attendance_reason}/${status}/${start_date}/${end_date}`)
+        .then((res) => {
+            if (res.ok) return res.json();
+        })
+        .then((list) => {
+            this.setState({ data: list }, () => {
+                this._setTableData(list);
+            
+            })
+        })
+}
 
     _setTableData = async (data) => {
         var table;
@@ -309,7 +353,7 @@ class AttendanceReportMonthly extends Component {
         });
     }
 
-    render() {
+    render() { console.log(this.state.EmployeeNameList)
         return (
             <div>
                 <div>
@@ -351,6 +395,20 @@ class AttendanceReportMonthly extends Component {
                             options={this.state.branchlist}
                             value={this.state.selected_branch}
                             onChange={this.handleSelectedBranch.bind(this)}
+                            className="react-select-container checkValidate"
+                            classNamePrefix="react-select"
+                        />
+                    </div>
+                    <div
+                        className="col-lg-2 col-md-3 col-sm-12"
+                        style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
+                    >
+                        <div style={{ paddingBottom: 10 }}>Employee Name</div>
+
+                        <Select
+                            options={this.state.EmployeeNameList}
+                            value={this.state.selected_employee_name}
+                            onChange={this.handleSelectedEmployeeName.bind(this)}
                             className="react-select-container checkValidate"
                             classNamePrefix="react-select"
                         />
@@ -427,7 +485,7 @@ class AttendanceReportMonthly extends Component {
                             <button
                                 type="button"
                                 className="btn btn-primary"
-                                onClick={() => this.attendanceReport()}
+                                onClick={() => this.handleSearchData()}
                             >
                                 Search
                             </button>
