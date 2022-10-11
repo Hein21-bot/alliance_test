@@ -34,7 +34,9 @@ class ImcompleteAndMissingReport extends Component {
             selectedEmployeeName:null,
             selected_checkbox:2,
             incomplete:0,
-            missingAttendance:0
+            missingAttendance:0,
+            AttendanceType:null,
+            selectedAttendance:null
         }
     }
     
@@ -64,6 +66,7 @@ class ImcompleteAndMissingReport extends Component {
            
         })
         this.getEmployeeName();
+        this.getAttendanceType();
         this.handleSearchData();
     }
     getEmployeeName() {
@@ -75,6 +78,20 @@ class ImcompleteAndMissingReport extends Component {
           let lists = list.unshift({ value: 0, label: "All" });
           this.setState({
             EmployeeNameList: list.map((v) => ({
+              ...v
+            }))
+          })
+        })
+    }
+    getAttendanceType(){
+      fetch(`${main_url}attendance/attendanceStatus`)
+        .then((res) => {
+          if (res.ok) return res.json();
+        })
+        .then((list) => {
+          let lists = list.unshift({ value: 0, label: "All" });
+          this.setState({
+            AttendanceType: list.map((v) => ({
               ...v
             }))
           })
@@ -111,37 +128,23 @@ class ImcompleteAndMissingReport extends Component {
            to_date : event
         })
     }
+    handleSelectedAttendance=async(event)=>{
+      console.log("attendance event",event)
+      this.setState({
+          selectedAttendance:event
+      })
+    }
     handleCheckbox=async (event)=>{
       let incomplete=event.target.value ==2 ? 2 : 0
       let missingAttendance=event.target.value == 3 ? 3 : 0
      
-      fetch(`${main_url}dashboard/resignRegion/${incomplete}/${missingAttendance}/${moment(this.state.fromDate).format('YYYY-MM-DD')}/${moment(this.state.toDate).format('YYYY-MM-DD')} `)
-          .then(response => {
-              if (response.ok) return response.json()
-          })
-          .then(res => {
-              if (res) {
-                  var label = [];
-                  var count = [];
-                  
-                      res.map((v, i) => {
-                          label.push(v.designations ? v.designations: v.state_name ? v.state_name : v.branch_name);
-                          count.push(v.count)
-                      })
-                  
-
-
-                  this.setState({ resignData: label, resignCount: count })
-              }
-              this.setChartOption()
-          })
-          .catch(error => console.error(`Fetch Error =\n`, error));
       this.setState({
           selected_checkbox:event.target.value
       })
   }
     handleSearchData = () => {
-        fetch(`${main_url}report/extensionReport/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}`)
+      
+        fetch(`${main_url}report/extensionReport/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}/${this.state.selected_checkbox ? this.state.selected_checkbox : 0}/${this.state.selectedAttendance ? this.state.selectedAttendance.value : 0}`)
           .then(res => { if (res.ok) return res.json() })
           .then(list => { 
             this._setTableData(list);
@@ -354,9 +357,9 @@ class ImcompleteAndMissingReport extends Component {
 
               }}
               placeholder="Attendance Type"
-              options={this.state.EmployeeNameList}
-              onChange={this.handleSelectedEmployeeName}
-              value={this.state.selectedEmployeeName}
+              options={this.state.AttendanceType}
+              onChange={this.handleSelectedAttendance}
+              value={this.state.selectedAttendance}
               className='react-select-container'
               classNamePrefix="react-select"
             />
