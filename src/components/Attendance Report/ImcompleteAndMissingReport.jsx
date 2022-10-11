@@ -28,10 +28,13 @@ class ImcompleteAndMissingReport extends Component {
             branchId:null,
             regionId:null,
             departmentId:null,
-            from_date:moment(),
+            from_date:moment(getFirstDayOfMonth()),
             to_date:moment(),
             EmployeeNameList:[],
-            selectedEmployeeName:null
+            selectedEmployeeName:null,
+            selected_checkbox:2,
+            incomplete:0,
+            missingAttendance:0
         }
     }
     
@@ -108,6 +111,35 @@ class ImcompleteAndMissingReport extends Component {
            to_date : event
         })
     }
+    handleCheckbox=async (event)=>{
+      let incomplete=event.target.value ==2 ? 2 : 0
+      let missingAttendance=event.target.value == 3 ? 3 : 0
+     
+      fetch(`${main_url}dashboard/resignRegion/${incomplete}/${missingAttendance}/${moment(this.state.fromDate).format('YYYY-MM-DD')}/${moment(this.state.toDate).format('YYYY-MM-DD')} `)
+          .then(response => {
+              if (response.ok) return response.json()
+          })
+          .then(res => {
+              if (res) {
+                  var label = [];
+                  var count = [];
+                  
+                      res.map((v, i) => {
+                          label.push(v.designations ? v.designations: v.state_name ? v.state_name : v.branch_name);
+                          count.push(v.count)
+                      })
+                  
+
+
+                  this.setState({ resignData: label, resignCount: count })
+              }
+              this.setChartOption()
+          })
+          .catch(error => console.error(`Fetch Error =\n`, error));
+      this.setState({
+          selected_checkbox:event.target.value
+      })
+  }
     handleSearchData = () => {
         fetch(`${main_url}report/extensionReport/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}`)
           .then(res => { if (res.ok) return res.json() })
@@ -328,6 +360,22 @@ class ImcompleteAndMissingReport extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
+            <div>
+              <label htmlFor="">Status</label>
+              <div style={{display:'flex',justifyContent:'start',alignItems:'end',marginLeft:10}}>
+                            <div style={{marginRight:50, height: 20}}>
+                            
+                            <input type="checkbox" id='region'  name='region' checked={this.state.selected_checkbox == 2 ? 'checked': ''} value='2' onChange={this.handleCheckbox}/>
+                            <label for="region" style={{marginLeft: 5, marginBottom: 5}}> Incomplete</label>
+                            </div>
+                            <div style={{marginRight:50, height: 20}}>
+                                
+                                <input type="checkbox" id='branch'  name='branch' checked={this.state.selected_checkbox == 3 ? 'checked': ''} value='3' onChange={this.handleCheckbox}/>
+                                <label for='branch' style={{marginLeft: 5, marginBottom: 5}}> Missing Attendance</label>
+                            </div>
+                            
+                    </div>
+            </div>
             </div>
            
             <table width="99%"

@@ -199,7 +199,7 @@ export default class SalaryAdvanceRequestForm extends Component {
                                             {
                                                 this.state.document.length > 0 ?
                                                     <DocumentList title='Salary Advance Document' doc={this.state.document} path='salary_advance' />
-                                                    : 'hey'
+                                                    : ''
                                             }
                                         </div>
                                         <div className="row approval-main">

@@ -100,14 +100,14 @@ class AttendenceBarChart extends Component {
             },
             series: [
                     {
-                    color: '#1f4545',    
-                    name:"Attendance",
-                    data:[10,1,3,4,8,15,1,9,6,23,16,12,14,3,14]
+                        color: '#1f4545',    
+                        name:"Attendance",
+                        data:[10,1,3,4,8,15,1,9,6,23,16,12,14,3,14]
                     },
                     {
-                    color:'#5c7c9f',
-                    name:"Late Attendance",
-                    data:[30,2,8,6,32,10,6,13,1,31,11,3,20,14,5]
+                        color:'#5c7c9f',
+                        name:"Late Attendance",
+                        data:[30,2,8,6,32,10,6,13,1,31,11,3,20,14,5]
                     },
                     {
                         color:'#9bcece',
