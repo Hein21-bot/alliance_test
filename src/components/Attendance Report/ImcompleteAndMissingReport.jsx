@@ -307,37 +307,47 @@ class ImcompleteAndMissingReport extends Component {
         return (
             <div>
             <div className="row  white-bg dashboard-header">
+              
            <h3 className="" style={{paddingLeft:"10px"}}>Incomplete Attendance and Missing Attendance Report</h3>
-              <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
-              <div style={{marginRight:10,width:300}}>
-              <label htmlFor="">Start Date</label>
-              <DatePicker
+           {/* <div className="col-md-12">
+            <div className="col-md-2">
+                <div>
+                <label htmlFor="" className="col-sm-12">Start Date</label>
+                </div>
+                <div className="col-md-10">
+                <DatePicker
                   dateFormat="DD/MM/YYYY"
                   value={this.state.from_date}
                   onChange={this.handleSelectedFromdate}
                   timeFormat={false}
                 />
+                </div>
               </div>
-              <div style={{marginRight:10,width:300}}>
-                <label htmlFor="">End Date</label>
-              <DatePicker
-                 dateFormat="DD/MM/YYYY"
-                 value={this.state.to_date}
-                 onChange={this.handleSelectedTodate}
-                 timeFormat={false}
+              <div className="col-md-2">
+                <div>
+                <label htmlFor="" className="col-sm-12">End Date</label>
+                </div>
+                <div className="col-md-10">
+                <DatePicker
+                  dateFormat="DD/MM/YYYY"
+                  value={this.state.to_date}
+                  onChange={this.handleSelectedTodate}
+                  timeFormat={false}
                 />
+                </div>
               </div>
-              <div tyle={{
-                textAlign: 'start',
-                marginLeft: 10
-              }}>
-              <label htmlFor="">Branch</label>
-              <Select
+            
+            <div className="col-2">
+              <div>
+              <label htmlFor="" className="col-sm-12">Branch</label>
+              </div>
+             <div className="col-md-10">
+             <Select
               styles={{
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 300,
+                  width: 150,
                   marginRight:10
                 }),
                 control: base => ({
@@ -353,8 +363,12 @@ class ImcompleteAndMissingReport extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
-              </div>
-              <div style={{textAlign:'start'}}>
+             </div>
+              
+            
+            </div>
+            <div className="col-2">
+            <div style={{textAlign:'start'}}>
                 <label htmlFor="">Region</label>
               <Select
               styles={{
@@ -378,7 +392,8 @@ class ImcompleteAndMissingReport extends Component {
               classNamePrefix="react-select"
             /> 
               </div>
-           
+            </div>
+            <div className="col-2">
             <div style={{textAlign:'start'}}>
               <label htmlFor="">Department</label>
             <Select
@@ -402,11 +417,12 @@ class ImcompleteAndMissingReport extends Component {
               classNamePrefix="react-select"
             />
             </div>
-            
+            </div>
+            <div className="col-2">
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 35, padding: '0px 5px 0px 5px',marginTop:20 }} onClick={() => this.handleSearchData()}>Search</button>
             </div>
-            <div className="flex-row" style={{display:'flex',justifyContent:'left',alignItems:'center',margin:'10px 10px 10px 10px'}}>
-           <div>
+            <div className="col-2">
+            <div>
             <label htmlFor="">Employee Name</label>
            <Select
               styles={{
@@ -430,7 +446,9 @@ class ImcompleteAndMissingReport extends Component {
               classNamePrefix="react-select"
             />
            </div>
-             <div>
+            </div>
+            <div className="col-2">
+            <div>
               <label htmlFor="">Attendance Type</label>
              <Select
               styles={{
@@ -455,6 +473,8 @@ class ImcompleteAndMissingReport extends Component {
               classNamePrefix="react-select"
             />
              </div>
+            </div>
+            <div className="col-2">
             <div>
               <label htmlFor="">Status</label>
               <div style={{display:'flex',justifyContent:'start',alignItems:'end',marginLeft:10}}>
@@ -472,6 +492,148 @@ class ImcompleteAndMissingReport extends Component {
                     </div>
             </div>
             </div>
+
+           </div> */}
+           <div>
+                      <div className="col-lg-2 col-md-3 col-sm-12">
+                        <div style={{ paddingBottom: 10 }}>
+                            Start Date
+                        </div>
+
+                        <DatePicker
+                        dateFormat="DD/MM/YYYY"
+                        value={this.state.from_date}
+                        onChange={this.handleSelectedFromdate}
+                        timeFormat={false}
+                      />
+                    </div>
+                    <div className="col-lg-2 col-md-3 col-sm-12">
+                        <div style={{ paddingBottom: 10 }}>
+                            End Date
+                        </div>
+
+                        <DatePicker
+                        dateFormat="DD/MM/YYYY"
+                        value={this.state.to_date}
+                        onChange={this.handleSelectedTodate}
+                        timeFormat={false}
+                      />
+                    </div>
+                    <div
+                        className="col-lg-2 col-md-3 col-sm-12"
+                        style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
+                    >
+                        <div style={{ paddingBottom: 10 }}>Region</div>
+
+                        <Select
+                              
+                              placeholder="Region"
+                              options={this.state.region}
+                              onChange={this.handleSelectedRegion}
+                              value={this.state.regionId}
+                              className='react-select-container'
+                              classNamePrefix="react-select"
+                            /> 
+                    </div>
+                    <div
+                        className="col-lg-2 col-md-3 col-sm-12"
+                        style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
+                    >
+                        <div style={{ paddingBottom: 10 }}>Department</div>
+
+                        <Select
+                            
+                            placeholder="Department"
+                            options={this.state.department}
+                            onChange={this.handleSelectedDepartment}
+                            value={this.state.departmentId}
+                            className='react-select-container'
+                            classNamePrefix="react-select"
+                          />
+                    </div>
+                    <div
+                        className="col-lg-2 col-md-3 col-sm-12"
+                        style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
+                    >
+                        <div style={{ paddingBottom: 10 }}>Branch</div>
+
+                        <Select
+                          
+                          placeholder="Branch"
+                          options={this.state.branch}
+                          onChange={this.handleSelectedBranch}
+                          value={this.state.branchId}
+                          className='react-select-container'
+                          classNamePrefix="react-select"
+                        />
+                    </div>
+                    <div
+                        className="col-lg-2 col-md-3 col-sm-12"
+                        style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
+                    >
+                        <div style={{ paddingBottom: 10 }}>Employee Name</div>
+
+                        <Select
+                          
+                          placeholder="Employee Name"
+                          options={this.state.EmployeeNameList}
+                          onChange={this.handleSelectedEmployeeName}
+                          value={this.state.selectedEmployeeName}
+                          className='react-select-container'
+                          classNamePrefix="react-select"
+                        />
+                    </div>
+                    <div
+                        className="col-lg-2 col-md-3 col-sm-12"
+                        style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
+                    >
+                        <div style={{ paddingBottom: 10 }}>Attendance Type</div>
+
+                        <Select
+
+                            placeholder="Attendance Type"
+                            options={this.state.AttendanceType}
+                            onChange={this.handleSelectedAttendance}
+                            value={this.state.selectedAttendance}
+                            className='react-select-container'
+                            classNamePrefix="react-select"
+                          />
+                    </div>
+                    
+                    <div
+                        className="col-lg-2 col-md-3 col-sm-12"
+                        style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
+                    >
+                        <div style={{ paddingBottom: 10 }}>Status</div>
+
+                        <div style={{display:'flex',justifyContent:'space-between',alignItems:'end'}}>
+                            <div >
+                            
+                            <input type="checkbox" id='region'  name='region' checked={this.state.selected_checkbox == 1 ? 'checked': ''} value='1' onChange={this.handleCheckbox}/>
+                            <label for="incomplete" style={{marginLeft: 5, marginBottom: 5}}> Incomplete</label>
+                            </div>
+                            <div >
+                                
+                                <input type="checkbox" id='branch'  name='branch' checked={this.state.selected_checkbox == 2 ? 'checked': ''} value='2' onChange={this.handleCheckbox}/>
+                                <label for='missingattendance' style={{marginLeft: 5, marginBottom: 5}}> Missing Attendance</label>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div className="col-lg-2 col-md-3 col-sm-12">
+                        <div className="col-md-10" style={{marginTop:30}}>
+                            <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={() => this.handleSearchData()}
+                            >
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+              
            
             <table width="99%"
                     className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
