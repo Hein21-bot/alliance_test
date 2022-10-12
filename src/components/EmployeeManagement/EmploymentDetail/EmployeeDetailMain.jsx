@@ -76,7 +76,9 @@ class EmployeeDetailMain extends Component {
       salaryList: [],
       singleView: false,
       statusList: [{ label: 'All', value: -1 }, { label: 'Active', value: 0 }, { label: "Exit", value: 1 }],
-      salaryPermission: []
+      salaryPermission: [],
+      exitList: [{ label: 'Active', value: 0 }, { label: 'Exit', value: 1 }]
+
     };
   }
 
@@ -447,7 +449,9 @@ class EmployeeDetailMain extends Component {
               ? this.state.selected_job.value
             : 0}/${this.state.selected_status
               ? this.state.selected_status.value
-              : -1}`)
+              : -1}/${this.state.selected_exit_status
+                ? this.state.selected_exit_status.value
+              : 0}`)
       .then((response) => {
         if (response.ok) return response.json();
       })
@@ -998,6 +1002,20 @@ class EmployeeDetailMain extends Component {
                     options={this.state.jobList}
                     value={this.state.selected_job}
                     onChange={this.handleSelectedJob.bind(this)}
+                    className="react-select-container checkValidate"
+                    classNamePrefix="react-select"
+                  />
+                </div>
+                <div
+                  className="col-lg-2 col-md-3 col-sm-12"
+                  style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
+                >
+                  <div style={{ paddingBottom: 10 }}>Exit Status</div>
+
+                  <Select
+                    options={this.state.exitList}
+                    value={this.state.selected_exit_status}
+                    onChange={this.handleSelectedExitStatus.bind(this)}
                     className="react-select-container checkValidate"
                     classNamePrefix="react-select"
                   />

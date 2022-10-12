@@ -582,25 +582,7 @@ class EmployeeListMain extends Component {
                     classNamePrefix="react-select"
                   />
                 </div>
-                <div
-                  className="col-lg-2 col-md-3 col-sm-12"
-                  style={{ display: "flex", marginBottom: 10 }}
-                >
-                  <button
-                    onClick={this.handleSearch}
-                    className="btn btn-primary"
-                    style={{ borderRadius: 3, width: 80, marginRight: 15 }}
-                  >
-                    Search
-                  </button>
-                  <button
-                    onClick={this.handleAddNew}
-                    className="btn btn-primary"
-                    style={{ borderRadius: 3, width: 80, textAlign: 'center' }}
-                  >
-                    Add New
-                  </button>
-                </div>
+               
                 <div
                   className="col-lg-2 col-md-3 col-sm-12"
                   style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
@@ -619,7 +601,7 @@ class EmployeeListMain extends Component {
                   className="col-lg-2 col-md-3 col-sm-12"
                   style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
                 >
-                  <div style={{ paddingBottom: 10 }}>Exit Status</div>
+                  <div style={{ paddingBottom: 10,marginBottom:2 }}>Exit Status</div>
 
                   <Select
                     options={this.state.exitList}
@@ -628,6 +610,25 @@ class EmployeeListMain extends Component {
                     className="react-select-container checkValidate"
                     classNamePrefix="react-select"
                   />
+                </div>
+                <div
+                  className="col-lg-2 col-md-3 col-sm-12"
+                  style={{ display: "flex", marginBottom: 13 }}
+                >
+                  <button
+                    onClick={this.handleSearch}
+                    className="btn btn-primary"
+                    style={{ borderRadius: 3, width: 80, marginRight: 15 }}
+                  >
+                    Search
+                  </button>
+                  <button
+                    onClick={this.handleAddNew}
+                    className="btn btn-primary"
+                    style={{ borderRadius: 3, width: 80, textAlign: 'center' }}
+                  >
+                    Add New
+                  </button>
                 </div>
               </div>
               <EmployeeListTable
