@@ -33,7 +33,7 @@ class AttendanceReportMonthly extends Component {
             user_id: 0,
             attendance_type: 0,
             attendance_status: 0,
-            attendance_reason: 0,
+            attendance_att_type: 0,
             status: 0,
             EmployeeNameList:[],
             regionList: [],
@@ -42,6 +42,9 @@ class AttendanceReportMonthly extends Component {
             attTypeList: [],
             attStatusList: [],
             statusList: [{
+                value: 0,
+                label: 'All'
+            },{
                 value: 1,
                 label: 'Request'
             },
@@ -158,7 +161,7 @@ class AttendanceReportMonthly extends Component {
                         ...v,
 
                     })),
-                });
+                },()=>{console.log("att list",this.state.attStatusList)});
             });
     }
 
@@ -242,10 +245,10 @@ class AttendanceReportMonthly extends Component {
         let branch = this.state.selected_branch? this.state.selected_branch.value : 0
         let department = this.state.selected_department ? this.state.selected_department.value : 0
         let user_id = this.state.selected_selected_employee_name ? this.state.selected_selected_employee_name .value :0
-        let attendance_status = this.state.selected_status ? this.state.selected_status.value :0
-        let attendance_reason =  this.state.selected_att_type ? this.state.selected_att_type.value :0
+        let attendance_status = this.state.selected_att_status ? this.state.selected_att_status.value :0
+        let attendance_att_type =  this.state.selected_att_type ? this.state.selected_att_type.value :0
         let status = this.state.selected_status ? this.state.selected_status.value : 0
-         fetch(`${main_url}attendance/attendanceReport/${region}/${branch}/${department}/${user_id}/${attendance_status}/${attendance_reason}/${status}/${start_date}/${end_date}`)
+         fetch(`${main_url}attendance/attendanceReport/${region}/${branch}/${department}/${user_id}/${attendance_status}/${attendance_att_type}/${status}/${start_date}/${end_date}`)
         .then((res) => {
             if (res.ok) return res.json();
         })
@@ -353,7 +356,7 @@ class AttendanceReportMonthly extends Component {
         });
     }
 
-    render() { console.log(this.state.EmployeeNameList)
+    render() { console.log("att list",this.state.attTypeList)
         return (
             <div>
                 <div>

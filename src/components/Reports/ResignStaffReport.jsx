@@ -181,6 +181,7 @@ class ResignStaffReport extends Component {
               .filter((v,i,a)=>a.findIndex(v2=>((v2.employment_id).trim()===(v.employment_id).trim()))===i)
             );
           })
+          .catch(error => console.error(`Fetch Error =\n`, error));
       }
 
     _setTableData = (data) => {
