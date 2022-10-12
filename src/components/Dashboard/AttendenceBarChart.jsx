@@ -16,14 +16,17 @@ class AttendenceBarChart extends Component {
             },
             leaveData: [],
             countData: [],
-            chartData: []
+            chartData: [],
+            absent_count:[],
+            attandance_count:[],
+            late_count:[]
         }
     }
 
 
     async componentDidMount() {
         await this.setChartOption();
-        await this.attendenceDashboard();
+        await this.attendenceDashboard(0,0);
         let branch = await getBranch();
         branch.unshift({ label: 'All', value: 0 });
         let department = await getDepartment();
@@ -35,21 +38,38 @@ class AttendenceBarChart extends Component {
     }
 
     async attendenceDashboard(branchId,departmentId) {
-        fetch(`${main_url}dashboard/leaveDashboard/${this.state.data.branchId.value == undefined ? this.state.data.branchId : this.state.data.branchId.value}/${this.state.data.departmentId.value == undefined ? this.state.data.departmentId : this.state.data.departmentId.value} `)
+        fetch(`${main_url}dashboard/attendanceReport/${this.state.data.branchId.value == undefined ? this.state.data.branchId : this.state.data.branchId.value}/${this.state.data.departmentId.value == undefined ? this.state.data.departmentId : this.state.data.departmentId.value} `)
             .then(response => {
                 if (response.ok) return response.json()
             })
             .then(res => {
-
+                let data=res;
+                    data.forEach(v => {
+                        if(v.data.length==1){
+                            v.data.push({attendance:0},{late:0})
+                        }else if(v.data.length==2){
+                            v.data.push({late:0})
+                        }
+                        return v
+                    });
+                let absent_count=data.map(v=>{
+                    return v.data[0].all -v.data[1].attendance-v.data[2].late
+                })
+                let attandance_count=data.map(v=>{
+                    return v.data[1].attendance
+                })
+                let late_count=data.map(v=>{
+                    return v.data[2].late
+                })
                 if (res) {
                     var label = [];
                     var count = [];
                     res.map((v, i) => {
-                        label.push(v.leave_category);
+                        label.push(v.location_master_name);
                         count.push(v.count)
                     })
 
-                    this.setState({ leaveData: label, countData: count })
+                    this.setState({ attendanceData: label, countData: count,absent_count,late_count,attandance_count })
                 }
                 this.setChartOption()
             })
@@ -66,8 +86,8 @@ class AttendenceBarChart extends Component {
                 text: '',
             },
             xAxis: {
-                categories: ['Mandalay', 'Zaycho', 'ChanMyaTharSi', 'PyiGyiDagon', 'Madaya', 'LetPanHa', 'TadaU','AungMyayTharZan','OhnChaw','PyinOoLwin','NaungCho','Sitgaing','Kyaukse','Amarapura','Myint Nge'],
-                // categories: this.state.leaveData,
+                // categories: ['Mandalay', 'Zaycho', 'ChanMyaTharSi', 'PyiGyiDagon', 'Madaya', 'LetPanHa', 'TadaU','AungMyayTharZan','OhnChaw','PyinOoLwin','NaungCho','Sitgaing','Kyaukse','Amarapura','Myint Nge'],
+                categories: this.state.attendanceData,
                 title: {
                     text: null
                 }
@@ -102,17 +122,17 @@ class AttendenceBarChart extends Component {
                     {
                         color: '#1f4545',    
                         name:"Attendance",
-                        data:[10,1,3,4,8,15,1,9,6,23,16,12,14,3,14]
+                        data:this.state.attandance_count
                     },
                     {
                         color:'#5c7c9f',
                         name:"Late Attendance",
-                        data:[30,2,8,6,32,10,6,13,1,31,11,3,20,14,5]
+                        data:this.state.late_count
                     },
                     {
                         color:'#9bcece',
                         name:"Absent",
-                        data:[3,6,1,20,14,6,9,2,3,10,30,7,11,13,20]
+                        data:this.state.absent_count
                     },
             ]
         }
