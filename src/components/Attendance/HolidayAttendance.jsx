@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { main_url, getFirstDayOfMonth } from '../../utils/CommonFunction';
+import { main_url, getFirstDayOfMonth,getUserId } from '../../utils/CommonFunction';
 import DatePicker from 'react-datetime';
 import moment from "moment";
 import Rodal from 'rodal';
@@ -31,7 +31,8 @@ class HolidayAttendance extends Component {
             visibleApprove: false,
             rejected_comment: '',
             approve_data: [],
-            leave_allow_day: 0
+            leave_allow_day: 0,
+            user_id: getUserId("user_info"),
         }
     }
 
@@ -65,7 +66,7 @@ class HolidayAttendance extends Component {
     async getHolidayAttendance() {
         let start_date = moment(this.state.s_date).format('YYYY-MM-DD')
         let end_date = moment(this.state.e_date).format('YYYY-MM-DD')
-        await fetch(`${main_url}attendance/getHolidayCheckIn/${start_date}/${end_date}`)
+        await fetch(`${main_url}attendance/getHolidayCheckIn/${this.state.user_id}/${start_date}/${end_date}`)
             .then((res) => {
                 if (res.ok) return res.json();
             })

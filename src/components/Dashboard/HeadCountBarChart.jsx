@@ -31,9 +31,9 @@ class HeadCountBarChart extends Component {
 
   componentDidMount() {
     if (this.props.title == "department") {
-      this.getHeadCountbyDepartment(1, 3);
+      this.getHeadCountbyDepartment(0, 0);
     } else {
-      this.getHeadCountbyDesignation(3, 1, 3);
+      this.getHeadCountbyDesignation(0, 0, 0);
       this.getDesignation();
     }
 
