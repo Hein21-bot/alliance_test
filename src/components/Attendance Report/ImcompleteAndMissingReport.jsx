@@ -263,7 +263,7 @@ class ImcompleteAndMissingReport extends Component {
           id: this.state.approve_data.id ? this.state.approve_data.id : 0,
           user_id: this.state.approve_data.user_id,
           incom_option: this.state.selectedOption.value,
-          date: this.state.approve_data.date
+          date: this.state.approve_data.date,
         })}`,
       })
         .then((res) => {
@@ -297,6 +297,10 @@ class ImcompleteAndMissingReport extends Component {
     //     "A-00499                                                                                                            ",
     //   fullname: "Phyo Zin Aung",
     //   id: 19,
+    //   incom_option: 1,
+    //   incom_status: 1,
+    //   att_type_in_status: 2,
+    //   att_type_out_status: null,
     //   location_master_name: "Head Office",
     //   user_id: 527,
     // };
@@ -325,10 +329,37 @@ class ImcompleteAndMissingReport extends Component {
                 .utc()
                 .format("DD-MM-YYYY hh:mm:ss a")
             : "-",
-          attendanceType: "-",
-          option: "-",
+          attendanceType: data[i].check_in_time
+            ? data[i].att_type_in_status == 0
+              ? "Normal"
+              : data[i].att_type_in_status == 1
+              ? "Holiday"
+              : data[i].att_type_in_status == 2
+              ? "Field"
+              : "Late Check In"
+            : data[i].check_out_time
+            ? data[i].att_type_in_status == 0
+              ? "Normal"
+              : data[i].att_type_in_status == 1
+              ? "Holiday"
+              : data[i].att_type_in_status == 2
+              ? "Field"
+              : "Early Check Out"
+            : "-",
+          option: data[i].incom_option
+            ? data[i].incom_option == 1
+              ? "Attendance"
+              : data[i].incom_option == 2
+              ? "Leave"
+              : "Absence"
+            : "-",
+          status: data[i].incom_status
+            ? data[i].incom_status == 1
+              ? '<small class="label label-warning" style="background-color:#29a50a"> Approve </small>'
+              : "-"
+            : "-",
         };
-        obj.action =
+        obj.action = data[i].incom_status ? '' :
           '<button style="margin-right:10px; background-color:#27568a" class="btn btn-primary btn-sm own-btn-edit" id="toEditApprove" ><span id="editApprove" class="hidden" >' +
           JSON.stringify(result) +
           '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>';
@@ -353,6 +384,7 @@ class ImcompleteAndMissingReport extends Component {
       { title: "Check Out", data: "checkout" },
       { title: "Attendance Type", data: "attendanceType" },
       { title: "Option", data: "option" },
+      { title: "Status", data: "status" },
       { title: "Action", data: "action" },
     ];
     table = $("#dataTables-table").DataTable({
@@ -391,7 +423,7 @@ class ImcompleteAndMissingReport extends Component {
     console.log("datasource ====>", this.state.dataSource);
     return (
       <div>
-        <ToastContainer position={toast.POSITION.TOP_RIGHT}/>
+        <ToastContainer position={toast.POSITION.TOP_RIGHT} />
         <div className="row  white-bg dashboard-header">
           <h3 className="" style={{ paddingLeft: "10px" }}>
             Incomplete Attendance and Missing Attendance Report
