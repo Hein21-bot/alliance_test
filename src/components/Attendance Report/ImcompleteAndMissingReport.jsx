@@ -35,7 +35,7 @@ class ImcompleteAndMissingReport extends Component {
       region: [],
       department: [],
       branchId: { value: 0, label: "All" },
-      regionId: { value: 0, label: "All" },
+      regionId: { value: 0, label: 'All' },
       departmentId: { value: 0, label: "All" },
       from_date: moment(getFirstDayOfMonth()),
       to_date: moment(),
@@ -711,7 +711,7 @@ class ImcompleteAndMissingReport extends Component {
             </div>
 
             <div
-              className="col-lg-2 col-md-3 col-sm-12"
+              className="col-lg-2 col-md-2 col-sm-12"
               style={{ marginBottom: 10, paddingLeft: 10, paddingRight: 10 }}
             >
               <div style={{ paddingBottom: 10 }}>Status</div>
@@ -719,8 +719,9 @@ class ImcompleteAndMissingReport extends Component {
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "end",
+                  flexDirection: 'column',
+                  // justifyContent: "space-between",
+                  // alignItems: "end",
                 }}
               >
                 <div>
