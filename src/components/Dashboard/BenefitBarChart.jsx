@@ -101,22 +101,10 @@ class BenefitBarChart extends Component {
                     let data = res.filter(v => v.amount != null)
                     var label = [];
                     var count = [];
-                    if (data.length < 5) {
-                        label.push(null, null)
-                        count.push(null, null)
-                        data.map((v, i) => {
-                            label.push(v.name);
-                            count.push(v.amount);
-                        });
-                        label.push(null, null)
-                        count.push(null, null)
-                    } else {
-                        data.map((v, i) => {
-                            label.push(v.name);
-
-                            count.push(v.amount);
-                        });
-                    }
+                    data.map((v, i) => {
+                        label.push(v.name);
+                        count.push(v.amount);
+                    });
 
                     this.setState({ xAxisDept: label, countDataDept: count})
                 }
