@@ -65,6 +65,9 @@ export default class Sidebar extends Component {
     if(pathname.includes('attendancerelatedreports')){
       return '/attendancerelatedreports'
     }
+    if(pathname.includes('attendance')){
+      return '/attendance'
+    }
     else return "/dashboard";
   }
 
@@ -420,7 +423,7 @@ export default class Sidebar extends Component {
               </li>
 
               <li
-                className={this.checkPathName() === "/confirmation" ? "active" : ""}
+                className={this.checkPathName() === "/confirmation"  ? "active" : ""}
               >
                 <a href="/confirmation_list" className="sideList">
                   <i className="fas fa-user-check" style={{ color: 'white' }}></i>
@@ -453,7 +456,55 @@ export default class Sidebar extends Component {
                   
                 </ul>
               </li>
-
+              <li
+                className={this.checkPathName() === "/attendance" || pathname === '/incomplete_and_missing_report' || pathname === '/holiday_attendance' || pathname === '/attendance_report_monthly' || pathname === "/attendance_type" || pathname === "/attendance_history" ? "active" : ""}
+              >
+                <a href="/incomplete_and_missing_report" className="sideList">
+                <i class="fa fa-address-book" style={{color:'white'}}></i>
+                 
+                  <span className="sideText">Attendance</span>
+                </a>
+                <ul className="nav nav-second-level collapse">
+                  <li
+                    className={
+                      pathname === "/incomplete_and_missing_report" ? "active" : " "
+                    }
+                  >
+                    <a href="/incomplete_and_missing_report">Incomplete And Missing Report</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/holiday_attendance" ? "active" : " "
+                    }
+                  >
+                    <a href="/holiday_attendance">Holiday Attendance</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/attendance_report_monthly" ? "active" : " "
+                    }
+                  >
+                    <a href="/attendance_report_monthly">Attendance Report Monthly</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/attendance_type" ? "active" : " "
+                    }
+                  >
+                    <a href="/attendance_type">Attendance Type</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/attendance_history"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/attendance_history">Attendance History</a>
+                  </li>
+                  
+                </ul>
+              </li>
 
 
               <li

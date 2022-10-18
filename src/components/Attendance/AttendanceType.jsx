@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { main_url, getFirstDayOfMonth } from '../../utils/CommonFunction';
+import { main_url, getFirstDayOfMonth,getUserId } from '../../utils/CommonFunction';
 import DatePicker from 'react-datetime';
 import moment from "moment";
 import Rodal from 'rodal';
@@ -32,7 +32,8 @@ class AttendanceType extends Component {
             checkboxAll: false,
             checkedListData: [],
             visible: false,
-            rejected_comment: ''
+            rejected_comment: '',
+            user_id: getUserId("user_info"),
         }
     }
 
@@ -121,7 +122,7 @@ class AttendanceType extends Component {
         }
         let start_date = moment(this.state.s_date).format('YYYY-MM-DD')
         let end_date = moment(this.state.e_date).format('YYYY-MM-DD')
-        await fetch(`${main_url}attendance/getLateOrEarlyAttendance/${start_date}/${end_date}/${check_in}/${field_in}/${check_out}/${field_out}`)
+        await fetch(`${main_url}attendance/getLateOrEarlyAttendance/${this.state.user_id}/${start_date}/${end_date}/${check_in}/${field_in}/${check_out}/${field_out}`)
             .then((res) => {
                 if (res.ok) return res.json();
             })
