@@ -64,11 +64,11 @@ class AttendancePolicy extends Component {
             day_modified_date: data.length > 0 ? data[0].day_modified_date : null,
             ot_start_time: data.length > 0 ? data[0].ot_start_time : null,
             ot_end_time: data.length > 0 ? data[0].ot_end_time : null,
-            ot_allow: data.length > 0 ? data[0].ot_allow : null,
+            ot_allow: data.length > 0 ? data[0].ot_allow : 0,
             late_check_in_start: data.length > 0 ? data[0].late_check_in_start : null,
             early_check_out_start: data.length > 0 ? data[0].early_check_out_start : null,
-            late_check_in_allow: data.length > 0 ? data[0].late_check_in_allow : null,
-            early_check_out_allow: data.length > 0 ? data[0].early_check_out_allow : null,
+            late_check_in_allow: data.length > 0 ? data[0].late_check_in_allow : 0,
+            early_check_out_allow: data.length > 0 ? data[0].early_check_out_allow : 0,
             remark: data.length > 0 ? data[0].remark : null,
             ot_allow_designation: data.length > 0 ? data[0].ot_allow_designation : []
         };
