@@ -33,22 +33,35 @@ export class AttendanceCaldendar extends Component {
     }
 
     componentDidMount() {
-        this.getAttendanceData(new Date())
+        this.getAttendanceData()
     }
 
-    getAttendanceData(date) {
-        let start_date = date == undefined ? moment(this.state.fromDate).format('YYYY-MM-DD') : moment(date).format('YYYY-MM') + '-01'
-        let end_date = date == undefined ? moment(this.state.toDate).format('YYYY-MM-DD') : moment(date).format('YYYY-MM') + `-${getLastDayOfMonth(moment(date).format('YYYY'), moment(date).format('MM') - 1)}`
+    getAttendanceData(date = null) {
+        // let start_date = date == undefined ? moment(this.state.fromDate).format('YYYY-MM-DD') : moment(date).format('YYYY-MM') + '-01'
+        // let end_date = date == undefined ? moment(this.state.toDate).format('YYYY-MM-DD') : moment(date).format('YYYY-MM') + `-${getLastDayOfMonth(moment(date).format('YYYY'), moment(date).format('MM') - 1)}`
+        let start_date = '';
+        let end_date = '';
+        var currentDate = new Date();
+        var y = currentDate.getFullYear();
+        var m = currentDate.getMonth();
+        var firstDay = new Date(y, m, 1);
+        if (date == null) {
+            start_date = moment(firstDay).format('YYYY-MM-DD');
+            end_date = moment(currentDate).format('YYYY-MM-DD');
+        } else {
+            start_date = `${moment(date).format('YYYY')}-${moment(date).format('MM')}-01`;
+            end_date = m + 1 == moment(date).format("M") ? moment(currentDate).format('YYYY-MM-DD') : `${moment(date).format('YYYY')}-${moment(date).format('MM')}-31`;
+        }
         fetch(`${main_url}attendance/attendanceCalendar/${this.state.id}/${start_date}/${end_date}`)
             .then(res => { if (res.ok) return res.json() })
             .then(list => {
-                // this.setState({
-                //     att_data: list,
-                //     cal_data: list.finalData,
-                //     absence_count:list.absence_count,
-                //     attendance_count:list.attendance_count,
-                //     leave_count:list.leave_count
-                // })
+                this.setState({
+                    att_data: list,
+                    cal_data: list.finalData,
+                    absence_count:list.absence_count,
+                    attendance_count:list.attendance_count,
+                    leave_count:list.leave_count
+                })
             })
     }
 
@@ -155,7 +168,7 @@ export class AttendanceCaldendar extends Component {
                         style={{ width: '50%' }}
                         calendarContainer={MyContainer}
                         formatWeekDay={nameOfDay => nameOfDay.substr(0, 3)}
-                        onMonthChange={(v) => this.getAttendanceData(v)}
+                        onMonthChange={(v) => this.getAttendanceData(moment(v))}
 
                     />
                 </div>
