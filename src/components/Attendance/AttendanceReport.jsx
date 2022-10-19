@@ -228,7 +228,7 @@ class AttendanceReportMonthly extends Component {
     async attendanceReport() {
         let start_date = moment(this.state.s_date).format('YYYY-MM-DD')
         let end_date = moment(this.state.e_date).format('YYYY-MM-DD')
-        await fetch(`${main_url}attendance/attendanceReport/${this.state.region}/${this.state.branch}/${this.state.department}/${this.state.user_id}/${this.state.attendance_status}/${this.state.attendance_reason}/${this.state.status}/${start_date}/${end_date}`)
+        await fetch(`${main_url}attendance/attendanceReport/${this.state.region}/${this.state.branch}/${this.state.department}/${this.state.user_id}/${this.state.attendance_att_type}/${this.state.attendance_status}/${0}/${this.state.status}/${start_date}/${end_date}`)
             .then((res) => {
                 if (res.ok) return res.json();
             })
@@ -248,7 +248,7 @@ class AttendanceReportMonthly extends Component {
         let attendance_status = this.state.selected_att_status ? this.state.selected_att_status.value :0
         let attendance_att_type =  this.state.selected_att_type ? this.state.selected_att_type.value :0
         let status = this.state.selected_status ? this.state.selected_status.value : 0
-         fetch(`${main_url}attendance/attendanceReport/${region}/${branch}/${department}/${user_id}/${attendance_att_type}/${attendance_status}/${status}/${start_date}/${end_date}`)
+         fetch(`${main_url}attendance/attendanceReport/${region}/${branch}/${department}/${user_id}/${attendance_att_type}/${attendance_status}/${0}/${status}/${start_date}/${end_date}`)
         .then((res) => {
             if (res.ok) return res.json();
         })
