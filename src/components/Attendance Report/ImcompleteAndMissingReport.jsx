@@ -350,7 +350,7 @@ class ImcompleteAndMissingReport extends Component {
             ? data[i].incom_option == 1
               ? "Attendance"
               : data[i].incom_option == 2
-              ? "Leave"
+              ? "Late"
               : "Absence"
             : "-",
           status: data[i].incom_status

@@ -42,18 +42,18 @@ class AttendanceReportMonthly extends Component {
             attTypeList: [],
             attStatusList: [],
             statusList: [{
-                value: 0,
+                value: -1,
                 label: 'All'
             },{
-                value: 1,
+                value: 0,
                 label: 'Request'
             },
             {
-                value: 2,
+                value: 1,
                 label: 'Approve'
             },
             {
-                value: 3,
+                value: 2,
                 label: 'Reject'
             }],
             selected_region: null,
@@ -248,7 +248,7 @@ class AttendanceReportMonthly extends Component {
         let attendance_status = this.state.selected_att_status ? this.state.selected_att_status.value :0
         let attendance_att_type =  this.state.selected_att_type ? this.state.selected_att_type.value :0
         let status = this.state.selected_status ? this.state.selected_status.value : 0
-         fetch(`${main_url}attendance/attendanceReport/${region}/${branch}/${department}/${user_id}/${attendance_status}/${attendance_att_type}/${status}/${start_date}/${end_date}`)
+         fetch(`${main_url}attendance/attendanceReport/${region}/${branch}/${department}/${user_id}/${attendance_att_type}/${attendance_status}/${status}/${start_date}/${end_date}`)
         .then((res) => {
             if (res.ok) return res.json();
         })

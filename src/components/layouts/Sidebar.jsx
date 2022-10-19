@@ -484,7 +484,7 @@ export default class Sidebar extends Component {
                       pathname === "/attendance_report_monthly" ? "active" : " "
                     }
                   >
-                    <a href="/attendance_report_monthly">Attendance Report Monthly</a>
+                    <a href="/attendance_report_monthly">Attendance Report</a>
                   </li>
                   <li
                     className={
