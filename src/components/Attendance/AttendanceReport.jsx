@@ -34,6 +34,7 @@ class AttendanceReportMonthly extends Component {
             attendance_type: 0,
             attendance_status: 0,
             attendance_att_type: 0,
+            attendance_reason:'',
             status: 0,
             EmployeeNameList:[],
             regionList: [],
@@ -224,11 +225,18 @@ class AttendanceReportMonthly extends Component {
                 selected_status: event,
             });
     };
+    handleRAttReason=(event)=>{
+        if(event !=null){
+            this.setState({
+                attendance_reason:event.target.value
+            })
+        }
+    }
 
     async attendanceReport() {
         let start_date = moment(this.state.s_date).format('YYYY-MM-DD')
         let end_date = moment(this.state.e_date).format('YYYY-MM-DD')
-        await fetch(`${main_url}attendance/attendanceReport/${this.state.region}/${this.state.branch}/${this.state.department}/${this.state.user_id}/${this.state.attendance_att_type}/${this.state.attendance_status}/${0}/${this.state.status}/${start_date}/${end_date}`)
+        await fetch(`${main_url}attendance/attendanceReport/${this.state.region}/${this.state.branch}/${this.state.department}/${this.state.user_id}/${this.state.attendance_att_type}/${this.state.attendance_status}/${this.state.attendance_reason ? this.state.attendance_reason : 0}/${this.state.status}/${start_date}/${end_date}`)
             .then((res) => {
                 if (res.ok) return res.json();
             })
@@ -248,7 +256,8 @@ class AttendanceReportMonthly extends Component {
         let attendance_status = this.state.selected_att_status ? this.state.selected_att_status.value :0
         let attendance_att_type =  this.state.selected_att_type ? this.state.selected_att_type.value :0
         let status = this.state.selected_status ? this.state.selected_status.value : 0
-         fetch(`${main_url}attendance/attendanceReport/${region}/${branch}/${department}/${user_id}/${attendance_att_type}/${attendance_status}/${0}/${status}/${start_date}/${end_date}`)
+        let attendance_reason=this.state.attendance_reason ? this.state.attendance_reason : 0
+         fetch(`${main_url}attendance/attendanceReport/${region}/${branch}/${department}/${user_id}/${attendance_att_type}/${attendance_status}/${attendance_reason}/${status}/${start_date}/${end_date}`)
         .then((res) => {
             if (res.ok) return res.json();
         })
@@ -482,6 +491,13 @@ class AttendanceReportMonthly extends Component {
                             timeFormat={false}
                         />
                     </div>
+                    <div className="col-lg-2 col-md-3 col-sm-12">
+                        <div style={{ paddingBottom: 10 }}>
+                            Attendance Reason
+                        </div>
+                        <input type="text" className="form-control" onChange={this.handleRAttReason.bind(this)} value={this.state.attendance_reason}/>
+                    </div>
+                    
 
                     <div className="col-md-3">
                         <div className="col-md-10 margin-top-20">

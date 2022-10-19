@@ -41,7 +41,8 @@ class ImcompleteAndMissingReport extends Component {
       to_date: moment(),
       EmployeeNameList: [],
       selectedEmployeeName: { value: 0, label: "All" },
-      selected_checkbox: 0,
+      selected_checkbox_incom: 0,
+      selected_checkbox_missing:0,
       incomplete: 0,
       missingAttendance: 0,
       AttendanceType: null,
@@ -198,23 +199,40 @@ class ImcompleteAndMissingReport extends Component {
       selectedOption: event,
     });
   };
-  handleCheckbox = async (event) => {
-    let incomplete = event.target.value == 1 ? 1 : 0;
-    let missingAttendance = event.target.value == 2 ? 2 : 0;
-
-    this.setState({
-      selected_checkbox: event.target.value,
-    });
+  handleCheckboxIncom = async (event) => {
+    let incom_check=document.getElementById('region');
+    if(incom_check.checked == true){
+      this.setState({
+        selected_checkbox_incom:event.target.value
+      })
+    }else{
+      this.setState({
+        selected_checkbox_incom:0
+      })
+    }
+  };
+  handleCheckboxMissing = async (event) => {
+    let missing_check=document.getElementById('branch');
+    if(missing_check.checked == true){
+      this.setState({
+        selected_checkbox_missing:event.target.value
+      })
+    }else{
+      this.setState({
+        selected_checkbox_missing:0
+      })
+    }
   };
 
   handleSearchData = () => {
+    let checkbox=(this.state.selected_checkbox_incom ==1 && this.state.selected_checkbox_missing ==2 ) ? 0 :this.state.selected_checkbox_incom ? 1: this.state.selected_checkbox_missing ? 2 : 0;
     fetch(
       `${main_url}attendance/incompleteAttReport/${this.state.user_id}/${
         this.state.branchId.value
       }/${this.state.departmentId.value}/${this.state.regionId.value}/${
         this.state.selectedAttendance.value
       }/${this.state.selectedEmployeeName.value}/${
-        this.state.selected_checkbox
+        checkbox
       }/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(
         this.state.to_date
       ).format("YYYY-MM-DD")}`
@@ -420,7 +438,7 @@ class ImcompleteAndMissingReport extends Component {
   };
 
   render() {
-    console.log("datasource ====>", this.state.dataSource);
+    console.log("datasource ====>", this.state.selected_checkbox_incom,this.state.selected_checkbox_missing);
     return (
       <div>
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -729,9 +747,9 @@ class ImcompleteAndMissingReport extends Component {
                     type="checkbox"
                     id="region"
                     name="region"
-                    checked={this.state.selected_checkbox == 1 ? "checked" : ""}
+                    // checked={this.state.selected_checkbox == 1 ? "checked" : ""}
                     value="1"
-                    onChange={this.handleCheckbox}
+                    onChange={this.handleCheckboxIncom}
                   />
                   <label
                     for="incomplete"
@@ -746,9 +764,9 @@ class ImcompleteAndMissingReport extends Component {
                     type="checkbox"
                     id="branch"
                     name="branch"
-                    checked={this.state.selected_checkbox == 2 ? "checked" : ""}
+                    // checked={this.state.selected_checkbox == 2 ? "checked" : ""}
                     value="2"
-                    onChange={this.handleCheckbox}
+                    onChange={this.handleCheckboxMissing}
                   />
                   <label
                     for="missingattendance"
