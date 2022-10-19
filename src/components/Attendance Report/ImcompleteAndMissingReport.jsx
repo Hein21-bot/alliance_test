@@ -200,8 +200,7 @@ class ImcompleteAndMissingReport extends Component {
     });
   };
   handleCheckboxIncom = async (event) => {
-    let incom_check=document.getElementById('region');
-    if(incom_check.checked == true){
+    if(event.target.checked == true){
       this.setState({
         selected_checkbox_incom:event.target.value
       })
@@ -212,8 +211,7 @@ class ImcompleteAndMissingReport extends Component {
     }
   };
   handleCheckboxMissing = async (event) => {
-    let missing_check=document.getElementById('branch');
-    if(missing_check.checked == true){
+    if(event.target.checked == true){
       this.setState({
         selected_checkbox_missing:event.target.value
       })
