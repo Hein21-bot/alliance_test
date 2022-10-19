@@ -84,7 +84,9 @@ class HeadCountBarChart extends Component {
           var department_male = [];
           var department_female = [];
           count.push()
-          let filterData=res.filter(v=>Object.keys(v).length == 3);
+          // let filterData=res.filter(v=>Object.keys(v).length == 3);
+          let filterData=res.filter(v=>v.hasOwnProperty('count'))
+          console.log("department filter",filterData)
           filterData.map(v=>{
            label.push(v.deptname);
             count.push(v.count);
@@ -179,7 +181,9 @@ class HeadCountBarChart extends Component {
           var count = [];
           var designation_male = []
           var designation_female = []
-          let filterData=res.filter(v=>Object.keys(v).length == 3);
+          // let filterData=res.filter(v=>Object.keys(v).length == 3);
+          let filterData=res.filter(v=>v.hasOwnProperty('count'))
+          console.log("filterData",filterData)
           filterData.map(v=>{
            label.push(v.designations);
             count.push(v.count);
