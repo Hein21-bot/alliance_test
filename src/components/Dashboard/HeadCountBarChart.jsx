@@ -83,13 +83,21 @@ class HeadCountBarChart extends Component {
           var count = [];
           var department_male = [];
           var department_female = [];
-          res.map((v, i) => {
-            label.push(v.deptname);
+          count.push()
+          // let filterData=res.filter(v=>Object.keys(v).length == 3);
+          let filterData=res.filter(v=>v.hasOwnProperty('count'))
+          console.log("department filter",filterData)
+          filterData.map(v=>{
+           label.push(v.deptname);
             count.push(v.count);
+          })
+          res.map((v, i) => {
+            // label.push(v.deptname);
+            // count.push(v.count);
             department_male.push(v.department_male)
             department_female.push(v.department_female)
           });
-          this.setState({ xAxisDept: label, countDataDept: count, department_male: department_male, department_female: department_female });
+          this.setState({ xAxisDept: label, countDataDept: count, department_male: department_male, department_female: department_female },()=>console.log("count dept",this.state.countDataDept));
         }
         this.setChartOptionDepartment();
       })
@@ -173,9 +181,16 @@ class HeadCountBarChart extends Component {
           var count = [];
           var designation_male = []
           var designation_female = []
-          res.map((v, i) => {
-            label.push(v.designations);
+          // let filterData=res.filter(v=>Object.keys(v).length == 3);
+          let filterData=res.filter(v=>v.hasOwnProperty('count'))
+          console.log("filterData",filterData)
+          filterData.map(v=>{
+           label.push(v.designations);
             count.push(v.count);
+          })
+          res.map((v, i) => {
+            // label.push(v.designations);
+            // count.push(v.count);
             designation_male.push(v.designation_male)
             designation_female.push(v.designation_female)
           });

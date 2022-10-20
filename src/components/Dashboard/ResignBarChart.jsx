@@ -388,7 +388,7 @@ class ResignBarChart extends Component {
 
                     }}
                 >
-                    <h3 className='' style={{ padding: '10px 0px 0px 0px' }}>No of Exit Staff</h3>
+                    <h3 className='' style={{ padding: '10px 0px 0px 0px' }}>No of Exit Staff(Top 5 Resign)</h3>
 
                     <div className='flex-row' style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', margin: '10px 10px 0px 10px' }}>
                         <DatePicker className='fromdate'
