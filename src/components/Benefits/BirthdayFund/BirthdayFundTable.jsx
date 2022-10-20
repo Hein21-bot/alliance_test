@@ -8,7 +8,7 @@ import moment from 'moment'
 import DatePicker from 'react-datetime';
 import { imgData } from '../../../utils/Global';
 import * as jsPDF from 'jspdf';
-import { main_url, getCookieData, getUserId,getMainRole, getInformation, print, fno, getFirstDayOfMonth, getBranch } from "../../../utils/CommonFunction";
+import { main_url, getCookieData, getFirstDayOfYear, getUserId,getMainRole, getInformation, print, fno, getFirstDayOfMonth, getBranch } from "../../../utils/CommonFunction";
 import Select from 'react-select';
 const $ = require('jquery');
 const jzip = require('jzip');

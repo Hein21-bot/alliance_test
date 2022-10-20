@@ -20,37 +20,40 @@ class WeddingBenefitMain extends Component {
             datasource: [],
             requestData:[],
             permission_status: {},
-            requestType:''
+            requestType:'',
+            active_tab: 0,
         }
     }
 
     async componentDidMount() {
         var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Wedding Benefit', 'Benefit');
-        this._getWeddingBenefit();
+        // this._getWeddingBenefit();
         this.setState({
             permission_status: permission_status
         })
     }
 
-    _getWeddingBenefit() {
-        let id = this.state.user_id;
+    // _getWeddingBenefit() {
+    //     let id = this.state.user_id;
 
-        fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id)
-            .then(response => {
-                if (response.ok) return response.json()
-            })
-            .then(res => {
-                if (res) {
-                    this.setState({ 
-                        datasource: res,
-                        requestData:res.filter(v=>v.createdBy != this.state.user_id)
-                    })
-                }
-            })
-            .catch(error => console.error(`Fetch Error =\n`, error));
+    //     fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id)
+    //         .then(response => {
+    //             if (response.ok) return response.json()
+    //         })
+    //         .then(res => {
+    //             if (res) {
+    //                 this.setState({ 
+    //                     datasource: res,
+    //                     requestData:res.filter(v=>v.createdBy != this.state.user_id)
+    //                 })
+    //             }
+    //         })
+    //         .catch(error => console.error(`Fetch Error =\n`, error));
 
+    // }
+    changeTab(tab) {
+        this.setState({ active_tab: tab},()=>{console.log(tab)})
     }
-
     setupForm = () => {
         this.setState({
             isAddNew: true,
@@ -100,23 +103,10 @@ class WeddingBenefitMain extends Component {
         }
 
     }
-    requestlist = async (data) => {
-        if (data == 'myrequest') {
-          this.setState({
-            requestData: this.state.datasource.filter(v => v.createdBy==this.state.user_id),
-            requestType:"myrequest"
-            
-          })
-        } else if (data == 'allrequest') {
-          this.setState({
-            requestData: this.state.datasource.filter(v => v.createdBy !=this.state.user_id),
-            requestType:"allrequest"
-            
-          })
-        }
-      }
+             
 
     render() {
+        
         return (
             <div className="wedding-benefit border-bottom white-bg dashboard-header">
                
@@ -135,8 +125,20 @@ class WeddingBenefitMain extends Component {
 
                 {
                     this.state.isTable ?
-                        <BenefitWeddingTable data={this.state.requestData} requestlist={this.requestlist} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status} requestType={this.state.requestType} /> : ''
+                    <div>
+                          <div>
+                           <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
+                          <li className="nav-item">
+                           <a className="nav-link " href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(1)}>My Request</a>
+                          </li>
+                          <li className="nav-item1 active">
+                          <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.changeTab(0)}>All Request</a>
+                          </li>
+                          </ul>
 
+                          </div>
+                        <BenefitWeddingTable  tab={this.state.active_tab} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status} requestType={this.state.requestType} /> </div>: ''
+                    
                 }
                 {
                     this.state.isView ?

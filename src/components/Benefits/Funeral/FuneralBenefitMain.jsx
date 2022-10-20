@@ -18,32 +18,32 @@ class FuneralBenefitMain extends Component {
             isTable: true,
             datasource: [],
             permission_status: {},
-            requestData:[],
+            active_tab: 0,
         }
     }
 
     async componentDidMount() {
         var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Funeral Benefit', 'Benefit');
-        this.getFunealBenefit();
+        // this.getFunealBenefit();
         this.setState({
             permission_status: permission_status
         })
     }
 
-    getFunealBenefit() {
-        let id = this.state.user_id;
+    // getFunealBenefit() {
+    //     let id = this.state.user_id;
 
-        fetch(main_url + "funeral_benefit/getFuneralBenefit/" + id)
-            .then(response => {
-                if (response.ok) return response.json()
-            })
-            .then(res => {
-                if (res) {
-                    this.setState({ datasource: res,requestData:res.filter(v=>v.createdBy != this.state.user_id) })
-                }
-            })
-            .catch(error => console.error(`Fetch Error =\n`, error));
-    }
+    //     fetch(main_url + "funeral_benefit/getFuneralBenefit/" + id)
+    //         .then(response => {
+    //             if (response.ok) return response.json()
+    //         })
+    //         .then(res => {
+    //             if (res) {
+    //                 this.setState({ datasource: res,requestData:res.filter(v=>v.createdBy != this.state.user_id) })
+    //             }
+    //         })
+    //         .catch(error => console.error(`Fetch Error =\n`, error));
+    // }
 
 
     setupForm = () => {
@@ -78,7 +78,9 @@ class FuneralBenefitMain extends Component {
             isTable: false
         })
     }
-
+    changeTab(tab) {
+        this.setState({ active_tab: tab},()=>{console.log(tab)})
+    }
     showToast = (status, text) => {
 
         if (status === 200) {
@@ -91,21 +93,21 @@ class FuneralBenefitMain extends Component {
         }
 
     }
-    requestlist = async (data) => {
-        if (data == 'myrequest') {
-          this.setState({
-            requestData: this.state.datasource.filter(v => v.createdBy==this.state.user_id),
-            requestType:"myrequest"
+    // requestlist = async (data) => {
+    //     if (data == 'myrequest') {
+    //       this.setState({
+    //         requestData: this.state.datasource.filter(v => v.createdBy==this.state.user_id),
+    //         requestType:"myrequest"
             
-          })
-        } else if (data == 'allrequest') {
-          this.setState({
-            requestData: this.state.datasource.filter(v => v.createdBy !=this.state.user_id),
-            requestType:"allrequest"
+    //       })
+    //     } else if (data == 'allrequest') {
+    //       this.setState({
+    //         requestData: this.state.datasource.filter(v => v.createdBy !=this.state.user_id),
+    //         requestType:"allrequest"
             
-          })
-        }
-      }
+    //       })
+    //     }
+    //   }
 
     render() {
         return (
@@ -119,7 +121,19 @@ class FuneralBenefitMain extends Component {
 
                 {
                     this.state.isTable ?
-                        <BenefitFuneralTable data={this.state.requestData} requestlist={this.requestlist} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status} /> : ''
+                    <div>
+                    <div>
+                     <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
+                    <li className="nav-item">
+                     <a className="nav-link " href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(1)}>My Request</a>
+                    </li>
+                    <li className="nav-item1 active">
+                    <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.changeTab(0)}>All Request</a>
+                    </li>
+                    </ul>
+
+                    </div>
+                        <BenefitFuneralTable  tab={this.state.active_tab}  goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status} /></div> : ''
 
                 }
                 {

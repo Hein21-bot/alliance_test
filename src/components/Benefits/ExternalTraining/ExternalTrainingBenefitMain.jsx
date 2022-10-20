@@ -21,35 +21,36 @@ class ExternalTrainingBenefitMain extends Component {
             is_main_role: getMainRole(),
             permission_status: {},
             requestData:[],
+            active_tab: 0,
             
         }
     }
 
     async componentDidMount() {
         var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'External Training Benefit', 'Benefit');
-        this._getExternalBenefit();
+        // this._getExternalBenefit();
         this.setState({
             permission_status: permission_status
         })
     }
 
-    _getExternalBenefit() {
-        let id = this.state.user_id;
+    // _getExternalBenefit() {
+    //     let id = this.state.user_id;
 
-        fetch(main_url + "external_benefit/getExternalBenefit/" + id)
-            .then(response => {
-                if (response.ok) return response.json()
-            })
-            .then(res => {
+    //     fetch(main_url + "external_benefit/getExternalBenefit/" + id)
+    //         .then(response => {
+    //             if (response.ok) return response.json()
+    //         })
+    //         .then(res => {
 
-                if (res) {
+    //             if (res) {
 
-                    this.setState({ data: res,requestData:res.filter(v=>v.createdBy !=this.state.user_id) })
-                }
-            })
-            .catch(error => console.error(`Fetch Error =\n`, error));
+    //                 this.setState({ data: res,requestData:res.filter(v=>v.createdBy !=this.state.user_id) })
+    //             }
+    //         })
+    //         .catch(error => console.error(`Fetch Error =\n`, error));
 
-    }
+    // }
 
 
     setupForm = () => {
@@ -87,7 +88,9 @@ class ExternalTrainingBenefitMain extends Component {
             isTable: false
         })
     }
-
+    changeTab(tab) {
+        this.setState({ active_tab: tab},()=>{console.log(tab)})
+    }
     showToast = (status, text) => {
 
         if (status === 200) {
@@ -100,23 +103,23 @@ class ExternalTrainingBenefitMain extends Component {
         }
 
     }
-    requestlist = async (data) => {
-        if (data == 'allrequest') {
-            this.setState({
-              requestData: this.state.data.filter(v => v.createdBy !=this.state.user_id),
-              requestType:"allrequest"
+    // requestlist = async (data) => {
+    //     if (data == 'allrequest') {
+    //         this.setState({
+    //           requestData: this.state.data.filter(v => v.createdBy !=this.state.user_id),
+    //           requestType:"allrequest"
               
-            })
-          }else if (data == 'myrequest') {
-            this.setState({
-              requestData: this.state.data.filter(v => v.createdBy == this.state.user_id),
-              requestType:"myrequest"
+    //         })
+    //       }else if (data == 'myrequest') {
+    //         this.setState({
+    //           requestData: this.state.data.filter(v => v.createdBy == this.state.user_id),
+    //           requestType:"myrequest"
               
-            })
-          }
+    //         })
+    //       }
          
         
-      }
+    //   }
 
     render() {
         return (
@@ -135,7 +138,19 @@ class ExternalTrainingBenefitMain extends Component {
 
                 {
                     this.state.isTable ?
-                        <BenefitExternalTrainingTable data={this.state.requestData} requestlist={this.requestlist} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status} /> : ' '
+                    <div>
+                    <div>
+                     <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
+                    <li className="nav-item">
+                     <a className="nav-link " href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(1)}>My Request</a>
+                    </li>
+                    <li className="nav-item1 active">
+                    <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.changeTab(0)}>All Request</a>
+                    </li>
+                    </ul>
+
+                    </div>
+                        <BenefitExternalTrainingTable tab={this.state.active_tab}  goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status} /></div> : ' '
                 }
                 {
                     this.state.isView ?

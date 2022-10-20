@@ -17,31 +17,32 @@ class CycleMain extends Component {
             isEdit: false,
             data: [],
             permission_status: {},
-            requestData:[]
+            requestData:[],
+            active_tab: 0,
         }
     }  
     async componentDidMount() {
         var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Cycle Insurance', 'Benefit')
-        this._getCycleInsurance();
+        // this._getCycleInsurance();
         // this._getEmployeeId();
         this.setState({
             permission_status: permission_status
         })
     }
-    _getCycleInsurance() {
-        let id = this.state.user_id;
+    // _getCycleInsurance() {
+    //     let id = this.state.user_id;
         
-        fetch(main_url + "cycleInsurance/getCycleInsurance/" + id)
-            .then(response => {
-                if (response.ok) return response.json()
-            })
-            .then(res => {
-                this.setState({ data: res, requestData:res.filter(v=>v.createdBy !=this.state.user_id) })
-            })
+    //     fetch(main_url + "cycleInsurance/getCycleInsurance/" + id)
+    //         .then(response => {
+    //             if (response.ok) return response.json()
+    //         })
+    //         .then(res => {
+    //             this.setState({ data: res, requestData:res.filter(v=>v.createdBy !=this.state.user_id) })
+    //         })
             
-            .catch(error => console.error(`Fetch Error =\n`, error));
+    //         .catch(error => console.error(`Fetch Error =\n`, error));
 
-    }
+    // }
 
     setupForm = () => {
         this.setState({
@@ -59,7 +60,9 @@ class CycleMain extends Component {
         })
         window.location.reload();
     }
-
+    changeTab(tab) {
+        this.setState({ active_tab: tab},()=>{console.log(tab)})
+    }
     showToast = (status, text) => {
         if (status === 200) {
             toast.success(text);
@@ -90,21 +93,21 @@ class CycleMain extends Component {
             data: data
         })
     }
-    requestlist = async (data) => {
-        if (data == 'myrequest') {
-          this.setState({
-            requestData: this.state.data.filter(v => v.createdBy==this.state.user_id),
-            requestType:"myrequest"
+    // requestlist = async (data) => {
+    //     if (data == 'myrequest') {
+    //       this.setState({
+    //         requestData: this.state.data.filter(v => v.createdBy==this.state.user_id),
+    //         requestType:"myrequest"
             
-          })
-        } else if (data == 'allrequest') {
-          this.setState({
-            requestData: this.state.data.filter(v => v.createdBy !=this.state.user_id),
-            requestType:"allrequest"
+    //       })
+    //     } else if (data == 'allrequest') {
+    //       this.setState({
+    //         requestData: this.state.data.filter(v => v.createdBy !=this.state.user_id),
+    //         requestType:"allrequest"
             
-          })
-        }
-      }
+    //       })
+    //     }
+    //   }
 
     render(){
         return (
@@ -120,7 +123,19 @@ class CycleMain extends Component {
 
                {
                    this.state.isTable ?
-                       <CycleTable goToViewForm={this.goToViewForm} requestlist={this.requestlist} data={this.state.requestData} goToEditForm={this.goToEditForm} permission={this.state.permission_status} /> : ''
+                   <div>
+                   <div>
+                    <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
+                   <li className="nav-item">
+                    <a className="nav-link " href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(1)}>My Request</a>
+                   </li>
+                   <li className="nav-item1 active">
+                   <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.changeTab(0)}>All Request</a>
+                   </li>
+                   </ul>
+
+                   </div>
+                       <CycleTable goToViewForm={this.goToViewForm} tab={this.state.active_tab} goToEditForm={this.goToEditForm} permission={this.state.permission_status} /> </div>: ''
                }
                {
                    this.state.isView ?

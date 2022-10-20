@@ -5,14 +5,16 @@ import 'datatables.net-dt/css/jquery.dataTables.css'
 import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 import 'jspdf-autotable';
 import moment from 'moment'
+import DatePicker from 'react-datetime';
 import { imgData } from '../../../utils/Global';
 import * as jsPDF from 'jspdf';
-import { main_url, getMainRole, getInformation, getUserId, setPrintedStatus, print, fno } from "../../../utils/CommonFunction";
+import { main_url, getMainRole,getFirstDayOfYear, getInformation, getUserId, setPrintedStatus, print, fno } from "../../../utils/CommonFunction";
 const $ = require('jquery');
 const jzip = require('jzip');
 window.JSZip = jzip;
 $.DataTable = require('datatables.net-bs4');
 $.DataTable = require('datatables.net-responsive-bs4');
+
 
 $.DataTable = require('datatables.net');
 require('datatables.net-buttons/js/dataTables.buttons.min');
@@ -24,19 +26,22 @@ export default class WeddingBenefitTable extends Component {
         super(props);
         this.state = {
             user_id: getUserId("user_info"),
-            dataSource: props.data,
+            requestData: [],
             selectedRequest: '',
-            is_main_role: getMainRole()
+            is_main_role: getMainRole(),
+            to_date: moment() ,
+            from_date:getFirstDayOfYear(),
+            tab:this.props.tab,
         }
     }
     componentDidMount() {
-
+        this. getAllBenefits();
         this.$el = $(this.el);
 
         this.setState({
-            dataSource: this.props.data
+            requestData: this.state.requestData
         }, () => {
-            this._setTableData(this.state.dataSource)
+            this._setTableData(this.state.requestData)
         });
 
         let that = this;
@@ -73,13 +78,11 @@ export default class WeddingBenefitTable extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.data !== this.props.data) {
+        if (prevProps.tab != this.props.tab) {
             this.setState({
-                dataSource: this.props.data
-            }, () => {
-                this._setTableData(this.state.dataSource);
+                tab: this.props.tab
+            }, () => this.filter())
 
-            })
         }
     }
 
@@ -99,9 +102,61 @@ export default class WeddingBenefitTable extends Component {
     getReject() {
         this.search(4);
     }
+    getAllBenefits() {
+        let id = this.state.user_id;
 
+        fetch(main_url + "wedding_benefit/getWeddingBenefit/" + moment(this.state.from_date).format("YYYY-MM-DD") + "/" +  moment(this.state.to_date).format("YYYY-MM-DD") + "/" + id )
+            .then(response => {
+                if (response.ok) return response.json()
+            })
+            .then(res => {
+                if (res) {
+                    this.setState({ 
+                        data: res,
+                        requestData:res.filter(v=>v.createdBy != this.state.user_id),
+                    }, () => this._setTableData(this.state.requestData))
+                }
+            })
+            .catch(error => console.error(`Fetch Error =\n`, error));
+
+    }
+    getMyBenefits() {
+        let id = this.state.user_id;
+
+        fetch(main_url + "wedding_benefit/getWeddingBenefit/" + moment(this.state.from_date).format("YYYY-MM-DD") + "/" + moment(this.state.to_date).format("YYYY-MM-DD") + "/" + id)
+            .then(response => {
+                if (response.ok) return response.json()
+            })
+            .then(res => {
+                if (res) {
+                    this.setState({ 
+                        datasource: res,
+                        requestData:res.filter(v=>v.createdBy == this.state.user_id)
+                    }, () => this._setTableData(this.state.requestData))
+                }
+            })
+            .catch(error => console.error(`Fetch Error =\n`, error));
+
+    }
+    handleStartDate = async (event) => {
+        this.setState({
+          from_date:event
+        },()=>{console.log(this.state.s_date)})
+      }
+      handleEndDate = async (event) => {
+        this.setState({
+          to_date:event
+        },()=>{console.log(this.state.e_date)})
+      }
+      filter() {
+        if (this.state.tab == 0) {
+            this.getAllBenefits();
+        } else if (this.state.tab == 1) {
+            this.getMyBenefits();
+        }
+    }
     search(status) {
-        let data = this.state.dataSource;
+        let data = this.state.requestData;
         data = data.filter(d => { return status === d.status });
         this._setTableData(data)
     }
@@ -286,21 +341,38 @@ export default class WeddingBenefitTable extends Component {
         });
     }
 
-    render() {
+    render() { console.log("tab==>",this.state.requestData)
         return (
             
-            <div>
-                <div>
-          <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
-            <li className="nav-item">
-              <a className="nav-link " href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.props.requestlist('myrequest')}>My Request</a>
-            </li>
-            <li className="nav-item1 active">
-              <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.props.requestlist('allrequest')}>All Request</a>
-            </li>
-          </ul>
-        </div>
-                <div className="row border-bottom white-bg dashboard-header">
+            <div>   <div className=''style={{display:'flex',justifyContent:'space-between',marginRight:33}}>          
+                       <div className='row'style={{display:'flex',paddingLeft:20}}>  
+                        <div className="col" style={{padding:0,width:150}}>
+                                    <div><label className="col"style={{padding:0}}>Start Date</label></div>
+                                    <div className="col"style={{padding:0}}>
+                                    <DatePicker
+                                       dateFormat="DD/MM/YYYY"
+                                       value={this.state.from_date}
+                                       onChange={this.handleStartDate}
+                                       timeFormat={false}/>
+                                    </div>
+                        </div>
+                        <div className="col"style={{padding:0, marginLeft:10,width:150}}>
+                                    <div><label className="col"style={{padding:0}}>End Date</label></div>
+                                    <div className="col"style={{padding:0}}>
+                                    <DatePicker
+                                       dateFormat="DD/MM/YYYY"
+                                       value={this.state.to_date}
+                                       onChange={this.handleEndDate}
+                                       timeFormat={false}/>
+                                    </div>
+                        </div>
+                        <div className="col-md-2" style={{padding:0,marginTop:4}}>
+                                    <div className="col-md-10 margin-top-20 padding-0">
+                                        <button type="button" className="btn btn-primary" onClick={this.filter.bind(this)}>Search</button>
+                                    </div>
+                        </div> </div>
+                    <div className='row'>                 
+                        <div className="row border-bottom white-bg dashboard-header" >
                     <div className="row">
                         <div class="btn-group-g ">
                             <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
@@ -310,13 +382,14 @@ export default class WeddingBenefitTable extends Component {
                             <button type="button" class="btn label-reject g" onClick={this.getReject.bind(this)}>Reject</button>
                         </div>
                     </div>
-                </div>
-               
-                <table width="99%"
+                        </div>
+                    </div>    
+                        </div>
+                        <table width="99%"
                     className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
                     id="dataTables-table"
-                />
-            </div >
+                        />
+            </div>
         )
     }
 }

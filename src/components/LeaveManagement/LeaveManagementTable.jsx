@@ -299,7 +299,7 @@ export default class LeaveManagementTable extends Component {
         });
     }
 
-    render() {
+    render() { console.log(this.state.tab)
         // if (this.state.loading === true) {
         //     return <div style={{ display: 'flex', justifyContent: 'center' }}><h2>Loading...</h2></div>
         // } else {
