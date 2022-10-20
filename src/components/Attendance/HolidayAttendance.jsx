@@ -374,7 +374,7 @@ class HolidayAttendance extends Component {
                         <div className="col-md-12" style={{ marginTop: 10 }}>
                             <div className="col-md-4">Leave Allow Day :</div>
                             <div className="col-md-8">
-                                <input type="text" className="full_width" onChange={(e) => this.setState({ leave_allow_day: e.target.value })}></input>
+                                <input type="number" className="full_width" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} onChange={(e) => this.setState({ leave_allow_day: e.target.value })}></input>
                             </div>
 
                         </div>
