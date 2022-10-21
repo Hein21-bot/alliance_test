@@ -171,7 +171,7 @@ class AttendanceHistory extends Component {
                 {this.state.alternative == 1 ? <AlternativeLeave data={this.state.alternativeData} id={this.state.alter_id} /> : <div className="row border-bottom white-bg dashboard-header">
                     <div >
                         <div className="row" style={{ marginBottom: 10 }}>
-                            <h3 style={{ margin: 7 }}>Attendance Type</h3>
+                            <h3 style={{ margin: 7 }}>Attendance History</h3>
                         </div>
 
                         <div className="col-md-12" style={{marginBottom:10,paddingLeft:0}} >
