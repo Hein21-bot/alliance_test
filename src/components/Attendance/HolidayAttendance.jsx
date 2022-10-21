@@ -134,10 +134,14 @@ class HolidayAttendance extends Component {
                     working_hour: result.WorkingHour ? result.WorkingHour : '',
                     reason: result.holiday_des,
                     status: status
-                }
-                obj.action = '<button style="margin-right:10px; background-color:#29a50a" class="btn btn-success btn-sm own-btn-edit" id="toEditApprove" ><span id="editApprove" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Approve</button>';
+                } 
+                if(result.status === 0){
+                obj.action = '<button style="margin-right:10px; background-color:#29a50a" class="btn btn-success btn-sm own-btn-edit " id="toEditApprove" ><span id="editApprove" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Approve</button>';
                 obj.action += '<button style="margin-right:10px" class="btn btn-danger btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Reject</button>';
-
+                } else{
+                    obj.action = '<button style="margin-right:10px; background-color:#29a50a" class="btn btn-success btn-sm own-btn-edit disabled" id="toEditApprove" ><span id="editApprove" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Approve</button>';
+                obj.action += '<button style="margin-right:10px" class="btn btn-danger btn-sm own-btn-edit disabled" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Reject</button>';
+                }
 
                 l.push(obj)
             }

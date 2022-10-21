@@ -249,7 +249,7 @@ export default class BenefitChildTable extends Component {
                 position: data[i].designations ? data[i].designations : '-',
                 branch: data[i].branch_name,
                 child_count: data[i].child_count,
-                date: moment(result.createdAt).format('DD-MM-YYYY'),
+                date: result.createdAt ?  moment(result.createdAt).format('DD-MM-YYYY') : "-",
                 status: status
             }
             if (has_action) {
@@ -336,8 +336,8 @@ export default class BenefitChildTable extends Component {
 
     render() {
         return (
-            <div>   <div className=''style={{display:'flex',justifyContent:'space-between',marginRight:33}}>          
-            <div className='row'style={{display:'flex',paddingLeft:20}}>  
+            <div>   <div className=''style={{display:'flex',justifyContent:'end',marginRight:33}}>          
+            {/* <div className='row'style={{display:'flex',paddingLeft:20}}>  
              <div className="col" style={{padding:0,width:150}}>
                          <div><label className="col"style={{padding:0}}>Start Date</label></div>
                          <div className="col"style={{padding:0}}>
@@ -362,9 +362,9 @@ export default class BenefitChildTable extends Component {
                          <div className="col-md-10 margin-top-20 padding-0">
                              <button type="button" className="btn btn-primary" onClick={this.filter.bind(this)}>Search</button>
                          </div>
-             </div> </div>
+             </div> </div> */}
          <div className='row'>                 
-             <div className="row border-bottom white-bg dashboard-header" >
+             <div className="row border-bottom white-bg dashboard-header">
          <div className="row">
              <div class="btn-group-g ">
                  <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
