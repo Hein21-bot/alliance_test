@@ -234,7 +234,7 @@ class AttendanceType extends Component {
                 //         // },
                         {
                             extend: 'excelHtml5',
-                            title: 'Attendance Type',
+                            title: 'Attendance Request',
                         },
                 //         // {
                 //         //     extend: 'pdfHtml5',
