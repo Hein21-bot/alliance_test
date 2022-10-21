@@ -174,25 +174,27 @@ class HolidayAttendance extends Component {
             responsive: true,
             pageLength: 50,
             paging: true,
-            //     // buttons: true,
+            buttons: true,
             dom: 'Bfrtip',
-            //     // buttons: [
-            //     //     'copy', 'csv', 'excel', 'pdf'
-            //     // ],
+                buttons: [
+            //     //     'copy', 'csv',
+             'excel',
+            //  'pdf'
+                ],
             buttons: [
                 //         // 'copy',
                 //         // {
                 //         //         extend: 'csvHtml5',
                 //         //         title: 'Child Benefit',
                 //         // },
-                //         // {
-                //         //     extend: 'excelHtml5',
-                //         //     title: 'Child Benefit',
-                //         // },
+                        {
+                            extend: 'excelHtml5',
+                            title: 'Holiday Attendance ',
+                        },
                 //         // {
                 //         //     extend: 'pdfHtml5',
                 //         //     title: 'Child Benefit',
-                //         // }
+                        // }
             ],
             data: l,
             columns: column

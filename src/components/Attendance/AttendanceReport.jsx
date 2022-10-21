@@ -359,8 +359,29 @@ class AttendanceReportMonthly extends Component {
             paging: true,
             dom: 'Bfrtip',
             data: l,
+            buttons: true,
+            dom: 'Bfrtip',
+                buttons: [
+            //     //     'copy', 'csv',
+             'excel',
+            //  'pdf'
+                ],
             buttons: [
+                //         // 'copy',
+                //         // {
+                //         //         extend: 'csvHtml5',
+                //         //         title: 'Child Benefit',
+                //         // },
+                        {
+                            extend: 'excelHtml5',
+                            title: 'Attendance Report',
+                        },
+                //         // {
+                //         //     extend: 'pdfHtml5',
+                //         //     title: 'Child Benefit',
+                        // }
             ],
+            data: l,
             columns: column
         });
     }
