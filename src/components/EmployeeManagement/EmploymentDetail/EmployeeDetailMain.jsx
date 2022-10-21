@@ -364,10 +364,18 @@ class EmployeeDetailMain extends Component {
   };
 
   handleSelectedDeaprtment = (event) => {
+    let filterData=this.state.jobList.filter(v=>v.department_id == event.departments_id);
+    console.log("department",event.departments_id,this.state.jobList.filter(v=>v.department_id == event.departments_id))
     if (event !== null)
+      // if(event.departments_id !==0){
+      //   this.setState({
+      //     jobList:filterData
+      //   })
+      // }
       this.setState({
         selected_department: event,
       });
+    
   };
 
   handleSelectedBranch = (event) => {
@@ -870,6 +878,8 @@ class EmployeeDetailMain extends Component {
     this.getEmployeeList({ regionId, depId, branchId, designId, statusId });
   };
   render() {
+    // console.log(this.state.selected_department !=null ? this.state.jobList.filter(v=>v.department_id == this.state.selected_department.departments_id) : this.state.selected_department.departments_id ==0 ? this.state.jobList : this.state.jobList.filter(v=>v.department_id == this.state.selected_department.departments_id))
+    console.log(this.state.selected_department != null ? this.state.selected_department.department_id == 0 ? this.state.jobList : this.state.jobList.filter(v=>v.department_id == this.state.selected_department.departments_id) : this.state.jobList)
     const {
       addNew,
       level_options,
@@ -999,7 +1009,7 @@ class EmployeeDetailMain extends Component {
                 >
                   <div style={{ paddingBottom: 10 }}>Job Title</div>
                   <Select
-                    options={this.state.jobList}
+                    options={this.state.selected_department != null ? this.state.selected_department.department_id == 0 ? this.state.jobList : this.state.jobList.filter(v=>v.department_id == this.state.selected_department.departments_id) : this.state.jobList}
                     value={this.state.selected_job}
                     onChange={this.handleSelectedJob.bind(this)}
                     className="react-select-container checkValidate"

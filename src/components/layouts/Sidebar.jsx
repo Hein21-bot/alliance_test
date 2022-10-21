@@ -491,7 +491,7 @@ export default class Sidebar extends Component {
                       pathname === "/attendance_type" ? "active" : " "
                     }
                   >
-                    <a href="/attendance_type">Attendance Type</a>
+                    <a href="/attendance_type">Attendance Request</a>
                   </li>
                   <li
                     className={
