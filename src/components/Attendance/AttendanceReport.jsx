@@ -309,7 +309,7 @@ class AttendanceReportMonthly extends Component {
                     branch: result.location_master_name,
                     attendance_type: result.field_checkin == 1 || result.field_checkout ? 'Field' : result.holiday_checkin == 1 ? 'Holiday' : 'Normal',
                     check_in_time: moment(result.check_in_time).utc().format('HH:mm A'),
-                    check_in_att_status: result.late_checkin == 1 ? 'Late Check In' : result.field_checkin == 1 ? 'Field Check In' : result.holiday_checkin == 1 ? 'Holiday Check In' : '',
+                    check_in_att_status: result.late_checkin == 1 ? 'Late Check In' : result.field_checkin == 1 ? 'Field Check In' : result.holiday_checkin == 1 ? 'Holiday Check In' : 'Normal Check In',
                     check_in_att_reason: result.late_checkin_reason ? result.late_checkin_reason : result.visit_reason ? result.visit_reason : result.holiday_des ? result.holiday_des : '',
                     status: status,
                     check_out_time: moment(result.check_out_time).utc().format('HH:mm A'),
