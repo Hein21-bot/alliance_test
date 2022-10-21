@@ -174,12 +174,12 @@ class AttendanceHistory extends Component {
                             <h3 style={{ margin: 7 }}>Attendance Type</h3>
                         </div>
 
-                        <div className="col-md-12">
-                            <div className="col-md-3">
+                        <div className="col-md-12" style={{marginBottom:10,paddingLeft:0}} >
+                            <div className="col-md-3"style={{padding:0,margin:0}}>
                                 <div>
-                                    <label className="col-sm-12">Start Date</label>
+                                    <label className="col-sm-12"style={{padding:0}}>Start Date</label>
                                 </div>
-                                <div className="col-md-10">
+                                <div className="col-md-10"style={{padding:0}}>
                                     <DatePicker
                                         dateFormat="DD/MM/YYYY"
                                         value={this.state.s_date}
@@ -188,11 +188,11 @@ class AttendanceHistory extends Component {
                                     />
                                 </div>
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-3"style={{padding:0}}>
                                 <div>
-                                    <label className="col-sm-12">End Date</label>
+                                    <label className="col-sm-12"style={{padding:0}}>End Date</label>
                                 </div>
-                                <div className="col-md-10">
+                                <div className="col-md-10"style={{padding:0}}>
                                     <DatePicker
                                         dateFormat="DD/MM/YYYY"
                                         value={this.state.e_date}

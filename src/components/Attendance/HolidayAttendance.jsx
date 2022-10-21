@@ -269,12 +269,12 @@ class HolidayAttendance extends Component {
                             <h3 style={{ margin: 7 }}>Holiday Attendance</h3>
                         </div>
 
-                        <div className="col-md-12">
-                            <div className="col-md-3">
+                        <div className="col-md-12" style={{padding:0,marginBottom:10}}>
+                            <div className="col-md-3" style={{padding:0}}>
                                 <div>
-                                    <label className="col-sm-12">Start Date</label>
+                                    <label className="col-sm-12"style={{padding:0}}>Start Date</label>
                                 </div>
-                                <div className="col-md-10">
+                                <div className="col-md-10"style={{padding:0}}>
                                     <DatePicker
                                         dateFormat="DD/MM/YYYY"
                                         value={this.state.s_date}
@@ -283,11 +283,11 @@ class HolidayAttendance extends Component {
                                     />
                                 </div>
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-3"style={{padding:0}}>
                                 <div>
-                                    <label className="col-sm-12">End Date</label>
+                                    <label className="col-sm-12"style={{padding:0}}>End Date</label>
                                 </div>
-                                <div className="col-md-10">
+                                <div className="col-md-10"style={{padding:0}}>
                                     <DatePicker
                                         dateFormat="DD/MM/YYYY"
                                         value={this.state.e_date}
