@@ -11,6 +11,7 @@ import 'datatables.net-dt/css/jquery.dataTables.css'
 import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 import 'jspdf-autotable';
 import { data } from "browserslist";
+import AttendanceRequestView from "./AttendanceRequestView";
 const $ = require('jquery');
 const jzip = require('jzip');
 window.JSZip = jzip;
@@ -33,6 +34,8 @@ class AttendanceType extends Component {
             checkedListData: [],
             visible: false,
             rejected_comment: '',
+            datasource:[],
+            isView:false,
             user_id: getUserId("user_info"),
         }
     }
@@ -42,6 +45,14 @@ class AttendanceType extends Component {
         // await this.checkBoxAll()
 
         let that = this;
+        $("#dataTables-table").on('click', '#toView', function () {
+
+            var data = $(this).find("#view").text();
+            data = $.parseJSON(data);
+            // alert(JSON.stringify(data,2,undefined));
+            that.goToViewForm(data);
+
+        });
         $("#dataTables-table").on('click', '#toSelect', function () {
 
             var data = $(this).find("#select").text();
@@ -58,6 +69,14 @@ class AttendanceType extends Component {
 
         // });
 
+    }
+    goToViewForm = (data) => {
+        console.log("ggggggg");
+        this.setState({
+            
+            isView: true,
+            datasource: data
+        })
     }
 
 
@@ -186,6 +205,8 @@ class AttendanceType extends Component {
                 // if (has_select) {
                 obj.select = `<div style="alignItems:center" id="toSelect" class="select-btn"  ><input class="ipSelect"  type="checkbox" /><span id="select" class="hidden" >` + JSON.stringify(result) + '</span>  </div>' //'<div style="margin-right:0px;height:20px;width:20px;border:1px solid red" class="btn" id="toSelect" ><i className="fas fa-address-card" style="color:red"></i><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '';
                 // }
+                obj.action = '<button style="margin-right:10px; background-color:#27568a" class="btn btn-primary btn-sm own-btn-edit " id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>';
+
 
                 l.push(obj)
             }
@@ -208,6 +229,7 @@ class AttendanceType extends Component {
             { title: "Status", data: "status" }
 
         ]
+        column.push({title:"Action",data:"action"})
         // if (has_select) {
         column.splice(1, 0, { title: "Select", data: "select" })
         // }
@@ -316,8 +338,12 @@ class AttendanceType extends Component {
 
     render() {
         return (
+            
             <div>
-                <div className="row border-bottom white-bg dashboard-header">
+                {
+                this.state.isView ?
+                    <AttendanceRequestView data={this.state.datasource} isView={this.state.isView} /> : 
+                    <div className="row border-bottom white-bg dashboard-header">
                     <div >
                         <div className="row" style={{ marginBottom: 10 }}>
                             <h3 style={{ margin: 7 }}>Attendance Request</h3>
@@ -429,6 +455,8 @@ class AttendanceType extends Component {
 
                     </Rodal>
                 </div>
+                }
+                
             </div>
         )
     }

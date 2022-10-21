@@ -96,9 +96,14 @@ class AttendanceHistory extends Component {
                 obj = {
                     no: i + 1,
                     date: moment(result.createdAt).format('YYYY-MM-DD'),
+
                     check_in_time: moment(result.check_in_time).utc().format('hh:mm A'),
                     check_out_time: moment(result.check_out_time).utc().format('hh:mm A'),
                     working_hour : result.working_hour ? result.working_hour : "-",
+
+                    check_in_time:result.check_in_time ? moment(result.check_in_time).utc().format('hh:mm A') : '-',
+                    check_out_time:result.check_out_time ? moment(result.check_out_time).utc().format('hh:mm A') : '-',
+
                     attendance_type_check_in: result.late_check_in == 1 ? 'Late Check In' : result.field_checkin == 1 ? 'Field Check In' : result.holiday_checkin ? 'Holiday Check In' : 'Normal Check In',
                     attendance_type_check_out: result.early_checkout == 1 ? 'Early Check Out' : result.field_checkout == 1 ? 'Field Check Out' : result.holiday_checkout == 1 ? 'Holiday Check Out' : 'Normal Check Out',
                     status: status,
