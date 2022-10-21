@@ -320,7 +320,7 @@ class AttendanceType extends Component {
                 <div className="row border-bottom white-bg dashboard-header">
                     <div >
                         <div className="row" style={{ marginBottom: 10 }}>
-                            <h3 style={{ margin: 7 }}>Attendance Type</h3>
+                            <h3 style={{ margin: 7 }}>Attendance Request</h3>
                             <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
                                 <li className="nav-item active">
                                     <a className="nav-link active" href="#attendance_type" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.getAttendanceType('late_check_in')}>Late Check In Request</a>

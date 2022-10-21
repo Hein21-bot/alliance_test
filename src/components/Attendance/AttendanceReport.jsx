@@ -389,6 +389,7 @@ class AttendanceReportMonthly extends Component {
     render() { console.log("att list",this.state.attTypeList)
         return (
             <div>
+                <h3 style={{ margin: 7 }}>Attendance Report</h3>
                 <div>
                     <div
                         className="col-lg-2 col-md-3 col-sm-12"
