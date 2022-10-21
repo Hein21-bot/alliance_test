@@ -243,7 +243,7 @@ export default class BirthdayFundTable extends Component {
                 requestByBranch: data[i].branch_name,
                 month: data[i].month,
                 amount: data[i].request_amount,
-                date: moment(result.createdAt).format('DD-MM-YYYY'),
+                date: result.createdAt ?  moment(result.createdAt).format('DD-MM-YYYY') : "-",
                 status: status,
                 des: result.description ? result.description : '-'
             }
@@ -346,7 +346,7 @@ export default class BirthdayFundTable extends Component {
           </ul>
         </div>
                 
-                <div className="row border-bottom white-bg dashboard-header">
+                {/* <div className="row border-bottom white-bg dashboard-header">
                     <div className="row">
                         <div className="col-md-3">
                             <div><label className="col-sm-12">Start Date</label></div>
@@ -388,7 +388,7 @@ export default class BirthdayFundTable extends Component {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div className="row border-bottom white-bg dashboard-header">
                     <div className="row">
                         <div class="btn-group-g ">
