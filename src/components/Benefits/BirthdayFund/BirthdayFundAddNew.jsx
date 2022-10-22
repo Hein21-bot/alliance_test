@@ -34,7 +34,7 @@ class BirthdayFundAddNew extends Component {
             .then(res => { if (res.ok) return res.json() })
             .then(list => {
                 this.setState({
-                    branchlist: list.map(v => ({ ...v, label: v.branch_name, value: v.branch_id }))
+                    branchlist: list.map(v => ({ ...v}))
                 })
             })
     }

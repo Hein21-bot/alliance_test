@@ -110,6 +110,7 @@ class SalaryAdvanceMain extends Component {
     }
 
     render() {
+        
         return (
             <div >
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -124,7 +125,7 @@ class SalaryAdvanceMain extends Component {
                 }
                 {
                     this.state.isEdit ?
-                        havePermission(this.state.work_flow_status) ?
+                        havePermission(this.state.work_flow_status) && this.state.data.status != 5 ?
                             <SalaryAdvanceApprovalForm goToTable={this.goToTable} data={this.state.data} showToast={this.showToast} work_flow_status={this.state.work_flow_status} /> :
                             <SalaryAdvanceRequestForm goToTable={this.goToTable} data={this.state.data} showToast={this.showToast} />
                         : ''

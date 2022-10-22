@@ -79,26 +79,26 @@ export default class SalaryAdvanceRequestForm extends Component {
     }
     checkFiles(e) {
         var files = document.getElementById("attach_file").files;
-        var attachment = this.state.attachment;
+        var newDoc = this.state.newDoc;
         if (files.length > 5) {
             toast.warning('You can only upload a maximum of 2 files!')
         }
         else {
             for (let i = 0; i < files.length; i++) {
                 var getfile = document.querySelector("#attach_file").files[i];
-                attachment.push(getfile)
+                newDoc.push(getfile)
             }
         }
-        let newDoc = this.state.newDoc;
-        var obj = document.querySelector("#attach_file").files.length;
-        for (var i = 0; i < obj; i++) {
-            var getfile = document.querySelector("#attach_file").files[i];
-            newDoc.push(getfile)
-        }
+        // let newDoc = this.state.newDoc;
+        // var obj = document.querySelector("#attach_file").files.length;
+        // for (var i = 0; i < obj; i++) {
+        //     var getfile = document.querySelector("#attach_file").files[i];
+        //     newDoc.push(getfile)
+        // }
 
         document.querySelector("#attach_file").value = ''
         this.setState({
-            attachment: attachment,
+            // attachment: attachment,
             newDoc: newDoc
         })
     }
@@ -242,7 +242,7 @@ export default class SalaryAdvanceRequestForm extends Component {
                                                                 <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
                                                                     <div className="columns"><div className="column-thumbnail">
                                                                         <div className="fileuploader-item-image fileuploader-no-thumbnail">
-                                                                            <div className="fileuploader-item-icon" style={{ backgroundColor: '#3f4fd3' }}><i>{data.name.split(".")[1]}</i>
+                                                                            <div className="fileuploader-item-icon" style={{ backgroundColor: '#3f4fd3' }}><i>{data.name ? data.name.split(".")[1] : ''}</i>
                                                                             </div></div><span className="fileuploader-action-popup"></span></div>
                                                                         <div className="column-title">
                                                                             <span className="own-text">
