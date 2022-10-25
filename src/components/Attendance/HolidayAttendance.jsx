@@ -206,6 +206,11 @@ class HolidayAttendance extends Component {
         this.state.approve_data.leave_allow_day = this.state.leave_allow_day
         this.state.approve_data.status = 1
         this.state.approve_data.check_out_status = 1
+        this.state.approve_data.map((v,i)=>{
+            var obj={...v};
+            obj.edit_user_id=this.state.user_id
+        })
+        console.log("approvedata",this.state.approve_data)
         fetch(`${main_url}attendance/editHolidayReq/` + this.state.approve_data.id, {
             method: "POST",
             headers: {

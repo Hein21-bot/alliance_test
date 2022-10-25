@@ -318,6 +318,7 @@ class AttendanceType extends Component {
     let status = 0;
     let saveData = [];
     this.state.checkedListData.map((v, i) => {
+      
       var obj = { ...v };
       obj[
         this.state.attendance_type == "early_check_out" ||
@@ -325,7 +326,11 @@ class AttendanceType extends Component {
           ? "check_out_status"
           : "status"
       ] = 1;
+      obj.edit_user_id=this.state.user_id
       saveData.push(obj);
+      console.log("save Data===>",saveData)
+      
+      
     });
 
     fetch(`${main_url}attendance/editApproveOrReject`, {
@@ -357,6 +362,7 @@ class AttendanceType extends Component {
           : "status"
       ] = 2;
       obj["comment"] = this.state.rejected_comment;
+      obj.edit_user_id=this.state.user_id;
       saveData.push(obj);
     });
 
