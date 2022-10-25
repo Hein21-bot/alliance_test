@@ -367,7 +367,7 @@ export default class Sidebar extends Component {
                   >
                     <a href="/employment_details">Employment Details</a>
                   </li>
-                  <li className={this.checkPathName() === "/reports" || pathname == "/EmployeeDirectory"|| pathname === "/ResignStaffReport" || pathname === "/RegionStaffReport" || pathname === "/BranchStaffReport" || pathname === "/HoStaffReport" || pathname === "/EmployeeReport" || pathname === "/ReportbyServiceYear" || pathname === "/HistoryReport" || pathname === "/FRDReport" || pathname === "/ExtensionReport" || pathname === "/RegionWiseStaffReportCount"   ? "active" : " "}>
+                  {/* <li className={this.checkPathName() === "/reports" || pathname == "/EmployeeDirectory"|| pathname === "/ResignStaffReport" || pathname === "/RegionStaffReport" || pathname === "/BranchStaffReport" || pathname === "/HoStaffReport" || pathname === "/EmployeeReport" || pathname === "/ReportbyServiceYear" || pathname === "/HistoryReport" || pathname === "/FRDReport" || pathname === "/ExtensionReport" || pathname === "/RegionWiseStaffReportCount"   ? "active" : " "}>
                     <a href="/reports" className="sideText">Employee Related Reports</a>
                     <ul className="nav nav-third-level collapse">
                   <li
@@ -418,11 +418,11 @@ export default class Sidebar extends Component {
                     <a href="/RegionWiseStaffReportCount">Region Wise Staff Count Report</a>
                   </li>
                 </ul>
-                  </li>
+                  </li> */}
                 </ul>
               </li>
 
-              <li
+              {/* <li
                 className={this.checkPathName() === "/confirmation"  ? "active" : ""}
               >
                 <a href="/confirmation_list" className="sideList">
@@ -455,8 +455,8 @@ export default class Sidebar extends Component {
                   </li>
                   
                 </ul>
-              </li>
-              <li
+              </li> */}
+              {/* <li
                 className={this.checkPathName() === "/attendance" || pathname === '/incomplete_and_missing_report' || pathname === '/holiday_attendance' || pathname === '/attendance_report_monthly' || pathname === "/attendance_type" || pathname === "/attendance_history" ? "active" : ""}
               >
                 <a href="/incomplete_and_missing_report" className="sideList">
@@ -504,7 +504,7 @@ export default class Sidebar extends Component {
                   </li>
                   
                 </ul>
-              </li>
+              </li> */}
 
 
               <li
@@ -697,7 +697,7 @@ export default class Sidebar extends Component {
                 </a>
               </li>
 
-              <li
+              {/* <li
                 className={
                   this.checkPathName() === "/staff_loan" ? "active" : ""
                 }
@@ -731,14 +731,14 @@ export default class Sidebar extends Component {
                     </a>
                   </li>
                 </ul>
-              </li>
+              </li> */}
 
 
               
 
             
 
-              <li
+              {/* <li
                 className={
                   this.checkPathName() === "/notification" ? "active" : ""
                 }
@@ -747,14 +747,14 @@ export default class Sidebar extends Component {
                   <i className="fa fa-bell sideIcon" style={{ color: 'white' }}></i>
                   <span className="sideText">Notification</span>
                 </a>
-              </li>
+              </li> */}
 
-              <li className={pathname === "/Announcement" ? "active" : ""}>
+              {/* <li className={pathname === "/Announcement" ? "active" : ""}>
                   <a href="/Announcement" className="sideList" >
                     <i className="fas fa-atlas sideIcon" style={{ color: 'white' }}></i>
                     <span className="sideText">Announcement Setting</span>
                   </a>
-                </li>
+                </li> */}
 
               <li>
                 <a href={remote_url} className="sideList" onClick={this.logout.bind(this)}>
