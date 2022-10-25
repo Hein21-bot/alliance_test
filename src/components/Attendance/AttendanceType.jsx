@@ -145,7 +145,7 @@ class AttendanceType extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        this.setState({ data: list }, () => {
+        this.setState({ data: list,datasource:list }, () => {
           this._setTableData(list);
         });
       });
@@ -223,8 +223,8 @@ class AttendanceType extends Component {
           attendance_time:
             this.state.attendance_type == "early_check_out" ||
             this.state.attendance_type == "field_check_out"
-              ? moment(result.check_out_time).utc().format("hh:mm A")
-              : moment(result.check_in_time).utc().format("hh:mm A"),
+              ? result.check_out_time ? moment(result.check_out_time).utc().format("hh:mm A") : " "
+              : result.check_in_time ? moment(result.check_in_time).utc().format("hh:mm A") : "",
           location:
             this.state.attendance_type == "late_check_in"
               ? ""
@@ -387,6 +387,7 @@ class AttendanceType extends Component {
   };
 
   render() {
+    console.log("data source",this.state.datasource)
     return (
       <div>
         {this.state.isView ? (
