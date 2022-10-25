@@ -117,6 +117,8 @@ import AttendanceHistory from './Attendance/AttendanceHistory'
 import HolidayAttendance from './Attendance/HolidayAttendance'
 import AttendanceReportMonthly from './Attendance/AttendanceReport'
 
+import PayRoll from './payroll/payroll'
+
 
 const Main = () => (
     <Switch>
@@ -236,6 +238,8 @@ const Main = () => (
         <Route path='/attendance_history' component={AttendanceHistory}></Route>
         <Route path='/holiday_attendance' component={HolidayAttendance}></Route>
         <Route path='/attendance_report_monthly' component={AttendanceReportMonthly}></Route>
+
+        <Route path='/payroll' component={PayRoll}></Route>
 
 
         <Redirect to="/dashboard" />
