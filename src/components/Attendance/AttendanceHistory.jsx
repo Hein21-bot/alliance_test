@@ -96,8 +96,14 @@ class AttendanceHistory extends Component {
                 obj = {
                     no: i + 1,
                     date: moment(result.createdAt).format('YYYY-MM-DD'),
+
                     check_in_time: moment(result.check_in_time).utc().format('hh:mm A'),
                     check_out_time: moment(result.check_out_time).utc().format('hh:mm A'),
+                    working_hour : result.working_hour ? result.working_hour : "-",
+
+                    check_in_time:result.check_in_time ? moment(result.check_in_time).utc().format('hh:mm A') : '-',
+                    check_out_time:result.check_out_time ? moment(result.check_out_time).utc().format('hh:mm A') : '-',
+
                     attendance_type_check_in: result.late_check_in == 1 ? 'Late Check In' : result.field_checkin == 1 ? 'Field Check In' : result.holiday_checkin ? 'Holiday Check In' : 'Normal Check In',
                     attendance_type_check_out: result.early_checkout == 1 ? 'Early Check Out' : result.field_checkout == 1 ? 'Field Check Out' : result.holiday_checkout == 1 ? 'Holiday Check Out' : 'Normal Check Out',
                     status: status,
@@ -121,7 +127,8 @@ class AttendanceHistory extends Component {
             { title: "No", data: "no" },
             { title: "Date", data: "date" },
             { title: "Check In Time", data: "check_in_time" },
-            { title: "Check Out Time", data: "check_out_time" },
+            { title: "Check Out Time", data: "check_out_time" }, 
+            { title: "Working Hour", data: "working_hour" },
             { title: "Attendance Type Check In", data: "attendance_type_check_in" },
             { title: "Attendance Type Check Out", data: "attendance_type_check_out" },
             { title: "Status", data: "status" },
@@ -174,12 +181,12 @@ class AttendanceHistory extends Component {
                             <h3 style={{ margin: 7 }}>Attendance History</h3>
                         </div>
 
-                        <div className="col-md-12">
-                            <div className="col-md-3">
+                        <div className="col-md-12" style={{marginBottom:10,paddingLeft:0}} >
+                            <div className="col-md-3"style={{padding:0,margin:0}}>
                                 <div>
-                                    <label className="col-sm-12">Start Date</label>
+                                    <label className="col-sm-12"style={{padding:0}}>Start Date</label>
                                 </div>
-                                <div className="col-md-10">
+                                <div className="col-md-10"style={{padding:0}}>
                                     <DatePicker
                                         dateFormat="DD/MM/YYYY"
                                         value={this.state.s_date}
@@ -188,11 +195,11 @@ class AttendanceHistory extends Component {
                                     />
                                 </div>
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-3"style={{padding:0}}>
                                 <div>
-                                    <label className="col-sm-12">End Date</label>
+                                    <label className="col-sm-12"style={{padding:0}}>End Date</label>
                                 </div>
-                                <div className="col-md-10">
+                                <div className="col-md-10"style={{padding:0}}>
                                     <DatePicker
                                         dateFormat="DD/MM/YYYY"
                                         value={this.state.e_date}

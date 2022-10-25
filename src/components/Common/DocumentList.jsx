@@ -22,7 +22,7 @@ export default class DocumentList extends Component {
                             <a href={`${main_url}${this.props.path}/getCRDocumentData/${data.name}`}
                                 download target='_blank'
                                 className="btn btn-primary document-body-bt document-width">
-                                {data.name.split("&@")[1]}
+                                {data.name ? data.name.split("&@")[1] : ''}
                             </a>
                         </div>
                     )}
