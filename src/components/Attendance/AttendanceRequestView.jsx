@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import moment from "moment";
 import ApprovalInformation1 from '../Common/ApprovalInformation1';
+import { main_url } from '../../utils/CommonFunction';
 
 class AttendanceRequestView extends Component {
 
@@ -15,25 +16,25 @@ class AttendanceRequestView extends Component {
     }
 
     componentDidMount() {
-        // this.getStatusInfo();
+        this.getStatusInfo();
         
     }
 
-    // getStatusInfo() {
-    //     fetch(`${main_url}wedding_benefit/getOneDetailInfo/${this.state.datasource.benefit_id}`)
-    //         .then(res => res.json())
-    //         .then(res => {
-    //             this.setState({
-    //                 status_info: res
-    //             })
-    //         })
-    //         .catch(error => console.log(error))
-    // }
+    getStatusInfo() {
+        fetch(`${main_url}attendance/getAttendanceInfo/${this.state.datasource.id}`)
+            .then(res => res.json())
+            .then(res => {
+                this.setState({
+                    status_info: res
+                })
+            })
+            .catch(error => console.log(error))
+    }
 
     
 
     render() {
-        console.log(this.state.datasource)
+        console.log(this.state.status_info)
         return (
             <div className='border-bottom white-bg dashboard-header'>
 
