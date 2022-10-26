@@ -247,7 +247,7 @@ class AttendanceType extends Component {
         };
         // if (has_select) {
         obj.select =
-          `<div style="alignItems:center" id="toSelect" class="select-btn"  ><input class=${this.state.user_id != result.user_id ?'ipSelect' : 'null'}  type="checkbox" ${this.state.user_id == result.user_id ? 'disabled' : ''}/><span id="select" class="hidden" >` +
+          `<div style="alignItems:center" id="toSelect" class="select-btn"  ><input class=${this.state.user_id != result.user_id && result.status == 0 ?'ipSelect' : 'null'}  type="checkbox" ${this.state.user_id == result.user_id || result.status !=0 ? 'disabled' : ''}/><span id="select" class="hidden" >` +
           JSON.stringify(result) +
           "</span>  </div>"; //'<div style="margin-right:0px;height:20px;width:20px;border:1px solid red" class="btn" id="toSelect" ><i className="fas fa-address-card" style="color:red"></i><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '';
         // }
@@ -318,6 +318,7 @@ class AttendanceType extends Component {
     let status = 0;
     let saveData = [];
     this.state.checkedListData.map((v, i) => {
+      
       var obj = { ...v };
       obj[
         this.state.attendance_type == "early_check_out" ||
@@ -325,7 +326,13 @@ class AttendanceType extends Component {
           ? "check_out_status"
           : "status"
       ] = 1;
+      obj['status']=1
+      obj.approve_user_id=this.state.user_id;
+      obj.approve_date=new Date();
       saveData.push(obj);
+      console.log("save Data===>",saveData)
+      
+      
     });
 
     fetch(`${main_url}attendance/editApproveOrReject`, {
@@ -356,7 +363,10 @@ class AttendanceType extends Component {
           ? "check_out_status"
           : "status"
       ] = 2;
+      obj['status']=2
       obj["comment"] = this.state.rejected_comment;
+      obj.reject_user_id=this.state.user_id;
+      obj.reject_date=new Date()
       saveData.push(obj);
     });
 

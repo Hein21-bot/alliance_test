@@ -208,6 +208,16 @@ class HolidayAttendance extends Component {
         this.state.approve_data.leave_allow_day = this.state.leave_allow_day
         this.state.approve_data.status = 1
         this.state.approve_data.check_out_status = 1
+        // let saveData=[]
+        // this.state.approve_data.map((v,i)=>{
+        //     var obj={...v};
+        //     obj.edit_user_id=this.state.user_id;
+        //     saveData.push(obj)
+        // })
+        // console.log("approvedata",saveData)
+        this.state.approve_data.approve_user_id=this.state.user_id
+        this.state.approve_data.approve_date=new Date()
+        
         fetch(`${main_url}attendance/editHolidayReq/` + this.state.approve_data.id, {
             method: "POST",
             headers: {
@@ -231,6 +241,8 @@ class HolidayAttendance extends Component {
         this.state.approve_data.comment = this.state.rejected_comment
         this.state.approve_data.status = 2
         this.state.approve_data.check_out_status = 2
+        this.state.approve_data.reject_user_id=this.state.user_id
+        this.state.approve_data.reject_date=new Date()
         fetch(`${main_url}attendance/editHolidayReq/` + this.state.approve_data.id, {
             method: "POST",
             headers: {
@@ -262,7 +274,7 @@ class HolidayAttendance extends Component {
     }
 
     render() {
-        console.log('approve data is ====>', this.state.approve_data)
+        console.log("approve data is====>",this.state.approve_data)
         return (
             <div>
                 <div className="row border-bottom white-bg dashboard-header">
