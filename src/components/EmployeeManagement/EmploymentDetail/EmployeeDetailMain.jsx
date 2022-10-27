@@ -819,9 +819,12 @@ class EmployeeDetailMain extends Component {
     this.setState(setState, () => {
       if (key != "career_level") {
         this.setState({
-          salary: this.state.salaryList.filter(
-            (v) => v.career_sub_level == value.career_sub_level_id
-          )[0].basic_salary,
+          // salary:value.career_sub_level_id!=null ?  this.state.salaryList.filter(
+          //   (v) => v.career_sub_level == value.career_sub_level_id
+          // ) ? this.state.salaryList.filter(
+          //   (v) => v.career_sub_level == value.career_sub_level_id
+          // )[0].basic_salary : 0 : 0,
+          salary:this.state.salaryList.filter(v=>v.career_sub_level == value.career_sub_level_id) ? this.state.salaryList.filter(v=>v.career_sub_level == value.career_sub_level_id)[0] ? this.state.salaryList.filter(v=>v.career_sub_level == value.career_sub_level_id)[0].basic_salary : 0 :0
         });
       }
     });
