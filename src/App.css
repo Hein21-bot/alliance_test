@@ -80,3 +80,13 @@ input[type="radio"] {
 .specific_header_color{
   background-color: red !important;
 }
+
+.stepperStyle .css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root{
+  font-size: 4.5rem !important;
+}
+
+.stepperStyle .css-zpcwqm-MuiStepConnector-root{
+  top: 22px !important;
+  left: calc(-44% + 20px) !important;
+  right: calc(55% + 20px) !important;
+}
