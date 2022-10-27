@@ -235,7 +235,7 @@ export default class BenefitChildTable extends Component {
     }
 
 
-    render() { 
+    render() {  console.log("salary pm",this.props.salaryPermission)
         return (
             <div>
                 <table width="99%"

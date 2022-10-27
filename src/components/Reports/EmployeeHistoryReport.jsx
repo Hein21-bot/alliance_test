@@ -36,6 +36,9 @@ class HistoryReport extends Component {
             employeeName: null,
             selectedEmployeeName:null,
             empProfile: [],
+            salaryList: [],
+            salaryData:null,
+
          
             
         }
@@ -59,6 +62,7 @@ class HistoryReport extends Component {
         await this.getEmployeeName();
         await this.getEmployeeList();
         await this.getRerportList();
+        await this.getSalaryTemplate();
         // await getDate;
         let department = await getDepartment();
         department.unshift({ label: 'ALL', value: 0 });
@@ -70,6 +74,17 @@ class HistoryReport extends Component {
         })
        
     }
+    getSalaryTemplate() {
+        fetch(`${main_url}salaryTemplate/getSalaryTemplate`)
+          .then((res) => {
+            if (res.ok) return res.json();
+          })
+          .then((list) => {
+            this.setState({
+              salaryList: list,
+            });
+          });
+      }
     getRerportList(){
         fetch(`${main_url}report/historyReport/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.depId ? this.state.depId.value : 0}/${this.state.empId ? this.state.empId.value: id}`)
         .then(res => { if (res.ok) return res.json() })
@@ -153,15 +168,16 @@ class HistoryReport extends Component {
                 // let data=list
                 
                 this.setState({
-                    empProfile: list
-                })
+                    empProfile: list,
+                    salaryData:list[0].history,
+                },()=>{console.log("setdata",this.state.salaryData[0].career_sub_level)})
                 this._setTableData(this.state.empProfile[0].history);
             })
     }
-    _setTableData = (data) => {
+    _setTableData = (data) => { 
         var table;
         var l = [];
-        if (data) {
+        if (data) { 
             for (var i = 0; i < data.length; i++) {   
                 let result = data[i];
                 let obj = [];
@@ -169,9 +185,11 @@ class HistoryReport extends Component {
                     designation: data[i].designations ? data[i].designations : "-",
                     location: data[i].location_type_name ? data[i].location_type_name : "-",
                     department: data[i].deptname ? data[i].deptname : "-",
-                    level: data[i].career_sub_level ? data[i].career_sub_level : "-",
-                    employed_date: data[i].effective_date ? data[i].effective_date : "-",
-                    salary: data[i].salary ? data[i].salary : "-",
+                    level: data[i].career ? data[i].career : "-",
+                    employed_date: data[i].effective_date ? moment(data[i].effective_date_).format('YYYY-MM-DD') : "-",
+                    // salary: this.state.salaryPermission.length > 0 ? (data[i].salary ? data[i].salary : this.state.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0] ? this.state.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0].basic_salary: ''
+                    // : data[i].career_sub_level > 20 ? 'Not Available' : data[i].salary ? data[i].salary) : this.state.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0].basic_salary,
+                    salary: data[i].salary ? data[i].salary : (data[i].career_sub_level > 20 ? 'Not Available' :this.state.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0].basic_salary),
                 }
 
                 l.push(obj)
@@ -228,7 +246,8 @@ class HistoryReport extends Component {
     }
 
 
-    render() { console.log(id)
+    render() { console.log("salary data",this.state.salaryData)
+        //  console.log("salary data",this.state.salaryList.filter(v=>v.career_sub_level == this.state.empProfile[0].history[0].career_sub_level ))
 
         return (
             <div className="col-12">
