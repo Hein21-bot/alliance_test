@@ -101,20 +101,16 @@ class AttendanceType extends Component {
   handleCheckboxAll = async (e) => {
     console.log('e is =====>', e)
     this.setState({ checkboxAll: e }, () => {
-      if (e) {
-        $(".ipSelect").prop("checked", true);
-      } else {
-        $(".ipSelect").prop("checked", false);
-      }
+       return  true; 
     });
-    if (e == true) {
+    if (this.state.checkboxAll == false) {
       this.setState({
         checkedListData: this.state.data.filter(
-          (d) => d.user_id != this.state.user_id
+          (d) => d.user_id != this.state.user_id && d.status == 0
         ),
-      });
+      },()=>{console.log("all data",this.state.checkedListData)});
     } else {
-      this.setState({ checkedListData: [] });
+      this.setState({ checkedListData: [] },()=>{console.log("no data",this.state.checkedListData)});
     }
   };
 
@@ -145,8 +141,21 @@ class AttendanceType extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
+        let statusFilter=list.sort((a,b)=>
+        {
+          if(a.status<b.status){
+            return -1;
+          }else if(a.status===b.status){
+            //"2022-10-21T09:13:29.767Z"
+          
+            return moment(a.createdAt).diff(moment(b.createdAt));//moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD");
+          }
+          return 1;
+        })
+       // let requestFilter=statusFilter.sort((a,b)=>moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD"))
+        console.log("status filter===>",statusFilter)
         this.setState({ data: list,datasource:list }, () => {
-          this._setTableData(list);
+          this._setTableData(statusFilter);
         });
       });
   }
@@ -164,7 +173,9 @@ class AttendanceType extends Component {
   };
 
   handleVisible = (title) => {
-    this.setState({ visible: true });
+    if(this.state.checkedListData.length !=0){
+      this.setState({ visible: true });
+    }
   };
 
   hide() {
@@ -246,15 +257,22 @@ class AttendanceType extends Component {
           status: status,
         };
         // if (has_select) {
-        obj.select =
-          `<div style="alignItems:center" id="toSelect" class="select-btn"  ><input class=${this.state.user_id != result.user_id && result.status == 0 ?'ipSelect' : 'null'}  type="checkbox" ${this.state.user_id == result.user_id || result.status !=0 ? 'disabled' : ''}/><span id="select" class="hidden" >` +
-          JSON.stringify(result) +
-          "</span>  </div>"; //'<div style="margin-right:0px;height:20px;width:20px;border:1px solid red" class="btn" id="toSelect" ><i className="fas fa-address-card" style="color:red"></i><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '';
-        // }
-        obj.action =
-          '<button style="margin-right:10px; background-color:#27568a" class="btn btn-primary btn-sm own-btn-edit " id="toView" ><span id="view" class="hidden" >' +
-          JSON.stringify(result) +
-          '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>';
+          if (this.state.user_id != result.user_id && result.status == 0 ) {
+            obj.select =
+              `<div style="alignItems:center" id="toSelect" class="select-btn"  ><input class=${this.state.user_id != result.user_id ?'ipSelect' : 'null'}  type="checkbox"/><span id="select" class="hidden" >` +
+              JSON.stringify(result) +
+              "</span>  </div>"; //'<div style="margin-right:0px;height:20px;width:20px;border:1px solid red" class="btn" id="toSelect" ><i className="fas fa-address-card" style="color:red"></i><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '';
+              obj.action =
+              '<button style="margin-right:10px; background-color:#27568a" class="btn btn-primary btn-sm own-btn-edit " id="toView" ><span id="view" class="hidden" >' +
+              JSON.stringify(result) +
+              '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>';
+            } else {
+              obj.select = "";
+              obj.action =
+              '<button style="margin-right:10px; background-color:#27568a" class="btn btn-primary btn-sm own-btn-edit " id="toView" ><span id="view" class="hidden" >' +
+              JSON.stringify(result) +
+              '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>';
+            }
 
         l.push(obj);
       }
@@ -280,111 +298,130 @@ class AttendanceType extends Component {
     // if (has_select) {
     column.splice(1, 0, { title: "Select", data: "select" });
     // }
-    table = $("#dataTables-table").DataTable({
-      autofill: true,
-      bLengthChange: false,
-      bInfo: false,
-      responsive: true,
-      pageLength: 50,
-      paging: true,
-      buttons: true,
-      dom: "Bfrtip",
-      buttons: [
-        //     //     'copy', 'csv',
-        "excel",
-        //  'pdf'
-      ],
-      buttons: [
-        //         // 'copy',
-        //         // {
-        //         //         extend: 'csvHtml5',
-        //         //         title: 'Child Benefit',
-        //         // },
-        {
-          extend: "excelHtml5",
-          title: "Attendance Request",
-        },
-        //         // {
-        //         //     extend: 'pdfHtml5',
-        //         //     title: 'Child Benefit',
-        // }
-      ],
-      data: l,
-      columns: column,
-    });
-  };
+    $(document).ready(function () { 
+      table = $("#dataTables-table").dataTable({
+        autofill: true,
+        stateSave: true,
+        bLengthChange: false,
+        bInfo: false,
+        responsive: true,
+        pageLength: 50,
+        paging: true,
+        buttons: true,
+        dom: "Bfrtip",
+        buttons: [
+          //     //     'copy', 'csv',
+          "excel",
+          //  'pdf'
+        ],
+        buttons: [
+          //         // 'copy',
+          //         // {
+          //         //         extend: 'csvHtml5',
+          //         //         title: 'Child Benefit',
+          //         // },
+          {
+            extend: "excelHtml5",
+            title: "Attendance Request",
+          },
+          //         // {
+          //         //     extend: 'pdfHtml5',
+          //         //     title: 'Child Benefit',
+          // }
+        ],
+        data: l,
+        columns: column,
+      });
+      var allPages = table.fnGetNodes();
+    
+      $('body').on('click', '#select_all', function () {
+          if ($(this).hasClass('allChecked')) {
+              $('input[type="checkbox"]', allPages).prop('checked', false);
+          } else {
+              $('input[type="checkbox"]', allPages).prop('checked', true);
+          }
+          $(this).toggleClass('allChecked');
+      })
+    })
+    };
 
   approveSave() {
-    let status = 0;
-    let saveData = [];
-    this.state.checkedListData.map((v, i) => {
-      
-      var obj = { ...v };
-      obj[
-        this.state.attendance_type == "early_check_out" ||
-        this.state.attendance_type == "field_check_out"
-          ? "check_out_status"
-          : "status"
-      ] = 1;
-      obj['status']=1
-      obj.approve_user_id=this.state.user_id;
-      obj.approve_date=new Date();
-      saveData.push(obj);
-      console.log("save Data===>",saveData)
-      
-      
-    });
-
-    fetch(`${main_url}attendance/editApproveOrReject`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `data=${JSON.stringify(saveData)}`,
-    })
-      .then((res) => {
-        status = res.status;
-        return res.text();
-      })
-      .then((text) => {
-        this.showToast(status, text);
+    if(this.state.checkedListData.length !=0){
+      let status = 0;
+      let saveData = [];
+      this.state.checkedListData.map((v, i) => {
+        
+        var obj = { ...v };
+        obj[
+          this.state.attendance_type == "early_check_out" ||
+          this.state.attendance_type == "field_check_out"
+            ? "check_out_status"
+            : "status"
+        ] = 1;
+        obj['status']=1
+        obj.approve_user_id=this.state.user_id;
+        obj.approve_date=new Date();
+        saveData.push(obj);
+        console.log("save Data===>",saveData)
+        
+        
       });
+  
+      fetch(`${main_url}attendance/editApproveOrReject`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `data=${JSON.stringify(saveData)}`,
+      })
+        .then((res) => {
+          status = res.status;
+          return res.text();
+        })
+        .then((text) => {
+          this.showToast(status, text);
+        });
+    }
+ 
   }
 
   rejectSave() {
-    let status = 0;
+    if(this.state.checkedListData.length !=0){
+      let status = 0;
 
-    let saveData = [];
-    this.state.checkedListData.map((v, i) => {
-      var obj = { ...v };
-      obj[
-        this.state.attendance_type == "early_check_out" ||
-        this.state.attendance_type == "field_check_out"
-          ? "check_out_status"
-          : "status"
-      ] = 2;
-      obj['status']=2
-      obj["comment"] = this.state.rejected_comment;
-      obj.reject_user_id=this.state.user_id;
-      obj.reject_date=new Date()
-      saveData.push(obj);
-    });
-
-    fetch(`${main_url}attendance/editApproveOrReject`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `data=${JSON.stringify(saveData)}`,
-    })
-      .then((res) => {
-        status = res.status;
-        return res.text();
-      })
-      .then((text) => {
-        this.showToast(status, text);
-        this.hide();
+      let saveData = [];
+      this.state.checkedListData.map((v, i) => {
+        var obj = { ...v };
+        obj[
+          this.state.attendance_type == "early_check_out" ||
+          this.state.attendance_type == "field_check_out"
+            ? "check_out_status"
+            : "status"
+        ] = 2;
+        obj['status']=2
+        obj["comment"] = this.state.rejected_comment;
+        obj.reject_user_id=this.state.user_id;
+        obj.reject_date=new Date()
+        saveData.push(obj);
       });
+  
+      fetch(`${main_url}attendance/editApproveOrReject`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `data=${JSON.stringify(saveData)}`,
+      })
+        .then((res) => {
+          status = res.status;
+          return res.text();
+        })
+        .then((text) => {
+          this.showToast(status, text);
+          this.hide();
+        });
+    }
+   
   }
 
   showToast = (status, text) => {
@@ -395,6 +432,22 @@ class AttendanceType extends Component {
       toast.error(text);
     }
   };
+
+  getRequest() {
+    this.search(0);
+}
+getApprove() {
+    this.search(1);
+}
+getReject() {
+    this.search(2);
+}
+
+  search(status) {
+    let data = this.state.data;
+    data = data.filter(d => { return status === d.status });
+    this._setTableData(data)
+}
 
   render() {
     console.log("data source",this.state.datasource)
@@ -515,6 +568,7 @@ class AttendanceType extends Component {
                 <div style={{ width: "20%" }}>
                   <label>
                     <input
+                      id="select_all"
                       type={"checkbox"}
                       onChange={() =>
                         this.handleCheckboxAll(!this.state.checkboxAll)
@@ -547,6 +601,13 @@ class AttendanceType extends Component {
                     Reject
                   </button>
                 </div>
+              </div>
+              <div className="row" style={{marginBottom:'10px'}}>
+                        <div class="btn-group-g ">
+                            <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
+                            <button type="button" class="btn label-approve g" onClick={this.getApprove.bind(this)}>Approve</button>
+                            <button type="button" class="btn label-reject g" onClick={this.getReject.bind(this)}>Reject</button>
+                        </div>
               </div>
               <table
                 width="99%"
