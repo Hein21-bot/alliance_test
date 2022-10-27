@@ -11,7 +11,9 @@ export const AttendancePolicyValidation = (data, workingDays) => {
         late_check_in_start,
         late_check_in_allow,
         early_check_out_start,
-        early_check_out_allow
+        early_check_out_allow,
+        day_lunch_open_hour,
+        day_lunch_close_hour,
     } = data;
     const err = {};
     if (!workingDays) {
@@ -22,6 +24,12 @@ export const AttendancePolicyValidation = (data, workingDays) => {
     }
     if (!day_close_hour) {
         err.officeEtErr = "Please select end time!"
+    }
+    if (!day_lunch_open_hour) {
+        err.officeStErr = "Please select lunch start time!"
+    }
+    if (!day_lunch_close_hour) {
+        err.officeEtErr = "Please select lunch end time!"
     }
     if (!ot_start_time) {
         err.otStErr = "Please select start time!"
