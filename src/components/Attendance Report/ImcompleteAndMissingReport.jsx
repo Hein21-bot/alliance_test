@@ -65,6 +65,7 @@ class ImcompleteAndMissingReport extends Component {
       selectedOption: { value: 0, label: "Select Option" },
       user_id: getUserId("user_info"),
       approve_data: {},
+      attendancePolicyList:[]
     };
   }
 
@@ -122,11 +123,24 @@ class ImcompleteAndMissingReport extends Component {
     });
     this.getEmployeeName();
     this.getAttendanceType();
+    this.attendancePolicy();
     let that = this;
     $("#dataTables-table").on("click", "#toEditApprove", function () {
       var data = $(this).find("#editApprove").text();
       data = $.parseJSON(data);
       that.handleVisibleApprove(data);
+    });
+  }
+  attendancePolicy(){
+    fetch(`${main_url}attendancePolicy/getAttendancePolicy`)
+    .then((res) => {
+      if (res.ok) return res.json();
+    })
+    .then((list) => {
+      // let lists = list.unshift({ value: 0, label: "All" });
+      this.setState({
+        attendancePolicyList:list
+      });
     });
   }
   goToEditForm() {}
@@ -269,7 +283,6 @@ class ImcompleteAndMissingReport extends Component {
       toast.error("Please Select Option");
     } else {
       let status = 0;
-
       fetch(`${main_url}attendance/editIncomAtt`, {
         method: "POST",
         headers: {
@@ -279,7 +292,8 @@ class ImcompleteAndMissingReport extends Component {
           id: this.state.approve_data.id ? this.state.approve_data.id : 0,
           user_id: this.state.approve_data.user_id,
           incom_option: this.state.selectedOption.value,
-          date: this.state.approve_data.date,
+          date: this.state.approve_data.date
+
         })}`,
       })
         .then((res) => {
@@ -322,6 +336,7 @@ class ImcompleteAndMissingReport extends Component {
     // };
     if (data) {
       for (var i = 0; i < data.length; i++) {
+        console.log("data====>",data[i])
         let result = data[i];
         let obj = [];
         obj = {
@@ -345,23 +360,41 @@ class ImcompleteAndMissingReport extends Component {
                 .utc()
                 .format("DD-MM-YYYY hh:mm:ss a")
             : "-",
-          attendanceType: data[i].check_in_time
-            ? data[i].att_type_in_status == 0
-              ? "Normal"
-              : data[i].att_type_in_status == 1
-              ? "Holiday"
-              : data[i].att_type_in_status == 2
-              ? "Field"
-              : "Late Check In"
-            : data[i].check_out_time
-            ? data[i].att_type_in_status == 0
-              ? "Normal"
-              : data[i].att_type_in_status == 1
-              ? "Holiday"
-              : data[i].att_type_in_status == 2
-              ? "Field"
-              : "Early Check Out"
-            : "-",
+            Attendance_check_in: data[i].check_in_time
+              ? data[i].att_type_in_status == 0
+                ? "Normal Check In"
+                : data[i].att_type_in_status == 1
+                ? "Holiday Check In"
+                : data[i].att_type_in_status == 2
+                ? "Field Check In"
+                : "Late Check In"
+              :"-",
+              Attendance_check_out:data[i].check_out_time
+                ? data[i].att_type_in_status == 0
+                  ? "Normal Check Out"
+                  : data[i].att_type_in_status == 1
+                  ? "Holiday Check Out"
+                  : data[i].att_type_in_status == 2
+                  ? "Field Check Out"
+                  : "Early Check Out"
+                : "-",
+          // attendanceType: data[i].check_in_time
+          //   ? data[i].att_type_in_status == 0
+          //     ? "Normal"
+          //     : data[i].att_type_in_status == 1
+          //     ? "Holiday"
+          //     : data[i].att_type_in_status == 2
+          //     ? "Field"
+          //     : "Late Check In"
+          //   : data[i].check_out_time
+          //   ? data[i].att_type_in_status == 0
+          //     ? "Normal"
+          //     : data[i].att_type_in_status == 1
+          //     ? "Holiday"
+          //     : data[i].att_type_in_status == 2
+          //     ? "Field"
+          //     : "Early Check Out"
+          //   : "-",
           option: data[i].incom_option
             ? data[i].incom_option == 1
               ? "Attendance"
@@ -398,7 +431,8 @@ class ImcompleteAndMissingReport extends Component {
       { title: "Branch", data: "branch" },
       { title: "Check In", data: "checkin" },
       { title: "Check Out", data: "checkout" },
-      { title: "Attendance Type", data: "attendanceType" },
+      { title: "Attendance Check In", data: "Attendance_check_in" },
+      { title:"Attendance Check Out",data:"Attendance_check_out"},
       { title: "Option", data: "option" },
       { title: "Status", data: "status" },
       { title: "Action", data: "action" },
@@ -437,7 +471,7 @@ class ImcompleteAndMissingReport extends Component {
   });
 }
   render() {
-    console.log("datasource ====>", this.state.selected_checkbox_incom,this.state.selected_checkbox_missing);
+    console.log("type ====>",this.state.approve_data);
     return (
       <div>
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -832,21 +866,44 @@ class ImcompleteAndMissingReport extends Component {
             <div className="col-md-12" style={{ marginTop: 10 }}>
               <div className="col-md-4">Check In Time :</div>
               <div className="col-md-8">
-                {this.state.approve_data.check_in_time
+                {/* {this.state.approve_data.check_in_time
                   ? moment(this.state.approve_data.check_in_time)
                       .utc()
                       .format("hh:mm A")
-                  : "-"}
+                  : "-"} */}
+                  
+                  {
+                    //26-10-2022 09:00:00
+                    //DD-MM-YYYY HH:mm:ss
+                    this.state.selectedOption.value ==1 || this.state.selectedOption.value ==2 ? this.state.approve_data.check_in_time
+                    ? moment(this.state.approve_data.check_in_time)
+                        .utc()
+                        .format("hh:mm A")
+                    : moment(this.state.attendancePolicyList[0].day_open_hour,'DD-MM-YYYY HH:mm:ss').format('hh:mm A') : this.state.approve_data.check_in_time
+                    ? moment(this.state.approve_data.check_in_time)
+                        .utc()
+                        .format("hh:mm A") : '-'
+                  }
               </div>
             </div>
             <div className="col-md-12" style={{ marginTop: 10 }}>
               <div className="col-md-4">Check Out Time :</div>
               <div className="col-md-8">
-                {this.state.approve_data.check_out_time
+                {/* {this.state.approve_data.check_out_time
                   ? moment(this.state.approve_data.check_out_time)
                       .utc()
                       .format("hh:mm A")
-                  : "-"}
+                  : "-"} */}
+                   {
+                    this.state.selectedOption.value ==1 || this.state.selectedOption.value ==2 ? this.state.approve_data.check_out_time
+                    ? moment(this.state.approve_data.check_out_time)
+                        .utc()
+                        .format("hh:mm A")
+                    : moment(this.state.attendancePolicyList[0].day_close_hour,'DD-MM-YYYY HH:mm:ss').format('hh:mm A') : this.state.approve_data.check_out_time
+                    ? moment(this.state.approve_data.check_in_time)
+                        .utc()
+                        .format("hh:mm A") : '-'
+                  }
               </div>
             </div>
             <div className="col-md-12" style={{ marginTop: 10 }}>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import moment from "moment";
-import ApprovalInformation from '../Common/ApprovalInformation';
+import ApprovalInformation1 from '../Common/ApprovalInformation1';
+import { main_url } from '../../utils/CommonFunction';
 
 class AttendanceRequestView extends Component {
 
@@ -9,33 +10,63 @@ class AttendanceRequestView extends Component {
         this.state = {
             datasource: this.props.data,
             status_info: [],
+            pathname:window.location.pathname
           
         }
     }
 
     componentDidMount() {
-        // this.getStatusInfo();
+        this.getStatusInfo();
         
     }
 
-    // getStatusInfo() {
-    //     fetch(`${main_url}wedding_benefit/getOneDetailInfo/${this.state.datasource.benefit_id}`)
-    //         .then(res => res.json())
-    //         .then(res => {
-    //             this.setState({
-    //                 status_info: res
-    //             })
-    //         })
-    //         .catch(error => console.log(error))
-    // }
+    getStatusInfo() {
+        fetch(`${main_url}attendance/getAttendanceInfo/${this.state.datasource.id}`)
+            .then(res => res.json())
+            .then(res => {
+                this.setState({
+                    status_info: res
+                })
+            })
+            .catch(error => console.log(error))
+    }
 
     
 
     render() {
-        console.log(this.state.datasource)
+        console.log(this.state.status_info)
         return (
+            <div className='border-bottom white-bg dashboard-header'>
+
+                <div className="row wrapper border-bottom white-bg page-heading">
+                    <div className="col-lg-10">
+                        
+                        <ol className="breadcrumb">
+                            <li>
+                                Attendance
+                            </li>
+                            <li className="active">
+                                <a href="#">Attendance Request</a>
+                            </li>
+
+                        </ol>
+                    </div>
+
+                    <div className="col-lg-2">
+                        {
+                                <a href={this.state.pathname}>
+                                    <button className="btn btn-primary" >
+                                        Back To List</button></a>
+                                
+                        }
+
+                    </div>
+
+            </div>
+            <br />
             <div className="container">
-                <div className='row'>
+                
+                <div className='row white-bg'>
                     <form>
                         <div className="row">
                             <div className="form-group col-md-6">
@@ -91,7 +122,7 @@ class AttendanceRequestView extends Component {
                                         type="text"
                                         disabled
                                         className="form-control"
-                                        value={this.state.datasource.late_checkin == 1  ? '' : this.state.datasource.field_checkin == 1 ? this.state.datasource.visit_location : this.state.datasource.early_checkout == 1 ? '' : this.state.datasource.checkout_visit_location}
+                                        value={this.state.datasource.late_checkin == 1  ? this.state.late_checkin_reason : this.state.datasource.field_checkin == 1 ? this.state.datasource.visit_location : this.state.datasource.early_checkout == 1 ? this.state.early_checkout_reason : this.state.datasource.checkout_visit_location}
                                     />
                                 </div>
                             </div>
@@ -111,7 +142,7 @@ class AttendanceRequestView extends Component {
                             !Array.isArray(this.state.status_info) ?
 
                                 <div className="row approval-main margin-top-20">
-                                    <ApprovalInformation status={this.state.status_info} />
+                                    <ApprovalInformation1 status={this.state.status_info} />
                                 </div>
                                 : ''
                         }
@@ -121,6 +152,9 @@ class AttendanceRequestView extends Component {
                 </div>
 
             </div>
+
+            </div>
+            
         )
     }
 }

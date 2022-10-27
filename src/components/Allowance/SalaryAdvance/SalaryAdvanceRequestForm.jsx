@@ -41,6 +41,7 @@ export default class SalaryAdvanceRequestForm extends Component {
                 if (response.ok) return response.json()
             })
             .then(res => {
+                console.log('res is ======>', res)
                 if (res) {
                     this.setState({
                         newDoc: res
@@ -78,29 +79,43 @@ export default class SalaryAdvanceRequestForm extends Component {
         })
     }
     checkFiles(e) {
-        var files = document.getElementById("attach_file").files;
-        var newDoc = this.state.newDoc;
-        if (files.length > 5) {
+        e.preventDefault();
+
+        let newDoc = this.state.newDoc;
+        var obj = document.querySelector("#attach_file").files.length;
+        if(obj.length > 5){
             toast.warning('You can only upload a maximum of 2 files!')
-        }
-        else {
-            for (let i = 0; i < files.length; i++) {
+        }else{
+            for (var i = 0; i < obj; i++) {
                 var getfile = document.querySelector("#attach_file").files[i];
                 newDoc.push(getfile)
+    
             }
         }
-        // let newDoc = this.state.newDoc;
-        // var obj = document.querySelector("#attach_file").files.length;
-        // for (var i = 0; i < obj; i++) {
-        //     var getfile = document.querySelector("#attach_file").files[i];
-        //     newDoc.push(getfile)
-        // }
+        
+        document.getElementById('attach_file').value=''
 
-        document.querySelector("#attach_file").value = ''
         this.setState({
-            // attachment: attachment,
-            newDoc: newDoc
+            newDoc: newDoc,
         })
+        // var files = document.getElementById("attach_file").files;
+        // var newDoc = this.state.newDoc;
+        // if (files.length > 5) {
+        //     toast.warning('You can only upload a maximum of 2 files!')
+        // }
+        // else {
+        //     for (let i = 0; i < files.length; i++) {
+        //         var getfile = document.querySelector("#attach_file").files[i];
+        //         newDoc.push(getfile)
+        //     }
+        // }
+        
+
+        // document.querySelector("#attach_file").value = ''
+        // this.setState({
+            
+        //     newDoc: newDoc
+        // })
     }
 
     save() {
@@ -113,11 +128,18 @@ export default class SalaryAdvanceRequestForm extends Component {
                 let createdBy = this.state.created_user;
                 let updatedBy = this.state.created_user;
                 let path = 'saveSalaryAdvance';
-                const formdata = new FormData();
 
-                for (var i = 0; i < this.state.newDoc.length; i++) {
-                    formdata.append('uploadfile', this.state.newDoc[i]);
+                const formdata = new FormData();
+                var obj = this.state.newDoc.length;
+                for (var i = 0; i < obj; i++) {
+                    var imagedata = this.state.newDoc[i];
+                    formdata.append('uploadfile', imagedata);
                 }
+                // const formdata = new FormData();
+
+                // for (var i = 0; i < this.state.newDoc.length; i++) {
+                //     formdata.append('uploadfile', this.state.newDoc[i]);
+                // }
 
                 if (!Array.isArray(this.state.one_advance)) {
 
