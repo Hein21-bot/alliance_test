@@ -189,7 +189,7 @@ class HistoryReport extends Component {
                     employed_date: data[i].effective_date ? moment(data[i].effective_date_).format('YYYY-MM-DD') : "-",
                     // salary: this.state.salaryPermission.length > 0 ? (data[i].salary ? data[i].salary : this.state.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0] ? this.state.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0].basic_salary: ''
                     // : data[i].career_sub_level > 20 ? 'Not Available' : data[i].salary ? data[i].salary) : this.state.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0].basic_salary,
-                    salary: data[i].salary ? data[i].salary : (data[i].career_sub_level > 20 ? 'Not Available' :this.state.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0].basic_salary),
+                    salary:data[i].career_sub_level > 20 ? 'Not Available' :this.state.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0].basic_salary,
                 }
 
                 l.push(obj)
