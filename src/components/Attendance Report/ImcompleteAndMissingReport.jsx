@@ -871,12 +871,15 @@ class ImcompleteAndMissingReport extends Component {
                       .utc()
                       .format("hh:mm A")
                   : "-"} */}
+                  
                   {
+                    //26-10-2022 09:00:00
+                    //DD-MM-YYYY HH:mm:ss
                     this.state.selectedOption.value ==1 || this.state.selectedOption.value ==2 ? this.state.approve_data.check_in_time
                     ? moment(this.state.approve_data.check_in_time)
                         .utc()
                         .format("hh:mm A")
-                    : moment(this.state.attendancePolicyList[0].day_open_hour,'ddd DD-MMM-YYYY, hh:mm A').format('hh:mm A') : this.state.approve_data.check_in_time
+                    : moment(this.state.attendancePolicyList[0].day_open_hour,'DD-MM-YYYY HH:mm:ss').format('hh:mm A') : this.state.approve_data.check_in_time
                     ? moment(this.state.approve_data.check_in_time)
                         .utc()
                         .format("hh:mm A") : '-'
@@ -896,7 +899,7 @@ class ImcompleteAndMissingReport extends Component {
                     ? moment(this.state.approve_data.check_out_time)
                         .utc()
                         .format("hh:mm A")
-                    : moment(this.state.attendancePolicyList[0].day_close_hour,'ddd DD-MMM-YYYY, hh:mm A').format('hh:mm A') : this.state.approve_data.check_out_time
+                    : moment(this.state.attendancePolicyList[0].day_close_hour,'DD-MM-YYYY HH:mm:ss').format('hh:mm A') : this.state.approve_data.check_out_time
                     ? moment(this.state.approve_data.check_in_time)
                         .utc()
                         .format("hh:mm A") : '-'
