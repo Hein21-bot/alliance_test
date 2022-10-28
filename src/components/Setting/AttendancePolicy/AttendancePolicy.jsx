@@ -46,10 +46,18 @@ class AttendancePolicy extends Component {
       validateErr: {},
       disable: true,
       day_modified_date: new Date(),
+      late_checkin_start:'',
+      early_checkout_start:''
     };
   }
   async componentDidMount() {
     const attendance_policy_data = await getAttendancePolicy();
+    let currentLateCheckIn=attendance_policy_data[0].late_check_in_start
+    let currentEarlyCheckOut=attendance_policy_data[0].early_check_out_start
+    this.setState({
+      late_checkin_start:currentLateCheckIn,
+      early_checkout_start:currentEarlyCheckOut
+    })
     const designation_data = await getDesignationData();
     const designation_options = designation_data.map((v) => ({
       label: v.designations,
@@ -97,6 +105,8 @@ class AttendancePolicy extends Component {
       day_close_hour: data.length > 0 ? data[0].day_close_hour : null,
       office_time: office_time,
       day_modified_date: data.length > 0 ? data[0].day_modified_date : null,
+      day_lunch_close_hour : data.length >0 ? data[0].day_lunch_close_hour : null,
+      day_lunch_open_hour : data.length >0 ? data[0].day_lunch_open_hour : null,
       ot_start_time: data.length > 0 ? data[0].ot_start_time : null,
       ot_end_time: data.length > 0 ? data[0].ot_end_time : null,
       ot_allow: data.length > 0 ? data[0].ot_allow : 0,
@@ -212,12 +222,8 @@ class AttendancePolicy extends Component {
               "YYYY-MM-DD HH:mm"
             ),
             ot_allow: current_data.ot_allow,
-            late_check_in_start: moment(
-              current_data.late_check_in_start,"DD-MM-YYYY HH:mm:ss"
-            ).format("YYYY-MM-DD HH:mm"),
-            early_check_out_start: moment(
-              current_data.early_check_out_start,"DD-MM-YYYY HH:mm:ss"
-            ).format("YYYY-MM-DD HH:mm"),
+            late_check_in_start:this.state.late_checkin_start,
+            early_check_out_start:this.state.early_checkout_start,
             late_check_in_allow: current_data.late_check_in_allow,
             early_check_out_allow: current_data.early_check_out_allow,
             remark: current_data.remark,
@@ -250,12 +256,8 @@ class AttendancePolicy extends Component {
               "YYYY-MM-DD HH:mm"
             ),
             ot_allow: current_data.ot_allow,
-            late_check_in_start: moment(
-              current_data.late_check_in_start,"DD-MM-YYYY HH:mm:ss"
-            ).format("YYYY-MM-DD HH:mm"),
-            early_check_out_start: moment(
-              current_data.early_check_out_start,"DD-MM-YYYY HH:mm:ss"
-            ).format("YYYY-MM-DD HH:mm"),
+            late_check_in_start:this.state.late_checkin_start,
+            early_check_out_start: this.state.early_checkout_start,
             late_check_in_allow: current_data.late_check_in_allow,
             early_check_out_allow: current_data.early_check_out_allow,
             remark: current_data.remark,
@@ -284,6 +286,24 @@ class AttendancePolicy extends Component {
       this.showToast(status, "Please Add Fully Information.");
     }
   };
+  handleLateCheckInStart(event){
+      this.setState({
+        late_checkin_start:event.target.value
+      })
+    // const obj={...this.state.current_data};
+    // obj['late_checkin_start']=this.state.late_checkin_start
+    // obj['late_checkin_start']=event.target.value
+    // this.setState({
+    //   current_data:obj
+    // },()=>{
+    //   console.log("late checkin start in current data",this.state.current_data.late_checkin_start)
+    // })
+  }
+  hanldeEarlyCheckOutStart(event){
+    this.setState({
+      early_checkout_start:event.target.value
+    })
+  }
 
   showToast = (status, text) => {
     if (status === 200) {
@@ -311,6 +331,7 @@ class AttendancePolicy extends Component {
         })
       : [];
     return (
+      
       <div className="attendance-policy border-bottom white-bg dashboard-header">
         <div className="row save-btn">
           <div className="float-right">
@@ -862,7 +883,8 @@ class AttendancePolicy extends Component {
                             : null,
                         }}
                       >
-                        <DatePicker
+                        <input type="number" value={this.state.late_checkin_start}  className="form-control" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} onChange={this.handleLateCheckInStart.bind(this)} />
+                        {/* <DatePicker
                           id={"late_check_in_start"}
                           value={
                             current_data.late_check_in_start
@@ -877,7 +899,7 @@ class AttendancePolicy extends Component {
                             this.handleChangeTime(date, "late_check_in_start")
                           }
                           inputProps={{ disabled: disable }}
-                        />
+                        /> */}
                       </div>
                     </div>
                   </div>
@@ -903,7 +925,8 @@ class AttendancePolicy extends Component {
                             : null,
                         }}
                       >
-                        <DatePicker
+                        <input type="number" value={this.state.early_checkout_start} className="form-control" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} onChange={this.hanldeEarlyCheckOutStart.bind(this)}/>
+                        {/* <DatePicker
                           id={"early_check_out_start"}
                           value={
                             current_data.early_check_out_start
@@ -918,7 +941,7 @@ class AttendancePolicy extends Component {
                             this.handleChangeTime(date, "early_check_out_start")
                           }
                           inputProps={{ disabled: disable }}
-                        />
+                        /> */}
                       </div>
                     </div>
                   </div>
