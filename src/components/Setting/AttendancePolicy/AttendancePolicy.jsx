@@ -883,7 +883,7 @@ class AttendancePolicy extends Component {
                             : null,
                         }}
                       >
-                        <input type="number" value={this.state.late_checkin_start}  className="form-control" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} onChange={this.handleLateCheckInStart.bind(this)} />
+                        <input type="number" value={this.state.late_checkin_start}  className="form-control" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} onChange={this.handleLateCheckInStart.bind(this)} disabled={disable} />
                         {/* <DatePicker
                           id={"late_check_in_start"}
                           value={
@@ -925,7 +925,7 @@ class AttendancePolicy extends Component {
                             : null,
                         }}
                       >
-                        <input type="number" value={this.state.early_checkout_start} className="form-control" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} onChange={this.hanldeEarlyCheckOutStart.bind(this)}/>
+                        <input type="number" value={this.state.early_checkout_start} className="form-control" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} onChange={this.hanldeEarlyCheckOutStart.bind(this)} disabled={disable}/>
                         {/* <DatePicker
                           id={"early_check_out_start"}
                           value={
