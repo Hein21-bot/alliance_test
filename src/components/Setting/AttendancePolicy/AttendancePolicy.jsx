@@ -90,7 +90,6 @@ class AttendancePolicy extends Component {
       });
       this.setState({ working_days });
     }
-    console.log('data is ===============>', data[0])
     const current_data = {
       id: data.length > 0 ? data[0].id : null,
       day_name: data.length > 0 ? data[0].day_name : null,
@@ -109,8 +108,6 @@ class AttendancePolicy extends Component {
         data.length > 0 ? data[0].early_check_out_allow : 0,
       remark: data.length > 0 ? data[0].remark : null,
       ot_allow_designation: data.length > 0 ? data[0].ot_allow_designation : [],
-      day_lunch_close_hour: data.length > 0 ? data[0].day_lunch_open_hour : [],
-      day_lunch_close_hour: data.length > 0 ? data[0].day_lunch_close_hour : []
     };
     this.setState({ current_data });
     // }
@@ -194,33 +191,33 @@ class AttendancePolicy extends Component {
           R.push({
             day_id: c.day_id,
             day_name: c.day_name,
-            day_open_hour: moment(current_data.day_open_hour).format(
-              "YYYY-MM-DD HH:mm:ss"
+            day_open_hour: moment(current_data.day_open_hour,"DD-MM-YYYY HH:mm:ss").format(
+              "YYYY-MM-DD HH:mm"
             ),
-            day_close_hour: moment(current_data.day_close_hour).format(
-              "YYYY-MM-DD HH:mm:ss"
+            day_close_hour: moment(current_data.day_close_hour,"DD-MM-YYYY HH:mm:ss").format(
+              "YYYY-MM-DD HH:mm"
             ),
             day_lunch_open_hour: moment(
-              current_data.day_lunch_open_hour
-            ).format("YYYY-MM-DD HH:mm:ss"),
+              current_data.day_lunch_open_hour,"DD-MM-YYYY HH:mm:ss"
+            ).format("YYYY-MM-DD HH:mm"),
             day_lunch_close_hour: moment(
-              current_data.day_lunch_close_hour
-            ).format("YYYY-MM-DD HH:mm:ss"),
+              current_data.day_lunch_close_hour,"DD-MM-YYYY HH:mm:ss"
+            ).format("YYYY-MM-DD HH:mm"),
             office_time: office_time,
             day_modified_date: current_data.day_modified_date,
-            ot_start_time: moment(current_data.ot_start_time).format(
-              "YYYY-MM-DD HH:mm:ss"
+            ot_start_time: moment(current_data.ot_start_time,"DD-MM-YYYY HH:mm:ss").format(
+              "YYYY-MM-DD HH:mm"
             ),
-            ot_end_time: moment(current_data.ot_end_time).format(
-              "YYYY-MM-DD HH:mm:ss"
+            ot_end_time: moment(current_data.ot_end_time,"DD-MM-YYYY HH:mm:ss").format(
+              "YYYY-MM-DD HH:mm"
             ),
             ot_allow: current_data.ot_allow,
             late_check_in_start: moment(
-              current_data.late_check_in_start
-            ).format("YYYY-MM-DD HH:mm:ss"),
+              current_data.late_check_in_start,"DD-MM-YYYY HH:mm:ss"
+            ).format("YYYY-MM-DD HH:mm"),
             early_check_out_start: moment(
-              current_data.early_check_out_start
-            ).format("YYYY-MM-DD HH:mm:ss"),
+              current_data.early_check_out_start,"DD-MM-YYYY HH:mm:ss"
+            ).format("YYYY-MM-DD HH:mm"),
             late_check_in_allow: current_data.late_check_in_allow,
             early_check_out_allow: current_data.early_check_out_allow,
             remark: current_data.remark,
@@ -228,37 +225,37 @@ class AttendancePolicy extends Component {
             day_open: true,
           });
         } else {
-          //moment(v.end_time).format('YYYY-MM-DD HH:mm:ss')
+          //moment(v.end_time).format('YYYY-MM-DD HH:mm')
           R.push({
             day_id: c.day_id,
             day_name: c.day_name,
-            day_open_hour: moment(current_data.day_open_hour).format(
-              "YYYY-MM-DD HH:mm:ss"
+            day_open_hour: moment(current_data.day_open_hour,"DD-MM-YYYY HH:mm:ss").format(
+              "YYYY-MM-DD HH:mm"
             ),
-            day_close_hour: moment(current_data.day_close_hour).format(
-              "YYYY-MM-DD HH:mm:ss"
+            day_close_hour: moment(current_data.day_close_hour,"DD-MM-YYYY HH:mm:ss").format(
+              "YYYY-MM-DD HH:mm"
             ),
             day_lunch_open_hour: moment(
-              current_data.day_lunch_open_hour
-            ).format("YYYY-MM-DD HH:mm:ss"),
+              current_data.day_lunch_open_hour,"DD-MM-YYYY HH:mm:ss"
+            ).format("YYYY-MM-DD HH:mm"),
             day_lunch_close_hour: moment(
-              current_data.day_lunch_close_hour
-            ).format("YYYY-MM-DD HH:mm:ss"),
+              current_data.day_lunch_close_hour,"DD-MM-YYYY HH:mm:ss"
+            ).format("YYYY-MM-DD HH:mm"),
             office_time: office_time,
             day_modified_date: current_data.day_modified_date,
-            ot_start_time: moment(current_data.ot_start_time).format(
-              "YYYY-MM-DD HH:mm:ss"
+            ot_start_time: moment(current_data.ot_start_time,"DD-MM-YYYY HH:mm:ss").format(
+              "YYYY-MM-DD HH:mm"
             ),
-            ot_end_time: moment(current_data.ot_end_time).format(
-              "YYYY-MM-DD HH:mm:ss"
+            ot_end_time: moment(current_data.ot_end_time,"DD-MM-YYYY HH:mm:ss").format(
+              "YYYY-MM-DD HH:mm"
             ),
             ot_allow: current_data.ot_allow,
             late_check_in_start: moment(
-              current_data.late_check_in_start
-            ).format("YYYY-MM-DD HH:mm:ss"),
+              current_data.late_check_in_start,"DD-MM-YYYY HH:mm:ss"
+            ).format("YYYY-MM-DD HH:mm"),
             early_check_out_start: moment(
-              current_data.early_check_out_start
-            ).format("YYYY-MM-DD HH:mm:ss"),
+              current_data.early_check_out_start,"DD-MM-YYYY HH:mm:ss"
+            ).format("YYYY-MM-DD HH:mm"),
             late_check_in_allow: current_data.late_check_in_allow,
             early_check_out_allow: current_data.early_check_out_allow,
             remark: current_data.remark,
@@ -296,8 +293,8 @@ class AttendancePolicy extends Component {
       toast.error(text);
     }
   };
-
-  render() {
+ 
+  render() { console.log("data_hour===>", this.state.current_data.day_open_hour)
     const {
       office_time,
       working_days,
@@ -306,13 +303,12 @@ class AttendancePolicy extends Component {
       validateErr,
       disable,
     } = this.state;
-    console.log('current data is =====>', current_data)
     const ot_allow_designation = current_data.ot_allow_designation
       ? designation_options.filter((el) => {
-        return current_data.ot_allow_designation.some((f) => {
-          return Number(f) === Number(el.value);
-        });
-      })
+          return current_data.ot_allow_designation.some((f) => {
+            return Number(f) === Number(el.value);
+          });
+        })
       : [];
     return (
       <div className="attendance-policy border-bottom white-bg dashboard-header">
@@ -477,9 +473,9 @@ class AttendancePolicy extends Component {
                         id={"day_open_hour"}
                         value={
                           current_data.day_open_hour
-                            ? moment(current_data.day_open_hour, 'DD-MM-YYYY HH:mm:ss').format(
-                              "hh:mm A"
-                            )
+                            ? moment(current_data.day_open_hour,"DD-MM-YYYY HH:mm:ss").format(
+                                "hh:mm A"
+                              )
                             : null
                         }
                         timeFormat="hh:mm A"
@@ -518,9 +514,9 @@ class AttendancePolicy extends Component {
                         id={"day_lunch_open_hour"}
                         value={
                           current_data.day_lunch_open_hour
-                            ? moment(current_data.day_lunch_open_hour, 'DD-MM-YYYY HH:mm:ss').format(
-                              "hh:mm A"
-                            )
+                            ? moment(current_data.day_lunch_open_hour,"DD-MM-YYYY HH:mm:ss").format(
+                                "hh:mm A"
+                              )
                             : null
                         }
                         timeFormat="hh:mm A"
@@ -570,9 +566,9 @@ class AttendancePolicy extends Component {
                         id={"day_close_hour"}
                         value={
                           current_data.day_close_hour
-                            ? moment(current_data.day_close_hour, 'DD-MM-YYYY HH:mm:ss').format(
-                              "hh:mm A"
-                            )
+                            ? moment(current_data.day_close_hour,"DD-MM-YYYY HH:mm:ss").format(
+                                "hh:mm A"
+                              )
                             : null
                         }
                         timeFormat="hh:mm A"
@@ -611,9 +607,9 @@ class AttendancePolicy extends Component {
                         id={"day_lunch_close_hour"}
                         value={
                           current_data.day_lunch_close_hour
-                            ? moment(current_data.day_lunch_close_hour, 'DD-MM-YYYY HH:mm:ss').format(
-                              "hh:mm A"
-                            )
+                            ? moment(current_data.day_lunch_close_hour,"DD-MM-YYYY HH:mm:ss").format(
+                                "hh:mm A"
+                              )
                             : null
                         }
                         timeFormat="hh:mm A"
@@ -671,9 +667,9 @@ class AttendancePolicy extends Component {
                             id={"ot_start_time"}
                             value={
                               current_data.ot_start_time
-                                ? moment(current_data.ot_start_time).format(
-                                  "hh:mm A"
-                                )
+                                ? moment(current_data.ot_start_time,"DD-MM-YYYY HH:mm:ss").format(
+                                    "hh:mm A"
+                                  )
                                 : null
                             }
                             timeFormat="hh:mm A"
@@ -711,9 +707,9 @@ class AttendancePolicy extends Component {
                             id={"ot_end_time"}
                             value={
                               current_data.ot_end_time
-                                ? moment(current_data.ot_end_time).format(
-                                  "hh:mm A"
-                                )
+                                ? moment(current_data.ot_end_time,"DD-MM-YYYY HH:mm:ss").format(
+                                    "hh:mm A"
+                                  )
                                 : null
                             }
                             timeFormat="hh:mm A"
@@ -811,7 +807,7 @@ class AttendancePolicy extends Component {
                             type="radio"
                             checked={
                               Number(current_data.ot_allow) === 0 ||
-                                !current_data.ot_allow
+                              !current_data.ot_allow
                                 ? true
                                 : false
                             }
@@ -870,9 +866,9 @@ class AttendancePolicy extends Component {
                           id={"late_check_in_start"}
                           value={
                             current_data.late_check_in_start
-                              ? moment(current_data.late_check_in_start, 'DD-MM-YYYY HH:mm:ss').format(
-                                "hh:mm A"
-                              )
+                              ? moment(current_data.late_check_in_start,"DD-MM-YYYY HH:mm:ss").format(
+                                  "hh:mm A"
+                                )
                               : null
                           }
                           timeFormat="hh:mm A"
@@ -912,8 +908,8 @@ class AttendancePolicy extends Component {
                           value={
                             current_data.early_check_out_start
                               ? moment(
-                                current_data.early_check_out_start, 'DD-MM-YYYY HH:mm:ss'
-                              ).format("hh:mm A")
+                                  current_data.early_check_out_start,"DD-MM-YYYY HH:mm:ss"
+                                ).format("hh:mm A")
                               : null
                           }
                           timeFormat="hh:mm A"
@@ -967,7 +963,7 @@ class AttendancePolicy extends Component {
                           type="radio"
                           checked={
                             Number(current_data.late_check_in_allow) === 0 ||
-                              !current_data.late_check_in_allow
+                            !current_data.late_check_in_allow
                               ? true
                               : false
                           }
@@ -1024,7 +1020,7 @@ class AttendancePolicy extends Component {
                           type="radio"
                           checked={
                             Number(current_data.early_check_out_allow) === 0 ||
-                              !current_data.early_check_out_allow
+                            !current_data.early_check_out_allow
                               ? true
                               : false
                           }

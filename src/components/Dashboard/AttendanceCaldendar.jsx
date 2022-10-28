@@ -55,13 +55,13 @@ export class AttendanceCaldendar extends Component {
         fetch(`${main_url}attendance/attendanceCalendar/${this.state.id}/${start_date}/${end_date}`)
             .then(res => { if (res.ok) return res.json() })
             .then(list => {
-                // this.setState({
-                //     att_data: list,
-                //     cal_data: list.finalData,
-                //     absence_count:list.absence_count,
-                //     attendance_count:list.attendance_count,
-                //     leave_count:list.leave_count
-                // })
+                this.setState({
+                    att_data: list,
+                    cal_data: list.finalData,
+                    absence_count:list.absence_count,
+                    attendance_count:list.attendance_count,
+                    leave_count:list.leave_count
+                })
             })
     }
 

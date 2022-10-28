@@ -128,8 +128,10 @@ export default class BenefitChildTable extends Component {
                 carrer_level: data[i].career_level_name ? data[i].career_level_name : '',
                 carrer_sub_level: data[i].career_sub_level_name ? data[i].career_sub_level_name : '',
                 // salary: data[i].salary ? data[i].salary : '', .length > 0 ? (dta > 20 ? (data ==0 ? ('data is 0") : ("data")) : ()) : ()
-                salary: this.props.salaryPermission.length > 0 ? data[i].salary ? data[i].salary : this.props.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0] ? this.props.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0].basic_salary: ''
-                : data[i].career_sub_level > 20 ? 'Not Available' : data[i].salary ? data[i].salary : this.props.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0].basic_salary,
+                salary:this.props.salaryList.filter(v=>v.career_sub_level == data[i].career_sub_level) ? this.props.salaryList.filter(v=>v.career_sub_level == data[i].career_sub_level)[0] ? this.props.salaryList.filter(v=>v.career_sub_level == data[i].career_sub_level)[0].basic_salary : 0:0,
+
+                // salary: this.props.salaryPermission.length > 0 ? data[i].salary ? data[i].salary : this.props.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0] ? this.props.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0].basic_salary: ''
+                // : data[i].career_sub_level > 20 ? 'Not Available' : data[i].salary ? data[i].salary : this.props.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0].basic_salary,
                 department: data[i].deptname ? data[i].deptname : '',
                 discon_status: data[i].discontinute_status ? data[i].discontinute_status == 0 ? 'False' : 'True' : 'False',
                 discon_date: data[i].discontinute_date ? moment(data[i].discontinute_date).format('YYYY-MM-DD') : '',
@@ -235,7 +237,7 @@ export default class BenefitChildTable extends Component {
     }
 
 
-    render() { 
+    render() {  console.log("salary pm",this.props.salaryPermission)
         return (
             <div>
                 <table width="99%"

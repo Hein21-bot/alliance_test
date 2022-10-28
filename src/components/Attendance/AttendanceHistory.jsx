@@ -83,7 +83,7 @@ class AttendanceHistory extends Component {
                 let result = data[i];
                 let status = "";
                 let obj = [];
-                if (result.holiday_checkin == 1 && result.check_out_status == 1 && result.status == 0) {
+                if (result.holiday_checkin == 0 && result.check_out_status == 0 && result.status == 0) {
                     status +=
                         '<small class="label label-warning" style="background-color:#509aed"> Request </small>';
                 } else if (result.holiday_checkin == 1 && result.check_out_status == 1 && result.status == 1) {
@@ -127,10 +127,10 @@ class AttendanceHistory extends Component {
             { title: "No", data: "no" },
             { title: "Date", data: "date" },
             { title: "Check In Time", data: "check_in_time" },
+            { title: "Check In Attendance Type ", data: "attendance_type_check_in" },
             { title: "Check Out Time", data: "check_out_time" }, 
+            { title: "Check Out Attendance Type ", data: "attendance_type_check_out" },
             { title: "Working Hour", data: "working_hour" },
-            { title: "Attendance Type Check In", data: "attendance_type_check_in" },
-            { title: "Attendance Type Check Out", data: "attendance_type_check_out" },
             { title: "Status", data: "status" },
 
         ]
