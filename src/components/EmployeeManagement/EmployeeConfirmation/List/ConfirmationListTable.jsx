@@ -246,21 +246,23 @@ export default class BenefitChildTable extends Component {
             responsive: true,
             pageLength: 50,
             paging: true,
-            // buttons: true,
+            buttons: true,
             dom: 'Bfrtip',
-            // buttons: [
-            //     'copy', 'csv', 'excel', 'pdf'
-            // ],
+            buttons: [
+            //     'copy', 'csv',
+             'excel'
+            //  , 'pdf'
+            ],
             buttons: [
                 // 'copy',
                 // {
                 //         extend: 'csvHtml5',
                 //         title: 'Child Benefit',
                 // },
-                // {
-                //     extend: 'excelHtml5',
-                //     title: 'Child Benefit',
-                // },
+                {
+                    extend: 'excelHtml5',
+                    title: 'Comfirmation Prepare List',
+                },
                 // {
                 //     extend: 'pdfHtml5',
                 //     title: 'Child Benefit',

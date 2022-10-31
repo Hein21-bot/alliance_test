@@ -14,7 +14,7 @@ const data = [
     { date: '05-22-2022', leave_count: 2, employees: ['West', 'Nancy'] },
 ];
 const primary = "#1872ab";
-const softblue = 'rgb(24 114 171)';
+const softblue = '#FF0000';
 const secondary = '#23c6c8';
 const darky = '#5d5d5a';
 export class AttendanceCaldendar extends Component {

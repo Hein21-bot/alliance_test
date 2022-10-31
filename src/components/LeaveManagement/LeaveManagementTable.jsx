@@ -27,7 +27,7 @@ export default class LeaveManagementTable extends Component {
             is_main_role: getMainRole(),
             year: moment(getFirstDayOfMonth()),
             loading: false,
-            categoryList: [
+            statusList: [
                 { label: 'All', value: 0 },
                 { label: 'Request', value: 1 },
                 { label: 'Verify', value: 2 },
@@ -40,8 +40,11 @@ export default class LeaveManagementTable extends Component {
                 { label: 'Cancel Reject', value: 9 },
 
             ],
+            leaveCategory: [],
+            selected_category_value: null,
             selected_category: null,
-            selected_category_value: null
+            selected_status: null,
+            selected_status_value: null
             // isHR: this.props.isHR
         }
     }
@@ -55,14 +58,14 @@ export default class LeaveManagementTable extends Component {
             this.getMyLeave(year);
         } else if (tab === 2) {
             this.setState({ loading: true });
-            this.getAllLeave(year, 0);
+            this.getAllLeave(year,0,0);
         }
     }
 
     componentDidMount() {
         this.$el = $(this.el);
         this.getData();
-
+        this.leaveCategory();
         let that = this;
         $("#dataTables-table").on('click', '#toView', function () {
 
@@ -97,7 +100,17 @@ export default class LeaveManagementTable extends Component {
 
         }
     }
-
+    leaveCategory() {
+        fetch(main_url + "leave/getLeaveCategory")
+            .then(response => {
+                if (response.ok) return response.json()
+            })
+            .then(res => {
+                res.unshift({label:'All',value:0})
+                this.setState({ leaveCategory: res })
+            })
+            .catch(error => console.error(`Fetch Error =\n`, error));
+    }
     getMyLeave() {
 
         fetch(`${main_url}leave/getMyLeave/${this.state.user_id}`)
@@ -110,7 +123,7 @@ export default class LeaveManagementTable extends Component {
             .catch(error => console.error(`Fetch Error =\n`, error));
     }
 
-    getAllLeave(year, category) {
+    getAllLeave(year,selectedCategoryValue, selectedStatusValue) { console.log("dsahgsd",selectedCategoryValue, selectedStatusValue)
         let years = moment(year).format('YYYY')
         this.setState({ loading: true });
         fetch(`${main_url}leave/getAllLeave/${years}/${this.state.user_id}`)
@@ -118,25 +131,32 @@ export default class LeaveManagementTable extends Component {
                 if (response.ok) return response.json()
             })
             .then(res => {
-                this.setState({ data: res, loading: false }, () => (category == 0 || category == null ? this._setTableData(res) : this._setTableData(res.filter(d => d.application_status == category))))
+                this.setState({ data: res, loading: false }, () => (selectedCategoryValue == 0  && selectedStatusValue == 0 ) ? this._setTableData(res): (selectedCategoryValue != 0  && selectedStatusValue == 0 ) ? this._setTableData(res.filter(d =>d.leave_category_id == selectedCategoryValue  )):(selectedCategoryValue == 0  && selectedStatusValue != 0 ) ? this._setTableData(res.filter(d => d.application_status == selectedStatusValue  ))           : this._setTableData(res.filter(d =>  d.application_status == selectedStatusValue && d.leave_category_id == selectedCategoryValue)) )
+                // this.setState({ data: res, loading: false }, () => (selectedCategoryValue == 0 || selectedCategoryValue == null && selectedStatusValue == 0 || selectedStatusValue == null) ? this._setTableData(res) : (selectedCategoryValue != 0 || selectedCategoryValue != null && selectedStatusValue == 0 || selectedStatusValue == null) ? this._setTableData(res.filter(d =>  d.leave_category_id == selectedCategoryValue)) : (selectedStatusValue != 0 || selectedStatusValue != null && selectedCategoryValue != 0 || selectedCategoryValue != null ) ? this._setTableData(res.filter(d => d.application_status == selectedStatusValue && d.leave_category_id == selectedCategoryValue)) :  this._setTableData(res.filter(d =>  d.application_status == selectedStatusValue && d.leave_category_id == selectedCategoryValue)))
             })
             .catch(error => console.error(`Fetch Error =\n`, error));
     }
-    handleCategory = (event) => {
+    handlestatus = (event) => {
+        this.setState({
+            selected_status: event,
+            selected_status_value: event.value
+        })
+    }
+    handlecategory = (event) => {
         this.setState({
             selected_category: event,
             selected_category_value: event.value
         })
     }
-
     filter() {
         if (this.state.tab == 0) {
             let year = moment(this.state.year).format('YYYY')
-            this.getAllLeave(year, 0);
+            this.getAllLeave(year, 0 ,0);
         } else if (this.state.tab == 2) {
             let year = moment(this.state.year).format('YYYY')
+            let selectedStatusValue = this.state.selected_status_value ? this.state.selected_status_value : 0
             let selectedCategoryValue = this.state.selected_category_value ? this.state.selected_category_value : 0
-            this.getAllLeave(year, selectedCategoryValue);
+            this.getAllLeave(year,selectedCategoryValue, selectedStatusValue);
         }
     }
 
@@ -348,18 +368,32 @@ export default class LeaveManagementTable extends Component {
                                     </div>
                                 </div>
                                 <div className="col-md-3">
-                                    <div><label className="col-sm-12">Leave Status</label></div>
+                                    <div><label className="col-sm-12">Leave Category</label></div>
                                     <div className="col-md-10">
                                         <Select
-                                            options={this.state.categoryList}
+                                            options={this.state.leaveCategory}
                                             value={this.state.selected_category}
-                                            onChange={this.handleCategory}
+                                            onChange={this.handlecategory}
                                             className="react-select-container checkValidate"
                                             classNamePrefix="react-select"
                                         />
 
                                     </div>
                                 </div>
+                                <div className="col-md-3">
+                                    <div><label className="col-sm-12">Leave Status</label></div>
+                                    <div className="col-md-10">
+                                        <Select
+                                            options={this.state.statusList}
+                                            value={this.state.selected_status}
+                                            onChange={this.handlestatus}
+                                            className="react-select-container checkValidate"
+                                            classNamePrefix="react-select"
+                                        />
+
+                                    </div>
+                                </div>
+                            
                                 <div className="col-md-3">
                                     <div className="col-md-10 margin-top-20">
                                         <button type="button" className="btn btn-primary" onClick={this.filter.bind(this)}>Search</button>
