@@ -591,7 +591,8 @@ const RowData = ({ v, i, handleSelectedCheckPerson, title, leaveCategory }) => {
         {v.leave_end_date}
       </td>
       <td style={{ border: "1px solid lightgrey",paddingLeft:"10px" }}>
-        {v.leave_status}
+        {v.leave_status ? v.leave_status ==3 ? "Approve" : v.leave_status ==6 ? "Cancel Request" : v.leave_status ==9 ? "Cancel Reject" :"-" : "-"}
+        {/* {v.leave_status ? v.leave_status == 3 ? "Approve":v.leave_status ==6 ? "Cancel Request" : "Cancel Reject" :v.leave_status ==6 ? "Cancel Request" : "Cancel Reject"} */}
       </td>
     </tr>
   );
