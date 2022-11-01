@@ -30,6 +30,8 @@ export class AttendanceCaldendar extends Component {
             attendance_count:0,
             leave_count:0,
             working_day_count:0,
+            total_working_day:0,
+            att_day:0
         }
     }
 
@@ -57,14 +59,16 @@ export class AttendanceCaldendar extends Component {
             .then(res => { if (res.ok) return res.json() })
             .then(list => {
                 this.setState({
-                    att_data: list,
-                    working_count: list.working_day_count,
-                    cal_data: list.finalData,
-                    absence_count:list.absence_count,
-                    attendance_count:list.attendance_count_complete,
-                    attendance_count_incomplete:list.attendance_count_incomplete,
-                    leave_count:list.leave_count
-                },()=>{console.log("date data===>",list)})
+                    // att_data: list,
+                    // working_count: list.working_day_count,
+                    // cal_data: list.finalData,
+                    // absence_count:list.absence_count,
+                    // attendance_count:list.attendance_count_complete,
+                    // attendance_count_incomplete:list.attendance_count_incomplete,
+                    // leave_count:list.leave_count,
+                    // total_working_day:list.working_day_count + list.attendance_count_complete + list.attendance_count_incomplete + list.absence_count,
+                    // att_day:list.attendance_count_complete +list.attendance_count_incomplete
+                })
             })
     }
 
@@ -185,13 +189,13 @@ export class AttendanceCaldendar extends Component {
                                     <div className="" style={{ height: '30px', width: '60%', borderRadius: '5px 0px 0px 5px', backgroundColor: '#efefef', display: 'flex', justifyContent: 'center', alignItems: 'center', color: primary, fontSize: '12px' }}>
                                         Total Working Days
                                     </div>
-                                    <div style={{ minWidth: 50, height: '30px', width: '40%', borderRadius: '5px', backgroundColor: primary, display: "flex", justifyContent: "center", alignItems: "center", fontSize: '16px', color: 'white' }}>{this.state.absence_count+this.state.attendance_count+this.state.attendance_count_incomplete + this.state.working_count}</div>
+                                    <div style={{ minWidth: 50, height: '30px', width: '40%', borderRadius: '5px', backgroundColor: primary, display: "flex", justifyContent: "center", alignItems: "center", fontSize: '16px', color: 'white' }}>{this.state.total_working_day}</div>
                                 </div>
                             </div>
                             <div className="row" style={{ width: '100%', margin: '6px 0px 0px 0px' }}>
                                 <div className="col-md-12 col-lg-12" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'left' }}>
                                     <div className="col-lg-4" style={{ height: '130px', backgroundColor: secondary, borderRadius: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center', marginRight: 5 }}>
-                                        <p style={{ fontSize: '30px', color: 'white' }}>{this.state.attendance_count + this.state.attendance_count_incomplete}</p>
+                                        <p style={{ fontSize: '30px', color: 'white' }}>{this.state.att_day}</p>
                                         <p style={{ fontWeight: 'bold', textAlign: 'center', fontSize: '10px', color: 'white' }}>Attendance Day</p>
                                     </div>
                                     <div className="col-lg-4" style={{ height: '130px', backgroundColor: primary, borderRadius: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center', marginRight: 5 }}>
