@@ -253,9 +253,9 @@ class AttendanceReportMonthly extends Component {
         let branch = this.state.selected_branch? this.state.selected_branch.value : 0
         let department = this.state.selected_department ? this.state.selected_department.value : 0
         let user_id = this.state.selected_selected_employee_name ? this.state.selected_selected_employee_name .value :0
-        let attendance_status = this.state.selected_att_status ? this.state.selected_att_status.value :0
+        let attendance_status = this.state.selected_att_status ? this.state.selected_att_status.value : 0
         let attendance_att_type =  this.state.selected_att_type ? this.state.selected_att_type.value :0
-        let status = this.state.selected_status ? this.state.selected_status.value : 0
+        let status = this.state.selected_status ? this.state.selected_status.value : -1
         let attendance_reason=this.state.attendance_reason ? this.state.attendance_reason : 0
          fetch(`${main_url}attendance/attendanceReport/${region}/${branch}/${department}/${user_id}/${attendance_att_type}/${attendance_status}/${attendance_reason}/${status}/${start_date}/${end_date}`)
         .then((res) => {
