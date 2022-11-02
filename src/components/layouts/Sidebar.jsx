@@ -367,7 +367,7 @@ export default class Sidebar extends Component {
                   >
                     <a href="/employment_details">Employment Details</a>
                   </li>
-                  {/* <li className={this.checkPathName() === "/reports" || pathname == "/EmployeeDirectory"|| pathname === "/ResignStaffReport" || pathname === "/RegionStaffReport" || pathname === "/BranchStaffReport" || pathname === "/HoStaffReport" || pathname === "/EmployeeReport" || pathname === "/ReportbyServiceYear" || pathname === "/HistoryReport" || pathname === "/FRDReport" || pathname === "/ExtensionReport" || pathname === "/RegionWiseStaffReportCount"   ? "active" : " "}>
+                  <li className={this.checkPathName() === "/reports" || pathname == "/EmployeeDirectory"|| pathname === "/ResignStaffReport" || pathname === "/RegionStaffReport" || pathname === "/BranchStaffReport" || pathname === "/HoStaffReport" || pathname === "/EmployeeReport" || pathname === "/ReportbyServiceYear" || pathname === "/HistoryReport" || pathname === "/FRDReport" || pathname === "/ExtensionReport" || pathname === "/RegionWiseStaffReportCount"   ? "active" : " "}>
                     <a href="/reports" className="sideText">Employee Related Reports</a>
                     <ul className="nav nav-third-level collapse">
                   <li
@@ -418,11 +418,11 @@ export default class Sidebar extends Component {
                     <a href="/RegionWiseStaffReportCount">Region Wise Staff Count Report</a>
                   </li>
                 </ul>
-                  </li> */}
+                  </li>
                 </ul>
               </li>
 
-              {/* <li
+              <li
                 className={this.checkPathName() === "/confirmation"  ? "active" : ""}
               >
                 <a href="/confirmation_list" className="sideList">
@@ -504,7 +504,7 @@ export default class Sidebar extends Component {
                   </li>
                   
                 </ul>
-              </li> */}
+              </li>
 
 
               <li
@@ -625,24 +625,24 @@ export default class Sidebar extends Component {
                   <li className={pathname === "/travelRequest" ? "active" : ""}>
                     <a href="/travelRequest">Travel Request</a>
                   </li>
-                  {/* <li
+                  <li
                     className={pathname === "/trainingRequest" ? "active" : ""}
                   >
                     <a href="/trainingRequest">Training Request</a>
-                  </li> */}
+                  </li>
                   <li
                     className={pathname === "/salary_advance" ? "active" : ""}
                   >
                     <a href="/salary_advance">Salary Advance</a>
                   </li>
-                  {/* <li
+                  <li
                     className={pathname === "/phonebillrequest" ? "active" : ""}
                   >
                     <a href="/phonebillrequest">Phone Bill</a>
                   </li>
                   <li className={pathname === "/petrolRequest" ? "active" : ""}>
                     <a href="/petrolRequest">Petrol Request</a>
-                  </li> */}
+                  </li>
                 </ul>
 
               </li>
@@ -670,7 +670,7 @@ export default class Sidebar extends Component {
                 </a>
               </li>
 
-              {/* <li
+              <li
                 className={
                   this.checkPathName() === "/staff_loan" ? "active" : ""
                 }
@@ -704,14 +704,14 @@ export default class Sidebar extends Component {
                     </a>
                   </li>
                 </ul>
-              </li> */}
+              </li>
 
 
               
 
             
 
-              {/* <li
+              <li
                 className={
                   this.checkPathName() === "/notification" ? "active" : ""
                 }
@@ -720,14 +720,14 @@ export default class Sidebar extends Component {
                   <i className="fa fa-bell sideIcon" style={{ color: 'white' }}></i>
                   <span className="sideText">Notification</span>
                 </a>
-              </li> */}
+              </li>
 
-              {/* <li className={pathname === "/Announcement" ? "active" : ""}>
+              <li className={pathname === "/Announcement" ? "active" : ""}>
                   <a href="/Announcement" className="sideList" >
                     <i className="fas fa-atlas sideIcon" style={{ color: 'white' }}></i>
                     <span className="sideText">Announcement Setting</span>
                   </a>
-                </li> */}
+                </li>
 
               <li>
                 <a href={remote_url} className="sideList" onClick={this.logout.bind(this)}>
