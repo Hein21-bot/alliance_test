@@ -371,7 +371,7 @@ class ConfirmationList extends Component {
       })
     } else {
       this.setState({
-        selected_title: null
+        selected_title: ''
       })
     }
 
@@ -450,12 +450,19 @@ class ConfirmationList extends Component {
   };
 
   handleSearch =async (e) => {
+    if(this.state.selected_title && this.state.selected_title.filter(v => v.id === 4).length > 0){
+      let temp=this.state.selected_title_list.filter(v=>v!=null)
+      let arr=[...temp,this.state.confirmationMonth]
+      this.setState({
+        selected_title_list:arr
+      })
+    }
     // this.getEmployeeList({ regionId, depId, branchId, designId })
-    let temp=this.state.selected_title_list.filter(v=>v!=null)
-    let arr=[...temp,this.state.confirmationMonth]
-    this.setState({
-      selected_title_list:arr
-    })
+    // let temp=this.state.selected_title_list.filter(v=>v!=null)
+    // let arr=[...temp,this.state.confirmationMonth]
+    // this.setState({
+    //   selected_title_list:arr
+    // })
     await this.getVerifyPersonList();
     await this.getConfirmationList();
   };
