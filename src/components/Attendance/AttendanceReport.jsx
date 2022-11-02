@@ -320,7 +320,8 @@ class AttendanceReportMonthly extends Component {
                     check_out_att_status: result.early_checkout == 1 ? 'Early Check Out' : result.field_checkout == 1 ? 'Field Check Out' : result.holiday_checkout == 1 ? 'Holiday Check Out' : 'Normal Check Out',
                     check_out_att_reason: result.early_checkout_reason ? result.early_checkout_reason : result.checkout_visit_reason ? result.checkout_visit_reason : '',
                     check_out_status: check_out_status,
-                    workingHour: result.WorkingHour
+                    workingHour: result.WorkingHour,
+                    status:result.incom_option ? result.incom_option ==1 ? "Attendance" : "Late" :"-"
                 }
 
 
@@ -354,6 +355,7 @@ class AttendanceReportMonthly extends Component {
             { title: "Check Out Attendance Status", data: "check_out_att_status" },
             { title: "Check Out Attendance Reason", data: "check_out_att_reason" },
             { title: "Check Out Status", data: "check_out_status" },
+            { title: "Status",data:"status"}
 
 
         ]
