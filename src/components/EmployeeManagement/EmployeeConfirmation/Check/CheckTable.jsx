@@ -257,7 +257,9 @@ export default class BenefitChildTable extends Component {
         currentSubLevelServiceYear: data[i].current_sub_level_service_year ? data[i].current_sub_level_service_year : '_',
         status: status,
         confirmOrNot: data[i].recommendation ? data[i].recommendation : '-',
-        extensionComment: data[i].extension_comment ? data[i].extension_comment : '-'
+        extensionComment: data[i].extension_comment ? data[i].extension_comment : '-',
+        checkPerson:data[i].check1_person ? data[i].check1_person : '-',
+        confirmPerson:data[i].confirm1_person ? data[i].confirm1_person : '-'
       }
 
       if (has_select) {
@@ -302,6 +304,8 @@ export default class BenefitChildTable extends Component {
       { title: "Status", data: "status" },
       { title: "Extension Comment", data: 'extensionComment' },
       { title: "Confirm or Not", data: "confirmOrNot" },
+      {title:"Check Person",data:'checkPerson'},
+      {title:"Confirm Person",data:'confirmPerson'}
 
     ]
 
@@ -319,21 +323,23 @@ export default class BenefitChildTable extends Component {
       responsive: true,
       pageLength: 50,
       paging: true,
-      // buttons: true,
+      buttons: true,
       dom: 'Bfrtip',
-      // buttons: [
-      //     'copy', 'csv', 'excel', 'pdf'
-      // ],
+      buttons: [
+      //     'copy', 'csv',
+       'excel'
+      //  , 'pdf'
+      ],
       buttons: [
         // 'copy',
         // {
         //         extend: 'csvHtml5',
         //         title: 'Child Benefit',
         // },
-        // {
-        //     extend: 'excelHtml5',
-        //     title: 'Child Benefit',
-        // },
+        {
+            extend: 'excelHtml5',
+            title: 'Confirm List',
+        },
         // {
         //     extend: 'pdfHtml5',
         //     title: 'Child Benefit',

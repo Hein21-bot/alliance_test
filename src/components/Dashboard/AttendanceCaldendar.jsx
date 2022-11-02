@@ -14,7 +14,7 @@ const data = [
     { date: '05-22-2022', leave_count: 2, employees: ['West', 'Nancy'] },
 ];
 const primary = "#1872ab";
-const softblue = 'rgb(24 114 171)';
+const softblue = '#FF0000';
 const secondary = '#23c6c8';
 const darky = '#5d5d5a';
 export class AttendanceCaldendar extends Component {
@@ -28,12 +28,15 @@ export class AttendanceCaldendar extends Component {
             id:localStorage.getItem('user_id'),
             absence_count:0,
             attendance_count:0,
-            leave_count:0
+            leave_count:0,
+            working_day_count:0,
+            total_working_day:0,
+            att_day:0
         }
     }
 
     componentDidMount() {
-        this.getAttendanceData()
+        this.getAttendanceData();
     }
 
     getAttendanceData(date = null) {
@@ -56,11 +59,15 @@ export class AttendanceCaldendar extends Component {
             .then(res => { if (res.ok) return res.json() })
             .then(list => {
                 this.setState({
-                    att_data: list,
-                    cal_data: list.finalData,
-                    absence_count:list.absence_count,
-                    attendance_count:list.attendance_count,
-                    leave_count:list.leave_count
+                    // att_data: list,
+                    // working_count: list.working_day_count,
+                    // cal_data: list.finalData,
+                    // absence_count:list.absence_count,
+                    // attendance_count:list.attendance_count_complete,
+                    // attendance_count_incomplete:list.attendance_count_incomplete,
+                    // leave_count:list.leave_count,
+                    // total_working_day:list.working_day_count + list.attendance_count_complete + list.attendance_count_incomplete + list.absence_count,
+                    // att_day:list.attendance_count_complete +list.attendance_count_incomplete
                 })
             })
     }
@@ -79,7 +86,7 @@ export class AttendanceCaldendar extends Component {
             <>
                 <div onClick={() => this.setModalData(highlight)} data-toggle={highlight.length > 0 && "modal"} data-target={highlight.length > 0 && "#leave-detail-modal"} style={{ border: highlight.length > 0 && '1px solid red', padding: '0px 2px', borderRadius: 50, minWidth: 29, minHeight: 29, paddingTop: 5, width: 29, height: 29 }}>
                     {getDate(date)}
-                    {this.state.cal_data.length > 0 && this.state.cal_data.map(v => v.date == format(date, 'yyyy-MM-dd') && v.attendanceStatus == 'Attendance' ? <div style={{ width: 5, height: 5, borderRadius: '50%', backgroundColor: secondary, marginLeft: 10 }}></div> : v.date == format(date, 'yyyy-MM-dd') && v.attendanceStatus == 'Leave' ? <div style={{ width: 5, height: 5, borderRadius: '50%', backgroundColor: primary, marginLeft: 10 }}></div> : v.date == format(date, 'yyyy-MM-dd') && v.attendanceStatus == 'Absence' ? <div style={{ width: 5, height: 5, borderRadius: '50%', backgroundColor: darky, marginLeft: 10 }}></div> : '')}
+                    {this.state.cal_data.length > 0 && this.state.cal_data.map(v => v.date == format(date, 'yyyy-MM-dd') && v.attendanceStatus == 'Attendance' ? <div style={{ width: 5, height: 5, borderRadius: '50%', backgroundColor: secondary, marginLeft: 10 }}></div> : v.date == format(date, 'yyyy-MM-dd') && v.attendanceStatus == 'Leave' ? <div style={{ width: 5, height: 5, borderRadius: '50%', backgroundColor: primary, marginLeft: 10 }}></div> : v.date == format(date, 'yyyy-MM-dd') && v.attendanceStatus == 'Absence' ? <div style={{ width: 5, height: 5, borderRadius: '50%', backgroundColor: darky, marginLeft: 10 }}></div> :  v.date == format(date, 'yyyy-MM-dd') && v.attendanceStatus == 'Incomplete' ? <div style={{ width: 5, height: 5, borderRadius: '50%', backgroundColor: softblue, marginLeft: 10 }}></div> : "")}
                 </div>
 
                 {
@@ -182,13 +189,13 @@ export class AttendanceCaldendar extends Component {
                                     <div className="" style={{ height: '30px', width: '60%', borderRadius: '5px 0px 0px 5px', backgroundColor: '#efefef', display: 'flex', justifyContent: 'center', alignItems: 'center', color: primary, fontSize: '12px' }}>
                                         Total Working Days
                                     </div>
-                                    <div style={{ minWidth: 50, height: '30px', width: '40%', borderRadius: '5px', backgroundColor: primary, display: "flex", justifyContent: "center", alignItems: "center", fontSize: '16px', color: 'white' }}>{this.state.absence_count+this.state.attendance_count+this.state.leave_count}</div>
+                                    <div style={{ minWidth: 50, height: '30px', width: '40%', borderRadius: '5px', backgroundColor: primary, display: "flex", justifyContent: "center", alignItems: "center", fontSize: '16px', color: 'white' }}>{this.state.total_working_day}</div>
                                 </div>
                             </div>
                             <div className="row" style={{ width: '100%', margin: '6px 0px 0px 0px' }}>
                                 <div className="col-md-12 col-lg-12" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'left' }}>
                                     <div className="col-lg-4" style={{ height: '130px', backgroundColor: secondary, borderRadius: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center', marginRight: 5 }}>
-                                        <p style={{ fontSize: '30px', color: 'white' }}>{this.state.attendance_count}</p>
+                                        <p style={{ fontSize: '30px', color: 'white' }}>{this.state.att_day}</p>
                                         <p style={{ fontWeight: 'bold', textAlign: 'center', fontSize: '10px', color: 'white' }}>Attendance Day</p>
                                     </div>
                                     <div className="col-lg-4" style={{ height: '130px', backgroundColor: primary, borderRadius: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center', marginRight: 5 }}>

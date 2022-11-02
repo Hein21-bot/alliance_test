@@ -8,7 +8,7 @@ import moment from 'moment';
 const ListSearchForm = props => {
 
     const { selected_title, titleList, handleDropDown, handleSearch, level_options, sub_level_options, handleLevelSelectorChange, career_level, career_sub_level, selected_branch, handleSelectedRegion, handleSelectedBranch, handleSelectedDeaprtment, selected_department, selected_region, regionList, branchlist, departmentlist, onChange, confirmationMonth, date, dropDownOpen, selected_designation, designationList, handleSelectedDesignation, handleConfirmationListInputChange, handleSelectedLevel, handleSelectedSubLevel, handleSelectedTitle } = props
-
+    // console.log("selected title>>>",selected_title && selected_title.filter(v => v.id === 4).length)
    
     return (
 
@@ -79,16 +79,26 @@ const ListSearchForm = props => {
 
             </div>
             {
-                (selected_title && selected_title.filter(v => v.name == "Other Confirmation").length > 0) ?
-                    <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, flexDirection: 'column' }}>
-                        <div className='col-12'>
-                            Confirmation Month
-                        </div>
-                        <div className='col-12' style={{}}>
-                            <input type='number' name="confirmationMonth" value={confirmationMonth} onChange={handleConfirmationListInputChange} style={{ minWidth: 180, height: 40 }} />
-                        </div>
+                selected_title && selected_title.filter(v => v.id === 4).length > 0 ?
+                <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, flexDirection: 'column' }}>
+                    <div className='col-12'>
+                        Confirmation Month
+                    </div>
+                    <div className='col-12' style={{}}>
+                        <input type='number' name="confirmationMonth" value={confirmationMonth} onChange={handleConfirmationListInputChange} style={{ minWidth: 180, height: 40 }} />
+                    </div>
 
-                    </div> : null
+                </div> : null 
+                // selected_title ? selected_title.filter(v => v.id === '4').length > 0 ?
+                //     <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, flexDirection: 'column' }}>
+                //         <div className='col-12'>
+                //             Confirmation Month
+                //         </div>
+                //         <div className='col-12' style={{}}>
+                //             <input type='number' name="confirmationMonth" value={confirmationMonth} onChange={handleConfirmationListInputChange} style={{ minWidth: 180, height: 40 }} />
+                //         </div>
+
+                //     </div> : null : null
             }
 
             <div className='col-lg-3 col-md-4 col-sm-12' style={{ display: 'flex', paddingTop: 10, flexDirection: 'column' }}>

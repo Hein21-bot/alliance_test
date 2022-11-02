@@ -149,18 +149,19 @@ class LeaveManagementEdit extends Component {
                 if (response.ok) return response.json()
             })
             .then(res => {
+                // res.pop();
                 if (this.props.data.approved_date == null) {
-                    this.setState({ leaveCategory: res })
+                    this.setState({ leaveCategory: res.filter(v=> v.value != 11) })
                 } else {
                     if (this.props.data.approve_by == this.state.user_info.user_id) {
                         res = res.filter(function (l) {
                             return l.label == "Casual Leave" || l.label == "Earned Leave"
                         })
                         this.setState({
-                            leaveCategory: res
+                            leaveCategory: res.filter(v=> v.value != 11)
                         })
                     } else {
-                        this.setState({ leaveCategory: res })
+                        this.setState({ leaveCategory: res.filter(v=> v.value != 11) })
                     }
 
                 }

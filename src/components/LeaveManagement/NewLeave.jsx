@@ -95,7 +95,9 @@ export default class NewLeave extends Component {
                 if (response.ok) return response.json()
             })
             .then(res => {
-                this.setState({ leaveCategory: res })
+                // res.pop();
+                this.setState({ 
+                    leaveCategory: res.filter(v=> v.value != 11) })
             })
             .catch(error => console.error(`Fetch Error =\n`, error));
     }
@@ -321,7 +323,7 @@ export default class NewLeave extends Component {
         
     }
 
-    render() {
+    render() {   console.log("data ==>",this.state.leaveCategory)
         let leave_left = this.state.leaveDetail != null && this.state.leaveDetail[0].leave.filter(v => v.leave_category_id == this.state.selectedCategory.value)
         this.state.max_days = leave_left.length != 0 && leave_left[0] != undefined && leave_left[0].leave_quota - leave_left[0].leave_count
         return (

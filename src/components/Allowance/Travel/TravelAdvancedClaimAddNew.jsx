@@ -184,10 +184,10 @@ export default class TravelAdvancedClaimAddNew
                     end_time: new Date(),
                     noOfDays: '',
                     noOfNights: '',
-                    meals: '',
-                    lodging: '',
-                    transport: '',
-                    amount: '',
+                    meals: 0,
+                    lodging: 0,
+                    transport: 0,
+                    amount: 0,
                     purpose: ''
 
                 },
@@ -469,7 +469,7 @@ export default class TravelAdvancedClaimAddNew
                                             className="form-control"
                                             type="number"
                                             disabled
-                                            value={this.state.advanceData.meals}
+                                            value={this.state.advanceData.meals!=0 ? this.state.advanceData.meals : 0}
 
                                         />
                                     </div>
@@ -479,7 +479,7 @@ export default class TravelAdvancedClaimAddNew
                                             className="form-control"
                                             type="number"
                                             disabled
-                                            value={this.state.advanceData.lodging}
+                                            value={this.state.advanceData.lodging!=0 ? this.state.advanceData.lodging : 0}
 
                                         />
                                     </div>
@@ -489,7 +489,7 @@ export default class TravelAdvancedClaimAddNew
                                             className="form-control"
                                             type="number"
                                             disabled
-                                            value={this.state.advanceData.transport}
+                                            value={this.state.advanceData.transport!=0 ? this.state.advanceData.transport : 0}
 
                                         />
                                     </div>
@@ -499,7 +499,7 @@ export default class TravelAdvancedClaimAddNew
                                             className="form-control"
                                             type="number"
                                             disabled
-                                            value={this.state.advanceData.advanced_amount}
+                                            value={this.state.advanceData.advanced_amount !=0 ? this.state.advanceData.advanced_amount : 0}
                                         />
                                     </div>
 
