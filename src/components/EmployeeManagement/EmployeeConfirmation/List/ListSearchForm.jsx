@@ -8,7 +8,7 @@ import moment from 'moment';
 const ListSearchForm = props => {
 
     const { selected_title, titleList, handleDropDown, handleSearch, level_options, sub_level_options, handleLevelSelectorChange, career_level, career_sub_level, selected_branch, handleSelectedRegion, handleSelectedBranch, handleSelectedDeaprtment, selected_department, selected_region, regionList, branchlist, departmentlist, onChange, confirmationMonth, date, dropDownOpen, selected_designation, designationList, handleSelectedDesignation, handleConfirmationListInputChange, handleSelectedLevel, handleSelectedSubLevel, handleSelectedTitle } = props
-    // console.log("selected title>>>",selected_title && selected_title.filter(v => v.id === 4).length)
+    console.log("confirmation month",confirmationMonth)
    
     return (
 
@@ -54,7 +54,7 @@ const ListSearchForm = props => {
                         <Select
                            
                             options={titleList}
-
+                            name="selecttitle"
                             // isOptionDisabled={(workingDayOptions) => workingDayOptions.disabled}
                             onChange={handleSelectedTitle}
                             value={selected_title}
@@ -85,7 +85,7 @@ const ListSearchForm = props => {
                         Confirmation Month
                     </div>
                     <div className='col-12' style={{}}>
-                        <input type='number' name="confirmationMonth" value={confirmationMonth} onChange={handleConfirmationListInputChange} style={{ minWidth: 180, height: 40 }} />
+                        <input type='number' name="confirmationMonth" value={confirmationMonth} onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} onChange={handleConfirmationListInputChange} style={{ minWidth: 180, height: 40 }} />
                     </div>
 
                 </div> : null 
