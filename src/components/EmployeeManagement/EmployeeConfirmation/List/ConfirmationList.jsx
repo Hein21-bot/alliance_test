@@ -67,6 +67,7 @@ class ConfirmationList extends Component {
       selected_title_list: null,
       selected_designation_list: null,
       checkboxAll: false,
+      
     };
   }
 
@@ -361,6 +362,7 @@ class ConfirmationList extends Component {
   }
 
   handleSelectedTitle = (event) => {
+    
    
     if (event !== null) {
       this.setState({
@@ -369,7 +371,7 @@ class ConfirmationList extends Component {
       })
     } else {
       this.setState({
-        selected_title: null
+        selected_title: ''
       })
     }
 
@@ -438,16 +440,35 @@ class ConfirmationList extends Component {
   };
 
   handleConfirmationListInputChange = (e) => {
+    // this.state.selected_title_list.push({})
     this.setState({
+        // selected_title_list:temp,
+      // selected_title_list:e.target.value,
       confirmationMonth: e.target.value,
     });
+
   };
 
-  handleSearch = (e) => {
-    // this.getEmployeeList({ regionId, depId, branchId, designId })
-   
-    this.getVerifyPersonList();
-    this.getConfirmationList();
+  handleSearch =async (e) => {
+
+    if(this.state.selected_title && this.state.selected_title.filter(v => v.id === 4).length > 0){
+      let temp=this.state.selected_title_list.filter(v=>v!=null)
+      
+        let arr=[...temp,this.state.confirmationMonth]
+        this.setState({
+          selected_title_list:arr,
+        })
+        
+    }
+    
+    
+    await this.getVerifyPersonList();
+    await this.getConfirmationList();
+    let filterData=this.state.selected_title_list && this.state.selected_title_list.filter(v=>v!= this.state.confirmationMonth)
+            console.log("filterData",filterData)
+            this.setState({
+                selected_title_list:filterData
+            })
   };
 
   onChange = (date) => {
@@ -590,6 +611,7 @@ class ConfirmationList extends Component {
   };
   
   render() {
+    console.log("selected title list",this.state.selected_title_list)
     if(this.state.loading==true){
       return <div style={{ display: 'flex', justifyContent: 'center' }}><h2>Loading...</h2></div>
     }
