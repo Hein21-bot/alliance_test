@@ -52,8 +52,8 @@ class CompensationandBenefit extends Component {
   //   });
   // };
   filter() {
-    let s_date = moment(this.state.s_date).format("YYYY-MM-DD");
-    let e_date = moment(this.state.e_date).format("YYYY-MM-DD");
+    let s_date = moment(this.state.fromDate).format("YYYY-MM-DD");
+    let e_date = moment(this.state.toDate).format("YYYY-MM-DD");
 
     this.getBenefit(
         s_date,
