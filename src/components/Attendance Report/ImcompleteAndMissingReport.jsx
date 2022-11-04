@@ -82,30 +82,6 @@ class ImcompleteAndMissingReport extends Component {
       user_id,
       selected_checkbox,
     } = this.state;
-    fetch(
-      main_url +
-        `attendance/incompleteAttReport/${user_id}/${branchId.value}/${
-          departmentId.value
-        }/${regionId.value}/${selectedAttendance.value}/${
-          selectedEmployeeName.value
-        }/${selected_checkbox}/${moment(from_date).format(
-          "YYYY-MM-DD"
-        )}/${moment(to_date).format("YYYY-MM-DD")}`
-    )
-      .then((response) => {
-        return response.json();
-      })
-      .then((res) => {
-        this.setState(
-          {
-            dataSource: res,
-          },
-          () => {
-            this._setTableData(this.state.dataSource);
-          }
-        );
-      });
-
     let branch = await getBranch();
     branch.unshift({ label: "All", value: 0 });
     let department = await getDepartment();
@@ -121,6 +97,7 @@ class ImcompleteAndMissingReport extends Component {
         value: v.state_id,
       })),
     });
+    this.handleSearchData();
     this.getEmployeeName();
     this.getAttendanceType();
     this.attendancePolicy();
@@ -237,7 +214,8 @@ class ImcompleteAndMissingReport extends Component {
   };
 
   handleSearchData = () => {
-    let checkbox=(this.state.selected_checkbox_incom ==1 && this.state.selected_checkbox_missing ==2 ) ? 0 :this.state.selected_checkbox_incom ? 1: this.state.selected_checkbox_missing ? 2 : 0;
+    let checkbox=this.state.selected_checkbox_incom == 0 && this.state.selected_checkbox_missing == 0 || this.state.selected_checkbox_incom ==1 && this.state.selected_checkbox_missing ==2  ? 0 : this.state.selected_checkbox_incom ? 1 : this.state.selected_checkbox_missing ? 2 : 0
+    // let checkbox=(this.state.selected_checkbox_incom ==1 && this.state.selected_checkbox_missing ==2 ) ? 0 :this.state.selected_checkbox_incom ? 1: this.state.selected_checkbox_missing ? 2 : 0;
     fetch(
       `${main_url}attendance/incompleteAttReport/${this.state.user_id}/${
         this.state.branchId.value
