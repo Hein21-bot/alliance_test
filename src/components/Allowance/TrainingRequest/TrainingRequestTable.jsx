@@ -7,7 +7,7 @@ import 'jspdf-autotable';
 import DatePicker from 'react-datetime';
 import moment from "moment";
 import Select from 'react-select';
-import { main_url, getUserId, getMainRole, getCookieData, getFirstDayOfMonth, getBranch, getInformation, print, fno } from '../../../utils/CommonFunction';
+import { main_url, getUserId, getMainRole, getCookieData, getFirstDayOfPrevMonth, getBranch, getInformation, print, fno } from '../../../utils/CommonFunction';
 //import Select from 'react-select/src/Select';
 require('datatables.net-buttons/js/dataTables.buttons.min');
 require('datatables.net-buttons/js/buttons.html5.min');
@@ -32,7 +32,7 @@ export default class TravelRequestAdvancedTable extends Component {
             training_type: '',
             user_id: getUserId("user_info"),
             user_info: getCookieData("user_info"),
-            s_date: moment(getFirstDayOfMonth()),
+            s_date: moment(getFirstDayOfPrevMonth()),
             e_date: moment(),
             training_type_id: '',
             pending_approve: "myrequest"
@@ -294,9 +294,11 @@ export default class TravelRequestAdvancedTable extends Component {
             .catch(error => console.error(`Fetch Error =\n`, error));
     }
 
-    handleSearchData = async (s_date, e_date, user_id, branch_id, t_type) => {
+    handleSearchData = async (s_date, e_date, user_id) => {
         const user = getCookieData("user_info");
-        fetch(main_url + "allowance/getTrainingAllowanceFilter/" + s_date + "/" + e_date + "/" + branch_id + "/" + t_type + "/" + user.user_id)
+        let branchId = this.state.selected_branch.value == undefined ? 0 : this.state.selected_branch.value
+        let t_type = this.state.selected_training_type.value == undefined ? 0 : this.state.selected_training_type.value
+        fetch(main_url + "allowance/getTrainingAllowanceFilter/" + s_date + "/" + e_date + "/" + branchId + "/" + t_type + "/" + user.user_id)
             .then(response => {
                 if (response.ok) return response.json()
             })
@@ -625,7 +627,7 @@ export default class TravelRequestAdvancedTable extends Component {
                         </div>
                         <div className="col-md-2">
                             <div className="col-md-10 margin-top-20">
-                                <button type="button" className="btn btn-primary" onClick={() => this.handleSearchData(moment(this.state.s_date).format("YYYY-MM-DD"), moment(this.state.e_date).format("YYYY-MM-DD"), this.state.selected_branch.value, this.state.selected_training_type.value, this.state.user_info.user_id)}>Search</button>
+                                <button type="button" className="btn btn-primary" onClick={() => this.handleSearchData(moment(this.state.s_date).format("YYYY-MM-DD"), moment(this.state.e_date).format("YYYY-MM-DD"), this.state.selected_branch.location_master_id, this.state.selected_training_type.value, this.state.user_info.user_id)}>Search</button>
                             </div>
                         </div>
                     </div>

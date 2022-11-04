@@ -170,6 +170,24 @@ const getPetrolRequest = (userId, setData) => {
         console.log("error staff complain ===>", error);
     })
 }
+const getAttRequest = (userId, setData) => {
+    fetch(main_url + `dashboard/attendance/${userId}`).then(response => {
+        return response.json();
+    }).then(data => {
+        setData(data);
+    }).catch((error) => {
+        console.log("error staff complain ===>", error);
+    })
+}
+const getHolidayAttRequest = (userId, setData) => {
+    fetch(main_url + `dashboard/holiday/${userId}`).then(response => {
+        return response.json();
+    }).then(data => {
+        setData(data);
+    }).catch((error) => {
+        console.log("error staff complain ===>", error);
+    })
+}
 const getStaffComplainRequest  = (userId, setData) => {
     fetch(main_url + `dashboard/staffComplainRequest`).then(response => {
         return response.json();
@@ -208,5 +226,7 @@ export const thingsToDoController = {
     getTrainingRequest,
     getPhoneRequest,
     getPetrolRequest,
-    getHelpDeskRequest
+    getHelpDeskRequest,
+    getAttRequest,
+    getHolidayAttRequest
 }

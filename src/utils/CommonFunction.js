@@ -426,6 +426,11 @@ function getFirstDayOfYear() {
     var firstDay = new Date(y, 0, 1);
     return firstDay;
 }
+function getFirstDayOfPrevMonth(){
+    var date = new Date(),y = date.getFullYear(), m = date.getMonth();
+    var firstDay = new Date(y, m - 2, 1);
+    return firstDay;
+}
 function getLastDayOfMonth(y, m) {
     return new Date(y, m + 1, 0).getDate();
 }
@@ -945,5 +950,5 @@ export {
     print, stopSaving, startSaving, fno, getFirstDayOfMonth, getFirstDayOfYear, checkLimitAmount,
     checkHRManager, checkHRAssistant, checkApprovalStatus, isApprover, havePermissionForAmount,
     calculationDate, isRequestedUser, atten_report, approveAmount, calculationDate1, getAttendancePolicy,
-    getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError
+    getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError,getFirstDayOfPrevMonth
 }

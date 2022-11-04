@@ -6,7 +6,7 @@ import {
   getInformation,
   print,
   fno,
-  getFirstDayOfMonth,
+  getFirstDayOfPrevMonth,
   getBranch,
   getUserId,
 } from "../../../utils/CommonFunction";
@@ -40,7 +40,7 @@ export default class TravelRequestAdvancedTable extends Component {
       is_main_role: getMainRole(),
       branch_id: "",
       selected_branch: [],
-      s_date: moment(getFirstDayOfMonth()),
+      s_date: moment(getFirstDayOfPrevMonth()),
       e_date: moment(),
       dataList: [],
       data: [],

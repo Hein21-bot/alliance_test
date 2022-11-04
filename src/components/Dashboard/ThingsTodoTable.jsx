@@ -28,8 +28,9 @@ class ThingsTodoTable extends Component {
       trainingCount: 0,
       phoneCount: 0,
       petrolCount: 0,
-      helpDeskCount: 0
-
+      helpDeskCount: 0,
+      attResCount: 0,
+      holidayAttResCount: 0
     };
   }
 
@@ -93,6 +94,12 @@ class ThingsTodoTable extends Component {
       // console.log('helpdesk count ===>', data)
       this.setState({ helpDeskCount: data[0].count })
     })
+    thingsToDoController.getAttRequest(id, data => {
+      this.setState({ attResCount: data.count },()=>{console.log("att data==>",data)})
+    })
+    thingsToDoController.getHolidayAttRequest(id, data => {
+      this.setState({ holidayAttResCount: data.count },()=>{console.log("att data==>",data)})
+    })
   }
 
 
@@ -124,7 +131,9 @@ class ThingsTodoTable extends Component {
       { request: "Training Request", count: this.state.trainingCount, link: "/trainingRequest" },
       { request: "Staff Complain Box", count: this.state.staffComplainCount, link: "/staffComplain" },
       { request: "Help Desk Request", count: this.state.helpDeskCount, link: "/helpDesk" },
-
+      { request: "Attendance Request", count: this.state.attResCount, link: "/attendance_type" },
+      { request: "Holiday Attendance", count: this.state. holidayAttResCount, link: "/holiday_attendance" },
+      
 
     ];
 
