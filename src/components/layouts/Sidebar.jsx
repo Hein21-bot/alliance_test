@@ -459,7 +459,7 @@ export default class Sidebar extends Component {
 
               <li
                 className={this.checkPathName() === "/attendance" || pathname === '/incomplete_and_missing_report' || pathname === '/holiday_attendance' || pathname === '/attendance_report_monthly' || pathname === "/attendance_type" || pathname === "/attendance_history" ? "active" : ""}
-                style={{ display: isHR  ? 'block' : "none" }}
+                // style={{ display: isHR  ? 'block' : "none" }}
              >
                 <a href="/incomplete_and_missing_report" className="sideList">
                 <i class="fa fa-address-book" style={{color:'white'}}></i>
