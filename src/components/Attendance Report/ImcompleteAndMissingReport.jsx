@@ -37,7 +37,7 @@ class ImcompleteAndMissingReport extends Component {
       branchId: { value: 0, label: "All" },
       regionId: { value: 0, label: 'All' },
       departmentId: { value: 0, label: "All" },
-      from_date: moment(getFirstDayOfMonth()),
+      from_date: moment(),
       to_date: moment(),
       EmployeeNameList: [],
       selectedEmployeeName: { value: 0, label: "All" },

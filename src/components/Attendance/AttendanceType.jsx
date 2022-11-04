@@ -29,7 +29,7 @@ class AttendanceType extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      s_date: moment(getFirstDayOfMonth()),
+      s_date: moment(),
       e_date: moment(),
       data: [],
       attendance_type: "late_check_in",
