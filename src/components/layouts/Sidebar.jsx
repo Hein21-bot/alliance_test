@@ -11,7 +11,7 @@ export default class Sidebar extends Component {
       isHR: false,
     };
 
-    this.checkHR = this.checkHR.bind(this)
+    // this.checkHR = this.checkHR.bind(this)
   }
   logout() {
     removeCookieData("user_info");
