@@ -113,7 +113,6 @@ export default class BenefitChildTable extends Component {
         for (var i = 0; i < data.length; i++) {
             let result = data[i];
             let obj = [];
-          
             obj = {
                 no: i + 1,
                 employee_id: data[i].emp_id ? data[i].emp_id : '',
@@ -237,7 +236,7 @@ export default class BenefitChildTable extends Component {
     }
 
 
-    render() {  console.log("salary pm",this.props.salaryPermission)
+    render() {
         return (
             <div>
                 <table width="99%"
