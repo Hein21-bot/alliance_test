@@ -211,7 +211,7 @@ export default class WeddingBenefitTable extends Component {
         doc.text(info.approved.approved_by, 164, doc.previousAutoTable.finalY + 35)
         doc.text(info.approved.branch_name, 164, doc.previousAutoTable.finalY + 40)
         doc.text(info.approved.designations, 164, doc.previousAutoTable.finalY + 45)
-        await setPrintedStatus("wedding_benefit", data.benefit_id);
+        // await setPrintedStatus("wedding_benefit", data.benefit_id);
         // doc.save('Wedding Benefit.pdf');
         print(doc, data)
     }
