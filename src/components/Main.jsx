@@ -118,6 +118,7 @@ import HolidayAttendance from './Attendance/HolidayAttendance'
 import AttendanceReportMonthly from './Attendance/AttendanceReport'
 
 import PayRoll from './payroll/payroll'
+import SSC from './payroll/SSC';
 
 
 const Main = () => (
@@ -240,6 +241,7 @@ const Main = () => (
         <Route path='/attendance_report_monthly' component={AttendanceReportMonthly}></Route>
 
         <Route path='/payroll' component={PayRoll}></Route>
+        <Route path='/ssc' component={SSC}/>
 
 
         <Redirect to="/dashboard" />

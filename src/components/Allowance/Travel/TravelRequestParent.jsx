@@ -166,9 +166,11 @@ export default class TravelRequestParent extends Component {
 
         var startDate = moment(data.startDate).format('YYYY-MM-DD');
         var endDate = moment(data.endDate).format('YYYY-MM-DD');
+        let comment=encodeURIComponent(data.purpose)
+        console.log("comment",comment,data.purpose)
         var info = {
             user_id: data.user_id,
-            purpose: data.purpose,
+            purpose: comment,
             isClaim: 0,
             advancedClaim: 0,
             startLoc: data.startLoc,
@@ -190,6 +192,7 @@ export default class TravelRequestParent extends Component {
             method: "POST",
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
+                
             },
             body: `info=${JSON.stringify(info)}`
 
