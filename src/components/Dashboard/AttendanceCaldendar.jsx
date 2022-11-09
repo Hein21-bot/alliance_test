@@ -59,15 +59,15 @@ export class AttendanceCaldendar extends Component {
             .then(res => { if (res.ok) return res.json() })
             .then(list => {
                 this.setState({
-                    att_data: list,
-                    working_count: list.working_day_count,
-                    cal_data: list.finalData,
-                    absence_count:list.absence_count,
-                    attendance_count:list.attendance_count_complete,
-                    attendance_count_incomplete:list.attendance_count_incomplete,
-                    leave_count:list.leave_count,
-                    total_working_day:list.working_day_count + list.attendance_count_complete + list.attendance_count_incomplete + list.absence_count,
-                    att_day:list.attendance_count_complete +list.attendance_count_incomplete
+                    // att_data: list,
+                    // working_count: list.working_day_count,
+                    // cal_data: list.finalData,
+                    // absence_count:list.absence_count,
+                    // attendance_count:list.attendance_count_complete,
+                    // attendance_count_incomplete:list.attendance_count_incomplete,
+                    // leave_count:list.leave_count,
+                    // total_working_day:list.working_day_count + list.attendance_count_complete + list.attendance_count_incomplete + list.absence_count,
+                    // att_day:list.attendance_count_complete +list.attendance_count_incomplete
                 })
             })
     }

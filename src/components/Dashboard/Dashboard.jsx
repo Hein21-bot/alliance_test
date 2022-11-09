@@ -194,7 +194,7 @@ export class Dashboard extends Component {
 
           }}
         >
-          <button className="button"
+          {/* <button className="button"
             style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "headCount" ? '#23C6C8' : "#1872ab" }}
             onClick={() => this.tapButtonClick("headCount")} >
             Head Count
@@ -230,7 +230,7 @@ export class Dashboard extends Component {
 
           <button style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "helpdesk" ? '#23c6c8' : "#1872ab" }} onClick={() => this.tapButtonClick('helpdesk')}>Help Desk</button>
           <button style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "resign" ? '#23c6c8' : "#1872ab" }} onClick={() => this.tapButtonClick("resign")}
-          >Resign</button>
+          >Resign</button> */}
 
         </div>
         <Profile onClickFixAssetList={this.onClickFixAssetList}tapButtonTitle={this.state.tapButtonTitle} />
