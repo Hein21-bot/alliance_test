@@ -172,8 +172,10 @@ export default class BenefitMedicalTable extends Component {
         var col = ["Beneficary Person", "Description", "Amount",];
         var rows = [];
         var today = moment(Date.now()).format('YYYY-MM-DD')
-        var temp = [data.type_name, data.description, data.request_amount]
+        var temp = [data.type_name,data.description,data.request_amount]
+        console.log("temp",temp)
         rows.push(temp)
+        console.log("rows",rows)
         doc.setFontSize(12);
         doc.addImage(imgData, 'image/jpeg', 10, 10, 50, 15)
         doc.text('HR_0019 V3', 150, 15);
