@@ -166,9 +166,11 @@ export default class TravelRequestParent extends Component {
 
         var startDate = moment(data.startDate).format('YYYY-MM-DD');
         var endDate = moment(data.endDate).format('YYYY-MM-DD');
+        let comment=encodeURIComponent(data.purpose)
+        console.log("comment",comment,data.purpose)
         var info = {
             user_id: data.user_id,
-            purpose: data.purpose,
+            purpose: comment,
             isClaim: 0,
             advancedClaim: 0,
             startLoc: data.startLoc,
@@ -190,6 +192,7 @@ export default class TravelRequestParent extends Component {
             method: "POST",
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
+                
             },
             body: `info=${JSON.stringify(info)}`
 
@@ -207,8 +210,9 @@ export default class TravelRequestParent extends Component {
 
         var startDate = moment(data.startDate).format('YYYY-MM-DD');
         var endDate = moment(data.endDate).format('YYYY-MM-DD');
+        let comment=encodeURIComponent(data.purpose)
         var info = {
-            purpose: data.purpose,
+            purpose: comment,
             isAdvanced: data.selectedRequest,
             startLoc: data.startLoc,
             destination: data.destination,
@@ -246,10 +250,11 @@ export default class TravelRequestParent extends Component {
     addClaimRequest = (claimDetail, claimData, newDoc) => {
 
         const formdata = new FormData();
+        let comment=encodeURIComponent(claimData.purpose);
         var info = {
             actual_amount: claimData.actual_amount,
             user_id: claimData.user_id,
-            purpose: claimData.purpose,
+            purpose: comment,
             isClaim: 1,
             advancedClaim: 1,
             withdraw_location: claimData.withdraw_location
@@ -325,7 +330,7 @@ export default class TravelRequestParent extends Component {
 
     addTravelAdvancedClaim = (claimDetail, claimData, advancedAmount, image) => {
 
-
+        let comment=encodeURIComponent(claimData.purpose)
         var form_no = 'AC' + Date.now();
         var info = {
             actual_amount: claimData.actual_amount,
@@ -333,7 +338,7 @@ export default class TravelRequestParent extends Component {
             form_no: form_no,
             advanced_form_no: claimData.advancedNo,
             advanced_travel_id: claimData.advancedId,
-            purpose: claimData.purpose,
+            purpose: comment,
             settle_amount: claimData.settle_amount,
             advanced_amount: advancedAmount,
             isClaim: 2,

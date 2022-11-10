@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { main_url, getFirstDayOfMonth } from '../../utils/CommonFunction';
+import { main_url, getFirstDayOfMonth,getUserId, } from '../../utils/CommonFunction';
 import DatePicker from 'react-datetime';
 import moment from "moment";
 import Rodal from 'rodal';
@@ -25,12 +25,12 @@ class AttendanceReportMonthly extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            s_date: moment(getFirstDayOfMonth()),
+            s_date: moment(),
             e_date: moment(),
             region: 0,
             branch: 0,
             department: 0,
-            user_id: 0,
+            selected_user_id: 0,
             attendance_type: 0,
             attendance_status: 0,
             attendance_att_type: 0,
@@ -62,12 +62,13 @@ class AttendanceReportMonthly extends Component {
             selected_branch: null,
             selected_att_type: null,
             selected_att_status: null,
-            selected_status: null
+            selected_status: null,
+            user_id: getUserId("user_info"),
         }
     }
 
     async componentDidMount() {
-        this.attendanceReport()
+        // this.attendanceReport()
         this.getRegionList()
         this.getDepartmentList()
         this.getBranchList()
@@ -233,31 +234,31 @@ class AttendanceReportMonthly extends Component {
         }
     }
 
-    async attendanceReport() {
-        let start_date = moment(this.state.s_date).format('YYYY-MM-DD')
-        let end_date = moment(this.state.e_date).format('YYYY-MM-DD')
-        await fetch(`${main_url}attendance/attendanceReport/${this.state.region}/${this.state.branch}/${this.state.department}/${this.state.user_id}/${this.state.attendance_att_type}/${this.state.attendance_status}/${this.state.attendance_reason ? this.state.attendance_reason : 0}/${this.state.status}/${start_date}/${end_date}`)
-            .then((res) => {
-                if (res.ok) return res.json();
-            })
-            .then((list) => {
-                this.setState({ data: list },()=>{
-                this._setTableData(list);   
-                })
-            })
-    }
+    // async attendanceReport() {
+    //     let start_date = moment(this.state.s_date).format('YYYY-MM-DD')
+    //     let end_date = moment(this.state.e_date).format('YYYY-MM-DD')
+    //     await fetch(`${main_url}attendance/attendanceReport/${this.state.user_id}/${this.state.region}/${this.state.branch}/${this.state.department}/${this.state.selected_user_id}/${this.state.attendance_att_type}/${this.state.attendance_status}/${this.state.attendance_reason ? this.state.attendance_reason : 0}/${this.state.status}/${start_date}/${end_date}`)
+    //         .then((res) => {
+    //             if (res.ok) return res.json();
+    //         })
+    //         .then((list) => {
+    //             this.setState({ data: list },()=>{
+    //             this._setTableData(list);   
+    //             })
+    //         })
+    // }
     handleSearchData = () => {
         let start_date = moment(this.state.s_date).format('YYYY-MM-DD')
         let end_date = moment(this.state.e_date).format('YYYY-MM-DD')
         let region = this.state.selected_region ? this.state.selected_region.state_id : 0
         let branch = this.state.selected_branch? this.state.selected_branch.value : 0
         let department = this.state.selected_department ? this.state.selected_department.value : 0
-        let user_id = this.state.selected_selected_employee_name ? this.state.selected_selected_employee_name .value :0
+        let user_id = this.state.selected_selected_employee_name ? this.state.selected_selected_employee_name.value :0
         let attendance_status = this.state.selected_att_status ? this.state.selected_att_status.value : 0
         let attendance_att_type =  this.state.selected_att_type ? this.state.selected_att_type.value :0
         let status = this.state.selected_status ? this.state.selected_status.value : -1
         let attendance_reason=this.state.attendance_reason ? this.state.attendance_reason : 0
-         fetch(`${main_url}attendance/attendanceReport/${region}/${branch}/${department}/${user_id}/${attendance_att_type}/${attendance_status}/${attendance_reason}/${status}/${start_date}/${end_date}`)
+         fetch(`${main_url}attendance/attendanceReport/${this.state.user_id}/${region}/${branch}/${department}/${user_id}/${attendance_att_type}/${attendance_status}/${attendance_reason}/${status}/${start_date}/${end_date}`)
         .then((res) => {
             if (res.ok) return res.json();
         })

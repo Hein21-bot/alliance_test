@@ -11,7 +11,7 @@ export default class Sidebar extends Component {
       isHR: false,
     };
 
-    this.checkHR = this.checkHR.bind(this)
+    // this.checkHR = this.checkHR.bind(this)
   }
   logout() {
     removeCookieData("user_info");
@@ -456,9 +456,11 @@ export default class Sidebar extends Component {
                   
                 </ul>
               </li>
+
               <li
                 className={this.checkPathName() === "/attendance" || pathname === '/incomplete_and_missing_report' || pathname === '/holiday_attendance' || pathname === '/attendance_report_monthly' || pathname === "/attendance_type" || pathname === "/attendance_history" ? "active" : ""}
-              >
+                // style={{ display: isHR  ? 'block' : "none" }}
+             >
                 <a href="/incomplete_and_missing_report" className="sideList">
                 <i class="fa fa-address-book" style={{color:'white'}}></i>
                  
