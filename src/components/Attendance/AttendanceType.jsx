@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import {
   main_url,
   getFirstDayOfMonth,
+  getPermissionStatus,
   getUserId,
+  getCookieData
 } from "../../utils/CommonFunction";
 import DatePicker from "react-datetime";
 import moment from "moment";
@@ -40,10 +42,16 @@ class AttendanceType extends Component {
       datasource: [],
       isView: false,
       user_id: getUserId("user_info"),
+      user_info:getCookieData("user_info"),
+      permission_status:{}
     };
   }
 
   async componentDidMount() {
+    var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Attendance', 'Attendance');
+    this.setState({
+      permission_status:permission_status
+  })
     await this.getAttendanceType(this.state.attendance_type);
     // await this.checkBoxAll()
 
