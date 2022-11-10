@@ -249,7 +249,7 @@ class CycleTable extends Component {
 
                     if (result.print === 1) {
                         obj.action +=
-                            '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                            '<button style="margin-right:10px" class="btn btn-info btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
                             JSON.stringify(result) +
                             '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
                     } else {
