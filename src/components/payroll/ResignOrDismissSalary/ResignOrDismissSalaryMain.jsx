@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import BenefitPageHeader from '../BenefitPageHeader';
-import BenefitWeddingTable from './BenefitWeddingTable';
-import BenefitWeddingAddNew from './BenefitWeddingAddNew';
-import BenefitWeddingView from './BenefitWeddingView';
 import { ToastContainer, toast } from 'react-toastify';
+import PayrollPageHeader from '../payrollHeader';
 import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, getPermissionStatus, startSaving } from "../../../utils/CommonFunction";
 
-class WeddingBenefitMain extends Component {
+class ResignOrDismissSalaryMain extends Component {
     constructor() {
         super();
         this.state = {
@@ -18,41 +15,18 @@ class WeddingBenefitMain extends Component {
             isView: false,
             isEdit: false,
             datasource: [],
-            requestData:[],
+            requestData: [],
             permission_status: {},
-            requestType:'',
+            requestType: '',
             active_tab: 0,
         }
     }
 
     async componentDidMount() {
-        var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Wedding Benefit', 'Benefit');
-        // this._getWeddingBenefit();
-        this.setState({
-            permission_status: permission_status
-        })
     }
 
-    // _getWeddingBenefit() {
-    //     let id = this.state.user_id;
-
-    //     fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id)
-    //         .then(response => {
-    //             if (response.ok) return response.json()
-    //         })
-    //         .then(res => {
-    //             if (res) {
-    //                 this.setState({ 
-    //                     datasource: res,
-    //                     requestData:res.filter(v=>v.createdBy != this.state.user_id)
-    //                 })
-    //             }
-    //         })
-    //         .catch(error => console.error(`Fetch Error =\n`, error));
-
-    // }
     changeTab(tab) {
-        this.setState({ active_tab: tab},()=>{console.log(tab)})
+        this.setState({ active_tab: tab }, () => { console.log(tab) })
     }
     setupForm = () => {
         this.setState({
@@ -68,7 +42,7 @@ class WeddingBenefitMain extends Component {
             isEdit: false,
             isTable: true
         })
-        // window.location.reload();
+        window.location.reload();
     }
 
     goToViewForm = (data) => {
@@ -95,7 +69,7 @@ class WeddingBenefitMain extends Component {
 
         if (status === 200) {
             toast.success(text);
-            // window.location.reload();
+            window.location.reload();
         }
         else {
             startSaving();
@@ -103,22 +77,22 @@ class WeddingBenefitMain extends Component {
         }
 
     }
-             
+
 
     render() {
-        
+
         return (
-            <div className="wedding-benefit border-bottom white-bg dashboard-header">
-               
+            <div className="pay-roll border-bottom white-bg dashboard-header">
+
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />
 
-                <BenefitPageHeader pageTitle="Wedding" setupForm={this.setupForm}
+                <PayrollPageHeader pageTitle="Wedding" setupForm={this.setupForm}
                     isAddNew={this.state.isAddNew} isView={this.state.isView}
                     isEdit={this.state.isEdit} permission={this.state.permission_status} />
 
                 <br />
-                
-                {
+
+                {/* {
                     this.state.isAddNew || this.state.isEdit ?
                         <BenefitWeddingAddNew goToTable={this.goToTable}  data={this.state.datasource} showToast={this.showToast} /> : ''
                 }
@@ -143,7 +117,7 @@ class WeddingBenefitMain extends Component {
                 {
                     this.state.isView ?
                         <BenefitWeddingView data={this.state.datasource} isView={this.state.isView} /> : ''
-                }
+                } */}
 
             </div>
         )
@@ -152,4 +126,4 @@ class WeddingBenefitMain extends Component {
 }
 
 
-export default WeddingBenefitMain;
+export default ResignOrDismissSalaryMain;
