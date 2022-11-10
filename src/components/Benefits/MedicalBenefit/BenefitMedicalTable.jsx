@@ -9,6 +9,7 @@ import moment from 'moment'
 import DatePicker from 'react-datetime';
 import { imgData } from '../../../utils/Global';
 import * as jsPDF from 'jspdf';
+import '../../Allowance/SalaryAdvance/Pyidaungsu-2.5_Regular-normal';
 const $ = require('jquery');
 const jzip = require('jzip');
 window.JSZip = jzip;
@@ -165,7 +166,7 @@ export default class BenefitMedicalTable extends Component {
     }
 
 
-    async getPrintData(data) {
+    async getPrintData(data) {  
         var info = await getInformation('medical_benefit', data.medical_benefit_id)
         var doc = new jsPDF("p", "mm", "a4");
         var col = ["Beneficary Person", "Description", "Amount",];
@@ -179,7 +180,9 @@ export default class BenefitMedicalTable extends Component {
         doc.text('Benefit Request Form', 150, 25)
         doc.text('Generate Date: ' + today, 13, 40)
         doc.text('Voucher No: ' + fno.fno_medical + data.form_no, 150, 40)
-        doc.autoTable(col, rows, { startY: 55 });
+        doc.setFont("Pyidaungsu-2.5_Regular");
+        doc.autoTable(col, rows, { startY: 55, styles: { font: "Pyidaungsu-2.5_Regular" } });
+        // doc.autoTable(col, rows, { startY: 55,style: {font : 'zawgyi-one'} });
         if (doc.previousAutoTable.finalY > 220) {
             doc.addPage();
             doc.previousAutoTable.finalY = 0;
@@ -268,7 +271,7 @@ export default class BenefitMedicalTable extends Component {
 
                     if (result.print === 1) {
                         obj.action +=
-                          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                          '<button style="margin-right:10px" class="btn btn-info btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
                           JSON.stringify(result) +
                           '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
                       } else {
