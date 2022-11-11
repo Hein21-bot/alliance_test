@@ -33,13 +33,14 @@ class AttendanceType extends Component {
       e_date: moment(),
       data: [],
       attendance_type: "late_check_in",
-      checkboxAll: false,
+      checkboxAll: true,
       checkedListData: [],
       visible: false,
       rejected_comment: "",
       datasource: [],
       isView: false,
       user_id: getUserId("user_info"),
+      filterData: []
     };
   }
 
@@ -68,6 +69,21 @@ class AttendanceType extends Component {
 
     // });
   }
+
+  // componentDidUpdate(prevProps) {
+  //   if (this.state.checkboxAll != prevProps.checkboxAll) {
+  //     if (this.state.checkboxAll == true) {
+  //       $('.ipSelect').prop('checked', true);
+  //     }
+  //     else {
+  //       $('.ipSelect').prop('checked', false);
+  //     }
+  //   }
+
+  // }
+
+
+
   goToViewForm = (data) => {
     this.setState({
       isView: true,
@@ -101,16 +117,16 @@ class AttendanceType extends Component {
   handleCheckboxAll = async (e) => {
     console.log('e is =====>', e)
     this.setState({ checkboxAll: e }, () => {
-       return  true; 
+      return true;
     });
     if (this.state.checkboxAll == false) {
       this.setState({
         checkedListData: this.state.data.filter(
           (d) => d.user_id != this.state.user_id && d.status == 0
         ),
-      },()=>{console.log("all data",this.state.checkedListData)});
+      }, () => { console.log("all data", this.state.checkedListData) });
     } else {
-      this.setState({ checkedListData: [] },()=>{console.log("no data",this.state.checkedListData)});
+      this.setState({ checkedListData: [] }, () => { console.log("no data", this.state.checkedListData) });
     }
   };
 
@@ -141,20 +157,19 @@ class AttendanceType extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        let statusFilter=list.sort((a,b)=>
-        {
-          if(a.status<b.status){
+        let statusFilter = list.sort((a, b) => {
+          if (a.status < b.status) {
             return -1;
-          }else if(a.status===b.status){
+          } else if (a.status === b.status) {
             //"2022-10-21T09:13:29.767Z"
-          
+
             return moment(a.createdAt).diff(moment(b.createdAt));//moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD");
           }
           return 1;
         })
-       // let requestFilter=statusFilter.sort((a,b)=>moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD"))
-        console.log("status filter===>",statusFilter)
-        this.setState({ data: list,datasource:list }, () => {
+        // let requestFilter=statusFilter.sort((a,b)=>moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD"))
+        console.log("status filter===>", statusFilter)
+        this.setState({ data: list, datasource: list }, () => {
           this._setTableData(statusFilter);
         });
       });
@@ -173,7 +188,7 @@ class AttendanceType extends Component {
   };
 
   handleVisible = (title) => {
-    if(this.state.checkedListData.length !=0){
+    if (this.state.checkedListData.length != 0) {
       this.setState({ visible: true });
     }
   };
@@ -185,15 +200,15 @@ class AttendanceType extends Component {
   _setTableData = async (data) => {
     var table;
     var l = [];
-    if (data) {
+    if (await data) {
       for (var i = 0; i < data.length; i++) {
-        let result = data[i];
+        let result = await data[i];
         let status = "";
         let obj = [];
         // var has_select = true
         if (
           this.state.attendance_type == "early_check_out" ||
-          this.state.attendance_type == "field_check_out"
+            this.state.attendance_type == "field_check_out"
             ? result.check_out_status == 0
             : result.status === 0
         ) {
@@ -201,7 +216,7 @@ class AttendanceType extends Component {
             '<small class="label label-warning" style="background-color:#509aed"> Request </small>';
         } else if (
           this.state.attendance_type == "early_check_out" ||
-          this.state.attendance_type == "field_check_out"
+            this.state.attendance_type == "field_check_out"
             ? result.check_out_status == 1
             : result.status === 1
         ) {
@@ -209,7 +224,7 @@ class AttendanceType extends Component {
             '<small class="label label-warning" style="background-color:#29a50a"> Approve </small>';
         } else if (
           this.state.attendance_type == "early_check_out" ||
-          this.state.attendance_type == "field_check_out"
+            this.state.attendance_type == "field_check_out"
             ? result.check_out_status == 2
             : result.status === 2
         ) {
@@ -224,55 +239,55 @@ class AttendanceType extends Component {
             this.state.attendance_type == "late_check_in"
               ? "Late Check In"
               : this.state.attendance_type == "field_check_in"
-              ? "Field Check In"
-              : this.state.attendance_type == "early_check_out"
-              ? "Early Check Out"
-              : "Field Check Out",
+                ? "Field Check In"
+                : this.state.attendance_type == "early_check_out"
+                  ? "Early Check Out"
+                  : "Field Check Out",
           attendance_date: result.createdAt
             ? moment(result.createdAt).format("YYYY-MM-DD")
             : "",
           attendance_time:
             this.state.attendance_type == "early_check_out" ||
-            this.state.attendance_type == "field_check_out"
+              this.state.attendance_type == "field_check_out"
               ? result.check_out_time ? moment(result.check_out_time).utc().format("hh:mm A") : " "
               : result.check_in_time ? moment(result.check_in_time).utc().format("hh:mm A") : "",
           location:
             this.state.attendance_type == "late_check_in"
               ? ""
               : this.state.attendance_type == "field_check_in"
-              ? result.visit_location
-              : this.state.attendance_type == "early_check_out"
-              ? ""
-              : result.checkout_visit_location,
+                ? result.visit_location
+                : this.state.attendance_type == "early_check_out"
+                  ? ""
+                  : result.checkout_visit_location,
           reason:
             this.state.attendance_type == "late_check_in"
               ? result.late_checkin_reason
                 ? result.late_checkin_reason
                 : ""
               : this.state.attendance_type == "field_check_in"
-              ? result.visit_reason
-              : this.state.attendance_type == "early_check_out"
-              ? result.early_checkout_reason
-              : result.checkout_visit_reason,
+                ? result.visit_reason
+                : this.state.attendance_type == "early_check_out"
+                  ? result.early_checkout_reason
+                  : result.checkout_visit_reason,
           status: status,
         };
         // if (has_select) {
-          if (this.state.user_id != result.user_id && result.status == 0 ) {
-            obj.select =
-              `<div style="alignItems:center" id="toSelect" class="select-btn"  ><input class=${this.state.user_id != result.user_id ?'ipSelect' : 'null'}  type="checkbox"/><span id="select" class="hidden" >` +
-              JSON.stringify(result) +
-              "</span>  </div>"; //'<div style="margin-right:0px;height:20px;width:20px;border:1px solid red" class="btn" id="toSelect" ><i className="fas fa-address-card" style="color:red"></i><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '';
-              obj.action =
-              '<button style="margin-right:10px; background-color:#27568a" class="btn btn-primary btn-sm own-btn-edit " id="toView" ><span id="view" class="hidden" >' +
-              JSON.stringify(result) +
-              '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>';
-            } else {
-              obj.select = "";
-              obj.action =
-              '<button style="margin-right:10px; background-color:#27568a" class="btn btn-primary btn-sm own-btn-edit " id="toView" ><span id="view" class="hidden" >' +
-              JSON.stringify(result) +
-              '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>';
-            }
+        if (this.state.user_id != result.user_id && result.status == 0) {
+          obj.select =
+            `<div style="alignItems:center" id="toSelect" class="select-btn"  ><input class=${this.state.user_id != result.user_id ? 'ipSelect' : 'null'}  type="checkbox"/><span id="select" class="hidden" >` +
+            JSON.stringify(result) +
+            "</span>  </div>"; //'<div style="margin-right:0px;height:20px;width:20px;border:1px solid red" class="btn" id="toSelect" ><i className="fas fa-address-card" style="color:red"></i><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  </div>' : '';
+          obj.action =
+            '<button style="margin-right:10px; background-color:#27568a" class="btn btn-primary btn-sm own-btn-edit " id="toView" ><span id="view" class="hidden" >' +
+            JSON.stringify(result) +
+            '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>';
+        } else {
+          obj.select = "";
+          obj.action =
+            '<button style="margin-right:10px; background-color:#27568a" class="btn btn-primary btn-sm own-btn-edit " id="toView" ><span id="view" class="hidden" >' +
+            JSON.stringify(result) +
+            '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>';
+        }
 
         l.push(obj);
       }
@@ -298,7 +313,8 @@ class AttendanceType extends Component {
     // if (has_select) {
     column.splice(1, 0, { title: "Select", data: "select" });
     // }
-    $(document).ready(function () { 
+    let that = this
+    $(document).ready(async function () {
       table = $("#dataTables-table").dataTable({
         autofill: true,
         stateSave: true,
@@ -332,41 +348,41 @@ class AttendanceType extends Component {
         data: l,
         columns: column,
       });
-      var allPages = table.fnGetNodes();
-    
-      $('body').on('click', '#select_all', function () {
-          if ($(this).hasClass('allChecked')) {
-              $('input[type="checkbox"]', allPages).prop('checked', false);
-          } else {
-              $('input[type="checkbox"]', allPages).prop('checked', true);
-          }
-          $(this).toggleClass('allChecked');
+      var allPages = await table.fnGetNodes();
+
+      $('body').on('click', '#ipSelect', async function () {
+        // if (that.state.checkboxAll == false) {
+        $('.ipSelect', await allPages).prop('checked', that.state.checkboxAll);
+        // } else {
+        // $('.ipSelect', await allPages).prop('checked', true);
+        // }
+        $(this).toggleClass('allChecked');
       })
     })
-    };
+  };
 
   approveSave() {
-    if(this.state.checkedListData.length !=0){
+    if (this.state.checkedListData.length != 0) {
       let status = 0;
       let saveData = [];
       this.state.checkedListData.map((v, i) => {
-        
+
         var obj = { ...v };
         obj[
           this.state.attendance_type == "early_check_out" ||
-          this.state.attendance_type == "field_check_out"
+            this.state.attendance_type == "field_check_out"
             ? "check_out_status"
             : "status"
         ] = 1;
-        obj['status']=1
-        obj.approve_user_id=this.state.user_id;
-        obj.approve_date=new Date();
+        obj['status'] = 1
+        obj.approve_user_id = this.state.user_id;
+        obj.approve_date = new Date();
         saveData.push(obj);
-        console.log("save Data===>",saveData)
-        
-        
+        console.log("save Data===>", saveData)
+
+
       });
-  
+
       fetch(`${main_url}attendance/editApproveOrReject`, {
         method: "POST",
         headers: {
@@ -382,11 +398,11 @@ class AttendanceType extends Component {
           this.showToast(status, text);
         });
     }
- 
+
   }
 
   rejectSave() {
-    if(this.state.checkedListData.length !=0){
+    if (this.state.checkedListData.length != 0) {
       let status = 0;
 
       let saveData = [];
@@ -394,17 +410,17 @@ class AttendanceType extends Component {
         var obj = { ...v };
         obj[
           this.state.attendance_type == "early_check_out" ||
-          this.state.attendance_type == "field_check_out"
+            this.state.attendance_type == "field_check_out"
             ? "check_out_status"
             : "status"
         ] = 2;
-        obj['status']=2
+        obj['status'] = 2
         obj["comment"] = this.state.rejected_comment;
-        obj.reject_user_id=this.state.user_id;
-        obj.reject_date=new Date()
+        obj.reject_user_id = this.state.user_id;
+        obj.reject_date = new Date()
         saveData.push(obj);
       });
-  
+
       fetch(`${main_url}attendance/editApproveOrReject`, {
         method: "POST",
         headers: {
@@ -421,7 +437,7 @@ class AttendanceType extends Component {
           this.hide();
         });
     }
-   
+
   }
 
   showToast = (status, text) => {
@@ -435,22 +451,22 @@ class AttendanceType extends Component {
 
   getRequest() {
     this.search(0);
-}
-getApprove() {
+  }
+  getApprove() {
     this.search(1);
-}
-getReject() {
+  }
+  getReject() {
     this.search(2);
-}
+  }
 
   search(status) {
     let data = this.state.data;
     data = data.filter(d => { return status === d.status });
     this._setTableData(data)
-}
+  }
 
   render() {
-    console.log("data source",this.state.datasource)
+    console.log("data source", this.state.datasource)
     return (
       <div>
         {this.state.isView ? (
@@ -568,7 +584,7 @@ getReject() {
                 <div style={{ width: "20%" }}>
                   <label>
                     <input
-                      id="select_all"
+                      id="ipSelect"
                       type={"checkbox"}
                       onChange={() =>
                         this.handleCheckboxAll(!this.state.checkboxAll)
@@ -602,12 +618,12 @@ getReject() {
                   </button>
                 </div>
               </div>
-              <div className="row" style={{marginBottom:'10px'}}>
-                        <div class="btn-group-g ">
-                            <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
-                            <button type="button" class="btn label-approve g" onClick={this.getApprove.bind(this)}>Approve</button>
-                            <button type="button" class="btn label-reject g" onClick={this.getReject.bind(this)}>Reject</button>
-                        </div>
+              <div className="row" style={{ marginBottom: '10px' }}>
+                <div class="btn-group-g ">
+                  <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
+                  <button type="button" class="btn label-approve g" onClick={this.getApprove.bind(this)}>Approve</button>
+                  <button type="button" class="btn label-reject g" onClick={this.getReject.bind(this)}>Reject</button>
+                </div>
               </div>
               <table
                 width="99%"
