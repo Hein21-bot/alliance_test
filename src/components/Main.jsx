@@ -120,6 +120,8 @@ import AttendanceReportMonthly from './Attendance/AttendanceReport'
 import PayRoll from './payroll/payroll'
 import SSC from './payroll/SSC';
 
+import ResignOrDismissSalaryMain from './payroll/ResignOrDismissSalary/ResignOrDismissSalaryMain';
+
 
 const Main = () => (
     <Switch>
@@ -242,6 +244,11 @@ const Main = () => (
 
         <Route path='/payroll' component={PayRoll}></Route>
         <Route path='/ssc' component={SSC}/>
+
+
+        <Route path='/resign_or_dismiss_salary' component={ResignOrDismissSalaryMain}></Route>
+
+
 
 
         <Redirect to="/dashboard" />

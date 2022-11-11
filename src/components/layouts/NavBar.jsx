@@ -24,11 +24,13 @@ class NavBar extends Component {
             count: 0,
             isOpen:true,
             isOpenDashboard: false,
+            isHR:false
         }
 
     }
 
     componentDidMount() {
+        
        
         // document.querySelector(".minimalize-styl-2").addEventListener("click",this.afterClick)
          document.querySelector(".minimalize-styl-2").addEventListener("click",this.clickButton)
@@ -105,6 +107,7 @@ class NavBar extends Component {
             console.log(error);
         }
     }
+    
 
     // componentDidUpdate() {
     //     if (window.location.pathname.includes(`/${this.state.user.user_id}`) || window.location.pathname.includes('/dashboard') ) {

@@ -9,6 +9,8 @@ export default class Sidebar extends Component {
       user: getCookieData("user_info"),
       pathname: window.location.pathname,
       isHR: false,
+      confirmHR1:null,
+      confirmRequestPermission:null
     };
 
     // this.checkHR = this.checkHR.bind(this)
@@ -74,6 +76,26 @@ export default class Sidebar extends Component {
   async componentDidMount() {
     const id = localStorage.getItem("user_id");
     await this.checkHR(id)
+    await this.confirmHR1(id)
+    await this.confirmRequest(id)
+  }
+  confirmRequest=async(id)=>{
+    await fetch(`${main_url}dashboard/confirmRequestPermission/${id}`)
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          confirmRequestPermission:data
+        })
+      })
+  }
+  confirmHR1=async (id)=>{
+    await fetch(`${main_url}dashboard/confirmPermission/${id}`)
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          confirmHR1:data
+        })
+      })
   }
 
   checkHR = async (id) => {
@@ -424,27 +446,32 @@ export default class Sidebar extends Component {
 
               <li
                 className={this.checkPathName() === "/confirmation"  ? "active" : ""}
+                style={{display:(this.state.confirmRequestPermission && this.state.confirmRequestPermission.length > 0 || this.state.confirmHR1 && this.state.confirmHR1.length > 0 ||this.state.user.user_id == 1110 || this.state.user.user_id == 1467 ? 'block' : 'none')}}
               >
-                <a href="/confirmation_list" className="sideList">
+                <a href="/confirmation_check" className="sideList">
                   <i className="fas fa-user-check" style={{ color: 'white' }}></i>
                   <span className="sideText">Confirmation</span>
                 </a>
                 <ul className="nav nav-second-level collapse">
-                  <li
+                  {this.state.confirmHR1 && this.state.confirmHR1.length > 0 ||this.state.user.user_id == 1110 || this.state.user.user_id == 1467 ? <li
                     className={
                       pathname === "/confirmation_list" ? "active" : " "
                     }
                   >
                     <a href="/confirmation_list">Confirmation Prepare List</a>
-                  </li>
-                  <li
+                  </li> : ''}
+                  {
+                    this.state.confirmRequestPermission && this.state.confirmRequestPermission.length > 0 ||this.state.user.user_id == 1110 || this.state.user.user_id == 1467 ? <li
                     className={
                       pathname === "/confirmation_check" ? "active" : " "
                     }
                   >
                     <a href="/confirmation_check">Confirmation Request List</a>
-                  </li>
-                  <li
+                  </li> : ''
+                  }
+                  
+                  {
+                    this.state.confirmHR1 && this.state.confirmHR1.length > 0 ||this.state.user.user_id == 1110 || this.state.user.user_id == 1467  ? <li
                     className={
                       pathname === "/confirmation_approve_list"
                         ? "active"
@@ -452,7 +479,9 @@ export default class Sidebar extends Component {
                     }
                   >
                     <a href="/confirmation_approve_list">Approve List</a>
-                  </li>
+                  </li> : ''
+                  }
+                  
                   
                 </ul>
               </li>

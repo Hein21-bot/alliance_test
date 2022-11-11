@@ -11,7 +11,8 @@ class EmployeePieChart extends Component {
       chartOptions: {},
       total_count: 0,
       male_count: 0,
-      female_count: 0
+      female_count: 0,
+      empDetails:{}
       // attendenceCount:"",
       // fieldAttendenceCount:"",
       // absenceCount:"",
@@ -27,6 +28,19 @@ class EmployeePieChart extends Component {
   async componentDidMount() {
     await this.setChartOption();
     await this.totalEmployeeDashboard();
+    await this.totalEmpDetails();
+  }
+  async totalEmpDetails(){
+    fetch(`${main_url}dashboard/totalEmpDetails`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((res) => {
+        
+        this.setState({ empDetails:res });
+       
+      })  
+      .catch((error) => console.error(`Fetch Error =\n`, error));
   }
 
   async totalEmployeeDashboard() {
@@ -43,7 +57,7 @@ class EmployeePieChart extends Component {
           female.push(v.female);
           male.push(v.male);
         })
-        this.setState({ total_count: total[0], male_count: male[2], female_count: female[1] });
+        this.setState({ male_count: male[2], female_count: female[1] });
         this.setChartOption()
       })  
       .catch((error) => console.error(`Fetch Error =\n`, error));
@@ -164,7 +178,7 @@ class EmployeePieChart extends Component {
             }}
           >
             <h4 style={{fontSize:22}}>Total Employees</h4>
-            <h3 style={{fontSize:22}}>{this.state.total_count}</h3>
+            <h3 style={{fontSize:22}}>{this.state.male_count+this.state.female_count}</h3>
           </div>
           <HighchartsReact
             highcharts={Highcharts}
@@ -264,7 +278,9 @@ class EmployeePieChart extends Component {
                 Attendance
               </div>
               <div className="text-right" style={{ width: "100%",fontWeight:'bold' }}>
-                783
+                {
+                  this.state.empDetails.attendance_count
+                }
               </div>
             </div>
           </div>
@@ -314,7 +330,7 @@ class EmployeePieChart extends Component {
                 Field Attendance
               </div>
               <div className="text-right" style={{ width: "100%",fontWeight:'bold' }}>
-                324
+               {this.state.empDetails.field_count}
               </div>
             </div>
           </div>
@@ -364,7 +380,7 @@ class EmployeePieChart extends Component {
                 Leave
               </div>
               <div className="text-right" style={{ width: "100%",fontWeight:'bold' }}>
-                56
+                {this.state.empDetails.leave_count}
               </div>
             </div>
           </div>
@@ -414,7 +430,7 @@ class EmployeePieChart extends Component {
                 Absence
               </div>
               <div className="text-right" style={{ width: "100%",fontWeight:'bold' }}>
-                23
+               {this.state.empDetails.absent_count}
               </div>
             </div>
           </div>

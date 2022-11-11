@@ -20,7 +20,7 @@ import AttendenceBarChart from "./AttendenceBarChart";
 import LeaveCalendar from "./LeaveCalendar"
 import ResignBarChart from "./ResignBarChart";
 import CompensationandBenefit from "./CompensationandBenefit";
-import { main_url } from "../../utils/CommonFunction";
+import { main_url,getCookieData } from "../../utils/CommonFunction";
 import moment from "moment";
 import FixedAssectListTable from './FixedAssectListTable';
 const $ = require('jquery');
@@ -41,15 +41,28 @@ export class Dashboard extends Component {
     super(props);
     this.state = {
       tapButtonTitle: "",
+      confirmRequestPermission:null,
+      user: getCookieData("user_info")
       // fixAssetList: false,
       // fixAssetListTitle:""
     };
   }
 
   async componentDidMount() {
+    const id = localStorage.getItem("user_id");
+    this.confirmRequest(id);
     this.$el = $(this.el);
     //   const a = await getMacAddress();
     //   const b = await getMacAddress1();
+  }
+  confirmRequest = async (id) => {
+    await fetch(`${main_url}dashboard/confirmRequestPermission/${id}`)
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          confirmRequestPermission:data
+        })
+      })
   }
 
   tapButtonClick = (title) => {
@@ -181,7 +194,7 @@ export class Dashboard extends Component {
       <div>
         {/* <h3>Dashboard</h3> */}
         {/* <LeaveCalendar /> */}
-        <div className=""
+        {this.state.confirmRequestPermission && this.state.confirmRequestPermission.length>0 || this.state.user.user_id == 1110 || this.state.user.user_id == 1467 ? <div className=""
           style={{
             width: "100%",
             display: "flex",
@@ -232,7 +245,8 @@ export class Dashboard extends Component {
           <button style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "resign" ? '#23c6c8' : "#1872ab" }} onClick={() => this.tapButtonClick("resign")}
           >Resign</button>
 
-        </div>
+        </div> : ''}
+        
         <Profile onClickFixAssetList={this.onClickFixAssetList}tapButtonTitle={this.state.tapButtonTitle} />
         {this.state.tapButtonTitle == "headCount" ? (
           <div className="row mt-4" style={{ marginTop: 15, position: "relative", left: "18%" }}>
