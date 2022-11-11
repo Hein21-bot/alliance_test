@@ -404,10 +404,10 @@ class ImcompleteAndMissingReport extends Component {
               : "-"
             : "-",
         };
-        obj.action =data[i].incom_status ? '' :
+        obj.action =this.state.permission_status.isEdit == 1 ? data[i].incom_status ? '' :
         '<button style="margin-right:10px; background-color:#27568a" class="btn btn-primary btn-sm own-btn-edit" id="toEditApprove" ><span id="editApprove" class="hidden" >' +
         JSON.stringify(result) +
-        '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>';
+        '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
 
         l.push(obj);
       }

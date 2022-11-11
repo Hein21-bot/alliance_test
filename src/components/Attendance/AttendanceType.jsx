@@ -127,7 +127,7 @@ class AttendanceType extends Component {
     this.setState({ checkboxAll: e }, () => {
       return true;
     });
-    if (this.state.checkboxAll == false) {
+    if (this.state.checkboxAll == true) {
       this.setState({
         checkedListData: this.state.data.filter(
           (d) => d.user_id != this.state.user_id && d.status == 0
@@ -610,13 +610,16 @@ class AttendanceType extends Component {
                     paddingRight: 5,
                   }}
                 >
-                  <button
+                  {
+                    this.state.permission_status.isEdit == 1 ? <button
                     className="btn btn-primary"
                     style={{ borderRadius: 3, width: 80, marginRight: 15 }}
                     onClick={() => this.approveSave()}
                   >
                     Approve
-                  </button>
+                  </button> : ''
+                  }
+                  
                   <button
                     onClick={() => this.handleVisible("extension")}
                     className="btn btn-danger"
