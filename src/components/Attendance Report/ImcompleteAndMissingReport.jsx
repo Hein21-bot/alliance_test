@@ -6,6 +6,8 @@ import {
   main_url,
   getFirstDayOfMonth,
   getUserId,
+  getPermissionStatus,
+  getCookieData
 } from "../../utils/CommonFunction";
 import DatePicker from "react-datetime";
 import moment from "moment";
@@ -31,6 +33,8 @@ class ImcompleteAndMissingReport extends Component {
     super(props);
     this.state = {
       dataSource: [],
+      user_info:getCookieData("user_info"),
+      permission_status:{},
       branch: [],
       region: [],
       department: [],
@@ -82,6 +86,7 @@ class ImcompleteAndMissingReport extends Component {
       user_id,
       selected_checkbox,
     } = this.state;
+    var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Attendance', 'Attendance');
     let branch = await getBranch();
     branch.unshift({ label: "All", value: 0 });
     let department = await getDepartment();
@@ -89,6 +94,7 @@ class ImcompleteAndMissingReport extends Component {
     let region = await getRegion();
     region.unshift({ state_name: "ALL", state_id: 0 });
     this.setState({
+      permission_status:permission_status,
       branch: branch,
       department: department,
       region: region.map((v) => ({
@@ -398,10 +404,10 @@ class ImcompleteAndMissingReport extends Component {
               : "-"
             : "-",
         };
-        obj.action = data[i].incom_status ? '' :
-          '<button style="margin-right:10px; background-color:#27568a" class="btn btn-primary btn-sm own-btn-edit" id="toEditApprove" ><span id="editApprove" class="hidden" >' +
-          JSON.stringify(result) +
-          '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>';
+        obj.action =data[i].incom_status ? '' :
+        '<button style="margin-right:10px; background-color:#27568a" class="btn btn-primary btn-sm own-btn-edit" id="toEditApprove" ><span id="editApprove" class="hidden" >' +
+        JSON.stringify(result) +
+        '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>';
 
         l.push(obj);
       }
