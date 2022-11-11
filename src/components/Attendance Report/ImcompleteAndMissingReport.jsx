@@ -58,13 +58,19 @@ class ImcompleteAndMissingReport extends Component {
           value: 1,
         },
         {
-          label: "Late",
+          label: "Late Check In",
           value: 2,
         },
         {
-          label: "Absence",
+          label: "Early Check Out",
           value: 3,
         },
+        {
+          
+            label: "Absence",
+            value: 4,
+          
+        }
       ],
       selectedOption: { value: 0, label: "Select Option" },
       user_id: getUserId("user_info"),
@@ -278,17 +284,17 @@ class ImcompleteAndMissingReport extends Component {
           user_id: this.state.approve_data.user_id,
           incom_option: this.state.selectedOption.value,
           date: moment(this.state.approve_data.date+" 00:00:00").format("YYYY-MM-DD"),
-          check_in_time : this.state.selectedOption.value ==1 || this.state.selectedOption.value ==2 ? this.state.approve_data.check_in_time
+          check_in_time : this.state.selectedOption.value ==1 || this.state.selectedOption.value ==2 || this.stat.selectedOption.value == 3 ? this.state.approve_data.check_in_time
           ? moment(this.state.approve_data.check_in_time,'YYYY-MM-DD HH:mm:ss')
               
           : moment(this.state.attendancePolicyList[0].day_open_hour,"DD-MM-YYYY HH:mm:ss"): this.state.approve_data.check_in_time
           ? moment(this.state.approve_data.check_in_time,"YYYY-MM-DD HH:mm:ss")
               : '-',
-          check_out_time :  this.state.selectedOption.value ==1 || this.state.selectedOption.value ==2 ? this.state.approve_data.check_out_time
+          check_out_time :  this.state.selectedOption.value ==1 || this.state.selectedOption.value ==2 || this.state.selectedOption.value == 3 ? this.state.approve_data.check_out_time
           ? moment(this.state.approve_data.check_out_time,'YYYY-MM-DD HH:mm:ss')
              
-          : moment(this.state.attendancePolicyList[0].day_close_hour,'DD-MM-YYYY HH:mm:ss') : this.state.approve_data.check_out_time
-          ? moment(this.state.approve_data.check_in_time,'YYYY-MM-DD HH:mm:ss')
+          : moment(this.state.attendancePolicyList[0].day_close_hour,"DD-MM-YYYY HH:mm:ss") : this.state.approve_data.check_out_time
+          ? moment(this.state.approve_data.check_in_time,"YYYY-MM-DD HH:mm:ss")
               : '-'
         })}`,
       })
@@ -871,7 +877,7 @@ class ImcompleteAndMissingReport extends Component {
                   {
                     //26-10-2022 09:00:00
                     //DD-MM-YYYY HH:mm:ss
-                    this.state.selectedOption.value ==1 || this.state.selectedOption.value ==2 ? this.state.approve_data.check_in_time
+                    this.state.selectedOption.value ==1 || this.state.selectedOption.value ==2 || this.state.selectedOption.value == 3 ? this.state.approve_data.check_in_time
                     ? moment(this.state.approve_data.check_in_time)
                         .utc()
                         .format("hh:mm A")
@@ -891,14 +897,22 @@ class ImcompleteAndMissingReport extends Component {
                       .format("hh:mm A")
                   : "-"} */}
                    {
-                    this.state.selectedOption.value ==1 || this.state.selectedOption.value ==2 ? this.state.approve_data.check_out_time
-                    ? moment(this.state.approve_data.check_out_time)
-                        .utc()
-                        .format("hh:mm A")
-                    : moment(this.state.attendancePolicyList[0].day_close_hour,'DD-MM-YYYY HH:mm:ss').format('hh:mm A') : this.state.approve_data.check_out_time
-                    ? moment(this.state.approve_data.check_in_time)
-                        .utc()
-                        .format("hh:mm A") : '-'
+                     this.state.selectedOption.value ==1 || this.state.selectedOption.value ==2 || this.state.selectedOption.value == 3 ? this.state.approve_data.check_out_time
+                     ? moment(this.state.approve_data.check_out_time)
+                         .utc()
+                         .format("hh:mm A")
+                     : moment(this.state.attendancePolicyList[0].day_close_hour,'DD-MM-YYYY HH:mm:ss').format('hh:mm A') : this.state.approve_data.check_out_time
+                     ? moment(this.state.approve_data.check_out_time)
+                         .utc()
+                         .format("hh:mm A") : '-'
+                    // this.state.selectedOption.value ==1 || this.state.selectedOption.value ==2 || this.state.selectedOption.value == 3 ? this.state.approve_data.check_out_time
+                    // ? moment(this.state.approve_data.check_out_time)
+                    //     .utc()
+                    //     .format("hh:mm A")
+                    // : moment(this.state.attendancePolicyList[0].day_close_hour,'DD-MM-YYYY HH:mm:ss').format('hh:mm A') : this.state.approve_data.check_out_time
+                    // ? moment(this.state.approve_data.check_in_time)
+                    //     .utc()
+                    //     .format("hh:mm A") : '-'
                   }
               </div>
             </div>
