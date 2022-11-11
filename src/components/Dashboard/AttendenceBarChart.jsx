@@ -2,18 +2,20 @@ import React, { Component } from 'react';
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import Select from 'react-select'
-import { getBranch, getDepartment, main_url } from '../../utils/CommonFunction';
+import { getBranch, getDepartment, main_url,getRegion } from '../../utils/CommonFunction';
 class AttendenceBarChart extends Component {
     constructor(props) {
         super(props);
         this.state = {
             chartOptions: {},
             branch: [],
+            region:[],
             department: [],
             data: {
                 branchId: 0,
-                departmentId: 0
+                departmentId: 0,
             },
+            regionId: { value: 3, label:'Mandalay Region' },
             leaveData: [],
             countData: [],
             chartData: [],
@@ -29,16 +31,24 @@ class AttendenceBarChart extends Component {
         await this.attendenceDashboard(0,0);
         let branch = await getBranch();
         branch.unshift({ label: 'All', value: 0 });
+        let region = await getRegion();
+        region.unshift({ state_name: 'All', state_id: 0 });
         let department = await getDepartment();
         department.unshift({ label: 'All', value: 0 });
         this.setState({
             branch: branch,
             department: department,
+            region:region,
+            region: region.map((v) => ({
+                ...v,
+                label: v.state_name,
+                value: v.state_id,
+              })),
         })
     }
 
     async attendenceDashboard(branchId,departmentId) {
-        fetch(`${main_url}dashboard/attendanceReport/${this.state.data.branchId.value == undefined ? this.state.data.branchId : this.state.data.branchId.value}/${this.state.data.departmentId.value == undefined ? this.state.data.departmentId : this.state.data.departmentId.value} `)
+        fetch(`${main_url}dashboard/attendanceReport/${this.state.data.branchId.value == undefined ? this.state.data.branchId : this.state.data.branchId.value}/${this.state.data.departmentId.value == undefined ? this.state.data.departmentId : this.state.data.departmentId.value}/${this.state.regionId.value == undefined ? this.state.regionId : this.state.regionId.value} `)
             .then(response => {
                 if (response.ok) return response.json()
             })
@@ -156,8 +166,13 @@ class AttendenceBarChart extends Component {
             data: data
         })
     }
+    handleSelectedRegion = async (event) => {
+        this.setState({
+          regionId: event,
+        });
+      };
 
-    render() {
+    render() {  console.log("region",this.state.region)
         return (
             <div
                 className='text-center margin-y'
@@ -230,7 +245,37 @@ class AttendenceBarChart extends Component {
                         classNamePrefix="react-select"
                     />
                     </div>
-                    
+                    <div style={{
+                        textAlign:'start',
+                        marginLeft:10
+                    }}>
+                        <label htmlFor="">Region</label>
+                    <Select
+                        styles={{
+                            container: base => ({
+                                ...base,
+                                //   flex: 1
+                                width: 150,
+                                
+                               
+                            }),
+                            control: base => ({
+                                ...base,
+                                minHeight: '18px',
+                                
+                               
+                               
+                            }),
+
+                        }}
+                        placeholder="All"
+                        options={this.state.region}
+                        onChange={this.handleSelectedRegion}
+                        value={this.state.regionId}
+                        className='react-select-container'
+                        classNamePrefix="react-select"
+                    />
+                    </div>
                     <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.onClickLeaveCountSearch()}>Search</button>
                 </div>
                 <HighchartsReact

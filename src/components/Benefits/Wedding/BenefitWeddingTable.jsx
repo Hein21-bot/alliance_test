@@ -105,8 +105,9 @@ export default class WeddingBenefitTable extends Component {
     getAllBenefits() {
         let id = this.state.user_id;
 
+        // fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id + "/" + moment(this.state.from_date).format("YYYY-MM-DD") + "/" + moment(this.state.to_date).format("YYYY-MM-DD"))
         fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id )
-            .then(response => {
+        .then(response => {
                 if (response.ok) return response.json()
             })
             .then(res => {
