@@ -188,8 +188,34 @@ class AttendenceBarChart extends Component {
 
                 <h3 className='' style={{ padding: '10px 0px 0px 0px' }}>Attendance</h3>
                 <div className='flex-row' style={{ display: 'flex', justifyContent: 'start', alignItems: 'end', margin: '10px 10px 0px 10px' }}>
+                <div style={{
+                        textAlign:'start',
+                        marginLeft:10
+                    }}>
+                        <label htmlFor="">Region</label>
+                    <Select
+                        styles={{
+                            container: base => ({
+                                ...base,
+                                //   flex: 1
+                                width: 150,
+                            }),
+                            control: base => ({
+                                ...base,
+                                minHeight: '18px', 
+                            }),
+                        }}
+                        placeholder="All"
+                        options={this.state.region}
+                        onChange={this.handleSelectedRegion}
+                        value={this.state.regionId}
+                        className='react-select-container'
+                        classNamePrefix="react-select"
+                    />
+                    </div>
                     <div style={{
-                        textAlign:'start'
+                        textAlign:'start',
+                        marginLeft:10
                     }}>
                         <label htmlFor="">Branch</label>
                     <Select
@@ -245,37 +271,7 @@ class AttendenceBarChart extends Component {
                         classNamePrefix="react-select"
                     />
                     </div>
-                    <div style={{
-                        textAlign:'start',
-                        marginLeft:10
-                    }}>
-                        <label htmlFor="">Region</label>
-                    <Select
-                        styles={{
-                            container: base => ({
-                                ...base,
-                                //   flex: 1
-                                width: 150,
-                                
-                               
-                            }),
-                            control: base => ({
-                                ...base,
-                                minHeight: '18px',
-                                
-                               
-                               
-                            }),
-
-                        }}
-                        placeholder="All"
-                        options={this.state.region}
-                        onChange={this.handleSelectedRegion}
-                        value={this.state.regionId}
-                        className='react-select-container'
-                        classNamePrefix="react-select"
-                    />
-                    </div>
+                    
                     <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.onClickLeaveCountSearch()}>Search</button>
                 </div>
                 <HighchartsReact
