@@ -255,7 +255,7 @@ export default class WeddingBenefitTable extends Component {
                     employee_name: data[i].employee_name,
                     position: data[i].designations ? data[i].designations : '-',
                     branch: data[i].branch_name,
-                    spouseName: data[i].staff_spouse_name,
+                    spouseName: data[i].staff_spouse_name ? data[i].staff_spouse_name : data[i].spouse_name,
                     spouseCompanyOption: data[i].is_alliance_staff === 1 ? 'Yes' : 'No',
                     date: result.createdAt ?  moment(result.createdAt).format('DD-MM-YYYY') : "-",
                     status: status

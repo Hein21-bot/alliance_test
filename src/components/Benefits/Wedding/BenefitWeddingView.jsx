@@ -81,7 +81,7 @@ class WeddingBenefitView extends Component {
                                         type="text"
                                         disabled
                                         className="form-control"
-                                        value={this.state.datasource.staff_spouse_name}
+                                        value={this.state.datasource.staff_spouse_name ? this.state.datasource.staff_spouse_name :  this.state.datasource.spouse_name}
                                     />
                                 </div>
                             </div>

@@ -503,13 +503,13 @@ export default class Sidebar extends Component {
                   >
                     <a href="/incomplete_and_missing_report">Incomplete And Missing Report</a>
                   </li>
-                  <li
+                  {/* <li
                     className={
                       pathname === "/holiday_attendance" ? "active" : " "
                     }
                   >
                     <a href="/holiday_attendance">Holiday Attendance</a>
-                  </li>
+                  </li> */}
                   <li
                     className={
                       pathname === "/attendance_report_monthly" ? "active" : " "

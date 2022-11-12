@@ -27,7 +27,7 @@ export default class ExpenseBarChart extends Component {
         this.setChartOption()
         this.getBranch();
         this.getDesignation();
-        // this.getExpense();
+        this.getExpense(this.state.branchId.value == undefined ? this.state.branchId : this.state.branchId.value,this.state.deptId.value == undefined ? this.state.deptId : this.state.deptId.value,this.state.s_date,this.state.e_date);
 
     }
     handleStartDate = (event) => {
