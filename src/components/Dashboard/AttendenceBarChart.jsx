@@ -54,22 +54,26 @@ class AttendenceBarChart extends Component {
             })
             .then(res => {
                 let data=res;
-                    data.forEach(v => {
-                        if(v.data.length==1){
-                            v.data.push({attendance:0},{late:0})
-                        }else if(v.data.length==2){
-                            v.data.push({late:0})
-                        }
-                        return v
-                    });
-                let absent_count=data.map(v=>{
-                    return v.data[0].all -v.data[1].attendance-v.data[2].late
+                
+                let arr=data.map((v,i) => {
+                        const formatData=v.data.reduce((r,c)=>{
+                            // const all=c.all?c.all:0 ;
+                            const attendance=c.attendance?c.attendance:0;
+                            const late=c.late?c.late:0
+                            return {...r,...c,late,attendance}
+                        },{})
+                        return formatData;
+                        });
+                        console.log(arr)
+                let absent_count=arr.map(v=>{
+                    let count= v.all -v.attendance-v.late;
+                    return count;
                 })
-                let attandance_count=data.map(v=>{
-                    return v.data[1].attendance
+                let attandance_count=arr.map(v=>{
+                    return  v.attendance;// v.data[1].attendance ? v.data[1].attendance : 0
                 })
-                let late_count=data.map(v=>{
-                    return v.data[2].late
+                let late_count=arr.map(v=>{
+                    return v.late;// v.data[2].late ?v.data[2].late : 0
                 })
                 if (res) {
                     var label = [];
@@ -78,8 +82,10 @@ class AttendenceBarChart extends Component {
                         label.push(v.location_master_name);
                         count.push(v.count)
                     })
+                    console.log("count num====>",absent_count,late_count,attandance_count)
 
                     this.setState({ attendanceData: label, countData: count,absent_count,late_count,attandance_count })
+
                 }
                 this.setChartOption()
             })
