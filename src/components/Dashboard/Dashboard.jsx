@@ -42,7 +42,8 @@ export class Dashboard extends Component {
     this.state = {
       tapButtonTitle: "",
       confirmRequestPermission:null,
-      user: getCookieData("user_info")
+      user: getCookieData("user_info"),
+      compensation_permission:null
       // fixAssetList: false,
       // fixAssetListTitle:""
     };
@@ -51,6 +52,7 @@ export class Dashboard extends Component {
   async componentDidMount() {
     const id = localStorage.getItem("user_id");
     this.confirmRequest(id);
+    this.compensationPermission(id);
     this.$el = $(this.el);
     //   const a = await getMacAddress();
     //   const b = await getMacAddress1();
@@ -61,6 +63,15 @@ export class Dashboard extends Component {
       .then(data => {
         this.setState({
           confirmRequestPermission:data
+        })
+      })
+  }
+  compensationPermission= async (id) => {
+    await fetch(`${main_url}dashboard/compasationPermission/${id}`)
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          compensation_permission:data
         })
       })
   }
@@ -233,13 +244,15 @@ export class Dashboard extends Component {
           >
             Expense
           </button>
-
-          <button
+          {
+            this.state.compensation_permission && this.state.compensation_permission.length > 0 || this.state.user.user_id == 1110 || this.state.user.user_id == 1467 ? <button
             style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "benefit" ? '#23c6c8' : "#1872ab" }}
             onClick={() => this.tapButtonClick("benefit")}
           >
             Compansation and Benefit
-          </button>
+          </button> : ''
+          }
+          
 
           <button style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "helpdesk" ? '#23c6c8' : "#1872ab" }} onClick={() => this.tapButtonClick('helpdesk')}>Help Desk</button>
           <button style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "resign" ? '#23c6c8' : "#1872ab" }} onClick={() => this.tapButtonClick("resign")}
