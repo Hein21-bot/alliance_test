@@ -53,7 +53,8 @@ class AttendanceType extends Component {
     this.setState({
       permission_status:permission_status
   })
-    await this.getAttendanceType(this.state.attendance_type);
+    // await this.getAttendanceType(this.state.attendance_type);
+    await this.LateCheckIn();
     // await this.checkBoxAll()
 
     let that = this;
@@ -138,33 +139,47 @@ class AttendanceType extends Component {
     }
   };
 
-  async getAttendanceType(type) {
-    this.setState({ attendance_type: type, checkedListData: [] });
-    let check_in = 0;
-    let field_in = 0;
-    let check_out = 0;
-    let field_out = 0;
-    if (type == "late_check_in") {
-      check_in = 1;
-    }
-    if (type == "field_check_in") {
-      field_in = 1;
-    }
-    if (type == "early_check_out") {
-      check_out = 1;
-    }
-    if (type == "field_check_out") {
-      field_out = 1;
-    }
+  async LateCheckIn(){
+       
     let start_date = moment(this.state.s_date).format("YYYY-MM-DD");
     let end_date = moment(this.state.e_date).format("YYYY-MM-DD");
     await fetch(
-      `${main_url}attendance/getLateOrEarlyAttendance/${this.state.user_id}/${start_date}/${end_date}/${check_in}/${field_in}/${check_out}/${field_out}`
+      `${main_url}attendance/getLateOrEarlyAttendance/${this.state.user_id}/${start_date}/${end_date}/1/0/0/0`
     )
       .then((res) => {
         if (res.ok) return res.json();
       })
       .then((list) => {
+        console.log("list",list)
+        let statusFilter = list.sort((a, b) => {
+          if (a.status < b.status) {
+            return -1;
+          } else if (a.status === b.status) {
+            //"2022-10-21T09:13:29.767Z"
+
+            return moment(a.createdAt).diff(moment(b.createdAt));//moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD");
+          }
+          return 1;
+        })
+        // let requestFilter=statusFilter.sort((a,b)=>moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD"))
+        console.log("status filter===>", statusFilter.filter(v=>v.late_checkin == 1))
+        this.setState({ data: list, datasource: list,attendance_type :"late_check_in" }, () => {
+          this._setTableData(statusFilter.filter(v=>v.late_checkin == 1));
+        });
+      });
+  }
+  async FieldCheckIn(){
+       
+    let start_date = moment(this.state.s_date).format("YYYY-MM-DD");
+    let end_date = moment(this.state.e_date).format("YYYY-MM-DD");
+    await fetch(
+      `${main_url}attendance/getLateOrEarlyAttendance/${this.state.user_id}/${start_date}/${end_date}/0/1/0/0`
+    )
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        console.log("list",list)
         let statusFilter = list.sort((a, b) => {
           if (a.status < b.status) {
             return -1;
@@ -177,11 +192,115 @@ class AttendanceType extends Component {
         })
         // let requestFilter=statusFilter.sort((a,b)=>moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD"))
         console.log("status filter===>", statusFilter)
-        this.setState({ data: list, datasource: list }, () => {
-          this._setTableData(statusFilter);
+        this.setState({ data: list, datasource: list,attendance_type: "field_check_in" }, () => {
+          this._setTableData(statusFilter.filter(v=>v.field_checkin == 1));
         });
       });
   }
+  async EarlyCheckOut(){
+       
+    let start_date = moment(this.state.s_date).format("YYYY-MM-DD");
+    let end_date = moment(this.state.e_date).format("YYYY-MM-DD");
+    await fetch(
+      `${main_url}attendance/getLateOrEarlyAttendance/${this.state.user_id}/${start_date}/${end_date}/0/0/1/0`
+    )
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        console.log("list",list)
+        let statusFilter = list.sort((a, b) => {
+          if (a.status < b.status) {
+            return -1;
+          } else if (a.status === b.status) {
+            //"2022-10-21T09:13:29.767Z"
+
+            return moment(a.createdAt).diff(moment(b.createdAt));//moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD");
+          }
+          return 1;
+        })
+        // let requestFilter=statusFilter.sort((a,b)=>moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD"))
+        console.log("status filter===>", statusFilter)
+        this.setState({ data: list, datasource: list,attendance_type: "early_check_out" }, () => {
+          this._setTableData(statusFilter.filter(v=>v.early_checkout == 1));
+        });
+      });
+  }
+  async FieldCheckOut(){
+       
+    let start_date = moment(this.state.s_date).format("YYYY-MM-DD");
+    let end_date = moment(this.state.e_date).format("YYYY-MM-DD");
+    await fetch(
+      `${main_url}attendance/getLateOrEarlyAttendance/${this.state.user_id}/${start_date}/${end_date}/0/0/0/1`
+    )
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        console.log("list",list)
+        let statusFilter = list.sort((a, b) => {
+          if (a.status < b.status) {
+            return -1;
+          } else if (a.status === b.status) {
+            //"2022-10-21T09:13:29.767Z"
+
+            return moment(a.createdAt).diff(moment(b.createdAt));//moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD");
+          }
+          return 1;
+        })
+        // let requestFilter=statusFilter.sort((a,b)=>moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD"))
+        console.log("status filter===>", statusFilter)
+        this.setState({ data: list, datasource: list,attendance_type:"field_check_out" }, () => {
+          this._setTableData(statusFilter.filter(v=>v.field_checkout == 1));
+        });
+      });
+  }
+
+  // async getAttendanceType(type) {
+  //   this.setState({ attendance_type: type, checkedListData: [] });
+  //   let check_in = 0;
+  //   let field_in = 0;
+  //   let check_out = 0;
+  //   let field_out = 0;
+  //   if (type == "late_check_in") {
+  //     check_in = 1;
+  //   }
+  //   if (type == "field_check_in") {
+  //     field_in = 1;
+  //   }
+  //   if (type == "early_check_out") {
+  //     check_out = 1;
+  //   }
+  //   if (type == "field_check_out") {
+  //     field_out = 1;
+  //   }
+  //   let start_date = moment(this.state.s_date).format("YYYY-MM-DD");
+  //   let end_date = moment(this.state.e_date).format("YYYY-MM-DD");
+  //   await fetch(
+  //     `${main_url}attendance/getLateOrEarlyAttendance/${this.state.user_id}/${start_date}/${end_date}/${check_in}/${field_in}/${check_out}/${field_out}`
+  //   )
+  //     .then((res) => {
+  //       if (res.ok) return res.json();
+  //     })
+  //     .then((list) => {
+  //       console.log("list",list)
+  //       let statusFilter = list.sort((a, b) => {
+  //         if (a.status < b.status) {
+  //           return -1;
+  //         } else if (a.status === b.status) {
+  //           //"2022-10-21T09:13:29.767Z"
+
+  //           return moment(a.createdAt).diff(moment(b.createdAt));//moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD");
+  //         }
+  //         return 1;
+  //       })
+  //       // let requestFilter=statusFilter.sort((a,b)=>moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD"))
+  //       console.log("status filter===>", statusFilter)
+  //       this.setState({ data: list, datasource: list }, () => {
+  //         this._setTableData(statusFilter);
+  //       });
+  //     });
+  // }
 
   handleStartDate = (event) => {
     this.setState({
@@ -209,6 +328,7 @@ class AttendanceType extends Component {
     var table;
     var l = [];
     if (await data) {
+
       for (var i = 0; i < data.length; i++) {
         let result = await data[i];
         let status = "";
@@ -495,7 +615,7 @@ class AttendanceType extends Component {
                       role="tab"
                       data-toggle="tab"
                       aria-selected="true"
-                      onClick={() => this.getAttendanceType("late_check_in")}
+                      onClick={() => this.LateCheckIn()}
                     >
                       Late Check In Request
                     </a>
@@ -506,7 +626,7 @@ class AttendanceType extends Component {
                       href="#attendance_type"
                       role="tab"
                       data-toggle="tab"
-                      onClick={() => this.getAttendanceType("field_check_in")}
+                      onClick={() => this.FieldCheckIn()}
                     >
                       Field Check In Request
                     </a>
@@ -517,7 +637,7 @@ class AttendanceType extends Component {
                       href="#attendance_type"
                       role="tab"
                       data-toggle="tab"
-                      onClick={() => this.getAttendanceType("early_check_out")}
+                      onClick={() => this.EarlyCheckOut()}
                     >
                       Early Check Out Request
                     </a>
@@ -528,7 +648,7 @@ class AttendanceType extends Component {
                       href="#attendance_type"
                       role="tab"
                       data-toggle="tab"
-                      onClick={() => this.getAttendanceType("field_check_out")}
+                      onClick={() => this.FieldCheckOut()}
                     >
                       Field Check Out Request
                     </a>
@@ -569,7 +689,7 @@ class AttendanceType extends Component {
                       type="button"
                       className="btn btn-primary"
                       onClick={() =>
-                        this.getAttendanceType(this.state.attendance_type)
+                        this.state.attendance_type == "late_check_in" ? this.LateCheckIn ? this.state.attendance_type == "field_check_in" : this.FieldCheckIn ? this.state.attendance_type == "early_check_out" : this.EarlyCheckOut : this.FieldCheckOut
                       }
                     >
                       Search
@@ -601,7 +721,8 @@ class AttendanceType extends Component {
                     Select All
                   </label>
                 </div>
-                <div
+                {
+                  this.state.permission_status.isEdit == 1 ? <div
                   style={{
                     width: "80%",
                     display: "flex",
@@ -610,15 +731,15 @@ class AttendanceType extends Component {
                     paddingRight: 5,
                   }}
                 >
-                  {
-                    this.state.permission_status.isEdit == 1 ? <button
+                  
+                    <button
                     className="btn btn-primary"
                     style={{ borderRadius: 3, width: 80, marginRight: 15 }}
                     onClick={() => this.approveSave()}
                   >
                     Approve
-                  </button> : ''
-                  }
+                  </button>
+                  
                   
                   <button
                     onClick={() => this.handleVisible("extension")}
@@ -627,7 +748,9 @@ class AttendanceType extends Component {
                   >
                     Reject
                   </button>
-                </div>
+                </div> : ''
+                }
+                
               </div>
               <div className="row" style={{ marginBottom: '10px' }}>
                 <div class="btn-group-g ">

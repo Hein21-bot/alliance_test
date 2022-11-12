@@ -20,7 +20,7 @@ const CryptoJS = require('crypto-js');
 
 // const main_url = "http://103.29.91.26:50092/"; // test server
 
-// const main_url = "http://103.29.91.26:8032/";  // live server
+const main_url = "http://103.29.91.26:8032/";  // live server
 
 
 // test new
