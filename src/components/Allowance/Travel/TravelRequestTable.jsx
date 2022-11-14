@@ -54,7 +54,8 @@ export default class TravelRequestAdvancedTable extends Component {
       branch: branch,
     }, () => { this._setTableData(this.state.dataSource) });
     // this._setTableData(this.state.dataSource);
-    this.getTravelRequestAllowance(this.state.user_id);
+    // this.getTravelRequestAllowance(this.state.user_id);
+    this.handleSearchData(moment(this.state.s_date).format("YYYY-MM-DD"), moment(this.state.e_date).format("YYYY-MM-DD"), this.state.user_info.user_id)
 
     let that = this;
     $("#dataTables-table").on("click", "#toView", function () {
