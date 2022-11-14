@@ -571,7 +571,16 @@ class AttendanceType extends Component {
   showToast = (status, text) => {
     if (status === 200) {
       toast.success(text);
-      this.getAttendanceType(this.state.attendance_type);
+      if(this.state.attendance_type == "late_check_in"){
+          this.LateCheckIn()
+      }else if(this.state.attendance_type == "field_check_in"){
+          this.FieldCheckIn()
+      }else if(this.state.attendance_type == "early_check_out"){
+          this.EarlyCheckOut()
+      }else{
+          this.FieldCheckOut()
+      }
+      // {this.state.attendance_type == "late_check_in" ? this.LateCheckIn ? this.state.attendance_type == "field_check_in" : this.FieldCheckIn ? this.state.attendance_type == "early_check_out" : this.EarlyCheckOut : this.FieldCheckOut}
     } else {
       toast.error(text);
     }
