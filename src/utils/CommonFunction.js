@@ -33,8 +33,8 @@ const main_url = "http://103.29.91.26:50092/"; // test server
 // const remote_url = "http://103.29.91.26:8032/marter_hrm"; // live server
 
 
-const remote_url = "http://103.29.91.26:50050"; // remote url live server
-// const remote_url = "http://103.29.91.26:50093"; // remote url test server
+// const remote_url = "http://103.29.91.26:50050"; // remote url live server
+const remote_url = "http://103.29.91.26:50093"; // remote url test server
 
 
 // const remote_url = "http://192.168.1.32:8080/marter_hrm";
