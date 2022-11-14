@@ -6,7 +6,7 @@ import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css';
 import 'datatables.net-dt/css/jquery.dataTables.css'
 import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 import 'jspdf-autotable';
-import { main_url, getMainRole, getUserId, getFirstDayOfMonth } from "../../utils/CommonFunction";
+import { main_url, getMainRole, getUserId, getFirstDayOfMonth,getFirstDayOfNextMonth } from "../../utils/CommonFunction";
 import Select from 'react-select'
 const $ = require('jquery');
 const jzip = require('jzip');
@@ -44,7 +44,9 @@ export default class LeaveManagementTable extends Component {
             selected_category_value: null,
             selected_category: null,
             selected_status: null,
-            selected_status_value: null
+            selected_status_value: null,
+            LeaveDatePermission:null,
+            NextDate:moment(getFirstDayOfNextMonth())
             // isHR: this.props.isHR
         }
     }
@@ -179,6 +181,8 @@ export default class LeaveManagementTable extends Component {
             let application_status = '';
             let reject_status = '';
             let obj = [];
+            
+           
             // application_status
             if (result.application_status === 0) {
                 application_status = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
@@ -268,13 +272,15 @@ export default class LeaveManagementTable extends Component {
                     obj.action +=
                         '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>'
                 }
-                if (result.user_id == this.state.user_id && result.application_status == 3) {
+                if (result.user_id == this.state.user_id && result.application_status == 3 && moment(new Date()).format('YYYY-MM-DD') <= moment(getFirstDayOfNextMonth(result.leave_end_date)).format('YYYY-MM-DD')) {
                     obj.action +=
                         '<button style="margin-right:10px" class="btn btn-danger btn-sm own-btn-cancel" id="toCancel" ><span id="cancel" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Cancel Request</button>'
                 }
             }
 
             l.push(obj)
+           
+            
 
         }
 

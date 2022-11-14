@@ -87,6 +87,18 @@ async function calculationWorkingExp(startDate, endDate) {
     return returnData;
 }
 
+// function getFirstDayOfNextMonth(a) {
+//     const date = new Date(a);
+//     const day=date.getDay()
+  
+//     return new Date(date.getFullYear(), date.getMonth() + 1, day);
+//   }
+function getFirstDayOfNextMonth(a){
+    var date = new Date(a); // Now
+    date.setDate(date.getDate() + 30);
+    return date
+}
+
 function calculationDate(startDate, endDate) {
     var formatstartDate = new Date(startDate);
     var formatendDate = new Date(endDate)
@@ -950,5 +962,5 @@ export {
     print, stopSaving, startSaving, fno, getFirstDayOfMonth, getFirstDayOfYear, checkLimitAmount,
     checkHRManager, checkHRAssistant, checkApprovalStatus, isApprover, havePermissionForAmount,
     calculationDate, isRequestedUser, atten_report, approveAmount, calculationDate1, getAttendancePolicy,
-    getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError,getFirstDayOfPrevMonth
+    getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError,getFirstDayOfPrevMonth,getFirstDayOfNextMonth
 }
