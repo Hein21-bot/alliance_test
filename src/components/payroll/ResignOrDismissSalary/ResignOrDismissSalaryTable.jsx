@@ -21,7 +21,7 @@ require('datatables.net-buttons/js/dataTables.buttons.min');
 require('datatables.net-buttons/js/buttons.html5.min');
 
 
-export default class WeddingBenefitTable extends Component {
+export default class ResignOrDismissSalaryTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -35,46 +35,45 @@ export default class WeddingBenefitTable extends Component {
         }
     }
     componentDidMount() {
-        this. getAllBenefits();
         this.$el = $(this.el);
 
         this.setState({
             requestData: this.state.requestData
         }, () => {
-            this._setTableData(this.state.requestData)
+            this._setTableData(tempData)
         });
 
         let that = this;
-        $("#dataTables-table").on('click', '#toView', function () {
+        // $("#dataTables-table").on('click', '#toView', function () {
 
-            var data = $(this).find("#view").text();
-            data = $.parseJSON(data);
-            // alert(JSON.stringify(data,2,undefined));
-            that.props.goToViewForm(data);
+        //     var data = $(this).find("#view").text();
+        //     data = $.parseJSON(data);
+        //     // alert(JSON.stringify(data,2,undefined));
+        //     that.props.goToViewForm(data);
 
-        });
+        // });
 
-        $("#dataTables-table").on('click', '#toEdit', function () {
+        // $("#dataTables-table").on('click', '#toEdit', function () {
 
-            var data = $(this).find("#edit").text();
-            data = $.parseJSON(data);
-            that.props.goToEditForm(data);
+        //     var data = $(this).find("#edit").text();
+        //     data = $.parseJSON(data);
+        //     that.props.goToEditForm(data);
 
-        });
-        $("#dataTables-table").on('click', '#toPrint', function () {
+        // });
+        // $("#dataTables-table").on('click', '#toPrint', function () {
 
 
-            fetch(`${main_url}wedding_benefit/getWeddingAvailableAmount`)
-                .then(res => { if (res.ok) return res.json() })
-                .then(list => {
+        //     fetch(`${main_url}wedding_benefit/getWeddingAvailableAmount`)
+        //         .then(res => { if (res.ok) return res.json() })
+        //         .then(list => {
 
-                    var data = $(this).find("#print").text();
-                    data = $.parseJSON(data);
+        //             var data = $(this).find("#print").text();
+        //             data = $.parseJSON(data);
 
-                    that.getPrintData(data, list.amount)
-                })
+        //             that.getPrintData(data, list.amount)
+        //         })
 
-        });
+        // });
     }
 
     componentDidUpdate(prevProps) {
@@ -102,42 +101,42 @@ export default class WeddingBenefitTable extends Component {
     getReject() {
         this.search(4);
     }
-    getAllBenefits() {
-        let id = this.state.user_id;
+    // getAllBenefits() {
+    //     let id = this.state.user_id;
 
-        fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id )
-            .then(response => {
-                if (response.ok) return response.json()
-            })
-            .then(res => {
-                if (res) {
-                    this.setState({ 
-                        data: res,
-                        requestData:res.filter(v=>v.createdBy != this.state.user_id),
-                    }, () => this._setTableData(this.state.requestData))
-                }
-            })
-            .catch(error => console.error(`Fetch Error =\n`, error));
+    //     fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id )
+    //         .then(response => {
+    //             if (response.ok) return response.json()
+    //         })
+    //         .then(res => {
+    //             if (res) {
+    //                 this.setState({ 
+    //                     data: res,
+    //                     requestData:res.filter(v=>v.createdBy != this.state.user_id),
+    //                 }, () => this._setTableData(this.state.requestData))
+    //             }
+    //         })
+    //         .catch(error => console.error(`Fetch Error =\n`, error));
 
-    }
-    getMyBenefits() {
-        let id = this.state.user_id;
+    // }
+    // getMyBenefits() {
+    //     let id = this.state.user_id;
 
-        fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id)
-            .then(response => {
-                if (response.ok) return response.json()
-            })
-            .then(res => {
-                if (res) {
-                    this.setState({ 
-                        datasource: res,
-                        requestData:res.filter(v=>v.createdBy == this.state.user_id)
-                    }, () => this._setTableData(this.state.requestData))
-                }
-            })
-            .catch(error => console.error(`Fetch Error =\n`, error));
+    //     fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id)
+    //         .then(response => {
+    //             if (response.ok) return response.json()
+    //         })
+    //         .then(res => {
+    //             if (res) {
+    //                 this.setState({ 
+    //                     datasource: res,
+    //                     requestData:res.filter(v=>v.createdBy == this.state.user_id)
+    //                 }, () => this._setTableData(this.state.requestData))
+    //             }
+    //         })
+    //         .catch(error => console.error(`Fetch Error =\n`, error));
 
-    }
+    // }
     handleStartDate = async (event) => {
         this.setState({
           from_date:event
@@ -221,66 +220,79 @@ export default class WeddingBenefitTable extends Component {
         var l = [];
         var status;
         var permission = this.props.permission;
-        var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
+        // var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
         if(data){
             for (var i = 0; i < data.length; i++) {
                 let result = data[i];
                 let obj = [];
-                if (result.status === 0) {
-                    status = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
+                // if (result.status === 0) {
+                //     status = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
     
-                }
-                else if (result.status === 1) {
-                    status = '<small class="label label-warning" style="background-color:#b33ce0"> Check</small>'
-                }
-                else if (result.status === 2) {
-                    status = '<small class="label label-warning" style="background-color:#f2a509"> Verify</small>'
-                }
-                else if (result.status === 3) {
-                    status = '<small class="label label-warning" style="background-color:#29a50a">Approve</small>'
-                }
-                else if (result.status === 4) {
+                // }
+                // else if (result.status === 1) {
+                //     status = '<small class="label label-warning" style="background-color:#b33ce0"> Check</small>'
+                // }
+                // else if (result.status === 2) {
+                //     status = '<small class="label label-warning" style="background-color:#f2a509"> Verify</small>'
+                // }
+                // else if (result.status === 3) {
+                //     status = '<small class="label label-warning" style="background-color:#29a50a">Approve</small>'
+                // }
+                // else if (result.status === 4) {
     
-                    status = '<small class="label label-warning" style="background-color:#f60e2f"> Reject</small>'
-                }
-                else if (result.status === 5) {
-                    status = '<small class="label label-warning" style="background-color:#cc0066"> ReferBack </small>'
-                }
+                //     status = '<small class="label label-warning" style="background-color:#f60e2f"> Reject</small>'
+                // }
+                // else if (result.status === 5) {
+                //     status = '<small class="label label-warning" style="background-color:#cc0066"> ReferBack </small>'
+                // }
     
                 obj = {
                     no: i + 1,
-                    form_no: fno.fno_wedding + data[i].form_no,
-                    employee_id: data[i].employment_id,
-                    employee_name: data[i].employee_name,
-                    position: data[i].designations ? data[i].designations : '-',
-                    branch: data[i].branch_name,
-                    spouseName: data[i].staff_spouse_name,
-                    spouseCompanyOption: data[i].is_alliance_staff === 1 ? 'Yes' : 'No',
-                    date: result.createdAt ?  moment(result.createdAt).format('DD-MM-YYYY') : "-",
+                    requestMonth: '14-11-2022',
+                    employee_id: data[i].employment_id ? data[i].employment_id: '-',
+                    employee_name: data[i].employee_name ? data[i].employee_name: '-',
+                    designation: data[i].designations ? data[i].designations : '-',
+                    level: data[i].level ? data[i].level : '-',
+                    department: data[i].department ? data[i].department : '-',
+                    branch: data[i].branch_name ? data[i].branch_name : '-',
+                    region: data[i].region ? data[i].region : '-',
+                    lastWorkingDay: '-',
+                    grossSalary: '-',
+                    deductionOrAddition: '-',
+                    salaryAfterDOrA: '-',
+                    ssc3: '-',
+                    ssc2: '-',
+                    incomeTax: '-',
+                    maintenance: '-',
+                    petrol: '-',
+                    totalSalary: '-',
+                    reason: '-',
+                    atmCash: '-',
+                    exitStatus: '-',
                     status: status
                 }
-                if (has_action) {
-                    if (result.status !== 3) {
-                        obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
-                        obj.action += permission.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
-                    } else {
-                        obj.action = permission.isView === 1 ?
+                // if (has_action) {
+                //     if (result.status !== 3) {
+                //         obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+                //         obj.action += permission.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
+                //     } else {
+                //         obj.action = permission.isView === 1 ?
     
-                            '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+                //             '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
     
-                        if (result.print === 1) {
-                            obj.action +=
-                                '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-                                JSON.stringify(result) +
-                                '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
-                        } else {
-                            obj.action +=
-                                '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-                                JSON.stringify(result) +
-                                '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
-                        }
-                    }
-                }
+                //         if (result.print === 1) {
+                //             obj.action +=
+                //                 '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                //                 JSON.stringify(result) +
+                //                 '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
+                //         } else {
+                //             obj.action +=
+                //                 '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                //                 JSON.stringify(result) +
+                //                 '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
+                //         }
+                //     }
+                // }
                 l.push(obj)
     
             }
@@ -295,20 +307,32 @@ export default class WeddingBenefitTable extends Component {
 
         var column = [
             { title: "No", data: "no" },
-            { title: "Form No", data: "form_no" },
+            { title: "Request Month", data: "requestMonth" },
             { title: "Employee Id", data: "employee_id" },
             { title: "Employee Name", data: "employee_name" },
-            { title: "Position", data: "position" },
+            { title: "Designation", data: "designation" },
+            { title: 'Level', data: 'level'},
+            { title: 'Department', data: 'department'},
             { title: "Branch", data: "branch" },
-            { title: "Spouse Name", data: "spouseName" },
-            { title: "Is Spouse From Alliance", data: "spouseCompanyOption" },
-            { title: "Date", data: "date" },
-            { title: "Status", data: "status" }
+            { title: 'Region', data: 'region'},
+            { title: "Last Working Day", data: "lastWorkingDay" },
+            { title: "Gross Salary", data: "grossSalary" },
+            { title: "Deduction or Addition", data: "deductionOrAddition" },
+            { title: "Salary After Deduciton or Addition", data: "salaryAfterDOrA" },
+            { title: 'SSC Employee(3%)', data: 'ssc3'},
+            { title: 'SSC Employee(2%)', data: 'ssc2'},
+            { title: 'Income Tax', data: 'incomeTax'},
+            { title: 'Maintenance', data: 'maintenance'},
+            { title: 'Petrol', data: 'petrol'},
+            { title: 'Total Salary', data: 'totalSalary'},
+            { title: 'Reason', data: 'reason'},
+            { title: 'ATM/Cash', data: 'atmCash'},
+            { title: 'Exit Status', data: 'exitStatus'},
         ]
 
-        if (has_action) {
-            column.push({ title: "Action", data: "action" })
-        }
+        // if (has_action) {
+        //     column.push({ title: "Action", data: "action" })
+        // }
 
         table = $("#dataTables-table").DataTable({
             autofill: true,
@@ -393,3 +417,16 @@ export default class WeddingBenefitTable extends Component {
         )
     }
 }
+
+const tempData = [
+    { employee_id: 101 },
+    { employee_id: 102 },
+    { employee_id: 103 },
+    { employee_id: 104 },
+    { employee_id: 105 },
+    { employee_id: 106 },
+    { employee_id: 107 },
+    { employee_id: 108 },
+    { employee_id: 109 },
+    { employee_id: 110 },
+]

@@ -19,7 +19,7 @@ class PayrollPageHeader extends Component {
                             Pay roll
                         </li>
                         <li className="active">
-                            <a href="#"> {this.props.pageTitle} Pay roll</a>
+                            <a href="#"> {this.props.pageTitle}</a>
                         </li>
 
                     </ol>

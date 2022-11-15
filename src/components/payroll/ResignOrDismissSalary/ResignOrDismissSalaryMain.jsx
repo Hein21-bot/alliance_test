@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import PayrollPageHeader from '../payrollHeader';
 import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, getPermissionStatus, startSaving } from "../../../utils/CommonFunction";
+import ResignOrDismissSalaryTable from './ResignOrDismissSalaryTable';
+import ResignOrDismissSalaryAddNew from './ResignOrDismissSalaryAddNew';
 
 class ResignOrDismissSalaryMain extends Component {
     constructor() {
@@ -16,7 +18,7 @@ class ResignOrDismissSalaryMain extends Component {
             isEdit: false,
             datasource: [],
             requestData: [],
-            permission_status: {},
+            permission_status: { isAddNew: true},
             requestType: '',
             active_tab: 0,
         }
@@ -86,11 +88,17 @@ class ResignOrDismissSalaryMain extends Component {
 
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />
 
-                <PayrollPageHeader pageTitle="Wedding" setupForm={this.setupForm}
+                <PayrollPageHeader pageTitle="Resign Or Dismisss Salary" setupForm={this.setupForm}
                     isAddNew={this.state.isAddNew} isView={this.state.isView}
                     isEdit={this.state.isEdit} permission={this.state.permission_status} />
 
                 <br />
+
+                {this.state.isTable ? (
+                    <ResignOrDismissSalaryTable/>
+                ) : this.state.isAddNew ? (
+                    <ResignOrDismissSalaryAddNew/>
+                ) : null}
 
                 {/* {
                     this.state.isAddNew || this.state.isEdit ?
