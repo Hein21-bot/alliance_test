@@ -77,15 +77,16 @@ class ResignBarChart extends Component {
             })
             .then(res => {
                 if (res) {
-                    let data=res
-                    let Final_Total=0;
-                    data.forEach(v=>{
-                        let Total=0
-                        let subTotal=v.count;
-                        Total +=subTotal
-                        Final_Total+=Total
+                    // let data=res
+                    // let Final_Total=0;
+                    // data.forEach(v=>{
+                    //     let Total=0
+                    //     let subTotal=v.count;
+                    //     Total +=subTotal
+                    //     Final_Total+=Total
                         
-                    })
+                    // })
+                    let Final_Total=res.reduce((p,c)=>p+c.count,0)
                     this.setState({
                         regisn_total_count:Final_Total
                     })
@@ -121,15 +122,7 @@ class ResignBarChart extends Component {
             .then(res => {
                 console.log('resignData ===>', res)
                 if (res) {
-                    let data=res
-                    let Final_Total=0;
-                    data.forEach(v=>{
-                        let Total=0
-                        let subTotal=v.count;
-                        Total +=subTotal
-                        Final_Total+=Total
-                        
-                    })
+                    let Final_Total=res.reduce((p,c)=>p+c.count,0)
                     this.setState({
                         regisn_total_count:Final_Total
                     })
@@ -160,17 +153,7 @@ class ResignBarChart extends Component {
                 if (res) {
                     var label = [];
                     var count = [];
-                    let data=res
-                        let Final_Total=0;
-                        data.forEach(v=>{
-                            let Total=0
-                            let subTotal=v.count;
-                            console.log(subTotal)
-                            Total +=subTotal
-                            Final_Total+=Total
-                            
-                        })
-                        console.log("exit staff count==>",Final_Total)
+                    let Final_Total=res.reduce((p,c)=>p+c.count,0)
                         this.setState({
                             exitStaff_total_count:Final_Total
                         })
