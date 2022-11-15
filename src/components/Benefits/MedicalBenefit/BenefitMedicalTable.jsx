@@ -3,7 +3,7 @@ import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css';
 import 'datatables.net-dt/css/jquery.dataTables.css'
 import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
-import { main_url, getMainRole, getUserId, getInformation, print, fno,getFirstDayOfYear } from "../../../utils/CommonFunction";
+import { main_url, getMainRole, getUserId, getInformation, print, fno,getFirstDayOfPrevMonth } from "../../../utils/CommonFunction";
 import 'jspdf-autotable';
 import moment from 'moment'
 import DatePicker from 'react-datetime';
@@ -29,7 +29,7 @@ export default class BenefitMedicalTable extends Component {
             is_main_role: getMainRole(),
             requestData: [],
             is_main_role: getMainRole(),
-            from_date : getFirstDayOfYear(),
+            from_date : getFirstDayOfPrevMonth(),
             to_date : moment(),
             tab:this.props.tab,
         }
@@ -109,7 +109,7 @@ export default class BenefitMedicalTable extends Component {
     getAllBenefits() {
         let id = this.state.user_id;
 
-        fetch(main_url + "medical_benefit/getMedicalBenefit/" + id)
+        fetch(main_url + "medical_benefit/getMedicalBenefit/" + id + "/" + moment(this.state.from_date).format("YYYY-MM-DD") + "/" + moment(this.state.to_date).format("YYYY-MM-DD"))
             .then(response => {
                 if (response.ok) return response.json()
             })
@@ -127,7 +127,7 @@ export default class BenefitMedicalTable extends Component {
     getMyBenefits() {
         let id = this.state.user_id;
 
-        fetch(main_url + "medical_benefit/getMedicalBenefit/" + id )
+        fetch(main_url + "medical_benefit/getMedicalBenefit/" + id + "/" + moment(this.state.from_date).format("YYYY-MM-DD") + "/" + moment(this.state.to_date).format("YYYY-MM-DD"))
             .then(response => {
                 if (response.ok) return response.json()
             })
@@ -349,8 +349,8 @@ export default class BenefitMedicalTable extends Component {
 
     render() {
         return (
-            <div>   <div className=''style={{display:'flex',justifyContent:'end',marginRight:33}}>          
-                       {/* <div className='row'style={{display:'flex',paddingLeft:20}}>  
+            <div>   <div className=''style={{display:'flex',justifyContent:'space-between',marginRight:33}}>          
+                       <div className='row'style={{display:'flex',paddingLeft:20}}>  
                         <div className="col" style={{padding:0,width:150}}>
                                     <div><label className="col"style={{padding:0}}>Start Date</label></div>
                                     <div className="col"style={{padding:0}}>
@@ -375,7 +375,7 @@ export default class BenefitMedicalTable extends Component {
                                     <div className="col-md-10 margin-top-20 padding-0">
                                         <button type="button" className="btn btn-primary" onClick={this.filter.bind(this)}>Search</button>
                                     </div>
-                        </div> </div> */}
+                        </div> </div>
                     <div className='row'>                 
                         <div className="row border-bottom white-bg dashboard-header" >
                     <div className="row">

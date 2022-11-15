@@ -8,7 +8,7 @@ import moment from 'moment'
 import DatePicker from 'react-datetime';
 import { imgData } from '../../../utils/Global';
 import * as jsPDF from 'jspdf';
-import { main_url, getMainRole,getFirstDayOfYear, getInformation, getUserId, setPrintedStatus, print, fno } from "../../../utils/CommonFunction";
+import { main_url, getMainRole,getFirstDayOfPrevMonth, getInformation, getUserId, setPrintedStatus, print, fno } from "../../../utils/CommonFunction";
 const $ = require('jquery');
 const jzip = require('jzip');
 window.JSZip = jzip;
@@ -30,7 +30,7 @@ export default class WeddingBenefitTable extends Component {
             selectedRequest: '',
             is_main_role: getMainRole(),
             to_date: moment() ,
-            from_date:getFirstDayOfYear(),
+            from_date:getFirstDayOfPrevMonth(),
             tab:this.props.tab,
         }
     }
@@ -105,8 +105,8 @@ export default class WeddingBenefitTable extends Component {
     getAllBenefits() {
         let id = this.state.user_id;
 
-        // fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id + "/" + moment(this.state.from_date).format("YYYY-MM-DD") + "/" + moment(this.state.to_date).format("YYYY-MM-DD"))
-        fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id )
+        fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id + "/" + moment(this.state.from_date).format("YYYY-MM-DD") + "/" + moment(this.state.to_date).format("YYYY-MM-DD"))
+        // fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id )
         .then(response => {
                 if (response.ok) return response.json()
             })
@@ -123,8 +123,8 @@ export default class WeddingBenefitTable extends Component {
     }
     getMyBenefits() {
         let id = this.state.user_id;
-
-        fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id)
+        fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id + "/" + moment(this.state.from_date).format("YYYY-MM-DD") + "/" + moment(this.state.to_date).format("YYYY-MM-DD"))
+        // fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id)
             .then(response => {
                 if (response.ok) return response.json()
             })
@@ -345,8 +345,9 @@ export default class WeddingBenefitTable extends Component {
     render() { console.log("tab==>",this.state.requestData)
         return (
             
-            <div>   <div className=''style={{display:'flex',justifyContent:'end',marginRight:33}}>          
-                       {/* <div className='row'style={{display:'flex',paddingLeft:20}}>  
+            <div>   
+                <div className=''style={{display:'flex',justifyContent:'space-between',marginRight:33}}>          
+                       <div className='row'style={{display:'flex',paddingLeft:20}}>  
                         <div className="col" style={{padding:0,width:150}}>
                                     <div><label className="col"style={{padding:0}}>Start Date</label></div>
                                     <div className="col"style={{padding:0}}>
@@ -371,7 +372,7 @@ export default class WeddingBenefitTable extends Component {
                                     <div className="col-md-10 margin-top-20 padding-0">
                                         <button type="button" className="btn btn-primary" onClick={this.filter.bind(this)}>Search</button>
                                     </div>
-                        </div> </div> */}
+                        </div> </div>
                     <div className='row'>                 
                         <div className="row border-bottom white-bg dashboard-header" >
                     <div className="row">
