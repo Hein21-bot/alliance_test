@@ -17,7 +17,8 @@ class FRDReport extends Component {
             OtherStaff_Final_Total:0,
             NewStaff_Final_Total:0,
             TotalStaff_Final_Total:0,
-            QuitStaff_Final_Total:0
+            QuitStaff_Final_Total:0,
+            Field_Staff_Final_Total:0
             
         }
     }
@@ -41,56 +42,14 @@ class FRDReport extends Component {
             })
             .then((list) => {
                 let totalList = list;
-                let Managerial_Final_Total=0;
-                let OtherStaff_Final_Total=0;
-                let TotalStaff_Final_Total=0;
-                let NewStaff_Final_Total=0;
-                let QuitStaff_Final_Total=0;
-                let Field_Staff_Final_Total=0;
+                let Managerial_Final_Total=totalList.reduce((p,c)=>p+c.Managerial_staff,0);
+                let OtherStaff_Final_Total=totalList.reduce((p,c)=>p+c.Other_staff,0);
+                let TotalStaff_Final_Total=totalList.reduce((p,c)=>p+c.Total_staff,0);
+                let NewStaff_Final_Total=totalList.reduce((p,c)=>p+c.New_staff,0);
+                let QuitStaff_Final_Total=totalList.reduce((p,c)=>p+c.Quit_staff,0);
+                let Field_Staff_Final_Total=totalList.reduce((p,c)=>p+c.Field_staff,0);
 
-                totalList.forEach((v1,i1)=>{
-                    let Managerial_total=0;
-                    let OtherStaff_total=0;
-                    let TotalStaff_total=0;
-                    let NewStaff_total=0;
-                    let QuitStaff_total=0;
-                    let FieldStaff_total=0;
-                    let Managerial_subTotal=v1.Managerial_staff;
-                    let OtherStaff_subTotal=v1.Other_staff;
-                    let TotalStaff_subTotal=v1.Total_staff;
-                    let NewStaff_subTotal=v1.New_staff;
-                    let QuitStaff_subTotal=v1.Quit_staff;
-                    let FieldStaff_subTotal=v1.Field_staff;
-                    
-                    
-                    Managerial_total+=Managerial_subTotal;
-                    Managerial_Final_Total+=Managerial_total;
-                    FieldStaff_total+=FieldStaff_subTotal;
-                    console.log("Field Staff total",FieldStaff_total)
-                    Field_Staff_Final_Total+=FieldStaff_total;
-                    console.log("Field Staff Fianl Total",Field_Staff_Final_Total)
-                    OtherStaff_total+=OtherStaff_subTotal;
-                    OtherStaff_Final_Total+=OtherStaff_total;
-                    TotalStaff_total+=TotalStaff_subTotal;
-                    TotalStaff_Final_Total+=TotalStaff_total;
-                    NewStaff_total+=NewStaff_subTotal;
-                    NewStaff_Final_Total+=NewStaff_total;
-                    QuitStaff_total+=QuitStaff_subTotal;
-                    QuitStaff_Final_Total+=QuitStaff_total;
-
-                    
-                })
-                // totalList.forEach((v1, i1) => {
-                //     let total = 0;
-                //     v1.designations.forEach(v2 => {
-                //         let subTotal = v2.gender.filter(v => typeof v == "number").reduce((p, c) => { return p + c }, 0);
-                //         // console.log("sub total ====>", subTotal)
-                //         total += subTotal;
-                //     })
-                //     collectedTotal[i1] = total;
-                // });
-
-
+      
                 this.setState({
                     Managerial_Final_Total:Managerial_Final_Total,
                     OtherStaff_Final_Total:OtherStaff_Final_Total,
@@ -108,7 +67,7 @@ class FRDReport extends Component {
 
 
     render() {
-
+      
         return (
             <div>
                 <div className="row  white-bg dashboard-header">
