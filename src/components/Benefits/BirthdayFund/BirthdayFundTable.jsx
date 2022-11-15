@@ -103,8 +103,8 @@ export default class BirthdayFundTable extends Component {
     // }
     getAllBenefits() {
         let id = this.state.user_id;
-
-        fetch(main_url + "birthday_benefit/getBirthdayBenefit/" + id + "/" + moment(this.state.s_date).format("YYYY-MM-DD") + "/" + moment(this.state.e_date).format("YYYY-MM-DD"))
+        fetch(main_url + "birthday_benefit/getBirthdayBenefit/" + id)
+        // fetch(main_url + "birthday_benefit/getBirthdayBenefit/" + id + "/" + moment(this.state.s_date).format("YYYY-MM-DD") + "/" + moment(this.state.e_date).format("YYYY-MM-DD"))
             .then(response => {
                 if (response.ok) return response.json()
             })
@@ -121,8 +121,8 @@ export default class BirthdayFundTable extends Component {
     }
     getMyBenefits() {
         let id = this.state.user_id;
-
-        fetch(main_url + "birthday_benefit/getBirthdayBenefit/"+ id + "/" + moment(this.state.s_date).format("YYYY-MM-DD") + "/" + moment(this.e_date).format("YYYY-MM-DD"))
+        fetch(main_url + "birthday_benefit/getBirthdayBenefit/" + id)
+        // fetch(main_url + "birthday_benefit/getBirthdayBenefit/"+ id + "/" + moment(this.state.s_date).format("YYYY-MM-DD") + "/" + moment(this.e_date).format("YYYY-MM-DD"))
             .then(response => {
                 if (response.ok) return response.json()
             })
@@ -393,8 +393,8 @@ export default class BirthdayFundTable extends Component {
           </ul>
         </div>         */}
         <div>   
-                <div className=''style={{display:'flex',justifyContent:'space-between',marginRight:33}}>          
-                       <div className='row'style={{display:'flex',paddingLeft:20}}>  
+                <div className=''style={{display:'flex',justifyContent:'end',marginRight:33}}>          
+                       {/* <div className='row'style={{display:'flex',paddingLeft:20}}>  
                         <div className="col" style={{padding:0,width:150}}>
                                     <div><label className="col"style={{padding:0}}>Start Date</label></div>
                                     <div className="col"style={{padding:0}}>
@@ -414,7 +414,7 @@ export default class BirthdayFundTable extends Component {
                                        onChange={this.handleEndDate}
                                        timeFormat={false}/>
                                     </div>
-                        </div>
+                        </div> */}
                         {/* <div className="col"style={{padding:0, marginLeft:10,width:150}}>
                             <div><label className="col-sm-12">Branch</label></div>
                             <div className="col-md-10">
@@ -427,11 +427,11 @@ export default class BirthdayFundTable extends Component {
                                 />
                             </div>
                         </div> */}
-                        <div className="col-md-2" style={{padding:0,marginTop:4}}>
+                        {/* <div className="col-md-2" style={{padding:0,marginTop:4}}>
                                     <div className="col-md-10 margin-top-20 padding-0">
                                         <button type="button" className="btn btn-primary" onClick={this.filter.bind(this)}>Search</button>
                                     </div>
-                        </div> </div>
+                        </div> </div> */}
                     <div className='row'>                 
                         <div className="row border-bottom white-bg dashboard-header" >
                     <div className="row">

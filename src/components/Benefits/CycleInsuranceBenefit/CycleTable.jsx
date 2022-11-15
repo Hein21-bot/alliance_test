@@ -92,8 +92,8 @@ class CycleTable extends Component {
     }
     getAllBenefits() {
         let id = this.state.user_id;
-
-        fetch(main_url + "cycleInsurance/getCycleInsurance/" + id + "/" + moment(this.state.from_date).format("YYYY-MM-DD") + "/" + moment(this.state.to_date).format("YYYY-MM-DD"))
+        fetch(main_url + "cycleInsurance/getCycleInsurance/" + id)
+        // fetch(main_url + "cycleInsurance/getCycleInsurance/" + id + "/" + moment(this.state.from_date).format("YYYY-MM-DD") + "/" + moment(this.state.to_date).format("YYYY-MM-DD"))
             .then(response => {
                 if (response.ok) return response.json()
             })
@@ -110,8 +110,8 @@ class CycleTable extends Component {
     }
     getMyBenefits() {
         let id = this.state.user_id;
-
-        fetch(main_url + "cycleInsurance/getCycleInsurance/"+ id + "/" + moment(this.state.from_date).format("YYYY-MM-DD") + "/" + moment(this.state.to_date).format("YYYY-MM-DD"))
+        fetch(main_url + "cycleInsurance/getCycleInsurance/" + id)
+        // fetch(main_url + "cycleInsurance/getCycleInsurance/"+ id + "/" + moment(this.state.from_date).format("YYYY-MM-DD") + "/" + moment(this.state.to_date).format("YYYY-MM-DD"))
             .then(response => {
                 if (response.ok) return response.json()
             })
@@ -322,8 +322,8 @@ class CycleTable extends Component {
 
     render() {
         return (
-            <div>   <div className=''style={{display:'flex',justifyContent:'space-between',marginRight:33}}>          
-                       <div className='row'style={{display:'flex',paddingLeft:20}}>  
+            <div>   <div className=''style={{display:'flex',justifyContent:'end',marginRight:33}}>          
+                       {/* <div className='row'style={{display:'flex',paddingLeft:20}}>  
                         <div className="col" style={{padding:0,width:150}}>
                                     <div><label className="col"style={{padding:0}}>Start Date</label></div>
                                     <div className="col"style={{padding:0}}>
@@ -348,7 +348,7 @@ class CycleTable extends Component {
                                     <div className="col-md-10 margin-top-20 padding-0">
                                         <button type="button" className="btn btn-primary" onClick={this.filter.bind(this)}>Search</button>
                                     </div>
-                        </div> </div>
+                        </div> </div> */}
                     <div className='row'>                 
                         <div className="row border-bottom white-bg dashboard-header" >
                     <div className="row">
