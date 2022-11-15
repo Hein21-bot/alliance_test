@@ -32,7 +32,9 @@ class ResignBarChart extends Component {
             selected_branch:null,
             selected_region:null,
             selected_department:null,
-            selected_checkbox:2
+            selected_checkbox:2,
+            regisn_total_count:0,
+            exitStaff_total_count:0
         }
     }
 
@@ -75,6 +77,21 @@ class ResignBarChart extends Component {
             })
             .then(res => {
                 if (res) {
+                    // let data=res
+                    // let Final_Total=0;
+                    // data.forEach(v=>{
+                    //     let Total=0
+                    //     let subTotal=v.count;
+                    //     Total +=subTotal
+                    //     Final_Total+=Total
+                        
+                    // })
+                    let Final_Total=res.reduce((p,c)=>p+c.count,0)
+                    this.setState({
+                        regisn_total_count:Final_Total
+                    })
+                    console.log("total count===>",Final_Total)
+                    
                     var label = [];
                     var count = [];
                     
@@ -105,6 +122,10 @@ class ResignBarChart extends Component {
             .then(res => {
                 console.log('resignData ===>', res)
                 if (res) {
+                    let Final_Total=res.reduce((p,c)=>p+c.count,0)
+                    this.setState({
+                        regisn_total_count:Final_Total
+                    })
                     var label = [];
                     var count = [];
                     
@@ -132,7 +153,12 @@ class ResignBarChart extends Component {
                 if (res) {
                     var label = [];
                     var count = [];
+                    let Final_Total=res.reduce((p,c)=>p+c.count,0)
+                        this.setState({
+                            exitStaff_total_count:Final_Total
+                        })
                     if (res.length < 5) {
+                        
                         label.push(null, null)
                         count.push(null, null)
                         res.map((v, i) => {
@@ -375,7 +401,32 @@ class ResignBarChart extends Component {
                     <HighchartsReact
                         highcharts={Highcharts}
                         options={this.state.chartOptions}
-                        containerProps={{ className: "w-100" }} /></div>
+                        containerProps={{ className: "w-100" }} />
+                         <div style={{
+                        display: 'flex',
+                        justifyContent: 'end',
+                        alignItems: 'center',
+                        marginRight: '10px',
+                        marginBottom: '10px'
+
+                        }}>
+                        <div style={{
+                            backgroundColor: '#1872ab',
+                            width: '90px',
+                            height: '50px',
+
+                            borderRadius: '5px'
+                        }}>
+                            <p style={{
+                               
+                            marginBottom: 0, textAlign: 'center',
+                            paddingTop: '15px', color: 'white'
+                            }}>Total-{this.state.regisn_total_count}</p>
+                           
+                        </div>
+                        </div>
+                        </div>
+                                   
                 <div
                     className='text-center margin-y'
                     style={{
@@ -407,7 +458,32 @@ class ResignBarChart extends Component {
                     <HighchartsReact
                         highcharts={Highcharts}
                         options={this.state.exitStaffOptions}
-                        containerProps={{ className: "w-100" }} /></div>
+                        containerProps={{ className: "w-100" }} />
+
+                        <div style={{
+                        display: 'flex',
+                        justifyContent: 'end',
+                        alignItems: 'center',
+                        marginRight: '10px',
+                        marginBottom: '10px'
+
+                        }}>
+                        <div style={{
+                            backgroundColor: '#1872ab',
+                            width: '90px',
+                            height: '50px',
+
+                            borderRadius: '5px'
+                        }}>
+                            <p style={{
+                               
+                            marginBottom: 0, textAlign: 'center',
+                            paddingTop: '15px', color: 'white'
+                            }}>Total-{this.state.exitStaff_total_count}</p>
+                           
+                        </div>
+                        </div>
+                    </div>
 
             </div>
 

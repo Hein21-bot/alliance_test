@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 
 const EmployeeProfile = props => {
-    const { userImage, handleClick, hiddenFileInput, districtCodeList, fullNRC, nrcList, handleProfileSave, nrc_number, handleChange, handleSelectedDistrictCode, handleSelectedNRCId, selected_DistrictCode, selected_NRC_Id, employeeId, region, address, joinDate, nationality, personalPhone, officePhone, dateOfBirth, handleInputChange, onGenderChange, employeeNameEng, employeeNameMyan, gender } = props
+    const { userImage, handleClick, hiddenFileInput, districtCodeList, fullNRC, nrcList, handleProfileSave, nrc_number, handleChange, handleSelectedDistrictCode, handleSelectedNRCId,NrcFilterData, selected_DistrictCode, selected_NRC_Id, employeeId, region, address, joinDate, nationality, personalPhone, officePhone, dateOfBirth, handleInputChange, onGenderChange, employeeNameEng, employeeNameMyan, gender } = props
     const { onCancelClick, viewForm, editForm } = props
 
 
@@ -91,7 +91,7 @@ const EmployeeProfile = props => {
                                     </div>
                                     <div className='col-lg-2 col-md-2 col-sm-2' style={{ width: '62%', paddingLeft: 0, paddingRight: 5 }}>
                                         <Select
-                                            options={districtCodeList}
+                                            options={NrcFilterData}
                                             value={selected_DistrictCode}
                                             onChange={viewForm ? null : handleSelectedDistrictCode}
                                             className="react-select-container checkValidate"

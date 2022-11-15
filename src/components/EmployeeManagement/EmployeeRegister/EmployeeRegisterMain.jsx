@@ -58,6 +58,7 @@ class EmployeeRegisterMain extends Component {
             guarantorNRC: '',
             guarantorNRC_NO: '',
             bankList: [],
+            NrcFilterData:[],
             disConstatusList: [
                 { value: 1, label: 'True' },
                 { value: 2, label: 'False' },
@@ -585,12 +586,17 @@ class EmployeeRegisterMain extends Component {
         else if (!this.state.selected_NRC_Id) return toast.error("Plese choose sd code first")
     };
     handleSelectedNRCId = (event) => {
+        let filterData=this.state.districtCodeList.filter(v=>v.sd_code == event.sd_code)
+        
         if (event !== null) {
             this.setState({
                 selected_NRC_Id: event,
+                NrcFilterData: filterData
+               
             })
-            this.getNRC_DistrictCode(event.label)
+           
         }
+      
 
     };
 
@@ -1095,6 +1101,7 @@ class EmployeeRegisterMain extends Component {
         }
     }
 
+   
 
     handleToMonthYear = async (e) => {
         this.setState({
@@ -1233,7 +1240,7 @@ class EmployeeRegisterMain extends Component {
         const { tabIndex, userImage, userImageUrl, employeeStatusList, fromMonthYear, toMonthYear, nrc_number, period, level_options, location, designation, workExpChecked, organization, sameWithCtPerson, bankList, selected_bank, trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo,
             fatherName, degreeList, disConstatusList, branchlist, selected_qualification, selected_degree, motherName, guarantor, guarantorPhone, attachmentUrl, selected_gran_NRC_Id, granDistrictCodeList, addedDegreeData, addedQualitificationData, workExpData,
             selected_gran_DistrictCode, gran_nrc_number, parentCount, siblingCount, childCount, pInLawCount, martialStatus, officePhone, region, address, joinDate, accountName, accountNumber, employeeStatus, employeeDesignation, jobTitle, carrerLevel, employeeDetailBranch, employedDate, disConStatus, disConDate,
-            employeeId, employeeNameEng, nationality, personalPhone, employeeNameMyan, gender, dateOfBirth, contactPerson, contactPhone, bankData, bankDataEdit, selected_DistrictCode, selected_NRC_Id, districtCodeList, nrcList,
+            employeeId, employeeNameEng, nationality, personalPhone, employeeNameMyan, gender, dateOfBirth, contactPerson, contactPhone, bankData, bankDataEdit, selected_DistrictCode, selected_NRC_Id, districtCodeList, nrcList,NrcFilterData
         } = this.state
 
         return (
@@ -1329,6 +1336,7 @@ class EmployeeRegisterMain extends Component {
                                     onCancelClick={this.clearProfileData}
                                     handleSelectedDistrictCode={this.handleSelectedDistrictCode}
                                     handleSelectedNRCId={this.handleSelectedNRCId}
+                                    NrcFilterData={NrcFilterData}
                                     selected_DistrictCode={selected_DistrictCode}
                                     selected_NRC_Id={selected_NRC_Id}
                                     districtCodeList={districtCodeList}
