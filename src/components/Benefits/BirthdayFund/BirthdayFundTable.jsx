@@ -8,7 +8,7 @@ import moment from 'moment'
 import DatePicker from 'react-datetime';
 import { imgData } from '../../../utils/Global';
 import * as jsPDF from 'jspdf';
-import { main_url, getCookieData, getFirstDayOfYear, getUserId,getMainRole, getInformation, print, fno, getFirstDayOfMonth, getBranch } from "../../../utils/CommonFunction";
+import { main_url, getCookieData, getUserId,getMainRole, getInformation, print, fno, getFirstDayOfPrevMonth, getBranch } from "../../../utils/CommonFunction";
 import Select from 'react-select';
 const $ = require('jquery');
 const jzip = require('jzip');
@@ -23,14 +23,15 @@ export default class BirthdayFundTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataSource: props.data,
+            // dataSource: props.data,
             selectedRequest: '',
             user_id: getUserId("user_info"),
             is_main_role: getMainRole(),
             branch_id: '',
             selected_branch: [],
-            s_date: moment(getFirstDayOfMonth()),
-            e_date: moment()
+            s_date: moment(getFirstDayOfPrevMonth()),
+            e_date: moment(),
+            tab : this.props.tab
         }
     }
     async componentDidMount() {
@@ -69,38 +70,83 @@ export default class BirthdayFundTable extends Component {
             that.getPrintData(data)
         });
     }
-    getBirthdayBenefitFilter(s_date, e_date, user_id, branch_id) {
-        const user = getCookieData("user_info");
-        fetch(main_url + "birthday_benefit/getBirthdayBenefitFilter/" + s_date + "/" + e_date + "/" + user.user_id + "/" + branch_id)
+    
+    componentDidUpdate(prevProps) {
+        if (prevProps.tab != this.props.tab) {
+            this.setState({
+                tab: this.props.tab
+            }, () => this.filter())
+
+        }
+    }
+    // getBirthdayBenefitFilter(s_date, e_date, user_id, branch_id) {
+    //     const user = getCookieData("user_info");
+    //     fetch(main_url + "birthday_benefit/getBirthdayBenefitFilter/" + s_date + "/" + e_date + "/" + user.user_id + "/" + branch_id)
             
+    //         .then(response => {
+    //             if (response.ok) return response.json()
+    //         })
+    //         .then(res => {
+    //             if (this.props.requestType == 'myrequest') {
+    //                 let data = res.filter(v => v.createdBy == user.user_id)
+    //                 console.log("data===>",data)
+    //                 this._setTableData(data);
+    //               } else {
+    //                 let data = res.filter(v => v.createdBy != user.user_id)
+    //                 this._setTableData(data);
+    //               }
+    //             // if (res) {
+    //             //     this.setState({ data: res }, () => this._setTableData(res))
+    //             // }
+    //         })
+    //         .catch(error => console.error(`Fetch Error =\n`, error));
+    // }
+    getAllBenefits() {
+        let id = this.state.user_id;
+
+        fetch(main_url + "birthday_benefit/getBirthdayBenefit/" + id + "/" + moment(this.state.s_date).format("YYYY-MM-DD") + "/" + moment(this.state.e_date).format("YYYY-MM-DD"))
             .then(response => {
                 if (response.ok) return response.json()
             })
             .then(res => {
-                if (this.props.requestType == 'myrequest') {
-                    let data = res.filter(v => v.createdBy == user.user_id)
-                    console.log("data===>",data)
-                    this._setTableData(data);
-                  } else {
-                    let data = res.filter(v => v.createdBy != user.user_id)
-                    this._setTableData(data);
-                  }
-                // if (res) {
-                //     this.setState({ data: res }, () => this._setTableData(res))
-                // }
+                if (res) {
+                    this.setState({ 
+                        data: res,
+                        requestData:res.filter(v=>v.createdBy != this.state.user_id),
+                    }, () => this._setTableData(this.state.requestData))
+                }
             })
             .catch(error => console.error(`Fetch Error =\n`, error));
-    }
-    componentDidUpdate(prevProps) {
-        if (prevProps.data !== this.props.data) {
-            this.setState({
-                dataSource: this.props.data
-            }, () => {
-                this._setTableData(this.state.dataSource);
 
-            })
-        }
     }
+    getMyBenefits() {
+        let id = this.state.user_id;
+
+        fetch(main_url + "birthday_benefit/getBirthdayBenefit/"+ id + "/" + moment(this.state.s_date).format("YYYY-MM-DD") + "/" + moment(this.e_date).format("YYYY-MM-DD"))
+            .then(response => {
+                if (response.ok) return response.json()
+            })
+            .then(res => {
+                if (res) {
+                    this.setState({ 
+                        requestData: res,
+                        requestData:res.filter(v=>v.createdBy == this.state.user_id)
+                    }, () => this._setTableData(this.state.requestData))
+                }
+            })
+            .catch(error => console.error(`Fetch Error =\n`, error));
+
+    }
+    // componentDidUpdate(prevProps) {
+    //     if (prevProps.data !== this.props.data) {
+    //         this.setState({
+    //             dataSource: this.props.data
+    //         }, () => {
+    //             this._setTableData(this.state.dataSource);
+
+    //         })
+    //     }
+    // }
 
     getRequest() {
         this.search(0);
@@ -123,11 +169,12 @@ export default class BirthdayFundTable extends Component {
         data = data.filter(d => { return status === d.status });
         this._setTableData(data)
     }
-    filter() {
-        let s_date = moment(this.state.s_date).format('YYYY-MM-DD');
-        let e_date = moment(this.state.e_date).format('YYYY-MM-DD');
-        let branch_id = Array.isArray(this.state.selected_branch) ? 0 : this.state.selected_branch.value;
-        this.getBirthdayBenefitFilter(s_date, e_date, this.state.id, branch_id);
+    filter() {   console.log(this.state.tab)
+        if (this.props.tab == 0) {
+            this.getAllBenefits();
+        } else if (this.props.tab == 1) {
+            this.getMyBenefits();
+        }
     }
 
     handleBranch = (event) => {
@@ -335,7 +382,7 @@ export default class BirthdayFundTable extends Component {
         return (
 
             <div>
-                 <div>
+                 {/* <div>
           <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
             <li className="nav-item">
               <a className="nav-link" href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.props.requestlist('myrequest')}>My Request</a>
@@ -344,33 +391,31 @@ export default class BirthdayFundTable extends Component {
               <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.props.requestlist('allrequest')}>All Request</a>
             </li>
           </ul>
-        </div>
-                
-                {/* <div className="row border-bottom white-bg dashboard-header">
-                    <div className="row">
-                        <div className="col-md-3">
-                            <div><label className="col-sm-12">Start Date</label></div>
-                            <div className="col-md-10">
-                                <DatePicker
-                                    dateFormat="DD/MM/YYYY"
-                                    value={this.state.s_date}
-                                    onChange={this.handleStartDate}
-                                    timeFormat={false}
-                                />
-                            </div>
+        </div>         */}
+        <div>   
+                <div className=''style={{display:'flex',justifyContent:'space-between',marginRight:33}}>          
+                       <div className='row'style={{display:'flex',paddingLeft:20}}>  
+                        <div className="col" style={{padding:0,width:150}}>
+                                    <div><label className="col"style={{padding:0}}>Start Date</label></div>
+                                    <div className="col"style={{padding:0}}>
+                                    <DatePicker
+                                       dateFormat="DD/MM/YYYY"
+                                       value={this.state.s_date}
+                                       onChange={this.handleStartDate}
+                                       timeFormat={false}/>
+                                    </div>
                         </div>
-                        <div className="col-md-3">
-                            <div><label className="col-sm-12">End Date</label></div>
-                            <div className="col-md-10">
-                                <DatePicker
-                                    dateFormat="DD/MM/YYYY"
-                                    value={this.state.e_date}
-                                    onChange={this.handleEndDate}
-                                    timeFormat={false}
-                                />
-                            </div>
+                        <div className="col"style={{padding:0, marginLeft:10,width:150}}>
+                                    <div><label className="col"style={{padding:0}}>End Date</label></div>
+                                    <div className="col"style={{padding:0}}>
+                                    <DatePicker
+                                       dateFormat="DD/MM/YYYY"
+                                       value={this.state.e_date}
+                                       onChange={this.handleEndDate}
+                                       timeFormat={false}/>
+                                    </div>
                         </div>
-                        <div className="col-md-3">
+                        {/* <div className="col"style={{padding:0, marginLeft:10,width:150}}>
                             <div><label className="col-sm-12">Branch</label></div>
                             <div className="col-md-10">
                                 <Select
@@ -381,15 +426,14 @@ export default class BirthdayFundTable extends Component {
                                     classNamePrefix="react-select"
                                 />
                             </div>
-                        </div>
-                        <div className="col-md-3">
-                            <div className="col-md-10 margin-top-20">
-                                <button type="button" className="btn btn-primary" onClick={this.filter.bind(this)}>Search</button>
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
-                <div className="row border-bottom white-bg dashboard-header">
+                        </div> */}
+                        <div className="col-md-2" style={{padding:0,marginTop:4}}>
+                                    <div className="col-md-10 margin-top-20 padding-0">
+                                        <button type="button" className="btn btn-primary" onClick={this.filter.bind(this)}>Search</button>
+                                    </div>
+                        </div> </div>
+                    <div className='row'>                 
+                        <div className="row border-bottom white-bg dashboard-header" >
                     <div className="row">
                         <div class="btn-group-g ">
                             <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
@@ -398,17 +442,15 @@ export default class BirthdayFundTable extends Component {
                             <button type="button" class="btn label-approve g" onClick={this.getApprove.bind(this)}>Approve</button>
                             <button type="button" class="btn label-reject g" onClick={this.getReject.bind(this)}>Reject</button>
                         </div>
-                        <hr />
-                        <div className="row">
-                            <div className="col-md-12">
-                                <table width="99%"
-                                    className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
-                                    id="dataTables-table"
-                                />
-                            </div>
-                        </div>
                     </div>
-                </div >
+                        </div>
+                    </div>    
+                        </div>
+                        <table width="99%"
+                    className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
+                    id="dataTables-table"
+                        />
+            </div>
             </div>
         )
     }

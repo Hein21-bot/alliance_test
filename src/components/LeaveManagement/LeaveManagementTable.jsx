@@ -167,7 +167,11 @@ export default class LeaveManagementTable extends Component {
             year: event
         })
     }
-
+    // addMonths(numOfMonths, date = new Date(end)) {
+    //     date.setMonth(date.getMonth() + numOfMonths);
+      
+    //     return date;
+    //   }
 
     _setTableData = (data) => {
         var table;

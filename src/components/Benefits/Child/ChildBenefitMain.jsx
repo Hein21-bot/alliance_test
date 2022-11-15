@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import BenefitPageHeader from '../BenefitPageHeader';
 import { toast, ToastContainer } from 'react-toastify';
+import moment from 'moment'
 import BenefitChildTable from './BenefitChildTable';
 import BenefitChildAddNew from './BenefitChildAddNew';
 import BenefitChildView from './BenefitChildView';
@@ -37,7 +38,7 @@ class ChildBenefitMain extends Component {
     _getChildBenefit() {
         let id = this.state.user_id;
 
-        fetch(main_url + "child_benefit/getChildBenefit/" + id)
+        fetch(main_url + "child_benefit/getChildBenefit/" + id + "/" + moment(this.state.from_date).format("YYYY-MM-DD") + "/" + moment(this.state.to_date).format("YYYY-MM-DD"))
             .then(response => {
                 if (response.ok) return response.json()
             })
