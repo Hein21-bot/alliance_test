@@ -7,9 +7,9 @@ import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, get
 
 
 const EmploymentDetails = props => {
-    const { designationList, branchlist, employeeStatusList, handleSelectedEmpStatus, disConstatusList, viewForm, editForm, level_options, handleLevelSelectorChange, handleEmploymentDetailInputChange, handleSelectedDisConStus, handleEmploymentDetail, onCancelClick, handleSelectedDesignation, employeeStatus, employeeDesignation, jobTitle, carrerLevel, employeeDetailBranch, employedDate, disConStatus, disConDate, handleSelectedBranch, createNewEmployee } = props
-    
-    return (
+    const { designationList, branchlist, employeeStatusList, handleSelectedEmpStatus, disConstatusList, viewForm, editForm, level_options, handleLevelSelectorChange, handleEmploymentDetailInputChange, handleSelectedDisConStus, handleEmploymentDetail, onCancelClick, handleSelectedDesignation, employeeStatus, employeeDesignation, jobTitle, carrerLevel, employeeDetailBranch, employedDate, disConStatus, careerSubLevel, disConDate, handleSelectedBranch, createNewEmployee } = props
+    console.log(">>>>",careerSubLevel,carrerLevel)
+    return ( 
         <form onSubmit={handleEmploymentDetail} >
             <div className='white-bg ' style={{
                 paddingTop: 20, border: '1px solid lightgrey', display: 'grid', borderTop: 'none', marginTop: -10, paddingLeft: window.innerWidth < 1000 ? 0 : 50, paddingBottom: 20,
@@ -71,6 +71,23 @@ const EmploymentDetails = props => {
                             options={level_options}
                             isDisabled={true}
                             value={carrerLevel}
+                            onChange={handleLevelSelectorChange}
+                            className="react-select-container checkValidate"
+                            classNamePrefix="react-select"
+                        />
+                    </div>
+
+                </div>
+                <div className='col-lg-7 col-md-12 col-sm-12' style={{ display: 'flex', justifyContent: 'space-between', paddingTop: 15, alignItems: 'center' }}>
+                    <div>
+                        Carrer Sub Level
+                    </div>
+                    <div className='col-lg-6 col-md-6 col-sm-6' style={{}}>
+                        <Select
+                            options={level_options}
+                            isDisabled={true}
+                            placeholder={careerSubLevel}
+                            // value={careerSubLevel}
                             onChange={handleLevelSelectorChange}
                             className="react-select-container checkValidate"
                             classNamePrefix="react-select"

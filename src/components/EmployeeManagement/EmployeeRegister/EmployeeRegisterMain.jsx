@@ -82,6 +82,7 @@ class EmployeeRegisterMain extends Component {
             employeeDesignation: '',
             jobTitle: '',
             carrerLevel: '',
+            careerSubLevel: '',
             employeeDetailBranch: '',
             employedDate: '',
             disConStatus: '',
@@ -164,7 +165,7 @@ class EmployeeRegisterMain extends Component {
             .then(list => {
                 this.setState({
                     level_options: list.map(v => ({ ...v, label: v.career_level, value: v.career_level_id }))
-                })
+                },()=>{console.log(">>>>>>>>>",this.state.level_options)})
             })
     }
 
@@ -172,7 +173,7 @@ class EmployeeRegisterMain extends Component {
         console.log('create work !!!!!!!!!!!!!!');
         const { selected_NRC_Id, userImage, userImageUrl, employeeId, employeeNameEng, employeeNameMyan, dateOfBirth, gender, nationality, personalPhone, region, officePhone, selected_DistrictCode, nrc_number, selected_gran_NRC_Id, disConDate, disConStatus,
             addedDegreeData, addedQualitificationData, workExpData, contactPerson, contactPhone, checked, guarantor, guarantorPhone, bankData, address, joinDate, martialStatus, fatherName, motherName, parentCount, siblingCount, childCount, pInLawCount,
-            trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo, attachmentUrl, employeeStatus, employeeDesignation, jobTitle, carrerLevel, employeeDetailBranch, employedDate, selected_gran_DistrictCode, gran_nrc_number, fromMonthYear, toMonthYear } = this.state
+            trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo, attachmentUrl, employeeStatus, employeeDesignation, jobTitle,  careerSubLevel, carrerLevel, employeeDetailBranch, employedDate, selected_gran_DistrictCode, gran_nrc_number, fromMonthYear, toMonthYear } = this.state
         let fullNRCNO = `${selected_NRC_Id ? selected_NRC_Id.label : ''}/${selected_DistrictCode ? selected_DistrictCode.label : ''}(N)${nrc_number}`
         let guarantorNRC = `${selected_gran_NRC_Id ? selected_gran_NRC_Id.label : ''} /${selected_gran_DistrictCode ? selected_gran_DistrictCode.label : ''}(N) ${gran_nrc_number}`
         var data = {
@@ -212,6 +213,7 @@ class EmployeeRegisterMain extends Component {
             employeeDesignation: employeeDesignation ? employeeDesignation.value : '',
             jobTitle: jobTitle,
             carrerLevel: carrerLevel ? carrerLevel.value : '',
+            careerSubLevel: careerSubLevel ? careerSubLevel.value : '',
             employeeDetailBranch: employeeDetailBranch ? employeeDetailBranch.value : '',
             employedDate: employedDate,
             disConStatus: disConStatus ? disConStatus.value : 'False',
@@ -1239,7 +1241,7 @@ class EmployeeRegisterMain extends Component {
     render()  { 
         const { tabIndex, userImage, userImageUrl, employeeStatusList, fromMonthYear, toMonthYear, nrc_number, period, level_options, location, designation, workExpChecked, organization, sameWithCtPerson, bankList, selected_bank, trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo,
             fatherName, degreeList, disConstatusList, branchlist, selected_qualification, selected_degree, motherName, guarantor, guarantorPhone, attachmentUrl, selected_gran_NRC_Id, granDistrictCodeList, addedDegreeData, addedQualitificationData, workExpData,
-            selected_gran_DistrictCode, gran_nrc_number, parentCount, siblingCount, childCount, pInLawCount, martialStatus, officePhone, region, address, joinDate, accountName, accountNumber, employeeStatus, employeeDesignation, jobTitle, carrerLevel, employeeDetailBranch, employedDate, disConStatus, disConDate,
+            selected_gran_DistrictCode, gran_nrc_number, parentCount, siblingCount, childCount, pInLawCount, martialStatus, officePhone, region, address, joinDate, accountName, accountNumber, employeeStatus, employeeDesignation, jobTitle, careerSubLevel, carrerLevel, employeeDetailBranch, employedDate, disConStatus, disConDate,
             employeeId, employeeNameEng, nationality, personalPhone, employeeNameMyan, gender, dateOfBirth, contactPerson, contactPhone, bankData, bankDataEdit, selected_DistrictCode, selected_NRC_Id, districtCodeList, nrcList,NrcFilterData
         } = this.state
 
@@ -1416,7 +1418,7 @@ class EmployeeRegisterMain extends Component {
                                                             onCancelClick={this.clearProfileData}
                                                         /> : tabIndex === 8 ?
                                                             <EmploymentDetails
-                                                                employeeStatus={employeeStatus} employeeDesignation={employeeDesignation} jobTitle={jobTitle} carrerLevel={carrerLevel} employeeDetailBranch={employeeDetailBranch}
+                                                                employeeStatus={employeeStatus} employeeDesignation={employeeDesignation} jobTitle={jobTitle} carrerLevel={carrerLevel} employeeDetailBranch={employeeDetailBranch}careerSubLevel={careerSubLevel}
                                                                 employedDate={employedDate} disConStatus={disConStatus} disConDate={disConDate} branchlist={branchlist} employeeStatusList={employeeStatusList}
                                                                 handleEmploymentDetailInputChange={this.handleEmploymentDetailInputChange} disConstatusList={disConstatusList} handleSelectedEmpStatus={this.handleSelectedEmpStatus}
                                                                 handleEmploymentDetail={this.handleEmploymentDetail} level_options={level_options} handleSelectedBranch={this.handleSelectedBranch}

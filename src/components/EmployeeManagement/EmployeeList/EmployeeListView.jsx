@@ -25,6 +25,7 @@ class EmployeeListView extends Component {
             dateOfBirth: '',
             nationality: '',
             personalPhone: '',
+            careerSubLevel:"",
             officePhone: '',
             region: '',
             address: '',
@@ -67,6 +68,7 @@ class EmployeeListView extends Component {
             trainingCode: '',
             partTimeCode: '',
             customerCode: '',
+            careerSubLevel : "",
             ThaPaYaAccount: '',
             SSCCardNo: '',
             attachmentUrl: '',
@@ -135,7 +137,7 @@ class EmployeeListView extends Component {
                 let fullnrc = res[0].nrc;
                 let fullnrcNumber = fullnrc.split(' ');
                 if (res) {
-                    console.log('res contact phone is ====>', res[0].contact_person_phone)
+                    console.log('res contact phone is ====>', res[0].career_sub_level)
                     this.setState({
                         userImage: res[0].avatar,
                         userImageUrl: res[0].avatar,
@@ -174,6 +176,7 @@ class EmployeeListView extends Component {
                         employeeStatus: this.state.employeeStatusList.find(c => c.value == res[0].employee_status),
                         employeeDesignation: this.props.designationList.find(c => c.value == res[0].designations_id),
                         jobTitle: res[0].job_title,
+                        careerSubLevel : res[0].career_sub_level ? res[0].career_sub_level : "",
                         carrerLevel: level_options && level_options.find(c => c.value == res[0].career_level_id) ? level_options.find(c => c.value == res[0].career_level_id) : null,
                         employeeDetailBranch: branchlist && branchlist.find(c => c.value == res[0].branch_name) ? branchlist.find(c => c.value == res[0].branch_name) : null,
                         employedDate: res[0].employ_date,
@@ -201,7 +204,7 @@ class EmployeeListView extends Component {
     render() {
         const { tabIndex, userImage, userImageUrl, addedDegreeData, addedQualitificationData, workExpData, nrc_number, period, designation, workExpChecked, organization, sameWithCtPerson, bankList, selected_bank, trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo,
             fatherName, degreeList, qualificationList, selected_qualification, selected_degree, motherName, guarantor, guarantorPhone, attachmentUrl, selected_gran_NRC_Id,
-            selected_gran_DistrictCode, gran_nrc_number, parentCount, siblingCount, childCount, pInLawCount, martialStatus, officePhone, region, address, joinDate, accountName, accountNumber, employeeStatus, employeeDesignation, jobTitle, carrerLevel, employeeDetailBranch, employedDate, disConStatus, disConDate,
+            selected_gran_DistrictCode, gran_nrc_number, parentCount, siblingCount, childCount, pInLawCount, martialStatus, officePhone, region, address, joinDate, accountName, accountNumber, employeeStatus, employeeDesignation, jobTitle, carrerLevel,careerSubLevel, employeeDetailBranch, employedDate, disConStatus, disConDate,
             employeeId, employeeNameEng, nationality, personalPhone, guaFullNRC, fullNRC, employeeNameMyan, gender, dateOfBirth, contactPerson, contactPhone, bankData, bankDataEdit, selected_DistrictCode, selected_NRC_Id,
         } = this.state
         const { selectedEmployeeData, nrcList, districtCodeList, viewForm, BackToTable, editForm, granDistrictCodeList } = this.props
@@ -379,11 +382,11 @@ class EmployeeListView extends Component {
                                                     attachmentUrl={attachmentUrl}
                                                     handlePreviousClick={this.handlePreviousClick}
                                                 /> : tabIndex === 8 ?
-                                                    <EmploymentDetails
+                                                    <EmploymentDetails 
                                                         viewForm={viewForm}
                                                         editForm={editForm}
                                                         onCancelClick={BackToTable}
-                                                        employeeStatus={employeeStatus} employeeDesignation={employeeDesignation} jobTitle={jobTitle} carrerLevel={carrerLevel} employeeDetailBranch={employeeDetailBranch}
+                                                        employeeStatus={employeeStatus} employeeDesignation={employeeDesignation} jobTitle={jobTitle} carrerLevel={carrerLevel} careerSubLevel={careerSubLevel} employeeDetailBranch={employeeDetailBranch}
                                                         employedDate={employedDate} disConStatus={disConStatus} disConDate={disConDate}
                                                         handleEmploymentDetailInputChange={() => null}
                                                         handleEmploymentDetail={this.handleNext}

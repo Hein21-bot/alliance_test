@@ -26,6 +26,7 @@ class EditEmployeeListForm extends Component {
             dateOfBirth: '',
             nationality: '',
             personalPhone: '',
+            careerSubLevel : "",
             officePhone: '',
             region: '',
             address: '',
@@ -152,6 +153,7 @@ class EditEmployeeListForm extends Component {
                         pInLawCount: res[0].parent_in_law_count,
                         addedDegreeData: res[0].degree,
                         addedQualitificationData: res[0].qualification,
+                        careerSubLevel : res[0].career_sub_level,
                         contactPerson: res[0].contact_person,
                         contactPhone: res[0].contact_person_phone,
                         sameWithCtPerson: res[0].same_with_contact_person,
@@ -190,7 +192,7 @@ class EditEmployeeListForm extends Component {
     updateEmployee = () => {
         const { selected_NRC_Id, userImage, userImageUrl, employeeId, employeeNameEng, employeeNameMyan, dateOfBirth, gender, nationality, personalPhone, region, officePhone, selected_DistrictCode, nrc_number, selected_gran_NRC_Id, disConDate, disConStatus,
             addedDegreeData, addedQualitificationData, workExpData, contactPerson, contactPhone, checked, guarantor, guarantorPhone, bankData, address, joinDate, martialStatus, fatherName, motherName, parentCount, siblingCount, childCount, pInLawCount,
-            trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo, attachmentUrl, employeeStatus, employeeDesignation, jobTitle, carrerLevel, employeeDetailBranch, employedDate, selected_gran_DistrictCode, gran_nrc_number } = this.state
+            trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo, attachmentUrl, employeeStatus, employeeDesignation, jobTitle, carrerLevel,careerSubLevel, employeeDetailBranch, employedDate, selected_gran_DistrictCode, gran_nrc_number } = this.state
         let fullNRCNO = `${selected_NRC_Id ? selected_NRC_Id.label : ''}/ ${selected_DistrictCode ? selected_DistrictCode.label : ''}(N) ${nrc_number}`
         let guarantorNRC = `${selected_gran_NRC_Id ? selected_gran_NRC_Id.label : ''}/ ${selected_gran_DistrictCode ? selected_gran_DistrictCode.label : ''}(N)${gran_nrc_number}`
         var data = {
@@ -229,6 +231,7 @@ class EditEmployeeListForm extends Component {
             employeeStatus: employeeStatus ? employeeStatus.value : null,
             employeeDesignation: employeeDesignation ? employeeDesignation.value : null,
             jobTitle: jobTitle,
+            careerSubLevel:careerSubLevel ? careerSubLevel :null,
             carrerLevel: carrerLevel ? carrerLevel.value : null,
             employeeDetailBranch: employeeDetailBranch ? employeeDetailBranch.value : null,
             employedDate: employedDate,
@@ -1045,10 +1048,10 @@ class EditEmployeeListForm extends Component {
     }
 
 
-    render(){
+    render(){ console.log(this.state.careerSubLevel)
         const { tabIndex, userImage, userImageUrl, nrc_number, period, fullNRC, designation, workExpChecked, organization, sameWithCtPerson, selected_bank, trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo,
             fatherName, qualificationList, selected_qualification, selected_degree, motherName, guarantor, guarantorPhone, attachmentUrl, selected_gran_NRC_Id, employeeStatusList, disConstatusList,
-            selected_gran_DistrictCode, guaFullNRC, gran_nrc_number, parentCount, siblingCount, childCount, pInLawCount, martialStatus, officePhone, region, address, joinDate, accountName, accountNumber, employeeStatus, employeeDesignation, jobTitle, carrerLevel, employeeDetailBranch, employedDate, disConStatus, disConDate,
+            selected_gran_DistrictCode, guaFullNRC, gran_nrc_number, parentCount, siblingCount, childCount, pInLawCount, martialStatus, officePhone, region, address, joinDate, accountName, accountNumber, employeeStatus, employeeDesignation, jobTitle, carrerLevel,careerSubLevel, employeeDetailBranch, employedDate, disConStatus, disConDate,
             employeeId, employeeNameEng, nationality, personalPhone, employeeNameMyan, gender, addedDegreeData, addedQualitificationData, workExpData, fromMonthYear, toMonthYear, location, dateOfBirth, contactPerson, contactPhone, bankData, bankDataEdit, selected_DistrictCode, selected_NRC_Id,
         } = this.state
         const { selectedEmployeeData, level_options, editForm, BackToTable, viewForm, bankList, degreeList, nrcList, districtCodeList, designationList, branchlist, granDistrictCodeList } = this.props
@@ -1223,7 +1226,7 @@ class EditEmployeeListForm extends Component {
                                                     <EmploymentDetails
                                                         editForm={editForm}
                                                         viewForm={viewForm}
-                                                        employeeStatus={employeeStatus} employeeDesignation={employeeDesignation} jobTitle={jobTitle} carrerLevel={carrerLevel} employeeDetailBranch={employeeDetailBranch}
+                                                        employeeStatus={employeeStatus} employeeDesignation={employeeDesignation} jobTitle={jobTitle} carrerLevel={carrerLevel} employeeDetailBranch={employeeDetailBranch} careerSubLevel={careerSubLevel}
                                                         employedDate={employedDate} disConStatus={disConStatus} disConDate={disConDate}
                                                         handleEmploymentDetailInputChange={this.handleEmploymentDetailInputChange}
                                                         handleEmploymentDetail={this.handleEmploymentDetail}
