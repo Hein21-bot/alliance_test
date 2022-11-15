@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { main_url, getUserId, getCookieData, setCookieData, getMainRole, getInformation, print, fno } from '../../../utils/CommonFunction';
+import { main_url, getUserId, getCookieData,getFirstDayOfPrevMonth, setCookieData, getMainRole, getInformation, print, fno } from '../../../utils/CommonFunction';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css';
 import 'datatables.net-dt/css/jquery.dataTables.css'
@@ -8,6 +8,7 @@ import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 import 'jspdf-autotable';
 import moment from 'moment'
 import { imgData } from '../../../utils/Global';
+import DatePicker from 'react-datetime';
 import * as jsPDF from 'jspdf';
 import './Pyidaungsu-2.5_Regular-normal';
 const $ = require('jquery');
@@ -23,18 +24,29 @@ export default class SalaryAdvanceList extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
+        this.state = { 
+            requestData : [],
             user: getCookieData("user_info"),
-            salary_advance_list: this.props.data,
+            // salary_advance_list: this.props.data,
             user_id: getUserId("user_info"),
-            pending_approve:""
-
+            pending_approve:"",
+            tab : this.props.tab,
+            from_date:getFirstDayOfPrevMonth(),
+            to_date : moment(),
         }
     }
 
     componentDidMount() {
+        this.getAllBenefits();
+        this.$el = $(this.el);
+        this.setState({
+            requestData: this.state.requestData
+        }, () => {
+            this._setTableData(this.state.requestData)
+        });
+
         var that = this;
-        this.showTable(this.state.salary_advance_list);
+        this._setTableData(this.state.salary_advance_list);
         $('#dataTables').on('click', '#toView', function () {
             var data = $(this).find('#view').text();
             data = $.parseJSON(data);
@@ -53,17 +65,24 @@ export default class SalaryAdvanceList extends Component {
             that.getPrintData(data)
         });
     }
-
     componentDidUpdate(prevProps) {
-        if (prevProps.data !== this.props.data) {
+        if (prevProps.tab != this.props.tab) {
             this.setState({
-                salary_advance_list: this.props.data
-            }, () => {
-                this.showTable(this.state.salary_advance_list);
+                tab: this.props.tab
+            }, () => this.filter())
 
-            })
         }
     }
+    // componentDidUpdate(prevProps) {
+    //     if (prevProps.data !== this.props.data) {
+    //         this.setState({
+    //             salary_advance_list: this.props.data
+    //         }, () => {
+    //             this.showTable(this.state.salary_advance_list);
+
+    //         })
+    //     }
+    // }
 
     getRequest() {
         this.request(0);
@@ -83,13 +102,64 @@ export default class SalaryAdvanceList extends Component {
     getReject() {
         this.request(4);
     }
+    getAllBenefits() {
+        let id = this.state.user_id;
+        fetch(`${main_url}salary_advance/getSalaryAdvanceList/user_id=${id}/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}`)
+        // fetch(main_url + "salary_advance/getSalaryAdvanceList/" + id + "/" + moment(this.state.from_date).format("YYYY-MM-DD") + "/" + moment(this.state.to_date).format("YYYY-MM-DD"))
+            .then(response => {
+                if (response.ok) return response.json()
+            })
+            .then(res => {
+                if (res) {
+                    this.setState({ 
+                        datasource: res,
+                        requestData:res.filter(v=>v.createdBy != this.state.user_id)
+                    }, () => this._setTableData(this.state.requestData))
+                }
+            })
+            .catch(error => console.error(`Fetch Error =\n`, error));
 
+    }
+    getMyBenefits() {
+        let id = this.state.user_id;
+        fetch(`${main_url}salary_advance/getSalaryAdvanceList/user_id=${id}/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}`)
+
+            .then(response => {
+                if (response.ok) return response.json()
+            })
+            .then(res => {
+                if (res) {
+                    this.setState({ 
+                        datasource: res,
+                        requestData:res.filter(v=>v.createdBy == this.state.user_id)
+                    }, () => this._setTableData(this.state.requestData))
+                }
+            })
+            .catch(error => console.error(`Fetch Error =\n`, error));
+
+    }
+    handleStartDate = async (event) => {
+        this.setState({
+          from_date:event
+        },()=>{console.log(this.state.s_date)})
+      }
+      handleEndDate = async (event) => {
+        this.setState({
+          to_date:event
+        },()=>{console.log(this.state.e_date)})
+      }
     request(status) {
         let data = this.state.salary_advance_list;
         data = data.filter(d => { return status === d.status });
-        this.showTable(data)
+        this._setTableData(data)
     }
-    
+    filter() { console.log("asjhdahsdh",this.state.tab)
+        if (this.state.tab == 0) {
+            this.getAllBenefits();
+        } else if (this.state.tab == 1) {
+            this.getMyBenefits();
+        }
+    }
     getDuration(duration, month) {
         var text = '';
         var date = new Date(month);
@@ -172,7 +242,7 @@ export default class SalaryAdvanceList extends Component {
 
     }
 
-    showTable(data) {
+    _setTableData(data) {
         var table;
         var list = [];
         var obj, one = [];
@@ -294,25 +364,47 @@ export default class SalaryAdvanceList extends Component {
     render() {
         return (
             <div>
-                <div className="row border-bottom white-bg dashboard-header">
-                    <div className="row">
-                          <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
-                    <li className="nav-item">
-                    <a className="nav-link " href="#approve_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.props.approvedlist('myrequest')}>My Request</a>
-                    </li>
-                    <li className="nav-item1 active">
-                    <a className="nav-link active" href="#approve_list" role="tab" data-toggle="tab" onClick={() => this.props.approvedlist('allrequest')}>All Request</a>
-                    </li>
-                    </ul>
-                        <div class="btn-group-g ">
-                            <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
-                            <button type="button" class=" btn label-check g" onClick={this.getCheck.bind(this)}>Check</button>
-                            <button type="button" class="btn label-verified g" onClick={this.getVerified.bind(this)}>Verify</button>
-                            <button type="button" class="btn label-approve g" onClick={this.getApprove.bind(this)}>Approve</button>
-                            <button type="button" class="btn label-reject g" onClick={this.getReject.bind(this)}>Reject</button>
-                        </div>
-                    </div>
-                </div>
+                 <div className=''style={{display:'flex',justifyContent:'space-between',marginRight:33}}>          
+            <div className='row'style={{display:'flex',paddingLeft:20}}>  
+             <div className="col" style={{padding:0,width:150}}>
+                         <div><label className="col"style={{padding:0}}>Start Date</label></div>
+                         <div className="col"style={{padding:0}}>
+                         <DatePicker
+                            dateFormat="DD/MM/YYYY"
+                            value={this.state.from_date}
+                            onChange={this.handleStartDate}
+                            timeFormat={false}/>
+                         </div>
+             </div>
+             <div className="col"style={{padding:0, marginLeft:10,width:150}}>
+                         <div><label className="col"style={{padding:0}}>End Date</label></div>
+                         <div className="col"style={{padding:0}}>
+                         <DatePicker
+                            dateFormat="DD/MM/YYYY"
+                            value={this.state.to_date}
+                            onChange={this.handleEndDate}
+                            timeFormat={false}/>
+                         </div>
+             </div>
+             <div className="col-md-2" style={{padding:0,marginTop:4}}>
+                         <div className="col-md-10 margin-top-20 padding-0">
+                             <button type="button" className="btn btn-primary" onClick={this.filter.bind(this)}>Search</button>
+                         </div>
+             </div> </div>
+         <div className='row'>                 
+             <div className="row border-bottom white-bg dashboard-header">
+         <div className="row">
+             <div class="btn-group-g ">
+                 <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
+                 <button type="button" class=" btn label-check g" onClick={this.getCheck.bind(this)}>Check</button>
+                 <button type="button" class="btn label-verified g" onClick={this.getVerified.bind(this)}>Verify</button>
+                 <button type="button" class="btn label-approve g" onClick={this.getApprove.bind(this)}>Approve</button>
+                 <button type="button" class="btn label-reject g" onClick={this.getReject.bind(this)}>Reject</button>
+             </div>
+         </div>
+             </div>
+         </div>    
+             </div>
                 <div className="row  border-bottom white-bg dashboard-header">
                     <div className="content">
                         <div className="row tbl_m_10">

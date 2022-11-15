@@ -20,14 +20,15 @@ class SalaryAdvanceMain extends Component {
             permission_status: {},
             work_flow_status: {},
             pending_approve:"myrequest",
-            dataList:[]
+            dataList:[],
+            active_tab :0
 
         }
     }
 
     async componentDidMount() {
         var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Salary Advance', 'Allowance');
-        this.getSalaryAdvanceList();
+        // this.getSalaryAdvanceList();
         this.setState({
             permission_status: permission_status
         })
@@ -49,7 +50,9 @@ class SalaryAdvanceMain extends Component {
         })
         window.location.reload();
     }
-
+    changeTab(tab) {
+        this.setState({ active_tab: tab},()=>{console.log(tab)})
+    }
     goToViewForm = (data) => {
         this.setState({
             data: data,
@@ -112,7 +115,7 @@ class SalaryAdvanceMain extends Component {
     render() {
         
         return (
-            <div >
+            <div className="wedding-benefit border-bottom white-bg dashboard-header">
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />
 
                 <PageHeader pageTitle="Salary Advance"
@@ -135,16 +138,19 @@ class SalaryAdvanceMain extends Component {
                 }
                 {
                     this.state.isTable ?
-                    <div>
-                    {/* <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
-                    <li className="active">
-                    <a className="nav-link active" href="#approve_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.approvedlist('myrequest')}>My Request</a>
-                    </li>
-                    <li className="nav-item1">
-                    <a className="nav-link" href="#approve_list" role="tab" data-toggle="tab" onClick={() => this.approvedlist('allrequest')}>All Request</a>
-                    </li>
-                    </ul> */}
-                        <SalaryAdvanceList goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} setupForm={this.setupForm} data={this.state.dataList} permission={this.state.permission_status} approvedlist={this.approvedlist}/></div> : ''
+                          <div>
+                          <div className='' style={{marginTop:20}}>
+                           <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
+                          <li className="nav-item">
+                           <a className="nav-link " href="#approve_list" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(1)}>My Request</a>
+                          </li>
+                          <li className="nav-item1 active">
+                          <a className="nav-link active" href="#approve_list" role="tab" data-toggle="tab" onClick={() => this.changeTab(0)}>All Request</a>
+                          </li>
+                          </ul>
+
+                          </div>
+                        <SalaryAdvanceList goToViewForm={this.goToViewForm} tab={this.state.active_tab} goToEditForm={this.goToEditForm} setupForm={this.setupForm} data={this.state.dataList} permission={this.state.permission_status} approvedlist={this.approvedlist}/></div> : ''
                 }
 
             </div>
