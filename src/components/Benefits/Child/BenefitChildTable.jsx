@@ -138,12 +138,12 @@ export default class BenefitChildTable extends Component {
     handleStartDate = async (event) => {
         this.setState({
           from_date:event
-        },()=>{console.log(this.state.s_date)})
+        })
       }
       handleEndDate = async (event) => {
         this.setState({
           to_date:event
-        },()=>{console.log(this.state.e_date)})
+        })
       }
         filter() { console.log("asjhdahsdh",this.state.tab)
         if (this.state.tab == 0) {
