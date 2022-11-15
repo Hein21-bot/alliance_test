@@ -105,7 +105,7 @@ class AttendanceHistory extends Component {
                     check_out_time:result.check_out_time ? moment(result.check_out_time).utc().format('hh:mm A') : '-',
 
                     attendance_type_check_in: result.late_check_in == 1 ? 'Late Check In' : result.field_checkin == 1 ? 'Field Check In' : result.holiday_checkin ? 'Holiday Check In' : 'Normal Check In',
-                    attendance_type_check_out: result.early_checkout == 1 ? 'Early Check Out' : result.field_checkout == 1 ? 'Field Check Out' : result.holiday_checkout == 1 ? 'Holiday Check Out' : 'Normal Check Out',
+                    attendance_type_check_out: result.early_checkout == 1 ? 'Early Check Out' : result.field_checkout == 1 ? 'Field Check Out' : result.holiday_checkout == 1 ? 'Holiday Check Out' : result.check_out_time!=null ? 'Normal Check Out' : '-',
                     status: status,
                     action: result.holiday_checkin == 1 && result.check_out_status == 1 ? result.leave_status == 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" disabled><span id="edit" class="hidden" disabled>' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Applied </button>' : '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" disabled>' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Apply Leave</button>' : ''
                 }

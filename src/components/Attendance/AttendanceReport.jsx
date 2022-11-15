@@ -318,7 +318,7 @@ class AttendanceReportMonthly extends Component {
                     check_out_time: result.check_out_time ?  moment(result.check_out_time).utc().format('HH:mm A') : "-",
                     check_out_lat : result.check_out_lat ? result.check_out_lat : "-",
                     check_out_long : result.check_out_lng ? result.check_out_lng : "-",
-                    check_out_att_status: result.early_checkout == 1 ? 'Early Check Out' : result.field_checkout == 1 ? 'Field Check Out' : result.holiday_checkout == 1 ? 'Holiday Check Out' : 'Normal Check Out',
+                    check_out_att_status: result.early_checkout == 1 ? 'Early Check Out' : result.field_checkout == 1 ? 'Field Check Out' : result.holiday_checkout == 1 ? 'Holiday Check Out' : result.check_out_time !=null ? 'Normal Check Out' :"-",
                     check_out_att_reason: result.early_checkout_reason ? result.early_checkout_reason : result.checkout_visit_reason ? result.checkout_visit_reason : '',
                     check_out_status: check_out_status,
                     workingHour: result.WorkingHour,
