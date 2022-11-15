@@ -59,8 +59,10 @@ export default class LeaveManagementTable extends Component {
         if (tab === 0) {
             this.getMyLeave(year);
         } else if (tab === 2) {
+            let selectedStatusValue = this.state.selected_status_value ? this.state.selected_status_value : 0
+            let selectedCategoryValue = this.state.selected_category_value ? this.state.selected_category_value : 0
             this.setState({ loading: true });
-            this.getAllLeave(year,0,0);
+            this.getAllLeave(year,selectedCategoryValue,selectedStatusValue);
         }
     }
 
@@ -150,17 +152,27 @@ export default class LeaveManagementTable extends Component {
             selected_category_value: event.value
         })
     }
-    filter() {
-        if (this.state.tab == 0) {
-            let year = moment(this.state.year).format('YYYY')
-            this.getAllLeave(year, 0 ,0);
-        } else if (this.state.tab == 2) {
-            let year = moment(this.state.year).format('YYYY')
-            let selectedStatusValue = this.state.selected_status_value ? this.state.selected_status_value : 0
-            let selectedCategoryValue = this.state.selected_category_value ? this.state.selected_category_value : 0
-            this.getAllLeave(year,selectedCategoryValue, selectedStatusValue);
-        }
+    handleAllLeave=()=>{
+       
+        let year = moment(this.state.year).format('YYYY')
+        let selectedStatusValue = this.state.selected_status_value ? this.state.selected_status_value : 0
+        let selectedCategoryValue = this.state.selected_category_value ? this.state.selected_category_value : 0
+        console.log("all leave",selectedCategoryValue,selectedStatusValue)
+        this.getAllLeave(year,selectedCategoryValue, selectedStatusValue);
     }
+    handleMyLeave=()=>{
+        console.log("my leave")
+        let year = moment(this.state.year).format('YYYY')
+        this.getMyLeave();
+    }
+    // filter() {
+    //     console.log("tab===>",this.state.tab)
+    //     if (this.state.tab == 2) {
+           
+    //     } else if (this.state.tab == 0) {
+            
+    //     }
+    // }
 
     handleYear = (event) => {
         this.setState({
@@ -329,7 +341,7 @@ export default class LeaveManagementTable extends Component {
         });
     }
 
-    render() { console.log(this.state.tab)
+    render() { console.log("tab===>",this.state.selected_status_value ? this.state.selected_status_value : 0,this.state.selected_category_value ? this.state.selected_category_value : 0)
         // if (this.state.loading === true) {
         //     return <div style={{ display: 'flex', justifyContent: 'center' }}><h2>Loading...</h2></div>
         // } else {
@@ -355,7 +367,7 @@ export default class LeaveManagementTable extends Component {
                                 </div>
                                 <div className="col-md-3">
                                     <div className="col-md-10 margin-top-20">
-                                        <button type="button" className="btn btn-primary" onClick={this.filter.bind(this)}>Search</button>
+                                        <button type="button" className="btn btn-primary" onClick={this.handleMyLeave.bind(this)}>Search</button>
                                     </div>
                                 </div>
 
@@ -406,7 +418,7 @@ export default class LeaveManagementTable extends Component {
                             
                                 <div className="col-md-3">
                                     <div className="col-md-10 margin-top-20">
-                                        <button type="button" className="btn btn-primary" onClick={this.filter.bind(this)}>Search</button>
+                                        <button type="button" className="btn btn-primary" onClick={this.handleAllLeave.bind(this)}>Search</button>
                                     </div>
                                 </div>
 
