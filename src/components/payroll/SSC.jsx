@@ -51,7 +51,7 @@ export default class SSC extends Component {
         if (res.ok) return res.json();
       })
       .then((res) => {
-        console.log('total employee ===>', res);
+        console.log("total employee ===>", res);
         // let total = []
         // let male = []
         // let female = []
@@ -61,10 +61,9 @@ export default class SSC extends Component {
         //   male.push(v.male);
         // })
         // this.setState({ total_count: total[0], male_count: male[2], female_count: female[1] });
-        
-      })  
+      })
       .catch((error) => console.error(`Fetch Error =\n`, error));
-  };
+  }
 
   checkFiles(e) {
     var files = document.getElementById("attachment").files;
@@ -148,7 +147,7 @@ export default class SSC extends Component {
       { title: "ErSSN", data: "erSSN" },
       { title: "ErName", data: "erName" },
       { title: "EeSSN", data: "eeSSN" },
-      { title: "EeName", data: "eeName"},
+      { title: "EeName", data: "eeName" },
       { title: "Actual Salary", data: "salaryAmount" },
       { title: "Salary in SSC (Send Government)", data: "governmentAmount" },
       { title: "SS1Ee Rate", data: "ss1Ee" },
@@ -174,7 +173,7 @@ export default class SSC extends Component {
       bLengthChange: false,
       bInfo: false,
       responsive: true,
-      pageLength: 50,
+      pageLength: 20,
       paging: true,
       buttons: true,
       dom: "Bfrtip",
@@ -199,7 +198,6 @@ export default class SSC extends Component {
   };
 
   render() {
-    console.log('data source =====>', this.state.dataSource)
     return (
       <div>
         {/* <div className="d-flex row justify-content-center align-item-center"> */}
@@ -257,6 +255,27 @@ export default class SSC extends Component {
             className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
             id="dataTables-table"
           />
+        </div>
+        <div style={{width: '50%', margin: '0px auto'}}>
+          <table width={'50%'} class="table table-bordered table-responsive">
+            <tbody>
+              <tr>
+                <th scope="row">Total</th>
+                <td></td>
+                <td>1419</td>
+              </tr>
+              <tr>
+              <th scope="row">Male</th>
+                <td></td>
+                <td>829</td>
+              </tr>
+              <tr>
+              <th scope="row">Female</th>
+                <td></td>
+                <td>620</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     );
