@@ -121,6 +121,7 @@ import PayRoll from './payroll/payroll'
 import SSC from './payroll/SSC';
 
 import ResignOrDismissSalaryMain from './payroll/ResignOrDismissSalary/ResignOrDismissSalaryMain';
+import ForeignerSalaryMain from './payroll/ForeignerSalary/ForeignerSalaryMain';
 
 
 const Main = () => (
@@ -247,6 +248,7 @@ const Main = () => (
 
 
         <Route path='/resign_or_dismiss_salary' component={ResignOrDismissSalaryMain}></Route>
+        <Route path='/foreigner_salary' component={ForeignerSalaryMain}></Route>
 
 
 

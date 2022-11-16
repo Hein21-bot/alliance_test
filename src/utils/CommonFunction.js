@@ -14,7 +14,7 @@ const CryptoJS = require('crypto-js');
 //  const main_url = "http://192.168.:8087/";  
 // server 
 
-// const main_url = "http://192.168.100.38:8082/" // local
+const main_url = "http://192.168.100.38:8082/" // local
 // const main_url = "http://localhost:8082/"
 
 
@@ -785,7 +785,7 @@ function validate(id) {
     }
     for (let i = 0; i < inputlist.length; i++) {
 
-        if (inputlist[i].value.trim() === "" || inputlist[i].value <= 0) {
+        if (inputlist[i].value.trim() === "" || inputlist[i].value == 0) {
             inputlist[i].style.border = "1px solid red";
             errorlist.push({
                 status: false
