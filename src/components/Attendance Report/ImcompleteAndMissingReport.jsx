@@ -19,6 +19,7 @@ import "datatables.net-dt/css/jquery.dataTables.css";
 import "datatables.net-buttons-dt/css/buttons.dataTables.css";
 import "jspdf-autotable";
 import { toast, ToastContainer } from "react-toastify";
+import { fabClasses } from "@mui/material";
 const $ = require("jquery");
 const jzip = require("jzip");
 window.JSZip = jzip;
@@ -33,6 +34,7 @@ class ImcompleteAndMissingReport extends Component {
     super(props);
     this.state = {
       dataSource: [],
+      checkedListData:[],
       user_info:getCookieData("user_info"),
       permission_status:{},
       branch: [],
@@ -48,6 +50,7 @@ class ImcompleteAndMissingReport extends Component {
       selected_checkbox_incom: 0,
       selected_checkbox_missing:0,
       incomplete: 0,
+      checkboxAll:true,
       missingAttendance: 0,
       AttendanceType: null,
       selectedAttendance: { value: 0, label: "All" },
@@ -118,6 +121,12 @@ class ImcompleteAndMissingReport extends Component {
       var data = $(this).find("#editApprove").text();
       data = $.parseJSON(data);
       that.handleVisibleApprove(data);
+    });
+    $("#dataTables-table").on("click", "#toSelect", function () {
+      var data = $(this).find("#select").text();
+      data = $.parseJSON(data);
+      that.handleCheckBoxChange(data);
+      // var selectEle = $(this).find("#check1");
     });
   }
   attendancePolicy(){
@@ -225,7 +234,43 @@ class ImcompleteAndMissingReport extends Component {
       })
     }
   };
+  handleCheckBoxChange = async (newData) => {
+    const { checkedListData } = this.state;
+    const checkedListData_ = [...checkedListData];
+    if (checkedListData_.length === 0) {
+      checkedListData_.push(newData);
+      this.setState({ checkedListData: checkedListData_ },()=>{console.log(">>>>",this.state.checkedListData)});
 
+    } else if (checkedListData_.filter((c) => c.user_id === newData.user_id).length > 0) {
+      for (var i = 0; i < checkedListData_.length; i++) {
+        // if (checkedListData_[i].user_id == newData.user_id) {
+          checkedListData_.splice(i, 1);
+        }
+      // }
+      this.setState({
+        checkedListData: checkedListData_,
+      },()=>{console.log(">>>>1",this.state.checkedListData)});
+    } else {
+      checkedListData_.push(newData);
+      this.setState({
+        checkedListData: checkedListData_,
+      },()=>{console.log(">>>>2",this.state.checkedListData)});
+    }
+  };
+
+  handleCheckboxAll =  (e) => {
+   
+    this.setState({ checkboxAll: e}
+     
+);
+    if (this.state.checkboxAll == true) {
+      this.setState({
+        checkedListData:this.state.dataSource,
+      }, () => { console.log("all data", this.state.checkedListData) });
+    } else {
+      this.setState({ checkedListData: [] }, () => { console.log("no data", this.state.checkedListData) });
+    }
+  };
   handleSearchData = () => {
     let checkbox=this.state.selected_checkbox_incom == 0 && this.state.selected_checkbox_missing == 0 || this.state.selected_checkbox_incom ==1 && this.state.selected_checkbox_missing ==2  ? 0 : this.state.selected_checkbox_incom ? 1 : this.state.selected_checkbox_missing ? 2 : 0
     // let checkbox=(this.state.selected_checkbox_incom ==1 && this.state.selected_checkbox_missing ==2 ) ? 0 :this.state.selected_checkbox_incom ? 1: this.state.selected_checkbox_missing ? 2 : 0;
@@ -319,7 +364,7 @@ class ImcompleteAndMissingReport extends Component {
     }
   };
 
-  _setTableData = (data) => {
+  _setTableData = async (data) => {
     var table;
     var l = [];
     // var temp = {
@@ -340,7 +385,7 @@ class ImcompleteAndMissingReport extends Component {
     // };
     if (data) {
       for (var i = 0; i < data.length; i++) {
-        console.log("data====>",data[i])
+        // console.log("data====>",data[i])
         let result = data[i];
         let obj = [];
         obj = {
@@ -412,6 +457,10 @@ class ImcompleteAndMissingReport extends Component {
               : "-"
             : "-",
         };
+        // obj.select =
+        // `<div style="alignItems:center" id="toSelect" class="select-btn"  ><input class='ipSelect'  type="checkbox"/><span id="select" class="hidden" >` +
+        // JSON.stringify(result) +
+        // "</span>  </div>"; 
         obj.action =this.state.permission_status.isEdit == 1 ? data[i].incom_status ? '' :
         '<button style="margin-right:10px; background-color:#27568a" class="btn btn-primary btn-sm own-btn-edit" id="toEditApprove" ><span id="editApprove" class="hidden" >' +
         JSON.stringify(result) +
@@ -441,7 +490,10 @@ class ImcompleteAndMissingReport extends Component {
       { title: "Status", data: "status" },
       { title: "Action", data: "action" },
     ];
-    table = $("#dataTables-table").DataTable({
+    let that = this
+    // column.push({ title: "Action", data: "action" });
+    // column.splice(1, 0, { title: "Select", data: "select" });
+    table = $("#dataTables-table").dataTable({
       autofill: true,
       bLengthChange: false,
       bInfo: false,
@@ -473,9 +525,19 @@ class ImcompleteAndMissingReport extends Component {
       data: l,
       columns: column
   });
+  var allPages = await table.fnGetNodes();
+
+  $('body').on('click', '#ipSelect', async function () {
+    if (that.state.checkboxAll == false) {
+    $('.ipSelect', await allPages).prop('checked', that.state.checkboxAll);
+    } else {
+    $('.ipSelect', await allPages).prop('checked', true);
+    }
+    $(this).toggleClass('allChecked');
+  })
 }
   render() {
-    console.log("type ====>",this.state.approve_data);
+    console.log("type ====>",this.state.checkedListData);
     return (
       <div>
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -827,6 +889,18 @@ class ImcompleteAndMissingReport extends Component {
                 </button>
               </div>
             </div>
+            {/* <div style={{ width: "20%" }}>
+                  <label>
+                    <input
+                      id="ipSelect"
+                      type={"checkbox"}
+                      onChange={() =>
+                        this.handleCheckboxAll(!this.state.checkboxAll)
+                      }
+                    />
+                    Select All
+                  </label>
+                </div> */}
           </div>
 
           <table

@@ -28,6 +28,7 @@ export default class BenefitChildTable extends Component {
             is_main_role: getMainRole(),
             branchlist: [],
             jobList: props.jobList,
+            exitStatusList:this.props.exitStatusList
         }
     }
 
@@ -135,7 +136,7 @@ export default class BenefitChildTable extends Component {
                 discon_status: data[i].discontinute_status ? data[i].discontinute_status == 0 ? 'False' : 'True' : 'False',
                 discon_date: data[i].discontinute_date ? moment(data[i].discontinute_date).format('YYYY-MM-DD') : '',
                 resign_reason: data[i].resign_reason ? data[i].resign_reason : '',
-                exit_status: data[i].exit_status ? data[i].exit_status : '',
+                exit_status: this.props.exitStatusList.filter(v=>v.id == data[i].exit_status) ? this.props.exitStatusList.filter(v=>v.id == data[i].exit_status)[0] ? this.props.exitStatusList.filter(v=>v.id == data[i].exit_status)[0].label :'': '',
                 actual_date: data[i].actual_date ? moment(data[i].actual_date).format('DD-MM-YYYY') : '',
             }
             if (has_action) {
@@ -236,7 +237,7 @@ export default class BenefitChildTable extends Component {
     }
 
 
-    render() {
+    render() { console.log(this.props.exitStatusList)
         return (
             <div>
                 <table width="99%"
