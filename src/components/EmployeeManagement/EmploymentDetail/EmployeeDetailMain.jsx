@@ -1218,6 +1218,7 @@ class EmployeeDetailMain extends Component {
                 <div style={{}}>
                   <EmploymentDetailTable
                     goToEditForm={this.goToEditForm}
+                    exitStatusList={this.state.exitStatusList}
                     career_sub_level={career_sub_level}
                     goToSingleViewForm={this.goToSingleViewForm}
                     data={this.state.employeeData ? this.state.employeeData : []}

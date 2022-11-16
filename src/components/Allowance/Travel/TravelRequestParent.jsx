@@ -167,14 +167,16 @@ export default class TravelRequestParent extends Component {
         var startDate = moment(data.startDate).format('YYYY-MM-DD');
         var endDate = moment(data.endDate).format('YYYY-MM-DD');
         let comment=encodeURIComponent(data.purpose)
+        let startLocation=encodeURIComponent( data.startLoc)
+        let destinationEncode=encodeURIComponent(data.destination)
         console.log("comment",comment,data.purpose)
         var info = {
             user_id: data.user_id,
             purpose: comment,
             isClaim: 0,
             advancedClaim: 0,
-            startLoc: data.startLoc,
-            destination: data.destination,
+            startLoc:startLocation,
+            destination:destinationEncode,
             startDate: startDate,
             endDate: endDate,
             noOfDays: data.noOfDays,
@@ -211,11 +213,14 @@ export default class TravelRequestParent extends Component {
         var startDate = moment(data.startDate).format('YYYY-MM-DD');
         var endDate = moment(data.endDate).format('YYYY-MM-DD');
         let comment=encodeURIComponent(data.purpose)
+        let startLocation=encodeURIComponent( data.startLoc)
+        let destinationEncode=encodeURIComponent(data.destination)
         var info = {
             purpose: comment,
             isAdvanced: data.selectedRequest,
             startLoc: data.startLoc,
-            destination: data.destination,
+            destination: destinationEncode,
+            startLoc:startLocation,
             startDate: startDate,
             endDate: endDate,
             noOfDays: data.noOfDays,

@@ -114,13 +114,18 @@ export default class TravelAdvancedEdit extends Component {
     check = (data) => {
         stopSaving();
         let comment=encodeURIComponent(this.state.setupData.purpose);
+        let startLocation=encodeURIComponent(this.state.setupData.destination);
+        let destinationEncode=encodeURIComponent(this.state.setupData.destination);
         var data = this.state.setupData;
+        data['startLoc']=startLocation;
         data['purpose']=comment;
+        data['destination']=destinationEncode;
         // var data = {
         //     user_id: ,
         //     withdraw_location: data.
-        //     start_location:,
-        //     destination: ,
+            // purpose:comment,
+            // start_location:startLocation,
+            // destination:destinationEncode ,
         //     start_date: ,
         //     end_date: ,
         //     noOfDays: ,
