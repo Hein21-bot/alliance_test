@@ -785,7 +785,7 @@ function validate(id) {
     }
     for (let i = 0; i < inputlist.length; i++) {
 
-        if (inputlist[i].value.trim() === "" || inputlist[i].value <= 0) {
+        if (inputlist[i].value.trim() === "" || inputlist[i].value == 0) {
             inputlist[i].style.border = "1px solid red";
             errorlist.push({
                 status: false

@@ -237,6 +237,7 @@ export default class ResignOrDismissSalaryTable extends Component {
           employee_id: data[i].employment_id ? data[i].employment_id : "-",
           fullname: data[i].fullname ? data[i].fullname : "-",
           designations: data[i].designations ? data[i].designations : "-",
+          career_sub_level: data[i].career_sub_level ? data[i].career_sub_level : '-',
           deptname: data[i].deptname ? data[i].deptname : "-",
           location_master_name: data[i].location_master_name
             ? data[i].location_master_name
@@ -320,6 +321,7 @@ export default class ResignOrDismissSalaryTable extends Component {
       { title: "Employee Id", data: "employee_id" },
       { title: "Employee Name", data: "fullname" },
       { title: "Designation", data: "designations" },
+      { title: "Level", data: "career_sub_level"},
       { title: "Department", data: "deptname" },
       { title: "Branch", data: "location_master_name" },
       { title: "Region", data: "state_name" },
