@@ -97,43 +97,42 @@ export default class ForeignerSalaryAddNew extends Component {
     $(document).on("click", "#toEdit", function () {
       var data = $(this).find("#edit").text();
       data = $.parseJSON(data);
-      console.log(data);
-
-      // let newData = that.state.dataSource;
-      // let editData = newData[data];
-      // newData.splice(data, 1);
-      // that.setState(
-      //   {
-      //     dataSource: newData,
-      //     addNewData: {
-      //       requestMonth: editData.request_month,
-      //       exchangeRate:editData.exchangeRate,
-      //       lastWorkingDay: editData.last_working_day,
-      //       grossSalary: editData.gross_salary,
-      //       deductionOrAddition: editData.deduction_or_addition,
-      //       salaryAfterDorA: editData.salary_after_deduction_or_addition,
-      //       ssc3: editData.ssc3,
-      //       ssc2: editData.ssc2,
-      //       incomeTax: editData.income_tax,
-      //       maintenance: editData.maintenance,
-      //       petrol: editData.petrol,
-      //       totalSalary: editData.totalSalary,
-      //       reason: editData.reason,
-      //       atmOrCash: editData.atm_or_cash,
-      //       exitStatus: editData.exit_status,
-      //       houseAllowance:editData.houseAllowance,
-      //       backPay:editData.backPay,
-      //       allowance:editData.allowance,
-      //       annualAward:editData.annualAward,
-      //       medicalFund:editData.medicalFund,
-      //       motorBikeUse:editData.motorBikeUse,
-      //       salaryCut:editData.salaryCut,
-      //       totalGrossSalary:editData.totalGrossSalary
+      let newData = that.state.dataSource;
+      let editData = newData[data];
+      console.log("edit data===>",editData,newData)
+      newData.splice(data, 1);
+      that.setState(
+        {
+          dataSource: newData,
+          addNewData: {
+            requestMonth: editData.request_month,
+            exchangeRate:editData.exchangeRate,
+            lastWorkingDay: editData.last_working_day,
+            grossSalary: editData.gross_salary,
+            deductionOrAddition: editData.deduction_or_addition,
+            salaryAfterDorA: editData.salary_after_deduction_or_addition,
+            ssc3: editData.ssc3,
+            ssc2: editData.ssc2,
+            incomeTax_$:editData.income_tax_$,
+            incomeTax_MMK:editData.incomeTax_MMK,
+            maintenance: editData.maintenance,
+            petrol: editData.petrol,
+            totalSalary: editData.totalSalary,
+            deductionOfLoan:editData.deductionOfLoan,
+            atmOrCash: editData.atm_or_cash,
+            houseAllowance:editData.houseAllowance,
+            backPay:editData.backPay,
+            allowance:editData.allowance,
+            annualAward:editData.annualAward,
+            medicalFund:editData.medicalFund,
+            motorBikeUse:editData.motorBikeUse,
+            salaryCut:editData.salaryCut,
+            totalGrossSalary:editData.totalGrossSalary
             
-      //     },
-      //   },
-      //   () => that.setDataTable(newData)
-      // );
+          },
+        },
+        () => that.setDataTable(newData)
+      );
     });
     $(document).on("click", "#toRemove", function () {
       var data = $(this).find("#remove").text();
