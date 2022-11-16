@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { Component } from "react";
 
 export default class ResignOrDismissSalaryView extends Component {
@@ -9,48 +10,168 @@ export default class ResignOrDismissSalaryView extends Component {
   }
 
   render() {
-    var on = {
-        ATM_Cash: 0,
-        SSC_employee: 3700,
-        SSC_employer: 5550,
-        after_deduction_or_addition: 185000,
-        approve_by: null,
-        check_by: null,
-        createdAt: "2022-11-16T14:19:32.023Z",
-        createdBy: 17,
-        deduction_or_addition: 10000,
-        deptname: "Admin",
-        designations: "Security",
-        exit_status: 2,
-        form_no: null,
-        gross_salary: 175000,
-        id: 10,
-        income_tax: null,
-        last_working_day: "2022-11-16T02:12:28.000Z",
-        location_master_name: "Meiktila",
-        maintenance: 0,
-        petrol: 0,
-        reason: "hahha1",
-        referback_by: null,
-        request_month: null,
-        state_name: "Mandalay South Region",
-        status: null,
-        total_salary: 181300,
-        user_id: 40,
-        verify_by: null,
-      };
-      const {request_month} = this.props.dataSource
+    const {
+      request_month,
+      employment_id,
+      fullname,
+      designations,
+      deptname,
+      location_master_name,
+      state_name,
+      gross_salary,
+      last_working_day,
+      deduction_or_addition,
+      after_deduction_or_addition,
+      income_tax,
+      SSC_employer,
+      SSC_employee,
+      maintenance,
+      petrol,
+      total_salary,
+      exit_status,
+      ATM_Cash,
+      reason,
+      career_sub_level,
+    } = this.props.dataSource;
     return (
-      <div>
-        <div className="row margin-top-20 col-md-12">
+      <div className="white-bg">
+        <div className="row margin-top-20 ">
           <div className="col-md-3">
             <label>Request Month</label>
             <input
               className="form-control"
               disabled
-              type="number"
-              data-name="ssc3"
+              type="text"
+              placeholder={"Request Month"}
               value={request_month}
+            />
+          </div>
+          <div className="col-md-3">
+            <label>Employee ID</label>
+            <input
+              className="form-control"
+              disabled
+              type="text"
+              placeholder={"Employee ID"}
+              value={employment_id}
+            />
+          </div>
+          <div className="col-md-3">
+            <label>Employee Name</label>
+            <input
+              className="form-control"
+              disabled
+              type="text"
+              value={fullname}
+              placeholder={"Employee Name"}
+            />
+          </div>
+          <div className="col-md-3">
+            <label>Designation</label>
+            <input
+              className="form-control"
+              disabled
+              type="text"
+              value={designations}
+              placeholder="Designation"
+            />
+          </div>
+        </div>
+        <div className="row margin-top-20 ">
+        <div className="col-md-3">
+            <label>Level</label>
+            <input
+              className="form-control"
+              disabled
+              type="text"
+              value={career_sub_level}
+              placeholder={"Level"}
+            />
+          </div>
+          <div className="col-md-3">
+            <label>Department</label>
+            <input
+              className="form-control"
+              disabled
+              type="text"
+              placeholder={"Department"}
+              value={deptname}
+            />
+          </div>
+          <div className="col-md-3">
+            <label>Branch</label>
+            <input
+              className="form-control"
+              disabled
+              type="text"
+              placeholder={"Branch"}
+              value={location_master_name}
+            />
+          </div>
+          <div className="col-md-3">
+            <label>Region</label>
+            <input
+              className="form-control"
+              disabled
+              type="text"
+              value={state_name}
+              placeholder={"Region"}
+            />
+          </div>
+          
+        </div>
+        <div className="row margin-top-20 ">
+        <div className="col-md-3">
+            <label>Gross Salary</label>
+            <input
+              className="form-control"
+              disabled
+              type="text"
+              value={gross_salary}
+              placeholder="Gross Salary"
+            />
+          </div>
+          <div className="col-md-3">
+            <label>Last Working Day</label>
+            <input
+              className="form-control"
+              disabled
+              type="text"
+              placeholder={"Last Working Day"}
+              value={moment(last_working_day).format('DD-MM-YYYY HH:mm:ss A')}
+            />
+          </div>
+          <div className="col-md-3">
+            <label>Deduction or Addition</label>
+            <input
+              className="form-control"
+              disabled
+              type="text"
+              placeholder={"Deduction or Addition"}
+              value={deduction_or_addition}
+            />
+          </div>
+          <div className="col-md-3">
+            <label>Salary After Deduction or Addition</label>
+            <input
+              className="form-control"
+              disabled
+              type="text"
+              value={after_deduction_or_addition}
+              placeholder={"Salary After Deduction or Addition"}
+            />
+          </div>
+          
+        </div>
+        <div className="row margin-top-20 ">
+          <div className="col-md-3">
+            <label>SSC (Employee 3%)</label>
+            <input
+              className="form-control"
+              disabled
+              type="text"
+              placeholder={"SSC (Employee 3%)"}
+              value={SSC_employer}
             />
           </div>
           <div className="col-md-3">
@@ -58,31 +179,94 @@ export default class ResignOrDismissSalaryView extends Component {
             <input
               className="form-control"
               disabled
-              type="number"
-              data-name="ssc2"
-              value={addNewData.ssc2}
+              type="text"
+              placeholder={"SSC (Employee 2%)"}
+              value={SSC_employee}
             />
           </div>
           <div className="col-md-3">
             <label>Income Tax</label>
             <input
-              className="form-control checkValidate"
-              type="number"
-              data-name="incomeTax"
-              value={addNewData.incomeTax}
-              placeholder={"Enter Income Tax"}
-              onChange={this.onIncomeTaxChange}
+              className="form-control"
+              disabled
+              type="text"
+              value={income_tax}
+              placeholder="Income Tax"
             />
           </div>
           <div className="col-md-3">
             <label>Maintenance</label>
             <input
               className="form-control"
-              type="number"
-              data-name="maintenance"
-              value={addNewData.maintenance}
-              placeholder="Enter Maintenance"
-              onChange={this.onMaintenanceChange}
+              disabled
+              type="text"
+              value={maintenance}
+              placeholder={"Maintenance"}
+            />
+          </div>
+          
+        </div>
+        <div className="row margin-top-20 ">
+        <div className="col-md-3">
+            <label>Petrol</label>
+            <input
+              className="form-control"
+              disabled
+              type="text"
+              value={petrol}
+              placeholder="Petrol"
+            />
+          </div>
+          <div className="col-md-3">
+            <label>Total Salary</label>
+            <input
+              className="form-control"
+              disabled
+              type="text"
+              placeholder={"Total Salary"}
+              value={total_salary}
+            />
+          </div>
+          <div className="col-md-3">
+            <label>Exit Status</label>
+            <input
+              className="form-control"
+              disabled
+              type="text"
+              placeholder={"Exit Status"}
+              value={exit_status == 1
+                ? "Resign"
+                : exit_status == 2
+                ? "Dismiss"
+                : exit_status == 3
+                ? "Termination"
+                : exit_status == 4
+                ? "Dead"
+                : ""}
+            />
+          </div>
+          <div className="col-md-3">
+            <label>ATM or Cash</label>
+            <input
+              className="form-control"
+              disabled
+              type="text"
+              value={ATM_Cash == 0 ? 'ATM' : 'Cash'}
+              placeholder={"ATM or Cash"}
+            />
+          </div>
+          
+        </div>
+        <div className="row margin-top-20 ">
+        <div className="col-md-6">
+            <label>Reason</label>
+            <input
+              className="form-control"
+              disabled
+              multiple
+              type="text"
+              value={reason}
+              placeholder="reason"
             />
           </div>
         </div>
