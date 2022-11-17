@@ -61,7 +61,13 @@ export default class ForeignerSalaryAddNew extends Component {
       newDoc: [],
       employeeIdList:null,
       selectedEmployeeId:null,
-      DetailUser:null
+      DetailUser:{
+        employment_id:'',
+      employee_name:'',
+      designations:'',
+      basic_salary:0,
+      user_id:0
+      }
     };
   }
 
@@ -129,7 +135,14 @@ export default class ForeignerSalaryAddNew extends Component {
             salaryCut:editData.salaryCut,
             totalGrossSalary:editData.totalGrossSalary
             
+          },DetailUser:{
+            employment_id:editData.employment_id,
+          employee_name:editData.fullname,
+          designations:editData.designations,
+          basic_salary:editData.gross_salary,
+          user_id:editData.user_id
           },
+          selectedEmployeeId:editData.selectedEmployeeId
         },
         () => that.setDataTable(newData)
       );
@@ -323,7 +336,13 @@ export default class ForeignerSalaryAddNew extends Component {
           })
           .then((data) => {
             this.setState({
-                DetailUser:data
+              DetailUser:{
+                employment_id:data[0].employment_id,
+              employee_name:data[0].employee_name,
+              designations:data[0].designations,
+              basic_salary:data[0].basic_salary,
+              user_id:data[0].user_id
+              }
             })
             // if (data.length > 0) {
             //   this.getData(this.props.id);
@@ -347,10 +366,10 @@ export default class ForeignerSalaryAddNew extends Component {
       let tempData = {};
       tempData.request_month = newData.requestMonth;
       tempData.exchangeRate=newData.exchangeRate;
-      tempData.employment_id = this.state.DetailUser[0].employment_id;
-      tempData.fullname = this.state.DetailUser[0].employee_name;
-      tempData.designations = this.state.DetailUser[0].designations;
-      tempData.gross_salary = this.state.DetailUser[0].basic_salary;
+      tempData.employment_id = this.state.DetailUser.employment_id;
+      tempData.fullname = this.state.DetailUser.employee_name;
+      tempData.designations = this.state.DetailUser.designations;
+      tempData.gross_salary = this.state.DetailUser.basic_salary;
       tempData.deduction_or_addition = newData.deductionOrAddition;
       tempData.salary_after_deduction_or_addition = newData.salaryAfterDorA;
       tempData.ssc3 = newData.ssc3;
@@ -371,8 +390,9 @@ export default class ForeignerSalaryAddNew extends Component {
       tempData.deductionOfLoan=newData.deductionOfLoan;
       tempData.totalSalary = newData.totalSalary;
       tempData.atm_or_cash = newData.atmOrCash;
-      tempData.user_id=this.state.DetailUser[0].user_id;
+      tempData.user_id=this.state.DetailUser.user_id;
       tempData.createdBy=this.state.userInfo.user_id;
+      tempData.selectedEmployeeId=this.state.selectedEmployeeId;
       
       
       
@@ -383,6 +403,7 @@ export default class ForeignerSalaryAddNew extends Component {
       data.push(tempData);
       this.setState({
         dataSource: data,
+        selectedEmployeeId:null,
         addNewData: {
           requestMonth: new Date(),
           exchangeRate:0,
@@ -409,6 +430,13 @@ export default class ForeignerSalaryAddNew extends Component {
           deductionOfLoan:0,
           user_id:''
         },
+        DetailUser:{
+          employment_id:'',
+          employee_name:'',
+          designations:'',
+          basic_salary:0,
+          user_id:0
+        }
       });
 
       saveBtn = true;
@@ -441,7 +469,7 @@ export default class ForeignerSalaryAddNew extends Component {
         fullname: data[i].fullname ? data[i].fullname : "-",
         designations: data[i].designations ? data[i].designations : "-",
         gross_salary: data[i].gross_salary ? data[i].gross_salary : 0,
-        exchangeRate:data[i].exChangeRate ? data[i].exChangeRate: 0,
+        exchangeRate:data[i].exchangeRate ? data[i].exchangeRate: 0,
         deduction_or_addition: data[i].deduction_or_addition
           ? data[i].deduction_or_addition
           : 0,
@@ -667,7 +695,7 @@ export default class ForeignerSalaryAddNew extends Component {
   render() {
     
     const { addNewData, userId, userInfo, dataSource } = this.state;
-    console.log("addNewData =====>",this.state.userInfo);
+    console.log("addNewData =====>",this.state.DetailUser);
     return (
       <div>
         <div className="row">
@@ -710,11 +738,11 @@ export default class ForeignerSalaryAddNew extends Component {
                     <div className="col-md-3">
                       <label>Employee Name</label>
                       <input
-                        className="form-control checkValidate"
+                        className="form-control"
                         disabled={true}
                         type="text"
                         data-name="fullname"
-                        value={this.state.DetailUser ? this.state.DetailUser[0].employee_name : ''}
+                        value={this.state.DetailUser ? this.state.DetailUser.employee_name : ''}
                         placeholder="Employee Name"
                         // onChange={this.claimChangeText}
                       />
@@ -725,11 +753,11 @@ export default class ForeignerSalaryAddNew extends Component {
                   <div className="col-md-3">
                       <label>Designation</label>
                       <input
-                        className="form-control checkValidate"
+                        className="form-control"
                         disabled={true}
                         type="text"
                         data-name="designation"
-                        value={this.state.DetailUser ? this.state.DetailUser[0].designations:""}
+                        value={this.state.DetailUser ? this.state.DetailUser.designations:""}
                         placeholder="designation"
                         // onChange={this.claimChangeText}
                       />
@@ -741,7 +769,7 @@ export default class ForeignerSalaryAddNew extends Component {
                         disabled={true}
                         type="number"
                         data-name="grossSalary"
-                        value={this.state.DetailUser ? this.state.DetailUser[0].basic_salary : ""}
+                        value={this.state.DetailUser ? this.state.DetailUser.basic_salary : ""}
                         placeholder="Enter Lodging"
                         // onChange={this.onGrossSalaryChange}
                       />
