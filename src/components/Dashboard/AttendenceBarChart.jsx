@@ -53,6 +53,7 @@ class AttendenceBarChart extends Component {
                 if (response.ok) return response.json()
             })
             .then(res => {
+
                 let data = res;
 
                 let arr = data.map((v, i) => {
