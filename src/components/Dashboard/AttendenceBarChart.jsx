@@ -54,17 +54,17 @@ class AttendenceBarChart extends Component {
             })
             .then(res => {
                 let data=res;
-                
+                console.log("atttdata>",res)
                 let arr=data.map((v,i) => {
                         const formatData=v.data.reduce((r,c)=>{
                             // const all=c.all?c.all:0 ;
-                            const attendance=c.attendance?c.attendance:0;
-                            const late=c.late?c.late:0
+                            const attendance = c.attendance ? c.attendance : 0;
+                            const late=c.late ? c.late:0
                             return {...r,...c,late,attendance}
                         },{})
                         return formatData;
                         });
-                        console.log(arr)
+                      
                 let absent_count=arr.map(v=>{
                     let count= v.all -v.attendance-v.late;
                     return count;
@@ -178,7 +178,7 @@ class AttendenceBarChart extends Component {
         });
       };
 
-    render() {  console.log("region",this.state.region)
+    render() {  console.log("region",this.state.attandance_count,this.state.late_count,this.state.absent_count)
         return (
             <div
                 className='text-center margin-y'
