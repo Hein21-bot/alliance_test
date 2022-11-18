@@ -161,11 +161,12 @@ class AttendanceType extends Component {
           }
           return 1;
         })
+        let statusFiltered = statusFilter.filter(v=>v.late_checkin == 1)
         // let requestFilter=statusFilter.sort((a,b)=>moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD"))
         console.log("status filter===>", statusFilter.filter(v=>v.late_checkin == 1))
-        this.setState({ data: list, datasource: list,attendance_type :"late_check_in" }, () => {
+        this.setState({ data: list, datasource: statusFiltered,attendance_type :"late_check_in" }, () => {
           // this._setTableData(statusFilter.filter(v=>v.late_checkin == 1));
-          this._setTableData(statusFilter);
+          this._setTableData(statusFiltered);
         });
       });
   }
@@ -191,11 +192,12 @@ class AttendanceType extends Component {
           }
           return 1;
         })
+        let statusFiltered = statusFilter.filter(v=>v.field_checkin == 1)
         // let requestFilter=statusFilter.sort((a,b)=>moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD"))
         console.log("status filter===>", statusFilter)
-        this.setState({ data: list, datasource: list,attendance_type: "field_check_in" }, () => {
+        this.setState({ data: list, datasource: statusFiltered,attendance_type: "field_check_in" }, () => {
           // this._setTableData(statusFilter.filter(v=>v.field_checkin == 1));
-          this._setTableData(statusFilter);
+          this._setTableData(statusFiltered);
         });
       });
   }
@@ -221,11 +223,12 @@ class AttendanceType extends Component {
           }
           return 1;
         })
+        let statusFiltered = statusFilter.filter(v=>v.early_checkout == 1)
         // let requestFilter=statusFilter.sort((a,b)=>moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD"))
         console.log("status filter===>", statusFilter)
-        this.setState({ data: list, datasource: list,attendance_type: "early_check_out" }, () => {
+        this.setState({ data: list, datasource: statusFiltered,attendance_type: "early_check_out" }, () => {
           // this._setTableData(statusFilter.filter(v=>v.early_checkout == 1));
-          this._setTableData(statusFilter);
+          this._setTableData(statusFiltered);
         });
       });
   }
@@ -251,11 +254,13 @@ class AttendanceType extends Component {
           }
           return 1;
         })
+        let statusFiltered = statusFilter.filter(v=>v.field_checkout == 1)
         // let requestFilter=statusFilter.sort((a,b)=>moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD"))
-        console.log("status filter===>", statusFilter)
-        this.setState({ data: list, datasource: list,attendance_type:"field_check_out" }, () => {
+        console.log("status filter===>", statusFiltered)
+        this.setState({ data: list, datasource: statusFiltered,attendance_type:"field_check_out" }, () => {
           // this._setTableData(statusFilter.filter(v=>v.field_checkout == 1));
-          this._setTableData(statusFilter);
+          this._setTableData(statusFiltered);
+
         });
       });
   }
@@ -359,7 +364,7 @@ class AttendanceType extends Component {
         } else if (
           // this.state.attendance_type == "early_check_out" ||
           //   this.state.attendance_type == "field_check_out"
-          //   ? result.check_out_status == 2
+          //   ? result.check_out_status == 2 :
              result.status === 2
         ) {
           status =
@@ -603,7 +608,7 @@ class AttendanceType extends Component {
   }
 
   search(status) {
-    let data = this.state.data;
+    let data = this.state.datasource;
     data = data.filter(d => { return status === d.status });
     this._setTableData(data)
   }
