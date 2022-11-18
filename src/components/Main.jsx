@@ -122,6 +122,7 @@ import SSC from './payroll/SSC';
 
 import ResignOrDismissSalaryMain from './payroll/ResignOrDismissSalary/ResignOrDismissSalaryMain';
 import ForeignerSalaryMain from './payroll/ForeignerSalary/ForeignerSalaryMain';
+import BackPayMain from './payroll/BackPay/BackPayMain';
 
 
 const Main = () => (
@@ -249,6 +250,7 @@ const Main = () => (
 
         <Route path='/resign_or_dismiss_salary' component={ResignOrDismissSalaryMain}></Route>
         <Route path='/foreigner_salary' component={ForeignerSalaryMain}></Route>
+        <Route path='/backpay' component={BackPayMain}></Route>
 
 
 

@@ -20,40 +20,20 @@ const $ = require("jquery");
 var form_validate = true;
 var saveBtn = false;
 
-export default class ForeignerSalaryAddNew extends Component {
+export default class BackPayAddNew extends Component {
   constructor(props) {
     super(props);
     this.state = {
       userId: null,
       userInfo: {},
+      PayrollList:[],
       addNewData: {
-        exchangeRate:0,
-        requestMonth: new Date(),
-        lastWorkingDay: new Date(),
-        grossSalary: null,
-        deductionOrAddition: "",
-        salaryAfterDorA: 0,
-        ssc3: 0,
-        ssc2: 0,
-        incomeTax: null,
-        maintenance: null,
-        petrol: null,
-        totalSalary: 0,
-        reason: "",
-        atmOrCash: 0,
-        exitStatus: 0,
-        houseAllowance:0,
-        backPay:0,
-        allowance:0,
-        incomeTax_$:0,
-        incomeTax_MMK:0,
-        annualAward:0,
-        medicalFund:0,
-        motorBikeUse:0,
-        salaryCut:0,
-        deductionOfLoan:0,
-        netSalaryPaid:0,
-        totalGrossSalary:0
+        Amount:0,
+        workingDay:0,
+        salaryPerDay:0,
+        totalWorkingDay:0,
+        Total:0
+        
         
       },
       dataSource: [],
@@ -61,13 +41,9 @@ export default class ForeignerSalaryAddNew extends Component {
       newDoc: [],
       employeeIdList:null,
       selectedEmployeeId:null,
-      DetailUser:{
-        employment_id:'',
-      employee_name:'',
-      designations:'',
-      basic_salary:0,
-      user_id:0
-      }
+      DetailUser:null,
+      from_date:moment(),
+      to_date:moment()
     };
   }
 
@@ -86,20 +62,6 @@ export default class ForeignerSalaryAddNew extends Component {
       userId: id,
       userInfo: userInfo[0],
     });
-    if (this.props.id) {
-        fetch(`${main_url}employee/getDetailUser/${this.props.id}`)
-          .then((res) => {
-            if (res.ok) return res.json();
-          })
-          .then((data) => {
-            if (data.length > 0) {
-              this.getData(this.props.id);
-              this.setState({ tableEdit: true, tableView: false });
-  
-  
-            }
-          });
-      }
     $(document).on("click", "#toEdit", function () {
       var data = $(this).find("#edit").text();
       data = $.parseJSON(data);
@@ -135,14 +97,7 @@ export default class ForeignerSalaryAddNew extends Component {
             salaryCut:editData.salaryCut,
             totalGrossSalary:editData.totalGrossSalary
             
-          },DetailUser:{
-            employment_id:editData.employment_id,
-          employee_name:editData.fullname,
-          designations:editData.designations,
-          basic_salary:editData.gross_salary,
-          user_id:editData.user_id
           },
-          selectedEmployeeId:editData.selectedEmployeeId
         },
         () => that.setDataTable(newData)
       );
@@ -161,93 +116,20 @@ export default class ForeignerSalaryAddNew extends Component {
       );
     });
   }
+  handleSelectedTodate = async (event) => {
+    this.setState({
+      to_date: event,
+    });
+  };
+  handleAmount=(e)=>{
+    const newData = this.state.addNewData;
+    newData.Amount = e.target.value;
+    this.setState({ addNewData: newData });
+  }
 
   onRequestMonthChange = (e) => {
     const newData = this.state.addNewData;
     newData.requestMonth = e;
-    this.setState({ addNewData: newData });
-  };
-
-  onLastWorkingDay = (e) => {
-    const newData = this.state.addNewData;
-    newData.lastWorkingDay = e;
-    this.setState({ addNewData: newData });
-  };
-
-  onGrossSalaryChange = (e) => {
-    let newValue = parseFloat(e.target.value);
-    const newData = this.state.addNewData;
-    newData.salaryAfterDorA =
-      newValue + parseFloat(newData.deductionOrAddition);
-    newData.grossSalary = newValue;
-    newData.ssc3 = newData.salaryAfterDorA * 0.03;
-    newData.ssc2 = newData.salaryAfterDorA * 0.02;
-    newData.totalSalary =
-      newData.salaryAfterDorA -
-      newData.ssc2 -
-      newData.incomeTax +
-      newData.maintenance +
-      newData.petrol;
-    this.setState({ addNewData: newData });
-  };
-  allowanceChange=(e)=>{
-    const newData = this.state.addNewData;
-    newData.allowance = e.target.value;
-    this.setState({ addNewData: newData });
-  }
-
-  onDeductionOrAddition = (e) => {
-    let newValue = e.target.value;
-    const newData = this.state.addNewData;
-    newData.salaryAfterDorA = newData.grossSalary + parseFloat(newValue);
-    newData.deductionOrAddition = newValue;
-    newData.ssc3 = newData.salaryAfterDorA * 0.03;
-    newData.ssc2 = newData.salaryAfterDorA * 0.02;
-    newData.totalSalary =
-      newData.salaryAfterDorA -
-      newData.ssc2 -
-      newData.incomeTax +
-      newData.maintenance +
-      newData.petrol;
-    this.setState({ addNewData: newData });
-  };
-
-  onIncomeTax$Change = (e) => {
-    const newData = this.state.addNewData;
-    newData.incomeTax_$ = e.target.value;
-    newData.netSalaryPaid=newData.salaryAfterDorA-newData.incomeTax_$;
-    newData.incomeTax_MMK=newData.exchangeRate*newData.incomeTax_$;
-    this.setState({ addNewData: newData });
-  };
-  // onIncomeTaxMMKChange=(e)=>{
-  //   const newData = this.state.addNewData;
-  //   newData.incomeTax_MMK = e.target.value;
-  //   this.setState({ addNewData: newData });
-  // }
-
-  onMaintenanceChange = (e) => {
-    let newValue = parseFloat(e.target.value);
-    const newData = this.state.addNewData;
-    newData.maintenance = newValue;
-    newData.totalSalary =
-      newData.salaryAfterDorA -
-      newData.ssc2 -
-      newData.incomeTax +
-      newData.maintenance +
-      newData.petrol;
-    this.setState({ addNewData: newData });
-  };
-
-  onPetrolChange = (e) => {
-    let newValue = parseFloat(e.target.value);
-    const newData = this.state.addNewData;
-    newData.petrol = newValue;
-    newData.totalSalary =
-      newData.salaryAfterDorA -
-      newData.ssc2 -
-      newData.incomeTax +
-      newData.maintenance +
-      newData.petrol;
     this.setState({ addNewData: newData });
   };
 
@@ -262,49 +144,16 @@ export default class ForeignerSalaryAddNew extends Component {
     newData.atmOrCash = parseInt(e.target.value);
     this.setState({ addNewData: newData });
   };
+  onRadioWorkinDayChange=(e)=>{
+    const newData = this.state.addNewData;
+    newData.workingDay = parseInt(e.target.value);
+    this.setState({ addNewData: newData });
+  }
 
-  handleChangeExitStatus = (e) => {
-    const newData = this.state.addNewData;
-    newData.exitStatus = e.target.value;
-    this.setState({ addNewData: newData });
-  };
-  handleAnnualAward=(e)=>{
-    const newData = this.state.addNewData;
-    newData.annualAward = e.target.value;
-    this.setState({ addNewData: newData });
-  }
-  handleMedicalFund=(e)=>{
-    const newData = this.state.addNewData;
-    newData.medicalFund = e.target.value;
-    this.setState({ addNewData: newData });
-  }
-  handleMotorBikeUse=(e)=>{
-    const newData = this.state.addNewData;
-    newData.motorBikeUse = e.target.value;
-    this.setState({ addNewData: newData });
-  }
-  handleSalaryCut=(e)=>{
-    const newData = this.state.addNewData;
-    newData.salaryCut = e.target.value;
-    this.setState({ addNewData: newData });
-  }
-  handleDeductionOfLoan=(e)=>{
-    const newData = this.state.addNewData;
-    newData.deductionOfLoan = e.target.value;
-    this.setState({ addNewData: newData });
-  }
   handleTotalSalary=(e)=>{
     const newData = this.state.addNewData;
     newData.totalSalary = e.target.value;
     this.setState({ addNewData: newData });
-  }
-
-  removeNewDocument(index, event) {
-    var array = this.state.newDoc;
-    array.splice(index, 1);
-    this.setState({
-      newDoc: array,
-    });
   }
   getEmployeeCodeList() {
     fetch(`${main_url}employee/getEmployeeCode`)
@@ -321,11 +170,7 @@ export default class ForeignerSalaryAddNew extends Component {
         });
       });
   }
-  exChangeRate=(event)=>{
-    const newData = this.state.addNewData;
-    newData.exchangeRate = event.target.value;
-    this.setState({ addNewData: newData });
-  }
+
   handleEmployeeId=(e)=>{
     console.log(e)
     
@@ -336,13 +181,7 @@ export default class ForeignerSalaryAddNew extends Component {
           })
           .then((data) => {
             this.setState({
-              DetailUser:{
-                employment_id:data[0].employment_id,
-              employee_name:data[0].employee_name,
-              designations:data[0].designations,
-              basic_salary:data[0].basic_salary,
-              user_id:data[0].user_id
-              }
+                DetailUser:data
             })
             // if (data.length > 0) {
             //   this.getData(this.props.id);
@@ -366,10 +205,10 @@ export default class ForeignerSalaryAddNew extends Component {
       let tempData = {};
       tempData.request_month = newData.requestMonth;
       tempData.exchangeRate=newData.exchangeRate;
-      tempData.employment_id = this.state.DetailUser.employment_id;
-      tempData.fullname = this.state.DetailUser.employee_name;
-      tempData.designations = this.state.DetailUser.designations;
-      tempData.gross_salary = this.state.DetailUser.basic_salary;
+      tempData.employment_id = this.state.DetailUser[0].employment_id;
+      tempData.fullname = this.state.DetailUser[0].employee_name;
+      tempData.designations = this.state.DetailUser[0].designations;
+      tempData.gross_salary = this.state.DetailUser[0].basic_salary;
       tempData.deduction_or_addition = newData.deductionOrAddition;
       tempData.salary_after_deduction_or_addition = newData.salaryAfterDorA;
       tempData.ssc3 = newData.ssc3;
@@ -390,9 +229,8 @@ export default class ForeignerSalaryAddNew extends Component {
       tempData.deductionOfLoan=newData.deductionOfLoan;
       tempData.totalSalary = newData.totalSalary;
       tempData.atm_or_cash = newData.atmOrCash;
-      tempData.user_id=this.state.DetailUser.user_id;
+      tempData.user_id=this.state.DetailUser[0].user_id;
       tempData.createdBy=this.state.userInfo.user_id;
-      tempData.selectedEmployeeId=this.state.selectedEmployeeId;
       
       
       
@@ -403,7 +241,6 @@ export default class ForeignerSalaryAddNew extends Component {
       data.push(tempData);
       this.setState({
         dataSource: data,
-        selectedEmployeeId:null,
         addNewData: {
           requestMonth: new Date(),
           exchangeRate:0,
@@ -430,13 +267,6 @@ export default class ForeignerSalaryAddNew extends Component {
           deductionOfLoan:0,
           user_id:''
         },
-        DetailUser:{
-          employment_id:'',
-          employee_name:'',
-          designations:'',
-          basic_salary:0,
-          user_id:0
-        }
       });
 
       saveBtn = true;
@@ -469,7 +299,7 @@ export default class ForeignerSalaryAddNew extends Component {
         fullname: data[i].fullname ? data[i].fullname : "-",
         designations: data[i].designations ? data[i].designations : "-",
         gross_salary: data[i].gross_salary ? data[i].gross_salary : 0,
-        exchangeRate:data[i].exchangeRate ? data[i].exchangeRate: 0,
+        exchangeRate:data[i].exChangeRate ? data[i].exChangeRate: 0,
         deduction_or_addition: data[i].deduction_or_addition
           ? data[i].deduction_or_addition
           : 0,
@@ -652,44 +482,26 @@ export default class ForeignerSalaryAddNew extends Component {
     }
     // }
   };
-  handleHouseAllowance=(e)=>{
-    const newData = this.state.addNewData;
-    newData.houseAllowance = e.target.value;
-    this.setState({ addNewData: newData });
-  }
-  handleTotalGrossSalary=(e)=>{
-    const newData = this.state.addNewData;
-    newData.totalGrossSalary = e.target.value;
-    this.setState({ addNewData: newData });
-  }
+  handleSelectedFromdate = async (event) => {
+    this.setState({
+      from_date: event,
+    });
+  };
+  
   onBackPayChange=(e)=>{
     const newData = this.state.addNewData;
     newData.backPay = e.target.value;
     this.setState({ addNewData: newData });
   }
-
-  handlefileChanged(e) {
-    var files = e.target.files;
-    var attachment = [...this.state.attachment];
-
-    for (let i = 0; i < files.length; i++) {
-      attachment.push(files[i]);
-
-      // this.setState({
-      //     attachment: attachment
-      // })
-    }
-    let newDoc = this.state.newDoc;
-    var obj = document.querySelector("#travelCRDrop").files.length;
-    for (var j = 0; j < obj; j++) {
-      var getfile = document.querySelector("#travelCRDrop").files[j];
-      newDoc.push(getfile);
-    }
-    document.querySelector("#travelCRDrop").value = "";
+  handlePayroll=(event)=>{
     this.setState({
-      newDoc: newDoc,
-      attachment: attachment,
-    });
+        selectedPayroll:event
+    })
+  }
+  handlesalaryPerDay=(event)=>{
+    const newData = this.state.addNewData;
+    newData.salaryPerDay = event.target.value;
+    this.setState({ addNewData: newData });
   }
 
   render() {
@@ -704,7 +516,7 @@ export default class ForeignerSalaryAddNew extends Component {
               <div className="ibox float-e-margins" id="add_check_form">
                 <div className="ibox-content p-md">
                   <div className="row">
-                    <div className="col-md-3">
+                  <div className="col-md-3">
                       <label>Request Month</label>
                       <DatePicker
                         dateFormat="MMM"
@@ -714,15 +526,15 @@ export default class ForeignerSalaryAddNew extends Component {
                       />
                     </div>
                     <div className="col-md-3">
-                      <label>Exchange Rate</label>
-                      <input
-                        className="form-control checkValidate"
-                        type="number"
-                        data-name="employment_id"
-                        value={addNewData.exchangeRate}
-                        placeholder="Exchange Rate"
-                        onChange={this.exChangeRate.bind(this)}
-                      />
+                        <label htmlFor="">Payroll Request Type</label>
+                        <Select
+                                placeholder="Employee"
+                                options={this.state.PayrollList}
+                                onChange={this.handlePayroll}
+                                value={this.state.selectedPayroll}
+                                className="react-select-container"
+                                classNamePrefix="react-select"
+                            />
                     </div>
                     <div className="col-md-3">
                       <label>Employee ID</label>
@@ -738,266 +550,119 @@ export default class ForeignerSalaryAddNew extends Component {
                     <div className="col-md-3">
                       <label>Employee Name</label>
                       <input
-                        className="form-control"
+                        className="form-control checkValidate"
                         disabled={true}
                         type="text"
                         data-name="fullname"
-                        value={this.state.DetailUser ? this.state.DetailUser.employee_name : ''}
+                        value={this.state.DetailUser ? this.state.DetailUser[0].employee_name : ''}
                         placeholder="Employee Name"
                         // onChange={this.claimChangeText}
                       />
                     </div>
+                    
                     
                   </div>
                   <div className="row margin-top-20">
                   <div className="col-md-3">
                       <label>Designation</label>
                       <input
-                        className="form-control"
+                        className="form-control checkValidate"
                         disabled={true}
                         type="text"
                         data-name="designation"
-                        value={this.state.DetailUser ? this.state.DetailUser.designations:""}
-                        placeholder="designation"
+                        value={this.state.DetailUser ? this.state.DetailUser[0].designations : ''}
+                        placeholder="Designation"
                         // onChange={this.claimChangeText}
                       />
                     </div>
                     <div className="col-md-3">
-                      <label>Gross Salary</label>
+                      <label>Department</label>
+                      <input
+                        className="form-control checkValidate"
+                        disabled={true}
+                        type="text"
+                        data-name="fullname"
+                        value={this.state.DetailUser ? this.state.DetailUser[0].deptname: ''}
+                        placeholder="Department"
+                        // onChange={this.claimChangeText}
+                      />
+                    </div>
+                  <div className="col-md-3">
+                      <label>Branch</label>
+                      <input
+                        className="form-control checkValidate"
+                        disabled={true}
+                        type="text"
+                        data-name="Branch"
+                        value={this.state.DetailUser ? this.state.DetailUser[0].location_master_name:""}
+                        placeholder="Branch"
+                        // onChange={this.claimChangeText}
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <label>Region</label>
                       <input
                         className="form-control"
                         disabled={true}
                         type="number"
-                        data-name="grossSalary"
-                        value={this.state.DetailUser ? this.state.DetailUser.basic_salary : ""}
-                        placeholder="Enter Lodging"
+                        data-name="Region"
+                        value={this.state.DetailUser ? this.state.DetailUser[0].state_name : ""}
+                        placeholder="Region"
                         // onChange={this.onGrossSalaryChange}
                       />
                     </div>
-                    <div className="col-md-3">
-                      <label>Deduction or Addition</label>
-                      <input
-                        className="form-control"
-                        type="number"
-                        data-name="deductionOrAddition"
-                        value={addNewData.deductionOrAddition}
-                        placeholder="Enter Deduction or Addition"
-                        onChange={this.onDeductionOrAddition}
-                      />
-                    </div>
-                    <div className="col-md-3">
-                      <label>Salary After Deduction or Addition</label>
-                      <input
-                        className="form-control"
-                        type="number"
-                        disabled
-                        data-name="salaryAfterDorA"
-                        value={addNewData.salaryAfterDorA}
-                        placeholder={"Enter Salary After Deduction or Addition"}
-                      />
-                    </div>
+                    
+                    
                   </div>
                   <div className="row margin-top-20">
                   
-                    <div className="col-md-3">
-                      <label>SSC (Employee 3%)</label>
+                  <div className="col-md-3">
+                      <label>Amount</label>
                       <input
                         className="form-control"
-                        disabled
                         type="number"
-                        data-name="ssc3"
-                        value={addNewData.ssc3}
+                        data-name="Amount"
+                        value={addNewData.Amount}
+                        placeholder="Enter Amount"
+                        onChange={this.handleAmount}
                       />
                     </div>
                     <div className="col-md-3">
-                      <label>SSC (Employee 2%)</label>
+                    <label>Reason</label>
                       <input
-                        className="form-control"
-                        disabled
-                        type="number"
-                        data-name="ssc2"
-                        value={addNewData.ssc2}
+                        className="form-control checkValidate"
+                        type="text"
+                        data-name="reason"
+                        value={addNewData.reason}
+                        placeholder="Enter Reason"
+                        onChange={this.onReasonChange}
+                        multiple
                       />
                     </div>
                     <div className="col-md-3">
-                      <label>Income Tax($)</label>
-                      <input
-                        className="form-control"
-                        type="number"
-                        data-name="incomeTax"
-                        value={addNewData.incomeTax_$}
-                        placeholder={"Enter Income Tax"}
-                        onChange={this.onIncomeTax$Change}
-                      />
+                      <label>Start Working Day</label>
+                      <DatePicker
+                        dateFormat="DD/MM/YYYY"
+                        value={this.state.from_date}
+                        onChange={this.handleSelectedFromdate}
+                        timeFormat={false}
+                    />
                     </div>
                     <div className="col-md-3">
-                      <label>Income Tax(MMK)</label>
-                      <input
-                        disabled={true}
-                        className="form-control"
-                        type="number"
-                        data-name="incomeTax"
-                        value={addNewData.incomeTax_$*addNewData.exchangeRate}
-                        placeholder={"Enter Income Tax"}
-                        // onChange={this.onIncomeTaxMMKChange}
-                      />
+                      <label>End Working Day</label>
+                            <DatePicker
+                        dateFormat="DD/MM/YYYY"
+                        value={this.state.to_date}
+                        onChange={this.handleSelectedTodate}
+                        timeFormat={false}
+                        />
                     </div>
                 </div>
                 <div className="row margin-top-20">
-                    <div className="col-md-3">
-                      <label>Net Salary Paid($)</label>
-                      <input
-                        className="form-control"
-                        disabled={true}
-                        type="number"
-                        data-name="netSalaryPaid"
-                        value={addNewData.salaryAfterDorA-addNewData.incomeTax_$}
-                        placeholder={"Enter Net Salary Paid"}
-                        // onChange={this.handleNetSalaryPaid}
-                      />
-                    </div>
-                    <div className="col-md-3">
-                      <label>House Allowance</label>
-                      <input
-                        className="form-control"
-                        
-                        type="number"
-                        data-name="houseAllowance"
-                        value={addNewData.houseAllowance}
-                        onChange={this.handleHouseAllowance}
-                      />
-                    </div>
-                    <div className="col-md-3">
-                      <label>Total Gross Salary</label>
-                      <input
-                        className="form-control"
-                       
-                        type="number"
-                        data-name="totalGrossSalary"
-                        value={addNewData.totalGrossSalary}
-                        onChange={this.handleTotalGrossSalary}
-                      />
-                    </div>
-                    <div className="col-md-3">
-                      <label>Maintenance</label>
-                      <input
-                        className="form-control"
-                        type="number"
-                        data-name="maintenance"
-                        value={addNewData.maintenance}
-                        placeholder="Enter Maintenance"
-                        onChange={this.onMaintenanceChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="row margin-top-20">
-                    <div className="col-md-3">
-                        <label>Petrol</label>
-                        <input
-                            className="form-control"
-                            type="number"
-                            data-name="petrol"
-                            value={addNewData.petrol}
-                            placeholder={"Enter Petrol"}
-                            onChange={this.onPetrolChange}
-                        />
-                    </div>
-                    <div className="col-md-3">
-                      <label>Back Pay</label>
-                      <input
-                        className="form-control"
-                        type="number"
-                        data-name="backPay"
-                        value={addNewData.backPay}
-                        placeholder={"Enter BackPay"}
-                        onChange={this.onBackPayChange}
-                      />
-                    </div>
-                    <div className="col-md-3">
-                      <label>Allowance</label>
-                      <input
-                        className="form-control"
-                        type="number"
-                        data-name="allowance"
-                        value={addNewData.allowance}
-                        placeholder={"Enter Allowance"}
-                        onChange={this.allowanceChange}
-                      />
-                    </div>
-                    <div className="col-md-3">
-                      <label>Annual Award</label>
-                      <input
-                        className="form-control"
-                        type="number"
-                        data-name="annualAward"
-                        value={addNewData.annualAward}
-                        placeholder={"Enter Annual Award"}
-                        onChange={this.handleAnnualAward}
-                      />
-                    </div>
-                  </div>
-                  <div className="row margin-top-20">
-                    <div className="col-md-3">
-                        <label>Medical Fund</label>
-                        <input
-                            className="form-control"
-                            type="number"
-                            data-name="medicalFund"
-                            value={addNewData.medicalFund}
-                            placeholder={"Enter Medical Fund"}
-                            onChange={this.handleMedicalFund}
-                        />
-                    </div>
-                    <div className="col-md-3">
-                        <label>Deduct for Office Motor Bike Use</label>
-                        <input
-                            className="form-control"
-                            type="number"
-                            data-name="deductForOfficeMotorBikeUse"
-                            value={addNewData.motorBikeUse}
-                            placeholder={"Enter DeductForOfficeMotorBikeUse"}
-                            onChange={this.handleMotorBikeUse}
-                        />
-                    </div>
-                    <div className="col-md-3">
-                        <label>Salary Cut</label>
-                        <input
-                            className="form-control"
-                            type="number"
-                            data-name="salaryCut"
-                            value={addNewData.salaryCut}
-                            placeholder={"Enter Salary Cut"}
-                            onChange={this.handleSalaryCut}
-                        />
-                    </div>
-                    <div className="col-md-3">
-                        <label>Deduction Of Loan</label>
-                        <input
-                            className="form-control"
-                            type="number"
-                            data-name="deductionOfLoan"
-                            value={addNewData.deductionOfLoan}
-                            placeholder={"Enter Deduction of Loan"}
-                            onChange={this.handleDeductionOfLoan}
-                        />
-                    </div>
-                  </div>
-                  <div className="row margin-top-20">
-                    <div className="col-md-3">
-                        <label>Total Salary</label>
-                        <input
-                            className="form-control"
-                            type="number"
-                            data-name="totalSalary"
-                            value={addNewData.totalSalary}
-                            placeholder={"Enter Total Salary"}
-                            onChange={this.handleTotalSalary}
-                        />
-                    </div>
-                    <div className="col-md-3">
-                      <label>ATM / Cash</label>
+                <div className="col-md-3">
+                      <label>Working Day / Calendar Day</label>
                       <div
-                        onChange={this.onRadioChange}
+                        onChange={this.onRadioWorkinDayChange}
                         className="row"
                         style={{
                           display: "flex",
@@ -1008,18 +673,92 @@ export default class ForeignerSalaryAddNew extends Component {
                         <input
                           type="radio"
                           value={0}
-                          name="work"
-                          checked={addNewData.atmOrCash == 0 ? true : false}
+                          name="working_day"
+                          checked={addNewData.workingDay == 0 ? true : false}
                         />{" "}
-                        <span>ATM</span>
+                        <span>Working Day</span>
                         <input
                           type="radio"
                           value={1}
-                          name="work"
-                          checked={addNewData.atmOrCash == 1 ? true : false}
+                          name="calendar_day"
+                          checked={addNewData.workingDay == 1 ? true : false}
                         />{" "}
-                        <span>Cash</span>
+                        <span>Calendar Day</span>
                       </div>
+                    </div>
+                    <div className="col-md-3">
+                      <label>Total Working Day</label>
+                      <input
+                        className="form-control"
+                        
+                        type="number"
+                        data-name="totalWorkingDay"
+                        value={addNewData.totalWorkingDay}
+                        onChange={this.handletotalWorkingDay}
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <label>Salary Per Day</label>
+                      <input
+                        className="form-control"
+                       
+                        type="number"
+                        data-name="salaryPerDay"
+                        value={addNewData.salaryPerDay}
+                        onChange={this.handlesalaryPerDay}
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <label>Total Salary</label>
+                      <input
+                        className="form-control"
+                        type="number"
+                        data-name="totalSalary"
+                        value={addNewData.totalSalary}
+                        placeholder="Total Salary"
+                        onChange={this.ontotalSalaryChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="row margin-top-20">
+                    <div className="col-md-3">
+                        <label>ATM / Cash</label>
+                        <div
+                          onChange={this.onRadioChange}
+                          className="row"
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            //   alignItems: "center",
+                          }}
+                        >
+                          <input
+                            type="radio"
+                            value={0}
+                            name="work"
+                            checked={addNewData.atmOrCash == 0 ? true : false}
+                          />{" "}
+                          <span>ATM</span>
+                          <input
+                            type="radio"
+                            value={1}
+                            name="work"
+                            checked={addNewData.atmOrCash == 1 ? true : false}
+                          />{" "}
+                          <span>Cash</span>
+                        </div>
+                      </div>
+                    <div className="col-md-3">
+                        <label>Total</label>
+                        <input
+                            className="form-control"
+                            disabled={true}
+                            type="number"
+                            data-name="total"
+                            value={addNewData.Total}
+                          
+                            // onChange={this.handleMedicalFund}
+                        />
                     </div>
                     <div className="col-md-6 btn-rightend">
                       <button
