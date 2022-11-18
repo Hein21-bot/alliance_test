@@ -140,7 +140,6 @@ class AttendanceType extends Component {
   };
 
   async LateCheckIn(){
-       
     let start_date = moment(this.state.s_date).format("YYYY-MM-DD");
     let end_date = moment(this.state.e_date).format("YYYY-MM-DD");
     await fetch(
@@ -164,7 +163,7 @@ class AttendanceType extends Component {
         let statusFiltered = statusFilter.filter(v=>v.late_checkin == 1)
         // let requestFilter=statusFilter.sort((a,b)=>moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD"))
         console.log("status filter===>", statusFilter.filter(v=>v.late_checkin == 1))
-        this.setState({ data: list, datasource: statusFiltered,attendance_type :"late_check_in" }, () => {
+        this.setState({ data: list, datasource: statusFiltered,attendance_type :"late_check_in",checkboxAll:true }, () => {
           // this._setTableData(statusFilter.filter(v=>v.late_checkin == 1));
           this._setTableData(statusFiltered);
         });
@@ -195,7 +194,7 @@ class AttendanceType extends Component {
         let statusFiltered = statusFilter.filter(v=>v.field_checkin == 1)
         // let requestFilter=statusFilter.sort((a,b)=>moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD"))
         console.log("status filter===>", statusFilter)
-        this.setState({ data: list, datasource: statusFiltered,attendance_type: "field_check_in" }, () => {
+        this.setState({ data: list, datasource: statusFiltered,attendance_type: "field_check_in",checkboxAll:true}, () => {
           // this._setTableData(statusFilter.filter(v=>v.field_checkin == 1));
           this._setTableData(statusFiltered);
         });
@@ -226,7 +225,7 @@ class AttendanceType extends Component {
         let statusFiltered = statusFilter.filter(v=>v.early_checkout == 1)
         // let requestFilter=statusFilter.sort((a,b)=>moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD"))
         console.log("status filter===>", statusFilter)
-        this.setState({ data: list, datasource: statusFiltered,attendance_type: "early_check_out" }, () => {
+        this.setState({ data: list, datasource: statusFiltered,attendance_type: "early_check_out",checkboxAll:true }, () => {
           // this._setTableData(statusFilter.filter(v=>v.early_checkout == 1));
           this._setTableData(statusFiltered);
         });
@@ -257,7 +256,7 @@ class AttendanceType extends Component {
         let statusFiltered = statusFilter.filter(v=>v.field_checkout == 1)
         // let requestFilter=statusFilter.sort((a,b)=>moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD"))
         console.log("status filter===>", statusFiltered)
-        this.setState({ data: list, datasource: statusFiltered,attendance_type:"field_check_out" }, () => {
+        this.setState({ data: list, datasource: statusFiltered,attendance_type:"field_check_out",checkboxAll:true }, () => {
           // this._setTableData(statusFilter.filter(v=>v.field_checkout == 1));
           this._setTableData(statusFiltered);
 
@@ -731,9 +730,11 @@ class AttendanceType extends Component {
               >
                 <div style={{ width: "20%" }}>
                   <label>
-                    <input
+                    <input className="checkone"
+                    style={{marginRight:'3px'}}
                       id="ipSelect"
                       type={"checkbox"}
+                      checked={!this.state.checkboxAll}
                       onChange={() =>
                         this.handleCheckboxAll(!this.state.checkboxAll)
                       }
