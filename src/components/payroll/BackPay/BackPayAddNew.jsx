@@ -14,6 +14,7 @@ import {
   validate,
   getBranch,
   alertText,
+  calculationDate
 } from "../../../utils/CommonFunction";
 import Select from "react-select";
 const $ = require("jquery");
@@ -26,13 +27,22 @@ export default class BackPayAddNew extends Component {
     this.state = {
       userId: null,
       userInfo: {},
-      PayrollList:[],
+      PayrollList:[
+        {value:1,label:'Back Pay Salary'},
+        {value:2,label:'Refund Salary'},
+        {value:1,label:'Temporary Contract Salary'}
+      ],
       addNewData: {
+        requestMonth:new Date(),
         Amount:0,
         workingDay:0,
         salaryPerDay:0,
         totalWorkingDay:0,
-        Total:0
+        Total:0,
+        atmOrCash:0,
+        start_working_day:new Date(),
+        end_working_day:new Date(),
+        payRoll:0
         
         
       },
@@ -41,9 +51,17 @@ export default class BackPayAddNew extends Component {
       newDoc: [],
       employeeIdList:null,
       selectedEmployeeId:null,
-      DetailUser:null,
-      from_date:moment(),
-      to_date:moment()
+      selectedPayroll:null,
+      DetailUser:{
+        employment_id:0,
+        employee_name:'',
+        state_name:'',
+        location_master_name:'',
+        deptname:'',
+        designations:''
+      },
+      
+     
     };
   }
 
@@ -72,32 +90,27 @@ export default class BackPayAddNew extends Component {
       that.setState(
         {
           dataSource: newData,
+          selectedEmployeeId:editData.selectedEmployeeId,
           addNewData: {
             requestMonth: editData.request_month,
-            exchangeRate:editData.exchangeRate,
-            lastWorkingDay: editData.last_working_day,
-            grossSalary: editData.gross_salary,
-            deductionOrAddition: editData.deduction_or_addition,
-            salaryAfterDorA: editData.salary_after_deduction_or_addition,
-            ssc3: editData.ssc3,
-            ssc2: editData.ssc2,
-            incomeTax_$:editData.income_tax_$,
-            incomeTax_MMK:editData.incomeTax_MMK,
-            maintenance: editData.maintenance,
-            petrol: editData.petrol,
-            totalSalary: editData.totalSalary,
-            deductionOfLoan:editData.deductionOfLoan,
-            atmOrCash: editData.atm_or_cash,
-            houseAllowance:editData.houseAllowance,
-            backPay:editData.backPay,
-            allowance:editData.allowance,
-            annualAward:editData.annualAward,
-            medicalFund:editData.medicalFund,
-            motorBikeUse:editData.motorBikeUse,
-            salaryCut:editData.salaryCut,
-            totalGrossSalary:editData.totalGrossSalary
-            
+            Amount:editData.Amount,
+            workingDay:editData.workingDay,
+            salaryPerDay:editData.salaryPerDay,
+            totalWorkingDay:editData.totalWorkingDay,
+            Total:editData.Total,
+            start_working_day:editData.start_working_day,
+            end_working_day:editData.end_working_day,
+            payRoll:editData.payRoll,
+            atmOrCash:editData.atmOrCash
           },
+          DetailUser:{
+            employment_id:editData.employment_id,
+        employee_name:editData.employee_name,
+        state_name:editData.state_name,
+        location_master_name:editData.location_master_name,
+        deptname:editData.deptname,
+        designations:editData.designations
+          }
         },
         () => that.setDataTable(newData)
       );
@@ -116,10 +129,27 @@ export default class BackPayAddNew extends Component {
       );
     });
   }
+  totalWorkingDays=(startDate,endDate)=>{
+    console.log("gggg")
+    if(startDate<=endDate){
+      console.log("in")
+      const newData = this.state.addNewData;
+      newData.totalWorkingDay = calculationDate(startDate,endDate);
+      console.log("total work day==+>",newData.totalWorkingDay)
+        this.setState({
+          addNewData:newData
+        })
+    }
+
+  }
   handleSelectedTodate = async (event) => {
+    console.log("end===>",moment(event).format('YYYY-MM-DD'))
+    const newData = this.state.addNewData;
+    newData.end_working_day =event;
     this.setState({
-      to_date: event,
-    });
+      addNewData:newData
+    })
+    this.totalWorkingDays(this.state.addNewData.start_working_day,event);
   };
   handleAmount=(e)=>{
     const newData = this.state.addNewData;
@@ -149,12 +179,47 @@ export default class BackPayAddNew extends Component {
     newData.workingDay = parseInt(e.target.value);
     this.setState({ addNewData: newData });
   }
+  handleSelectedFromdate = async (event) => {
+    console.log("start===>",event)
+    const newData = this.state.addNewData;
+    newData.start_working_day = event;
+    this.setState({
+        addNewData:newData
+    })
+    this.totalWorkingDays(event,this.state.addNewData.end_working_day);
+  };
+  
+  onBackPayChange=(e)=>{
+    const newData = this.state.addNewData;
+    newData.backPay = e.target.value;
+    this.setState({ addNewData: newData });
+  }
+  handlePayroll=(event)=>{
+    console.log("payroll",event)
+    const newData = this.state.addNewData;
+    newData.payRoll = event.value;
+    this.setState({
+        selectedPayroll:event,
+        
+    })
+  }
+  handlesalaryPerDay=(event)=>{
+    const newData = this.state.addNewData;
+    newData.salaryPerDay = event.target.value;
+    this.setState({ addNewData: newData });
+  }
 
   handleTotalSalary=(e)=>{
     const newData = this.state.addNewData;
     newData.totalSalary = e.target.value;
     this.setState({ addNewData: newData });
   }
+  handleTotal=(e)=>{
+    const newData = this.state.addNewData;
+    newData.Total = e.target.value;
+    this.setState({ addNewData: newData });
+  }
+
   getEmployeeCodeList() {
     fetch(`${main_url}employee/getEmployeeCode`)
       .then((res) => {
@@ -181,7 +246,7 @@ export default class BackPayAddNew extends Component {
           })
           .then((data) => {
             this.setState({
-                DetailUser:data
+                DetailUser:data[0]
             })
             // if (data.length > 0) {
             //   this.getData(this.props.id);
@@ -198,75 +263,61 @@ export default class BackPayAddNew extends Component {
   }
   addData = (e) => {
     const { userInfo } = this.state;
-    console.log("userInfo ===>", userInfo);
+    console.log("add data", this.state.newData);
     if (validate("add_check_form")) {
       var data = [...this.state.dataSource];
       let newData = { ...this.state.addNewData };
       let tempData = {};
       tempData.request_month = newData.requestMonth;
-      tempData.exchangeRate=newData.exchangeRate;
-      tempData.employment_id = this.state.DetailUser[0].employment_id;
-      tempData.fullname = this.state.DetailUser[0].employee_name;
-      tempData.designations = this.state.DetailUser[0].designations;
-      tempData.gross_salary = this.state.DetailUser[0].basic_salary;
-      tempData.deduction_or_addition = newData.deductionOrAddition;
-      tempData.salary_after_deduction_or_addition = newData.salaryAfterDorA;
-      tempData.ssc3 = newData.ssc3;
-      tempData.ssc2 = newData.ssc2;
-      tempData.income_tax_$ = newData.incomeTax_$;
-      tempData.incomeTax_MMK=newData.incomeTax_MMK;
-      tempData.netSalaryPaid=newData.netSalaryPaid;
-      tempData.houseAllowance=newData.houseAllowance;
-      tempData.totalGrossSalary=newData.totalGrossSalary
-      tempData.maintenance = newData.maintenance;
-      tempData.petrol = newData.petrol;
-      tempData.backPay=newData.backPay;
-      tempData.allowance=newData.allowance;
-      tempData.annualAward=newData.annualAward;
-      tempData.medicalFund=newData.medicalFund;
-      tempData.motorBikeUse=newData.motorBikeUse;
-      tempData.salaryCut=newData.salaryCut;
-      tempData.deductionOfLoan=newData.deductionOfLoan;
-      tempData.totalSalary = newData.totalSalary;
-      tempData.atm_or_cash = newData.atmOrCash;
-      tempData.user_id=this.state.DetailUser[0].user_id;
+      tempData.payRoll=newData.payRoll;
+      tempData.employment_id = this.state.DetailUser.employment_id;
+      tempData.fullname = this.state.DetailUser.employee_name;
+      tempData.designations = this.state.DetailUser.designations;
+      tempData.region=this.state.DetailUser.state_name;
+      tempData.branch=this.state.DetailUser.location_master_name;
+      tempData.Amount=newData.Amount;
+      tempData.start_working_day=newData.start_working_day;
+      tempData.end_working_day=newData.end_working_day;
+      tempData.workingDay=newData.workingDay;
+      tempData.salaryPerDay=newData.salaryPerDay;
+      tempData.totalWorkingDay=newData.totalWorkingDay;
+      tempData.Total=newData.Total;
+      tempData.selectedEmployeeId=this.state.selectedEmployeeId;
+      tempData.atmOrCash=newData.atmOrCash;
+      tempData.selectedPayroll=this.state.selectedPayroll;
+      tempData.user_id=this.state.DetailUser.user_id;
       tempData.createdBy=this.state.userInfo.user_id;
       
-      
-      
-     
-
       var totalAmount = 0;
 
       data.push(tempData);
       this.setState({
         dataSource: data,
+        selectedEmployeeId:null,
+        selectedPayroll:null,
         addNewData: {
-          requestMonth: new Date(),
-          exchangeRate:0,
-          grossSalary: 0,
-          deductionOrAddition: 0,
-          salaryAfterDorA: 0,
-          ssc3: 0,
-          ssc2: 0,
-          netSalaryPaid:0,
-          incomeTax_$: 0,
-          incomeTax_MMK:0,
-          houseAllowance:0,
-          totalGrossSalary:0,
-          maintenance: "",
-          petrol: "",
-          totalSalary: 0,
-          atmOrCash: 0,
-          backPay:0,
-          allowance:0,
-          annualAward:0,
-          medicalFund:0,
-          motorBikeUse:0,
-          salaryCut:0,
-          deductionOfLoan:0,
-          user_id:''
+          requestMonth:new Date(),
+          Amount:0,
+          workingDay:0,
+          salaryPerDay:0,
+          totalWorkingDay:0,
+          Total:0,
+          user_id:0,
+          atmOrCash:0,
+          start_working_day:new Date(),
+          end_working_day:new Date(),
+          payRoll:0
+          
         },
+        DetailUser:{
+          employment_id:0,
+          employee_name:'',
+          state_name:'',
+          location_master_name:'',
+          deptname:'',
+          designations:''
+        },
+       
       });
 
       saveBtn = true;
@@ -296,35 +347,22 @@ export default class BackPayAddNew extends Component {
           ? moment(data[i].request_month).format("MMM")
           : "-",
         employment_id: data[i].employment_id ? data[i].employment_id : "-",
+        pay_roll:data[i].payRoll == 1 ? "Back Pay Salary" : data[i].payRoll ==2 ? "Refund Salary" : "•	Temporary Contract Salary",
         fullname: data[i].fullname ? data[i].fullname : "-",
         designations: data[i].designations ? data[i].designations : "-",
-        gross_salary: data[i].gross_salary ? data[i].gross_salary : 0,
-        exchangeRate:data[i].exChangeRate ? data[i].exChangeRate: 0,
-        deduction_or_addition: data[i].deduction_or_addition
-          ? data[i].deduction_or_addition
-          : 0,
-        salary_after_deduction_or_addition: data[i]
-          .salary_after_deduction_or_addition
-          ? data[i].salary_after_deduction_or_addition
-          : 0,
-        ssc3: data[i].ssc3 ? data[i].ssc3 : 0,
-        ssc2: data[i].ssc2 ? data[i].ssc2 : 0,
-        income_tax_$: data[i].income_tax_$ ? data[i].income_tax_$ : 0,
-        income_taxMMK:data[i].incomeTax_MMK ? data[i].incomeTax_MMK : 0,
-        netSalaryPaid:data[i].netSalaryPaid ? data[i].netSalaryPaid : 0,
-        houseAllowance:data[i].houseAllowance ? data[i].houseAllowance : 0,
-        maintenance: data[i].maintenance ? data[i].maintenance : 0,
-        petrol: data[i].petrol ? data[i].petrol : 0,
-        total_gross_salary: data[i].totalGrossSalary ? data[i].totalGrossSalary : 0,
-        back_pay:data[i].backPay ? data[i].backPay : 0,
-        allowance:data[i].allowance ? data[i].allowance : 0,
-        annual_Award:data[i].annualAward ? data[i].annualAward : 0,
-        medical_Fund:data[i].medicalFund ? data[i].medicalFund : 0,
-        deduct_for_office_motorbike_use:data[i].motorBikeUse ? data[i].motorBikeUse : 0,
-        salary_cut:data[i].salaryCut ? data[i].salaryCut : 0,
-        deduction_of_loan:data[i].deductionOfLoan ? data[i].deductionOfLoan : 0,
+        departments:data[i].deptname ? data[i].deptname : '-',
+        region:data[i].location_master_name ? data[i].location_master_name:'-',
+        branch:data[i].state_name ? data[i].state_name : '-',
+        amount:data[i].Amount ? data[i].Amount : '-',
+        reason:data[i].Reason ? data[i].Reason : '-',
+        start_working_day:data[i].start_working_day ? moment(data[i].start_working_day).format('YYYY-MM-DD') : '-',
+        end_working_day:data[i].end_working_day ? moment(data[i].end_working_day).format('YYYY-MM-DD') : '-',
+        working_day:data[i].workingDay== 0 ? "Working Day" : 'Calendar Day',
+        total_working_day:data[i].totalWorkingDay ? data[i].totalWorkingDay : '-',
+        salary_per_day:data[i].salaryPerDay ? data[i].salaryPerDay : '-',
+        total_salary:data[i].totalSalary ? data[i].totalSalary : '-',
         atm_or_cash: data[i].atm_or_cash == 0 ? "ATM" : "Cash",
-        Total:data[i].totalSalary ? data[i].totalSalary : 0,
+        Total:data[i].Total ? data[i].Total : 0,
         action:
           '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' +
           index +
@@ -348,33 +386,21 @@ export default class BackPayAddNew extends Component {
       columns: [
         { title: "No", data: "no" },
         { title :"Request Month",data:"request_month"},
+        { title : "Payroll Type",data:'pay_roll'},
         { title: "Employee Id", data: "employment_id" },
         { title: "Employee Name", data: "fullname" },
         { title: "Position", data: "designations" },
-        { title:"Exchange Rate",data:"exchangeRate"},
-        { title: "Gross Salary",data:"gross_salary"},
-        { title: "Deduction or Addition", data: "deduction_or_addition" },
-        {
-          title: "Salary After Deduciton or Addition",
-          data: "salary_after_deduction_or_addition",
-        },
-        { title: "SSC Employee(3%)", data: "ssc3" },
-        { title: "SSC Employee(2%)", data: "ssc2" },
-        { title: "Income Tax($)", data: "income_tax_$" },
-        { title:"Income Tax(MMK)",data:"income_taxMMK"},
-        { title:"Net Salary Paid($)",data:"netSalaryPaid"},
-        { title :'Housing Allowance',data:"houseAllowance"},
-    
-        { title: "Total Gross Salary", data: "total_gross_salary" },
-        { title: "Maintenance", data: "maintenance" },
-        { title: "Petrol", data: "petrol" },
-        { title: "BackPay", data: "back_pay" },
-        { title: "Allowance", data: "allowance" },
-        { title: "Annual Award", data: "annual_Award" },
-        { title: "Medical Fund", data: "medical_Fund" },
-        { title: "Deduct For Office Motor Bike Using", data: "deduct_for_office_motorbike_use" },
-        { title: "Salary Cut",data:'salary_cut'},
-        { title: "Deduction Of Loan",data:"deduction_of_loan"},
+        { title :"Departments",data:"departments"},
+        { title :"Region",data:"region"},
+        { title :"Branch",data:"branch"},
+        { title :"Amount",data:"amount"},
+        { title :"Reason",data:"reason"},
+        { title :"Start Working Day",data:"start_working_day"},
+        { title :"End Working Day",data:"end_working_day"},
+        { title :"Working Day/Calendar Day",data:"working_day"},
+        { title: "Total Working Day",data:"total_working_day"},
+        { title: "Salary Per Day",data:"salary_per_day"},
+        { title: "Total Salary",data:"total_salary"},
         { title: "ATM Or Cash",data:"atm_or_cash"},
         { title: "Total",data:"Total"},
         { title: "Action",data:'action'}
@@ -403,30 +429,20 @@ export default class BackPayAddNew extends Component {
       const dataTostring = this.state.dataSource.map((v) => {
         return {
           request_month: moment(v.request_month).format("YYYY-MM-DD"),
+          payRoll:v.payRoll,
           employment_id: v.employment_id,
           fullname: v.fullname,
           designations: v.designations,
-          gross_salary: v.gross_salary,
-          exchange_rate:v.exChangeRate,
-          deduction_or_addition: v.deduction_or_addition,
-          salary_after_deduction_or_addition:
-            v.salary_after_deduction_or_addition,
-          ssc_employer: v.ssc3,
-          ssc_employee: v.ssc2,
-          income_tax_$: v.income_tax_$,
-          income_tax_MMK:v.incomeTax_MMK,
-          net_salary_paid:v.netSalaryPaid,
-          house_allowance:v.houseAllowance,
-          maintenance: v.maintenance,
-          petrol: v.petrol,
-          total_gross_salary:v.totalGrossSalary,
-          back_pay:v.backPay,
-          allowance:v.allowance,
-          annual_Award:v.annualAward,
-          medical_Fund:v.medicalFund,
-          deduct_for_office_motorbike_use:v.motorBikeUse,
-          salary_cut:v.salaryCut,
-          deduction_of_loan:v.deductionOfLoan,
+          region:v.region,
+          branch:v.branch,
+          Amount:v.Amount,
+          start_working_day:v.start_working_day,
+          end_working_day:v.end_working_day,
+          workingDay:v.workingDay,
+          salaryPerDay:v.salaryPerDay,
+          totalWorkingDay:v.totalWorkingDay,
+          selectedEmployeeId:v.selectedEmployeeId,
+          selectedPayroll:v.selectedPayroll,
           Total:v.totalSalary,
           atm_or_cash: v.atm_or_cash,
           user_id:v.user_id,
@@ -482,32 +498,12 @@ export default class BackPayAddNew extends Component {
     }
     // }
   };
-  handleSelectedFromdate = async (event) => {
-    this.setState({
-      from_date: event,
-    });
-  };
   
-  onBackPayChange=(e)=>{
-    const newData = this.state.addNewData;
-    newData.backPay = e.target.value;
-    this.setState({ addNewData: newData });
-  }
-  handlePayroll=(event)=>{
-    this.setState({
-        selectedPayroll:event
-    })
-  }
-  handlesalaryPerDay=(event)=>{
-    const newData = this.state.addNewData;
-    newData.salaryPerDay = event.target.value;
-    this.setState({ addNewData: newData });
-  }
 
   render() {
     
     const { addNewData, userId, userInfo, dataSource } = this.state;
-    console.log("addNewData =====>",this.state.DetailUser);
+    console.log("addNewData =====>",this.state.addNewData);
     return (
       <div>
         <div className="row">
@@ -554,7 +550,7 @@ export default class BackPayAddNew extends Component {
                         disabled={true}
                         type="text"
                         data-name="fullname"
-                        value={this.state.DetailUser ? this.state.DetailUser[0].employee_name : ''}
+                        value={this.state.DetailUser ? this.state.DetailUser.employee_name : ''}
                         placeholder="Employee Name"
                         // onChange={this.claimChangeText}
                       />
@@ -566,11 +562,11 @@ export default class BackPayAddNew extends Component {
                   <div className="col-md-3">
                       <label>Designation</label>
                       <input
-                        className="form-control checkValidate"
+                        className="form-control"
                         disabled={true}
                         type="text"
                         data-name="designation"
-                        value={this.state.DetailUser ? this.state.DetailUser[0].designations : ''}
+                        value={this.state.DetailUser ? this.state.DetailUser.designations : ''}
                         placeholder="Designation"
                         // onChange={this.claimChangeText}
                       />
@@ -578,11 +574,11 @@ export default class BackPayAddNew extends Component {
                     <div className="col-md-3">
                       <label>Department</label>
                       <input
-                        className="form-control checkValidate"
+                        className="form-control"
                         disabled={true}
                         type="text"
                         data-name="fullname"
-                        value={this.state.DetailUser ? this.state.DetailUser[0].deptname: ''}
+                        value={this.state.DetailUser ? this.state.DetailUser.deptname: ''}
                         placeholder="Department"
                         // onChange={this.claimChangeText}
                       />
@@ -590,11 +586,11 @@ export default class BackPayAddNew extends Component {
                   <div className="col-md-3">
                       <label>Branch</label>
                       <input
-                        className="form-control checkValidate"
+                        className="form-control"
                         disabled={true}
                         type="text"
                         data-name="Branch"
-                        value={this.state.DetailUser ? this.state.DetailUser[0].location_master_name:""}
+                        value={this.state.DetailUser ? this.state.DetailUser.location_master_name:""}
                         placeholder="Branch"
                         // onChange={this.claimChangeText}
                       />
@@ -606,7 +602,7 @@ export default class BackPayAddNew extends Component {
                         disabled={true}
                         type="number"
                         data-name="Region"
-                        value={this.state.DetailUser ? this.state.DetailUser[0].state_name : ""}
+                        value={this.state.DetailUser ? this.state.DetailUser.state_name : ""}
                         placeholder="Region"
                         // onChange={this.onGrossSalaryChange}
                       />
@@ -643,7 +639,7 @@ export default class BackPayAddNew extends Component {
                       <label>Start Working Day</label>
                       <DatePicker
                         dateFormat="DD/MM/YYYY"
-                        value={this.state.from_date}
+                        value={this.state.start_working_day}
                         onChange={this.handleSelectedFromdate}
                         timeFormat={false}
                     />
@@ -652,7 +648,7 @@ export default class BackPayAddNew extends Component {
                       <label>End Working Day</label>
                             <DatePicker
                         dateFormat="DD/MM/YYYY"
-                        value={this.state.to_date}
+                        value={this.state.end_working_day}
                         onChange={this.handleSelectedTodate}
                         timeFormat={false}
                         />
@@ -752,12 +748,12 @@ export default class BackPayAddNew extends Component {
                         <label>Total</label>
                         <input
                             className="form-control"
-                            disabled={true}
+                           
                             type="number"
                             data-name="total"
                             value={addNewData.Total}
                           
-                            // onChange={this.handleMedicalFund}
+                            onChange={this.handleTotal}
                         />
                     </div>
                     <div className="col-md-6 btn-rightend">
