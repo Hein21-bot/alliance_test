@@ -124,7 +124,6 @@ class AttendanceType extends Component {
   };
 
   handleCheckboxAll = async (e) => {
-    console.log('e is =====>', e)
     this.setState({ checkboxAll: e }, () => {
       return true;
     });
@@ -133,14 +132,13 @@ class AttendanceType extends Component {
         checkedListData: this.state.data.filter(
           (d) => d.user_id != this.state.user_id && d.status == 0
         ),
-      }, () => { console.log("all data", this.state.checkedListData) });
+      });
     } else {
-      this.setState({ checkedListData: [] }, () => { console.log("no data", this.state.checkedListData) });
+      this.setState({ checkedListData: [] });
     }
   };
 
   async LateCheckIn(){
-       
     let start_date = moment(this.state.s_date).format("YYYY-MM-DD");
     let end_date = moment(this.state.e_date).format("YYYY-MM-DD");
     await fetch(
@@ -150,7 +148,6 @@ class AttendanceType extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        console.log("list",list)
         let statusFilter = list.sort((a, b) => {
           if (a.status < b.status) {
             return -1;
@@ -161,10 +158,11 @@ class AttendanceType extends Component {
           }
           return 1;
         })
+        let statusFiltered = statusFilter.filter(v=>v.late_checkin == 1)
         // let requestFilter=statusFilter.sort((a,b)=>moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD"))
-        console.log("status filter===>", statusFilter.filter(v=>v.late_checkin == 1))
-        this.setState({ data: list, datasource: list,attendance_type :"late_check_in" }, () => {
-          this._setTableData(statusFilter.filter(v=>v.late_checkin == 1));
+        this.setState({ data: list, datasource: statusFiltered,attendance_type :"late_check_in",checkboxAll:true }, () => {
+          // this._setTableData(statusFilter.filter(v=>v.late_checkin == 1));
+          this._setTableData(statusFiltered);
         });
       });
   }
@@ -179,7 +177,6 @@ class AttendanceType extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        console.log("list",list)
         let statusFilter = list.sort((a, b) => {
           if (a.status < b.status) {
             return -1;
@@ -190,10 +187,11 @@ class AttendanceType extends Component {
           }
           return 1;
         })
+        let statusFiltered = statusFilter.filter(v=>v.field_checkin == 1)
         // let requestFilter=statusFilter.sort((a,b)=>moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD"))
-        console.log("status filter===>", statusFilter)
-        this.setState({ data: list, datasource: list,attendance_type: "field_check_in" }, () => {
-          this._setTableData(statusFilter.filter(v=>v.field_checkin == 1));
+        this.setState({ data: list, datasource: statusFiltered,attendance_type: "field_check_in",checkboxAll:true}, () => {
+          // this._setTableData(statusFilter.filter(v=>v.field_checkin == 1));
+          this._setTableData(statusFiltered);
         });
       });
   }
@@ -208,7 +206,6 @@ class AttendanceType extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        console.log("list",list)
         let statusFilter = list.sort((a, b) => {
           if (a.status < b.status) {
             return -1;
@@ -219,10 +216,11 @@ class AttendanceType extends Component {
           }
           return 1;
         })
+        let statusFiltered = statusFilter.filter(v=>v.early_checkout == 1)
         // let requestFilter=statusFilter.sort((a,b)=>moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD"))
-        console.log("status filter===>", statusFilter)
-        this.setState({ data: list, datasource: list,attendance_type: "early_check_out" }, () => {
-          this._setTableData(statusFilter.filter(v=>v.early_checkout == 1));
+        this.setState({ data: list, datasource: statusFiltered,attendance_type: "early_check_out",checkboxAll:true }, () => {
+          // this._setTableData(statusFilter.filter(v=>v.early_checkout == 1));
+          this._setTableData(statusFiltered);
         });
       });
   }
@@ -237,7 +235,6 @@ class AttendanceType extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        console.log("list",list)
         let statusFilter = list.sort((a, b) => {
           if (a.status < b.status) {
             return -1;
@@ -248,10 +245,12 @@ class AttendanceType extends Component {
           }
           return 1;
         })
+        let statusFiltered = statusFilter.filter(v=>v.field_checkout == 1)
         // let requestFilter=statusFilter.sort((a,b)=>moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD"))
-        console.log("status filter===>", statusFilter)
-        this.setState({ data: list, datasource: list,attendance_type:"field_check_out" }, () => {
-          this._setTableData(statusFilter.filter(v=>v.field_checkout == 1));
+        this.setState({ data: list, datasource: statusFiltered,attendance_type:"field_check_out",checkboxAll:true }, () => {
+          // this._setTableData(statusFilter.filter(v=>v.field_checkout == 1));
+          this._setTableData(statusFiltered);
+
         });
       });
   }
@@ -335,26 +334,26 @@ class AttendanceType extends Component {
         let obj = [];
         // var has_select = true
         if (
-          this.state.attendance_type == "early_check_out" ||
-            this.state.attendance_type == "field_check_out"
-            ? result.check_out_status == 0
-            : result.status === 0
+          // this.state.attendance_type == "early_check_out" ||
+          //   this.state.attendance_type == "field_check_out"
+          //   ? result.check_out_status == 0 :
+             result.status === 0
         ) {
           status =
             '<small class="label label-warning" style="background-color:#509aed"> Request </small>';
         } else if (
-          this.state.attendance_type == "early_check_out" ||
-            this.state.attendance_type == "field_check_out"
-            ? result.check_out_status == 1
-            : result.status === 1
+          // this.state.attendance_type == "early_check_out" ||
+          //   this.state.attendance_type == "field_check_out"
+          //   ? result.check_out_status == 1 :
+             result.status === 1
         ) {
           status =
             '<small class="label label-warning" style="background-color:#29a50a"> Approve </small>';
         } else if (
-          this.state.attendance_type == "early_check_out" ||
-            this.state.attendance_type == "field_check_out"
-            ? result.check_out_status == 2
-            : result.status === 2
+          // this.state.attendance_type == "early_check_out" ||
+          //   this.state.attendance_type == "field_check_out"
+          //   ? result.check_out_status == 2 :
+             result.status === 2
         ) {
           status =
             '<small class="label label-warning" style="background-color:#f60e2f"> Reject </small>';
@@ -506,9 +505,6 @@ class AttendanceType extends Component {
         obj.approve_user_id = this.state.user_id;
         obj.approve_date = new Date();
         saveData.push(obj);
-        console.log("save Data===>", saveData)
-
-
       });
 
       fetch(`${main_url}attendance/editApproveOrReject`, {
@@ -597,13 +593,13 @@ class AttendanceType extends Component {
   }
 
   search(status) {
-    let data = this.state.data;
+    let data = this.state.datasource;
     data = data.filter(d => { return status === d.status });
     this._setTableData(data)
   }
+ 
+  render() { 
 
-  render() {
-    console.log("data source", this.state.datasource)
     return (
       <div>
         {this.state.isView ? (
@@ -698,7 +694,7 @@ class AttendanceType extends Component {
                       type="button"
                       className="btn btn-primary"
                       onClick={() =>
-                        this.state.attendance_type == "late_check_in" ? this.LateCheckIn ? this.state.attendance_type == "field_check_in" : this.FieldCheckIn ? this.state.attendance_type == "early_check_out" : this.EarlyCheckOut : this.FieldCheckOut
+                        this.state.attendance_type == "late_check_in" ? this.LateCheckIn() ? this.state.attendance_type == "field_check_in" : this.FieldCheckIn() ? this.state.attendance_type == "early_check_out" : this.EarlyCheckOut() : this.FieldCheckOut()
                       }
                     >
                       Search
@@ -720,9 +716,11 @@ class AttendanceType extends Component {
               >
                 <div style={{ width: "20%" }}>
                   <label>
-                    <input
+                    <input className="checkone"
+                    style={{marginRight:'3px'}}
                       id="ipSelect"
                       type={"checkbox"}
+                      checked={!this.state.checkboxAll}
                       onChange={() =>
                         this.handleCheckboxAll(!this.state.checkboxAll)
                       }

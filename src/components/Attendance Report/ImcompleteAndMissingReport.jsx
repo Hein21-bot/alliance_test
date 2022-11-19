@@ -207,7 +207,6 @@ class ImcompleteAndMissingReport extends Component {
     });
   };
   handleSelectedOption = async (event) => {
-    console.log("event",event)
     this.setState({
       selectedOption: event,
     });
@@ -237,24 +236,25 @@ class ImcompleteAndMissingReport extends Component {
   handleCheckBoxChange = async (newData) => {
     const { checkedListData } = this.state;
     const checkedListData_ = [...checkedListData];
+  
     if (checkedListData_.length === 0) {
       checkedListData_.push(newData);
-      this.setState({ checkedListData: checkedListData_ },()=>{console.log(">>>>",this.state.checkedListData)});
+      this.setState({ checkedListData: checkedListData_ });
 
     } else if (checkedListData_.filter((c) => c.user_id === newData.user_id).length > 0) {
       for (var i = 0; i < checkedListData_.length; i++) {
-        // if (checkedListData_[i].user_id == newData.user_id) {
+        if (checkedListData_[i].user_id == newData.user_id && checkedListData_[i].date === newData.date) {
           checkedListData_.splice(i, 1);
         }
-      // }
+      }
       this.setState({
         checkedListData: checkedListData_,
-      },()=>{console.log(">>>>1",this.state.checkedListData)});
+      });
     } else {
       checkedListData_.push(newData);
       this.setState({
         checkedListData: checkedListData_,
-      },()=>{console.log(">>>>2",this.state.checkedListData)});
+      });
     }
   };
 
@@ -266,9 +266,9 @@ class ImcompleteAndMissingReport extends Component {
     if (this.state.checkboxAll == true) {
       this.setState({
         checkedListData:this.state.dataSource,
-      }, () => { console.log("all data", this.state.checkedListData) });
+      });
     } else {
-      this.setState({ checkedListData: [] }, () => { console.log("no data", this.state.checkedListData) });
+      this.setState({ checkedListData: [] });
     }
   };
   handleSearchData = () => {
@@ -292,6 +292,7 @@ class ImcompleteAndMissingReport extends Component {
         this.setState(
           {
             dataSource: list,
+            checkboxAll:true,
           },
           () => {
             this._setTableData(this.state.dataSource);
@@ -306,7 +307,7 @@ class ImcompleteAndMissingReport extends Component {
   };
 
   handleVisibleApprove = (data) => {
-    console.log(data);
+
     this.setState({ visibleApprove: true, approve_data: data });
   };
 
@@ -315,8 +316,6 @@ class ImcompleteAndMissingReport extends Component {
   }
 
   approveSave() {
-    console.log("selectedOption",this.state.selectedOption)
-    // console.log("date====>",this.state.approve_data.date,this.state.attendancePolicyList[0].day_open_hour)
     if (this.state.selectedOption.value == 0) {
       toast.error("Please Select Option");
     } else {
@@ -385,7 +384,6 @@ class ImcompleteAndMissingReport extends Component {
     // };
     if (data) {
       for (var i = 0; i < data.length; i++) {
-        // console.log("data====>",data[i])
         let result = data[i];
         let obj = [];
         obj = {
@@ -457,10 +455,10 @@ class ImcompleteAndMissingReport extends Component {
               : "-"
             : "-",
         };
-        // obj.select =
-        // `<div style="alignItems:center" id="toSelect" class="select-btn"  ><input class='ipSelect'  type="checkbox"/><span id="select" class="hidden" >` +
-        // JSON.stringify(result) +
-        // "</span>  </div>"; 
+        obj.select =
+        `<div style="alignItems:center" id="toSelect" class="select-btn"  ><input class='ipSelect'  type="checkbox"/><span id="select" class="hidden" >` +
+        JSON.stringify(result) +
+        "</span>  </div>"; 
         obj.action =this.state.permission_status.isEdit == 1 ? data[i].incom_status ? '' :
         '<button style="margin-right:10px; background-color:#27568a" class="btn btn-primary btn-sm own-btn-edit" id="toEditApprove" ><span id="editApprove" class="hidden" >' +
         JSON.stringify(result) +
@@ -537,7 +535,6 @@ class ImcompleteAndMissingReport extends Component {
   })
 }
   render() {
-    console.log("type ====>",this.state.checkedListData);
     return (
       <div>
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -894,6 +891,7 @@ class ImcompleteAndMissingReport extends Component {
                     <input
                       id="ipSelect"
                       type={"checkbox"}
+                      checked={!this.state.checkboxAll}
                       onChange={() =>
                         this.handleCheckboxAll(!this.state.checkboxAll)
                       }
