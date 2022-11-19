@@ -37,6 +37,9 @@ export default class Sidebar extends Component {
     if (pathname.includes("helpDesk")) {
       return "/helpDesk";
     }
+    if(pathname.includes('paySlip')){
+      return '/paySlip'
+    }
     if (pathname.includes("staffComplain")) {
       return "/staffComplain";
     }
@@ -365,7 +368,7 @@ export default class Sidebar extends Component {
                   </li>
                 </ul>
               </li>
-
+              
               <li
                 className={
                   this.checkPathName() === "/employee_management"||this.checkPathName() === "/reports" || pathname == "/EmployeeDirectory"|| pathname === "/ResignStaffReport" || pathname === "/RegionStaffReport" || pathname === "/BranchStaffReport" || pathname === "/HoStaffReport" || pathname === "/EmployeeReport" || pathname === "/ReportbyServiceYear" || pathname === "/HistoryReport" || pathname === "/FRDReport" || pathname === "/ExtensionReport" || pathname === "/RegionWiseStaffReportCount"  
@@ -656,7 +659,7 @@ export default class Sidebar extends Component {
                   <li className={pathname === "/travelRequest" ? "active" : ""}>
                     <a href="/travelRequest">Travel Request</a>
                   </li>
-                  {/* <li
+                  {/* <lihelpDesk
                     className={pathname === "/trainingRequest" ? "active" : ""}
                   >
                     <a href="/trainingRequest">Training Request</a>
@@ -686,6 +689,14 @@ export default class Sidebar extends Component {
                 <a href="/helpDesk" className="sideList" refresh="true">
                   <img src="assets/icons/Helpdesk (1).svg" alt="" width="20" height="20" style={{ marginRight: 5 }} />
                   <span className="sideText">Help Desk</span>
+                </a>
+              </li>
+              <li
+                className={this.checkPathName() === "/pay_slip" || pathname =="/pay_slip" ? "active" : ""}
+              >
+                <a href="/pay_slip" className="sideList" refresh="true">
+                <i className="fa fa-briefcase sideIcon"></i>
+                  <span className="sideText">PaySlip</span>
                 </a>
               </li>
 
