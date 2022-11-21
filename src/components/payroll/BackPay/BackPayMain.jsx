@@ -34,7 +34,7 @@ class BackPayMain extends Component {
       }
     
       BackPayData() {
-        fetch(`${main_url}resign_or_dismiss/get_resign_or_dismiss/${this.state.user_id}`)
+        fetch(`${main_url}back_pay/get_back_pay/${this.state.user_id}`)
           .then((response) => {
             if (response.ok) return response.json();
           })

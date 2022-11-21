@@ -19,6 +19,7 @@ import ListSearchForm from "./ListSearchForm";
 import ConfirmationListTable from "./ConfirmationListTable";
 import ViewConfirmationListForm from "./ViewConfirmationListForm";
 import ConfirmationRequest from "./components/ConfirmationRequest";
+import { date } from "jzip";
 
 class ConfirmationList extends Component {
   constructor() {
@@ -132,7 +133,8 @@ class ConfirmationList extends Component {
       selected_designation,
       career_level,
       career_sub_level,
-      selected_branch_list
+      selected_branch_list,
+      date
     } = this.state;
     this.setState({loading:true})
 
@@ -158,7 +160,7 @@ class ConfirmationList extends Component {
       return toast.error('Please Choose region or department or branch!')
     } else {
       fetch(
-        `${main_url}confirmation/getConfirmationList/${regionId}/${depId}/${branch_list}/${designation_list}/${lvlId}/${subLvlId}`, {
+        `${main_url}confirmation/getConfirmationList/${regionId}/${depId}/${branch_list}/${designation_list}/${lvlId}/${subLvlId}/${moment(date).format('YYYY-MM-DD')}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
