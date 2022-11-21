@@ -35,6 +35,7 @@ export default class BackPayAddNew extends Component {
       addNewData: {
         requestMonth:new Date(),
         Amount:0,
+        reason:'',
         workingDay:0,
         salaryPerDay:0,
         totalWorkingDay:0,
@@ -42,7 +43,8 @@ export default class BackPayAddNew extends Component {
         atmOrCash:0,
         start_working_day:new Date(),
         end_working_day:new Date(),
-        payRoll:0
+        payRoll:0,
+        totalSalary:0
         
         
       },
@@ -91,6 +93,7 @@ export default class BackPayAddNew extends Component {
         {
           dataSource: newData,
           selectedEmployeeId:editData.selectedEmployeeId,
+          selectedPayroll:editData.selectedPayroll,
           addNewData: {
             requestMonth: editData.request_month,
             Amount:editData.Amount,
@@ -101,16 +104,20 @@ export default class BackPayAddNew extends Component {
             start_working_day:editData.start_working_day,
             end_working_day:editData.end_working_day,
             payRoll:editData.payRoll,
-            atmOrCash:editData.atmOrCash
+            atmOrCash:editData.atmOrCash,
+            reason:editData.reason,
+            totalSalary:editData.totalSalary
+
           },
           DetailUser:{
             employment_id:editData.employment_id,
-        employee_name:editData.employee_name,
-        state_name:editData.state_name,
-        location_master_name:editData.location_master_name,
-        deptname:editData.deptname,
+        employee_name:editData.fullname,
+        state_name:editData.region,
+        location_master_name:editData.branch,
+        deptname:editData.departments,
         designations:editData.designations
-          }
+          },
+          
         },
         () => that.setDataTable(newData)
       );
@@ -164,6 +171,7 @@ export default class BackPayAddNew extends Component {
   };
 
   onReasonChange = (e) => {
+    console.log("event",e.target.value)
     const newData = this.state.addNewData;
     newData.reason = e.target.value;
     this.setState({ addNewData: newData });
@@ -219,6 +227,11 @@ export default class BackPayAddNew extends Component {
     newData.Total = e.target.value;
     this.setState({ addNewData: newData });
   }
+  ontotalSalaryChange=(e)=>{
+    const newData = this.state.addNewData;
+    newData.totalSalary = e.target.value;
+    this.setState({ addNewData: newData });
+  }
 
   getEmployeeCodeList() {
     fetch(`${main_url}employee/getEmployeeCode`)
@@ -246,7 +259,14 @@ export default class BackPayAddNew extends Component {
           })
           .then((data) => {
             this.setState({
-                DetailUser:data[0]
+                DetailUser:{
+                  employment_id:data[0].employment_id,
+                  employee_name:data[0].employee_name,
+                  state_name:data[0].state_name,
+                  location_master_name:data[0].location_master_name,
+                  deptname:data[0].deptname,
+                  designations:data[0].designations
+                }
             })
             // if (data.length > 0) {
             //   this.getData(this.props.id);
@@ -263,7 +283,7 @@ export default class BackPayAddNew extends Component {
   }
   addData = (e) => {
     const { userInfo } = this.state;
-    console.log("add data", this.state.newData);
+    console.log("add data", this.state.newData,this.state.DetailUser);
     if (validate("add_check_form")) {
       var data = [...this.state.dataSource];
       let newData = { ...this.state.addNewData };
@@ -273,6 +293,7 @@ export default class BackPayAddNew extends Component {
       tempData.employment_id = this.state.DetailUser.employment_id;
       tempData.fullname = this.state.DetailUser.employee_name;
       tempData.designations = this.state.DetailUser.designations;
+      tempData.departments=this.state.DetailUser.deptname;
       tempData.region=this.state.DetailUser.state_name;
       tempData.branch=this.state.DetailUser.location_master_name;
       tempData.Amount=newData.Amount;
@@ -287,6 +308,8 @@ export default class BackPayAddNew extends Component {
       tempData.selectedPayroll=this.state.selectedPayroll;
       tempData.user_id=this.state.DetailUser.user_id;
       tempData.createdBy=this.state.userInfo.user_id;
+      tempData.reason=newData.reason;
+      tempData.totalSalary=newData.totalSalary
       
       var totalAmount = 0;
 
@@ -304,6 +327,8 @@ export default class BackPayAddNew extends Component {
           Total:0,
           user_id:0,
           atmOrCash:0,
+          reason:'',
+          totalSalary:0,
           start_working_day:new Date(),
           end_working_day:new Date(),
           payRoll:0
@@ -350,11 +375,11 @@ export default class BackPayAddNew extends Component {
         pay_roll:data[i].payRoll == 1 ? "Back Pay Salary" : data[i].payRoll ==2 ? "Refund Salary" : "•	Temporary Contract Salary",
         fullname: data[i].fullname ? data[i].fullname : "-",
         designations: data[i].designations ? data[i].designations : "-",
-        departments:data[i].deptname ? data[i].deptname : '-',
-        region:data[i].location_master_name ? data[i].location_master_name:'-',
-        branch:data[i].state_name ? data[i].state_name : '-',
+        departments:data[i].departments ? data[i].departments : '-',
+        region:data[i].branch ? data[i].branch:'-',
+        branch:data[i].region ? data[i].region : '-',
         amount:data[i].Amount ? data[i].Amount : '-',
-        reason:data[i].Reason ? data[i].Reason : '-',
+        reason:data[i].reason ? data[i].reason : '-',
         start_working_day:data[i].start_working_day ? moment(data[i].start_working_day).format('YYYY-MM-DD') : '-',
         end_working_day:data[i].end_working_day ? moment(data[i].end_working_day).format('YYYY-MM-DD') : '-',
         working_day:data[i].workingDay== 0 ? "Working Day" : 'Calendar Day',
@@ -431,7 +456,7 @@ export default class BackPayAddNew extends Component {
           request_month: moment(v.request_month).format("YYYY-MM-DD"),
           payRoll:v.payRoll,
           employment_id: v.employment_id,
-          fullname: v.fullname,
+          employee_name: v.fullname,
           designations: v.designations,
           region:v.region,
           branch:v.branch,
@@ -446,13 +471,15 @@ export default class BackPayAddNew extends Component {
           Total:v.totalSalary,
           atm_or_cash: v.atm_or_cash,
           user_id:v.user_id,
+          reason:v.reason,
+          totalSalary:v.totalSalary,
           createdBy:v.createdBy
          
         };
       });
       console.log("data===>",dataTostring)
 
-      fetch(`${main_url}foreigner_salary/add_foreigner_salary`, {
+      fetch(`${main_url}back_pay/add_back_pay`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -503,7 +530,7 @@ export default class BackPayAddNew extends Component {
   render() {
     
     const { addNewData, userId, userInfo, dataSource } = this.state;
-    console.log("addNewData =====>",this.state.addNewData);
+    console.log("addNewData =====>",this.state.addNewData,this.state.DetailUser);
     return (
       <div>
         <div className="row">
@@ -600,9 +627,9 @@ export default class BackPayAddNew extends Component {
                       <input
                         className="form-control"
                         disabled={true}
-                        type="number"
+                        type="text"
                         data-name="Region"
-                        value={this.state.DetailUser ? this.state.DetailUser.state_name : ""}
+                        value={this.state.DetailUser && this.state.DetailUser.state_name}
                         placeholder="Region"
                         // onChange={this.onGrossSalaryChange}
                       />
