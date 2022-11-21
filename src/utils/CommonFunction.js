@@ -115,6 +115,10 @@ function calculationDate(startDate, endDate) {
 
     return dayDiff;
 }
+function getMonth(date){
+    const d = new Date(date);
+    d.toLocaleString('en-US', {month: 'short'});
+}
 
 function calculationDate1(startDate, endDate) {
 
@@ -962,5 +966,5 @@ export {
     print, stopSaving, startSaving, fno, getFirstDayOfMonth, getFirstDayOfYear, checkLimitAmount,
     checkHRManager, checkHRAssistant, checkApprovalStatus, isApprover, havePermissionForAmount,
     calculationDate, isRequestedUser, atten_report, approveAmount, calculationDate1, getAttendancePolicy,
-    getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError,getFirstDayOfPrevMonth,getFirstDayOfNextMonth
+    getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError,getFirstDayOfPrevMonth,getFirstDayOfNextMonth,getMonth
 }

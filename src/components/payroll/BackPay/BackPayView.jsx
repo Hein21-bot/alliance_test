@@ -1,6 +1,10 @@
 import moment from "moment";
 import React, { Component } from "react";
+import {
+  getMonth
 
+} from "../../../utils/CommonFunction";
+import DatePicker from "react-datetime";
 export default class BackPayView extends Component {
   constructor(props) {
     super(props);
@@ -10,264 +14,303 @@ export default class BackPayView extends Component {
   }
 
   render() {
+    
     const {
       request_month,
-      employment_id,
-      fullname,
-      designations,
-      deptname,
-      location_master_name,
-      state_name,
-      gross_salary,
-      last_working_day,
-      deduction_or_addition,
-      after_deduction_or_addition,
-      income_tax,
-      SSC_employer,
-      SSC_employee,
-      maintenance,
-      petrol,
-      total_salary,
-      exit_status,
-      ATM_Cash,
-      reason,
-      career_sub_level,
+          payRoll,
+          employment_id,
+          employee_name,
+          designations,
+          departments,
+          region,
+          branch,
+          Amount,
+          start_working_day,
+          end_working_day,
+          workingDay,
+          salaryPerDay,
+          totalWorkingDay,
+          selectedEmployeeId,
+          selectedPayroll,
+          Total,
+          atm_or_cash,
+          user_id,
+          reason,
+          totalSalary,
+          createdBy
+      
     } = this.props.dataSource;
+    console.log("datasource",getMonth(moment(request_month).format('YYYY-MM-DD')),request_month)
     return (
-      <div className="white-bg">
-        <div className="row margin-top-20 ">
-          <div className="col-md-3">
-            <label>Request Month</label>
-            <input
-              className="form-control"
-              disabled
-              type="text"
-              placeholder={"Request Month"}
-              value={request_month}
-            />
-          </div>
-          <div className="col-md-3">
-            <label>Employee ID</label>
-            <input
-              className="form-control"
-              disabled
-              type="text"
-              placeholder={"Employee ID"}
-              value={employment_id}
-            />
-          </div>
-          <div className="col-md-3">
-            <label>Employee Name</label>
-            <input
-              className="form-control"
-              disabled
-              type="text"
-              value={fullname}
-              placeholder={"Employee Name"}
-            />
-          </div>
-          <div className="col-md-3">
-            <label>Designation</label>
-            <input
-              className="form-control"
-              disabled
-              type="text"
-              value={designations}
-              placeholder="Designation"
-            />
-          </div>
-        </div>
-        <div className="row margin-top-20 ">
-        <div className="col-md-3">
-            <label>Level</label>
-            <input
-              className="form-control"
-              disabled
-              type="text"
-              value={career_sub_level}
-              placeholder={"Level"}
-            />
-          </div>
-          <div className="col-md-3">
-            <label>Department</label>
-            <input
-              className="form-control"
-              disabled
-              type="text"
-              placeholder={"Department"}
-              value={deptname}
-            />
-          </div>
-          <div className="col-md-3">
-            <label>Branch</label>
-            <input
-              className="form-control"
-              disabled
-              type="text"
-              placeholder={"Branch"}
-              value={location_master_name}
-            />
-          </div>
-          <div className="col-md-3">
-            <label>Region</label>
-            <input
-              className="form-control"
-              disabled
-              type="text"
-              value={state_name}
-              placeholder={"Region"}
-            />
-          </div>
-          
-        </div>
-        <div className="row margin-top-20 ">
-        <div className="col-md-3">
-            <label>Gross Salary</label>
-            <input
-              className="form-control"
-              disabled
-              type="text"
-              value={gross_salary}
-              placeholder="Gross Salary"
-            />
-          </div>
-          <div className="col-md-3">
-            <label>Last Working Day</label>
-            <input
-              className="form-control"
-              disabled
-              type="text"
-              placeholder={"Last Working Day"}
-              value={moment(last_working_day).format('DD-MM-YYYY HH:mm:ss A')}
-            />
-          </div>
-          <div className="col-md-3">
-            <label>Deduction or Addition</label>
-            <input
-              className="form-control"
-              disabled
-              type="text"
-              placeholder={"Deduction or Addition"}
-              value={deduction_or_addition}
-            />
-          </div>
-          <div className="col-md-3">
-            <label>Salary After Deduction or Addition</label>
-            <input
-              className="form-control"
-              disabled
-              type="text"
-              value={after_deduction_or_addition}
-              placeholder={"Salary After Deduction or Addition"}
-            />
-          </div>
-          
-        </div>
-        <div className="row margin-top-20 ">
-          <div className="col-md-3">
-            <label>SSC (Employee 3%)</label>
-            <input
-              className="form-control"
-              disabled
-              type="text"
-              placeholder={"SSC (Employee 3%)"}
-              value={SSC_employer}
-            />
-          </div>
-          <div className="col-md-3">
-            <label>SSC (Employee 2%)</label>
-            <input
-              className="form-control"
-              disabled
-              type="text"
-              placeholder={"SSC (Employee 2%)"}
-              value={SSC_employee}
-            />
-          </div>
-          <div className="col-md-3">
-            <label>Income Tax</label>
-            <input
-              className="form-control"
-              disabled
-              type="text"
-              value={income_tax}
-              placeholder="Income Tax"
-            />
-          </div>
-          <div className="col-md-3">
-            <label>Maintenance</label>
-            <input
-              className="form-control"
-              disabled
-              type="text"
-              value={maintenance}
-              placeholder={"Maintenance"}
-            />
-          </div>
-          
-        </div>
-        <div className="row margin-top-20 ">
-        <div className="col-md-3">
-            <label>Petrol</label>
-            <input
-              className="form-control"
-              disabled
-              type="text"
-              value={petrol}
-              placeholder="Petrol"
-            />
-          </div>
-          <div className="col-md-3">
-            <label>Total Salary</label>
-            <input
-              className="form-control"
-              disabled
-              type="text"
-              placeholder={"Total Salary"}
-              value={total_salary}
-            />
-          </div>
-          <div className="col-md-3">
-            <label>Exit Status</label>
-            <input
-              className="form-control"
-              disabled
-              type="text"
-              placeholder={"Exit Status"}
-              value={exit_status == 1
-                ? "Resign"
-                : exit_status == 2
-                ? "Dismiss"
-                : exit_status == 3
-                ? "Termination"
-                : exit_status == 4
-                ? "Dead"
-                : ""}
-            />
-          </div>
-          <div className="col-md-3">
-            <label>ATM or Cash</label>
-            <input
-              className="form-control"
-              disabled
-              type="text"
-              value={ATM_Cash == 0 ? 'ATM' : 'Cash'}
-              placeholder={"ATM or Cash"}
-            />
-          </div>
-          
-        </div>
-        <div className="row margin-top-20 ">
-        <div className="col-md-6">
-            <label>Reason</label>
-            <input
-              className="form-control"
-              disabled
-              multiple
-              type="text"
-              value={reason}
-              placeholder="reason"
-            />
+     
+      <div>
+        <div className="row">
+          <div className="form-horizontal" name="demo-form">
+            <div className="col-md-12" style={{ marginTop: 20 }}>
+              <div className="ibox float-e-margins" id="add_check_form">
+                <div className="ibox-content p-md">
+                  <div className="row">
+                  <div className="col-md-3">
+                      <label>Request Month</label>
+                      {/* <input type="text" className="form-control" value={getMonth(request_month)} disabled={true}/> */}
+                      <DatePicker
+                        dateFormat="MMM"
+                        value={new Date(request_month)}
+                        timeFormat={false}
+                        disabled={true}
+                        // onChange={this.onRequestMonthChange.bind(this)}
+                      />
+                    </div>
+                    <div className="col-md-3">
+                        <label htmlFor="">Payroll Request Type</label>
+                        <input type="text" className="form-control" value={payRoll ==1 ? "Back Pay Salary": payRoll ==2 ? "Refund Salary": "Temporary Contract Salary"} disabled/>
+                        {/* <Select
+                                placeholder="Employee"
+                                options={this.state.PayrollList}
+                                onChange={this.handlePayroll}
+                                value={this.state.selectedPayroll}
+                                className="react-select-container"
+                                classNamePrefix="react-select"
+                            /> */}
+                    </div>
+                    <div className="col-md-3">
+                      <label>Employee ID</label>
+                      <input type="text" className="form-control" value={employment_id} disabled/>
+                      {/* <Select
+                                placeholder="Employee"
+                                options={this.state.employeeIdList}
+                                onChange={this.handleEmployeeId}
+                                value={this.state.selectedEmployeeId}
+                                className="react-select-container"
+                                classNamePrefix="react-select"
+                            /> */}
+                    </div>
+                    <div className="col-md-3">
+                      <label>Employee Name</label>
+                      <input
+                        className="form-control"
+                        disabled={true}
+                        type="text"
+                        data-name="fullname"
+                        value={employee_name}
+                        
+                        // onChange={this.claimChangeText}
+                      />
+                    </div>
+                    
+                    
+                  </div>
+                  <div className="row margin-top-20">
+                  <div className="col-md-3">
+                      <label>Designation</label>
+                      <input
+                        className="form-control"
+                        disabled={true}
+                        type="text"
+                        data-name="designation"
+                        value={designations}
+                        // placeholder="Designation"
+                        // onChange={this.claimChangeText}
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <label>Department</label>
+                      <input
+                        className="form-control"
+                        disabled={true}
+                        type="text"
+                        data-name="fullname"
+                        value={departments}
+                        placeholder="Department"
+                        // onChange={this.claimChangeText}
+                      />
+                    </div>
+                  <div className="col-md-3">
+                      <label>Branch</label>
+                      <input
+                        className="form-control"
+                        disabled={true}
+                        type="text"
+                        data-name="Branch"
+                        value={branch}
+                        // placeholder="Branch"
+                        // onChange={this.claimChangeText}
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <label>Region</label>
+                      <input
+                        className="form-control"
+                        disabled={true}
+                        type="text"
+                        data-name="Region"
+                        value={region}
+                        placeholder="Region"
+                        // onChange={this.onGrossSalaryChange}
+                      />
+                    </div>
+                    
+                    
+                  </div>
+                  <div className="row margin-top-20">
+                  
+                  <div className="col-md-3">
+                      <label>Amount</label>
+                      <input
+                        className="form-control"
+                        type="number"
+                        data-name="Amount"
+                        value={Amount}
+                        disabled
+                        // placeholder="Enter Amount"
+                        // onChange={this.handleAmount}
+                      />
+                    </div>
+                    <div className="col-md-3">
+                    <label>Reason</label>
+                      <input
+                        className="form-control checkValidate"
+                        type="text"
+                        data-name="reason"
+                        value={reason}
+                        disabled
+                        // placeholder="Enter Reason"
+                        // onChange={this.onReasonChange}
+                        // multiple
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <label>Start Working Day</label>
+                      <input type="text" className="form-control" value={start_working_day} disabled/>
+                      {/* <DatePicker
+                        dateFormat="DD/MM/YYYY"
+                        value={this.state.start_working_day}
+                        onChange={this.handleSelectedFromdate}
+                        timeFormat={false}
+                    /> */}
+                    </div>
+                    <div className="col-md-3">
+                      <label>End Working Day</label>
+                      <input type="text" className="form-control" value={end_working_day} disabled />
+                            {/* <DatePicker
+                        dateFormat="DD/MM/YYYY"
+                        value={this.state.end_working_day}
+                        onChange={this.handleSelectedTodate}
+                        timeFormat={false}
+                        /> */}
+                    </div>
+                </div>
+                <div className="row margin-top-20">
+                <div className="col-md-3">
+                      <label>Working Day / Calendar Day</label>
+                      <input type="text" className="form-control" value={totalWorkingDay == 0 ? "Working Day": "Calendar Day"} disabled/>
+                      {/* <div
+                        onChange={this.onRadioWorkinDayChange}
+                        className="row"
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          //   alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="radio"
+                          value={0}
+                          name="working_day"
+                          checked={addNewData.workingDay == 0 ? true : false}
+                        />{" "}
+                        <span>Working Day</span>
+                        <input
+                          type="radio"
+                          value={1}
+                          name="calendar_day"
+                          checked={addNewData.workingDay == 1 ? true : false}
+                        />{" "}
+                        <span>Calendar Day</span>
+                      </div> */}
+                    </div>
+                    <div className="col-md-3">
+                      <label>Total Working Day</label>
+                      <input
+                        className="form-control"
+                        
+                        type="number"
+                        data-name="totalWorkingDay"
+                        value={totalWorkingDay}
+                        disabled
+                        // onChange={this.handletotalWorkingDay}
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <label>Salary Per Day</label>
+                      <input
+                        className="form-control"
+                       
+                        type="number"
+                        data-name="salaryPerDay"
+                        value={salaryPerDay}
+                        disabled
+                        // onChange={this.handlesalaryPerDay}
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <label>Total Salary</label>
+                      <input
+                        className="form-control"
+                        type="number"
+                        data-name="totalSalary"
+                        value={totalSalary}
+                        placeholder="Total Salary"
+                        disabled
+                        // onChange={this.ontotalSalaryChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="row margin-top-20">
+                    <div className="col-md-3">
+                        <label>ATM / Cash</label>
+                        <input type="text" className="form-control" value={atm_or_cash == 0 ? "ATM" : "Cash"} disabled/>
+                        {/* <div
+                          onChange={this.onRadioChange}
+                          className="row"
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            //   alignItems: "center",
+                          }}
+                        >
+                          <input
+                            type="radio"
+                            value={0}
+                            name="work"
+                            checked={addNewData.atmOrCash == 0 ? true : false}
+                          />{" "}
+                          <span>ATM</span>
+                          <input
+                            type="radio"
+                            value={1}
+                            name="work"
+                            checked={addNewData.atmOrCash == 1 ? true : false}
+                          />{" "}
+                          <span>Cash</span>
+                        </div> */}
+                      </div>
+                    <div className="col-md-3">
+                        <label>Total</label>
+                        <input
+                            className="form-control"
+                            type="number"
+                            data-name="total"
+                            value={Total}
+                            disabled
+                            // onChange={this.handleTotal}
+                        />
+                    </div>
+                  </div>
+                  </div>
+                 
+              </div>
+            </div>
           </div>
         </div>
       </div>

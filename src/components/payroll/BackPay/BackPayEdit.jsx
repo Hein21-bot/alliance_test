@@ -142,97 +142,98 @@ export default class BackPayAddNew extends Component {
     console.log("gggg")
     if(startDate<=endDate){
       console.log("in")
-      const newData = this.state.addNewData;
-      newData.totalWorkingDay = calculationDate(startDate,endDate);
-      console.log("total work day==+>",newData.totalWorkingDay)
+      const newData = this.state.editData;
+      newData.total_working_day = calculationDate(startDate,endDate);
+      console.log("total work day==+>",newData.total_working_day)
         this.setState({
-          addNewData:newData
+          editData:newData
         })
     }
 
   }
   handleSelectedTodate = async (event) => {
     console.log("end===>",moment(event).format('YYYY-MM-DD'))
-    const newData = this.state.addNewData;
-    newData.end_working_day =event;
+    const newData = this.state.editData;
+    newData.last_working_day =event;
     this.setState({
-      addNewData:newData
+      editData:newData
     })
-    this.totalWorkingDays(this.state.addNewData.start_working_day,event);
+    this.totalWorkingDays(this.state.editData.start_working_day,event);
   };
   handleAmount=(e)=>{
-    const newData = this.state.addNewData;
-    newData.Amount = e.target.value;
-    this.setState({ addNewData: newData });
+    const newData = this.state.editData;
+    newData.amount = e.target.value;
+    this.setState({ editData: newData });
   }
 
   onRequestMonthChange = (e) => {
-    const newData = this.state.addNewData;
-    newData.requestMonth = e;
-    this.setState({ addNewData: newData });
+    const newData = this.state.editData;
+    newData.request_month = e;
+    this.setState({ editData: newData });
   };
 
   onReasonChange = (e) => {
     console.log("event",e.target.value)
-    const newData = this.state.addNewData;
+    const newData = this.state.editData;
     newData.reason = e.target.value;
-    this.setState({ addNewData: newData });
+    this.setState({ editData: newData });
   };
 
   onRadioChange = (e) => {
-    const newData = this.state.addNewData;
-    newData.atmOrCash = parseInt(e.target.value);
-    this.setState({ addNewData: newData });
+    console.log("atm or cash",e.target.value)
+    const newData = this.state.editData;
+    newData.atm_cash = parseInt(e.target.value);
+    this.setState({ editData: newData });
   };
   onRadioWorkinDayChange=(e)=>{
-    const newData = this.state.addNewData;
-    newData.workingDay = parseInt(e.target.value);
-    this.setState({ addNewData: newData });
+    const newData = this.state.editData;
+    newData.working_day = parseInt(e.target.value);
+    this.setState({ editData: newData });
   }
   handleSelectedFromdate = async (event) => {
     console.log("start===>",event)
-    const newData = this.state.addNewData;
+    const newData = this.state.editData;
     newData.start_working_day = event;
     this.setState({
-        addNewData:newData
+        editData:newData
     })
-    this.totalWorkingDays(event,this.state.addNewData.end_working_day);
+    this.totalWorkingDays(event,this.state.editData.last_working_day);
   };
   
-  onBackPayChange=(e)=>{
-    const newData = this.state.addNewData;
-    newData.backPay = e.target.value;
-    this.setState({ addNewData: newData });
-  }
+//   onBackPayChange=(e)=>{
+//     const newData = this.state.editData;
+//     newData.request_type = e.target.value;
+//     this.setState({ editData: newData });
+//   }
   handlePayroll=(event)=>{
     console.log("payroll",event)
-    const newData = this.state.addNewData;
-    newData.payRoll = event.value;
+    const newData = this.state.editData;
+    newData.request_type = event.value;
     this.setState({
-        selectedPayroll:event,
+        editData:newData,
         
     })
   }
   handlesalaryPerDay=(event)=>{
-    const newData = this.state.addNewData;
-    newData.salaryPerDay = event.target.value;
-    this.setState({ addNewData: newData });
+    const newData = this.state.editData;
+    newData.salary_per_day = event.target.value;
+    this.setState({ editData: newData });
   }
 
   handleTotalSalary=(e)=>{
-    const newData = this.state.addNewData;
-    newData.totalSalary = e.target.value;
-    this.setState({ addNewData: newData });
+    const newData = this.state.editData;
+    newData.total_salary = e.target.value;
+    this.setState({ editData: newData });
   }
   handleTotal=(e)=>{
-    const newData = this.state.addNewData;
-    newData.Total = e.target.value;
-    this.setState({ addNewData: newData });
+    const newData = this.state.editData;
+    newData.total = e.target.value;
+    this.setState({ editData: newData });
   }
   ontotalSalaryChange=(e)=>{
-    const newData = this.state.addNewData;
-    newData.totalSalary = e.target.value;
-    this.setState({ addNewData: newData });
+    const newData = this.state.editData;
+    newData.total_salary = e.target.value;
+    this.setState({ editData: newData });
   }
 
   getEmployeeCodeList() {
@@ -252,7 +253,7 @@ export default class BackPayAddNew extends Component {
   }
 
   handleEmployeeId=(e)=>{
-    console.log(e)
+    console.log("id event===>",e)
     
     if (e) {
         fetch(`${main_url}employee/getDetailUser/${e.user_id}`)
@@ -261,14 +262,15 @@ export default class BackPayAddNew extends Component {
           })
           .then((data) => {
             this.setState({
-                DetailUser:{
+                editData:{
                   employment_id:data[0].employment_id,
                   employee_name:data[0].employee_name,
                   state_name:data[0].state_name,
                   location_master_name:data[0].location_master_name,
                   deptname:data[0].deptname,
                   designations:data[0].designations,
-                  user_id:data[0].user_id
+                  user_id:data[0].user_id,
+                  
                 }
             })
             // if (data.length > 0) {
@@ -280,16 +282,16 @@ export default class BackPayAddNew extends Component {
           });
       }
 
-    this.setState({
-        selectedEmployeeId:e
-    })
+    // this.setState({
+    //     selectedEmployeeId:e
+    // })
   }
   addData = (e) => {
     const { userInfo } = this.state;
     console.log("add data", this.state.newData,this.state.DetailUser);
     if (validate("add_check_form")) {
       var data = [...this.state.dataSource];
-      let newData = { ...this.state.addNewData };
+      let newData = { ...this.state.editData };
       let tempData = {};
       tempData.request_month = newData.requestMonth;
       tempData.payRoll=newData.payRoll;
@@ -321,7 +323,7 @@ export default class BackPayAddNew extends Component {
         dataSource: data,
         selectedEmployeeId:null,
         selectedPayroll:null,
-        addNewData: {
+        editData: {
           requestMonth:new Date(),
           Amount:0,
           workingDay:0,
@@ -458,33 +460,33 @@ export default class BackPayAddNew extends Component {
       const dataTostring = this.state.dataSource.map((v) => {
         return {
           request_month: moment(v.request_month).format("YYYY-MM-DD"),
-          request_type:v.payRoll,
+          request_type:v.request_type,
           employment_id: v.employment_id,
           employee_name: v.fullname,
           designations: v.designations,
-          departments:v.departments,
-          region:v.region,
-          branch:v.branch,
+          departments:v.deptname,
+          region:v.state_name,
+          branch:v.location_master_name,
           amount:v.Amount,
           start_working_day:v.start_working_day,
-          last_working_day:v.end_working_day,
+          last_working_day:v.last_working_day,
           work_calendar_day:v.workingDay,
           salary_per_day:parseInt(v.salaryPerDay),
-          total_working_day:v.totalWorkingDay,
-          selectedEmployeeId:v.selectedEmployeeId,
-          selectedPayroll:v.selectedPayroll,
-          total:v.totalSalary,
-          atm_cash: v.atmOrCash,
+          total_working_day:v.total_working_day,
+          // selectedEmployeeId:v.selectedEmployeeId,
+          // selectedPayroll:v.selectedPayroll,
+          total:v.total,
+          atm_cash: v.atm_cash,
           user_id:v.user_id,
           reason:v.reason,
-          total_salary:v.totalSalary,
+          total_salary:v.total_salary,
           createdBy:v.createdBy
          
         };
       });
       console.log("data===>",dataTostring)
 
-      fetch(`${main_url}back_pay/add_back_pay`, {
+      fetch(`${main_url}back_pay/edit_back_pay`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -536,11 +538,12 @@ export default class BackPayAddNew extends Component {
   
 
   render() {
-    console.log("eidt data",this.state.editData,this.state.edit)
+    console.log("eidt data",this.state.editData,this.state.employeeIdList)
     let filterpayroll=this.state.PayrollList.filter(v=>v.value == this.state.editData.request_type)
-    let filterEmployeeId=this.state.employeeIdList.filter(v=>v.user_id == this.state.editData.user_id)
+    let filterEmployeeId=this.state.employeeIdList && this.state.employeeIdList.filter(v=>v.user_id == this.state.editData.user_id)
+    console.log("filter employee id",filterEmployeeId)
     const { addNewData, userId, userInfo, dataSource } = this.state;
-    console.log("addNewData =====>",this.state.addNewData,this.state.DetailUser);
+    console.log("render =====>",this.state.editData);
     return (
       <div>
         <div className="row">
@@ -553,7 +556,7 @@ export default class BackPayAddNew extends Component {
                       <label>Request Month</label>
                       <DatePicker
                         dateFormat="MMM"
-                        value={this.state.edit ? new Date(this.state.editData.request_month) : addNewData.requestMonth}
+                        value={new Date(this.state.editData.request_month)}
                         timeFormat={false}
                         onChange={this.onRequestMonthChange.bind(this)}
                       />
@@ -561,26 +564,28 @@ export default class BackPayAddNew extends Component {
                     <div className="col-md-3">
                         <label htmlFor="">Payroll Request Type</label>
                         <Select
-                                placeholder="Employee"
+                                placeholder="Payroll Request"
                                 options={this.state.PayrollList}
                                 onChange={this.handlePayroll}
                                 // value={this.state.edit ? filterpayroll : this.state.selectedPayroll}
-                                value={this.state.selectedPayroll}
+                                value={filterpayroll}
                                 className="react-select-container"
                                 classNamePrefix="react-select"
                             />
                     </div>
                     <div className="col-md-3">
                       <label>Employee ID</label>
-                      <Select
+                      <input type="text" className="form-control" value={this.state.editData.employment_id} disabled />
+                      {/* <Select
                                 placeholder="Employee"
                                 options={this.state.employeeIdList}
-                                onChange={this.handleEmployeeId}
+                                disabled
+                                // onChange={this.handleEmployeeId}
                                 // value={this.state.edit ? filterEmployeeId : this.state.selectedEmployeeId}
-                                value={this.state.selectedEmployeeId}
+                                value={filterEmployeeId}
                                 className="react-select-container"
                                 classNamePrefix="react-select"
-                            />
+                            /> */}
                     </div>
                     <div className="col-md-3">
                       <label>Employee Name</label>
@@ -589,7 +594,7 @@ export default class BackPayAddNew extends Component {
                         disabled={true}
                         type="text"
                         data-name="fullname"
-                        value={this.state.edit ? this.state.editData.fullname : this.state.DetailUser.employee_name}
+                        value={this.state.editData.fullname}
                         placeholder="Employee Name"
                         // onChange={this.claimChangeText}
                       />
@@ -605,7 +610,7 @@ export default class BackPayAddNew extends Component {
                         disabled={true}
                         type="text"
                         data-name="designation"
-                        value={this.state.edit ?this.state.editData.designations : this.state.DetailUser.designations}
+                        value={this.state.editData.designations}
                         placeholder="Designation"
                         // onChange={this.claimChangeText}
                       />
@@ -617,7 +622,7 @@ export default class BackPayAddNew extends Component {
                         disabled={true}
                         type="text"
                         data-name="fullname"
-                        value={this.state.edit ? this.state.editData.deptname : this.state.DetailUser.deptname}
+                        value={this.state.editData.deptname}
                         placeholder="Department"
                         // onChange={this.claimChangeText}
                       />
@@ -629,7 +634,7 @@ export default class BackPayAddNew extends Component {
                         disabled={true}
                         type="text"
                         data-name="Branch"
-                        value={this.state.edit ? this.state.editData.location_master_name : this.state.DetailUser.location_master_name}
+                        value={this.state.editData.location_master_name}
                         placeholder="Branch"
                         // onChange={this.claimChangeText}
                       />
@@ -641,7 +646,7 @@ export default class BackPayAddNew extends Component {
                         disabled={true}
                         type="text"
                         data-name="Region"
-                        value={this.state.edit ?this.state.editData.state_name : this.state.DetailUser && this.state.DetailUser.state_name}
+                        value={this.state.editData.state_name}
                         placeholder="Region"
                         // onChange={this.onGrossSalaryChange}
                       />
@@ -657,7 +662,7 @@ export default class BackPayAddNew extends Component {
                         className="form-control"
                         type="number"
                         data-name="Amount"
-                        value={this.state.edit ? this.state.editData.amount : addNewData.Amount}
+                        value={ this.state.editData.amount}
                         placeholder="Enter Amount"
                         onChange={this.handleAmount}
                       />
@@ -668,7 +673,7 @@ export default class BackPayAddNew extends Component {
                         className="form-control checkValidate"
                         type="text"
                         data-name="reason"
-                        value={this.state.edit ? this.state.editData.reason : addNewData.reason}
+                        value={this.state.editData.reason}
                         placeholder="Enter Reason"
                         onChange={this.onReasonChange}
                         multiple
@@ -678,7 +683,7 @@ export default class BackPayAddNew extends Component {
                       <label>Start Working Day</label>
                       <DatePicker
                         dateFormat="DD/MM/YYYY"
-                        value={this.state.edit ? this.state.editData.start_working_day : this.state.start_working_day}
+                        value={moment(this.state.editData.start_working_day).format('YYYY-MM-DD')}
                         onChange={this.handleSelectedFromdate}
                         timeFormat={false}
                     />
@@ -687,7 +692,7 @@ export default class BackPayAddNew extends Component {
                       <label>End Working Day</label>
                             <DatePicker
                         dateFormat="DD/MM/YYYY"
-                        value={this.state.edit ? this.state.editData.last_working_day : this.state.end_working_day}
+                        value={moment(this.state.editData.last_working_day).format('YYYY-MM-DD')}
                         onChange={this.handleSelectedTodate}
                         timeFormat={false}
                         />
@@ -709,14 +714,14 @@ export default class BackPayAddNew extends Component {
                           type="radio"
                           value={0}
                           name="working_day"
-                          checked={this.state.edit ? this.state.editData.work_calendar_day == 0 ? true : false : addNewData.workingDay == 0  ? true : false}
+                          checked={this.state.editData.work_calendar_day == 0 ? true : false}
                         />{" "}
                         <span>Working Day</span>
                         <input
                           type="radio"
                           value={1}
                           name="calendar_day"
-                          checked={this.state.edit ? this.state.editData.work_calendar_day == 1 ? true : false : addNewData.workingDay == 1 ? true : false}
+                          checked={this.state.editData.work_calendar_day == 1 ? true : false}
                         />{" "}
                         <span>Calendar Day</span>
                       </div>
@@ -728,7 +733,7 @@ export default class BackPayAddNew extends Component {
                         
                         type="number"
                         data-name="totalWorkingDay"
-                        value={this.state.edit ? this.state.editData.total_working_day : addNewData.totalWorkingDay}
+                        value={this.state.editData.total_working_day}
                         onChange={this.handletotalWorkingDay}
                       />
                     </div>
@@ -739,7 +744,7 @@ export default class BackPayAddNew extends Component {
                        
                         type="number"
                         data-name="salaryPerDay"
-                        value={addNewData.salaryPerDay}
+                        value={this.state.editData.salary_per_day}
                         onChange={this.handlesalaryPerDay}
                       />
                     </div>
@@ -749,7 +754,7 @@ export default class BackPayAddNew extends Component {
                         className="form-control"
                         type="number"
                         data-name="totalSalary"
-                        value={this.state.edit ? this.state.editData.total_salary : addNewData.totalSalary}
+                        value={this.state.editData.total_salary}
                         placeholder="Total Salary"
                         onChange={this.ontotalSalaryChange}
                       />
@@ -771,14 +776,14 @@ export default class BackPayAddNew extends Component {
                             type="radio"
                             value={0}
                             name="work"
-                            checked={this.state.edit ? this.state.editData.atm_cash==0 ? true :false : addNewData.atmOrCash == 0 ? true : false}
+                            checked={this.state.editData.atm_cash==0 ? true :false}
                           />{" "}
                           <span>ATM</span>
                           <input
                             type="radio"
                             value={1}
                             name="work"
-                            checked={this.state.edit ? this.state.editData.atm_cash==1 ? true : false : addNewData.atmOrCash == 1 ? true : false}
+                            checked={this.state.editData.atm_cash==1 ? true : false}
                           />{" "}
                           <span>Cash</span>
                         </div>
@@ -790,12 +795,12 @@ export default class BackPayAddNew extends Component {
                            
                             type="number"
                             data-name="total"
-                            value={this.state.edit ? this.state.editData.total : addNewData.Total}
+                            value={this.state.editData.total}
                           
                             onChange={this.handleTotal}
                         />
                     </div>
-                    <div className="col-md-6 btn-rightend">
+                    {/* <div className="col-md-6 btn-rightend">
                       <button
                         className="btn-primary btn"
                         onClick={this.addData}
@@ -803,7 +808,7 @@ export default class BackPayAddNew extends Component {
                       >
                         Add
                       </button>
-                    </div>
+                    </div> */}
                   </div>
                   </div>
                  
@@ -818,21 +823,16 @@ export default class BackPayAddNew extends Component {
               </div>
               <div className="col-md-12">
                 <div className="col-md-12 btn-rightend mt20">
-                  {
-                    this.state.edit ?  <button
-                    onClick={this.confirm.bind(this)}
-                    id="saving_button"
-                    className="btn btn-primary"
-                  >
-                    <span>Confirm</span>{" "}
-                  </button> : <button
+                  
+                 
+              <button
                     onClick={this.check.bind(this)}
                     id="saving_button"
                     className="btn btn-primary"
                   >
-                    <span>Submit</span>{" "}
+                    <span>Confirm</span>{" "}
                   </button>
-                  }
+                  
                   
                  
                 </div>
