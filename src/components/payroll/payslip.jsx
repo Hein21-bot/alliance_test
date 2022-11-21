@@ -10,13 +10,13 @@ class PaySlip extends Component {
             pathname: window.location.pathname,
             user_id: getUserId("user_info"),
             data: [],
-            // month: moment(new Date()).format('YYYY-MM')
-            month: '2022-08'
+            month: moment(new Date()).format('YYYY-MM')
+            // month: '2022-08'
         }
     }
 
     componentDidMount() {
-        this.getPaySlipData(this.state.month)
+        // this.getPaySlipData(this.state.month)
     }
 
     getPaySlipData(month) {
@@ -44,8 +44,27 @@ class PaySlip extends Component {
 
     render() {
         return (
-            <div className='' style={{ background: 'white' }}>
-                <div style={{ display: 'flex', paddingTop: 10 }}>
+            <div>
+            <div style={{ display: 'flex', paddingTop: 10 }}>
+            <div className="col-sm-2">
+                <DatePicker
+                    className="checkValidate"
+                    dateFormat="YYYY-MM"
+                    timeFormat={false}
+                    value={this.state.month}
+                    onChange={this.handleChangeDate}
+                />
+            </div>
+            <div className="col-sm-1">
+                <div className='f-right'>
+                    <button className="btn btn-primary" type="button" onClick={() => this.search()}>Search</button>
+                </div>
+            </div>
+        </div>
+        { (this.state.data.length !== 0 ?
+        <div style={{display:'flex',justifyContent:'center',marginTop:40}}>
+            <div className='col-lg-10 col-md-10 col-sm-12' style={{ background: 'white' }}>
+                {/* <div style={{ display: 'flex', paddingTop: 10 }}>
                     <div className="col-sm-2" >
                         <DatePicker
                             className="checkValidate"
@@ -57,10 +76,10 @@ class PaySlip extends Component {
                     </div>
                     <div className="col-sm-1">
                         <div className='f-right'>
-                            <button className="btn btn-primary" type="button" onClick={() => this.search()}>Submit</button>
+                            <button className="btn btn-primary" type="button" onClick={() => this.search()}>Search</button>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div className='' style={{ display: 'flex', justifyContent: 'center' }}><h2>Pay Slip</h2></div>
                 <div className='' style={{ display: 'flex', justifyContent: 'center', background: '#1872ab', marginTop: 10 }}><h3 style={{ color: '#ffffff', fontWeight: 'bold' }}>Staff Information</h3></div>
                 <div className='row'>
@@ -124,6 +143,7 @@ class PaySlip extends Component {
                     <div style={{ paddingLeft: '30px', paddingBottom: '10px' }}><h3>Remark : Other deduction - Salary Cut</h3></div>
                 </div>
 
+            </div></div> : "" )}
             </div>
         )
     }
