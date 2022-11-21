@@ -187,7 +187,7 @@ export default class BackPayAddNew extends Component {
   };
   onRadioWorkinDayChange=(e)=>{
     const newData = this.state.editData;
-    newData.working_day = parseInt(e.target.value);
+    newData.work_calendar_day = parseInt(e.target.value);
     this.setState({ editData: newData });
   }
   handleSelectedFromdate = async (event) => {
@@ -486,7 +486,7 @@ export default class BackPayAddNew extends Component {
       });
       console.log("data===>",dataTostring)
 
-      fetch(`${main_url}back_pay/edit_back_pay`, {
+      fetch(`${main_url}back_pay/edit_back_pay/${this.state.editData.id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -776,14 +776,14 @@ export default class BackPayAddNew extends Component {
                             type="radio"
                             value={0}
                             name="work"
-                            checked={this.state.editData.atm_cash==0 ? true :false}
+                            checked={this.state.editData.atm_cash== 0 ? true :false}
                           />{" "}
                           <span>ATM</span>
                           <input
                             type="radio"
                             value={1}
                             name="work"
-                            checked={this.state.editData.atm_cash==1 ? true : false}
+                            checked={this.state.editData.atm_cash== 1 ? true : false}
                           />{" "}
                           <span>Cash</span>
                         </div>
