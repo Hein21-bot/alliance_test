@@ -40,6 +40,9 @@ export default class Sidebar extends Component {
     if(pathname.includes('paySlip')){
       return '/paySlip'
     }
+    if(pathname.includes('SSCReport')){
+      return '/ssc_report'
+    }
     if (pathname.includes("staffComplain")) {
       return "/staffComplain";
     }
@@ -699,7 +702,14 @@ export default class Sidebar extends Component {
                   <span className="sideText">PaySlip</span>
                 </a>
               </li>
-
+              <li
+                className={this.checkPathName() === "/ssc_report" || pathname =="/ssc_report" ? "active" : ""}
+              >
+                <a href="/ssc_report" className="sideList" refresh="true">
+                <i className="fa fa-briefcase sideIcon"></i>
+                  <span className="sideText">SSC Report</span>
+                </a>
+              </li>
 
               <li
                 className={
