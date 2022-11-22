@@ -125,6 +125,10 @@ import ForeignerSalaryMain from './payroll/ForeignerSalary/ForeignerSalaryMain';
 import BackPayMain from './payroll/BackPay/BackPayMain';
 
 import PaySlip from './payroll/payslip'
+import EmployeeSalaryReport from './payroll/PayrollReports/EmployeeSalaryReport';
+import PayrollReportWithBankNo from './payroll/PayrollReports/PayrollReportWithBankNo';
+import SalaryHistoryReport from './payroll/PayrollReports/SalaryHistoryReport';
+import QuarterlyIncentiveReport from './payroll/PayrollReports/QuarterlyIncentiveReport';
 
 
 const Main = () => (
@@ -255,6 +259,10 @@ const Main = () => (
         <Route path='/backpay' component={BackPayMain}></Route>
 
         <Route path='/pay_slip' component={PaySlip}></Route>
+        <Route path='/employee_salary_report' component={EmployeeSalaryReport}></Route>
+        <Route path="/payrollReport_with_bankno" component={PayrollReportWithBankNo}></Route>
+        <Route path="/salary_history_report" component={SalaryHistoryReport}></Route>
+        <Route path="/quarterly_incentive_report" component={QuarterlyIncentiveReport}></Route>
 
 
 

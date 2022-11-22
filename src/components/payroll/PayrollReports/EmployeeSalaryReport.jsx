@@ -1,0 +1,385 @@
+import React, { Component } from "react";
+import { main_url } from '../../../utils/CommonFunction';
+import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
+import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css';
+import 'datatables.net-dt/css/jquery.dataTables.css'
+import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
+import 'jspdf-autotable';
+import Select from 'react-select';
+import moment from "moment";
+const $ = require('jquery');
+const jzip = require('jzip');
+window.JSZip = jzip;
+$.DataTable = require('datatables.net-bs4');
+$.DataTable = require('datatables.net-responsive-bs4');
+$.DataTable = require('datatables.net');
+require('datatables.net-buttons/js/dataTables.buttons.min');
+require('datatables.net-buttons/js/buttons.html5.min');
+class EmployeeSalaryReport extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      regionList: null,
+      empName: 0,
+      martial_status: null,
+      contact_person: null,
+      contact_phone: null,
+      guarantee_contact_person: null,
+      guarantee_contact_phone: null,
+      phone_no: null,
+      employee_id: null,
+      employee_date: moment().format("YYYY-MM-DD"),
+      selected_Branch: null,
+      selected_department: null,
+      selected_designation: null,
+      selected_region: null,
+      designationList: null,
+      branchlist: null,
+      departmentlist: null,
+      branchId: null,
+      designationId: null,
+      departmentId: null,
+      regionId: null,
+      EmployeeNameList: null,
+      selected_employee: null
+    }
+  }
+
+  async componentDidMount() {
+    this.$el = $(this.el);
+    this.setState(
+      {
+        dataSource: this.props.data,
+
+      },
+      () => {
+        this._setTableData(this.state.dataSource);
+      }
+
+    );
+    this.getRegionList();
+    this.getDepartmentList();
+    this.getBranchList();
+    this.getDesignationList();
+    this.getEmployeeName();
+    this.handleSearchData();
+
+    
+  }
+  getDesignationList() {
+    fetch(`${main_url}main/getDesignations`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        let lists = list.unshift({ value: 0, label: "All" });
+        this.setState({
+          designationList: list
+        });
+      });
+  }
+  getBranchList() {
+    fetch(`${main_url}benefit/getBranchList`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        let lists = list.unshift({ value: 0, label: "All" });
+        this.setState({
+          branchlist: list.map((v) => ({
+            ...v,
+            
+          })),
+        });
+      });
+  }
+
+  getDepartmentList() {
+    fetch(`${main_url}benefit/getDepartmentList`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        let lists = list.unshift({ departments_id: 0, deptname: "All" });
+        this.setState({
+          departmentlist: list.map((v) => ({
+            ...v,
+            label: v.deptname,
+            value: v.departments_id,
+          })),
+        });
+      });
+  }
+
+  getRegionList() {
+    fetch(`${main_url}benefit/getRegionList`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        let lists = list.unshift({ state_id: 0, state_name: "All" });
+        this.setState({
+          regionList: list.map((v) => ({
+            ...v,
+            label: v.state_name,
+            value: v.state_id,
+          })),
+        });
+      });
+  }
+  getEmployeeName() {
+    fetch(`${main_url}report/employeeName`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        let lists = list.unshift({ value: 0, label: "All" });
+        this.setState({
+          EmployeeNameList: list.map((v) => ({
+            ...v
+          }))
+        })
+      })
+  }
+  handleSelectedBranch = async (event) => {
+    if (event != null)
+      this.setState({
+        selected_Branch: event
+      })
+  };
+  handleSelectedDesignation = async (event) => {
+    if (event != null)
+      this.setState({
+        selected_designation: event
+      })
+  }
+  handleSelectedDepartment = async (event) => {
+    if (event != null)
+      this.setState({
+        selected_department: event
+      })
+  }
+  handleSelectedRegion = async (event) => {
+    if (event != null)
+      this.setState({
+        selected_region: event
+      })
+  };
+  handleSelectedEmpName = async (event) => {
+    if (event != null)
+      this.setState(
+        {
+          selected_employee: event
+        }
+      )
+  }
+
+  _setTableData = (data) => {
+    var table;
+    var l = [];
+    if (data) {
+      for (var i = 0; i < data.length; i++) {
+        let result = data[i];
+        let obj = [];
+        obj = {
+          no: i + 1,
+          employee_id: data[i].employment_id ? data[i].employment_id : '-',
+          employee_name: data[i].fullname ?data[i].fullname : "-",
+          branch: data[i].branch_name ? data[i].branch_name : "-",
+          designation: data[i].designations ? data[i].designations : "-",
+          level:data[i].carrer_level ? data[i].carrrer_level : '-',
+          department:data[i].deparments ? data[i].deparments : '-',
+          region: data[i].region_name ? data[i].region_name : "-",
+          current_effective_date:data[i].current_effective_date ? data[i].current_effective_date : '-',
+          current_effective_month:data[i].current_effective_date ? data[i].current_effective_date : '-',
+          current_salary:data[i].current_effective_date ? data[i].current_effective_date : '-',
+        }
+        l.push(obj)
+
+      }
+    }
+      if ($.fn.dataTable.isDataTable('#dataTables-table')) {
+        table = $('#dataTables-table').dataTable();
+        table.fnClearTable();
+        table.fnDestroy();
+        $('#dataTables-table').empty();
+      }
+      var column = [
+        { title: "No", data: "no" },
+        { title: "Employee Id", data: "employee_id" },
+        { title: "Name", data: "employee_name" },
+        { title: "Position", data: "designation" },
+        { title: "Level", data: "level" },
+        { title: "Department", data: "department" },
+        { title: "Branch", data: "branch" },
+        { title: "Region", data: "region" },
+        { title: "Current Position Effective Date", data: "current_effective_date" },
+        { title: "Current Position Effective Month", data: "current_effective_month" },
+        { title: "Current Salary", data: "current_salary" },
+      ]
+      table = $("#dataTables-table").DataTable({
+
+        autofill: true,
+        bLengthChange: false,
+        bInfo: false,
+        responsive: true,
+        pageLength: 50,
+        paging: true,
+            buttons: true,
+        dom: 'Bfrtip',
+         buttons: [
+       
+        'excel'
+         ],
+        buttons: [
+          
+          {
+              extend: 'excelHtml5',
+              title: 'Employee Salary Report',
+          },
+         
+        ],
+        data: l,
+        columns: column
+      });
+    
+  }
+  handleSearchData = () => {
+    // this.setState({
+    const branchId = this.state.selected_Branch ? this.state.selected_Branch.value : 0
+    const departmentId = this.state.selected_department ? this.state.selected_department.departments_id : 0
+    const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
+    const employee = this.state.selected_employee ? this.state.selected_employee.value : 0
+    // })
+
+    fetch(main_url + "report/employeeReport/" + regionId + "/" + departmentId + "/" + branchId + "/" + employee)
+      .then(res => { if (res.ok) return res.json() })
+      .then(list => {
+        this._setTableData(list);
+      })
+  }
+  render() {
+  
+    return (
+      <div>
+        <div className="row  white-bg dashboard-header">
+        <h3 className="" style={{paddingLeft:"10px"}}>Employee Salary Report</h3>
+          <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
+          <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginRight:10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Branch"
+              options={this.state.branchlist}
+              onChange={this.handleSelectedBranch}
+              value={this.state.selected_Branch}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+            <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginRight:10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Region"
+              options={this.state.regionList}
+              onChange={this.handleSelectedRegion}
+              value={this.state.selected_region}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+            <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginRight:10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Department"
+              options={this.state.departmentlist}
+              onChange={this.handleSelectedDepartment}
+              value={this.state.selected_department}
+              className="react-select-container"
+              classNamePrefix="react-select"
+            />
+            {/* <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginRight:10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Designation"
+              options={this.state.designationList}
+              onChange={this.handleSelectedDesignation}
+              value={this.state.selected_designation}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            /> */}
+            
+            <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Employee Name"
+              options={this.state.EmployeeNameList}
+              onChange={this.handleSelectedEmpName}
+              value={this.state.selected_employee}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+            <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
+          </div>
+        
+        <table width="99%"
+          className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
+          id="dataTables-table"
+        />
+      </div>
+      </div>
+    )
+  }
+}
+export default EmployeeSalaryReport;
