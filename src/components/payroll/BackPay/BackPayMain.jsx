@@ -7,6 +7,7 @@ import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, get
 import BackPayAddNew from './BackPayAddNew';
 import BackPayTable from './BackPayTable';
 import BackPayView from './BackPayView';
+import BackPayEdit from './BackPayEdit';
 
 class BackPayMain extends Component {
     constructor() {
@@ -30,7 +31,7 @@ class BackPayMain extends Component {
     }
 
     async componentDidMount() {
-        this.BackPayData();
+        await this.BackPayData();
       }
     
       BackPayData() {
@@ -102,6 +103,7 @@ class BackPayMain extends Component {
 
 
     render() {
+        console.log("backpaydata",this.state.BackPayData)
         const { isView, isEdit, resignOrDismissData, datasource } = this.state;
         return (
            
@@ -118,15 +120,20 @@ class BackPayMain extends Component {
                 <br />
 
                 {this.state.isTable ? (
-          <BackPayTable dataSource={this.state.BackPayData} goToViewForm={this.goToViewForm} />
+          <BackPayTable dataSource={this.state.BackPayData} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm}/>
         ) : this.state.isAddNew ? (
           <BackPayAddNew
             view={isView}
-            edit={isEdit}
+            
+            dataSource={datasource}
           />
         ) : this.state.isView ? (
             <BackPayView dataSource={datasource} />
-        ) :null}
+        )
+         :this.state.isEdit ? (
+            <BackPayEdit dataSource={datasource} edit={isEdit} />
+        )
+         : null}
 
                 {/* {
                     this.state.isAddNew || this.state.isEdit ?

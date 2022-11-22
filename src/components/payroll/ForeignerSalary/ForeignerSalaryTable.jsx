@@ -76,15 +76,18 @@ export default class ForeignerSalaryTable extends Component {
         // });
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.tab != this.props.tab) {
-            this.setState({
-                tab: this.props.tab
-            }, () => this.filter())
-
+    async componentDidUpdate(prevProps) {
+        if (prevProps.dataSource != this.props.dataSource) {
+          this.setState(
+            {
+              dataSource: this.props.dataSource,
+            },
+            () => {
+              this._setTableData(this.state.dataSource);
+            }
+          );
         }
-    }
-
+      }
     getRequest() {
         this.search(0);
     }

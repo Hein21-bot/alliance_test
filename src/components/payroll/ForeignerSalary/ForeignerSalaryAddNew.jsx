@@ -564,6 +564,7 @@ export default class ForeignerSalaryAddNew extends Component {
 
 
   check = () => {
+    
     // if (this.state.newDoc.length == 0) {
     //     toast.error("Please Choose Attachment File!")
     // } else {
@@ -577,7 +578,7 @@ export default class ForeignerSalaryAddNew extends Component {
           fullname: v.fullname,
           designations: v.designations,
           gross_salary: v.gross_salary,
-          exchange_rate:v.exChangeRate,
+          exchange_rate:v.exchangeRate,
           deduction_or_addition: v.deduction_or_addition,
           salary_after_deduction_or_addition:
             v.salary_after_deduction_or_addition,
@@ -1001,7 +1002,7 @@ export default class ForeignerSalaryAddNew extends Component {
                         className="row"
                         style={{
                           display: "flex",
-                          justifyContent: "center",
+                          justifyContent: "space-between",
                           //   alignItems: "center",
                         }}
                       >

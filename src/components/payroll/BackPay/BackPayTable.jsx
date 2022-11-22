@@ -26,7 +26,7 @@ export default class BackPayTable extends Component {
         super(props);
         this.state = {
             user_id: getUserId("user_info"),
-            requestData: [],
+            dataSource: [],
             selectedRequest: '',
             is_main_role: getMainRole(),
             to_date: moment() ,
@@ -38,52 +38,57 @@ export default class BackPayTable extends Component {
         this.$el = $(this.el);
 
         this.setState({
-            requestData: this.state.requestData
+            dataSource: this.state.dataSource
         }, () => {
-            this._setTableData(tempData)
+            console.log("datasource",this.state.dataSource)
+            this._setTableData(this.state.dataSource)
         });
 
         let that = this;
-        // $("#dataTables-table").on('click', '#toView', function () {
+        $("#dataTables-table").on('click', '#toView', function () {
 
-        //     var data = $(this).find("#view").text();
-        //     data = $.parseJSON(data);
-        //     // alert(JSON.stringify(data,2,undefined));
-        //     that.props.goToViewForm(data);
+            var data = $(this).find("#view").text();
+            data = $.parseJSON(data);
+            // alert(JSON.stringify(data,2,undefined));
+            that.props.goToViewForm(data);
 
-        // });
+        });
 
-        // $("#dataTables-table").on('click', '#toEdit', function () {
+        $("#dataTables-table").on('click', '#toEdit', function () {
 
-        //     var data = $(this).find("#edit").text();
-        //     data = $.parseJSON(data);
-        //     that.props.goToEditForm(data);
+            var data = $(this).find("#edit").text();
+            data = $.parseJSON(data);
+            that.props.goToEditForm(data);
 
-        // });
-        // $("#dataTables-table").on('click', '#toPrint', function () {
+        });
+        $("#dataTables-table").on('click', '#toPrint', function () {
 
 
-        //     fetch(`${main_url}wedding_benefit/getWeddingAvailableAmount`)
-        //         .then(res => { if (res.ok) return res.json() })
-        //         .then(list => {
+            fetch(`${main_url}wedding_benefit/getWeddingAvailableAmount`)
+                .then(res => { if (res.ok) return res.json() })
+                .then(list => {
 
-        //             var data = $(this).find("#print").text();
-        //             data = $.parseJSON(data);
+                    var data = $(this).find("#print").text();
+                    data = $.parseJSON(data);
 
-        //             that.getPrintData(data, list.amount)
-        //         })
+                    that.getPrintData(data, list.amount)
+                })
 
-        // });
+        });
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.tab != this.props.tab) {
-            this.setState({
-                tab: this.props.tab
-            }, () => this.filter())
-
+    async componentDidUpdate(prevProps) {
+        if (prevProps.dataSource != this.props.dataSource) {
+          this.setState(
+            {
+              dataSource: this.props.dataSource,
+            },
+            () => {
+              this._setTableData(this.state.dataSource);
+            }
+          );
         }
-    }
+      }
 
     getRequest() {
         this.search(0);
@@ -216,6 +221,7 @@ export default class BackPayTable extends Component {
     }
 
     _setTableData = (data) => {
+        console.log("table",data);
         var table;
         var l = [];
         var status;
@@ -250,49 +256,31 @@ export default class BackPayTable extends Component {
                     no: i + 1,
                     requestMonth: '14-11-2022',
                     employee_id: data[i].employment_id ? data[i].employment_id: '-',
-                    employee_name: data[i].employee_name ? data[i].employee_name: '-',
+                    employee_name: data[i].fullname ? data[i].fullname: '-',
                     designation: data[i].designations ? data[i].designations : '-',
-                    level: data[i].level ? data[i].level : '-',
-                    department: data[i].department ? data[i].department : '-',
-                    branch: data[i].branch_name ? data[i].branch_name : '-',
-                    region: data[i].region ? data[i].region : '-',
-                    lastWorkingDay: '-',
-                    grossSalary: '-',
-                    deductionOrAddition: '-',
-                    salaryAfterDOrA: '-',
-                    ssc3: '-',
-                    ssc2: '-',
-                    incomeTax: '-',
-                    maintenance: '-',
-                    petrol: '-',
-                    totalSalary: '-',
-                    reason: '-',
-                    atmCash: '-',
-                    exitStatus: '-',
-                    status: status
+                    department: data[i].deptname ? data[i].deptname : '-',
+                    branch: data[i].location_master_name ? data[i].location_master_name : '-',
+                    region: data[i].state_name ? data[i].state_name : '-',
+                    payRoll:data[i].request_type==1 ? "Back Pay Salary" : data[i].request_type ==2 ? "Refund Salary": "Temporary Contract Salary",
+                    amount:data[i].amount ? data[i].amount: "-",
+                    reason:data[i].reason ? data[i].reason: '-',
+                    start_working_day:data[i].start_working_day ? data[i].start_working_day : '-',
+                    end_working_day:data[i].last_working_day ? data[i].last_working_day : '-',
+                    working_day:data[i].work_calendar_day == 0 ? "Working Day": "Calendar Day",
+                    total_working_day:data[i].total_working_day ? data[i].total_working_day : "-",
+                    salary_per_day:data[i].salary_per_day ? data[i].salary_per_day : '-',
+                    total_salary:data[i].total_salary ? data[i].total_salary : '-',
+                    atm_or_cash:data[i].atm_cash == 0 ? "ATM" : "Cash",
+                    total:data[i].total ? data[i].total : '-'
                 }
-                // if (has_action) {
-                //     if (result.status !== 3) {
-                //         obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
-                //         obj.action += permission.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
-                //     } else {
-                //         obj.action = permission.isView === 1 ?
-    
-                //             '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
-    
-                //         if (result.print === 1) {
-                //             obj.action +=
-                //                 '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-                //                 JSON.stringify(result) +
-                //                 '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
-                //         } else {
-                //             obj.action +=
-                //                 '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-                //                 JSON.stringify(result) +
-                //                 '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
-                //         }
-                //     }
-                // }
+                obj.action =
+                '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' +
+                JSON.stringify(result) +
+                '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>';
+              obj.action +=
+                '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' +
+                JSON.stringify(result) +
+                '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>';
                 l.push(obj)
     
             }
@@ -311,23 +299,25 @@ export default class BackPayTable extends Component {
             { title: "Employee Id", data: "employee_id" },
             { title: "Employee Name", data: "employee_name" },
             { title: "Designation", data: "designation" },
-            { title: 'Level', data: 'level'},
             { title: 'Department', data: 'department'},
             { title: "Branch", data: "branch" },
             { title: 'Region', data: 'region'},
-            { title: "Last Working Day", data: "lastWorkingDay" },
-            { title: "Gross Salary", data: "grossSalary" },
-            { title: "Deduction or Addition", data: "deductionOrAddition" },
-            { title: "Salary After Deduciton or Addition", data: "salaryAfterDOrA" },
-            { title: 'SSC Employee(3%)', data: 'ssc3'},
-            { title: 'SSC Employee(2%)', data: 'ssc2'},
-            { title: 'Income Tax', data: 'incomeTax'},
-            { title: 'Maintenance', data: 'maintenance'},
-            { title: 'Petrol', data: 'petrol'},
-            { title: 'Total Salary', data: 'totalSalary'},
-            { title: 'Reason', data: 'reason'},
-            { title: 'ATM/Cash', data: 'atmCash'},
-            { title: 'Exit Status', data: 'exitStatus'},
+            { title:"Payroll Type",data:'payRoll'},
+            { title: 'Amount',data:'amount'},
+            { title:"Reason",data:'reason'},
+            { title: 'Start Working Day',data:'start_working_day'},
+            { title: 'End Working Day',data:'end_working_day'},
+            { title: 'Working Day',data:'working_day'},
+            { title: 'Total Working Day',data:'total_working_day'},
+            { title: 'Salary Per Day',data:'salary_per_day'},
+            { title: 'Total Salary',data:'total_salary'},
+            { title: 'ATM Or Cash',data:'atm_or_cash'},
+            { title: 'Total',data:'total'},
+            { title:"Action",data:'action'}
+
+
+
+            
         ]
 
         // if (has_action) {
@@ -365,7 +355,7 @@ export default class BackPayTable extends Component {
         });
     }
 
-    render() { console.log("tab==>",this.state.requestData)
+    render() { console.log("tab==>",this.state.dataSource)
         return (
             
             <div>   <div className=''style={{display:'flex',justifyContent:'end',marginRight:33}}>          

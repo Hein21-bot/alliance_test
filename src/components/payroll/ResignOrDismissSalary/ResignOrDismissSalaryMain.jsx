@@ -13,6 +13,7 @@ import {
 import ResignOrDismissSalaryTable from "./ResignOrDismissSalaryTable";
 import ResignOrDismissSalaryAddNew from "./ResignOrDismissSalaryAddNew";
 import ResignOrDismissSalaryView from "./ResignOrDismissSalaryView";
+import ResignOrDismissSalaryEdit from "./ResignOrDismissSalaryEdit";
 
 class ResignOrDismissSalaryMain extends Component {
   constructor() {
@@ -61,6 +62,7 @@ class ResignOrDismissSalaryMain extends Component {
       isAddNew: true,
       isEdit: false,
       isTable: false,
+      isView: false,
     });
   };
 
@@ -68,6 +70,7 @@ class ResignOrDismissSalaryMain extends Component {
     this.setState({
       isAddNew: false,
       isEdit: false,
+      isView: false,
       isTable: true,
     });
     window.location.reload();
@@ -106,7 +109,6 @@ class ResignOrDismissSalaryMain extends Component {
 
   render() {
     const { isView, isEdit, resignOrDismissData, datasource } = this.state;
-    console.log('data =====>', resignOrDismissData)
     return (
       <div className="pay-roll border-bottom white-bg dashboard-header">
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -123,7 +125,7 @@ class ResignOrDismissSalaryMain extends Component {
         <br />
 
         {this.state.isTable ? (
-          <ResignOrDismissSalaryTable dataSource={resignOrDismissData} goToViewForm={this.goToViewForm} />
+          <ResignOrDismissSalaryTable dataSource={resignOrDismissData} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} />
         ) : this.state.isAddNew ? (
           <ResignOrDismissSalaryAddNew
             view={isView}
@@ -131,7 +133,9 @@ class ResignOrDismissSalaryMain extends Component {
           />
         ) : this.state.isView ? (
             <ResignOrDismissSalaryView dataSource={datasource} />
-        ) :null}
+        ) : this.state.isEdit ? (
+            <ResignOrDismissSalaryEdit dataSource={datasource}/>
+        ) : null}
 
        
       </div>

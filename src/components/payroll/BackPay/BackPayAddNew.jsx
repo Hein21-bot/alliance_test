@@ -26,11 +26,13 @@ export default class BackPayAddNew extends Component {
     super(props);
     this.state = {
       userId: null,
+      edit:this.props.edit,
+      editData:this.props.dataSource,
       userInfo: {},
       PayrollList:[
         {value:1,label:'Back Pay Salary'},
         {value:2,label:'Refund Salary'},
-        {value:1,label:'Temporary Contract Salary'}
+        {value:3,label:'Temporary Contract Salary'}
       ],
       addNewData: {
         requestMonth:new Date(),
@@ -265,7 +267,8 @@ export default class BackPayAddNew extends Component {
                   state_name:data[0].state_name,
                   location_master_name:data[0].location_master_name,
                   deptname:data[0].deptname,
-                  designations:data[0].designations
+                  designations:data[0].designations,
+                  user_id:data[0].user_id
                 }
             })
             // if (data.length > 0) {
@@ -325,13 +328,13 @@ export default class BackPayAddNew extends Component {
           salaryPerDay:0,
           totalWorkingDay:0,
           Total:0,
-          user_id:0,
           atmOrCash:0,
           reason:'',
           totalSalary:0,
           start_working_day:new Date(),
           end_working_day:new Date(),
-          payRoll:0
+          payRoll:0,
+          user_id:''
           
         },
         DetailUser:{
@@ -340,7 +343,8 @@ export default class BackPayAddNew extends Component {
           state_name:'',
           location_master_name:'',
           deptname:'',
-          designations:''
+          designations:'',
+          user_id:0
         },
        
       });
@@ -386,7 +390,7 @@ export default class BackPayAddNew extends Component {
         total_working_day:data[i].totalWorkingDay ? data[i].totalWorkingDay : '-',
         salary_per_day:data[i].salaryPerDay ? data[i].salaryPerDay : '-',
         total_salary:data[i].totalSalary ? data[i].totalSalary : '-',
-        atm_or_cash: data[i].atm_or_cash == 0 ? "ATM" : "Cash",
+        atm_or_cash: data[i].atmOrCash == 0 ? "ATM" : "Cash",
         Total:data[i].Total ? data[i].Total : 0,
         action:
           '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' +
@@ -454,25 +458,26 @@ export default class BackPayAddNew extends Component {
       const dataTostring = this.state.dataSource.map((v) => {
         return {
           request_month: moment(v.request_month).format("YYYY-MM-DD"),
-          payRoll:v.payRoll,
+          request_type:v.payRoll,
           employment_id: v.employment_id,
           employee_name: v.fullname,
           designations: v.designations,
+          departments:v.departments,
           region:v.region,
           branch:v.branch,
-          Amount:v.Amount,
+          amount:v.Amount,
           start_working_day:v.start_working_day,
-          end_working_day:v.end_working_day,
-          workingDay:v.workingDay,
-          salaryPerDay:v.salaryPerDay,
-          totalWorkingDay:v.totalWorkingDay,
+          last_working_day:v.end_working_day,
+          work_calendar_day:v.workingDay,
+          salary_per_day:parseInt(v.salaryPerDay),
+          total_working_day:v.totalWorkingDay,
           selectedEmployeeId:v.selectedEmployeeId,
           selectedPayroll:v.selectedPayroll,
-          Total:v.totalSalary,
-          atm_or_cash: v.atm_or_cash,
+          total:v.totalSalary,
+          atm_cash: v.atmOrCash,
           user_id:v.user_id,
           reason:v.reason,
-          totalSalary:v.totalSalary,
+          total_salary:v.totalSalary,
           createdBy:v.createdBy
          
         };
@@ -525,10 +530,13 @@ export default class BackPayAddNew extends Component {
     }
     // }
   };
+  confirm =()=>{
+
+  }
   
 
   render() {
-    
+    console.log("eidt data",this.state.editData,this.state.edit)
     const { addNewData, userId, userInfo, dataSource } = this.state;
     console.log("addNewData =====>",this.state.addNewData,this.state.DetailUser);
     return (
@@ -554,6 +562,7 @@ export default class BackPayAddNew extends Component {
                                 placeholder="Employee"
                                 options={this.state.PayrollList}
                                 onChange={this.handlePayroll}
+                                // value={this.state.edit ? filterpayroll : this.state.selectedPayroll}
                                 value={this.state.selectedPayroll}
                                 className="react-select-container"
                                 classNamePrefix="react-select"
@@ -565,6 +574,7 @@ export default class BackPayAddNew extends Component {
                                 placeholder="Employee"
                                 options={this.state.employeeIdList}
                                 onChange={this.handleEmployeeId}
+                                // value={this.state.edit ? filterEmployeeId : this.state.selectedEmployeeId}
                                 value={this.state.selectedEmployeeId}
                                 className="react-select-container"
                                 classNamePrefix="react-select"
@@ -577,7 +587,7 @@ export default class BackPayAddNew extends Component {
                         disabled={true}
                         type="text"
                         data-name="fullname"
-                        value={this.state.DetailUser ? this.state.DetailUser.employee_name : ''}
+                        value={this.state.DetailUser.employee_name}
                         placeholder="Employee Name"
                         // onChange={this.claimChangeText}
                       />
@@ -593,7 +603,7 @@ export default class BackPayAddNew extends Component {
                         disabled={true}
                         type="text"
                         data-name="designation"
-                        value={this.state.DetailUser ? this.state.DetailUser.designations : ''}
+                        value={this.state.DetailUser.designations}
                         placeholder="Designation"
                         // onChange={this.claimChangeText}
                       />
@@ -605,7 +615,7 @@ export default class BackPayAddNew extends Component {
                         disabled={true}
                         type="text"
                         data-name="fullname"
-                        value={this.state.DetailUser ? this.state.DetailUser.deptname: ''}
+                        value={this.state.DetailUser.deptname}
                         placeholder="Department"
                         // onChange={this.claimChangeText}
                       />
@@ -617,7 +627,7 @@ export default class BackPayAddNew extends Component {
                         disabled={true}
                         type="text"
                         data-name="Branch"
-                        value={this.state.DetailUser ? this.state.DetailUser.location_master_name:""}
+                        value={this.state.DetailUser.location_master_name}
                         placeholder="Branch"
                         // onChange={this.claimChangeText}
                       />
@@ -689,7 +699,7 @@ export default class BackPayAddNew extends Component {
                         className="row"
                         style={{
                           display: "flex",
-                          justifyContent: "center",
+                          justifyContent: "space-between",
                           //   alignItems: "center",
                         }}
                       >
@@ -697,7 +707,7 @@ export default class BackPayAddNew extends Component {
                           type="radio"
                           value={0}
                           name="working_day"
-                          checked={addNewData.workingDay == 0 ? true : false}
+                          checked={addNewData.workingDay == 0  ? true : false}
                         />{" "}
                         <span>Working Day</span>
                         <input
@@ -751,7 +761,7 @@ export default class BackPayAddNew extends Component {
                           className="row"
                           style={{
                             display: "flex",
-                            justifyContent: "center",
+                            justifyContent: "space-between",
                             //   alignItems: "center",
                           }}
                         >
@@ -806,13 +816,23 @@ export default class BackPayAddNew extends Component {
               </div>
               <div className="col-md-12">
                 <div className="col-md-12 btn-rightend mt20">
-                  <button
-                    onClick={this.check.bind(this)}
+                  {
+                    this.state.edit ?  <button
+                    onClick={this.confirm.bind(this)}
                     id="saving_button"
                     className="btn btn-primary"
                   >
                     <span>Confirm</span>{" "}
+                  </button> : <button
+                    onClick={this.check.bind(this)}
+                    id="saving_button"
+                    className="btn btn-primary"
+                  >
+                    <span>Submit</span>{" "}
                   </button>
+                  }
+                  
+                 
                 </div>
               </div>
             </div>
