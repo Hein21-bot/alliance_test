@@ -129,6 +129,9 @@ import EmployeeSalaryReport from './payroll/PayrollReports/EmployeeSalaryReport'
 import PayrollReportWithBankNo from './payroll/PayrollReports/PayrollReportWithBankNo';
 import SalaryHistoryReport from './payroll/PayrollReports/SalaryHistoryReport';
 import QuarterlyIncentiveReport from './payroll/PayrollReports/QuarterlyIncentiveReport';
+import PayrollSummaryReport from './payroll/PayrollReports/PayrollSummaryReport';
+import PayrollDetailsReport from './payroll/PayrollReports/PayrollDetailsReport';
+import PayrollSummaryReportWithLocation from './payroll/PayrollReports/PayrollSummaryReportWithLocation';
 
 
 const Main = () => (
@@ -263,6 +266,11 @@ const Main = () => (
         <Route path="/payrollReport_with_bankno" component={PayrollReportWithBankNo}></Route>
         <Route path="/salary_history_report" component={SalaryHistoryReport}></Route>
         <Route path="/quarterly_incentive_report" component={QuarterlyIncentiveReport}></Route>
+        <Route path='/payroll_summary_report' component={PayrollSummaryReport}></Route>
+        <Route path='/payroll_details_report' component={PayrollDetailsReport}></Route>
+        <Route path='/payroll_details_report_with_location' component={PayrollSummaryReportWithLocation}></Route>
+
+
 
 
 

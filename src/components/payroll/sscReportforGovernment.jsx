@@ -121,7 +121,27 @@ render(){
         width="99%"
         className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
         id="dataTables-table"
-      /></div>
+      />
+      <div style={{display:'flex',justifyContent:'center'}}>
+      <table className="table table-bordered" style={{width:'20%',border:'1px solid black',borderCollapse:'collapse'}}>
+          <tbody>
+            <tr style={{border:'1px solid black',borderCollapse:'collapse'}}>
+              <td>Total</td>
+              <td>1230</td>
+            </tr>
+            <tr style={{border:'1px solid black',borderCollapse:'collapse'}}>
+              <td>Male</td>
+              <td>52</td>
+            </tr>
+            <tr style={{border:'1px solid black',borderCollapse:'collapse'}}>
+              <td>Femlae</td>
+              <td>655</td>
+            </tr>
+          </tbody>
+      </table>
+      </div>
+     
+      </div>
     );}
 }
 
