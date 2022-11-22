@@ -28,44 +28,12 @@ export default class BackPayAddNew extends Component {
       userId: null,
       edit:this.props.edit,
       editData:this.props.dataSource,
-      userInfo: {},
+     
       PayrollList:[
         {value:1,label:'Back Pay Salary'},
         {value:2,label:'Refund Salary'},
         {value:3,label:'Temporary Contract Salary'}
       ],
-      addNewData: {
-        requestMonth:new Date(),
-        Amount:0,
-        reason:'',
-        workingDay:0,
-        salaryPerDay:0,
-        totalWorkingDay:0,
-        Total:0,
-        atmOrCash:0,
-        start_working_day:new Date(),
-        end_working_day:new Date(),
-        payRoll:0,
-        totalSalary:0
-        
-        
-      },
-      dataSource: [],
-      attachment: [],
-      newDoc: [],
-      employeeIdList:null,
-      selectedEmployeeId:null,
-      selectedPayroll:null,
-      DetailUser:{
-        employment_id:0,
-        employee_name:'',
-        state_name:'',
-        location_master_name:'',
-        deptname:'',
-        designations:''
-      },
-      
-     
     };
   }
 
@@ -83,59 +51,6 @@ export default class BackPayAddNew extends Component {
       branch: branch,
       userId: id,
       userInfo: userInfo[0],
-    });
-    $(document).on("click", "#toEdit", function () {
-      var data = $(this).find("#edit").text();
-      data = $.parseJSON(data);
-      let newData = that.state.dataSource;
-      let editData = newData[data];
-      console.log("edit data===>",editData,newData)
-      newData.splice(data, 1);
-      that.setState(
-        {
-          dataSource: newData,
-          selectedEmployeeId:editData.selectedEmployeeId,
-          selectedPayroll:editData.selectedPayroll,
-          addNewData: {
-            requestMonth: editData.request_month,
-            Amount:editData.Amount,
-            workingDay:editData.workingDay,
-            salaryPerDay:editData.salaryPerDay,
-            totalWorkingDay:editData.totalWorkingDay,
-            Total:editData.Total,
-            start_working_day:editData.start_working_day,
-            end_working_day:editData.end_working_day,
-            payRoll:editData.payRoll,
-            atmOrCash:editData.atmOrCash,
-            reason:editData.reason,
-            totalSalary:editData.totalSalary
-
-          },
-          DetailUser:{
-            employment_id:editData.employment_id,
-        employee_name:editData.fullname,
-        state_name:editData.region,
-        location_master_name:editData.branch,
-        deptname:editData.departments,
-        designations:editData.designations
-          },
-          
-        },
-        () => that.setDataTable(newData)
-      );
-    });
-    $(document).on("click", "#toRemove", function () {
-      var data = $(this).find("#remove").text();
-      data = $.parseJSON(data);
-
-      let newData = that.state.dataSource;
-      newData.splice(data, 1);
-      that.setState(
-        {
-          dataSource: newData,
-        },
-        () => that.setDataTable(newData)
-      );
     });
   }
   totalWorkingDays=(startDate,endDate)=>{
@@ -286,163 +201,163 @@ export default class BackPayAddNew extends Component {
     //     selectedEmployeeId:e
     // })
   }
-  addData = (e) => {
-    const { userInfo } = this.state;
-    console.log("add data", this.state.newData,this.state.DetailUser);
-    if (validate("add_check_form")) {
-      var data = [...this.state.dataSource];
-      let newData = { ...this.state.editData };
-      let tempData = {};
-      tempData.request_month = newData.requestMonth;
-      tempData.payRoll=newData.payRoll;
-      tempData.employment_id = this.state.DetailUser.employment_id;
-      tempData.fullname = this.state.DetailUser.employee_name;
-      tempData.designations = this.state.DetailUser.designations;
-      tempData.departments=this.state.DetailUser.deptname;
-      tempData.region=this.state.DetailUser.state_name;
-      tempData.branch=this.state.DetailUser.location_master_name;
-      tempData.Amount=newData.Amount;
-      tempData.start_working_day=newData.start_working_day;
-      tempData.end_working_day=newData.end_working_day;
-      tempData.workingDay=newData.workingDay;
-      tempData.salaryPerDay=newData.salaryPerDay;
-      tempData.totalWorkingDay=newData.totalWorkingDay;
-      tempData.Total=newData.Total;
-      tempData.selectedEmployeeId=this.state.selectedEmployeeId;
-      tempData.atmOrCash=newData.atmOrCash;
-      tempData.selectedPayroll=this.state.selectedPayroll;
-      tempData.user_id=this.state.DetailUser.user_id;
-      tempData.createdBy=this.state.userInfo.user_id;
-      tempData.reason=newData.reason;
-      tempData.totalSalary=newData.totalSalary
+  // addData = (e) => {
+  //   const { userInfo } = this.state;
+  //   console.log("add data", this.state.newData,this.state.DetailUser);
+  //   if (validate("add_check_form")) {
+  //     var data = [...this.state.dataSource];
+  //     let newData = { ...this.state.editData };
+  //     let tempData = {};
+  //     tempData.request_month = newData.requestMonth;
+  //     tempData.payRoll=newData.payRoll;
+  //     tempData.employment_id = this.state.DetailUser.employment_id;
+  //     tempData.fullname = this.state.DetailUser.employee_name;
+  //     tempData.designations = this.state.DetailUser.designations;
+  //     tempData.departments=this.state.DetailUser.deptname;
+  //     tempData.region=this.state.DetailUser.state_name;
+  //     tempData.branch=this.state.DetailUser.location_master_name;
+  //     tempData.Amount=newData.Amount;
+  //     tempData.start_working_day=newData.start_working_day;
+  //     tempData.end_working_day=newData.end_working_day;
+  //     tempData.workingDay=newData.workingDay;
+  //     tempData.salaryPerDay=newData.salaryPerDay;
+  //     tempData.totalWorkingDay=newData.totalWorkingDay;
+  //     tempData.Total=newData.Total;
+  //     tempData.selectedEmployeeId=this.state.selectedEmployeeId;
+  //     tempData.atmOrCash=newData.atmOrCash;
+  //     tempData.selectedPayroll=this.state.selectedPayroll;
+  //     tempData.user_id=this.state.DetailUser.user_id;
+  //     tempData.createdBy=this.state.userInfo.user_id;
+  //     tempData.reason=newData.reason;
+  //     tempData.totalSalary=newData.totalSalary
       
-      var totalAmount = 0;
+  //     var totalAmount = 0;
 
-      data.push(tempData);
-      this.setState({
-        dataSource: data,
-        selectedEmployeeId:null,
-        selectedPayroll:null,
-        editData: {
-          requestMonth:new Date(),
-          Amount:0,
-          workingDay:0,
-          salaryPerDay:0,
-          totalWorkingDay:0,
-          Total:0,
-          atmOrCash:0,
-          reason:'',
-          totalSalary:0,
-          start_working_day:new Date(),
-          end_working_day:new Date(),
-          payRoll:0,
-          user_id:''
+  //     data.push(tempData);
+  //     this.setState({
+  //       dataSource: data,
+  //       selectedEmployeeId:null,
+  //       selectedPayroll:null,
+  //       editData: {
+  //         requestMonth:new Date(),
+  //         Amount:0,
+  //         workingDay:0,
+  //         salaryPerDay:0,
+  //         totalWorkingDay:0,
+  //         Total:0,
+  //         atmOrCash:0,
+  //         reason:'',
+  //         totalSalary:0,
+  //         start_working_day:new Date(),
+  //         end_working_day:new Date(),
+  //         payRoll:0,
+  //         user_id:''
           
-        },
-        DetailUser:{
-          employment_id:0,
-          employee_name:'',
-          state_name:'',
-          location_master_name:'',
-          deptname:'',
-          designations:'',
-          user_id:0
-        },
+  //       },
+  //       DetailUser:{
+  //         employment_id:0,
+  //         employee_name:'',
+  //         state_name:'',
+  //         location_master_name:'',
+  //         deptname:'',
+  //         designations:'',
+  //         user_id:0
+  //       },
        
-      });
+  //     });
 
-      saveBtn = true;
-      form_validate = true;
-      this.setDataTable(data);
-    } else {
-      form_validate = false;
-    }
-  };
+  //     saveBtn = true;
+  //     form_validate = true;
+  //     this.setDataTable(data);
+  //   } else {
+  //     form_validate = false;
+  //   }
+  // };
 
-  setDataTable(data) {
-    console.log("data===>",data)
-    var table;
-    if ($.fn.dataTable.isDataTable("#dataTables-Table")) {
-      table = $("#dataTables-Table").dataTable();
-      table.fnClearTable();
-      table.fnDestroy();
-      $("#dataTables-Table").empty();
-    }
-    var l = [];
-    for (var i = 0; i < data.length; i++) {
-      const index = i;
-      const result = data[i];
-      const obj = {
-        no: index + 1,
-        request_month: data[i].request_month
-          ? moment(data[i].request_month).format("MMM")
-          : "-",
-        employment_id: data[i].employment_id ? data[i].employment_id : "-",
-        pay_roll:data[i].payRoll == 1 ? "Back Pay Salary" : data[i].payRoll ==2 ? "Refund Salary" : "•	Temporary Contract Salary",
-        fullname: data[i].fullname ? data[i].fullname : "-",
-        designations: data[i].designations ? data[i].designations : "-",
-        departments:data[i].departments ? data[i].departments : '-',
-        region:data[i].branch ? data[i].branch:'-',
-        branch:data[i].region ? data[i].region : '-',
-        amount:data[i].Amount ? data[i].Amount : '-',
-        reason:data[i].reason ? data[i].reason : '-',
-        start_working_day:data[i].start_working_day ? moment(data[i].start_working_day).format('YYYY-MM-DD') : '-',
-        end_working_day:data[i].end_working_day ? moment(data[i].end_working_day).format('YYYY-MM-DD') : '-',
-        working_day:data[i].workingDay== 0 ? "Working Day" : 'Calendar Day',
-        total_working_day:data[i].totalWorkingDay ? data[i].totalWorkingDay : '-',
-        salary_per_day:data[i].salaryPerDay ? data[i].salaryPerDay : '-',
-        total_salary:data[i].totalSalary ? data[i].totalSalary : '-',
-        atm_or_cash: data[i].atmOrCash == 0 ? "ATM" : "Cash",
-        Total:data[i].Total ? data[i].Total : 0,
-        action:
-          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' +
-          index +
-          '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' +
-          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toRemove" ><span id="remove" class="hidden" >' +
-          index +
-          '</span>  <i className="fa fa-cogs"></i>&nbsp;Remove</button>',
-      };
-      l.push(obj);
-    }
+  // setDataTable(data) {
+  //   console.log("data===>",data)
+  //   var table;
+  //   if ($.fn.dataTable.isDataTable("#dataTables-Table")) {
+  //     table = $("#dataTables-Table").dataTable();
+  //     table.fnClearTable();
+  //     table.fnDestroy();
+  //     $("#dataTables-Table").empty();
+  //   }
+  //   var l = [];
+  //   for (var i = 0; i < data.length; i++) {
+  //     const index = i;
+  //     const result = data[i];
+  //     const obj = {
+  //       no: index + 1,
+  //       request_month: data[i].request_month
+  //         ? moment(data[i].request_month).format("MMM")
+  //         : "-",
+  //       employment_id: data[i].employment_id ? data[i].employment_id : "-",
+  //       pay_roll:data[i].payRoll == 1 ? "Back Pay Salary" : data[i].payRoll ==2 ? "Refund Salary" : "•	Temporary Contract Salary",
+  //       fullname: data[i].fullname ? data[i].fullname : "-",
+  //       designations: data[i].designations ? data[i].designations : "-",
+  //       departments:data[i].departments ? data[i].departments : '-',
+  //       region:data[i].branch ? data[i].branch:'-',
+  //       branch:data[i].region ? data[i].region : '-',
+  //       amount:data[i].Amount ? data[i].Amount : '-',
+  //       reason:data[i].reason ? data[i].reason : '-',
+  //       start_working_day:data[i].start_working_day ? moment(data[i].start_working_day).format('YYYY-MM-DD') : '-',
+  //       end_working_day:data[i].end_working_day ? moment(data[i].end_working_day).format('YYYY-MM-DD') : '-',
+  //       working_day:data[i].workingDay== 0 ? "Working Day" : 'Calendar Day',
+  //       total_working_day:data[i].totalWorkingDay ? data[i].totalWorkingDay : '-',
+  //       salary_per_day:data[i].salaryPerDay ? data[i].salaryPerDay : '-',
+  //       total_salary:data[i].totalSalary ? data[i].totalSalary : '-',
+  //       atm_or_cash: data[i].atmOrCash == 0 ? "ATM" : "Cash",
+  //       Total:data[i].Total ? data[i].Total : 0,
+  //       action:
+  //         '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' +
+  //         index +
+  //         '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' +
+  //         '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toRemove" ><span id="remove" class="hidden" >' +
+  //         index +
+  //         '</span>  <i className="fa fa-cogs"></i>&nbsp;Remove</button>',
+  //     };
+  //     l.push(obj);
+  //   }
 
-    table = $("#dataTables-Table").DataTable({
-      autofill: false,
-      bLengthChange: false,
-      bInfo: false,
-      responsive: true,
-      paging: false,
-      buttons: false,
+  //   table = $("#dataTables-Table").DataTable({
+  //     autofill: false,
+  //     bLengthChange: false,
+  //     bInfo: false,
+  //     responsive: true,
+  //     paging: false,
+  //     buttons: false,
 
-      data: l,
-      columns: [
-        { title: "No", data: "no" },
-        { title :"Request Month",data:"request_month"},
-        { title : "Payroll Type",data:'pay_roll'},
-        { title: "Employee Id", data: "employment_id" },
-        { title: "Employee Name", data: "fullname" },
-        { title: "Position", data: "designations" },
-        { title :"Departments",data:"departments"},
-        { title :"Region",data:"region"},
-        { title :"Branch",data:"branch"},
-        { title :"Amount",data:"amount"},
-        { title :"Reason",data:"reason"},
-        { title :"Start Working Day",data:"start_working_day"},
-        { title :"End Working Day",data:"end_working_day"},
-        { title :"Working Day/Calendar Day",data:"working_day"},
-        { title: "Total Working Day",data:"total_working_day"},
-        { title: "Salary Per Day",data:"salary_per_day"},
-        { title: "Total Salary",data:"total_salary"},
-        { title: "ATM Or Cash",data:"atm_or_cash"},
-        { title: "Total",data:"Total"},
-        { title: "Action",data:'action'}
-      ],
-    });
-  }
+  //     data: l,
+  //     columns: [
+  //       { title: "No", data: "no" },
+  //       { title :"Request Month",data:"request_month"},
+  //       { title : "Payroll Type",data:'pay_roll'},
+  //       { title: "Employee Id", data: "employment_id" },
+  //       { title: "Employee Name", data: "fullname" },
+  //       { title: "Position", data: "designations" },
+  //       { title :"Departments",data:"departments"},
+  //       { title :"Region",data:"region"},
+  //       { title :"Branch",data:"branch"},
+  //       { title :"Amount",data:"amount"},
+  //       { title :"Reason",data:"reason"},
+  //       { title :"Start Working Day",data:"start_working_day"},
+  //       { title :"End Working Day",data:"end_working_day"},
+  //       { title :"Working Day/Calendar Day",data:"working_day"},
+  //       { title: "Total Working Day",data:"total_working_day"},
+  //       { title: "Salary Per Day",data:"salary_per_day"},
+  //       { title: "Total Salary",data:"total_salary"},
+  //       { title: "ATM Or Cash",data:"atm_or_cash"},
+  //       { title: "Total",data:"Total"},
+  //       { title: "Action",data:'action'}
+  //     ],
+  //   });
+  // }
 
   showToast = (status, text) => {
     if (status === 200) {
       toast.success(text);
-      window.location.reload('/foreigner_salary')
+      window.location.reload('/backpay')
       // {this.state.attendance_type == "late_check_in" ? this.LateCheckIn ? this.state.attendance_type == "field_check_in" : this.FieldCheckIn ? this.state.attendance_type == "early_check_out" : this.EarlyCheckOut : this.FieldCheckOut}
     } else {
       toast.error(text);
@@ -454,44 +369,45 @@ export default class BackPayAddNew extends Component {
     // if (this.state.newDoc.length == 0) {
     //     toast.error("Please Choose Attachment File!")
     // } else {
+      const {editData} = this.state;
     if (validate("check_form")) {
       // @lucy
       let status=0
-      const dataTostring = this.state.dataSource.map((v) => {
-        return {
-          request_month: moment(v.request_month).format("YYYY-MM-DD"),
-          request_type:v.request_type,
-          employment_id: v.employment_id,
-          employee_name: v.fullname,
-          designations: v.designations,
-          departments:v.deptname,
-          region:v.state_name,
-          branch:v.location_master_name,
-          amount:v.Amount,
-          start_working_day:v.start_working_day,
-          last_working_day:v.last_working_day,
-          work_calendar_day:v.workingDay,
-          salary_per_day:parseInt(v.salaryPerDay),
-          total_working_day:v.total_working_day,
-          // selectedEmployeeId:v.selectedEmployeeId,
-          // selectedPayroll:v.selectedPayroll,
-          total:v.total,
-          atm_cash: v.atm_cash,
-          user_id:v.user_id,
-          reason:v.reason,
-          total_salary:v.total_salary,
-          createdBy:v.createdBy
+      
+        const data= {
+          request_month: moment(editData.request_month).format("YYYY-MM-DD"),
+          request_type:editData.request_type,
+          employment_id: editData.employment_id,
+          employee_name: editData.fullname,
+          designations: editData.designations,
+          departments:editData.deptname,
+          region:editData.state_name,
+          branch:editData.location_master_name,
+          amount:editData.amount,
+          start_working_day:moment(editData.start_working_day).format('YYYY-MM-DD'),
+          last_working_day:moment(editData.last_working_day).format('YYYY-MM-DD'),
+          work_calendar_day:editData.work_calendar_day,
+          salary_per_day:parseInt(editData.salary_per_day),
+          total_working_day:editData.total_working_day,
+          // selectedEmployeeId:editData.selectedEmployeeId,
+          // selectedPayroll:editData.selectedPayroll,
+          total:editData.total,
+          atm_cash: editData.atm_cash,
+          user_id:editData.user_id,
+          reason:editData.reason,
+          total_salary:editData.total_salary,
+          createdBy:editData.createdBy
          
         };
-      });
-      console.log("data===>",dataTostring)
+     
+      // console.log("data===>",dataTostring)
 
-      fetch(`${main_url}back_pay/edit_back_pay/${this.state.editData.id}`, {
+      fetch(`${main_url}back_pay/edit_back_pay/${editData.id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: `data=${JSON.stringify(dataTostring)}`,
+        body: `data=${JSON.stringify(data)}`,
       })
         .then((res) => {
           status = res.status;
@@ -502,11 +418,7 @@ export default class BackPayAddNew extends Component {
         });
       if (saveBtn) {
         $("#saving_button").attr("disabled", true);
-        // this.props.addClaimRequest(
-        //   dataTostring,
-        //   this.state.data,
-        //   this.state.newDoc
-        // );
+       
       } else {
         startSaving();
         toast.error(" Please Add Full Information", {
@@ -532,9 +444,7 @@ export default class BackPayAddNew extends Component {
     }
     // }
   };
-  confirm =()=>{
-
-  }
+ 
   
 
   render() {
@@ -567,7 +477,6 @@ export default class BackPayAddNew extends Component {
                                 placeholder="Payroll Request"
                                 options={this.state.PayrollList}
                                 onChange={this.handlePayroll}
-                                // value={this.state.edit ? filterpayroll : this.state.selectedPayroll}
                                 value={filterpayroll}
                                 className="react-select-container"
                                 classNamePrefix="react-select"
@@ -576,27 +485,16 @@ export default class BackPayAddNew extends Component {
                     <div className="col-md-3">
                       <label>Employee ID</label>
                       <input type="text" className="form-control" value={this.state.editData.employment_id} disabled />
-                      {/* <Select
-                                placeholder="Employee"
-                                options={this.state.employeeIdList}
-                                disabled
-                                // onChange={this.handleEmployeeId}
-                                // value={this.state.edit ? filterEmployeeId : this.state.selectedEmployeeId}
-                                value={filterEmployeeId}
-                                className="react-select-container"
-                                classNamePrefix="react-select"
-                            /> */}
                     </div>
                     <div className="col-md-3">
                       <label>Employee Name</label>
                       <input
-                        className="form-control checkValidate"
+                        className="form-control"
                         disabled={true}
                         type="text"
                         data-name="fullname"
                         value={this.state.editData.fullname}
                         placeholder="Employee Name"
-                        // onChange={this.claimChangeText}
                       />
                     </div>
                     
@@ -612,7 +510,6 @@ export default class BackPayAddNew extends Component {
                         data-name="designation"
                         value={this.state.editData.designations}
                         placeholder="Designation"
-                        // onChange={this.claimChangeText}
                       />
                     </div>
                     <div className="col-md-3">
@@ -624,7 +521,6 @@ export default class BackPayAddNew extends Component {
                         data-name="fullname"
                         value={this.state.editData.deptname}
                         placeholder="Department"
-                        // onChange={this.claimChangeText}
                       />
                     </div>
                   <div className="col-md-3">
@@ -636,7 +532,6 @@ export default class BackPayAddNew extends Component {
                         data-name="Branch"
                         value={this.state.editData.location_master_name}
                         placeholder="Branch"
-                        // onChange={this.claimChangeText}
                       />
                     </div>
                     <div className="col-md-3">
@@ -648,7 +543,6 @@ export default class BackPayAddNew extends Component {
                         data-name="Region"
                         value={this.state.editData.state_name}
                         placeholder="Region"
-                        // onChange={this.onGrossSalaryChange}
                       />
                     </div>
                     
@@ -670,7 +564,7 @@ export default class BackPayAddNew extends Component {
                     <div className="col-md-3">
                     <label>Reason</label>
                       <input
-                        className="form-control checkValidate"
+                        className="form-control"
                         type="text"
                         data-name="reason"
                         value={this.state.editData.reason}
@@ -706,8 +600,7 @@ export default class BackPayAddNew extends Component {
                         className="row"
                         style={{
                           display: "flex",
-                          justifyContent: "center",
-                          //   alignItems: "center",
+                          justifyContent: "space-between",
                         }}
                       >
                         <input
@@ -768,7 +661,7 @@ export default class BackPayAddNew extends Component {
                           className="row"
                           style={{
                             display: "flex",
-                            justifyContent: "center",
+                            justifyContent: "space-between",
                             //   alignItems: "center",
                           }}
                         >
@@ -833,8 +726,6 @@ export default class BackPayAddNew extends Component {
                     <span>Confirm</span>{" "}
                   </button>
                   
-                  
-                 
                 </div>
               </div>
             </div>

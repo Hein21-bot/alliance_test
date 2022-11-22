@@ -1001,7 +1001,7 @@ export default class ForeignerSalaryAddNew extends Component {
                         className="row"
                         style={{
                           display: "flex",
-                          justifyContent: "center",
+                          justifyContent: "space-between",
                           //   alignItems: "center",
                         }}
                       >

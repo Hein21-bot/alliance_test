@@ -537,8 +537,6 @@ export default class BackPayAddNew extends Component {
 
   render() {
     console.log("eidt data",this.state.editData,this.state.edit)
-    let filterpayroll=this.state.PayrollList.filter(v=>v.value == this.state.editData.request_type)
-    let filterEmployeeId=this.state.employeeIdList.filter(v=>v.user_id == this.state.editData.user_id)
     const { addNewData, userId, userInfo, dataSource } = this.state;
     console.log("addNewData =====>",this.state.addNewData,this.state.DetailUser);
     return (
@@ -553,7 +551,7 @@ export default class BackPayAddNew extends Component {
                       <label>Request Month</label>
                       <DatePicker
                         dateFormat="MMM"
-                        value={this.state.edit ? new Date(this.state.editData.request_month) : addNewData.requestMonth}
+                        value={addNewData.requestMonth}
                         timeFormat={false}
                         onChange={this.onRequestMonthChange.bind(this)}
                       />
@@ -589,7 +587,7 @@ export default class BackPayAddNew extends Component {
                         disabled={true}
                         type="text"
                         data-name="fullname"
-                        value={this.state.edit ? this.state.editData.fullname : this.state.DetailUser.employee_name}
+                        value={this.state.DetailUser.employee_name}
                         placeholder="Employee Name"
                         // onChange={this.claimChangeText}
                       />
@@ -605,7 +603,7 @@ export default class BackPayAddNew extends Component {
                         disabled={true}
                         type="text"
                         data-name="designation"
-                        value={this.state.edit ?this.state.editData.designations : this.state.DetailUser.designations}
+                        value={this.state.DetailUser.designations}
                         placeholder="Designation"
                         // onChange={this.claimChangeText}
                       />
@@ -617,7 +615,7 @@ export default class BackPayAddNew extends Component {
                         disabled={true}
                         type="text"
                         data-name="fullname"
-                        value={this.state.edit ? this.state.editData.deptname : this.state.DetailUser.deptname}
+                        value={this.state.DetailUser.deptname}
                         placeholder="Department"
                         // onChange={this.claimChangeText}
                       />
@@ -629,7 +627,7 @@ export default class BackPayAddNew extends Component {
                         disabled={true}
                         type="text"
                         data-name="Branch"
-                        value={this.state.edit ? this.state.editData.location_master_name : this.state.DetailUser.location_master_name}
+                        value={this.state.DetailUser.location_master_name}
                         placeholder="Branch"
                         // onChange={this.claimChangeText}
                       />
@@ -641,7 +639,7 @@ export default class BackPayAddNew extends Component {
                         disabled={true}
                         type="text"
                         data-name="Region"
-                        value={this.state.edit ?this.state.editData.state_name : this.state.DetailUser && this.state.DetailUser.state_name}
+                        value={this.state.DetailUser && this.state.DetailUser.state_name}
                         placeholder="Region"
                         // onChange={this.onGrossSalaryChange}
                       />
@@ -657,7 +655,7 @@ export default class BackPayAddNew extends Component {
                         className="form-control"
                         type="number"
                         data-name="Amount"
-                        value={this.state.edit ? this.state.editData.amount : addNewData.Amount}
+                        value={addNewData.Amount}
                         placeholder="Enter Amount"
                         onChange={this.handleAmount}
                       />
@@ -668,7 +666,7 @@ export default class BackPayAddNew extends Component {
                         className="form-control checkValidate"
                         type="text"
                         data-name="reason"
-                        value={this.state.edit ? this.state.editData.reason : addNewData.reason}
+                        value={addNewData.reason}
                         placeholder="Enter Reason"
                         onChange={this.onReasonChange}
                         multiple
@@ -678,7 +676,7 @@ export default class BackPayAddNew extends Component {
                       <label>Start Working Day</label>
                       <DatePicker
                         dateFormat="DD/MM/YYYY"
-                        value={this.state.edit ? this.state.editData.start_working_day : this.state.start_working_day}
+                        value={this.state.start_working_day}
                         onChange={this.handleSelectedFromdate}
                         timeFormat={false}
                     />
@@ -687,7 +685,7 @@ export default class BackPayAddNew extends Component {
                       <label>End Working Day</label>
                             <DatePicker
                         dateFormat="DD/MM/YYYY"
-                        value={this.state.edit ? this.state.editData.last_working_day : this.state.end_working_day}
+                        value={this.state.end_working_day}
                         onChange={this.handleSelectedTodate}
                         timeFormat={false}
                         />
@@ -701,7 +699,7 @@ export default class BackPayAddNew extends Component {
                         className="row"
                         style={{
                           display: "flex",
-                          justifyContent: "center",
+                          justifyContent: "space-between",
                           //   alignItems: "center",
                         }}
                       >
@@ -709,14 +707,14 @@ export default class BackPayAddNew extends Component {
                           type="radio"
                           value={0}
                           name="working_day"
-                          checked={this.state.edit ? this.state.editData.work_calendar_day == 0 ? true : false : addNewData.workingDay == 0  ? true : false}
+                          checked={addNewData.workingDay == 0  ? true : false}
                         />{" "}
                         <span>Working Day</span>
                         <input
                           type="radio"
                           value={1}
                           name="calendar_day"
-                          checked={this.state.edit ? this.state.editData.work_calendar_day == 1 ? true : false : addNewData.workingDay == 1 ? true : false}
+                          checked={addNewData.workingDay == 1 ? true : false}
                         />{" "}
                         <span>Calendar Day</span>
                       </div>
@@ -728,7 +726,7 @@ export default class BackPayAddNew extends Component {
                         
                         type="number"
                         data-name="totalWorkingDay"
-                        value={this.state.edit ? this.state.editData.total_working_day : addNewData.totalWorkingDay}
+                        value={addNewData.totalWorkingDay}
                         onChange={this.handletotalWorkingDay}
                       />
                     </div>
@@ -749,7 +747,7 @@ export default class BackPayAddNew extends Component {
                         className="form-control"
                         type="number"
                         data-name="totalSalary"
-                        value={this.state.edit ? this.state.editData.total_salary : addNewData.totalSalary}
+                        value={addNewData.totalSalary}
                         placeholder="Total Salary"
                         onChange={this.ontotalSalaryChange}
                       />
@@ -763,7 +761,7 @@ export default class BackPayAddNew extends Component {
                           className="row"
                           style={{
                             display: "flex",
-                            justifyContent: "center",
+                            justifyContent: "space-between",
                             //   alignItems: "center",
                           }}
                         >
@@ -771,14 +769,14 @@ export default class BackPayAddNew extends Component {
                             type="radio"
                             value={0}
                             name="work"
-                            checked={this.state.edit ? this.state.editData.atm_cash==0 ? true :false : addNewData.atmOrCash == 0 ? true : false}
+                            checked={addNewData.atmOrCash == 0 ? true : false}
                           />{" "}
                           <span>ATM</span>
                           <input
                             type="radio"
                             value={1}
                             name="work"
-                            checked={this.state.edit ? this.state.editData.atm_cash==1 ? true : false : addNewData.atmOrCash == 1 ? true : false}
+                            checked={addNewData.atmOrCash == 1 ? true : false}
                           />{" "}
                           <span>Cash</span>
                         </div>
@@ -790,7 +788,7 @@ export default class BackPayAddNew extends Component {
                            
                             type="number"
                             data-name="total"
-                            value={this.state.edit ? this.state.editData.total : addNewData.Total}
+                            value={addNewData.Total}
                           
                             onChange={this.handleTotal}
                         />
