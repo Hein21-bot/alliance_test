@@ -117,7 +117,6 @@ import AttendanceHistory from './Attendance/AttendanceHistory'
 import HolidayAttendance from './Attendance/HolidayAttendance'
 import AttendanceReportMonthly from './Attendance/AttendanceReport'
 
-import PayRoll from './payroll/payroll'
 import SSC from './payroll/SSC';
 
 import ResignOrDismissSalaryMain from './payroll/ResignOrDismissSalary/ResignOrDismissSalaryMain';
@@ -132,6 +131,8 @@ import QuarterlyIncentiveReport from './payroll/PayrollReports/QuarterlyIncentiv
 import PayrollSummaryReport from './payroll/PayrollReports/PayrollSummaryReport';
 import PayrollDetailsReport from './payroll/PayrollReports/PayrollDetailsReport';
 import PayrollSummaryReportWithLocation from './payroll/PayrollReports/PayrollSummaryReportWithLocation';
+import PayrollMain from './payroll/Payroll/PayrollMain';
+import PayrollUpload from './payroll/Payroll/PayrollUpload';
 
 
 const Main = () => (
@@ -253,7 +254,8 @@ const Main = () => (
         <Route path='/holiday_attendance' component={HolidayAttendance}></Route>
         <Route path='/attendance_report_monthly' component={AttendanceReportMonthly}></Route>
 
-        <Route path='/payroll' component={PayRoll}></Route>
+        <Route path={'/payroll_main'} component={PayrollMain}></Route>
+        <Route path={'/payroll_upload'} component={PayrollUpload}/>
         <Route path='/ssc' component={SSC} />
 
 
