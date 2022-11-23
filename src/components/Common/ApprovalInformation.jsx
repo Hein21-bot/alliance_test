@@ -27,7 +27,7 @@ export default class ApprovalInformation extends Component {
                             <label>Request</label>
                         </div>
                         {
-                            info.requested ?
+                            info && info.requested ?
                                 <div>
                                     <div>
                                         <label>
@@ -79,7 +79,7 @@ export default class ApprovalInformation extends Component {
                             <label>Check</label>
                         </div>
                         {
-                            info.checked || info.rejected ?
+                            info && info.checked || info && info.rejected ?
                                 <div>
                                     <div>
                                         <label>
@@ -145,7 +145,7 @@ export default class ApprovalInformation extends Component {
                             <label>Verify</label>
                         </div>
                         {
-                            info.verified || info.rejected ?
+                            info && info.verified || info && info.rejected ?
                                 <div>
                                     <div>
                                         <label>
@@ -211,7 +211,7 @@ export default class ApprovalInformation extends Component {
                             <label>Approve</label>
                         </div>
                         {
-                            info.approved || info.rejected ?
+                            info && info.approved || info && info.rejected ?
                                 <div>
                                     <div>
                                         <label>
@@ -277,7 +277,7 @@ export default class ApprovalInformation extends Component {
                             <label>ReferBack</label>
                         </div>
                         {
-                            info.refered ?
+                            info && info.refered ?
                                 <div>
                                     <div>
                                         <label>
