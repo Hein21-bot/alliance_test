@@ -4,8 +4,12 @@ import {
   stopSaving,
   startSaving,
   getUserInfo,
+  havePermission,
+  getWorkFlowStatus,
+  getActionStatus
 } from "../../../utils/CommonFunction";
 import "react-toastify/dist/ReactToastify.min.css";
+import ApprovalForm from '../../Common/ApprovalForm';
 import { toast, ToastContainer } from "react-toastify";
 import moment from "moment";
 import DatePicker from "react-datetime";
@@ -25,15 +29,14 @@ export default class BackPayAddNew extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      updatedBy: getUserId("user_info"),
       userId: null,
       edit:this.props.edit,
       editData:this.props.dataSource,
-     
-      PayrollList:[
-        {value:1,label:'Back Pay Salary'},
-        {value:2,label:'Refund Salary'},
-        {value:3,label:'Temporary Contract Salary'}
-      ],
+      comment:'',
+      work_flow_status:{},
+      is_main_role:false,
+      PayrollList:[],
     };
   }
 
@@ -42,6 +45,12 @@ export default class BackPayAddNew extends Component {
   }
 
   async componentDidMount() {
+    var work_flow = await getWorkFlowStatus(this.state.editData.user_id, this.state.updatedBy, 'Child Benefit', 'Benefit');
+        this.setState({
+            work_flow_status: work_flow,
+            is_main_role: havePermission(work_flow)
+        })
+    this.payrollRequest();
     let that = this;
     let id = await getUserId("user_info");
     let branch = await getBranch();
@@ -65,6 +74,25 @@ export default class BackPayAddNew extends Component {
         })
     }
 
+  }
+
+  payrollRequest(){
+    fetch(`${main_url}back_pay/get_payroll_request_type`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        console.log("pay roll request",list)
+        this.setState({
+          PayrollList: list.map((v) => ({
+            ...v,
+            label:v.payrollRequestName,
+            value:v.payrollRequestId
+          })),
+        },()=>{
+          console.log("payrolllist",this.state.PayrollList)
+        })
+      });
   }
   handleSelectedTodate = async (event) => {
     console.log("end===>",moment(event).format('YYYY-MM-DD'))
@@ -363,6 +391,10 @@ export default class BackPayAddNew extends Component {
       toast.error(text);
     }
   };
+  approvalStatus = (text, comment) => {
+    this.setState({ status_title: text, comment: comment },
+        () => this.check())
+}
 
 
   check = () => {
@@ -371,8 +403,11 @@ export default class BackPayAddNew extends Component {
     // } else {
       const {editData} = this.state;
     if (validate("check_form")) {
+      var { status_title, is_main_role } = this.state;
+
       // @lucy
       let status=0
+      
       
         const data= {
           request_month: moment(editData.request_month).format("YYYY-MM-DD"),
@@ -396,10 +431,30 @@ export default class BackPayAddNew extends Component {
           user_id:editData.user_id,
           reason:editData.reason,
           total_salary:editData.total_salary,
-          createdBy:editData.createdBy
+          createdBy:editData.createdBy,
+          status:this.state.editData.status == 5 ? 0 : this.state.editData.status,
+          updatedBy:this.state.updatedBy
          
         };
-     
+        if (status_title !== '' && is_main_role) {
+          var action = getActionStatus(status_title, this.state.editData, this.state.updatedBy, this.state.comment);
+          data.referback_by = action.referback_by;
+          data.checked_by = action.checked_by;
+          data.verified_by = action.verified_by;
+          data.approved_by = action.approved_by;
+          data.rejected_by = action.rejected_by;
+          data.referback_date = action.referback_date;
+          data.checked_date = action.checked_date;
+          data.verified_date = action.verified_date;
+          data.approved_date = action.approved_date;
+          data.rejected_date = action.rejected_date;
+          data.referback_comment = action.referback_comment;
+          data.checked_comment = action.checked_comment;
+          data.verified_comment = action.verified_comment;
+          data.approved_comment = action.approved_comment;
+          data.status = action.status;
+  
+      }
       // console.log("data===>",dataTostring)
 
       fetch(`${main_url}back_pay/edit_back_pay/${editData.id}`, {
@@ -714,7 +769,24 @@ export default class BackPayAddNew extends Component {
                   id="dataTables-Table"
                 />
               </div>
-              <div className="col-md-12">
+              <div className="row save-btn">
+                    {
+                        havePermission(this.state.work_flow_status) ?
+                            <ApprovalForm approvalStatus={this.approvalStatus.bind(this)} status={this.state.editData.status} work_flow={this.state.work_flow_status} />
+                            :
+                            <div className="col-md-12 btn-rightend">
+                                {this.state.editData.status == undefined || this.state.editData.status == 5 ?
+                                    <div>
+                                        <button onClick={this.check.bind(this)} className="btn btn-primary" id="saving_button" type="button">Confirm</button>
+                                    </div>
+                                    :
+                                    ''
+                                }
+                                {/* <button onClick={this.save.bind(this)} id="saving_button" className="btn btn-primary"><span>Save</span> </button> */}
+                            </div>
+                    }
+                </div>
+              {/* <div className="col-md-12">
                 <div className="col-md-12 btn-rightend mt20">
                   
                  
@@ -727,7 +799,7 @@ export default class BackPayAddNew extends Component {
                   </button>
                   
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

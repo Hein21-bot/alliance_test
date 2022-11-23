@@ -229,32 +229,33 @@ export default class BackPayTable extends Component {
         // var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
         if(data){
             for (var i = 0; i < data.length; i++) {
+                console.log("stauts",data[i].status)
                 let result = data[i];
                 let obj = [];
-                // if (result.status === 0) {
-                //     status = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
+                if (result.status === 0) {
+                    status = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
     
-                // }
-                // else if (result.status === 1) {
-                //     status = '<small class="label label-warning" style="background-color:#b33ce0"> Check</small>'
-                // }
-                // else if (result.status === 2) {
-                //     status = '<small class="label label-warning" style="background-color:#f2a509"> Verify</small>'
-                // }
-                // else if (result.status === 3) {
-                //     status = '<small class="label label-warning" style="background-color:#29a50a">Approve</small>'
-                // }
-                // else if (result.status === 4) {
+                }
+                else if (result.status === 1) {
+                    status = '<small class="label label-warning" style="background-color:#b33ce0"> Check</small>'
+                }
+                else if (result.status === 2) {
+                    status = '<small class="label label-warning" style="background-color:#f2a509"> Verify</small>'
+                }
+                else if (result.status === 3) {
+                    status = '<small class="label label-warning" style="background-color:#29a50a">Approve</small>'
+                }
+                else if (result.status === 4) {
     
-                //     status = '<small class="label label-warning" style="background-color:#f60e2f"> Reject</small>'
-                // }
-                // else if (result.status === 5) {
-                //     status = '<small class="label label-warning" style="background-color:#cc0066"> ReferBack </small>'
-                // }
+                    status = '<small class="label label-warning" style="background-color:#f60e2f"> Reject</small>'
+                }
+                else if (result.status === 5) {
+                    status = '<small class="label label-warning" style="background-color:#cc0066"> ReferBack </small>'
+                }
     
                 obj = {
                     no: i + 1,
-                    requestMonth: '14-11-2022',
+                    requestMonth: moment(data[i].request_month).format('MMM'),
                     employee_id: data[i].employment_id ? data[i].employment_id: '-',
                     employee_name: data[i].fullname ? data[i].fullname: '-',
                     designation: data[i].designations ? data[i].designations : '-',
@@ -271,7 +272,8 @@ export default class BackPayTable extends Component {
                     salary_per_day:data[i].salary_per_day ? data[i].salary_per_day : '-',
                     total_salary:data[i].total_salary ? data[i].total_salary : '-',
                     atm_or_cash:data[i].atm_cash == 0 ? "ATM" : "Cash",
-                    total:data[i].total ? data[i].total : '-'
+                    total:data[i].total ? data[i].total : '-',
+                    status:status
                 }
                 obj.action =
                 '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' +
@@ -313,6 +315,7 @@ export default class BackPayTable extends Component {
             { title: 'Total Salary',data:'total_salary'},
             { title: 'ATM Or Cash',data:'atm_or_cash'},
             { title: 'Total',data:'total'},
+            { title : 'Status',data:'status'},
             { title:"Action",data:'action'}
 
 
