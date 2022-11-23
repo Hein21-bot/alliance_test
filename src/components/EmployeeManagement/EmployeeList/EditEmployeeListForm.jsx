@@ -51,6 +51,7 @@ class EditEmployeeListForm extends Component {
             guarantorPhone: '',
             guarantorNRC: '',
             guarantorNRC_NO: '',
+            NrcFilterData:[],
             disConstatusList: [
                 { value: 0, label: 'False' },
                 { value: 1, label: 'True' },
@@ -483,8 +484,10 @@ class EditEmployeeListForm extends Component {
 
     handleSelectedNRCId = (event) => {
         if (event !== null) {
+            let filterData=this.props.districtCodeList.filter(v=>v.sd_code == event.sd_code)
             this.setState({
                 selected_NRC_Id: event,
+                NrcFilterData:filterData,
                 fullNRC: event.label + '/' + (this.state.selected_DistrictCode === null ? '' : this.state.selected_DistrictCode.label) + '(N)/' + (this.state.nrc_number ? this.state.nrc_number : '')
             })
             // this.props.getNRC_DistrictCode(event.label)
@@ -1052,7 +1055,7 @@ class EditEmployeeListForm extends Component {
         const { tabIndex, userImage, userImageUrl, nrc_number, period, fullNRC, designation, workExpChecked, organization, sameWithCtPerson, selected_bank, trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo,
             fatherName, qualificationList, selected_qualification, selected_degree, motherName, guarantor, guarantorPhone, attachmentUrl, selected_gran_NRC_Id, employeeStatusList, disConstatusList,
             selected_gran_DistrictCode, guaFullNRC, gran_nrc_number, parentCount, siblingCount, childCount, pInLawCount, martialStatus, officePhone, region, address, joinDate, accountName, accountNumber, employeeStatus, employeeDesignation, jobTitle, carrerLevel,careerSubLevel, employeeDetailBranch, employedDate, disConStatus, disConDate,
-            employeeId, employeeNameEng, nationality, personalPhone, employeeNameMyan, gender, addedDegreeData, addedQualitificationData, workExpData, fromMonthYear, toMonthYear, location, dateOfBirth, contactPerson, contactPhone, bankData, bankDataEdit, selected_DistrictCode, selected_NRC_Id,
+            employeeId, employeeNameEng, nationality,NrcFilterData, personalPhone, employeeNameMyan, gender, addedDegreeData, addedQualitificationData, workExpData, fromMonthYear, toMonthYear, location, dateOfBirth, contactPerson, contactPhone, bankData, bankDataEdit, selected_DistrictCode, selected_NRC_Id,
         } = this.state
         const { selectedEmployeeData, level_options, editForm, BackToTable, viewForm, bankList, degreeList, nrcList, districtCodeList, designationList, branchlist, granDistrictCodeList } = this.props
         return (
@@ -1127,6 +1130,7 @@ class EditEmployeeListForm extends Component {
                             clearProfileData={this.clearProfileData}
                             handleSelectedDistrictCode={this.handleSelectedDistrictCode}
                             handleSelectedNRCId={this.handleSelectedNRCId}
+                            NrcFilterData={NrcFilterData}
                             selected_DistrictCode={selected_DistrictCode}
                             selected_NRC_Id={selected_NRC_Id}
                             districtCodeList={selected_NRC_Id ? districtCodeList.filter(c => c.sd_code == selected_NRC_Id.sd_code) : districtCodeList}

@@ -30,9 +30,7 @@ export default class BackPayAddNew extends Component {
       editData:this.props.dataSource,
       userInfo: {},
       PayrollList:[
-        {value:1,label:'Back Pay Salary'},
-        {value:2,label:'Refund Salary'},
-        {value:3,label:'Temporary Contract Salary'}
+        
       ],
       addNewData: {
         requestMonth:new Date(),
@@ -78,7 +76,8 @@ export default class BackPayAddNew extends Component {
     let id = await getUserId("user_info");
     let branch = await getBranch();
     let userInfo = await getUserInfo(id);
-    this.getEmployeeCodeList()
+    this.getEmployeeCodeList();
+    this.payrollRequest();
     this.setState({
       branch: branch,
       userId: id,
@@ -207,7 +206,7 @@ export default class BackPayAddNew extends Component {
   handlePayroll=(event)=>{
     console.log("payroll",event)
     const newData = this.state.addNewData;
-    newData.payRoll = event.value;
+    newData.payRoll = event.payrollRequestId;
     this.setState({
         selectedPayroll:event,
         
@@ -234,7 +233,24 @@ export default class BackPayAddNew extends Component {
     newData.totalSalary = e.target.value;
     this.setState({ addNewData: newData });
   }
-
+  payrollRequest(){
+    fetch(`${main_url}back_pay/get_payroll_request_type`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        console.log("pay roll request",list)
+        this.setState({
+          PayrollList: list.map((v) => ({
+            ...v,
+            label:v.payrollRequestName,
+            value:v.payrollRequestId
+          })),
+        },()=>{
+          console.log("payrolllist",this.state.PayrollList)
+        })
+      });
+  }
   getEmployeeCodeList() {
     fetch(`${main_url}employee/getEmployeeCode`)
       .then((res) => {
@@ -559,7 +575,7 @@ export default class BackPayAddNew extends Component {
                     <div className="col-md-3">
                         <label htmlFor="">Payroll Request Type</label>
                         <Select
-                                placeholder="Employee"
+                                placeholder="Payroll Request"
                                 options={this.state.PayrollList}
                                 onChange={this.handlePayroll}
                                 // value={this.state.edit ? filterpayroll : this.state.selectedPayroll}

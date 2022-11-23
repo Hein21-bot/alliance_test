@@ -694,7 +694,7 @@ class AttendanceType extends Component {
                       type="button"
                       className="btn btn-primary"
                       onClick={() =>
-                        this.state.attendance_type == "late_check_in" ? this.LateCheckIn() ? this.state.attendance_type == "field_check_in" : this.FieldCheckIn() ? this.state.attendance_type == "early_check_out" : this.EarlyCheckOut() : this.FieldCheckOut()
+                        this.state.attendance_type == "late_check_in" ? this.LateCheckIn() : this.state.attendance_type == "field_check_in" ? this.FieldCheckIn() : this.state.attendance_type == "early_check_out" ? this.EarlyCheckOut() : this.FieldCheckOut()
                       }
                     >
                       Search

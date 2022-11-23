@@ -117,7 +117,6 @@ import AttendanceHistory from './Attendance/AttendanceHistory'
 import HolidayAttendance from './Attendance/HolidayAttendance'
 import AttendanceReportMonthly from './Attendance/AttendanceReport'
 
-import PayRoll from './payroll/payroll'
 import SSC from './payroll/SSC';
 
 import ResignOrDismissSalaryMain from './payroll/ResignOrDismissSalary/ResignOrDismissSalaryMain';
@@ -125,6 +124,15 @@ import ForeignerSalaryMain from './payroll/ForeignerSalary/ForeignerSalaryMain';
 import BackPayMain from './payroll/BackPay/BackPayMain';
 import SSCReport from './payroll/sscReportforGovernment';
 import PaySlip from './payroll/payslip'
+import EmployeeSalaryReport from './payroll/PayrollReports/EmployeeSalaryReport';
+import PayrollReportWithBankNo from './payroll/PayrollReports/PayrollReportWithBankNo';
+import SalaryHistoryReport from './payroll/PayrollReports/SalaryHistoryReport';
+import QuarterlyIncentiveReport from './payroll/PayrollReports/QuarterlyIncentiveReport';
+import PayrollSummaryReport from './payroll/PayrollReports/PayrollSummaryReport';
+import PayrollDetailsReport from './payroll/PayrollReports/PayrollDetailsReport';
+import PayrollSummaryReportWithLocation from './payroll/PayrollReports/PayrollSummaryReportWithLocation';
+import PayrollMain from './payroll/Payroll/PayrollMain';
+import PayrollUpload from './payroll/Payroll/PayrollUpload';
 
 
 const Main = () => (
@@ -246,7 +254,8 @@ const Main = () => (
         <Route path='/holiday_attendance' component={HolidayAttendance}></Route>
         <Route path='/attendance_report_monthly' component={AttendanceReportMonthly}></Route>
 
-        <Route path='/payroll' component={PayRoll}></Route>
+        <Route path={'/payroll_main'} component={PayrollMain}></Route>
+        <Route path={'/payroll_upload'} component={PayrollUpload}/>
         <Route path='/ssc' component={SSC} />
 
 
@@ -255,6 +264,15 @@ const Main = () => (
         <Route path='/backpay' component={BackPayMain}></Route>
         <Route path='/ssc_report' component={SSCReport}></Route>
         <Route path='/pay_slip' component={PaySlip}></Route>
+        <Route path='/employee_salary_report' component={EmployeeSalaryReport}></Route>
+        <Route path="/payrollReport_with_bankno" component={PayrollReportWithBankNo}></Route>
+        <Route path="/salary_history_report" component={SalaryHistoryReport}></Route>
+        <Route path="/quarterly_incentive_report" component={QuarterlyIncentiveReport}></Route>
+        <Route path='/payroll_summary_report' component={PayrollSummaryReport}></Route>
+        <Route path='/payroll_details_report' component={PayrollDetailsReport}></Route>
+        <Route path='/payroll_details_report_with_location' component={PayrollSummaryReportWithLocation}></Route>
+
+
 
 
 
