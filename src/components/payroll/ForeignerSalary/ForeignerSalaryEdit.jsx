@@ -20,55 +20,14 @@ const $ = require("jquery");
 var form_validate = true;
 var saveBtn = false;
 
-export default class ForeignerSalaryAddNew extends Component {
+export default class ForeignerSalaryEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
       userId: null,
       userInfo: {},
-      addNewData: {
-        exchangeRate:0,
-        requestMonth: new Date(),
-        lastWorkingDay: new Date(),
-        grossSalary: null,
-        deductionOrAddition: "",
-        salaryAfterDorA: 0,
-        ssc3: 0,
-        ssc2: 0,
-        incomeTax: null,
-        maintenance: null,
-        petrol: null,
-        totalSalary: 0,
-        reason: "",
-        atmOrCash: 0,
-        exitStatus: 0,
-        houseAllowance:0,
-        backPay:0,
-        allowance:0,
-        incomeTax_$:0,
-        incomeTax_MMK:0,
-        annualAward:0,
-        medicalFund:0,
-        motorBikeUse:0,
-        salaryCut:0,
-        deductionOfLoan:0,
-        netSalaryPaid:0,
-        totalGrossSalary:0
-        
-      },
-      dataSource: [],
-      attachment: [],
-      newDoc: [],
-      employeeIdList:null,
-      selectedEmployeeId:null,
-      DetailUser:{
-        employment_id:'',
-      employee_name:'',
-      designations:'',
-      basic_salary:0,
-      user_id:0
-      }
-    };
+      editData:this.props.dataSource
+    }
   }
 
   componentDidUpdate() {
@@ -100,124 +59,64 @@ export default class ForeignerSalaryAddNew extends Component {
             }
           });
       }
-    $(document).on("click", "#toEdit", function () {
-      var data = $(this).find("#edit").text();
-      data = $.parseJSON(data);
-      let newData = that.state.dataSource;
-      let editData = newData[data];
-      console.log("edit data===>",editData,newData)
-      newData.splice(data, 1);
-      that.setState(
-        {
-          dataSource: newData,
-          addNewData: {
-            requestMonth: editData.request_month,
-            exchangeRate:editData.exchangeRate,
-            lastWorkingDay: editData.last_working_day,
-            grossSalary: editData.gross_salary,
-            deductionOrAddition: editData.deduction_or_addition,
-            salaryAfterDorA: editData.salary_after_deduction_or_addition,
-            ssc3: editData.ssc3,
-            ssc2: editData.ssc2,
-            incomeTax_$:editData.income_tax_$,
-            incomeTax_MMK:editData.incomeTax_MMK,
-            maintenance: editData.maintenance,
-            petrol: editData.petrol,
-            totalSalary: editData.totalSalary,
-            deductionOfLoan:editData.deductionOfLoan,
-            atmOrCash: editData.atm_or_cash,
-            houseAllowance:editData.houseAllowance,
-            backPay:editData.backPay,
-            allowance:editData.allowance,
-            annualAward:editData.annualAward,
-            medicalFund:editData.medicalFund,
-            motorBikeUse:editData.motorBikeUse,
-            salaryCut:editData.salaryCut,
-            totalGrossSalary:editData.totalGrossSalary
-            
-          },DetailUser:{
-            employment_id:editData.employment_id,
-          employee_name:editData.fullname,
-          designations:editData.designations,
-          basic_salary:editData.gross_salary,
-          user_id:editData.user_id
-          },
-          selectedEmployeeId:editData.selectedEmployeeId
-        },
-        () => that.setDataTable(newData)
-      );
-    });
-    $(document).on("click", "#toRemove", function () {
-      var data = $(this).find("#remove").text();
-      data = $.parseJSON(data);
-
-      let newData = that.state.dataSource;
-      newData.splice(data, 1);
-      that.setState(
-        {
-          dataSource: newData,
-        },
-        () => that.setDataTable(newData)
-      );
-    });
   }
 
   onRequestMonthChange = (e) => {
-    const newData = this.state.addNewData;
-    newData.requestMonth = e;
-    this.setState({ addNewData: newData });
+    const newData = this.state.editData;
+    newData.request_month = e;
+    this.setState({ editData: newData });
   };
 
-  onLastWorkingDay = (e) => {
-    const newData = this.state.addNewData;
-    newData.lastWorkingDay = e;
-    this.setState({ addNewData: newData });
-  };
+  // onLastWorkingDay = (e) => {
+  //   const newData = this.state.editData;
+  //   newData.lastWorkingDay = e;
+  //   this.setState({ editData: newData });
+  // };
 
   onGrossSalaryChange = (e) => {
     let newValue = parseFloat(e.target.value);
-    const newData = this.state.addNewData;
-    newData.salaryAfterDorA =
+    const newData = this.state.editData;
+    newData.after_deduction_or_addition=
       newValue + parseFloat(newData.deductionOrAddition);
     newData.grossSalary = newValue;
-    newData.ssc3 = newData.salaryAfterDorA * 0.03;
-    newData.ssc2 = newData.salaryAfterDorA * 0.02;
+    newData.SSC_employee = newData.after_deduction_or_addition* 0.03;
+    newData.SSC_employer = newData.after_deduction_or_addition* 0.02;
     newData.totalSalary =
-      newData.salaryAfterDorA -
-      newData.ssc2 -
-      newData.incomeTax +
+      newData.after_deduction_or_addition-
+      newData.SSC_employer -
+      newData.income_tax +
       newData.maintenance +
       newData.petrol;
-    this.setState({ addNewData: newData });
+    this.setState({ editData: newData });
   };
   allowanceChange=(e)=>{
-    const newData = this.state.addNewData;
+    const newData = this.state.editData;
     newData.allowance = e.target.value;
-    this.setState({ addNewData: newData });
+    this.setState({ editData: newData });
   }
 
-  onDeductionOrAddition = (e) => {
+  onDeductionOrAddition = (e) => { console.log(e.target.value)
     let newValue = e.target.value;
-    const newData = this.state.addNewData;
-    newData.salaryAfterDorA = newData.grossSalary + parseFloat(newValue);
-    newData.deductionOrAddition = newValue;
-    newData.ssc3 = newData.salaryAfterDorA * 0.03;
-    newData.ssc2 = newData.salaryAfterDorA * 0.02;
-    newData.totalSalary =
-      newData.salaryAfterDorA -
-      newData.ssc2 -
-      newData.incomeTax +
+    const newData = this.state.editData;
+    newData.after_deduction_or_addition = newData.gross_salary + parseFloat(newValue);
+    newData.deduction_or_addition = newValue;
+    newData.SSC_employee = newData.after_deduction_or_addition * 0.03;
+    newData.SSC_employer = newData.after_deduction_or_addition * 0.02;
+    newData.total_salary =
+      newData.after_deduction_or_addition -
+      newData.SSC_employer -
+      newData.income_tax +
       newData.maintenance +
       newData.petrol;
-    this.setState({ addNewData: newData });
+    this.setState({ editData: newData },()=>{console.log("editdataaaa",this.state.editData)});
   };
 
   onIncomeTax$Change = (e) => {
-    const newData = this.state.addNewData;
-    newData.incomeTax_$ = e.target.value;
-    newData.netSalaryPaid=newData.salaryAfterDorA-newData.incomeTax_$;
-    newData.incomeTax_MMK=newData.exchangeRate*newData.incomeTax_$;
-    this.setState({ addNewData: newData });
+    const newData = this.state.editData;
+    newData.income_tax = e.target.value;
+    newData.net_salary_paid=newData.after_deduction_or_addition-newData.income_tax;
+    newData.income_taxMMK=newData.exchange_rage*newData.income_tax;
+    this.setState({ editData: newData });
   };
   // onIncomeTaxMMKChange=(e)=>{
   //   const newData = this.state.addNewData;
@@ -227,28 +126,28 @@ export default class ForeignerSalaryAddNew extends Component {
 
   onMaintenanceChange = (e) => {
     let newValue = parseFloat(e.target.value);
-    const newData = this.state.addNewData;
+    const newData = this.state.editData;
     newData.maintenance = newValue;
-    newData.totalSalary =
-      newData.salaryAfterDorA -
-      newData.ssc2 -
-      newData.incomeTax +
+    newData.total_salary =
+      newData.after_deduction_or_addition -
+      newData.SSC_employer -
+      newData.income_tax +
       newData.maintenance +
       newData.petrol;
-    this.setState({ addNewData: newData });
+    this.setState({ editData: newData });
   };
 
   onPetrolChange = (e) => {
     let newValue = parseFloat(e.target.value);
-    const newData = this.state.addNewData;
+    const newData = this.state.editData;
     newData.petrol = newValue;
-    newData.totalSalary =
-      newData.salaryAfterDorA -
-      newData.ssc2 -
-      newData.incomeTax +
+    newData.total_salary =
+      newData.after_deduction_or_addition -
+      newData.SSC_employer -
+      newData.income_tax +
       newData.maintenance +
       newData.petrol;
-    this.setState({ addNewData: newData });
+    this.setState({ editData: newData });
   };
 
   onReasonChange = (e) => {
@@ -258,9 +157,9 @@ export default class ForeignerSalaryAddNew extends Component {
   };
 
   onRadioChange = (e) => {
-    const newData = this.state.addNewData;
+    const newData = this.state.editData;
     newData.atmOrCash = parseInt(e.target.value);
-    this.setState({ addNewData: newData });
+    this.setState({ editData: newData });
   };
 
   handleChangeExitStatus = (e) => {
@@ -269,34 +168,34 @@ export default class ForeignerSalaryAddNew extends Component {
     this.setState({ addNewData: newData });
   };
   handleAnnualAward=(e)=>{
-    const newData = this.state.addNewData;
-    newData.annualAward = e.target.value;
-    this.setState({ addNewData: newData });
+    const newData = this.state.editData;
+    newData.annual_award = e.target.value;
+    this.setState({ editData: newData });
   }
   handleMedicalFund=(e)=>{
-    const newData = this.state.addNewData;
-    newData.medicalFund = e.target.value;
-    this.setState({ addNewData: newData });
+    const newData = this.state.editData;
+    newData.medical_fund = e.target.value;
+    this.setState({ editData: newData });
   }
   handleMotorBikeUse=(e)=>{
-    const newData = this.state.addNewData;
-    newData.motorBikeUse = e.target.value;
-    this.setState({ addNewData: newData });
+    const newData = this.state.editData;
+    newData.debut_for_motorbike = e.target.value;
+    this.setState({ editData: newData });
   }
   handleSalaryCut=(e)=>{
-    const newData = this.state.addNewData;
-    newData.salaryCut = e.target.value;
-    this.setState({ addNewData: newData });
+    const newData = this.state.editData;
+    newData.salary_cut = e.target.value;
+    this.setState({ editData: newData });
   }
   handleDeductionOfLoan=(e)=>{
-    const newData = this.state.addNewData;
-    newData.deductionOfLoan = e.target.value;
-    this.setState({ addNewData: newData });
+    const newData = this.state.editData;
+    newData.deduction_of_loan = e.target.value;
+    this.setState({ editData: newData });
   }
   handleTotalSalary=(e)=>{
-    const newData = this.state.addNewData;
-    newData.totalSalary = e.target.value;
-    this.setState({ addNewData: newData });
+    const newData = this.state.editData;
+    newData.total_salary = e.target.value;
+    this.setState({ editData: newData });
   }
 
   removeNewDocument(index, event) {
@@ -322,236 +221,40 @@ export default class ForeignerSalaryAddNew extends Component {
       });
   }
   exChangeRate=(event)=>{
-    const newData = this.state.addNewData;
-    newData.exchangeRate = event.target.value;
-    this.setState({ addNewData: newData });
+    const newData = this.state.editData;
+    newData.exchange_rage = event.target.value;
+    this.setState({ editData: newData });
   }
-  handleEmployeeId=(e)=>{
-    console.log(e)
-    
-    if (e) {
-        fetch(`${main_url}employee/getDetailUser/${e.user_id}`)
-          .then((res) => {
-            if (res.ok) return res.json();
-          })
-          .then((data) => {
-            this.setState({
-              DetailUser:{
-                employment_id:data[0].employment_id,
-              employee_name:data[0].employee_name,
-              designations:data[0].designations,
-              basic_salary:data[0].basic_salary,
-              user_id:data[0].user_id
-              }
-            })
-            // if (data.length > 0) {
-            //   this.getData(this.props.id);
-            //   this.setState({ tableEdit: true, tableView: false });
+  // handleEmployeeId=(e)=>{
+  //   console.log(e)
+  //   if (e) {
+  //       fetch(`${main_url}employee/getDetailUser/${e.user_id}`)
+  //         .then((res) => {
+  //           if (res.ok) return res.json();
+  //         })
+  //         .then((data) => {
+  //           this.setState({
+  //             DetailUser:{
+  //               employment_id:data[0].employment_id,
+  //             employee_name:data[0].employee_name,
+  //             designations:data[0].designations,
+  //             basic_salary:data[0].basic_salary,
+  //             user_id:data[0].user_id
+  //             }
+  //           })
+  //           // if (data.length > 0) {
+  //           //   this.getData(this.props.id);
+  //           //   this.setState({ tableEdit: true, tableView: false });
   
   
-            // }
-          });
-      }
+  //           // }
+  //         });
+  //     }
 
-    this.setState({
-        selectedEmployeeId:e
-    })
-  }
-  addData = (e) => {
-    const { userInfo } = this.state;
-    console.log("userInfo ===>", userInfo);
-    if (validate("add_check_form")) {
-      var data = [...this.state.dataSource];
-      let newData = { ...this.state.addNewData };
-      let tempData = {};
-      tempData.request_month = newData.requestMonth;
-      tempData.exchangeRate=newData.exchangeRate;
-      tempData.employment_id = this.state.DetailUser.employment_id;
-      tempData.fullname = this.state.DetailUser.employee_name;
-      tempData.designations = this.state.DetailUser.designations;
-      tempData.gross_salary = this.state.DetailUser.basic_salary;
-      tempData.deduction_or_addition = newData.deductionOrAddition;
-      tempData.salary_after_deduction_or_addition = newData.salaryAfterDorA;
-      tempData.ssc3 = newData.ssc3;
-      tempData.ssc2 = newData.ssc2;
-      tempData.income_tax_$ = newData.incomeTax_$;
-      tempData.incomeTax_MMK=newData.incomeTax_MMK;
-      tempData.netSalaryPaid=newData.netSalaryPaid;
-      tempData.houseAllowance=newData.houseAllowance;
-      tempData.totalGrossSalary=newData.totalGrossSalary
-      tempData.maintenance = newData.maintenance;
-      tempData.petrol = newData.petrol;
-      tempData.backPay=newData.backPay;
-      tempData.allowance=newData.allowance;
-      tempData.annualAward=newData.annualAward;
-      tempData.medicalFund=newData.medicalFund;
-      tempData.motorBikeUse=newData.motorBikeUse;
-      tempData.salaryCut=newData.salaryCut;
-      tempData.deductionOfLoan=newData.deductionOfLoan;
-      tempData.totalSalary = newData.totalSalary;
-      tempData.atm_or_cash = newData.atmOrCash;
-      tempData.user_id=this.state.DetailUser.user_id;
-      tempData.createdBy=this.state.userInfo.user_id;
-      tempData.selectedEmployeeId=this.state.selectedEmployeeId;
-      
-      
-      
-     
-
-      var totalAmount = 0;
-
-      data.push(tempData);
-      this.setState({
-        dataSource: data,
-        selectedEmployeeId:null,
-        addNewData: {
-          requestMonth: new Date(),
-          exchangeRate:0,
-          grossSalary: 0,
-          deductionOrAddition: 0,
-          salaryAfterDorA: 0,
-          ssc3: 0,
-          ssc2: 0,
-          netSalaryPaid:0,
-          incomeTax_$: 0,
-          incomeTax_MMK:0,
-          houseAllowance:0,
-          totalGrossSalary:0,
-          maintenance: "",
-          petrol: "",
-          totalSalary: 0,
-          atmOrCash: 0,
-          backPay:0,
-          allowance:0,
-          annualAward:0,
-          medicalFund:0,
-          motorBikeUse:0,
-          salaryCut:0,
-          deductionOfLoan:0,
-          user_id:''
-        },
-        DetailUser:{
-          employment_id:'',
-          employee_name:'',
-          designations:'',
-          basic_salary:0,
-          user_id:0
-        }
-      });
-
-      saveBtn = true;
-      form_validate = true;
-      this.setDataTable(data);
-    } else {
-      form_validate = false;
-    }
-  };
-
-  setDataTable(data) {
-    console.log("data===>",data)
-    var table;
-    if ($.fn.dataTable.isDataTable("#dataTables-Table")) {
-      table = $("#dataTables-Table").dataTable();
-      table.fnClearTable();
-      table.fnDestroy();
-      $("#dataTables-Table").empty();
-    }
-    var l = [];
-    for (var i = 0; i < data.length; i++) {
-      const index = i;
-      const result = data[i];
-      const obj = {
-        no: index + 1,
-        request_month: data[i].request_month
-          ? moment(data[i].request_month).format("MMM")
-          : "-",
-        employment_id: data[i].employment_id ? data[i].employment_id : "-",
-        fullname: data[i].fullname ? data[i].fullname : "-",
-        designations: data[i].designations ? data[i].designations : "-",
-        gross_salary: data[i].gross_salary ? data[i].gross_salary : 0,
-        exchangeRate:data[i].exchangeRate ? data[i].exchangeRate: 0,
-        deduction_or_addition: data[i].deduction_or_addition
-          ? data[i].deduction_or_addition
-          : 0,
-        salary_after_deduction_or_addition: data[i]
-          .salary_after_deduction_or_addition
-          ? data[i].salary_after_deduction_or_addition
-          : 0,
-        ssc3: data[i].ssc3 ? data[i].ssc3 : 0,
-        ssc2: data[i].ssc2 ? data[i].ssc2 : 0,
-        income_tax_$: data[i].income_tax_$ ? data[i].income_tax_$ : 0,
-        income_taxMMK:data[i].incomeTax_MMK ? data[i].incomeTax_MMK : 0,
-        netSalaryPaid:data[i].netSalaryPaid ? data[i].netSalaryPaid : 0,
-        houseAllowance:data[i].houseAllowance ? data[i].houseAllowance : 0,
-        maintenance: data[i].maintenance ? data[i].maintenance : 0,
-        petrol: data[i].petrol ? data[i].petrol : 0,
-        total_gross_salary: data[i].totalGrossSalary ? data[i].totalGrossSalary : 0,
-        back_pay:data[i].backPay ? data[i].backPay : 0,
-        allowance:data[i].allowance ? data[i].allowance : 0,
-        annual_Award:data[i].annualAward ? data[i].annualAward : 0,
-        medical_Fund:data[i].medicalFund ? data[i].medicalFund : 0,
-        deduct_for_office_motorbike_use:data[i].motorBikeUse ? data[i].motorBikeUse : 0,
-        salary_cut:data[i].salaryCut ? data[i].salaryCut : 0,
-        deduction_of_loan:data[i].deductionOfLoan ? data[i].deductionOfLoan : 0,
-        atm_or_cash: data[i].atm_or_cash == 0 ? "ATM" : "Cash",
-        Total:data[i].totalSalary ? data[i].totalSalary : 0,
-        action:
-          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' +
-          index +
-          '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' +
-          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toRemove" ><span id="remove" class="hidden" >' +
-          index +
-          '</span>  <i className="fa fa-cogs"></i>&nbsp;Remove</button>',
-      };
-      l.push(obj);
-    }
-
-    table = $("#dataTables-Table").DataTable({
-      autofill: false,
-      bLengthChange: false,
-      bInfo: false,
-      responsive: true,
-      paging: false,
-      buttons: false,
-
-      data: l,
-      columns: [
-        { title: "No", data: "no" },
-        { title :"Request Month",data:"request_month"},
-        { title: "Employee Id", data: "employment_id" },
-        { title: "Employee Name", data: "fullname" },
-        { title: "Position", data: "designations" },
-        { title:"Exchange Rate",data:"exchangeRate"},
-        { title: "Gross Salary",data:"gross_salary"},
-        { title: "Deduction or Addition", data: "deduction_or_addition" },
-        {
-          title: "Salary After Deduciton or Addition",
-          data: "salary_after_deduction_or_addition",
-        },
-        { title: "SSC Employee(3%)", data: "ssc3" },
-        { title: "SSC Employee(2%)", data: "ssc2" },
-        { title: "Income Tax($)", data: "income_tax_$" },
-        { title:"Income Tax(MMK)",data:"income_taxMMK"},
-        { title:"Net Salary Paid($)",data:"netSalaryPaid"},
-        { title :'Housing Allowance',data:"houseAllowance"},
-    
-        { title: "Total Gross Salary", data: "total_gross_salary" },
-        { title: "Maintenance", data: "maintenance" },
-        { title: "Petrol", data: "petrol" },
-        { title: "BackPay", data: "back_pay" },
-        { title: "Allowance", data: "allowance" },
-        { title: "Annual Award", data: "annual_Award" },
-        { title: "Medical Fund", data: "medical_Fund" },
-        { title: "Deduct For Office Motor Bike Using", data: "deduct_for_office_motorbike_use" },
-        { title: "Salary Cut",data:'salary_cut'},
-        { title: "Deduction Of Loan",data:"deduction_of_loan"},
-        { title: "ATM Or Cash",data:"atm_or_cash"},
-        { title: "Total",data:"Total"},
-        { title: "Action",data:'action'}
-      ],
-    });
-  }
-
+  //   this.setState({
+  //       selectedEmployeeId:e
+  //   })
+  // }
   showToast = (status, text) => {
     if (status === 200) {
       toast.success(text);
@@ -564,54 +267,39 @@ export default class ForeignerSalaryAddNew extends Component {
 
 
   check = () => {
-    
+    const {editData} = this.state;
     // if (this.state.newDoc.length == 0) {
     //     toast.error("Please Choose Attachment File!")
     // } else {
     if (validate("check_form")) {
       // @lucy
       let status=0
-      const dataTostring = this.state.dataSource.map((v) => {
-        return {
-          request_month: moment(v.request_month).format("YYYY-MM-DD"),
-          employment_id: v.employment_id,
-          fullname: v.fullname,
-          designations: v.designations,
-          gross_salary: v.gross_salary,
-          exchange_rage:v.exchangeRate,
-          deduction_or_addition: v.deduction_or_addition,
-          after_deduction_or_addition: v.salary_after_deduction_or_addition,
-          SSC_employer : v.ssc3,
-          SSC_employee : v.ssc2,
-          income_tax: v.income_tax_$,
-          income_tax_MMK:v.incomeTax_MMK,
-          net_salary_paid:v.netSalaryPaid,
-          housing_allowance:v.houseAllowance,
-          maintenance: v.maintenance,
-          petrol: v.petrol,
-          total_gross_salary:v.totalGrossSalary,
-          back_pay:v.backPay,
-          allowance:v.allowance,
-          annual_award:v.annualAward,
-          medical_fund:v.medicalFund,
-          debut_for_motorbike:v.motorBikeUse,
-          salary_cut:v.salaryCut,
-          deduction_of_loan:v.deductionOfLoan,
-          total_salary:v.totalSalary,
-          atm_or_cash: v.atm_or_cash,
-          user_id:v.user_id,
-          createdBy:v.createdBy
-         
-        };
-      });
-      console.log("data===>",dataTostring)
 
-      fetch(`${main_url}foreigner_salary/add_foreigner_salary`, {
+        const data= {
+          request_month: moment(editData.request_month).format("YYYY-MM-DD"),        
+          exchange_rage:editData.exchange_rage,
+          deduction_or_addition: editData.deduction_or_addition,       
+          income_tax: editData.income_tax,
+          house_allowance:editData.houseAllowance,
+          maintenance: editData.maintenance,
+          petrol: editData.petrol,
+          total_gross_salary:editData.totalGrossSalary,
+          back_pay:editData.back_pay,
+          allowance:editData.allowance,
+          annual_award:editData.annual_award,
+          medical_fund:editData.medical_fund,
+          debut_for_motorbike:editData.debut_for_motorbike,
+          salary_cut:editData.salaryCut,
+          deduction_of_loan:editData.deductionOfLoan,
+          total_salary:editData.total_salary,
+          atm_or_cash: editData.atm_or_cash,     
+        };
+      fetch(`${main_url}foreigner_salary/edit_foreigner_salary`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: `data=${JSON.stringify(dataTostring)}`,
+        body: `data=${JSON.stringify(data)}`,
       })
         .then((res) => {
           status = res.status;
@@ -653,19 +341,19 @@ export default class ForeignerSalaryAddNew extends Component {
     // }
   };
   handleHouseAllowance=(e)=>{
-    const newData = this.state.addNewData;
-    newData.houseAllowance = e.target.value;
-    this.setState({ addNewData: newData });
+    const newData = this.state.editData;
+    newData.housing_allowance = e.target.value;
+    this.setState({ editData: newData });
   }
   handleTotalGrossSalary=(e)=>{
-    const newData = this.state.addNewData;
-    newData.totalGrossSalary = e.target.value;
-    this.setState({ addNewData: newData });
+    const newData = this.state.editData;
+    newData.total_gross_salary = e.target.value;
+    this.setState({ editData: newData });
   }
   onBackPayChange=(e)=>{
-    const newData = this.state.addNewData;
-    newData.backPay = e.target.value;
-    this.setState({ addNewData: newData });
+    const newData = this.state.editData;
+    newData.back_pay = e.target.value;
+    this.setState({ editData: newData });
   }
 
   handlefileChanged(e) {
@@ -692,7 +380,8 @@ export default class ForeignerSalaryAddNew extends Component {
     });
   }
 
-  render() {
+  render() { console.log("propsdata",this.state.editData)
+  
     
     const { addNewData, userId, userInfo, dataSource } = this.state;
     console.log("addNewData =====>",this.state.DetailUser);
@@ -708,7 +397,7 @@ export default class ForeignerSalaryAddNew extends Component {
                       <label>Request Month</label>
                       <DatePicker
                         dateFormat="MMM"
-                        value={addNewData.requestMonth}
+                        value={new Date(this.state.editData.request_month)}
                         timeFormat={false}
                         onChange={this.onRequestMonthChange.bind(this)}
                       />
@@ -719,21 +408,21 @@ export default class ForeignerSalaryAddNew extends Component {
                         className="form-control checkValidate"
                         type="number"
                         data-name="employment_id"
-                        value={addNewData.exchangeRate}
+                        value={this.state.editData.exchange_rage}
                         placeholder="Exchange Rate"
                         onChange={this.exChangeRate.bind(this)}
                       />
                     </div>
                     <div className="col-md-3">
-                      <label>Employee ID</label>
-                      <Select
-                                placeholder="Employee"
-                                options={this.state.employeeIdList}
-                                onChange={this.handleEmployeeId}
-                                value={this.state.selectedEmployeeId}
+                      <label>Employee ID</label> <input type="text" className="form-control" value={this.state.editData.employment_id} disabled/>
+                      {/* <Select
+                                // options={this.state.employeeIdList}
+                                // onChange={this.handleEmployeeId}
+                                placeholder={this.state.editData.employee_name}
+                                disabled={true}
                                 className="react-select-container"
                                 classNamePrefix="react-select"
-                            />
+                            /> */}
                     </div>
                     <div className="col-md-3">
                       <label>Employee Name</label>
@@ -742,7 +431,7 @@ export default class ForeignerSalaryAddNew extends Component {
                         disabled={true}
                         type="text"
                         data-name="fullname"
-                        value={this.state.DetailUser ? this.state.DetailUser.employee_name : ''}
+                        value={this.state.editData.fullname}
                         placeholder="Employee Name"
                         // onChange={this.claimChangeText}
                       />
@@ -759,7 +448,7 @@ export default class ForeignerSalaryAddNew extends Component {
                         data-name="designation"
                         value={this.state.DetailUser ? this.state.DetailUser.designations:""}
                         placeholder="designation"
-                        // onChange={this.claimChangeText}
+                        onChange={this.claimChangeText}
                       />
                     </div>
                     <div className="col-md-3">
@@ -769,7 +458,7 @@ export default class ForeignerSalaryAddNew extends Component {
                         disabled={true}
                         type="number"
                         data-name="grossSalary"
-                        value={this.state.DetailUser ? this.state.DetailUser.basic_salary : ""}
+                        value={this.state.editData.gross_salary}
                         placeholder="Enter Lodging"
                         // onChange={this.onGrossSalaryChange}
                       />
@@ -780,7 +469,7 @@ export default class ForeignerSalaryAddNew extends Component {
                         className="form-control"
                         type="number"
                         data-name="deductionOrAddition"
-                        value={addNewData.deductionOrAddition}
+                        value={this.state.editData.deduction_or_addition}
                         placeholder="Enter Deduction or Addition"
                         onChange={this.onDeductionOrAddition}
                       />
@@ -792,7 +481,7 @@ export default class ForeignerSalaryAddNew extends Component {
                         type="number"
                         disabled
                         data-name="salaryAfterDorA"
-                        value={addNewData.salaryAfterDorA}
+                        value={this.state.editData.after_deduction_or_addition}
                         placeholder={"Enter Salary After Deduction or Addition"}
                       />
                     </div>
@@ -806,7 +495,7 @@ export default class ForeignerSalaryAddNew extends Component {
                         disabled
                         type="number"
                         data-name="ssc3"
-                        value={addNewData.ssc3}
+                        value={this.state.editData.SSC_employee}
                       />
                     </div>
                     <div className="col-md-3">
@@ -816,7 +505,7 @@ export default class ForeignerSalaryAddNew extends Component {
                         disabled
                         type="number"
                         data-name="ssc2"
-                        value={addNewData.ssc2}
+                        value={this.state.editData.SSC_employer}
                       />
                     </div>
                     <div className="col-md-3">
@@ -825,7 +514,7 @@ export default class ForeignerSalaryAddNew extends Component {
                         className="form-control"
                         type="number"
                         data-name="incomeTax"
-                        value={addNewData.incomeTax_$}
+                        value={this.state.editData.income_tax}
                         placeholder={"Enter Income Tax"}
                         onChange={this.onIncomeTax$Change}
                       />
@@ -837,7 +526,7 @@ export default class ForeignerSalaryAddNew extends Component {
                         className="form-control"
                         type="number"
                         data-name="incomeTax"
-                        value={addNewData.incomeTax_$*addNewData.exchangeRate}
+                        value={this.state.editData.income_tax*this.state.editData.exchange_rage}
                         placeholder={"Enter Income Tax"}
                         // onChange={this.onIncomeTaxMMKChange}
                       />
@@ -851,7 +540,7 @@ export default class ForeignerSalaryAddNew extends Component {
                         disabled={true}
                         type="number"
                         data-name="netSalaryPaid"
-                        value={addNewData.salaryAfterDorA-addNewData.incomeTax_$}
+                        value={this.state.editData.after_deduction_or_addition-this.state.editData.income_tax}
                         placeholder={"Enter Net Salary Paid"}
                         // onChange={this.handleNetSalaryPaid}
                       />
@@ -863,7 +552,7 @@ export default class ForeignerSalaryAddNew extends Component {
                         
                         type="number"
                         data-name="houseAllowance"
-                        value={addNewData.houseAllowance}
+                        value={this.state.editData.housing_allowance}
                         onChange={this.handleHouseAllowance}
                       />
                     </div>
@@ -874,7 +563,7 @@ export default class ForeignerSalaryAddNew extends Component {
                        
                         type="number"
                         data-name="totalGrossSalary"
-                        value={addNewData.totalGrossSalary}
+                        value={this.state.editData.total_gross_salary}
                         onChange={this.handleTotalGrossSalary}
                       />
                     </div>
@@ -884,7 +573,7 @@ export default class ForeignerSalaryAddNew extends Component {
                         className="form-control"
                         type="number"
                         data-name="maintenance"
-                        value={addNewData.maintenance}
+                        value={this.state.editData.maintenance}
                         placeholder="Enter Maintenance"
                         onChange={this.onMaintenanceChange}
                       />
@@ -897,7 +586,7 @@ export default class ForeignerSalaryAddNew extends Component {
                             className="form-control"
                             type="number"
                             data-name="petrol"
-                            value={addNewData.petrol}
+                            value={this.state.editData.petrol}
                             placeholder={"Enter Petrol"}
                             onChange={this.onPetrolChange}
                         />
@@ -908,7 +597,7 @@ export default class ForeignerSalaryAddNew extends Component {
                         className="form-control"
                         type="number"
                         data-name="backPay"
-                        value={addNewData.backPay}
+                        value={this.state.editData.back_pay}
                         placeholder={"Enter BackPay"}
                         onChange={this.onBackPayChange}
                       />
@@ -919,7 +608,7 @@ export default class ForeignerSalaryAddNew extends Component {
                         className="form-control"
                         type="number"
                         data-name="allowance"
-                        value={addNewData.allowance}
+                        value={this.state.editData.allowance}
                         placeholder={"Enter Allowance"}
                         onChange={this.allowanceChange}
                       />
@@ -930,7 +619,7 @@ export default class ForeignerSalaryAddNew extends Component {
                         className="form-control"
                         type="number"
                         data-name="annualAward"
-                        value={addNewData.annualAward}
+                        value={this.state.editData.annual_award}
                         placeholder={"Enter Annual Award"}
                         onChange={this.handleAnnualAward}
                       />
@@ -943,7 +632,7 @@ export default class ForeignerSalaryAddNew extends Component {
                             className="form-control"
                             type="number"
                             data-name="medicalFund"
-                            value={addNewData.medicalFund}
+                            value={this.state.editData.medical_fund}
                             placeholder={"Enter Medical Fund"}
                             onChange={this.handleMedicalFund}
                         />
@@ -954,7 +643,7 @@ export default class ForeignerSalaryAddNew extends Component {
                             className="form-control"
                             type="number"
                             data-name="deductForOfficeMotorBikeUse"
-                            value={addNewData.motorBikeUse}
+                            value={this.state.editData.debut_for_motorbike}
                             placeholder={"Enter DeductForOfficeMotorBikeUse"}
                             onChange={this.handleMotorBikeUse}
                         />
@@ -965,7 +654,7 @@ export default class ForeignerSalaryAddNew extends Component {
                             className="form-control"
                             type="number"
                             data-name="salaryCut"
-                            value={addNewData.salaryCut}
+                            value={this.state.editData.salary_cut}
                             placeholder={"Enter Salary Cut"}
                             onChange={this.handleSalaryCut}
                         />
@@ -976,7 +665,7 @@ export default class ForeignerSalaryAddNew extends Component {
                             className="form-control"
                             type="number"
                             data-name="deductionOfLoan"
-                            value={addNewData.deductionOfLoan}
+                            value={this.state.editData.deduction_of_loan}
                             placeholder={"Enter Deduction of Loan"}
                             onChange={this.handleDeductionOfLoan}
                         />
@@ -989,7 +678,7 @@ export default class ForeignerSalaryAddNew extends Component {
                             className="form-control"
                             type="number"
                             data-name="totalSalary"
-                            value={addNewData.totalSalary}
+                            value={this.state.editData.total_salary}
                             placeholder={"Enter Total Salary"}
                             onChange={this.handleTotalSalary}
                         />
@@ -1009,19 +698,19 @@ export default class ForeignerSalaryAddNew extends Component {
                           type="radio"
                           value={0}
                           name="work"
-                          checked={addNewData.atmOrCash == 0 ? true : false}
+                          checked={this.state.editData.atmOrCash == 0 ? true : false}
                         />{" "}
                         <span>ATM</span>
                         <input
                           type="radio"
                           value={1}
                           name="work"
-                          checked={addNewData.atmOrCash == 1 ? true : false}
+                          checked={this.state.editData.atmOrCash == 1 ? true : false}
                         />{" "}
                         <span>Cash</span>
                       </div>
                     </div>
-                    <div className="col-md-6 btn-rightend">
+                    {/* <div className="col-md-6 btn-rightend">
                       <button
                         className="btn-primary btn"
                         onClick={this.addData}
@@ -1029,7 +718,7 @@ export default class ForeignerSalaryAddNew extends Component {
                       >
                         Add
                       </button>
-                    </div>
+                    </div> */}
                   </div>
                   </div>
                  

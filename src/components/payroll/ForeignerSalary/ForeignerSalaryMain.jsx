@@ -6,7 +6,8 @@ import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, get
 // import ForeignerSalaryAddNew from './ForeignerSalaryAddNew';
 import ForeignerSalaryAddNew from './ForeignerSalaryAddNew';
 import ForeignerSalaryTable from './ForeignerSalaryTable';
-
+import ForeignerSalaryView from './ForeignerSalaryView';
+import ForeignerSalaryEdit from './ForeignerSalaryEdit';
 class ForeignerSalaryMain extends Component {
     constructor() {
         super();
@@ -19,20 +20,31 @@ class ForeignerSalaryMain extends Component {
             isView: false,
             isEdit: false,
             datasource: [],
-            requestData: [],
             permission_status: { isAddNew: true},
             requestType: '',
-            active_tab: 0,
-           
         }
     }
-
     async componentDidMount() {
-
-        
+       await this._getForeginerSalary();  
     }
     
+    _getForeginerSalary() {
+        let id = this.state.user_id;
 
+        fetch(`${main_url}foreigner_salary/get_foreigner_salary/${id}`)
+            .then(response => {
+                if (response.ok) return response.json()
+            })
+            .then(res => {
+                if (res) {
+                    this.setState({ 
+                        datasource: res,
+                    })
+                }
+            })
+            .catch(error => console.error(`Fetch Error =\n`, error));
+
+    }
     changeTab(tab) {
         this.setState({ active_tab: tab }, () => { console.log(tab) })
     }
@@ -59,10 +71,9 @@ class ForeignerSalaryMain extends Component {
             isTable: false,
             isEdit: false,
             isView: true,
-            datasource: data
+            datasource:data
         })
     }
-
     goToEditForm = (data) => {
         this.setState({
             isAddnew: false,
@@ -72,9 +83,7 @@ class ForeignerSalaryMain extends Component {
             datasource: data
         })
     }
-
     showToast = (status, text) => {
-
         if (status === 200) {
             toast.success(text);
             window.location.reload();
@@ -83,10 +92,7 @@ class ForeignerSalaryMain extends Component {
             startSaving();
             toast.error(text);
         }
-
     }
-
-
     render() {
 
         return (
@@ -102,38 +108,17 @@ class ForeignerSalaryMain extends Component {
                 <br />
 
                 {this.state.isTable ? (
-                    <ForeignerSalaryTable/>
-                ) : this.state.isAddNew ? (
+                    <ForeignerSalaryTable view={this.state.isView} goToViewForm={this.goToViewForm}  goToEditForm={this.goToEditForm} dataSource={this.state.datasource}/>
+                ) :  this.state.isView ? (
+                    <ForeignerSalaryView
+                      view={this.state.isView}
+                      dataSource={this.state.datasource}
+                    />
+                  ) :this.state.isAddNew ? (
                     <ForeignerSalaryAddNew />
-                ) : null}
-
-                {/* {
-                    this.state.isAddNew || this.state.isEdit ?
-                        <BenefitWeddingAddNew goToTable={this.goToTable}  data={this.state.datasource} showToast={this.showToast} /> : ''
-                }
-
-                {
-                    this.state.isTable ?
-                    <div>
-                          <div>
-                           <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
-                          <li className="nav-item">
-                           <a className="nav-link " href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(1)}>My Request</a>
-                          </li>
-                          <li className="nav-item1 active">
-                          <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.changeTab(0)}>All Request</a>
-                          </li>
-                          </ul>
-
-                          </div>
-                        <BenefitWeddingTable  tab={this.state.active_tab} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status} requestType={this.state.requestType} /> </div>: ''
-                    
-                }
-                {
-                    this.state.isView ?
-                        <BenefitWeddingView data={this.state.datasource} isView={this.state.isView} /> : ''
-                } */}
-
+                )  :this.state.isEdit ? (
+                    <ForeignerSalaryEdit  dataSource={this.state.datasource}/>
+                ): null}
             </div>
         )
 
