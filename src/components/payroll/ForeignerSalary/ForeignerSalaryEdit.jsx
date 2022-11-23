@@ -115,7 +115,7 @@ export default class ForeignerSalaryEdit extends Component {
     const newData = this.state.editData;
     newData.income_tax = e.target.value;
     newData.net_salary_paid=newData.after_deduction_or_addition-newData.income_tax;
-    newData.income_taxMMK=newData.exchange_rage*newData.income_tax;
+    newData.income_tax_MMK=newData.exchange_rage*newData.income_tax;
     this.setState({ editData: newData });
   };
   // onIncomeTaxMMKChange=(e)=>{
@@ -280,10 +280,16 @@ export default class ForeignerSalaryEdit extends Component {
           exchange_rage:editData.exchange_rage,
           deduction_or_addition: editData.deduction_or_addition,       
           income_tax: editData.income_tax,
-          house_allowance:editData.houseAllowance,
+          gross_salary: editData.gross_salary,
+          after_deduction_or_addition :editData.after_deduction_or_addition,
+          SSC_employee :editData.SSC_employee,
+          SSC_employer :editData.SSC_employer,
+          income_tax_MMK :editData.income_tax_MMK,
+          net_salary_paid :editData.net_salary_paid,
+          housing_allowance:editData.housing_allowance,
           maintenance: editData.maintenance,
           petrol: editData.petrol,
-          total_gross_salary:editData.totalGrossSalary,
+          total_gross_salary:editData.total_gross_salary,
           back_pay:editData.back_pay,
           allowance:editData.allowance,
           annual_award:editData.annual_award,
@@ -446,7 +452,7 @@ export default class ForeignerSalaryEdit extends Component {
                         disabled={true}
                         type="text"
                         data-name="designation"
-                        value={this.state.DetailUser ? this.state.DetailUser.designations:""}
+                        value={this.state.editData ? this.state.editData.designations:""}
                         placeholder="designation"
                         onChange={this.claimChangeText}
                       />
