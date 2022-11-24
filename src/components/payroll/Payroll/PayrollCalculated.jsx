@@ -24,29 +24,33 @@ export default class PayrollCalculated extends Component {
     super(props);
     this.state = {
       dataSource: [],
+      paySlipRemark: '',
     };
   }
 
   async componentDidMount() {
     await this.getPayrollHeader();
-    this.setState({
+    this.setState(
+      {
         dataSource: this.props.dataSource,
-    }, () => {
-        this._setTableData(this.state.dataSource)
-    })
+      },
+      () => {
+        this._setTableData(this.state.dataSource);
+      }
+    );
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.dataSource != this.props.dataSource) {
-        this.setState(
-          {
-            dataSource: this.props.dataSource,
-          },
-          () => {
-            this._setTableData(this.state.dataSource);
-          }
-        );
-      }
+      this.setState(
+        {
+          dataSource: this.props.dataSource,
+        },
+        () => {
+          this._setTableData(this.state.dataSource);
+        }
+      );
+    }
   }
 
   getPayrollHeader = async () => {
@@ -66,25 +70,23 @@ export default class PayrollCalculated extends Component {
         }
       })
       .catch((error) => console.error(`Fetch Error =\n`, error));
-  }
+  };
 
   _setTableData = async (data) => {
-    // console.log("getEmp ===>", data);
     var table;
     var j = [];
-    // var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
     if (data) {
       for (var i = 0; i < data.length; i++) {
         let result = data[i];
         let obj = {};
         obj["no"] = i + 1;
-        obj["employment_id"] = result.employee_id ? result.employee_id : '-';
-        obj['fullname'] = result.name ? result.name : '-';
-        obj['designation'] = result.designations ? result.designations : '-';
-        obj['department'] = result.department ? result.department : '-';
-        obj['branch'] = result.branch ? result.branch : '-';
-        obj['region'] = result.region ? result.region : '-';
-        obj['netSalary'] = result.detail_amount ? result.detail_amount : '-';
+        obj["employment_id"] = result.employee_id ? result.employee_id : "-";
+        obj["fullname"] = result.name ? result.name : "-";
+        obj["designation"] = result.designation ? result.designation : "-";
+        obj["department"] = result.department ? result.department : "-";
+        obj["branch"] = result.branch ? result.branch : "-";
+        obj["region"] = result.region ? result.region : "-";
+        obj["netSalary"] = result.detail_amount ? result.detail_amount : "-";
         this.state.steps.map((v, index) => {
           obj[v.replace(/\s/g, "").toLowerCase()] = result.labels.filter(
             (a) => a.label == v
@@ -106,11 +108,11 @@ export default class PayrollCalculated extends Component {
     var column = [
       { title: "No", data: "no" },
       { title: "Employee Id", data: "employment_id" },
-      { title: 'Employee Name', data: 'fullname'},
-      { title: 'Designation', data: 'designation'},
-      { title: 'Department', data: 'department'},
-      { title: 'Branch', data: 'branch'},
-      { title: 'Region', data: 'region'}
+      { title: "Employee Name", data: "fullname" },
+      { title: "Designation", data: "designation" },
+      { title: "Department", data: "department" },
+      { title: "Branch", data: "branch" },
+      { title: "Region", data: "region" },
     ];
 
     this.state.steps.map((v) => {
@@ -120,7 +122,7 @@ export default class PayrollCalculated extends Component {
       column.push(obj);
     });
 
-    column.push({title: 'Net Salary', data: 'netSalary'});
+    column.push({ title: "Net Salary", data: "netSalary" });
 
     table = $("#dataTables-table").DataTable({
       autofill: true,
@@ -140,25 +142,50 @@ export default class PayrollCalculated extends Component {
     });
   };
 
+  onChangeText = (e) => {
+    this.setState({
+      paySlipRemark: e.target.value
+    })
+  }
+
   render() {
     return (
       <div>
-        <div className="row col-md-12 btn-rightend">
-          <button
-            className="btn-primary btn"
-            // onClick={this.onNextClick}
-            style={{ marginTop: 20 }}
+        <div className="row col-md-12">
+          <div className="col-md-6">
+            <div className="col-md-4">
+              <label>Pay Slip Remark</label>
+              <input
+                className=""
+                type="text"
+                data-name="paySlipRemark"
+                value={this.state.paySlipRemark}
+                placeholder="Remark"
+                onChange={this.onChangeText}
+              />
+            </div>
+          </div>
+          <div
+            className="row col-md-6 btn-rightend"
+            style={{ marginBottom: "10px" }}
           >
-            Delete
-          </button>
-          <button
-            className="btn-primary btn"
-            // onClick={this.onNextClick}
-            style={{ marginTop: 20 }}
-          >
-            Confirm
-          </button>
+            <button
+              className="btn-primary btn"
+              onClick={this.props.handleDelete}
+              style={{ marginTop: 20 }}
+            >
+              Delete
+            </button>
+            <button
+              className="btn-primary btn"
+              onClick={this.props.handleConfirm}
+              style={{ marginTop: 20 }}
+            >
+              Confirm
+            </button>
+          </div>
         </div>
+
         <div>
           <table
             width="99%"

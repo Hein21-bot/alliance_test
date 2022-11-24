@@ -28,10 +28,31 @@ export default class PayrollCheck extends Component {
   }
 
   async componentDidMount() {
-    await this.getPayrollCheckAndReview();
+    await this.getPayrollHeader();
+    this.setState(
+      {
+        dataSource: this.props.dataSource,
+      },
+      () => {
+        this._setTableData(this.state.dataSource);
+      }
+    );
   }
 
-  getPayrollCheckAndReview = async () => {
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.dataSource != this.props.dataSource) {
+      this.setState(
+        {
+          dataSource: this.props.dataSource,
+        },
+        () => {
+          this._setTableData(this.state.dataSource);
+        }
+      );
+    }
+  }
+
+  getPayrollHeader = async () => {
     await fetch(`${main_url}payroll/getPayrollHeader`)
       .then((response) => {
         if (response.ok) return response.json();
@@ -48,23 +69,7 @@ export default class PayrollCheck extends Component {
         }
       })
       .catch((error) => console.error(`Fetch Error =\n`, error));
-    await fetch(
-      main_url + `payroll/reviewData/${moment(new Date()).format("YYYY-MM")}`
-    )
-      .then((response) => {
-        if (response.ok) return response.json();
-      })
-      .then((res) => {
-        if (res) {
-          this.setState({
-            dataSource: res,
-          });
-          this._setTableData(res);
-        }
-      });
   };
-
-  componentDidUpdate(prevProps, prevState) {}
 
   _setTableData = async (data) => {
     // console.log("getEmp ===>", data);
@@ -76,12 +81,12 @@ export default class PayrollCheck extends Component {
         let result = data[i];
         let obj = {};
         obj["no"] = i + 1;
-        obj["employment_id"] = result.employee_id ? result.employee_id : '-';
-        obj['fullname'] = result.name ? result.name : '-';
-        obj['designation'] = result.designations ? result.designations : '-';
-        obj['department'] = result.department ? result.department : '-';
-        obj['branch'] = result.branch ? result.branch : '-';
-        obj['region'] = result.region ? result.region : '-';
+        obj["employment_id"] = result.employee_id ? result.employee_id : "-";
+        obj["fullname"] = result.name ? result.name : "-";
+        obj["designation"] = result.designation ? result.designation : "-";
+        obj["department"] = result.department ? result.department : "-";
+        obj["branch"] = result.branch ? result.branch : "-";
+        obj["region"] = result.region ? result.region : "-";
         this.state.steps.map((v, index) => {
           obj[v.replace(/\s/g, "").toLowerCase()] = result.labels.filter(
             (a) => a.label == v
@@ -103,11 +108,11 @@ export default class PayrollCheck extends Component {
     var column = [
       { title: "No", data: "no" },
       { title: "Employee Id", data: "employment_id" },
-      { title: 'Employee Name', data: 'fullname'},
-      { title: 'Designation', data: 'designation'},
-      { title: 'Department', data: 'department'},
-      { title: 'Branch', data: 'branch'},
-      { title: 'Region', data: 'region'}
+      { title: "Employee Name", data: "fullname" },
+      { title: "Designation", data: "designation" },
+      { title: "Department", data: "department" },
+      { title: "Branch", data: "branch" },
+      { title: "Region", data: "region" },
     ];
 
     this.state.steps.map((v) => {
@@ -138,7 +143,7 @@ export default class PayrollCheck extends Component {
   render() {
     return (
       <div>
-        <div className="col-md-12 btn-rightend">
+        <div className="col-md-12 btn-rightend" style={{marginBottom: '10px'}}>
           <button
             className="btn-primary btn"
             onClick={this.props.handleCalculate}
@@ -147,11 +152,13 @@ export default class PayrollCheck extends Component {
             Calculate
           </button>
         </div>
-        <table
-              width="99%"
-              className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
-              id="dataTables-table"
-            />
+        <div>
+          <table
+            width="99%"
+            className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
+            id="dataTables-table"
+          />
+        </div>
       </div>
     );
   }
