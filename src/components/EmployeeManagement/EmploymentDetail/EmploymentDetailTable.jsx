@@ -129,7 +129,7 @@ export default class BenefitChildTable extends Component {
                 carrer_sub_level: data[i].career_sub_level_name ? data[i].career_sub_level_name : '',
                 // salary: data[i].salary ? data[i].salary : '', .length > 0 ? (dta > 20 ? (data ==0 ? ('data is 0") : ("data")) : ()) : ()
                 salary:this.props.salaryList.filter(v=>v.career_sub_level == data[i].career_sub_level) ? this.props.salaryList.filter(v=>v.career_sub_level == data[i].career_sub_level)[0] ? this.props.salaryList.filter(v=>v.career_sub_level == data[i].career_sub_level)[0].basic_salary : 0:0,
-
+                promotion_date: data[i].promotion_date ? data[i].promotion_date :'-',
                 // salary: this.props.salaryPermission.length > 0 ? data[i].salary ? data[i].salary : this.props.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0] ? this.props.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0].basic_salary: ''
                 // : data[i].career_sub_level > 20 ? 'Not Available' : data[i].salary ? data[i].salary : this.props.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0].basic_salary,
                 department: data[i].deptname ? data[i].deptname : '',
@@ -182,6 +182,7 @@ export default class BenefitChildTable extends Component {
             { title: "Employee Status", data: "employee_status" },
             { title: "Employed Date", data: "employed_date" },
             { title: "Effective Date", data: "effective_date" },
+            { title: "Promotion Date", data: "promotion_date" },
             { title: "Actual Date", data: "actual_date" },
             { title: "Designation", data: "position" },
             { title: "Job Title", data: "job_title" },

@@ -15,7 +15,6 @@ import {
   getBranch,
   alertText,
 } from "../../../utils/CommonFunction";
-import Select from "react-select";
 const $ = require("jquery");
 var form_validate = true;
 var saveBtn = false;
@@ -89,13 +88,14 @@ export default class ForeignerSalaryEdit extends Component {
       newData.petrol;
     this.setState({ editData: newData });
   };
+
   allowanceChange=(e)=>{
     const newData = this.state.editData;
     newData.allowance = e.target.value;
     this.setState({ editData: newData });
-  }
+  };
 
-  onDeductionOrAddition = (e) => { console.log(e.target.value)
+  onDeductionOrAddition = (e) => {
     let newValue = e.target.value;
     const newData = this.state.editData;
     newData.after_deduction_or_addition = newData.gross_salary + parseFloat(newValue);
@@ -118,11 +118,12 @@ export default class ForeignerSalaryEdit extends Component {
     newData.income_tax_MMK=newData.exchange_rage*newData.income_tax;
     this.setState({ editData: newData });
   };
+
   // onIncomeTaxMMKChange=(e)=>{
   //   const newData = this.state.addNewData;
   //   newData.incomeTax_MMK = e.target.value;
   //   this.setState({ addNewData: newData });
-  // }
+  // }:
 
   onMaintenanceChange = (e) => {
     let newValue = parseFloat(e.target.value);
@@ -167,36 +168,42 @@ export default class ForeignerSalaryEdit extends Component {
     newData.exitStatus = e.target.value;
     this.setState({ addNewData: newData });
   };
+
   handleAnnualAward=(e)=>{
     const newData = this.state.editData;
     newData.annual_award = e.target.value;
     this.setState({ editData: newData });
-  }
+  };
+
   handleMedicalFund=(e)=>{
     const newData = this.state.editData;
     newData.medical_fund = e.target.value;
     this.setState({ editData: newData });
-  }
+  };
+
   handleMotorBikeUse=(e)=>{
     const newData = this.state.editData;
     newData.debut_for_motorbike = e.target.value;
     this.setState({ editData: newData });
-  }
+  };
+
   handleSalaryCut=(e)=>{
     const newData = this.state.editData;
     newData.salary_cut = e.target.value;
     this.setState({ editData: newData });
-  }
+  };
+
   handleDeductionOfLoan=(e)=>{
     const newData = this.state.editData;
     newData.deduction_of_loan = e.target.value;
     this.setState({ editData: newData });
-  }
+  };
+
   handleTotalSalary=(e)=>{
     const newData = this.state.editData;
     newData.total_salary = e.target.value;
     this.setState({ editData: newData });
-  }
+  };
 
   removeNewDocument(index, event) {
     var array = this.state.newDoc;
@@ -204,7 +211,8 @@ export default class ForeignerSalaryEdit extends Component {
     this.setState({
       newDoc: array,
     });
-  }
+  };
+
   getEmployeeCodeList() {
     fetch(`${main_url}employee/getEmployeeCode`)
       .then((res) => {
@@ -219,42 +227,14 @@ export default class ForeignerSalaryEdit extends Component {
           })),
         });
       });
-  }
+  };
+
   exChangeRate=(event)=>{
     const newData = this.state.editData;
     newData.exchange_rage = event.target.value;
     this.setState({ editData: newData });
-  }
-  // handleEmployeeId=(e)=>{
-  //   console.log(e)
-  //   if (e) {
-  //       fetch(`${main_url}employee/getDetailUser/${e.user_id}`)
-  //         .then((res) => {
-  //           if (res.ok) return res.json();
-  //         })
-  //         .then((data) => {
-  //           this.setState({
-  //             DetailUser:{
-  //               employment_id:data[0].employment_id,
-  //             employee_name:data[0].employee_name,
-  //             designations:data[0].designations,
-  //             basic_salary:data[0].basic_salary,
-  //             user_id:data[0].user_id
-  //             }
-  //           })
-  //           // if (data.length > 0) {
-  //           //   this.getData(this.props.id);
-  //           //   this.setState({ tableEdit: true, tableView: false });
-  
-  
-  //           // }
-  //         });
-  //     }
+  };
 
-  //   this.setState({
-  //       selectedEmployeeId:e
-  //   })
-  // }
   showToast = (status, text) => {
     if (status === 200) {
       toast.success(text);
@@ -265,19 +245,17 @@ export default class ForeignerSalaryEdit extends Component {
     }
   };
 
-
   check = () => {
     const {editData} = this.state;
-    // if (this.state.newDoc.length == 0) {
-    //     toast.error("Please Choose Attachment File!")
-    // } else {
     if (validate("check_form")) {
-      // @lucy
       let status=0
 
         const data= {
           request_month: moment(editData.request_month).format("YYYY-MM-DD"),        
           exchange_rage:editData.exchange_rage,
+          fullname:editData.fullname,
+          designations : editData.designations,
+          employment_id: editData.employment_id,
           deduction_or_addition: editData.deduction_or_addition,       
           income_tax: editData.income_tax,
           gross_salary: editData.gross_salary,
@@ -295,12 +273,12 @@ export default class ForeignerSalaryEdit extends Component {
           annual_award:editData.annual_award,
           medical_fund:editData.medical_fund,
           debut_for_motorbike:editData.debut_for_motorbike,
-          salary_cut:editData.salaryCut,
-          deduction_of_loan:editData.deductionOfLoan,
+          salary_cut:editData.salary_cut,
+          deduction_of_loan:editData.deduction_of_loan,
           total_salary:editData.total_salary,
           atm_or_cash: editData.atm_or_cash,     
         };
-      fetch(`${main_url}foreigner_salary/edit_foreigner_salary`, {
+      fetch(`${main_url}foreigner_salary/edit_foreigner_salary/${editData.id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -344,34 +322,31 @@ export default class ForeignerSalaryEdit extends Component {
         draggable: true,
       });
     }
-    // }
   };
+  
   handleHouseAllowance=(e)=>{
     const newData = this.state.editData;
     newData.housing_allowance = e.target.value;
     this.setState({ editData: newData });
-  }
+  };
+
   handleTotalGrossSalary=(e)=>{
     const newData = this.state.editData;
     newData.total_gross_salary = e.target.value;
     this.setState({ editData: newData });
-  }
+  };
+
   onBackPayChange=(e)=>{
     const newData = this.state.editData;
     newData.back_pay = e.target.value;
     this.setState({ editData: newData });
-  }
+  };
 
   handlefileChanged(e) {
     var files = e.target.files;
     var attachment = [...this.state.attachment];
-
     for (let i = 0; i < files.length; i++) {
       attachment.push(files[i]);
-
-      // this.setState({
-      //     attachment: attachment
-      // })
     }
     let newDoc = this.state.newDoc;
     var obj = document.querySelector("#travelCRDrop").files.length;
@@ -384,13 +359,10 @@ export default class ForeignerSalaryEdit extends Component {
       newDoc: newDoc,
       attachment: attachment,
     });
-  }
+  };
 
-  render() { console.log("propsdata",this.state.editData)
-  
-    
-    const { addNewData, userId, userInfo, dataSource } = this.state;
-    console.log("addNewData =====>",this.state.DetailUser);
+  render() { 
+
     return (
       <div>
         <div className="row">
@@ -411,7 +383,7 @@ export default class ForeignerSalaryEdit extends Component {
                     <div className="col-md-3">
                       <label>Exchange Rate</label>
                       <input
-                        className="form-control checkValidate"
+                        className="form-control"
                         type="number"
                         data-name="employment_id"
                         value={this.state.editData.exchange_rage}
@@ -420,15 +392,13 @@ export default class ForeignerSalaryEdit extends Component {
                       />
                     </div>
                     <div className="col-md-3">
-                      <label>Employee ID</label> <input type="text" className="form-control" value={this.state.editData.employment_id} disabled/>
-                      {/* <Select
-                                // options={this.state.employeeIdList}
-                                // onChange={this.handleEmployeeId}
-                                placeholder={this.state.editData.employee_name}
-                                disabled={true}
-                                className="react-select-container"
-                                classNamePrefix="react-select"
-                            /> */}
+                      <label>Employee ID</label> 
+                      <input 
+                      type="text" 
+                      className="form-control" 
+                      value={this.state.editData.employment_id} 
+                      disabled={true}
+                      />
                     </div>
                     <div className="col-md-3">
                       <label>Employee Name</label>
@@ -439,7 +409,6 @@ export default class ForeignerSalaryEdit extends Component {
                         data-name="fullname"
                         value={this.state.editData.fullname}
                         placeholder="Employee Name"
-                        // onChange={this.claimChangeText}
                       />
                     </div>
                     
@@ -466,7 +435,6 @@ export default class ForeignerSalaryEdit extends Component {
                         data-name="grossSalary"
                         value={this.state.editData.gross_salary}
                         placeholder="Enter Lodging"
-                        // onChange={this.onGrossSalaryChange}
                       />
                     </div>
                     <div className="col-md-3">
@@ -534,7 +502,6 @@ export default class ForeignerSalaryEdit extends Component {
                         data-name="incomeTax"
                         value={this.state.editData.income_tax*this.state.editData.exchange_rage}
                         placeholder={"Enter Income Tax"}
-                        // onChange={this.onIncomeTaxMMKChange}
                       />
                     </div>
                 </div>
@@ -548,14 +515,13 @@ export default class ForeignerSalaryEdit extends Component {
                         data-name="netSalaryPaid"
                         value={this.state.editData.after_deduction_or_addition-this.state.editData.income_tax}
                         placeholder={"Enter Net Salary Paid"}
-                        // onChange={this.handleNetSalaryPaid}
                       />
                     </div>
                     <div className="col-md-3">
                       <label>House Allowance</label>
                       <input
                         className="form-control"
-                        
+                        placeholder={"Enter House Allowance"}
                         type="number"
                         data-name="houseAllowance"
                         value={this.state.editData.housing_allowance}
@@ -696,8 +662,8 @@ export default class ForeignerSalaryEdit extends Component {
                         className="row"
                         style={{
                           display: "flex",
-                          justifyContent: "space-between",
-                          //   alignItems: "center",
+                          marginLeft:0,
+                          marginTop:6
                         }}
                       >
                         <input
@@ -706,25 +672,17 @@ export default class ForeignerSalaryEdit extends Component {
                           name="work"
                           checked={this.state.editData.atmOrCash == 0 ? true : false}
                         />{" "}
-                        <span>ATM</span>
+                        <span  style={{marginLeft:'5px'}}>ATM</span>
                         <input
+                         style={{marginLeft:'15px'}}
                           type="radio"
                           value={1}
                           name="work"
                           checked={this.state.editData.atmOrCash == 1 ? true : false}
                         />{" "}
-                        <span>Cash</span>
+                        <span  style={{marginLeft:'5px'}}>Cash</span>
                       </div>
                     </div>
-                    {/* <div className="col-md-6 btn-rightend">
-                      <button
-                        className="btn-primary btn"
-                        onClick={this.addData}
-                        style={{ marginTop: 20 }}
-                      >
-                        Add
-                      </button>
-                    </div> */}
                   </div>
                   </div>
                  

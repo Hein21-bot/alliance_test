@@ -211,7 +211,6 @@ export default class ForeignerSalaryTable extends Component {
         doc.text(info.approved.branch_name, 164, doc.previousAutoTable.finalY + 40)
         doc.text(info.approved.designations, 164, doc.previousAutoTable.finalY + 45)
         await setPrintedStatus("wedding_benefit", data.benefit_id);
-        // doc.save('Wedding Benefit.pdf');
         print(doc, data)
     }
 
@@ -219,34 +218,12 @@ export default class ForeignerSalaryTable extends Component {
         var table;
         var l = [];
         var status;
-        // var permission = this.props.permission;
-        // var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
         if(data){
             for (var i = 0; i < data.length; i++) {
                 let result = data[i];
                 let obj = [];
                 console.log(">>>",data[i].SSC_employee)
-                // if (result.status === 0) {
-                //     status = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
-    
-                // }
-                // else if (result.status === 1) {
-                //     status = '<small class="label label-warning" style="background-color:#b33ce0"> Check</small>'
-                // }
-                // else if (result.status === 2) {
-                //     status = '<small class="label label-warning" style="background-color:#f2a509"> Verify</small>'
-                // }
-                // else if (result.status === 3) {
-                //     status = '<small class="label label-warning" style="background-color:#29a50a">Approve</small>'
-                // }
-                // else if (result.status === 4) {
-    
-                //     status = '<small class="label label-warning" style="background-color:#f60e2f"> Reject</small>'
-                // }
-                // else if (result.status === 5) {
-                //     status = '<small class="label label-warning" style="background-color:#cc0066"> ReferBack </small>'
-                // }
-    
+
                 obj = {
                     no: i + 1,
                     employee_id: data[i].employment_id ? data[i].employment_id: '-',

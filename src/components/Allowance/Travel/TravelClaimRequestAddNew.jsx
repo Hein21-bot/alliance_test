@@ -253,9 +253,9 @@ export default class TravelClaimRequestAddNew
     }
 
     check = () => {
-        // if (this.state.newDoc.length == 0) {
-        //     toast.error("Please Choose Attachment File!")
-        // } else {
+        if (this.state.newDoc.length == 0) {
+            toast.error("Please Choose Attachment File!")
+        } else {
         if (validate("check_form")) {
 
             // @lucy
@@ -304,7 +304,7 @@ export default class TravelClaimRequestAddNew
                 draggable: true
             });
         }
-        // }
+        }
 
     };
 

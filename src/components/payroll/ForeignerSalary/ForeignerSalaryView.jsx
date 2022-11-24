@@ -1,10 +1,4 @@
-import moment from "moment";
 import React, { Component } from "react";
-import {
-  getMonth
-
-} from "../../../utils/CommonFunction";
-import DatePicker from "react-datetime";
 export default class ForeignerSalaryView extends Component {
   constructor(props) {
     super(props);
@@ -353,8 +347,10 @@ export default class ForeignerSalaryView extends Component {
                         className="row"
                         style={{
                           display: "flex",
-                          justifyContent: "space-between",
+                          // justifyContent: "space-between",
                           //   alignItems: "center",
+                          marginLeft:0,
+                          marginTop:6
                         }}
                       >
                         <input
@@ -363,14 +359,16 @@ export default class ForeignerSalaryView extends Component {
                           name="work"
                           checked={atmOrCash == 0 ? true : false}
                         />{" "}
-                        <span>ATM</span>
+                        <span style={{marginLeft:'5px'}}>ATM</span>
                         <input
+                         style={{marginLeft:'15px'}}
+                        
                           type="radio"
                           value={1}
                           name="work"
                           checked={atmOrCash == 1 ? true : false}
                         />{" "}
-                        <span>Cash</span>
+                        <span style={{marginLeft:'5px'}}>Cash</span>
                       </div>
                     </div>
                   </div>

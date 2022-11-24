@@ -54,7 +54,6 @@ export default class ForeignerSalaryAddNew extends Component {
         deductionOfLoan:0,
         netSalaryPaid:0,
         totalGrossSalary:0
-        
       },
       dataSource: [],
       attachment: [],
@@ -62,7 +61,7 @@ export default class ForeignerSalaryAddNew extends Component {
       employeeIdList:null,
       selectedEmployeeId:null,
       DetailUser:{
-        employment_id:'',
+      employment_id:'',
       employee_name:'',
       designations:'',
       basic_salary:0,
@@ -105,7 +104,6 @@ export default class ForeignerSalaryAddNew extends Component {
       data = $.parseJSON(data);
       let newData = that.state.dataSource;
       let editData = newData[data];
-      console.log("edit data===>",editData,newData)
       newData.splice(data, 1);
       that.setState(
         {
@@ -134,9 +132,9 @@ export default class ForeignerSalaryAddNew extends Component {
             motorBikeUse:editData.motorBikeUse,
             salaryCut:editData.salaryCut,
             totalGrossSalary:editData.totalGrossSalary
-            
-          },DetailUser:{
-            employment_id:editData.employment_id,
+          },
+          DetailUser:{
+          employment_id:editData.employment_id,
           employee_name:editData.fullname,
           designations:editData.designations,
           basic_salary:editData.gross_salary,
@@ -190,11 +188,12 @@ export default class ForeignerSalaryAddNew extends Component {
       newData.petrol;
     this.setState({ addNewData: newData });
   };
+
   allowanceChange=(e)=>{
     const newData = this.state.addNewData;
     newData.allowance = e.target.value;
     this.setState({ addNewData: newData });
-  }
+  };
 
   onDeductionOrAddition = (e) => {
     let newValue = e.target.value;
@@ -219,11 +218,12 @@ export default class ForeignerSalaryAddNew extends Component {
     newData.incomeTax_MMK=newData.exchangeRate*newData.incomeTax_$;
     this.setState({ addNewData: newData });
   };
+
   // onIncomeTaxMMKChange=(e)=>{
   //   const newData = this.state.addNewData;
   //   newData.incomeTax_MMK = e.target.value;
   //   this.setState({ addNewData: newData });
-  // }
+  // };
 
   onMaintenanceChange = (e) => {
     let newValue = parseFloat(e.target.value);
@@ -268,36 +268,42 @@ export default class ForeignerSalaryAddNew extends Component {
     newData.exitStatus = e.target.value;
     this.setState({ addNewData: newData });
   };
+
   handleAnnualAward=(e)=>{
     const newData = this.state.addNewData;
     newData.annualAward = e.target.value;
     this.setState({ addNewData: newData });
-  }
+  };
+
   handleMedicalFund=(e)=>{
     const newData = this.state.addNewData;
     newData.medicalFund = e.target.value;
     this.setState({ addNewData: newData });
-  }
+  };
+
   handleMotorBikeUse=(e)=>{
     const newData = this.state.addNewData;
     newData.motorBikeUse = e.target.value;
     this.setState({ addNewData: newData });
-  }
+  };
+
   handleSalaryCut=(e)=>{
     const newData = this.state.addNewData;
     newData.salaryCut = e.target.value;
     this.setState({ addNewData: newData });
-  }
+  };
+
   handleDeductionOfLoan=(e)=>{
     const newData = this.state.addNewData;
     newData.deductionOfLoan = e.target.value;
     this.setState({ addNewData: newData });
-  }
+  };
+
   handleTotalSalary=(e)=>{
     const newData = this.state.addNewData;
     newData.totalSalary = e.target.value;
     this.setState({ addNewData: newData });
-  }
+  };
 
   removeNewDocument(index, event) {
     var array = this.state.newDoc;
@@ -305,7 +311,8 @@ export default class ForeignerSalaryAddNew extends Component {
     this.setState({
       newDoc: array,
     });
-  }
+  };
+
   getEmployeeCodeList() {
     fetch(`${main_url}employee/getEmployeeCode`)
       .then((res) => {
@@ -320,15 +327,15 @@ export default class ForeignerSalaryAddNew extends Component {
           })),
         });
       });
-  }
+  };
+
   exChangeRate=(event)=>{
     const newData = this.state.addNewData;
     newData.exchangeRate = event.target.value;
     this.setState({ addNewData: newData });
-  }
+  };
+
   handleEmployeeId=(e)=>{
-    console.log(e)
-    
     if (e) {
         fetch(`${main_url}employee/getDetailUser/${e.user_id}`)
           .then((res) => {
@@ -344,12 +351,6 @@ export default class ForeignerSalaryAddNew extends Component {
               user_id:data[0].user_id
               }
             })
-            // if (data.length > 0) {
-            //   this.getData(this.props.id);
-            //   this.setState({ tableEdit: true, tableView: false });
-  
-  
-            // }
           });
       }
 
@@ -359,7 +360,6 @@ export default class ForeignerSalaryAddNew extends Component {
   }
   addData = (e) => {
     const { userInfo } = this.state;
-    console.log("userInfo ===>", userInfo);
     if (validate("add_check_form")) {
       var data = [...this.state.dataSource];
       let newData = { ...this.state.addNewData };
@@ -393,13 +393,6 @@ export default class ForeignerSalaryAddNew extends Component {
       tempData.user_id=this.state.DetailUser.user_id;
       tempData.createdBy=this.state.userInfo.user_id;
       tempData.selectedEmployeeId=this.state.selectedEmployeeId;
-      
-      
-      
-     
-
-      var totalAmount = 0;
-
       data.push(tempData);
       this.setState({
         dataSource: data,
@@ -438,7 +431,6 @@ export default class ForeignerSalaryAddNew extends Component {
           user_id:0
         }
       });
-
       saveBtn = true;
       form_validate = true;
       this.setDataTable(data);
@@ -517,24 +509,20 @@ export default class ForeignerSalaryAddNew extends Component {
       data: l,
       columns: [
         { title: "No", data: "no" },
-        { title :"Request Month",data:"request_month"},
+        { title: "Request Month",data:"request_month"},
         { title: "Employee Id", data: "employment_id" },
         { title: "Employee Name", data: "fullname" },
         { title: "Position", data: "designations" },
-        { title:"Exchange Rate",data:"exchangeRate"},
+        { title: "Exchange Rate",data:"exchangeRate"},
         { title: "Gross Salary",data:"gross_salary"},
         { title: "Deduction or Addition", data: "deduction_or_addition" },
-        {
-          title: "Salary After Deduciton or Addition",
-          data: "salary_after_deduction_or_addition",
-        },
+        { title: "Salary After Deduciton or Addition",data: "salary_after_deduction_or_addition" },
         { title: "SSC Employee(3%)", data: "ssc3" },
         { title: "SSC Employee(2%)", data: "ssc2" },
         { title: "Income Tax($)", data: "income_tax_$" },
-        { title:"Income Tax(MMK)",data:"income_taxMMK"},
-        { title:"Net Salary Paid($)",data:"netSalaryPaid"},
-        { title :'Housing Allowance',data:"houseAllowance"},
-    
+        { title: "Income Tax(MMK)",data:"income_taxMMK"},
+        { title: "Net Salary Paid($)",data:"netSalaryPaid"},
+        { title:'Housing Allowance',data:"houseAllowance"},
         { title: "Total Gross Salary", data: "total_gross_salary" },
         { title: "Maintenance", data: "maintenance" },
         { title: "Petrol", data: "petrol" },
@@ -556,20 +544,13 @@ export default class ForeignerSalaryAddNew extends Component {
     if (status === 200) {
       toast.success(text);
       window.location.reload('/foreigner_salary')
-      // {this.state.attendance_type == "late_check_in" ? this.LateCheckIn ? this.state.attendance_type == "field_check_in" : this.FieldCheckIn ? this.state.attendance_type == "early_check_out" : this.EarlyCheckOut : this.FieldCheckOut}
     } else {
       toast.error(text);
     }
   };
 
-
   check = () => {
-    
-    // if (this.state.newDoc.length == 0) {
-    //     toast.error("Please Choose Attachment File!")
-    // } else {
     if (validate("check_form")) {
-      // @lucy
       let status=0
       const dataTostring = this.state.dataSource.map((v) => {
         return {
@@ -601,10 +582,8 @@ export default class ForeignerSalaryAddNew extends Component {
           atm_or_cash: v.atm_or_cash,
           user_id:v.user_id,
           createdBy:v.createdBy
-         
         };
       });
-      console.log("data===>",dataTostring)
 
       fetch(`${main_url}foreigner_salary/add_foreigner_salary`, {
         method: "POST",
@@ -622,11 +601,6 @@ export default class ForeignerSalaryAddNew extends Component {
         });
       if (saveBtn) {
         $("#saving_button").attr("disabled", true);
-        // this.props.addClaimRequest(
-        //   dataTostring,
-        //   this.state.data,
-        //   this.state.newDoc
-        // );
       } else {
         startSaving();
         toast.error(" Please Add Full Information", {
@@ -650,7 +624,6 @@ export default class ForeignerSalaryAddNew extends Component {
         draggable: true,
       });
     }
-    // }
   };
   handleHouseAllowance=(e)=>{
     const newData = this.state.addNewData;
@@ -674,10 +647,6 @@ export default class ForeignerSalaryAddNew extends Component {
 
     for (let i = 0; i < files.length; i++) {
       attachment.push(files[i]);
-
-      // this.setState({
-      //     attachment: attachment
-      // })
     }
     let newDoc = this.state.newDoc;
     var obj = document.querySelector("#travelCRDrop").files.length;
@@ -1001,8 +970,10 @@ export default class ForeignerSalaryAddNew extends Component {
                         className="row"
                         style={{
                           display: "flex",
-                          justifyContent: "space-between",
+                          // justifyContent: "space-between",
                           //   alignItems: "center",
+                          marginLeft:0,
+                          marginTop:6
                         }}
                       >
                         <input
@@ -1011,14 +982,15 @@ export default class ForeignerSalaryAddNew extends Component {
                           name="work"
                           checked={addNewData.atmOrCash == 0 ? true : false}
                         />{" "}
-                        <span>ATM</span>
+                        <span style={{marginLeft:'5px'}}>ATM</span>
                         <input
+                          style={{marginLeft:'15px'}}
                           type="radio"
                           value={1}
                           name="work"
                           checked={addNewData.atmOrCash == 1 ? true : false}
                         />{" "}
-                        <span>Cash</span>
+                        <span style={{marginLeft:'5px'}}>Cash</span>
                       </div>
                     </div>
                     <div className="col-md-6 btn-rightend">
