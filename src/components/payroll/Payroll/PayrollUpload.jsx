@@ -80,7 +80,6 @@ export default class PayrollUpload extends Component {
     });
   };
 
-  handleReview = () => {};
 
   handleReset = () => {
     this.setState({ activeStep: 0 });
@@ -210,27 +209,6 @@ export default class PayrollUpload extends Component {
     });
   };
 
-  // addFile = () => {
-  //   var newDoc = this.state.newDoc
-  //   const formdata = new FormData();
-  //   for (var i = 0; i < newDoc.length; i++) {
-  //     var imagedata = newDoc[i]
-  //     formdata.append('uploadfile', imagedata);
-  //   }
-  //   let status = 0;
-  //   fetch(main_url + 'payrollCalculate/addPayroll', {
-  //     method: "POST",
-  //     body: formdata
-  //   })
-  //     .then(res => {
-  //       status = res.status;
-  //       return res.text()
-  //     })
-  //     .then(text => {
-  //       this.props.showToast(status, text);
-  //     })
-  // }
-
   render() {
     const { steps, activeStep } = this.state;
 
@@ -291,7 +269,7 @@ export default class PayrollUpload extends Component {
                 style={{ minWidth: '100px', margin: 5 }}
                 id="saving_button"
                 type="button"
-                onClick={this.handleReview}
+                onClick={this.props.handleReview}
               >
                 Check and Review
                 {/* {this.state.steps.length == this.state.activeStep + 1 ? 'Preview Data' : 'Next'} */}

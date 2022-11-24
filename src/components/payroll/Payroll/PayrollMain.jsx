@@ -7,9 +7,12 @@ import "jspdf-autotable";
 import moment from "moment";
 import DatePicker from "react-datetime";
 import PayrollUpload from "./PayrollUpload";
+import PayrollCheck from "./PayrollCheck";
 import { imgData } from "../../../utils/Global";
 import * as jsPDF from "jspdf";
 import { main_url } from "../../../utils/CommonFunction";
+import PayrollCalculated from "./PayrollCalculated";
+import { toast, ToastContainer } from "react-toastify";
 const $ = require("jquery");
 const jzip = require("jzip");
 window.JSZip = jzip;
@@ -20,7 +23,6 @@ $.DataTable = require("datatables.net");
 require("datatables.net-buttons/js/dataTables.buttons.min");
 require("datatables.net-buttons/js/buttons.html5.min");
 
-
 export default class PayrollMain extends Component {
   constructor(props) {
     super(props);
@@ -29,6 +31,8 @@ export default class PayrollMain extends Component {
       employeeData: [],
       componentIndex: 0,
       pathname: window.location.pathname,
+      payrollCalculatedData: [],
+      loading: false,
     };
   }
 
@@ -67,6 +71,57 @@ export default class PayrollMain extends Component {
     });
   };
 
+  handleReview = () => {
+    this.setState({
+      componentIndex: 2,
+    });
+  };
+
+  handleCalculate = () => {
+    this.setState({
+      componentIndex: 3,
+      loading: true,
+    });
+    let status = 0;
+    fetch(main_url + `payrollCalculate/calculate`)
+      .then((response) => {
+        status = response.status;
+        return response.text();
+      })
+      .then((text) => {
+        if (status == 200) {
+          fetch(
+            main_url +
+              `payroll/getReviewDetailData/${moment(
+                this.state.filterDate
+              ).format("YYYY-MM")}`
+          )
+            .then((response1) => {
+              if (response1.ok) return response1.json();
+            })
+            .then((res1) => {
+              if (res1) {
+                this.setState({
+                  payrollCalculatedData: res1,
+                });
+              }
+            });
+          this.setState({
+            loading: false,
+          });
+        } else {
+          toast.error(text, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+        }
+      });
+  };
+
   _setTableData = async (data) => {
     // console.log("getEmp ===>", data);
     var table;
@@ -94,7 +149,6 @@ export default class PayrollMain extends Component {
         j.push(obj);
       }
     }
-    console.log("j is =====>", j);
 
     if ($.fn.dataTable.isDataTable("#dataTables-table")) {
       table = $("#dataTables-table").dataTable();
@@ -137,6 +191,7 @@ export default class PayrollMain extends Component {
     const { filterDate, componentIndex } = this.state;
     return (
       <div>
+        <ToastContainer position={toast.POSITION.TOP_RIGHT} />
         {componentIndex == 0 ? (
           <div>
             <div className="row col-md-12">
@@ -166,9 +221,20 @@ export default class PayrollMain extends Component {
             />
           </div>
         ) : componentIndex == 1 ? (
-          
-          <PayrollUpload />
-          
+          <PayrollUpload
+            filterDate={filterDate}
+            handleReview={this.handleReview}
+          />
+        ) : componentIndex == 2 ? (
+          <PayrollCheck handleCalculate={this.handleCalculate} />
+        ) : componentIndex == 3 ? (
+          this.state.loading ? (
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <h2>Loading...</h2>
+            </div>
+          ) : (
+            <PayrollCalculated dataSource={this.state.payrollCalculatedData} />
+          )
         ) : null}
       </div>
     );

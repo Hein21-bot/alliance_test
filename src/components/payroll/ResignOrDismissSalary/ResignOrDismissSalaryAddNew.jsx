@@ -702,7 +702,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
                         value={addNewData.lastWorkingDay}
                         timeFormat={false}
                         onChange={this.onLastWorkingDay}
-                        className="form-control checkValidate"
+                        // className="form-controlcheckValidate"
                       />
                     </div>
                     <div className="col-md-3">

@@ -1,5 +1,6 @@
 import moment from "moment";
 import React, { Component } from "react";
+import ApprovalInformation from '../../Common/ApprovalInformation';
 import {
   getMonth
 
@@ -311,6 +312,14 @@ export default class BackPayView extends Component {
                  
               </div>
             </div>
+            {
+                            !Array.isArray(this.state.status_info) ?
+
+                                <div className="row approval-main margin-top-20">
+                                    <ApprovalInformation status={this.state.status_info} />
+                                </div>
+                                : ''
+                        }
           </div>
         </div>
       </div>

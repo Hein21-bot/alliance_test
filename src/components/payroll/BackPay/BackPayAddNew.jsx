@@ -709,7 +709,9 @@ export default class BackPayAddNew extends Component {
                 </div>
                 <div className="row margin-top-20">
                 <div className="col-md-3">
-                      <label>Working Day / Calendar Day</label>
+                      <div className="row">
+                        <div className="col-md-7">
+                        <label>Working Day / Calendar Day</label>
                       <div
                         onChange={this.onRadioWorkinDayChange}
                         className="row"
@@ -733,6 +735,8 @@ export default class BackPayAddNew extends Component {
                           checked={addNewData.workingDay == 1 ? true : false}
                         />{" "}
                         <span>Calendar Day</span>
+                      </div>
+                        </div>
                       </div>
                     </div>
                     <div className="col-md-3">
@@ -771,6 +775,8 @@ export default class BackPayAddNew extends Component {
                   </div>
                   <div className="row margin-top-20">
                     <div className="col-md-3">
+                       <div className="row">
+                        <div className="col-md-5">
                         <label>ATM / Cash</label>
                         <div
                           onChange={this.onRadioChange}
@@ -781,13 +787,16 @@ export default class BackPayAddNew extends Component {
                             //   alignItems: "center",
                           }}
                         >
-                          <input
+                         
+                         <input
                             type="radio"
                             value={0}
                             name="work"
                             checked={addNewData.atmOrCash == 0 ? true : false}
                           />{" "}
                           <span>ATM</span>
+                        
+                          
                           <input
                             type="radio"
                             value={1}
@@ -795,7 +804,10 @@ export default class BackPayAddNew extends Component {
                             checked={addNewData.atmOrCash == 1 ? true : false}
                           />{" "}
                           <span>Cash</span>
+                          
                         </div>
+                        </div>
+                       </div>
                       </div>
                     <div className="col-md-3">
                         <label>Total</label>
