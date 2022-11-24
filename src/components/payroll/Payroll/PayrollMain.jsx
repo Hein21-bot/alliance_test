@@ -13,6 +13,7 @@ import * as jsPDF from "jspdf";
 import { main_url } from "../../../utils/CommonFunction";
 import PayrollCalculated from "./PayrollCalculated";
 import { toast, ToastContainer } from "react-toastify";
+import PayrollAtmCash from "./PayrollAtmCash";
 const $ = require("jquery");
 const jzip = require("jzip");
 window.JSZip = jzip;
@@ -29,8 +30,9 @@ export default class PayrollMain extends Component {
     this.state = {
       filterDate: new Date(),
       employeeData: [],
-      componentIndex: 0,
+      componentIndex: 'main',
       pathname: window.location.pathname,
+      payrollCheckData: [],
       payrollCalculatedData: [],
       loading: false,
     };
@@ -38,6 +40,23 @@ export default class PayrollMain extends Component {
 
   async componentDidMount() {
     await this.getEmployeeInfo();
+    // fetch(
+    //   main_url +
+    //     `payroll/getReviewDetailData/${moment(
+    //       this.state.filterDate
+    //     ).format("YYYY-MM")}`
+    // )
+    //   .then((response1) => {
+    //     if (response1.ok) return response1.json();
+    //   })
+    //   .then((res1) => {
+    //     if (res1) {
+    //       this.setState({
+    //         payrollCalculatedData: res1,
+    //         loading: false,
+    //       });
+    //     }
+    //   });
   }
 
   getEmployeeInfo = async () => {
@@ -67,19 +86,35 @@ export default class PayrollMain extends Component {
 
   onNextClick = () => {
     this.setState({
-      componentIndex: 1,
+      componentIndex: 'upload',
     });
   };
 
   handleReview = () => {
     this.setState({
-      componentIndex: 2,
+      componentIndex: 'check',
+      loading: true,
     });
+    fetch(
+      main_url +
+        `payroll/reviewData/${moment(this.state.filterDate).format("YYYY-MM")}`
+    )
+      .then((response) => {
+        if (response.ok) return response.json();
+      })
+      .then((res) => {
+        if (res) {
+          this.setState({
+            payrollCheckData: res,
+            loading: false,
+          });
+        }
+      });
   };
 
   handleCalculate = () => {
     this.setState({
-      componentIndex: 3,
+      componentIndex: 'calculate',
       loading: true,
     });
     let status = 0;
@@ -103,12 +138,10 @@ export default class PayrollMain extends Component {
               if (res1) {
                 this.setState({
                   payrollCalculatedData: res1,
+                  loading: false,
                 });
               }
             });
-          this.setState({
-            loading: false,
-          });
         } else {
           toast.error(text, {
             position: "top-right",
@@ -120,6 +153,18 @@ export default class PayrollMain extends Component {
           });
         }
       });
+  };
+
+  handleDelete = () => {
+    this.setState({
+      componentIndex: 'upload'
+    })
+  };
+
+  handleConfirm = () => {
+    this.setState({
+      componentIndex: 'atmOrCash'
+    })
   };
 
   _setTableData = async (data) => {
@@ -192,7 +237,7 @@ export default class PayrollMain extends Component {
     return (
       <div>
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />
-        {componentIndex == 0 ? (
+        {componentIndex == 'main' ? (
           <div>
             <div className="row col-md-12">
               <div className="col-md-3">
@@ -220,21 +265,36 @@ export default class PayrollMain extends Component {
               id="dataTables-table"
             />
           </div>
-        ) : componentIndex == 1 ? (
+        ) : componentIndex == 'upload' ? (
           <PayrollUpload
             filterDate={filterDate}
             handleReview={this.handleReview}
           />
-        ) : componentIndex == 2 ? (
-          <PayrollCheck handleCalculate={this.handleCalculate} />
-        ) : componentIndex == 3 ? (
+        ) : componentIndex == 'check' ? (
           this.state.loading ? (
             <div style={{ display: "flex", justifyContent: "center" }}>
               <h2>Loading...</h2>
             </div>
           ) : (
-            <PayrollCalculated dataSource={this.state.payrollCalculatedData} />
+            <PayrollCheck
+              dataSource={this.state.payrollCheckData}
+              handleCalculate={this.handleCalculate}
+            />
           )
+        ) : componentIndex == 'calculate' ? (
+          this.state.loading ? (
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <h2>Loading...</h2>
+            </div>
+          ) : (
+            <PayrollCalculated
+              dataSource={this.state.payrollCalculatedData}
+              handleDelete={this.handleDelete}
+              handleConfirm={this.handleConfirm}
+            />
+          )
+        ) : componentIndex == 'atmOrCash' ? (
+          <PayrollAtmCash dataSource={this.state.payrollCalculatedData}/>
         ) : null}
       </div>
     );
