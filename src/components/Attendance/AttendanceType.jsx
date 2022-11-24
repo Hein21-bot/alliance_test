@@ -158,7 +158,8 @@ class AttendanceType extends Component {
           }
           return 1;
         })
-        let statusFiltered = statusFilter.filter(v=>v.late_checkin == 1)
+        let statusFiltered = statusFilter.filter(v=>v.late_checkin == 1 && v.late_checkin_reason !=null)
+        console.log("status filter",statusFiltered)
         // let requestFilter=statusFilter.sort((a,b)=>moment(a.createdAt).format("YYYY-MM-DD")-moment(b.createdAt).format("YYYY-MM-DD"))
         this.setState({ data: list, datasource: statusFiltered,attendance_type :"late_check_in",checkboxAll:true }, () => {
           // this._setTableData(statusFilter.filter(v=>v.late_checkin == 1));

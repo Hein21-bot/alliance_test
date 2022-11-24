@@ -37,6 +37,7 @@ export default class BackPayAddNew extends Component {
       work_flow_status:{},
       is_main_role:false,
       PayrollList:[],
+      status_title:''
     };
   }
 

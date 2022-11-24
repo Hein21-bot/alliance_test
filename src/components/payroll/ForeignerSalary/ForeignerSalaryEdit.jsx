@@ -4,10 +4,14 @@ import {
   stopSaving,
   startSaving,
   getUserInfo,
+  getWorkFlowStatus,
+  havePermission,
+  getActionStatus
 } from "../../../utils/CommonFunction";
 import "react-toastify/dist/ReactToastify.min.css";
 import { toast, ToastContainer } from "react-toastify";
 import moment from "moment";
+import ApprovalForm1 from "../../Common/ApprovalForm";
 import DatePicker from "react-datetime";
 import {
   getUserId,
@@ -22,10 +26,16 @@ var saveBtn = false;
 export default class ForeignerSalaryEdit extends Component {
   constructor(props) {
     super(props);
+   
     this.state = {
       userId: null,
       userInfo: {},
-      editData:this.props.dataSource
+      editData:this.props.dataSource,
+      is_main_role:false,
+      work_flow_status:{},
+      status_title:'',
+      comment:'',
+      updatedBy:getUserId("user_info")
     }
   }
 
@@ -34,6 +44,11 @@ export default class ForeignerSalaryEdit extends Component {
   }
 
   async componentDidMount() {
+    var work_flow = await getWorkFlowStatus(this.state.editData.user_id, this.state.updatedBy, 'Child Benefit', 'Benefit');
+    this.setState({
+        work_flow_status: work_flow,
+        is_main_role: havePermission(work_flow)
+    })
     let that = this;
     let id = await getUserId("user_info");
     let branch = await getBranch();
@@ -159,7 +174,7 @@ export default class ForeignerSalaryEdit extends Component {
 
   onRadioChange = (e) => {
     const newData = this.state.editData;
-    newData.atmOrCash = parseInt(e.target.value);
+    newData.atm_or_cash = parseInt(e.target.value);
     this.setState({ editData: newData });
   };
 
@@ -244,10 +259,16 @@ export default class ForeignerSalaryEdit extends Component {
       toast.error(text);
     }
   };
+  approvalStatus = (text, comment) => {
+    this.setState({ status_title: text, comment: comment },
+        () => this.check())
+}
 
   check = () => {
+    
     const {editData} = this.state;
     if (validate("check_form")) {
+      var { status_title, is_main_role } = this.state;
       let status=0
 
         const data= {
@@ -276,8 +297,31 @@ export default class ForeignerSalaryEdit extends Component {
           salary_cut:editData.salary_cut,
           deduction_of_loan:editData.deduction_of_loan,
           total_salary:editData.total_salary,
-          atm_or_cash: editData.atm_or_cash,     
+          atm_or_cash: editData.atm_or_cash,
+          status:this.state.editData.status == 5 ? 0 : this.state.editData.status,
+          updatedBy:this.state.updatedBy 
         };
+        if (status_title !== '' && is_main_role) {
+          console.log("editdata",this.state.editData)
+          var action = getActionStatus(status_title, this.state.editData, this.state.updatedBy, this.state.comment);
+          data.referback_by = action.referback_by;
+          data.checked_by = action.checked_by;
+          data.verified_by = action.verified_by;
+          data.approved_by = action.approved_by;
+          data.rejected_by = action.rejected_by;
+          data.referback_date = action.referback_date;
+          data.checked_date = action.checked_date;
+          data.verified_date = action.verified_date;
+          data.approved_date = action.approved_date;
+          data.rejected_date = action.rejected_date;
+          data.referback_comment = action.referback_comment;
+          data.checked_comment = action.checked_comment;
+          data.verified_comment = action.verified_comment;
+          data.approved_comment = action.approved_comment;
+          data.status = action.status;
+  
+      }
+      console.log("data",data)
       fetch(`${main_url}foreigner_salary/edit_foreigner_salary/${editData.id}`, {
         method: "POST",
         headers: {
@@ -301,14 +345,14 @@ export default class ForeignerSalaryEdit extends Component {
         // );
       } else {
         startSaving();
-        toast.error(" Please Add Full Information", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
+        // toast.error(" Please Add Full Information", {
+        //   position: "top-right",
+        //   autoClose: 5000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        // });
       }
     } else {
       startSaving();
@@ -362,7 +406,7 @@ export default class ForeignerSalaryEdit extends Component {
   };
 
   render() { 
-
+      console.log("edit",this.state.editData,this.state.editData.status, havePermission(this.state.work_flow_status))
     return (
       <div>
         <div className="row">
@@ -670,7 +714,7 @@ export default class ForeignerSalaryEdit extends Component {
                           type="radio"
                           value={0}
                           name="work"
-                          checked={this.state.editData.atmOrCash == 0 ? true : false}
+                          checked={this.state.editData.atm_or_cash == 0 ? true : false}
                         />{" "}
                         <span  style={{marginLeft:'5px'}}>ATM</span>
                         <input
@@ -678,7 +722,7 @@ export default class ForeignerSalaryEdit extends Component {
                           type="radio"
                           value={1}
                           name="work"
-                          checked={this.state.editData.atmOrCash == 1 ? true : false}
+                          checked={this.state.editData.atm_or_cash == 1 ? true : false}
                         />{" "}
                         <span  style={{marginLeft:'5px'}}>Cash</span>
                       </div>
@@ -695,7 +739,7 @@ export default class ForeignerSalaryEdit extends Component {
                   id="dataTables-Table"
                 />
               </div>
-              <div className="col-md-12">
+              {/* <div className="col-md-12">
                 <div className="col-md-12 btn-rightend mt20">
                   <button
                     onClick={this.check.bind(this)}
@@ -705,7 +749,24 @@ export default class ForeignerSalaryEdit extends Component {
                     <span>Confirm</span>{" "}
                   </button>
                 </div>
-              </div>
+              </div> */}
+                            <div className="row save-btn">
+                    {
+                        havePermission(this.state.work_flow_status) ?
+                            <ApprovalForm1 approvalStatus={this.approvalStatus.bind(this)} status={this.state.editData.status} work_flow={this.state.work_flow_status} />
+                            :
+                            <div className="col-md-12 btn-rightend">
+                                { this.state.editData.status == 5 ?
+                                    <div>
+                                        <button onClick={this.check.bind(this)} className="btn btn-primary" id="saving_button" type="button">Confirm</button>
+                                    </div>
+                                    :
+                                    ''
+                                }
+                                {/* <button onClick={this.save.bind(this)} id="saving_button" className="btn btn-primary"><span>Save</span> </button> */}
+                            </div>
+                    }
+                </div>
             </div>
           </div>
         </div>

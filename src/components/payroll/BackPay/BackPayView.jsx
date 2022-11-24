@@ -312,7 +312,10 @@ export default class BackPayView extends Component {
                  
               </div>
             </div>
-            {
+           
+          </div>
+        </div>
+        {
                             !Array.isArray(this.state.status_info) ?
 
                                 <div className="row approval-main margin-top-20">
@@ -320,8 +323,6 @@ export default class BackPayView extends Component {
                                 </div>
                                 : ''
                         }
-          </div>
-        </div>
       </div>
     );
   }

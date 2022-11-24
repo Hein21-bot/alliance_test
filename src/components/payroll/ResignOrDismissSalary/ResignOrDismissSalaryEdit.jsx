@@ -4,15 +4,19 @@ import {
   stopSaving,
   startSaving,
   getUserInfo,
+  havePermission,
+  getActionStatus
 } from "../../../utils/CommonFunction";
 import "react-toastify/dist/ReactToastify.min.css";
 import { toast, ToastContainer } from "react-toastify";
+import ApprovalForm1 from "../../Common/ApprovalForm1";
 import DatePicker from "react-datetime";
 import {
   getUserId,
   validate,
   getBranch,
   alertText,
+  getWorkFlowStatus
 } from "../../../utils/CommonFunction";
 import Select from "react-select";
 import moment from "moment";
@@ -29,14 +33,25 @@ export default class ResignOrDismissSalaryEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataSource: {},
+      dataSource: this.props.dataSource,
       exitStatusList: [],
       employeeIdList: [],
+      is_main_role:false,
+      work_flow_status:{},
+      status_title:'',
+      comment:'',
+      updatedBy:getUserId("user_info")
+      
     };
   }
 
   async componentDidMount() {
     await this.getExitStatus();
+    var work_flow = await getWorkFlowStatus(this.state.dataSource.user_id, this.state.updatedBy, 'Child Benefit', 'Benefit');
+    this.setState({
+        work_flow_status: work_flow,
+        is_main_role: havePermission(work_flow)
+    })
 
     this.setState({
       dataSource: this.props.dataSource,
@@ -179,11 +194,17 @@ export default class ResignOrDismissSalaryEdit extends Component {
     const newValue = exit_status_array.filter(a => a.value == value);
     return newValue[0];
   }
+  approvalStatus = (text, comment) => {
+    this.setState({ status_title: text, comment: comment },
+        () => this.edit())
+}
 
   edit = () => {
     const {dataSource} = this.state;
     if (validate("check_form")) {
         // @lucy
+        var { status_title, is_main_role } = this.state;
+       
         
           const obj = {
             request_month: moment(dataSource.request_month).format("YYYY-MM-DD"),
@@ -211,12 +232,34 @@ export default class ResignOrDismissSalaryEdit extends Component {
             reason: dataSource.reason,
             ATM_Cash: dataSource.ATM_Cash,
             exit_status: dataSource.exit_status.value,
-            createdBy: dataSource.createdBy,
-            check_by: dataSource.check_by,
-            verify_by: dataSource.verify_by,
-            approve_by: dataSource.approve_by,
-            referback_by: dataSource.referback_by,
+            // createdBy: dataSource.createdBy,
+            // check_by: dataSource.check_by,
+            // verify_by: dataSource.verify_by,
+            // approve_by: dataSource.approve_by,
+            // referback_by: dataSource.referback_by,
+            status:this.state.dataSource.status == 5 ? 0 : this.state.dataSource.status,
+            updatedBy:this.state.updatedBy 
           };
+          if (status_title !== '' && is_main_role) {
+            
+            var action = getActionStatus(status_title, this.state.dataSource, this.state.updatedBy, this.state.comment);
+            obj.referback_by = action.referback_by;
+            obj.checked_by = action.checked_by;
+            obj.verified_by = action.verified_by;
+            obj.approved_by = action.approved_by;
+            obj.rejected_by = action.rejected_by;
+            obj.referback_date = action.referback_date;
+            obj.checked_date = action.checked_date;
+            obj.verified_date = action.verified_date;
+            obj.approved_date = action.approved_date;
+            obj.rejected_date = action.rejected_date;
+            obj.referback_comment = action.referback_comment;
+            obj.checked_comment = action.checked_comment;
+            obj.verified_comment = action.verified_comment;
+            obj.approved_comment = action.approved_comment;
+            obj.status = action.status;
+    
+        }
         
           let status = 0;
           fetch(main_url + `resign_or_dismiss/edit_resign_or_dismiss/${dataSource.id}`, {
@@ -268,7 +311,7 @@ export default class ResignOrDismissSalaryEdit extends Component {
 
   render() {
     const { dataSource, exitStatusList } = this.state;
-    console.log("dataSource =====>", this.state.dataSource);
+    console.log("dataSource =====>",havePermission(this.state.work_flow_status), this.state.dataSource);
     return (
       <div>
         <div className="row">
@@ -377,7 +420,7 @@ export default class ResignOrDismissSalaryEdit extends Component {
                         value={new Date(dataSource.last_working_day)}
                         timeFormat={false}
                         onChange={this.onLastWorkingDay}
-                        className="form-control checkValidate"
+                        // className="form-control checkValidate"
                       />
                     </div>
                     <div className="col-md-3">
@@ -506,14 +549,16 @@ export default class ResignOrDismissSalaryEdit extends Component {
                           type="radio"
                           value={0}
                           name="work"
-                          checked={dataSource.ATM_Cash == 0 ? true : false}
+                          checked={dataSource.ATM_Cash
+                            == 0 ? true : false}
                         />{" "}
                         <span>ATM</span>
                         <input
                           type="radio"
                           value={1}
                           name="work"
-                          checked={dataSource.ATM_Cash == 1 ? true : false}
+                          checked={dataSource.ATM_Cash
+                            == 1 ? true : false}
                         />{" "}
                         <span>Cash</span>
                       </div>
@@ -536,7 +581,7 @@ export default class ResignOrDismissSalaryEdit extends Component {
                 </div>
               </div>
 
-              <div className="col-md-12">
+              {/* <div className="col-md-12">
                 <div className="col-md-12 btn-rightend mt20">
                   <button
                     onClick={this.edit.bind(this)}
@@ -546,7 +591,24 @@ export default class ResignOrDismissSalaryEdit extends Component {
                     <span>Confirm</span>{" "}
                   </button>
                 </div>
-              </div>
+              </div> */}
+                               <div className="row save-btn">
+                    {
+                        havePermission(this.state.work_flow_status) ?
+                            <ApprovalForm1 approvalStatus={this.approvalStatus.bind(this)} status={this.state.dataSource.status} work_flow={this.state.work_flow_status} />
+                            :
+                            <div className="col-md-12 btn-rightend">
+                                { this.state.dataSource.status == 5 ?
+                                    <div>
+                                        <button onClick={this.edit.bind(this)} className="btn btn-primary" id="saving_button" type="button">Confirm</button>
+                                    </div>
+                                    :
+                                    ''
+                                }
+                                {/* <button onClick={this.save.bind(this)} id="saving_button" className="btn btn-primary"><span>Save</span> </button> */}
+                            </div>
+                    }
+                </div>
             </div>
           </div>
         </div>
