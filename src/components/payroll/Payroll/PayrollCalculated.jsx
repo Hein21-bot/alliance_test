@@ -25,7 +25,7 @@ export default class PayrollCalculated extends Component {
     super(props);
     this.state = {
       dataSource: [],
-      
+    
       designationList:[],
       regionList:[],
       departmentlist:[],
@@ -36,7 +36,6 @@ export default class PayrollCalculated extends Component {
       selected_department: null,
       selected_region:null,
       selected_employee:null,
-      paySlipRemark: '',
       employeeIdList:[],
       selected_employeeId:null,
       selected_payment:null,
@@ -329,13 +328,9 @@ export default class PayrollCalculated extends Component {
     });
   };
 
-  onChangeText = (e) => {
-    this.setState({
-      paySlipRemark: e.target.value
-    })
-  }
-
+  
   render() {
+    console.log("calcuate pay slip",this.props.paySlipRemark)
     return (
       <div>
         <div className="row col-md-12">
@@ -347,10 +342,10 @@ export default class PayrollCalculated extends Component {
                 
                 type="text"
                 data-name="paySlipRemark"
-                value={this.state.paySlipRemark}
+                value={this.props.paySlipRemark}
                 placeholder="Remark"
                 className="form-control"
-                onChange={this.onChangeText}
+                onChange={this.props.onChangeText}
               />
             </div>
             <div className="col-md-2">

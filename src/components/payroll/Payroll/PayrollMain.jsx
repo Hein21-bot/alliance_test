@@ -28,6 +28,7 @@ export default class PayrollMain extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      
       filterDate: new Date(),
       employeeData: [],
       componentIndex: 'main',
@@ -35,6 +36,7 @@ export default class PayrollMain extends Component {
       payrollCheckData: [],
       payrollCalculatedData: [],
       loading: false,
+      paySlipRemark:''
     };
   }
 
@@ -160,12 +162,32 @@ export default class PayrollMain extends Component {
       componentIndex: 'upload'
     })
   };
-
-  handleConfirm = () => {
+ 
+  handleConfirm = async() => {
+    let status =0
+    await fetch(`${main_url}payroll/addPayslipRemark/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `data=${JSON.stringify(this.state.paySlipRemark)}`,
+    })
+      .then((res) => {
+        status = res.status;
+        return res.text();
+      })
     this.setState({
       componentIndex: 'atmOrCash'
     })
+   
+
   };
+  onChangeText = (e) => {
+    console.log("event",e.target.value)
+    this.setState({
+      paySlipRemark: e.target.value
+    })
+  }
 
   _setTableData = async (data) => {
     // console.log("getEmp ===>", data);
@@ -233,7 +255,8 @@ export default class PayrollMain extends Component {
   };
 
   render() {
-    const { filterDate, componentIndex } = this.state;
+    console.log("pay slip remark",this.state.paySlipRemark)
+    const { filterDate, componentIndex} = this.state;
     return (
       <div>
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -292,10 +315,13 @@ export default class PayrollMain extends Component {
               filterDate={filterDate}
               handleDelete={this.handleDelete}
               handleConfirm={this.handleConfirm}
+              paySlipRemark={this.state.paySlipRemark} onChangeText={this.onChangeText}
             />
           )
         ) : componentIndex == 'atmOrCash' ? (
-          <PayrollAtmCash dataSource={this.state.payrollCalculatedData}/>
+          <PayrollAtmCash dataSource={this.state.payrollCalculatedData}
+        
+          />
         ) : null}
       </div>
     );
