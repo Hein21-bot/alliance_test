@@ -27,6 +27,7 @@ export default class SSC extends Component {
       totalCount: 0,
       maleCount: 0,
       femaleCount: 0,
+      totalEmp : 0
     };
   }
 
@@ -60,7 +61,7 @@ export default class SSC extends Component {
         //   female.push(v.female);
         //   male.push(v.male);
         // })
-        // this.setState({ total_count: total[0], male_count: male[2], female_count: female[1] });
+        this.setState({ totalEmp:res});
       })
       .catch((error) => console.error(`Fetch Error =\n`, error));
   }
@@ -197,7 +198,7 @@ export default class SSC extends Component {
     });
   };
 
-  render() {
+  render() { console.log(">>>>>>>",this.state.newDoc)
     return (
       <div>
         {/* <div className="d-flex row justify-content-center align-item-center"> */}
@@ -256,27 +257,27 @@ export default class SSC extends Component {
             id="dataTables-table"
           />
         </div>
-        <div style={{width: '50%', margin: '0px auto'}}>
+       { this.state.dataSource.length > 0 ? <div style={{width: '50%', margin: '0px auto'}}>
           <table width={'50%'} class="table table-bordered table-responsive">
             <tbody>
               <tr>
                 <th scope="row">Total</th>
                 <td></td>
-                <td>1419</td>
+                <td>{this.state.totalEmp[0].count}</td>
               </tr>
               <tr>
               <th scope="row">Male</th>
                 <td></td>
-                <td>829</td>
+                <td>{this.state.totalEmp[2].male}</td>
               </tr>
               <tr>
               <th scope="row">Female</th>
                 <td></td>
-                <td>620</td>
+                <td>{this.state.totalEmp[1].female}</td>
               </tr>
             </tbody>
           </table>
-        </div>
+        </div>: '-'}
       </div>
     );
   }
