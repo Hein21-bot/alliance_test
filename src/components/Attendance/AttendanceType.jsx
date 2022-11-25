@@ -31,7 +31,7 @@ class AttendanceType extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      s_date: moment(),
+      s_date: moment(getFirstDayOfMonth()),
       e_date: moment(),
       data: [],
       attendance_type: "late_check_in",
@@ -335,25 +335,25 @@ class AttendanceType extends Component {
         let obj = [];
         // var has_select = true
         if (
-          // this.state.attendance_type == "early_check_out" ||
-          //   this.state.attendance_type == "field_check_out"
-          //   ? result.check_out_status == 0 :
+          this.state.attendance_type == "early_check_out" ||
+            this.state.attendance_type == "field_check_out"
+            ? result.check_out_status == 0 :
              result.status === 0
         ) {
           status =
             '<small class="label label-warning" style="background-color:#509aed"> Request </small>';
         } else if (
-          // this.state.attendance_type == "early_check_out" ||
-          //   this.state.attendance_type == "field_check_out"
-          //   ? result.check_out_status == 1 :
+          this.state.attendance_type == "early_check_out" ||
+            this.state.attendance_type == "field_check_out"
+            ? result.check_out_status == 1 :
              result.status === 1
         ) {
           status =
             '<small class="label label-warning" style="background-color:#29a50a"> Approve </small>';
         } else if (
-          // this.state.attendance_type == "early_check_out" ||
-          //   this.state.attendance_type == "field_check_out"
-          //   ? result.check_out_status == 2 :
+          this.state.attendance_type == "early_check_out" ||
+            this.state.attendance_type == "field_check_out"
+            ? result.check_out_status == 2 :
              result.status === 2
         ) {
           status =
@@ -502,7 +502,6 @@ class AttendanceType extends Component {
             ? "check_out_status"
             : "status"
         ] = 1;
-        obj['status'] = 1
         obj.approve_user_id = this.state.user_id;
         obj.approve_date = new Date();
         saveData.push(obj);
@@ -595,9 +594,13 @@ class AttendanceType extends Component {
 
   search(status) {
     let data = this.state.datasource;
-    data = data.filter(d => { return status === d.status });
-    this._setTableData(data)
-  }
+    if(  this.state.attendance_type == "early_check_out" ||this.state.attendance_type == "field_check_out" ){
+    data = data.filter(d =>{ return status === d.check_out_status });
+    this._setTableData(data)}
+    else{ data = data.filter(d =>{ return status === d.status });
+    this._setTableData(data)} 
+    }
+  
  
   render() { 
 
