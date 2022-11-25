@@ -97,7 +97,7 @@ export default class PayrollMain extends Component {
     });
     fetch(
       main_url +
-        `payroll/reviewData/${moment(this.state.filterDate).format("YYYY-MM")}`
+        `payroll/reviewData/${moment(this.state.filterDate).format("YYYY-MM")}/0/0/0/0/0`
     )
       .then((response) => {
         if (response.ok) return response.json();
@@ -129,7 +129,7 @@ export default class PayrollMain extends Component {
             main_url +
               `payroll/getReviewDetailData/${moment(
                 this.state.filterDate
-              ).format("YYYY-MM")}`
+              ).format("YYYY-MM")}/0/0/0/0`
           )
             .then((response1) => {
               if (response1.ok) return response1.json();
@@ -289,6 +289,7 @@ export default class PayrollMain extends Component {
           ) : (
             <PayrollCalculated
               dataSource={this.state.payrollCalculatedData}
+              filterDate={filterDate}
               handleDelete={this.handleDelete}
               handleConfirm={this.handleConfirm}
             />
