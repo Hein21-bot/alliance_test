@@ -337,16 +337,28 @@ export default class PayrollCalculated extends Component {
           <div className="col-md-10">
            <div className="row" style={{display:'flex',justifyContent:'center',alignItems:'end'}}>
            <div className="col-md-2">
-              <label>Pay Slip Remark</label>
-              <input
-                
-                type="text"
-                data-name="paySlipRemark"
-                value={this.props.paySlipRemark}
-                placeholder="Remark"
-                className="form-control"
-                onChange={this.props.onChangeText}
-              />
+              <label htmlFor="">Designation</label>
+              <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                 
+                  marginRight:10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Designation"
+              options={this.state.designationList}
+              onChange={this.handleSelectedDesignation}
+              value={this.state.selected_designation}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
             </div>
             <div className="col-md-2">
               <label htmlFor="">Branch</label>
@@ -430,76 +442,23 @@ export default class PayrollCalculated extends Component {
               </div>
            </div>
           </div>
-          <div
-            className="col-md-2 btn-rightend"
-            style={{ marginBottom: "10px" }}
-          >
-            <button
-              className="btn-primary btn"
-              onClick={this.props.handleDelete}
-              style={{ marginTop: 20 }}
-            >
-              Delete
-            </button>
-            <button
-              className="btn-primary btn"
-              onClick={this.props.handleConfirm}
-              style={{ marginTop: 20,marginLeft:10 }}
-            >
-              Confirm
-            </button>
+          <div className="col-md-2">
+            
+              <label>Pay Slip Remark</label>
+              <input
+                
+                type="text"
+                data-name="paySlipRemark"
+                value={this.props.paySlipRemark}
+                placeholder="Remark"
+                className="form-control"
+                onChange={this.props.onChangeText}
+              />
+
           </div>
-          <div className="col-md-10" >
+          
+          <div className="col-md-10" style={{marginTop:5}}>
             <div className="row">
-           
-            <div className="col-md-2">
-              <label htmlFor="">Designation</label>
-              <Select
-              styles={{
-                container: base => ({
-                  ...base,
-                  //   flex: 1
-                 
-                  marginRight:10
-                }),
-                control: base => ({
-                  ...base,
-                  minHeight: '18px'
-                }),
-
-              }}
-              placeholder="Designation"
-              options={this.state.designationList}
-              onChange={this.handleSelectedDesignation}
-              value={this.state.selected_designation}
-              className='react-select-container'
-              classNamePrefix="react-select"
-            />
-            </div>
-            <div className="col-md-2">
-              <label htmlFor="">ATM/Cash</label>
-            <Select
-              styles={{
-                container: base => ({
-                  ...base,
-                  //   flex: 1
-                 
-                  marginRight:10
-                }),
-                control: base => ({
-                  ...base,
-                  minHeight: '18px'
-                }),
-
-              }}
-              placeholder="Department"
-              options={this.state.paymentList}
-              onChange={this.handleSelectedpaymentType}
-              value={this.state.selected_payment}
-              className="react-select-container"
-              classNamePrefix="react-select"
-            />
-            </div>
             <div className="col-md-2">
               <label htmlFor="">Departments</label>
               <Select
@@ -527,6 +486,26 @@ export default class PayrollCalculated extends Component {
            
             </div>
           </div>
+          <div
+            className="col-md-2 btn-rightend"
+            style={{ marginBottom: "10px" }}
+          >
+            <button
+              className="btn-primary btn"
+              onClick={this.props.handleDelete}
+              style={{ marginTop: 20 }}
+            >
+              Delete
+            </button>
+            <button
+              className="btn-primary btn"
+              onClick={this.props.handleConfirm}
+              style={{ marginTop: 20,marginLeft:10 }}
+            >
+              Confirm
+            </button>
+          </div>
+          
         </div>
 
         <div>
