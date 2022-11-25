@@ -32,6 +32,7 @@ export default class PayrollUpload extends Component {
       step_name: null,
       newDoc: [],
       dataSource: [],
+      loading: false,
     };
   }
 
@@ -80,7 +81,6 @@ export default class PayrollUpload extends Component {
     });
   };
 
-
   handleReset = () => {
     this.setState({ activeStep: 0 });
   };
@@ -106,6 +106,9 @@ export default class PayrollUpload extends Component {
   };
 
   checkFiles(e) {
+    this.setState({
+      loading: true,
+    });
     var files = document.getElementById("attachment").files;
     var newDoc = this.state.newDoc;
 
@@ -129,7 +132,7 @@ export default class PayrollUpload extends Component {
       })
       .then(async (response) => {
         if (status == 200) {
-          this.setState({ dataSource: response });
+          this.setState({ dataSource: response, loading: false });
           await this._setTableData(response);
         } else {
           toast.error("Fail to Save Information", {
@@ -139,6 +142,9 @@ export default class PayrollUpload extends Component {
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
+          });
+          this.setState({
+            loading: false,
           });
         }
       });
@@ -214,90 +220,102 @@ export default class PayrollUpload extends Component {
 
     return (
       <div>
-      <div className="stepperStyle col-md-12">
-        <Box>
-          <Stepper
-            activeStep={activeStep}
-            alternativeLabel
-            sx={{ width: "100%", minHeight: "20%" }}
-          >
-            {steps.map((label, index) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          <div
-            className="col-md-12 col-lg-12"
-            style={{ display: "flex", justifyContent: "center", marginTop: 10 }}
-          >
-            <div>
-              <label
-                htmlFor="attachment"
-                className="custom-file-label"
-                style={{ marginTop: 50, marginRight: 20 }}
-              >
-                {steps[activeStep]}
-              </label>
-            </div>
-            <div className="">
-              <input
-                className="dropZone"
-                type="file"
-                id="attachment"
-                name="attachment"
-                onChange={this.checkFiles.bind(this)}
-              ></input>
-            </div>
-          </div>
-          <div
-            className="col-md-12 col-lg-12"
-            style={{ display: "flex", justifyContent: "center", marginTop: 10 }}
-          >
-            <button
-              className="btn btn-primary"
-              style={{ minWidth: '100px', margin: 5 }}
-              id="saving_button"
-              type="button"
-              onClick={this.handleBack}
+        <div className="stepperStyle col-md-12">
+          <Box>
+            <Stepper
+              activeStep={activeStep}
+              alternativeLabel
+              sx={{ width: "100%", minHeight: "20%" }}
             >
-              Back
-            </button>
-            {steps.length == activeStep + 1 ? (
+              {steps.map((label, index) => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+            <div
+              className="col-md-12 col-lg-12"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: 10,
+              }}
+            >
+              <div>
+                <label
+                  htmlFor="attachment"
+                  className="custom-file-label"
+                  style={{ marginTop: 50, marginRight: 20 }}
+                >
+                  {steps[activeStep]}
+                </label>
+              </div>
+              <div className="">
+                <input
+                  className="dropZone"
+                  type="file"
+                  id="attachment"
+                  name="attachment"
+                  onChange={this.checkFiles.bind(this)}
+                ></input>
+              </div>
+            </div>
+            <div
+              className="col-md-12 col-lg-12"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: 10,
+              }}
+            >
               <button
                 className="btn btn-primary"
-                style={{ minWidth: '100px', margin: 5 }}
+                style={{ minWidth: "100px", margin: 5 }}
                 id="saving_button"
                 type="button"
-                onClick={this.props.handleReview}
+                onClick={this.handleBack}
               >
-                Check and Review
-                {/* {this.state.steps.length == this.state.activeStep + 1 ? 'Preview Data' : 'Next'} */}
+                Back
               </button>
-            ) : (
-              <button
-                className="btn btn-primary"
-                style={{ minWidth: '100px', margin: 5 }}
-                id="saving_button"
-                type="button"
-                onClick={this.handleNext}
-              >
-                Next
-                {/* {this.state.steps.length == this.state.activeStep + 1 ? 'Preview Data' : 'Next'} */}
-              </button>
-            )}
-          </div>
-        </Box>
-        {this.state.dataSource.length > 0 && (
-          <div>
-            <table
-              width="99%"
-              className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
-              id="dataTables-table"
-            />
-          </div>
-        )}
-      </div>
+              {steps.length == activeStep + 1 ? (
+                <button
+                  className="btn btn-primary"
+                  style={{ minWidth: "100px", margin: 5 }}
+                  id="saving_button"
+                  type="button"
+                  onClick={this.props.handleReview}
+                >
+                  Check and Review
+                  {/* {this.state.steps.length == this.state.activeStep + 1 ? 'Preview Data' : 'Next'} */}
+                </button>
+              ) : (
+                <button
+                  className="btn btn-primary"
+                  style={{ minWidth: "100px", margin: 5 }}
+                  id="saving_button"
+                  type="button"
+                  onClick={this.handleNext}
+                >
+                  Next
+                  {/* {this.state.steps.length == this.state.activeStep + 1 ? 'Preview Data' : 'Next'} */}
+                </button>
+              )}
+            </div>
+          </Box>
+          {this.state.loading ? (
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <h2>Loading...</h2>
+            </div>
+          ) : this.state.dataSource.length > 0 ? (
+            <div>
+              <table
+                width="99%"
+                className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
+                id="dataTables-table"
+              />
+            </div>
+          ) : null}
+        </div>
       </div>
     );
   }

@@ -13,6 +13,7 @@ import * as jsPDF from "jspdf";
 import { main_url } from "../../../utils/CommonFunction";
 import PayrollCalculated from "./PayrollCalculated";
 import { toast, ToastContainer } from "react-toastify";
+import PayrollAtmCash from "./PayrollAtmCash";
 const $ = require("jquery");
 const jzip = require("jzip");
 window.JSZip = jzip;
@@ -27,17 +28,37 @@ export default class PayrollMain extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      
       filterDate: new Date(),
       employeeData: [],
-      componentIndex: 0,
+      componentIndex: 'main',
       pathname: window.location.pathname,
+      payrollCheckData: [],
       payrollCalculatedData: [],
       loading: false,
+      paySlipRemark:''
     };
   }
 
   async componentDidMount() {
     await this.getEmployeeInfo();
+    // fetch(
+    //   main_url +
+    //     `payroll/getReviewDetailData/${moment(
+    //       this.state.filterDate
+    //     ).format("YYYY-MM")}`
+    // )
+    //   .then((response1) => {
+    //     if (response1.ok) return response1.json();
+    //   })
+    //   .then((res1) => {
+    //     if (res1) {
+    //       this.setState({
+    //         payrollCalculatedData: res1,
+    //         loading: false,
+    //       });
+    //     }
+    //   });
   }
 
   getEmployeeInfo = async () => {
@@ -67,19 +88,35 @@ export default class PayrollMain extends Component {
 
   onNextClick = () => {
     this.setState({
-      componentIndex: 1,
+      componentIndex: 'upload',
     });
   };
 
   handleReview = () => {
     this.setState({
-      componentIndex: 2,
+      componentIndex: 'check',
+      loading: true,
     });
+    fetch(
+      main_url +
+        `payroll/reviewData/${moment(this.state.filterDate).format("YYYY-MM")}/0/0/0/0/0`
+    )
+      .then((response) => {
+        if (response.ok) return response.json();
+      })
+      .then((res) => {
+        if (res) {
+          this.setState({
+            payrollCheckData: res,
+            loading: false,
+          });
+        }
+      });
   };
 
   handleCalculate = () => {
     this.setState({
-      componentIndex: 3,
+      componentIndex: 'calculate',
       loading: true,
     });
     let status = 0;
@@ -94,7 +131,7 @@ export default class PayrollMain extends Component {
             main_url +
               `payroll/getReviewDetailData/${moment(
                 this.state.filterDate
-              ).format("YYYY-MM")}`
+              ).format("YYYY-MM")}/0/0/0/0`
           )
             .then((response1) => {
               if (response1.ok) return response1.json();
@@ -103,12 +140,10 @@ export default class PayrollMain extends Component {
               if (res1) {
                 this.setState({
                   payrollCalculatedData: res1,
+                  loading: false,
                 });
               }
             });
-          this.setState({
-            loading: false,
-          });
         } else {
           toast.error(text, {
             position: "top-right",
@@ -121,6 +156,38 @@ export default class PayrollMain extends Component {
         }
       });
   };
+
+  handleDelete = () => {
+    this.setState({
+      componentIndex: 'upload'
+    })
+  };
+ 
+  handleConfirm = async() => {
+    let status =0
+    await fetch(`${main_url}payroll/addPayslipRemark/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `data=${JSON.stringify(this.state.paySlipRemark)}`,
+    })
+      .then((res) => {
+        status = res.status;
+        return res.text();
+      })
+    this.setState({
+      componentIndex: 'atmOrCash'
+    })
+   
+
+  };
+  onChangeText = (e) => {
+    console.log("event",e.target.value)
+    this.setState({
+      paySlipRemark: e.target.value
+    })
+  }
 
   _setTableData = async (data) => {
     // console.log("getEmp ===>", data);
@@ -188,11 +255,12 @@ export default class PayrollMain extends Component {
   };
 
   render() {
-    const { filterDate, componentIndex } = this.state;
+    console.log("pay slip remark",this.state.paySlipRemark)
+    const { filterDate, componentIndex} = this.state;
     return (
       <div>
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />
-        {componentIndex == 0 ? (
+        {componentIndex == 'main' ? (
           <div>
             <div className="row col-md-12">
               <div className="col-md-3">
@@ -220,21 +288,40 @@ export default class PayrollMain extends Component {
               id="dataTables-table"
             />
           </div>
-        ) : componentIndex == 1 ? (
+        ) : componentIndex == 'upload' ? (
           <PayrollUpload
             filterDate={filterDate}
             handleReview={this.handleReview}
           />
-        ) : componentIndex == 2 ? (
-          <PayrollCheck handleCalculate={this.handleCalculate} />
-        ) : componentIndex == 3 ? (
+        ) : componentIndex == 'check' ? (
           this.state.loading ? (
             <div style={{ display: "flex", justifyContent: "center" }}>
               <h2>Loading...</h2>
             </div>
           ) : (
-            <PayrollCalculated dataSource={this.state.payrollCalculatedData} />
+            <PayrollCheck
+              dataSource={this.state.payrollCheckData}
+              handleCalculate={this.handleCalculate}
+            />
           )
+        ) : componentIndex == 'calculate' ? (
+          this.state.loading ? (
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <h2>Loading...</h2>
+            </div>
+          ) : (
+            <PayrollCalculated
+              dataSource={this.state.payrollCalculatedData}
+              filterDate={filterDate}
+              handleDelete={this.handleDelete}
+              handleConfirm={this.handleConfirm}
+              paySlipRemark={this.state.paySlipRemark} onChangeText={this.onChangeText}
+            />
+          )
+        ) : componentIndex == 'atmOrCash' ? (
+          <PayrollAtmCash dataSource={this.state.payrollCalculatedData}
+        
+          />
         ) : null}
       </div>
     );

@@ -222,8 +222,27 @@ export default class ForeignerSalaryTable extends Component {
             for (var i = 0; i < data.length; i++) {
                 let result = data[i];
                 let obj = [];
-                console.log(">>>",data[i].SSC_employee)
-
+                console.log(">>>",data[i].status)
+                if (result.status === 0) {
+                    status = '<small class="label label-warning" style="background-color:#509aed"> Request </small>'
+    
+                }
+                else if (result.status === 1) {
+                    status = '<small class="label label-warning" style="background-color:#b33ce0"> Check</small>'
+                }
+                else if (result.status === 2) {
+                    status = '<small class="label label-warning" style="background-color:#f2a509"> Verify</small>'
+                }
+                else if (result.status === 3) {
+                    status = '<small class="label label-warning" style="background-color:#29a50a">Approve</small>'
+                }
+                else if (result.status === 4) {
+    
+                    status = '<small class="label label-warning" style="background-color:#f60e2f"> Reject</small>'
+                }
+                else if (result.status === 5) {
+                    status = '<small class="label label-warning" style="background-color:#cc0066"> ReferBack </small>'
+                }
                 obj = {
                     no: i + 1,
                     employee_id: data[i].employment_id ? data[i].employment_id: '-',
@@ -250,6 +269,7 @@ export default class ForeignerSalaryTable extends Component {
                     deduction_of_loan : data[i].deduction_of_loan ? data[i].deduction_of_loan :'-',
                     salary_cut : data[i].salary_cut ? data[i].salary_cut :"-",
                     total : "-",
+                    status:status,
                     remark : "-",
                 }
                 // if (has_action) {
@@ -320,6 +340,7 @@ export default class ForeignerSalaryTable extends Component {
             { title: 'Salary Cut', data: 'salary_cut'},
             { title: 'Deduction of Loan', data: 'deduction_of_loan'},
             { title: 'Total Salary', data: 'totalSalary'},
+            { title:"Status",data:'status'},
             { title: 'Remark', data: 'remark'},
         ]
 

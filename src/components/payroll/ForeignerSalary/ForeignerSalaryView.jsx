@@ -1,11 +1,28 @@
 import React, { Component } from "react";
+
+import ApprovalInformation from '../../Common/ApprovalInformation';
+import { main_url } from "../../../utils/CommonFunction";
 export default class ForeignerSalaryView extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dataSource: null,
+      status_info:[]
     };
   }
+  componentDidMount(){
+    this.getStatusInfo()
+  }
+  getStatusInfo() {
+    fetch(`${main_url}child_benefit/getOneDetailInfo/${this.props.dataSource.id}`)
+        .then(res => res.json())
+        .then(res => {
+            this.setState({
+                status_info: res
+            })
+        })
+        .catch(error => console.log(error))
+}
 
   render() { console.log("datasource",this.props.dataSource)
     
@@ -35,7 +52,7 @@ export default class ForeignerSalaryView extends Component {
           salary_cut,
           deduction_of_loan,
           total_salary,
-          atmOrCash
+          atm_or_cash
     } = this.props.dataSource;
     return (
       <div>
@@ -342,7 +359,8 @@ export default class ForeignerSalaryView extends Component {
                     </div>
                     <div className="col-md-3">
                       <label>ATM / Cash</label>
-                      <div
+                      <input type="text" className="form-control" value={atm_or_cash == 0 ? "ATM" : "Cash"} disabled />
+                      {/* <div
                         onChange={this.onRadioChange}
                         className="row"
                         style={{
@@ -369,7 +387,7 @@ export default class ForeignerSalaryView extends Component {
                           checked={atmOrCash == 1 ? true : false}
                         />{" "}
                         <span style={{marginLeft:'5px'}}>Cash</span>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   </div>
@@ -377,6 +395,14 @@ export default class ForeignerSalaryView extends Component {
             </div>
           </div>
         </div>
+        {
+                            !Array.isArray(this.state.status_info) ?
+
+                                <div className="row approval-main margin-top-20">
+                                    <ApprovalInformation status={this.state.status_info} />
+                                </div>
+                                : ''
+                        }
       </div>
     );
   }

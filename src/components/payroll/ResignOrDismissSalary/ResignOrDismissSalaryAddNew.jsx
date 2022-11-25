@@ -284,11 +284,11 @@ export default class ResignOrDismissSalaryAddNew extends Component {
       tempData.location_master_name = userInfo.location_master_name;
       tempData.state_name = userInfo.state_name;
       tempData.last_working_day = newData.lastWorkingDay;
-      tempData.basic_salary = userInfo.basic_salary;
+      tempData.gross_salary = userInfo.basic_salary;
       tempData.deduction_or_addition = newData.deductionOrAddition;
       tempData.salary_after_deduction_or_addition = newData.salaryAfterDorA;
-      tempData.ssc3 = newData.ssc3;
-      tempData.ssc2 = newData.ssc2;
+      tempData.SSC_employer = newData.ssc3;
+      tempData.SSC_employee = newData.ssc2;
       tempData.income_tax = newData.incomeTax;
       tempData.maintenance = newData.maintenance;
       tempData.petrol = newData.petrol;
@@ -374,7 +374,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
         last_working_day: data[i].last_working_day
           ? moment(data[i].last_working_day).format("DD-MM-YYYY hh:mm:ss")
           : "-",
-        basic_salary: data[i].basic_salary ? data[i].basic_salary : 0,
+        basic_salary: data[i].gross_salary ? data[i].gross_salary : 0,
         deduction_or_addition: data[i].deduction_or_addition
           ? data[i].deduction_or_addition
           : 0,
@@ -382,8 +382,8 @@ export default class ResignOrDismissSalaryAddNew extends Component {
           .salary_after_deduction_or_addition
           ? data[i].salary_after_deduction_or_addition
           : 0,
-        ssc3: data[i].ssc3 ? data[i].ssc3 : 0,
-        ssc2: data[i].ssc2 ? data[i].ssc2 : 0,
+        ssc3: data[i].SSC_employer ? data[i].SSC_employer : 0,
+        ssc2: data[i].SSC_employee ? data[i].SSC_employee : 0,
         income_tax: data[i].income_tax ? data[i].income_tax : 0,
         maintenance: data[i].maintenance ? data[i].maintenance : 0,
         petrol: data[i].petrol ? data[i].petrol : 0,
@@ -444,10 +444,11 @@ export default class ResignOrDismissSalaryAddNew extends Component {
 
   check = () => {
     if (validate("check_form")) {
+      console.log("datasource",this.state.dataSource)
       // @lucy
       const dataTostring = this.state.dataSource.map((v) => {
         return {
-          request_month: moment(v.request_month).format("DD-MM-YYYY"),
+          request_month: moment(v.request_month).format("YYYY-MM-DD"),
           user_id: v.user_id,
           employment_id: v.employment_id,
           employee_name: v.employee_name,
@@ -459,18 +460,18 @@ export default class ResignOrDismissSalaryAddNew extends Component {
           last_working_day: moment(v.last_working_day).format(
             "YYYY-MM-DD hh:mm:ss"
           ),
-          basic_salary: v.basic_salary,
+          gross_salary: v.gross_salary,
           deduction_or_addition: v.deduction_or_addition,
           salary_after_deduction_or_addition:
             v.salary_after_deduction_or_addition,
-          ssc3: v.ssc3,
-          ssc2: v.ssc2,
+            SSC_employer: v.SSC_employer,
+            SSC_employee: v.SSC_employee,
           income_tax: parseFloat(v.income_tax),
           maintenance: v.maintenance,
           petrol: v.petrol,
           total_salary: v.total_salary,
           reason: v.reason,
-          atm_or_cash: v.atm_or_cash,
+          ATM_Cash: v.atm_or_cash,
           exit_status: v.exit_status.id,
           createdBy: this.state.userId,
         };
