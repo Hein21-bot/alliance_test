@@ -165,7 +165,7 @@ export default class PayrollMain extends Component {
  
   handleConfirm = async() => {
     let status =0
-    await fetch(`${main_url}payroll/addPayslipRemark/`, {
+    await fetch(`${main_url}payroll/addPayslipRemark`, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
