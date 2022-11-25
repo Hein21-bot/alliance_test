@@ -41,6 +41,26 @@ export default class PayrollUpload extends Component {
     await this.getPayrollHeader();
   }
 
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevState.activeStepi != this.state.activeStep ) {
+  //     if (this.state.steps[this.state.activeStep] == 'SSC') {
+  //       // console.log('activeSteps =====>')
+
+  //       fetch(main_url+`payroll/getSSCdata/${moment(this.props.filterDate).format('YYYY-MM')}`)
+  //       .then(response => {
+  //         if (response.ok) return response.json();
+  //       }).then(res => {
+  //         if (res) {
+  //           this.setState({
+  //             dataSource: res,
+  //           });
+  //           this._setTableData(res);
+  //         }
+  //       })
+  //     }
+  //   }
+  // }
+
   getPayrollHeader = async () => {
     await fetch(`${main_url}payroll/getPayrollHeader`)
       .then((response) => {
@@ -60,6 +80,17 @@ export default class PayrollUpload extends Component {
       .catch((error) => console.error(`Fetch Error =\n`, error));
   };
 
+  handleNextSSC = () => {
+    this._setTableData([]);
+    this.setState({
+      dataSource: [],
+      activeStep:
+        this.state.steps.length == this.state.activeStep + 1
+          ? this.state.activeStep
+          : this.state.activeStep + 1,
+    });
+  }
+
   handleNext = () => {
     document.querySelector("#attachment").value = "";
     this._setTableData([]);
@@ -72,6 +103,14 @@ export default class PayrollUpload extends Component {
     });
   };
 
+  handleBackSSC = () => {
+    this._setTableData([]);
+    this.setState({
+      dataSource: [],
+      activeStep: this.state.activeStep == 0 ? 0 : this.state.activeStep - 1,
+    });
+  }
+
   handleBack = () => {
     document.querySelector("#attachment").value = "";
     this._setTableData([]);
@@ -79,6 +118,24 @@ export default class PayrollUpload extends Component {
       dataSource: [],
       activeStep: this.state.activeStep == 0 ? 0 : this.state.activeStep - 1,
     });
+  };
+
+  handleFetchSSCData = () => {
+    fetch(
+      main_url +
+        `payroll/getSSCdata/${moment(this.props.filterDate).format("YYYY-MM")}`
+    )
+      .then((response) => {
+        if (response.ok) return response.json();
+      })
+      .then((res) => {
+        if (res) {
+          this.setState({
+            dataSource: res,
+          });
+          this._setTableData(res);
+        }
+      });
   };
 
   handleReset = () => {
@@ -233,80 +290,118 @@ export default class PayrollUpload extends Component {
                 </Step>
               ))}
             </Stepper>
-            <div
-              className="col-md-12 col-lg-12"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: 10,
-              }}
-            >
-              <div>
-                <label
-                  htmlFor="attachment"
-                  className="custom-file-label"
-                  style={{ marginTop: 50, marginRight: 20 }}
-                >
-                  {steps[activeStep]}
-                </label>
-              </div>
-              <div className="">
-                <input
-                  className="dropZone"
-                  type="file"
-                  id="attachment"
-                  name="attachment"
-                  onChange={this.checkFiles.bind(this)}
-                ></input>
-              </div>
-            </div>
-            <div
-              className="col-md-12 col-lg-12"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: 10,
-              }}
-            >
-              <button
-                className="btn btn-primary"
-                style={{ minWidth: "100px", margin: 5 }}
-                id="saving_button"
-                type="button"
-                onClick={this.handleBack}
+            {this.state.steps[this.state.activeStep] == "SSC" ? (
+              <div
+                className="col-md-12 col-lg-12"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: 10,
+                }}
               >
-                Back
-              </button>
-              {steps.length == activeStep + 1 ? (
                 <button
                   className="btn btn-primary"
                   style={{ minWidth: "100px", margin: 5 }}
                   id="saving_button"
                   type="button"
-                  onClick={this.props.handleReview}
+                  onClick={this.handleBackSSC}
                 >
-                  Check and Review
-                  {/* {this.state.steps.length == this.state.activeStep + 1 ? 'Preview Data' : 'Next'} */}
+                  Back
                 </button>
-              ) : (
                 <button
                   className="btn btn-primary"
                   style={{ minWidth: "100px", margin: 5 }}
                   id="saving_button"
                   type="button"
-                  onClick={this.handleNext}
+                  onClick={this.handleFetchSSCData}
+                >
+                  Check SSC
+                </button>
+                <button
+                  className="btn btn-primary"
+                  style={{ minWidth: "100px", margin: 5 }}
+                  id="saving_button"
+                  type="button"
+                  onClick={this.handleNextSSC}
                 >
                   Next
                   {/* {this.state.steps.length == this.state.activeStep + 1 ? 'Preview Data' : 'Next'} */}
                 </button>
-              )}
-            </div>
+              </div>
+            ) : (
+              <div>
+                <div
+                  className="col-md-12 col-lg-12"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: 10,
+                  }}
+                >
+                  <div>
+                    <label
+                      htmlFor="attachment"
+                      className="custom-file-label"
+                      style={{ marginTop: 50, marginRight: 20 }}
+                    >
+                      {steps[activeStep]}
+                    </label>
+                  </div>
+                  <div className="">
+                    <input
+                      className="dropZone"
+                      type="file"
+                      id="attachment"
+                      name="attachment"
+                      onChange={this.checkFiles.bind(this)}
+                    ></input>
+                  </div>
+                </div>
+                <div
+                  className="col-md-12 col-lg-12"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: 10,
+                  }}
+                >
+                  <button
+                    className="btn btn-primary"
+                    style={{ minWidth: "100px", margin: 5 }}
+                    id="saving_button"
+                    type="button"
+                    onClick={this.handleBack}
+                  >
+                    Back
+                  </button>
+                  {steps.length == activeStep + 1 ? (
+                    <button
+                      className="btn btn-primary"
+                      style={{ minWidth: "100px", margin: 5 }}
+                      id="saving_button"
+                      type="button"
+                      onClick={this.props.handleReview}
+                    >
+                      Check and Review
+                      {/* {this.state.steps.length == this.state.activeStep + 1 ? 'Preview Data' : 'Next'} */}
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-primary"
+                      style={{ minWidth: "100px", margin: 5 }}
+                      id="saving_button"
+                      type="button"
+                      onClick={this.handleNext}
+                    >
+                      Next
+                      {/* {this.state.steps.length == this.state.activeStep + 1 ? 'Preview Data' : 'Next'} */}
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
           </Box>
-          {this.state.loading ? (
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <h2>Loading...</h2>
-            </div>
-          ) : this.state.dataSource.length > 0 ? (
+          {this.state.dataSource.length > 0 ? (
             <div>
               <table
                 width="99%"
