@@ -82,17 +82,30 @@ class AttendanceHistory extends Component {
             for (var i = 0; i < data.length; i++) {
                 let result = data[i];
                 let status = "";
+                let check_out_status = "";
                 let obj = [];
-                if (result.holiday_checkin == 0 && result.check_out_status == 0 && result.status == 0) {
+                if ( result.late_checkin == 1 ||  result.field_checkin == 1 || result.holiday_checkin == 1){
+                if ( result.status == 0) {
                     status +=
                         '<small class="label label-warning" style="background-color:#509aed"> Request </small>';
-                } else if (result.holiday_checkin == 1 && result.check_out_status == 1 && result.status == 1) {
+                } else if ( result.status == 1) {
                     status +=
                         '<small class="label label-warning" style="background-color:#29a50a"> Approve </small>';
-                } else if (result.holiday_checkin == 1 && result.check_out_status == 1 && result.status == 2) {
+                } else if ( result.status == 2) {
                     status +=
                         '<small class="label label-warning" style="background-color:#f60e2f"> Reject </small>';
                 }
+                }else if(result.early_checkout == 1 ||  result.field_checkout == 1 || result.holiday_checkout == 1){
+                    if ( result.check_out_status == 0) {
+                        check_out_status +=
+                            '<small class="label label-warning" style="background-color:#509aed"> Request </small>';
+                    } else if ( result.check_out_status == 1) {
+                        check_out_status +=
+                            '<small class="label label-warning" style="background-color:#29a50a"> Approve </small>';
+                    } else if ( result.check_out_status == 2) {
+                        check_out_status +=
+                            '<small class="label label-warning" style="background-color:#f60e2f"> Reject </small>';
+                }}
                 obj = {
                     no: i + 1,
                     date: moment(result.createdAt).format('YYYY-MM-DD'),
@@ -104,7 +117,7 @@ class AttendanceHistory extends Component {
                     check_in_time:result.check_in_time ? moment(result.check_in_time).utc().format('hh:mm A') : '-',
                     check_out_time:result.check_out_time ? moment(result.check_out_time).utc().format('hh:mm A') : '-',
 
-                    attendance_type_check_in: result.late_check_in == 1 ? 'Late Check In' : result.field_checkin == 1 ? 'Field Check In' : result.holiday_checkin ? 'Holiday Check In' : 'Normal Check In',
+                    attendance_type_check_in: result.late_checkin == 1 ? 'Late Check In' : result.field_checkin == 1 ? 'Field Check In' : result.holiday_checkin ? 'Holiday Check In' : 'Normal Check In',
                     attendance_type_check_out: result.early_checkout == 1 ? 'Early Check Out' : result.field_checkout == 1 ? 'Field Check Out' : result.holiday_checkout == 1 ? 'Holiday Check Out' : result.check_out_time!=null ? 'Normal Check Out' : '-',
                     status: status,
                     action: result.holiday_checkin == 1 && result.check_out_status == 1 ? result.leave_status == 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" disabled><span id="edit" class="hidden" disabled>' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Applied </button>' : '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" disabled>' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Apply Leave</button>' : ''
