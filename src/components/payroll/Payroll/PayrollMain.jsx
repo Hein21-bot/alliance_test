@@ -31,34 +31,87 @@ export default class PayrollMain extends Component {
       
       filterDate: new Date(),
       employeeData: [],
-      componentIndex: 'main',
+      componentIndex: "main",
       pathname: window.location.pathname,
       payrollCheckData: [],
       payrollCalculatedData: [],
       loading: false,
-      paySlipRemark:''
+      paySlipRemark:'',
+      regionList: [],
+      departmentList: [],
+      designationList: [],
+      branchList: [],
+      selectedRegion: { label: "Mandalay Region", value: 3 },
+      selectedDept: null,
+      selectedDesign: null,
+      selectedBranch: null,
     };
   }
 
   async componentDidMount() {
     await this.getEmployeeInfo();
-    // fetch(
-    //   main_url +
-    //     `payroll/getReviewDetailData/${moment(
-    //       this.state.filterDate
-    //     ).format("YYYY-MM")}`
-    // )
-    //   .then((response1) => {
-    //     if (response1.ok) return response1.json();
-    //   })
-    //   .then((res1) => {
-    //     if (res1) {
-    //       this.setState({
-    //         payrollCalculatedData: res1,
-    //         loading: false,
-    //       });
-    //     }
-    //   });
+    this.getRegionList();
+    this.getDepartmentList();
+    this.getDesignationList();
+    this.getBranchList();
+  }
+
+  getRegionList = () => {
+    fetch(`${main_url}benefit/getRegionList`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        // let lists = list.unshift({ state_id: 0, state_name: 'All' })
+        this.setState({
+          regionList: list.map((v) => ({
+            label: v.state_name,
+            value: v.state_id,
+          })),
+        });
+      });
+  };
+
+  getDepartmentList() {
+    fetch(`${main_url}benefit/getDepartmentList`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        // let lists = list.unshift({ departments_id: 0, deptname: "All" });
+        this.setState({
+          departmentList: list.map((v) => ({
+            label: v.deptname,
+            value: v.departments_id,
+          })),
+        });
+      });
+  }
+
+  getDesignationList() {
+    fetch(`${main_url}main/getDesignations`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        // let lists = list.unshift({ value: 0, label: "All" });
+        this.setState({
+          designationList: list,
+        });
+      });
+  }
+
+  getBranchList() {
+    fetch(`${main_url}benefit/getBranchList`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        // let lists = list.unshift({ value: 0, label: "All" });
+        this.setState({
+          branchList: list,
+        });
+      });
   }
 
   getEmployeeInfo = async () => {
@@ -88,13 +141,13 @@ export default class PayrollMain extends Component {
 
   onNextClick = () => {
     this.setState({
-      componentIndex: 'upload',
+      componentIndex: "upload",
     });
   };
 
   handleReview = () => {
     this.setState({
-      componentIndex: 'check',
+      componentIndex: "check",
       loading: true,
     });
     fetch(
@@ -116,7 +169,7 @@ export default class PayrollMain extends Component {
 
   handleCalculate = () => {
     this.setState({
-      componentIndex: 'calculate',
+      componentIndex: "calculate",
       loading: true,
     });
     let status = 0;
@@ -131,7 +184,8 @@ export default class PayrollMain extends Component {
             main_url +
               `payroll/getReviewDetailData/${moment(
                 this.state.filterDate
-              ).format("YYYY-MM")}/0/0/0/0`
+                // '2022-12'
+              ).format("YYYY-MM")}/${this.state.selectedRegion.value}/0/0/0`
           )
             .then((response1) => {
               if (response1.ok) return response1.json();
@@ -159,13 +213,13 @@ export default class PayrollMain extends Component {
 
   handleDelete = () => {
     this.setState({
-      componentIndex: 'upload'
-    })
+      componentIndex: "upload",
+    });
   };
  
   handleConfirm = async() => {
     let status =0
-    await fetch(`${main_url}payroll/addPayslipRemark/`, {
+    await fetch(`${main_url}payroll/addPayslipRemark`, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -182,11 +236,60 @@ export default class PayrollMain extends Component {
    
 
   };
+
+  handleSelectRegion = (e) => {
+    this.setState({
+      selectedRegion: e,
+    });
+  };
+
+  handleSelectDept = (e) => {
+    this.setState({
+      selectedDept: e,
+    });
+  };
+
+  handleSelectDesign = (e) => {
+    this.setState({
+      selectedDesign: e,
+    });
+  };
+
+  handleSelectBranch = (e) => {
+    this.setState({
+      selectedBranch: e,
+    });
+  };
   onChangeText = (e) => {
     console.log("event",e.target.value)
     this.setState({
       paySlipRemark: e.target.value
     })
+  }
+
+  handleSearchAtmOrCash = () => {
+    let region = this.state.selectedRegion ? this.state.selectedRegion.value : 0;
+    let dept = this.state.selectedDept ? this.state.selectedDept.value : 0;
+    let design = this.state.selectedDesign ? this.state.selectedDesign.value : 0;
+    let branch = this.state.selectedBranch ? this.state.selectedBranch.value : 0;
+    fetch(
+      main_url +
+        `payroll/getReviewDetailData/${moment(
+          // this.state.filterDate
+          '2022-12'
+        ).format("YYYY-MM")}/${region}/${dept}/${design}/${branch}`
+    )
+      .then((response1) => {
+        if (response1.ok) return response1.json();
+      })
+      .then((res1) => {
+        if (res1) {
+          this.setState({
+            payrollCalculatedData: res1,
+            loading: false,
+          });
+        }
+      });
   }
 
   _setTableData = async (data) => {
@@ -255,12 +358,22 @@ export default class PayrollMain extends Component {
   };
 
   render() {
-    console.log("pay slip remark",this.state.paySlipRemark)
-    const { filterDate, componentIndex} = this.state;
+    const {
+      filterDate,
+      componentIndex,
+      regionList,
+      departmentList,
+      designationList,
+      branchList,
+      selectedBranch,
+      selectedDept,
+      selectedDesign,
+      selectedRegion,
+    } = this.state;
     return (
-      <div>
+      <div style={{minHeight: '200vh'}}>
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />
-        {componentIndex == 'main' ? (
+        {componentIndex == "main" ? (
           <div>
             <div className="row col-md-12">
               <div className="col-md-3">
@@ -288,12 +401,13 @@ export default class PayrollMain extends Component {
               id="dataTables-table"
             />
           </div>
-        ) : componentIndex == 'upload' ? (
-          <PayrollUpload
+        ) : componentIndex == "upload" ? (
+            <PayrollUpload
             filterDate={filterDate}
             handleReview={this.handleReview}
           />
-        ) : componentIndex == 'check' ? (
+          
+        ) : componentIndex == "check" ? (
           this.state.loading ? (
             <div style={{ display: "flex", justifyContent: "center" }}>
               <h2>Loading...</h2>
@@ -304,7 +418,7 @@ export default class PayrollMain extends Component {
               handleCalculate={this.handleCalculate}
             />
           )
-        ) : componentIndex == 'calculate' ? (
+        ) : componentIndex == "calculate" ? (
           this.state.loading ? (
             <div style={{ display: "flex", justifyContent: "center" }}>
               <h2>Loading...</h2>
@@ -318,9 +432,22 @@ export default class PayrollMain extends Component {
               paySlipRemark={this.state.paySlipRemark} onChangeText={this.onChangeText}
             />
           )
-        ) : componentIndex == 'atmOrCash' ? (
-          <PayrollAtmCash dataSource={this.state.payrollCalculatedData}
-        
+        ) : componentIndex == "atmOrCash" ? (
+          <PayrollAtmCash
+            dataSource={this.state.payrollCalculatedData}
+            regionList={regionList}
+            departmentList={departmentList}
+            designationList={designationList}
+            branchList={branchList}
+            selectedBranch={selectedBranch}
+            selectedDept={selectedDept}
+            selectedDesign={selectedDesign}
+            selectedRegion={selectedRegion}
+            handleSelectBranch={this.handleSelectBranch}
+            handleSelectDept={this.handleSelectDept}
+            handleSelectDesign={this.handleSelectDesign}
+            handleSelectRegion={this.handleSelectRegion}
+            handleSearchAtmOrCash={this.handleSearchAtmOrCash}
           />
         ) : null}
       </div>
