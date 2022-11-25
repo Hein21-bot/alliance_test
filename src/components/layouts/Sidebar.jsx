@@ -76,6 +76,9 @@ export default class Sidebar extends Component {
     if(pathname.includes('attendance')){
       return '/attendance'
     }
+    if(pathname.includes('payroll')){
+      return '/payroll'
+    }
     else return "/dashboard";
   }
 
@@ -542,6 +545,64 @@ export default class Sidebar extends Component {
                   
                 </ul>
               </li>
+              <li
+                className={this.checkPathName() === "/payroll" || pathname === '/pay_slip'  || pathname === '/ssc' || pathname === "/payroll_main" || pathname === '/foreigner_salary' || pathname === "/resign_or_dismiss_salary" ? "active" : ""}
+                // style={{ display: isHR  ? 'block' : "none" }}
+             >
+                <a href="/pay_slip" className="sideList">
+                <i class="fa fa-address-book" style={{color:'white'}}></i>
+                 
+                  <span className="sideText">Payroll</span>
+                </a>
+                <ul className="nav nav-second-level collapse">
+                  <li
+                    className={
+                      pathname === "/pay_slip" ? "active" : " "
+                    }
+                  >
+                    <a href="/pay_slip">PaySlip</a>
+                  </li>
+                  {/* <li
+                    className={
+                      pathname === "/holiday_attendance" ? "active" : " "
+                    }
+                  >
+                    <a href="/holiday_attendance">Holiday Attendance</a>
+                  </li> */}
+                  <li
+                    className={
+                      pathname === "/ssc" ? "active" : " "
+                    }
+                  >
+                    <a href="/ssc">SSC</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/payroll_main" ? "active" : " "
+                    }
+                  >
+                    <a href="/payroll_main">Payroll</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/resign_or_dismiss_salary"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/resign_or_dismiss_salary">Resing Or Dismiss Salary</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/foreigner_salary"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/foreigner_salary">Foreigner Salary</a>
+                  </li>
+                </ul>
+              </li>
 
 
               <li
@@ -694,14 +755,7 @@ export default class Sidebar extends Component {
                   <span className="sideText">Help Desk</span>
                 </a>
               </li>
-              <li
-                className={this.checkPathName() === "/pay_slip" || pathname =="/pay_slip" ? "active" : ""}
-              >
-                <a href="/pay_slip" className="sideList" refresh="true">
-                <i className="fa fa-briefcase sideIcon"></i>
-                  <span className="sideText">PaySlip</span>
-                </a>
-              </li>
+              
               {/* <li
                 className={this.checkPathName() === "/ssc_report" || pathname =="/ssc_report" ? "active" : ""}
               >
