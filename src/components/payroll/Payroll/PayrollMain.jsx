@@ -62,7 +62,7 @@ export default class PayrollMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        // let lists = list.unshift({ state_id: 0, state_name: 'All' })
+        let lists = list.unshift({ state_id: 0, state_name: 'All' })
         this.setState({
           regionList: list.map((v) => ({
             label: v.state_name,
@@ -78,7 +78,7 @@ export default class PayrollMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        // let lists = list.unshift({ departments_id: 0, deptname: "All" });
+        let lists = list.unshift({ departments_id: 0, deptname: "All" });
         this.setState({
           departmentList: list.map((v) => ({
             label: v.deptname,
@@ -94,7 +94,7 @@ export default class PayrollMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        // let lists = list.unshift({ value: 0, label: "All" });
+        let lists = list.unshift({ value: 0, label: "All" });
         this.setState({
           designationList: list,
         });
@@ -107,7 +107,7 @@ export default class PayrollMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        // let lists = list.unshift({ value: 0, label: "All" });
+        let lists = list.unshift({ value: 0, label: "All" });
         this.setState({
           branchList: list,
         });

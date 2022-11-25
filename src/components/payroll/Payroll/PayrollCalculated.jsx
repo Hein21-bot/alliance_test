@@ -144,7 +144,7 @@ export default class PayrollCalculated extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        let lists = list.unshift({ value: 0, label: "All" });
+        let lists = list.unshift({ user_id: 0, employee_code: "All" });
         this.setState({
           EmployeeNameList: list.map((v) => ({
             ...v
@@ -177,7 +177,7 @@ export default class PayrollCalculated extends Component {
       })
   };
   handleSelectedEmpId = async (event) => {
-    console.log("event",event)
+
     this.setState(
       {
         selected_employeeId: event
@@ -190,9 +190,17 @@ export default class PayrollCalculated extends Component {
           if (res.ok) return res.json();
         })
         .then((data) => {
-          this.setState({
+          if(data.length > 0){
+           
+            this.setState({
               fullname:data[0].employee_name
           })
+          }else{
+            
+            this.setState({
+              fullname:''
+            })
+          }
           // if (data.length > 0) {
           //   this.getData(this.props.id);
           //   this.setState({ tableEdit: true, tableView: false });
@@ -209,6 +217,7 @@ export default class PayrollCalculated extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
+        let lists = list.unshift({ user_id: 0, employee_code: "All" });
         this.setState({
           employeeIdList: list.map((v) => ({
             ...v,
@@ -248,7 +257,7 @@ export default class PayrollCalculated extends Component {
     const designationId = this.state.selected_designation ? this.state.selected_designation.value : 0
     const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
     const employee = this.state.selected_employeeId ? this.state.selected_employeeId.value : 0
-    console.log("calculate search")
+
     // })
 
     fetch(main_url + "payroll/reviewData/"+moment(this.props.filterDate).format('YYYY-MM-DD')+"/" + regionId + "/" + departmentId + "/" + designationId + "/" + branchId + "/" + employee)
@@ -330,7 +339,7 @@ export default class PayrollCalculated extends Component {
 
   
   render() {
-    console.log("calcuate pay slip",this.props.paySlipRemark)
+
     return (
       <div>
         <div className="row col-md-12">
