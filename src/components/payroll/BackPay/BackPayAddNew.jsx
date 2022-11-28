@@ -223,11 +223,11 @@ export default class BackPayAddNew extends Component {
     newData.totalSalary = e.target.value;
     this.setState({ addNewData: newData });
   }
-  handleTotal=(e)=>{
-    const newData = this.state.addNewData;
-    newData.Total = e.target.value;
-    this.setState({ addNewData: newData });
-  }
+  // handleTotal=(e)=>{
+  //   const newData = this.state.addNewData;
+  //   newData.Total = e.target.value;
+  //   this.setState({ addNewData: newData });
+  // }
   ontotalSalaryChange=(e)=>{
     const newData = this.state.addNewData;
     newData.totalSalary = e.target.value;
@@ -306,6 +306,11 @@ export default class BackPayAddNew extends Component {
     if (validate("add_check_form")) {
       var data = [...this.state.dataSource];
       let newData = { ...this.state.addNewData };
+    //   let totalAmount=0;
+    //   for (var i = 0; i < data.length; i++) {
+
+    //     totalAmount += data[i].totalSalary;
+    // }
       let tempData = {};
       tempData.request_month = newData.requestMonth;
       tempData.payRoll=newData.payRoll;
@@ -321,7 +326,7 @@ export default class BackPayAddNew extends Component {
       tempData.workingDay=newData.workingDay;
       tempData.salaryPerDay=newData.salaryPerDay;
       tempData.totalWorkingDay=newData.totalWorkingDay;
-      tempData.Total=newData.Total;
+      tempData.Total=newData.totalSalary;
       tempData.selectedEmployeeId=this.state.selectedEmployeeId;
       tempData.atmOrCash=newData.atmOrCash;
       tempData.selectedPayroll=this.state.selectedPayroll;
@@ -330,7 +335,6 @@ export default class BackPayAddNew extends Component {
       tempData.reason=newData.reason;
       tempData.totalSalary=newData.totalSalary
       
-      var totalAmount = 0;
 
       data.push(tempData);
       this.setState({
@@ -343,7 +347,6 @@ export default class BackPayAddNew extends Component {
           workingDay:0,
           salaryPerDay:0,
           totalWorkingDay:0,
-          Total:0,
           atmOrCash:0,
           reason:'',
           totalSalary:0,
@@ -407,7 +410,6 @@ export default class BackPayAddNew extends Component {
         salary_per_day:data[i].salaryPerDay ? data[i].salaryPerDay : '-',
         total_salary:data[i].totalSalary ? data[i].totalSalary : '-',
         atm_or_cash: data[i].atmOrCash == 0 ? "ATM" : "Cash",
-        Total:data[i].Total ? data[i].Total : 0,
         action:
           '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' +
           index +
@@ -447,7 +449,6 @@ export default class BackPayAddNew extends Component {
         { title: "Salary Per Day",data:"salary_per_day"},
         { title: "Total Salary",data:"total_salary"},
         { title: "ATM Or Cash",data:"atm_or_cash"},
-        { title: "Total",data:"Total"},
         { title: "Action",data:'action'}
       ],
     });
@@ -471,6 +472,8 @@ export default class BackPayAddNew extends Component {
     if (validate("check_form")) {
       // @lucy
       let status=0
+      let Total=this.state.dataSource.reduce((p,c)=>{return parseInt(p+c.totalSalary)},0)
+      
       const dataTostring = this.state.dataSource.map((v) => {
         return {
           request_month: moment(v.request_month).format("YYYY-MM-DD"),
@@ -489,7 +492,7 @@ export default class BackPayAddNew extends Component {
           total_working_day:v.totalWorkingDay,
           selectedEmployeeId:v.selectedEmployeeId,
           selectedPayroll:v.selectedPayroll,
-          total:v.totalSalary,
+          total:Total,
           atm_cash: v.atmOrCash,
           user_id:v.user_id,
           reason:v.reason,
@@ -552,7 +555,7 @@ export default class BackPayAddNew extends Component {
   
 
   render() {
-    console.log("eidt data",this.state.editData,this.state.edit)
+    console.log("eidt data",this.state.editData,this.state.edit,this.state.dataSource.reduce((p,c)=>{return parseInt(p+c.totalSalary)},0))
     const { addNewData, userId, userInfo, dataSource } = this.state;
     console.log("addNewData =====>",this.state.addNewData,this.state.DetailUser);
     return (
@@ -809,7 +812,7 @@ export default class BackPayAddNew extends Component {
                         </div>
                        </div>
                       </div>
-                    <div className="col-md-3">
+                    {/* <div className="col-md-3">
                         <label>Total</label>
                         <input
                             className="form-control"
@@ -820,7 +823,7 @@ export default class BackPayAddNew extends Component {
                           
                             onChange={this.handleTotal}
                         />
-                    </div>
+                    </div> */}
                     <div className="col-md-6 btn-rightend">
                       <button
                         className="btn-primary btn"
@@ -842,25 +845,19 @@ export default class BackPayAddNew extends Component {
                   id="dataTables-Table"
                 />
               </div>
-              <div className="col-md-12">
-                <div className="col-md-12 btn-rightend mt20">
-                  {
-                    this.state.edit ?  <button
-                    onClick={this.confirm.bind(this)}
-                    id="saving_button"
-                    className="btn btn-primary"
-                  >
-                    <span>Confirm</span>{" "}
-                  </button> : <button
+              <div className="col-md-12" style={{display:'flex',alignItems:'end'}}>
+                <div className="col-md-2 btn-leftend mt20">
+                  <label htmlFor="">Total</label>
+                  <input type="text" className="form-control" value={this.state.dataSource.reduce((p,c)=>{return parseInt(p+c.totalSalary)},0)} disabled />
+                </div>
+                <div className="col-md-10 btn-rightend mt20">
+                  <button
                     onClick={this.check.bind(this)}
                     id="saving_button"
                     className="btn btn-primary"
                   >
                     <span>Submit</span>{" "}
                   </button>
-                  }
-                  
-                 
                 </div>
               </div>
             </div>
