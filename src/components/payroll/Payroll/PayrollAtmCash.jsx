@@ -134,7 +134,14 @@ export default class PayrollAtmCash extends Component {
             pauseOnHover: true,
             draggable: true,
           });
-          window.location.reload();
+          this.props.handleSelectRegion({ label: "Mandalay Region", value: 3 });
+          this.props.handleSelectDept(null);
+          this.props.handleSelectDesign(null);
+          this.props.handleSelectBranch(null);
+          this.setState({
+            atmOrCashSelected: { label: "ATM", value: 0 }
+          })
+          // window.location.reload();
         } else {
           toast.error(text, {
             position: "top-right",
@@ -145,7 +152,9 @@ export default class PayrollAtmCash extends Component {
             draggable: true,
           });
         }
-      });
+      }).then(() => {
+        this.props.handleSearchAtmOrCash();
+      })
   };
 
   render() {
