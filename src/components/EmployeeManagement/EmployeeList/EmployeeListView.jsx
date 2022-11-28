@@ -27,6 +27,7 @@ class EmployeeListView extends Component {
             personalPhone: '',
             careerSubLevel:"",
             officePhone: '',
+            career_sublevel:[],
             region: '',
             address: '',
             joinDate: '',
@@ -116,13 +117,25 @@ class EmployeeListView extends Component {
 
     componentDidMount() {
         this.getEmployeeDetailsData()
+        this.getCareerSubLevelOptions();
 
     }
 
     handlePreviousClick = () => {
         this.setState({ tabIndex: this.state.tabIndex - 1 })
     }
-
+    getCareerSubLevelOptions () {
+        fetch(`${main_url}allowLevel/getCareerSubLevel`)
+        .then((res) => {
+            if (res.ok) return res.json();
+          })
+        .then((res) => {
+            if (res) {
+              this.setState({ career_sublevel: res });
+            }
+          })
+          .catch((error) => console.error(`Fetch Error =\n`, error));
+      };
 
     getEmployeeDetailsData() {
         // confirmation/getOneDetail/:user_id
@@ -176,7 +189,7 @@ class EmployeeListView extends Component {
                         employeeStatus: this.state.employeeStatusList.find(c => c.value == res[0].employee_status),
                         employeeDesignation: this.props.designationList.find(c => c.value == res[0].designations_id),
                         jobTitle: res[0].job_title,
-                        careerSubLevel : res[0].career_sub_level ? res[0].career_sub_level : "",
+                        careerSubLevel : res[0].career_sub_level ? this.state.career_sublevel.filter(v=>v.career_sub_level_id == res[0].career_sub_level)[0].career_sub_level : '-',
                         carrerLevel: level_options && level_options.find(c => c.value == res[0].career_level_id) ? level_options.find(c => c.value == res[0].career_level_id) : null,
                         employeeDetailBranch: branchlist && branchlist.find(c => c.value == res[0].branch_name) ? branchlist.find(c => c.value == res[0].branch_name) : null,
                         employedDate: res[0].employ_date,
@@ -201,7 +214,8 @@ class EmployeeListView extends Component {
 
 
 
-    render() {
+    render() { 
+
         const { tabIndex, userImage, userImageUrl, addedDegreeData, addedQualitificationData, workExpData, nrc_number, period, designation, workExpChecked, organization, sameWithCtPerson, bankList, selected_bank, trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo,
             fatherName, degreeList, qualificationList, selected_qualification, selected_degree, motherName, guarantor, guarantorPhone, attachmentUrl, selected_gran_NRC_Id,
             selected_gran_DistrictCode, gran_nrc_number, parentCount, siblingCount, childCount, pInLawCount, martialStatus, officePhone, region, address, joinDate, accountName, accountNumber, employeeStatus, employeeDesignation, jobTitle, carrerLevel,careerSubLevel, employeeDetailBranch, employedDate, disConStatus, disConDate,
