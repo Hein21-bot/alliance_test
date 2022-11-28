@@ -262,7 +262,7 @@ export default class BackPayTable extends Component {
                     department: data[i].deptname ? data[i].deptname : '-',
                     branch: data[i].location_master_name ? data[i].location_master_name : '-',
                     region: data[i].state_name ? data[i].state_name : '-',
-                    amount:data[i].amount ? data[i].amount: "-",
+                    amount:data[i].total ? data[i].total: "-",
                     status:status
                 }
                 obj.action =
@@ -297,10 +297,6 @@ export default class BackPayTable extends Component {
             { title: 'Amount',data:'amount'},
             { title : 'Status',data:'status'},
             { title:"Action",data:'action'}
-
-
-
-            
         ]
 
         // if (has_action) {
