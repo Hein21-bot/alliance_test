@@ -545,9 +545,10 @@ export default class Sidebar extends Component {
                   
                 </ul>
               </li>
-              <li
+              
+              {/* <li
                 className={this.checkPathName() === "/payroll" || pathname === '/pay_slip'  || pathname === '/ssc' || pathname === "/payroll_main" || pathname === '/foreigner_salary' || pathname === "/resign_or_dismiss_salary" ? "active" : ""}
-                // style={{ display: isHR  ? 'block' : "none" }}
+               
              >
                 <a href="/pay_slip" className="sideList">
                 <i class="fa fa-address-book" style={{color:'white'}}></i>
@@ -562,13 +563,6 @@ export default class Sidebar extends Component {
                   >
                     <a href="/pay_slip">PaySlip</a>
                   </li>
-                  {/* <li
-                    className={
-                      pathname === "/holiday_attendance" ? "active" : " "
-                    }
-                  >
-                    <a href="/holiday_attendance">Holiday Attendance</a>
-                  </li> */}
                   <li
                     className={
                       pathname === "/ssc" ? "active" : " "
@@ -602,7 +596,7 @@ export default class Sidebar extends Component {
                     <a href="/foreigner_salary">Foreigner Salary</a>
                   </li>
                 </ul>
-              </li>
+              </li> */}
 
 
               <li
@@ -753,6 +747,14 @@ export default class Sidebar extends Component {
                 <a href="/helpDesk" className="sideList" refresh="true">
                   <img src="assets/icons/Helpdesk (1).svg" alt="" width="20" height="20" style={{ marginRight: 5 }} />
                   <span className="sideText">Help Desk</span>
+                </a>
+              </li>
+              <li
+                className={this.checkPathName() === "/pay_slip" || pathname =="/pay_slip" ? "active" : ""}
+              >
+                <a href="/pay_slip" className="sideList" refresh="true">
+                <i className="fa fa-briefcase sideIcon"></i>
+                  <span className="sideText">PaySlip</span>
                 </a>
               </li>
               
