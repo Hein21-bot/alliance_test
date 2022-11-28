@@ -260,7 +260,7 @@ export default class ForeignerSalaryTable extends Component {
                     total_gross_salary:data[i].total_gross_salary ? data[i].total_gross_salary : '-',
                     maintenance:data[i].maintenance? data[i].maintenance: '-',
                     petrol: data[i].petrol? data[i].petrol: '-',
-                    totalSalary: data[i].total_salary? data[i].total_salary: '-',
+                    totalSalary: data[i].total_salary ? data[i].total_salary: '-',
                     back_pay: data[i].back_pay ? data[i].back_pay : '-',
                     allowance :data[i].allowance ? data[i].allowance :'-',
                     annual_award : data[i].annual_award ?data[i].annual_award :"-",
@@ -269,7 +269,7 @@ export default class ForeignerSalaryTable extends Component {
                     deduction_of_loan : data[i].deduction_of_loan ? data[i].deduction_of_loan :'-',
                     salary_cut : data[i].salary_cut ? data[i].salary_cut :"-",
                     total : "-",
-                    status:status,
+                    status:status ? status :'-',
                     remark : "-",
                 }
                 // if (has_action) {
@@ -340,7 +340,7 @@ export default class ForeignerSalaryTable extends Component {
             { title: 'Salary Cut', data: 'salary_cut'},
             { title: 'Deduction of Loan', data: 'deduction_of_loan'},
             { title: 'Total Salary', data: 'totalSalary'},
-            { title:"Status",data:'status'},
+            { title: "Status", data:'status'},
             { title: 'Remark', data: 'remark'},
         ]
 
