@@ -255,24 +255,14 @@ export default class BackPayTable extends Component {
     
                 obj = {
                     no: i + 1,
-                    requestMonth: moment(data[i].request_month).format('MMM'),
+                    form_no:data[i].form_no ? data[i].form_no : '-',
                     employee_id: data[i].employment_id ? data[i].employment_id: '-',
                     employee_name: data[i].fullname ? data[i].fullname: '-',
                     designation: data[i].designations ? data[i].designations : '-',
                     department: data[i].deptname ? data[i].deptname : '-',
                     branch: data[i].location_master_name ? data[i].location_master_name : '-',
                     region: data[i].state_name ? data[i].state_name : '-',
-                    payRoll:data[i].request_type==1 ? "Back Pay Salary" : data[i].request_type ==2 ? "Refund Salary": "Temporary Contract Salary",
                     amount:data[i].amount ? data[i].amount: "-",
-                    reason:data[i].reason ? data[i].reason: '-',
-                    start_working_day:data[i].start_working_day ? moment(data[i].start_working_day).format('YYYY-MM-DD') : '-',
-                    end_working_day:data[i].last_working_day ? moment(data[i].last_working_day).format('YYYY-MM-DD') : '-',
-                    working_day:data[i].work_calendar_day == 0 ? "Working Day": "Calendar Day",
-                    total_working_day:data[i].total_working_day ? data[i].total_working_day : "-",
-                    salary_per_day:data[i].salary_per_day ? data[i].salary_per_day : '-',
-                    total_salary:data[i].total_salary ? data[i].total_salary : '-',
-                    atm_or_cash:data[i].atm_cash == 0 ? "ATM" : "Cash",
-                    total:data[i].total ? data[i].total : '-',
                     status:status
                 }
                 obj.action =
@@ -297,24 +287,14 @@ export default class BackPayTable extends Component {
 
         var column = [
             { title: "No", data: "no" },
-            { title: "Request Month", data: "requestMonth" },
+            { title:'Form No',data:'form_no'},
             { title: "Employee Id", data: "employee_id" },
             { title: "Employee Name", data: "employee_name" },
             { title: "Designation", data: "designation" },
             { title: 'Department', data: 'department'},
             { title: "Branch", data: "branch" },
             { title: 'Region', data: 'region'},
-            { title:"Payroll Type",data:'payRoll'},
             { title: 'Amount',data:'amount'},
-            { title:"Reason",data:'reason'},
-            { title: 'Start Working Day',data:'start_working_day'},
-            { title: 'End Working Day',data:'end_working_day'},
-            { title: 'Working Day',data:'working_day'},
-            { title: 'Total Working Day',data:'total_working_day'},
-            { title: 'Salary Per Day',data:'salary_per_day'},
-            { title: 'Total Salary',data:'total_salary'},
-            { title: 'ATM Or Cash',data:'atm_or_cash'},
-            { title: 'Total',data:'total'},
             { title : 'Status',data:'status'},
             { title:"Action",data:'action'}
 
@@ -343,15 +323,15 @@ export default class BackPayTable extends Component {
                 'copy',
                 {
                     extend: 'csvHtml5',
-                    title: 'Wedding Benefit',
+                    title: 'BackPay',
                 },
                 {
                     extend: 'excelHtml5',
-                    title: 'Wedding Benefit',
+                    title: 'BackPay',
                 },
                 {
                     extend: 'pdfHtml5',
-                    title: 'Wedding Benefit',
+                    title: 'BackPay',
                 }],
             data: l,
             columns: column
@@ -410,16 +390,3 @@ export default class BackPayTable extends Component {
         )
     }
 }
-
-const tempData = [
-    { employee_id: 101 },
-    { employee_id: 102 },
-    { employee_id: 103 },
-    { employee_id: 104 },
-    { employee_id: 105 },
-    { employee_id: 106 },
-    { employee_id: 107 },
-    { employee_id: 108 },
-    { employee_id: 109 },
-    { employee_id: 110 },
-]

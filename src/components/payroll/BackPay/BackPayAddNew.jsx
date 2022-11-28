@@ -38,7 +38,7 @@ export default class BackPayAddNew extends Component {
         reason:'',
         workingDay:0,
         salaryPerDay:0,
-        totalWorkingDay:0,
+        totalWorkingDay:1,
         Total:0,
         atmOrCash:0,
         start_working_day:new Date(),
@@ -346,7 +346,7 @@ export default class BackPayAddNew extends Component {
           Amount:0,
           workingDay:0,
           salaryPerDay:0,
-          totalWorkingDay:0,
+          totalWorkingDay:1,
           atmOrCash:0,
           reason:'',
           totalSalary:0,
@@ -470,10 +470,15 @@ export default class BackPayAddNew extends Component {
     //     toast.error("Please Choose Attachment File!")
     // } else {
     if (validate("check_form")) {
+      let formdata={};
       // @lucy
       let status=0
-      let Total=this.state.dataSource.reduce((p,c)=>{return parseInt(p+c.totalSalary)},0)
+      let Total=this.state.dataSource.reduce((p,c)=>{return p+parseInt(c.totalSalary)},0)
       
+      var info={
+        total:Total,
+        createdBy:this.state.userInfo.user_id
+      }
       const dataTostring = this.state.dataSource.map((v) => {
         return {
           request_month: moment(v.request_month).format("YYYY-MM-DD"),
@@ -490,9 +495,9 @@ export default class BackPayAddNew extends Component {
           work_calendar_day:v.workingDay,
           salary_per_day:parseInt(v.salaryPerDay),
           total_working_day:v.totalWorkingDay,
-          selectedEmployeeId:v.selectedEmployeeId,
-          selectedPayroll:v.selectedPayroll,
-          total:Total,
+          // selectedEmployeeId:v.selectedEmployeeId,
+          // selectedPayroll:v.selectedPayroll,
+          // total:Total,
           atm_cash: v.atmOrCash,
           user_id:v.user_id,
           reason:v.reason,
@@ -501,14 +506,20 @@ export default class BackPayAddNew extends Component {
          
         };
       });
-      console.log("data===>",dataTostring)
-
+      formdata.data=info;
+      formdata.detail=dataTostring
+      // formdata.push('detail', JSON.stringify(info))
+      // formdata.push('data', JSON.stringify(dataTostring))
+      console.log("formdata",formdata)
+      
       fetch(`${main_url}back_pay/add_back_pay`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "application/json",
         },
-        body: `data=${JSON.stringify(dataTostring)}`,
+        body: JSON.stringify(formdata),
+        // body:`data=${formdata}`
+        // body:JSON.stringify(formdata)
       })
         .then((res) => {
           status = res.status;
@@ -555,7 +566,7 @@ export default class BackPayAddNew extends Component {
   
 
   render() {
-    console.log("eidt data",this.state.editData,this.state.edit,this.state.dataSource.reduce((p,c)=>{return parseInt(p+c.totalSalary)},0))
+    console.log("eidt data",this.state.addNewData.end_working_day,this.state.edit,this.state.dataSource.reduce((p,c)=>{return p+parseInt(c.totalSalary)},0))
     const { addNewData, userId, userInfo, dataSource } = this.state;
     console.log("addNewData =====>",this.state.addNewData,this.state.DetailUser);
     return (
@@ -695,7 +706,7 @@ export default class BackPayAddNew extends Component {
                       <label>Start Working Day</label>
                       <DatePicker
                         dateFormat="DD/MM/YYYY"
-                        value={this.state.start_working_day}
+                        value={addNewData.start_working_day}
                         onChange={this.handleSelectedFromdate}
                         timeFormat={false}
                     />
@@ -704,13 +715,13 @@ export default class BackPayAddNew extends Component {
                       <label>End Working Day</label>
                             <DatePicker
                         dateFormat="DD/MM/YYYY"
-                        value={this.state.end_working_day}
+                        value={addNewData.end_working_day}
                         onChange={this.handleSelectedTodate}
                         timeFormat={false}
                         />
                     </div>
                 </div>
-                <div className="row margin-top-20">
+                <div className="row margin-top-20" style={{display:'flex',alignItems:'end'}}>
                 <div className="col-md-3">
                       <div className="row">
                         <div className="col-md-7">
@@ -776,7 +787,7 @@ export default class BackPayAddNew extends Component {
                       />
                     </div>
                   </div>
-                  <div className="row margin-top-20">
+                  <div className="row margin-top-20" style={{display:'flex',alignItems:'flex-end'}}>
                     <div className="col-md-3">
                        <div className="row">
                         <div className="col-md-5">
@@ -812,23 +823,11 @@ export default class BackPayAddNew extends Component {
                         </div>
                        </div>
                       </div>
-                    {/* <div className="col-md-3">
-                        <label>Total</label>
-                        <input
-                            className="form-control"
-                           
-                            type="number"
-                            data-name="total"
-                            value={addNewData.Total}
-                          
-                            onChange={this.handleTotal}
-                        />
-                    </div> */}
-                    <div className="col-md-6 btn-rightend">
+                    <div className="col-md-9 btn-rightend">
                       <button
                         className="btn-primary btn"
                         onClick={this.addData}
-                        style={{ marginTop: 20 }}
+                        // style={{ marginTop: 20 }}
                       >
                         Add
                       </button>
@@ -846,11 +845,11 @@ export default class BackPayAddNew extends Component {
                 />
               </div>
               <div className="col-md-12" style={{display:'flex',alignItems:'end'}}>
-                <div className="col-md-2 btn-leftend mt20">
+                <div className="col-md-3 btn-leftend mt20">
                   <label htmlFor="">Total</label>
-                  <input type="text" className="form-control" value={this.state.dataSource.reduce((p,c)=>{return parseInt(p+c.totalSalary)},0)} disabled />
+                  <input type="text" className="form-control" value={this.state.dataSource.reduce((p,c)=>{return p+parseInt(c.totalSalary)},0)} disabled />
                 </div>
-                <div className="col-md-10 btn-rightend mt20">
+                <div className="col-md-9 btn-rightend mt20">
                   <button
                     onClick={this.check.bind(this)}
                     id="saving_button"
