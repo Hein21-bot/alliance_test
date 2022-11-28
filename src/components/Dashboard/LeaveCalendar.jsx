@@ -46,7 +46,14 @@ export default class LeaveCalendar extends Component {
       fetch(main_url + `dashboard/leaveMyCalendar/${id}/${start_date}/${end_date}`).then(response => {
         return response.json();
       }).then(res => {
-        this.setState({ data: res })
+        let data=res.map(v=>{
+          v.Date=v.Date.split("-").reverse().join("-");
+          return v
+        })
+
+        let filterData=data.filter(v=> new Date(v.Date).getDay() !== 6 && new Date(v.Date).getDay() !== 0)
+        console.log("filter data",filterData)
+        this.setState({ data: filterData })
       }).catch(err => {
         console.log('error ===>', err);
       })
@@ -94,10 +101,12 @@ export default class LeaveCalendar extends Component {
   };
 
   renderDayContents = (day, date) => {
+    console.log("render data",this.state.data)
     const highlight = this.state.data.filter(
       (v) =>
-        v.Date === moment(date).format("DD-MM-YYYY")
+         v.Date === moment(date).format('YYYY-MM-DD') || v.Date === moment(date).format('DD-MM-YYYY')
     );
+    console.log("hightlight",highlight)
     const tooltipText = `<div style="color:red">Tooltip for date: ${date}</div>`;
     return (
       <>
