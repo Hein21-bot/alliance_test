@@ -14,6 +14,7 @@ import { main_url } from "../../../utils/CommonFunction";
 import PayrollCalculated from "./PayrollCalculated";
 import { toast, ToastContainer } from "react-toastify";
 import PayrollAtmCash from "./PayrollAtmCash";
+import Select from "react-select";
 const $ = require("jquery");
 const jzip = require("jzip");
 window.JSZip = jzip;
@@ -28,7 +29,6 @@ export default class PayrollMain extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
       filterDate: new Date(),
       employeeData: [],
       componentIndex: "main",
@@ -36,7 +36,7 @@ export default class PayrollMain extends Component {
       payrollCheckData: [],
       payrollCalculatedData: [],
       loading: false,
-      paySlipRemark:'',
+      paySlipRemark: "",
       regionList: [],
       departmentList: [],
       designationList: [],
@@ -45,6 +45,9 @@ export default class PayrollMain extends Component {
       selectedDept: null,
       selectedDesign: null,
       selectedBranch: null,
+      selectedBranchMain: "",
+      selectedRegionMain: null,
+      selectedBranchMainList: [],
     };
   }
 
@@ -62,7 +65,9 @@ export default class PayrollMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        let lists = list.unshift({ state_id: 0, state_name: 'All' })
+        var obj = { state_name: 'All', state_id: 0};
+        list.push(obj);
+        let lists = list.unshift({ state_id: 0, state_name: "All" });
         this.setState({
           regionList: list.map((v) => ({
             label: v.state_name,
@@ -78,6 +83,8 @@ export default class PayrollMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
+        var obj = {deptname: 'All', departments_id: 0};
+        list.push(obj);
         let lists = list.unshift({ departments_id: 0, deptname: "All" });
         this.setState({
           departmentList: list.map((v) => ({
@@ -94,6 +101,8 @@ export default class PayrollMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
+        var obj = {label: 'All', value: 0};
+        list.push(obj);
         let lists = list.unshift({ value: 0, label: "All" });
         this.setState({
           designationList: list,
@@ -107,6 +116,8 @@ export default class PayrollMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
+        var obj = { label: 'All', value: 0};
+        list.push(obj);
         let lists = list.unshift({ value: 0, label: "All" });
         this.setState({
           branchList: list,
@@ -115,7 +126,15 @@ export default class PayrollMain extends Component {
   }
 
   getEmployeeInfo = async () => {
-    await fetch(main_url + `payroll/getEmpInfo`)
+    const {selectedRegionMain, selectedBranchMainList} = this.state;
+    let region = selectedRegionMain != null ? selectedRegionMain.value : 0;
+    await fetch(main_url + `payroll/getEmpInfo/${region}`, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+      body: JSON.stringify(selectedBranchMainList),
+    })
       .then((response) => {
         if (response.ok) return response.json();
       })
@@ -152,7 +171,16 @@ export default class PayrollMain extends Component {
     });
     fetch(
       main_url +
-        `payroll/reviewData/${moment(this.state.filterDate).format("YYYY-MM")}/0/0/0/0/0`
+        `payroll/reviewData/${moment(this.state.filterDate).format(
+          "YYYY-MM"
+        )}/0/0/0/0/0`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+          body: JSON.stringify(this.state.selectedBranchMainList),
+      }
     )
       .then((response) => {
         if (response.ok) return response.json();
@@ -185,7 +213,14 @@ export default class PayrollMain extends Component {
               `payroll/getReviewDetailData/${moment(
                 this.state.filterDate
                 // '2022-12'
-              ).format("YYYY-MM")}/${this.state.selectedRegion.value}/0/0/0`
+              ).format("YYYY-MM")}/${this.state.selectedRegion.value}/0/0/0`,
+              {
+                method: 'POST',
+                headers: {
+                  'Content-type': 'application/json; charset=UTF-8',
+                },
+                body: JSON.stringify(this.state.selectedBranchMainList),
+              }
           )
             .then((response1) => {
               if (response1.ok) return response1.json();
@@ -216,25 +251,22 @@ export default class PayrollMain extends Component {
       componentIndex: "upload",
     });
   };
- 
-  handleConfirm = async() => {
-    let status =0
+
+  handleConfirm = async () => {
+    let status = 0;
     await fetch(`${main_url}payroll/addPayslipRemark`, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body: `data=${JSON.stringify(this.state.paySlipRemark)}`,
-    })
-      .then((res) => {
-        status = res.status;
-        return res.text();
-      })
+    }).then((res) => {
+      status = res.status;
+      return res.text();
+    });
     this.setState({
-      componentIndex: 'atmOrCash'
-    })
-   
-
+      componentIndex: "atmOrCash",
+    });
   };
 
   handleSelectRegion = (e) => {
@@ -261,23 +293,35 @@ export default class PayrollMain extends Component {
     });
   };
   onChangeText = (e) => {
-    console.log("event",e.target.value)
     this.setState({
-      paySlipRemark: e.target.value
-    })
-  }
+      paySlipRemark: e.target.value,
+    });
+  };
 
   handleSearchAtmOrCash = () => {
-    let region = this.state.selectedRegion ? this.state.selectedRegion.value : 0;
+    let region = this.state.selectedRegion
+      ? this.state.selectedRegion.value
+      : 0;
     let dept = this.state.selectedDept ? this.state.selectedDept.value : 0;
-    let design = this.state.selectedDesign ? this.state.selectedDesign.value : 0;
-    let branch = this.state.selectedBranch ? this.state.selectedBranch.value : 0;
+    let design = this.state.selectedDesign
+      ? this.state.selectedDesign.value
+      : 0;
+    let branch = this.state.selectedBranch
+      ? this.state.selectedBranch.value
+      : 0;
     fetch(
       main_url +
         `payroll/getReviewDetailData/${moment(
           // this.state.filterDate
-          '2022-12'
-        ).format("YYYY-MM")}/${region}/${dept}/${design}/${branch}`
+          "2022-12"
+        ).format("YYYY-MM")}/${region}/${dept}/${design}/${branch}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+          body: JSON.stringify(this.state.selectedBranchMainList),
+        }
     )
       .then((response1) => {
         if (response1.ok) return response1.json();
@@ -290,7 +334,54 @@ export default class PayrollMain extends Component {
           });
         }
       });
-  }
+  };
+
+  onSearchClick = () => {
+    const {selectedRegionMain, selectedBranchMainList} = this.state;
+    console.log('branch list ===>', selectedBranchMainList);
+    let region = selectedRegionMain != null ? selectedRegionMain.value : 0;
+    fetch(main_url + `payroll/getEmpInfo/${region}`, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+      body: JSON.stringify(selectedBranchMainList),
+    })
+      .then((response) => {
+        if (response.ok) return response.json();
+      })
+      .then(async (res) => {
+        if (res) {
+          this.setState(
+            {
+              employeeData: await res,
+            },
+            async () => {
+              await this._setTableData(this.state.employeeData);
+            }
+          );
+        }
+      });
+  };
+
+  handleSelectRegionMain = (event) => {
+    this.setState({
+      selectedRegionMain: event,
+    });
+  };
+
+  handleSelectBranchMain = (event) => {
+    if (event !== null) {
+      this.setState({
+        selectedBranchMain: event,
+        selectedBranchMainList: event.map((v) => v.value),
+      });
+    } else {
+      this.setState({
+        selectedBranchMain: "",
+      });
+    }
+  };
 
   _setTableData = async (data) => {
     // console.log("getEmp ===>", data);
@@ -348,10 +439,8 @@ export default class PayrollMain extends Component {
       pageLength: 50,
       // buttons: true,
       dom: "Bfrtip",
-      // buttons: [
-      //     'copy', 'csv', 'excel', 'pdf'
-      // ],
-      buttons: [],
+      buttons: ["copy", "csv", "excel", "pdf"],
+      // buttons: [],
       data: j,
       columns: column,
     });
@@ -369,30 +458,78 @@ export default class PayrollMain extends Component {
       selectedDept,
       selectedDesign,
       selectedRegion,
+      selectedBranchMain,
+      selectedBranchMainList,
+      selectedRegionMain,
     } = this.state;
     return (
-      <div style={{minHeight: '200vh'}}>
+      <div style={{ minHeight: "200vh" }}>
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />
         {componentIndex == "main" ? (
           <div>
-            <div className="row col-md-12">
-              <div className="col-md-3">
-                <label>Month</label>
-                <DatePicker
-                  dateFormat="MM/YYYY"
-                  value={filterDate}
-                  timeFormat={false}
-                  onChange={this.onFilterDateChange.bind(this)}
-                />
+            <div style={{ marginBottom: 20 }}>
+              <div className="row">
+                <div className="col-md-4">
+                  <label>Month</label>
+                  <DatePicker
+                    dateFormat="MM/YYYY"
+                    value={filterDate}
+                    timeFormat={false}
+                    onChange={this.onFilterDateChange.bind(this)}
+                  />
+                </div>
+                <div className="col-md-4">
+                  <button
+                    className="btn-primary btn"
+                    onClick={this.onNextClick}
+                    style={{ marginTop: 20, minWidth: 70 }}
+                  >
+                    Next
+                  </button>
+                </div>
               </div>
-              <div className="col-md-9 btn-rightend">
-                <button
-                  className="btn-primary btn"
-                  onClick={this.onNextClick}
-                  style={{ marginTop: 20 }}
-                >
-                  Next
-                </button>
+              <div className="row">
+                <div className="col-md-4">
+                  <label>Region</label>
+                  <Select
+                    options={regionList}
+                    value={selectedRegionMain}
+                    onChange={this.handleSelectRegionMain}
+                    className="react-select-container"
+                    classNamePrefix="react-select"
+                  />
+                </div>
+                <div className="col-md-4">
+                  <label>Branch</label>
+                  <Select
+                    options={branchList}
+                    name="selecttitle"
+                    // isOptionDisabled={(workingDayOptions) => workingDayOptions.disabled}
+                    onChange={this.handleSelectBranchMain}
+                    value={selectedBranchMain}
+                    isClearable={true}
+                    isSearchable={true}
+                    className="react-select-container checkValidate"
+                    classNamePrefix="react-select"
+                    isMulti
+                    styles={{
+                      control: (provided) => ({
+                        ...provided,
+
+                        cursor: "pointer",
+                      }),
+                    }}
+                  />
+                </div>
+                <div className="col-md-4">
+                  <button
+                    className="btn-primary btn"
+                    onClick={this.onSearchClick}
+                    style={{ marginTop: 20, minWidth: 70, marginRight: 10 }}
+                  >
+                    Search
+                  </button>
+                </div>
               </div>
             </div>
             <table
@@ -402,11 +539,10 @@ export default class PayrollMain extends Component {
             />
           </div>
         ) : componentIndex == "upload" ? (
-            <PayrollUpload
+          <PayrollUpload
             filterDate={filterDate}
             handleReview={this.handleReview}
           />
-          
         ) : componentIndex == "check" ? (
           this.state.loading ? (
             <div style={{ display: "flex", justifyContent: "center" }}>
@@ -429,7 +565,8 @@ export default class PayrollMain extends Component {
               filterDate={filterDate}
               handleDelete={this.handleDelete}
               handleConfirm={this.handleConfirm}
-              paySlipRemark={this.state.paySlipRemark} onChangeText={this.onChangeText}
+              paySlipRemark={this.state.paySlipRemark}
+              onChangeText={this.onChangeText}
             />
           )
         ) : componentIndex == "atmOrCash" ? (

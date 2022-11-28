@@ -89,18 +89,42 @@ export default class PayrollUpload extends Component {
           ? this.state.activeStep
           : this.state.activeStep + 1,
     });
-  }
+  };
 
   handleNext = () => {
-    document.querySelector("#attachment").value = "";
-    this._setTableData([]);
-    this.setState({
-      dataSource: [],
-      activeStep:
-        this.state.steps.length == this.state.activeStep + 1
-          ? this.state.activeStep
-          : this.state.activeStep + 1,
-    });
+    const { steps, activeStep } = this.state;
+    let status = 0;
+    fetch(
+      main_url +
+        `payroll/btn_control/${steps[activeStep]}/${moment(
+          this.props.filterDate
+        ).format("YYYY-MM")}`
+    )
+      .then((response) => {
+        status = response.status;
+        return response.text();
+      })
+      .then((text) => {
+        if (status == 400) {
+          toast.error(text, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+        }
+        document.querySelector("#attachment").value = "";
+        this._setTableData([]);
+        this.setState({
+          dataSource: [],
+          activeStep:
+            this.state.steps.length == this.state.activeStep + 1
+              ? this.state.activeStep
+              : this.state.activeStep + 1,
+        });
+      });
   };
 
   handleBackSSC = () => {
@@ -109,7 +133,7 @@ export default class PayrollUpload extends Component {
       dataSource: [],
       activeStep: this.state.activeStep == 0 ? 0 : this.state.activeStep - 1,
     });
-  }
+  };
 
   handleBack = () => {
     document.querySelector("#attachment").value = "";
@@ -136,6 +160,17 @@ export default class PayrollUpload extends Component {
           this._setTableData(res);
         }
       });
+  };
+
+  handleFetchClick = () => {
+    toast.error("There is no data to fetch!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   };
 
   handleReset = () => {
@@ -315,7 +350,7 @@ export default class PayrollUpload extends Component {
                   type="button"
                   onClick={this.handleFetchSSCData}
                 >
-                  Check SSC
+                  Fetch SSC
                 </button>
                 <button
                   className="btn btn-primary"
@@ -373,6 +408,15 @@ export default class PayrollUpload extends Component {
                     onClick={this.handleBack}
                   >
                     Back
+                  </button>
+                  <button
+                    className="btn btn-primary"
+                    style={{ minWidth: "100px", margin: 5 }}
+                    id="saving_button"
+                    type="button"
+                    onClick={this.handleFetchClick}
+                  >
+                    Fetch {steps[activeStep]}
                   </button>
                   {steps.length == activeStep + 1 ? (
                     <button

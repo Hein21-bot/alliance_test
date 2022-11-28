@@ -8,6 +8,8 @@ import moment from "moment";
 import * as jsPDF from "jspdf";
 import { main_url } from "../../utils/CommonFunction";
 import { toast } from "react-toastify";
+import Select from "react-select";
+import DatePicker from "react-datetime";
 // import { main_url, getUserId, getMainRole, getInformation, print, fno } from "../../../../utils/CommonFunction";
 const $ = require("jquery");
 const jzip = require("jzip");
@@ -27,12 +29,21 @@ export default class SSC extends Component {
       totalCount: 0,
       maleCount: 0,
       femaleCount: 0,
-      totalEmp : 0
+      totalEmp: 0,
+      regionList: [],
+      departmentList: [],
+      designationList: [],
+      branchList: [],
+      selectedRegion: { label: "All", value: 0 },
+      selectedDept: { label: "All", value: 0 },
+      selectedDesign: { label: "All", value: 0 },
+      selectedBranch: { label: "All", value: 0 },
+      month: new Date(),
     };
   }
 
   async componentDidMount() {
-    this.$el = $(this.el);
+    // this.$el = $(this.el);
 
     // this.setState(
     //   {
@@ -42,6 +53,10 @@ export default class SSC extends Component {
     //     this._setTableData(this.state.dataSource);
     //   }
     // );
+    await this.getBranchList();
+    await this.getDepartmentList();
+    await this.getDesignationList();
+    await this.getRegionList();
     await this._setTableData(this.state.dataSource);
     await this.totalEmployeeDashboard();
   }
@@ -61,28 +76,146 @@ export default class SSC extends Component {
         //   female.push(v.female);
         //   male.push(v.male);
         // })
-        this.setState({ totalEmp:res});
+        this.setState({ totalEmp: res });
       })
       .catch((error) => console.error(`Fetch Error =\n`, error));
   }
 
-  checkFiles(e) {
-    var files = document.getElementById("attachment").files;
-    var newDoc = this.state.newDoc;
+  async getRegionList() {
+    fetch(`${main_url}benefit/getRegionList`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        var obj = { state_id: 0, state_name: "All" };
+        list.push(obj);
+        // let lists = list.unshift({ value: 0, label: "All" });
+        // console.log('region ===>', lists);
+        this.setState({
+          regionList: list.map((v) => ({
+            label: v.state_name,
+            value: v.state_id,
+          })),
+        });
+      });
+  }
 
-    for (let i = 0; i < files.length; i++) {
-      var getfile = document.querySelector("#attachment").files[i];
-      newDoc.push(getfile);
-    }
-    // document.querySelector("#attachment").value = "";
-    const formdata = new FormData();
-    var imagedata = newDoc[0];
-    formdata.append("uploadfile", imagedata);
+  async getDepartmentList() {
+    fetch(`${main_url}benefit/getDepartmentList`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        var obj = { departments_id: 0, deptname: "All" };
+        list.push(obj);
+        // let lists = list.unshift({ value: 0, label: "All" });
+        this.setState({
+          departmentList: list.map((v) => ({
+            label: v.deptname,
+            value: v.departments_id,
+          })),
+        });
+      });
+  }
+
+  async getDesignationList() {
+    fetch(`${main_url}main/getDesignations`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        var obj = { value: 0, label: "All" };
+        list.push(obj);
+        // let lists = list.unshift({ value: 0, label: "All" });
+        this.setState({
+          designationList: list,
+        });
+      });
+  }
+
+  async getBranchList() {
+    fetch(`${main_url}benefit/getBranchList`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        var obj = { value: 0, label: "All" };
+        list.push(obj);
+        // let lists = list.unshift({ value: 0, label: "All" });
+        this.setState({
+          branchList: list,
+        });
+      });
+  }
+
+  handleSelectRegion = (e) => {
+    this.setState({
+      selectedRegion: e,
+    });
+  };
+
+  handleSelectDept = (e) => {
+    this.setState({
+      selectedDept: e,
+    });
+  };
+
+  handleSelectDesign = (e) => {
+    this.setState({
+      selectedDesign: e,
+    });
+  };
+
+  handleSelectBranch = (e) => {
+    this.setState({
+      selectedBranch: e,
+    });
+  };
+
+  onMonthChange = (e) => {
+    this.setState({
+      month: e,
+    });
+  };
+
+  // checkFiles(e) {
+  //   var files = document.getElementById("attachment").files;
+  //   var newDoc = this.state.newDoc;
+
+  //   for (let i = 0; i < files.length; i++) {
+  //     var getfile = document.querySelector("#attachment").files[i];
+  //     newDoc.push(getfile);
+  //   }
+  //   // document.querySelector("#attachment").value = "";
+  //   const formdata = new FormData();
+  //   var imagedata = newDoc[0];
+  //   formdata.append("uploadfile", imagedata);
+  //   let status = 0;
+  //   fetch(main_url + "sscCalculate/addSsc", {
+  //     method: "POST",
+  //     body: formdata,
+  //   })
+  //     .then((res) => {
+  //       status = res.status;
+  //       return res.json();
+  //     })
+  //     .then((text) => {
+  //       if (status == 200) {
+  //         this.setState({
+  //           dataSource: text,
+  //         });
+  //         this._setTableData(text);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log("error =====>", err);
+  //     });
+  // }
+
+  handleCalculate = () => {
+    let month = moment(this.state.month).format("YYYY-MM");
     let status = 0;
-    fetch(main_url + "sscCalculate/addSsc", {
-      method: "POST",
-      body: formdata,
-    })
+    fetch(main_url + `sscCalculate/addSsc/${month}`)
       .then((res) => {
         status = res.status;
         return res.json();
@@ -98,6 +231,29 @@ export default class SSC extends Component {
       .catch((err) => {
         console.log("error =====>", err);
       });
+  };
+
+  handleSearch = () => {
+    const {selectedBranch, selectedDept, selectedDesign, selectedRegion, month} = this.state;
+    let month1 = moment(month).format('YYYY-MM');
+    let region = selectedRegion.value;
+    let dept = selectedDept.value;
+    let design = selectedDesign.value;
+    let branch = selectedBranch.value;
+
+    let status = 0;
+    fetch(main_url + `sscGetData/getSSC_data/${month1}/${region}/${dept}/${design}/${branch}`)
+    .then(response => {
+      status = response.status;
+      return response.json();
+    }).then(res => {
+      if (status == 200) {
+        this.setState({
+          dataSource: res,
+        });
+        this._setTableData(res);
+      }
+    })
   }
 
   _setTableData = async (data) => {
@@ -110,10 +266,10 @@ export default class SSC extends Component {
 
       obj = {
         no: i + 1,
-        year: moment(new Date()).format("YYYY"),
-        dateName: data[i].dateName ? data[i].dateName : "-",
+        year: moment(data[i].dateName).format("YYYY"),
+        dateName: data[i].dateName ? moment(data[i].dateName).format('MMM') : "-",
         erSSN: data[i].ErrssN ? data[i].ErrssN : "-",
-        erName: data[i].ErName ? data[i].ErName : "-",
+        erName: data[i].ErName ? data[i].ErName : "Alliance",
         eeSSN: data[i].ErrssN ? data[i].ErrssN : "-",
         eeName: data[i].fullname ? data[i].fullname : "-",
         salaryAmount: data[i].salaryAmount ? data[i].salaryAmount : 0,
@@ -198,56 +354,103 @@ export default class SSC extends Component {
     });
   };
 
-  render() { console.log(">>>>>>>",this.state.newDoc)
+  render() {
+    const {
+      regionList,
+      departmentList,
+      designationList,
+      branchList,
+      selectedBranch,
+      selectedRegion,
+      selectedDept,
+      selectedDesign,
+      month,
+    } = this.state;
     return (
       <div>
         {/* <div className="d-flex row justify-content-center align-item-center"> */}
-        <div
-          className="col-md-12 col-lg-12"
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            // justifyContent: "center",
-            alignItems: "center",
-            marginTop: 10,
-          }}
-        >
-          <div>
-            <label style={{ fontSize: 16, marginRight: 20, color: "black" }}>
-              Attachment file:
-            </label>
-          </div>
-
-          <div style={{}}>
-            <input
-              //   className="dropZone"
-              type="file"
-              id="attachment"
-              name="attachment"
-              // multiple
-              onChange={this.checkFiles.bind(this)}
-            />
-          </div>
-
-          {/* <div>
-              <label
-                htmlFor="attachment"
-                className="custom-file-label"
-                style={{ marginTop: 50, marginRight: 20 }}
-              >
-                Attachment file
-              </label>
+        <div className="col-md-12 col-lg-12">
+          <div className="form-horizontal" name="demo-form">
+            <div className="row">
+              <div className="col-md-4">
+                <label>Month</label>
+                <DatePicker
+                  dateFormat="MM/YYYY"
+                  value={month}
+                  timeFormat={false}
+                  onChange={this.onMonthChange.bind(this)}
+                />
+              </div>
+              <div className="col-md-4">
+                <button
+                  className="btn-primary btn"
+                  onClick={this.handleCalculate}
+                  style={{ marginTop: 20 }}
+                >
+                  Calculate
+                </button>
+              </div>
             </div>
-            <div className="">
-              <input
-                className="dropZone"
-                type="file"
-                id="attachment"
-                name="attachment"
-                // multiple
-                // onChange={this.checkFiles.bind(this)}
-              />
-            </div> */}
+
+            <div className="row">
+              <div className="col-md-4">
+                <label>Region</label>
+                <Select
+                  options={regionList}
+                  value={selectedRegion}
+                  onChange={this.handleSelectRegion}
+                  className="react-select-container"
+                  classNamePrefix="react-select"
+                />
+              </div>
+              <div className="col-md-4">
+                <label>Department</label>
+                <Select
+                  options={departmentList}
+                  value={selectedDept}
+                  onChange={this.handleSelectDept}
+                  className="react-select-container"
+                  classNamePrefix="react-select"
+                />
+              </div>
+              <div className="col-md-4">
+                <label>Designation</label>
+                <Select
+                  options={designationList}
+                  value={selectedDesign}
+                  onChange={this.handleSelectDesign}
+                  className="react-select-container"
+                  classNamePrefix="react-select"
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-4">
+                <label>Branch</label>
+                <Select
+                  options={branchList}
+                  value={selectedBranch}
+                  onChange={this.handleSelectBranch}
+                  className="react-select-container"
+                  classNamePrefix="react-select"
+                />
+              </div>
+              <div className="col-md-8">
+                <div
+                  className="row col-md-12"
+                  // style={{ marginBottom: 10 }}
+                >
+                  <button
+                    className="btn-primary btn"
+                    onClick={this.handleSearch}
+                    style={{ marginTop: 20, marginRight: 10 }}
+                  >
+                    Search
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         {/* </div> */}
         <div>
@@ -257,27 +460,31 @@ export default class SSC extends Component {
             id="dataTables-table"
           />
         </div>
-       { this.state.dataSource.length > 0 ? <div style={{width: '50%', margin: '0px auto'}}>
-          <table width={'50%'} class="table table-bordered table-responsive">
-            <tbody>
-              <tr>
-                <th scope="row">Total</th>
-                <td></td>
-                <td>{this.state.totalEmp[0].count}</td>
-              </tr>
-              <tr>
-              <th scope="row">Male</th>
-                <td></td>
-                <td>{this.state.totalEmp[2].male}</td>
-              </tr>
-              <tr>
-              <th scope="row">Female</th>
-                <td></td>
-                <td>{this.state.totalEmp[1].female}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>: '-'}
+        {this.state.dataSource.length > 0 ? (
+          <div style={{ width: "50%", margin: "0px auto" }}>
+            <table width={"50%"} class="table table-bordered table-responsive">
+              <tbody>
+                <tr>
+                  <th scope="row">Total</th>
+                  <td></td>
+                  <td>{this.state.totalEmp[0].count}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Male</th>
+                  <td></td>
+                  <td>{this.state.totalEmp[2].male}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Female</th>
+                  <td></td>
+                  <td>{this.state.totalEmp[1].female}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          "-"
+        )}
       </div>
     );
   }
