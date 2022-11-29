@@ -65,8 +65,8 @@ export default class PayrollMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        var obj = { state_name: 'All', state_id: 0};
-        list.push(obj);
+        // var obj = { state_name: 'All', state_id: 0};
+        // list.push(obj);
         let lists = list.unshift({ state_id: 0, state_name: "All" });
         this.setState({
           regionList: list.map((v) => ({
@@ -468,8 +468,8 @@ export default class PayrollMain extends Component {
         {componentIndex == "main" ? (
           <div>
             <div style={{ marginBottom: 20 }}>
-              <div className="row">
-                <div className="col-md-4">
+              <div className="row" style={{display:'flex',alignItems:'end'}}>
+                <div className="col-md-2">
                   <label>Month</label>
                   <DatePicker
                     dateFormat="MM/YYYY"
@@ -478,19 +478,8 @@ export default class PayrollMain extends Component {
                     onChange={this.onFilterDateChange.bind(this)}
                   />
                 </div>
-                <div className="col-md-4">
-                  <button
-                    className="btn-primary btn"
-                    onClick={this.onNextClick}
-                    style={{ marginTop: 20, minWidth: 70 }}
-                  >
-                    Next
-                  </button>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-4">
-                  <label>Region</label>
+                <div className="col-md-2">
+                  <label>Salary Calculation Region</label>
                   <Select
                     options={regionList}
                     value={selectedRegionMain}
@@ -499,8 +488,8 @@ export default class PayrollMain extends Component {
                     classNamePrefix="react-select"
                   />
                 </div>
-                <div className="col-md-4">
-                  <label>Branch</label>
+                <div className="col-md-2">
+                  <label>Remove Branch</label>
                   <Select
                     options={branchList}
                     name="selecttitle"
@@ -521,15 +510,47 @@ export default class PayrollMain extends Component {
                     }}
                   />
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-3">
+                  <div className="col-md-6">
                   <button
                     className="btn-primary btn"
                     onClick={this.onSearchClick}
                     style={{ marginTop: 20, minWidth: 70, marginRight: 10 }}
                   >
-                    Search
+                    Get Payroll Data
+                  </button>
+                  </div>
+                  <div className="col-md-6">
+                  <button
+                    className="btn-primary btn"
+                    onClick={this.onNextClick}
+                    style={{ marginTop: 20, minWidth: 70 }}
+                  >
+                    Payroll Prepare
+                  </button>
+                  </div>
+                </div>
+                {/* <div className="col-md-1">
+                  <button
+                    className="btn-primary btn"
+                    onClick={this.onSearchClick}
+                    style={{ marginTop: 20, minWidth: 70, marginRight: 10 }}
+                  >
+                    Get Payroll Data
                   </button>
                 </div>
+                <div className="col-md-1" style={{display:'flex',justifyContent:'flex-start'}}>
+                  <button
+                    className="btn-primary btn"
+                    onClick={this.onNextClick}
+                    style={{ marginTop: 20, minWidth: 70 }}
+                  >
+                    Payroll Prepare
+                  </button>
+                </div> */}
+               
+                
+                
               </div>
             </div>
             <table

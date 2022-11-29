@@ -87,6 +87,8 @@ export default class PayrollCheck extends Component {
         obj["department"] = result.department ? result.department : "-";
         obj["branch"] = result.branch ? result.branch : "-";
         obj["region"] = result.region ? result.region : "-";
+        obj['salary']=result.basic_salary ? result.basic_salary : '-';
+        obj['level']=result.level ? result.level : '-';
         this.state.steps.map((v, index) => {
           obj[v.replace(/\s/g, "").toLowerCase()] = result.labels.filter(
             (a) => a.label == v
@@ -113,6 +115,8 @@ export default class PayrollCheck extends Component {
       { title: "Department", data: "department" },
       { title: "Branch", data: "branch" },
       { title: "Region", data: "region" },
+      { title : "Salary",data:'salary'},
+      { title :'Career Sub Level',data:'level'}
     ];
 
     this.state.steps.map((v) => {

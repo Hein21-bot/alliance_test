@@ -224,6 +224,7 @@ export default class PayrollUpload extends Component {
       })
       .then(async (response) => {
         if (status == 200) {
+          console.log('ma thi bu chit tal')
           this.setState({ dataSource: response, loading: false });
           await this._setTableData(response);
         } else {
