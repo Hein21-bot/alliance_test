@@ -4,6 +4,7 @@ import "datatables.net-bs4/css/dataTables.bootstrap4.min.css";
 import "datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css";
 import "datatables.net-dt/css/jquery.dataTables.css";
 import "datatables.net-buttons-dt/css/buttons.dataTables.css";
+import { main_url } from "../../utils/CommonFunction";
 import "jspdf-autotable";
 const $ = require("jquery");
 const jzip = require("jzip");
@@ -18,16 +19,25 @@ class SSCReport extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataSource:[]
+            dataSource:[],
+            data:new Date()
         };
 }
 componentDidMount() { 
+  this.getSSCReport();
     this.$el = $(this.el);
     // this.setState({
     //     },() => {
           this._setTableData(this.state.dataSource);
         // }
     //   );
+}
+getSSCReport(){
+  fetch(main_url + "payroll_report/get_ssc_report/"+moment(this.state.date).format('YYYY-MM'))
+  .then(res => { if (res.ok) return res.json() })
+  .then(list => {
+    this._setTableData(list);
+  })
 }
 
 _setTableData = (data) => {
@@ -39,21 +49,21 @@ _setTableData = (data) => {
         let obj = [];
         obj = {
           no: i + 1,
-          year: false,
-          month: data[i].employment_id ? data[i].employment_id : "",
-          er_ssn: data[i].fullname ? data[i].fullname : "",
+          year: data[i].dateName ? moment(data[i].dateName).format('YYYY') : '-',
+          month: data[i].dateName ? moment(data[i].dateName).format('MMM') : "-",
+          er_ssn: data[i].fullname ? data[i].fullname : "-",
           er_name: data[i].designations ? data[i].designations : "-",
           ee_ssn: data[i].career_sub_level ? data[i].career_sub_level : "-",
-          ee_name: data[i].deptname ? data[i].deptname : "-",
-          ss1ee_rate: data[i].location_master_name ? data[i].location_master_name : "-",
-          ss1er_rate: data[i].state_name ? data[i].state_name : "-",
-          ss1ee_comamt: data[i].employ_date ? moment(data[i].employ_date).format('DD-MM-YYYY') : "-",
-          ss1er_comamt: data[i].promotion_date ? moment(data[i].promotion_date).format("DD-MM-YYYY") : "-",
-          ss2ee_rate: moment(result.createdAt).format("DD-MM-YYYY"),
-          ss2er_rate: data[i].service_year ? data[i].service_year : "",
-          ss2ee_comamt: data[i].current_level_service_year ? data[i].current_level_service_year : '',
-          ss2er_comamt: data[i].current_sub_level_service_year ? data[i].current_sub_level_service_year : '',
-          total: data[i].recommendation ? data[i].recommendation : "-",
+          ee_name: data[i].fullname ? data[i].fullname : "-",
+          ss1ee_rate: data[i].ss1Ee ? data[i].ss1Ee : "-",
+          ss1er_rate: data[i].ss1Er ? data[i].ss1Er : "-",
+          ss1ee_comamt: data[i].ss1EeConAmt ? data[i].ss1EeConAmt : "-",
+          ss1er_comamt: data[i].ss1ErConAmt ? data[i].ss1ErConAmt : "-",
+          ss2ee_rate:data[i].ss2Ee ? data[i].ss2Ee : '-',
+          ss2er_rate: data[i].ss2Er ? data[i].ss2Er : "-",
+          ss2ee_comamt: data[i].ss2EeConAmt ? data[i].ss2EeConAmt : '-',
+          ss2er_comamt: data[i].ss2ErConAmt ? data[i].ss2ErConAmt : '',
+          total: data[i].totalComAmt ? data[i].totalComAmt : "-",
         };
         l.push(obj);
       }
