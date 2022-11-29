@@ -131,7 +131,7 @@ class BackPayMain extends Component {
             <BackPayView dataSource={datasource} />
         )
          :this.state.isEdit ? (
-            <BackPayEdit dataSource={datasource} edit={isEdit} />
+            <BackPayEdit  edit={isEdit} dataSource={datasource} />
         )
          : null}
 

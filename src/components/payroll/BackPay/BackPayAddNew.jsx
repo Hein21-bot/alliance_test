@@ -27,7 +27,7 @@ export default class BackPayAddNew extends Component {
     this.state = {
       userId: null,
       edit:this.props.edit,
-      editData:this.props.dataSource,
+      // editData:this.props.dataSource,
       userInfo: {},
       PayrollList:[
         
@@ -45,6 +45,7 @@ export default class BackPayAddNew extends Component {
         end_working_day:new Date(),
         payRoll:0,
         totalSalary:0
+        
         
         
       },
@@ -88,7 +89,7 @@ export default class BackPayAddNew extends Component {
       data = $.parseJSON(data);
       let newData = that.state.dataSource;
       let editData = newData[data];
-      console.log("edit data===>",editData,newData)
+      console.log("edit data===>",editData)
       newData.splice(data, 1);
       that.setState(
         {
@@ -166,6 +167,7 @@ export default class BackPayAddNew extends Component {
   }
 
   onRequestMonthChange = (e) => {
+    console.log("EE",e)
     const newData = this.state.addNewData;
     newData.requestMonth = e;
     this.setState({ addNewData: newData });

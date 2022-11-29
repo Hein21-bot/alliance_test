@@ -302,7 +302,6 @@ export default class ForeignerSalaryEdit extends Component {
           updatedBy:this.state.updatedBy 
         };
         if (status_title !== '' && is_main_role) {
-          console.log("editdata",this.state.editData)
           var action = getActionStatus(status_title, this.state.editData, this.state.updatedBy, this.state.comment);
           data.referback_by = action.referback_by;
           data.checked_by = action.checked_by;
