@@ -24,7 +24,7 @@ export default class PayrollAtmCash extends Component {
     let tempArray = [];
     this.props.dataSource.map((v, i) => {
       var obj = { ...v };
-      obj["payment_type"] = { label: "ATM", value: 0 };
+      obj["payment_type"] = this.state.atmOrCashSelected;
       tempArray.push(obj);
     });
     this.setState({
@@ -38,7 +38,7 @@ export default class PayrollAtmCash extends Component {
       let tempArray = [];
       this.props.dataSource.map((v, i) => {
         var obj = { ...v };
-        obj["payment_type"] = { label: "ATM", value: 0 };
+        obj["payment_type"] = this.state.atmOrCashSelected;
         tempArray.push(obj);
       });
       this.setState({

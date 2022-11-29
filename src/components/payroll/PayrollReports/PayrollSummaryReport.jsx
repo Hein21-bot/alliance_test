@@ -55,7 +55,7 @@ class PayrollSummaryReport extends Component {
 
       },
       () => {
-        this._setTableData(this.state.dataSource);
+       
       }
 
     );
@@ -119,97 +119,6 @@ class PayrollSummaryReport extends Component {
     })
   }
   
-  _setTableData = (data) => {
-    var table;
-    var l = [];
-    if (data) {
-      for (var i = 0; i < data.length; i++) {
-        let result = data[i];
-        let obj = [];
-        obj = {
-          no: i + 1,
-          branch: data[i].branch_name ? data[i].branch_name : "-",
-          region: data[i].region_name ? data[i].region_name : "-",
-          gross_salary:data[i].current_effective_date ? data[i].current_effective_date : '-',
-          deduction_or_additions:data[i].current_effective_date ? data[i].current_effective_date : '-',
-          salary_after_deductions_additions:data[i].current_effective_date ? data[i].current_effective_date : '-',
-          ssc_3:data[i].current_effective_date ? data[i].current_effective_date : '-',
-          ssc_2:data[i].current_effective_date ? data[i].current_effective_date : '-',
-          income_tax:data[i].current_effective_date ? data[i].current_effective_date : '-',
-          net_salary_paid:data[i].current_effective_date ? data[i].current_effective_date : '-',
-          total_gross_salary:data[i].current_effective_date ? data[i].current_effective_date : '-',
-          maintenance:data[i].current_effective_date ? data[i].current_effective_date : '-',
-          petrol:data[i].current_effective_date ? data[i].current_effective_date : '-',
-          back_pay:data[i].current_effective_date ? data[i].current_effective_date : '-',
-
-          income_tax_adjust:data[i].current_effective_date ? data[i].current_effective_date : '-',
-          use_office_cycle:data[i].current_effective_date ? data[i].current_effective_date : '-',
-          salary_cut:data[i].current_effective_date ? data[i].current_effective_date : '-',
-          deduction_loan:data[i].current_effective_date ? data[i].current_effective_date : '-',
-          total:data[i].current_effective_date ? data[i].current_effective_date : '-',
-
-        }
-        l.push(obj)
-
-      }
-    }
-      if ($.fn.dataTable.isDataTable('#dataTables-table')) {
-        table = $('#dataTables-table').dataTable();
-        table.fnClearTable();
-        table.fnDestroy();
-        $('#dataTables-table').empty();
-      }
-      var column = [
-        { title: "No", data: "no" },
-        { title: "Region", data: "region" },
-        { title: "Branch Name", data: "branch" },
-        { title: "Gross Salary", data: "gross_salary"},
-        { title: "Deductions(+)/Additions(-)", data: "deduction_or_additions" },
-        { title: "Salary After deductions/additions", data: "salary_after_deductions_additions" },
-        { title: "SSC(Employer 3%)", data: "ssc_3"},
-        { title: "SSC(Employee 2%)", data: "ssc_2"},
-        { title: "Income Tax", data: "income_tax"},
-        { title: "Net Salary Paid", data: "net_salary_paid"},
-        { title: "Total Gross Salary", data: "total_gross_salary"},
-        { title: "Maintenance", data: "maintenance"},
-
-        { title: "Petrol", data: "petrol"},
-        { title: "BackPay", data: "back_pay"},
-        { title: "Income Tax Adjust", data: "income_tax_adjust"},
-        { title: "Deduct for using office cycle", data: "use_office_cycle"},
-        { title: "Salary Cut(Tablet)", data: "salary_cut"},
-        { title: "Deduction of Loan", data: "deduction_loan"},
-        { title: "Total", data: "total"},
-
-
-      ]
-      table = $("#dataTables-table").DataTable({
-
-        autofill: true,
-        bLengthChange: false,
-        bInfo: false,
-        responsive: true,
-        pageLength: 50,
-        paging: true,
-            buttons: true,
-        dom: 'Bfrtip',
-         buttons: [
-       
-        'excel'
-         ],
-        buttons: [
-          
-          {
-              extend: 'excelHtml5',
-              title: 'Payroll Summary Report',
-          },
-         
-        ],
-        data: l,
-        columns: column
-      });
-    
-  }
   handleSearchData = () => {
     // this.setState({
     const branchId = this.state.selected_Branch ? this.state.selected_Branch.value : 0
@@ -222,7 +131,7 @@ class PayrollSummaryReport extends Component {
     fetch(main_url + "report/employeeReport/" + regionId + "/"  + branchId + "/" + Date)
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
-        this._setTableData(list);
+        
       })
   }
   render() {
@@ -284,11 +193,136 @@ class PayrollSummaryReport extends Component {
             
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
           </div>
-        
-        <table width="99%"
-          className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
-          id="dataTables-table"
-        />
+              <table className="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th rowSpan={2}>No</th>
+                      <th rowSpan={2}>Region</th>
+                      <th rowSpan={2}>Branch Name</th>
+                      <th rowSpan={2}>Gross salary</th>
+                      <th rowSpan={2}>Deductions(+)/Additions(-)</th>
+                      <th rowSpan={2}>Salary after deductions/additions</th>
+                      <th colSpan={2}>SSC</th>
+                      <th rowSpan={2}>Income Tax</th>
+                      <th rowSpan={2}>Net Salary Paid</th>
+                      <th rowSpan={2}>Total Gross Salary</th>
+                      <th rowSpan={2}>Maintenance</th>
+                      <th rowSpan={2}>Petrol</th>
+                      <th rowSpan={2}>Backpay</th>
+                      <th rowSpan={2}>Income Tax Adjust</th>
+                      <th rowSpan={2}>Deduct for using office cycle</th>
+                      <th rowSpan={2}>Salary Cut(Tablet)</th>
+                      <th rowSpan={2}>Deduction of Loan</th>
+                      <th rowSpan={2}>Total</th>
+                    </tr>
+                    <tr>
+                      <th>Employer 3%</th>
+                      <th>Employee 2%</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                        <td>1213</td>
+                        <td>1213</td>
+                        <td>1213</td>
+                        <td>1213</td>
+                        <td>1213</td>
+                        <td>1213</td>
+                        <td>1213</td>
+                        <td>1213</td>
+                        <td>1213</td>
+                        <td>1213</td>
+                        <td>1213</td>
+                        <td>1213</td>
+                        <td>1213</td>
+                        <td>1213</td>
+                        <td>1213</td>
+                        <td>1213</td>
+                        <td>1213</td>
+                        <td>1213</td>
+                        <td>1213</td>
+                      </tr>
+                      <tr>
+                        <td colSpan={3}>Total (Permanent)</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+
+                      </tr>
+                      <tr>
+                        <td colSpan={3}>PartTime</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+
+                      </tr>
+                      <tr>
+                        <td colSpan={3}>Training</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                      </tr>
+                      <tr>
+                        <td colSpan={3}>All Total</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+                        <td>131</td>
+
+                      </tr>
+                  </tbody>
+              </table>
         <div style={{display:'flex',justifyContent:'center'}}>
         <table className="table table-bordered" style={{width:'20%'}}>
             <thead>

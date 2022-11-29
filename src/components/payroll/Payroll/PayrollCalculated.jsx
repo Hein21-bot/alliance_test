@@ -260,7 +260,14 @@ export default class PayrollCalculated extends Component {
 
     // })
 
-    fetch(main_url + "payroll/reviewData/"+moment(this.props.filterDate).format('YYYY-MM-DD')+"/" + regionId + "/" + departmentId + "/" + designationId + "/" + branchId + "/" + employee)
+    fetch(main_url + "payroll/reviewData/"+moment(this.props.filterDate).format('YYYY-MM-DD')+"/" + regionId + "/" + departmentId + "/" + designationId + "/" + branchId + "/" + employee,
+    {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+      body: JSON.stringify(this.props.selectedBranchMainList),
+    })
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
         this._setTableData(list);
