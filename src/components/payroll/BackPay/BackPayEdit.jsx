@@ -34,6 +34,8 @@ export default class BackPayAddNew extends Component {
       comment:'',
       is_main_role:false,
       status_title:'',
+      work_flow_status:{},
+      updatedBy:getUserId("user_info"),
       preveData:[],
       userInfo: {},
       PayrollList:[],
@@ -77,6 +79,11 @@ export default class BackPayAddNew extends Component {
   }
 
   async componentDidMount() {
+    var work_flow = await getWorkFlowStatus(this.props.dataSource.createdBy, this.state.updatedBy, 'Child Benefit', 'Benefit');
+    this.setState({
+        work_flow_status: work_flow,
+        is_main_role: havePermission(work_flow)
+    })
     let that = this;
     let id = await getUserId("user_info");
     let branch = await getBranch();
@@ -496,25 +503,25 @@ export default class BackPayAddNew extends Component {
       var info={
         id : this.props.dataSource.id,
         total:Total,
-        createdBy:this.state.userInfo.user_id
+        createdBy:this.props.dataSource.createdBy
       };
       if (status_title !== '' && is_main_role) {
-        var action = getActionStatus(status_title, this.state.editData, this.state.updatedBy, this.state.comment);
-        workflow.referback_by = action.referback_by;
-        workflow.checked_by = action.checked_by;
-        workflow.verified_by = action.verified_by;
-        workflow.approved_by = action.approved_by;
-        workflow.rejected_by = action.rejected_by;
-        workflow.referback_date = action.referback_date;
-        workflow.checked_date = action.checked_date;
-        workflow.verified_date = action.verified_date;
-        workflow.approved_date = action.approved_date;
-        workflow.rejected_date = action.rejected_date;
-        workflow.referback_comment = action.referback_comment;
-        workflow.checked_comment = action.checked_comment;
-        workflow.verified_comment = action.verified_comment;
-        workflow.approved_comment = action.approved_comment;
-        workflow.status = action.status;
+        var action = getActionStatus(status_title, this.state.preveData, this.state.updatedBy, this.state.comment);
+        info.referback_by = action.referback_by;
+        info.checked_by = action.checked_by;
+        info.verified_by = action.verified_by;
+        info.approved_by = action.approved_by;
+        info.rejected_by = action.rejected_by;
+        info.referback_date = action.referback_date;
+        info.checked_date = action.checked_date;
+        info.verified_date = action.verified_date;
+        info.approved_date = action.approved_date;
+        info.rejected_date = action.rejected_date;
+        info.referback_comment = action.referback_comment;
+        info.checked_comment = action.checked_comment;
+        info.verified_comment = action.verified_comment;
+        info.approved_comment = action.approved_comment;
+        info.status = action.status;
      ; }
       const dataTostring = this.state.preveData.map((v) => {
         return {
@@ -545,7 +552,7 @@ export default class BackPayAddNew extends Component {
       });
       formdata.data=info;
       formdata.detail=dataTostring;
-      formdata.workflow=workflow;
+      formdata.action=workflow;
       // formdata.push('detail', JSON.stringify(info))
       // formdata.push('data', JSON.stringify(dataTostring))
       console.log("formdata",formdata)
@@ -605,7 +612,7 @@ export default class BackPayAddNew extends Component {
 
   render() { 
     const { addNewData, userId, userInfo, dataSource } = this.state;
-    console.log("addNewData =====>",this.state.selectedPayroll);
+    console.log("addNewData =====>",this.state.preveData);
     return (
       <div>
         <div className="row">
@@ -902,10 +909,10 @@ export default class BackPayAddNew extends Component {
                      <div className="row save-btn">
                     {
                         havePermission(this.state.work_flow_status) ?
-                            <ApprovalForm1 approvalStatus={this.approvalStatus.bind(this)} status={this.state.editData.status} work_flow={this.state.work_flow_status} />
+                            <ApprovalForm1 approvalStatus={this.approvalStatus.bind(this)} status={this.props.dataSource.status} work_flow={this.state.work_flow_status} />
                             :
                             <div className="col-md-12 btn-rightend">
-                                { this.state.editData.status == 5 ?
+                                { this.state.preveData.status == 5 ?
                                     <div>
                                         <button onClick={this.check.bind(this)} className="btn btn-primary" id="saving_button" type="button">Confirm</button>
                                     </div>
