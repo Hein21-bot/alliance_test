@@ -214,7 +214,7 @@ export default class PayrollUpload extends Component {
     formdata.append("uploadfile", imagedata);
     formdata.append("data", this.state.steps[this.state.activeStep]);
     let status = 0;
-    fetch(main_url + "payrollCalculate/addPayroll", {
+    fetch(main_url + "payrollCalculate/addPayroll/"+moment(this.props.filterDate).format('YYYY-MM'), {
       method: "POST",
       body: formdata,
     })
