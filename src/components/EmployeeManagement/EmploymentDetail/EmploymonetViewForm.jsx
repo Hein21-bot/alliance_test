@@ -10,11 +10,11 @@ import moment from 'moment';
 const EmploymentViewForm = props => {
     const { handleAddFormInputChange, selectedEmployeeId, exitStatusList, selected_exit_status, disConStatusList, selected_disCon_status, handleSelectedDisConStatus, jobList, selected_job,salaryList, handleSelectedJob, handleSelectedExitStatus, handleSelectedEmployeeId, employeeIdList, handleLevelSelectorChange, career_level, career_sub_level, level_options, sub_level_options, submitAddForm, handleUpdatData, tableView, employeeName, statusList, handleFormCancel, resignReason, handleSelectedBranch, disconDate, handleSelectedDeaprtment, effectiveDate, salary, branchlist, selected_branch, departmentlist, selected_department, handleSelectedDesignation, designationList, selected_designation, actualDate, selected_status, handleSelectedStatus, employedDate, view, salaryPermission } = props
     let department = selected_designation != null && departmentlist.filter(v => v.departments_id == selected_designation.departments_id)[0]
-
+    console.log("seelct",selected_status)
 
     let name = employeeName == null ? '' : employeeName
     // let temp_salary = salary == null ? 0 : salary
-    return (
+    return ( 
         <form >
             <div className='white-bg ' style={{ paddingTop: 20, border: '1px solid lightgrey', display: 'grid', marginTop: 10, paddingBottom: 20, boxShadow: '5px 5px 5px lightgrey' }}>
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20 }}>
