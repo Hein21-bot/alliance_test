@@ -201,7 +201,7 @@ export default class PayrollMain extends Component {
       loading: true,
     });
     let status = 0;
-    fetch(main_url + `payrollCalculate/calculate`)
+    fetch(main_url + `payrollCalculate/calculate/`+moment(this.state.filterDate).format('YYYY-MM'))
       .then((response) => {
         status = response.status;
         return response.text();
