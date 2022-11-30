@@ -510,8 +510,8 @@ export default class PayrollMain extends Component {
                     }}
                   />
                 </div>
-                <div className="col-md-3">
-                  <div className="col-md-6">
+                <div className="col-md-4 btn-leftend">
+                  
                   <button
                     className="btn-primary btn"
                     onClick={this.onSearchClick}
@@ -519,8 +519,8 @@ export default class PayrollMain extends Component {
                   >
                     Get Payroll Data
                   </button>
-                  </div>
-                  <div className="col-md-6">
+                  
+                  
                   <button
                     className="btn-primary btn"
                     onClick={this.onNextClick}
@@ -528,7 +528,7 @@ export default class PayrollMain extends Component {
                   >
                     Payroll Prepare
                   </button>
-                  </div>
+                  
                 </div>
                 {/* <div className="col-md-1">
                   <button
