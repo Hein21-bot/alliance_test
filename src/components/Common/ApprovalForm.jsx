@@ -60,7 +60,7 @@ export default class ApprovalForm extends Component {
         return check;
     }
 
-    render() {
+    render() { console.log("asgfdtyty",this.props.status)
         const permission = this.props.work_flow;
         return (
 

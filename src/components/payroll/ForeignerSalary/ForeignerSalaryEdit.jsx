@@ -321,7 +321,7 @@ export default class ForeignerSalaryEdit extends Component {
   
       }
       console.log("data",data)
-      fetch(`${main_url}foreigner_salary/edit_foreigner_salary/${editData.id}`, {
+      fetch(`${main_url}foreigner_salary/edit_foreigner_salaryfsfs/${editData.id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -405,7 +405,6 @@ export default class ForeignerSalaryEdit extends Component {
   };
 
   render() { 
-      console.log("edit",this.state.editData,this.state.editData.status, havePermission(this.state.work_flow_status))
     return (
       <div>
         <div className="row">

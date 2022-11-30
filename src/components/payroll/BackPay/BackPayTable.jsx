@@ -160,7 +160,7 @@ export default class BackPayTable extends Component {
         }
     }
     search(status) {
-        let data = this.state.requestData;
+        let data = this.state.dataSource;
         data = data.filter(d => { return status === d.status });
         this._setTableData(data)
     }
