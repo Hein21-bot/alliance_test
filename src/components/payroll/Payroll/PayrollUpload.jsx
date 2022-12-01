@@ -117,7 +117,6 @@ export default class PayrollUpload extends Component {
           });
         }
         document.querySelector("#attachment").value = "";
-        this._setTableData([]);
         this.setState({
           dataSource: [],
           newDoc:[],
@@ -125,7 +124,11 @@ export default class PayrollUpload extends Component {
             this.state.steps.length == this.state.activeStep + 1
               ? this.state.activeStep
               : this.state.activeStep + 1,
+        },()=>{
+          this._setTableData(this.state.dataSource);
         });
+        
+        
       });
   };
 
