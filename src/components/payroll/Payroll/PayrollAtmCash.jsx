@@ -10,10 +10,10 @@ export default class PayrollAtmCash extends Component {
       dataSource: [],
       dataSourceToFilter: [],
       steps: [],
-      atmOrCashSelected: { label: "ATM", value: 0 },
+      atmOrCashSelected: { label: "ATM", value: 1 },
       atmOrCashOption: [
-        { label: "ATM", value: 0 },
-        { label: "Cash", value: 1 },
+        { label: "ATM", value: 1 },
+        { label: "Cash", value: 2 },
       ],
     };
   }
@@ -139,7 +139,7 @@ export default class PayrollAtmCash extends Component {
           this.props.handleSelectDesign(null);
           this.props.handleSelectBranch(null);
           this.setState({
-            atmOrCashSelected: { label: "ATM", value: 0 }
+            atmOrCashSelected: { label: "ATM", value: 1 }
           })
           // window.location.reload();
         } else {

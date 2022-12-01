@@ -17,6 +17,12 @@ $.DataTable = require('datatables.net-responsive-bs4');
 $.DataTable = require('datatables.net');
 require('datatables.net-buttons/js/dataTables.buttons.min');
 require('datatables.net-buttons/js/buttons.html5.min');
+const  empType={
+  PartTime: "Part Time",
+  Permanent: "Permanent",
+  Training: "Training",
+  All:"All"
+};
 class PayrollSummaryReportWithLocation extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +31,7 @@ class PayrollSummaryReportWithLocation extends Component {
 
       date:moment().format('YYYY-MM-DD'),
       regionList: null,
-        data:[],
+      FinalData:[],
       fullname:'',
       empName: 0,
       martial_status: null,
@@ -190,21 +196,242 @@ class PayrollSummaryReportWithLocation extends Component {
     })
   }
 
+  
+
   handleSearchData = () => {
     // this.setState({
-    const branchId = this.state.selected_Branch ? this.state.selected_Branch.value : 0
-    const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
-    const employee_status = this.state.selected_employee_status ? this.state.selected_employee_status.value : 0
-    const Date=moment(this.state.date).format('YYYY-MM-DD')
+    // const branchId = this.state.selected_Branch ? this.state.selected_Branch.value : 0
+    // const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
+    // const employee_status = this.state.selected_employee_status ? this.state.selected_employee_status.value : 0
+    // const Date=moment(this.state.date).format('YYYY-MM-DD')
     // })
 
-    fetch(main_url + "report/employeeReport/" + regionId + "/" + branchId + "/" + employee_status+"/"+Date)
+    // fetch(main_url + "report/employeeReport/" + regionId + "/" + branchId + "/" + employee_status+"/"+Date)
+    //   .then(res => { if (res.ok) return res.json() })
+    //   .then(list => {
+    //    this.setState({
+    //     data:list
+    //    })
+    //   })
+    const getTemplatePartTime = (branch,empType) => {
+      return {
+        "branch_name":branch,
+      "emp_type":empType,
+      "allowance_labels":
+      [{"label":"Annual Award",
+      "value":0},
+      {"label":"Maintenance",
+      "value":0},{"label":"Medical Benefit",
+      "value":0},{"label":"Petrol","value":0}],
+      "deduction_labels":[{"label":"Income Tax",
+      "value":0},{"label":"Leave Without Pay","value":0},
+      {"label":"Salary Advance","value":0},
+      {"label":"SSC","value":0},
+      {"label":"Staff Loan","value":0}]
+    }
+    }
+    // const getTemplateAll = (branch,empType) => {
+    //   return {
+    //     "branch_name":branch,
+    //   "emp_type":empType,
+    //   "allowance_labels":
+    //   [{"label":"Annual Award",
+    //   "value":0},
+    //   {"label":"Maintenance",
+    //   "value":0},{"label":"Medical Benefit",
+    //   "value":0},{"label":"Petrol","value":0}],
+    //   "deduction_labels":[{"label":"Income Tax",
+    //   "value":0},{"label":"Leave Without Pay","value":0},
+    //   {"label":"Salary Advance","value":0},
+    //   {"label":"SSC","value":0},
+    //   {"label":"Staff Loan","value":0}]
+    // }
+    // }
+    fetch(main_url + "payroll_report/payrollWiseReport/2022-11/0/0/0")
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
        this.setState({
         data:list
        })
+      //  console.log(list)
+       const formatD= list.length >0 ? list.reduce((r,c)=>{ 
+            let R={...r};
+            if(!R[c.branch_name]){
+                R[c.branch_name]={
+                  branch_name: c.branch_name,
+                  empType: [ c]
+                }
+                // let empType1=[];
+                // if (c['emp_type'] === empType.PartTime) {
+                //   empType1.push(c);
+                // } else empType1.push( getTemplatePartTime(c.branch_name, empType.PartTime))
+               
+                // if(c['emp_type'] === empType.Training){
+                //   empType1.push(c);
+                // } else empType1.push( getTemplatePartTime(c.branch_name, empType.Training));
+
+                // if (c['emp_type'] ===empType.Permanent ) {
+                //   empType1.push(c);
+                // } else empType1.push( getTemplatePartTime(c.branch_name, empType.Permanent));
+
+                // R[c.branch_name]['empType']= empType1
+               
+            }
+            else {
+              // let empType1=R[c.branch_name]['empType'];
+              // if (c['emp_type'] === empType.PartTime) {
+              //   empType1.push(c);
+              // } else empType1.push( getTemplatePartTime(c.branch_name, empType.PartTime))
+             
+              // if(c['emp_type'] === empType.Training){
+              //   empType1.push(c);
+              // } else empType1.push( getTemplatePartTime(c.branch_name, empType.Training));
+
+              // if (c['emp_type'] === empType.Permanent ) {
+              //   empType1.push(c);
+              // } else empType1.push( getTemplatePartTime(c.branch_name, empType.Permanent));
+
+              R[c.branch_name]['empType'].push(c)
+            }
+            return R;
+        },[]): {};
+        const keys=Object.keys(formatD);
+        let data = {}
+        for (let index = 0; index < keys.length; index++) {
+          const element = formatD[keys[index]];
+          let arr=[];
+          let partTime= element["empType"].find(d=>d.emp_type === empType.PartTime)
+          // console.log("partTime",partTime)
+          let perm= element["empType"].find(d=>d.emp_type === empType.Permanent)
+          // console.log("permanent",perm)
+          let train= element["empType"].find(d=>d.emp_type === empType.Training)
+          // console.log("training",train)
+
+          if(partTime) arr.push(partTime) 
+          else arr.push( getTemplatePartTime(keys[index], empType.PartTime)) 
+
+          if(perm) arr.push(perm) 
+          else arr.push( getTemplatePartTime(keys[index], empType.Permanent)) 
+          
+          if(train) arr.push(train) 
+          else arr.push( getTemplatePartTime(keys[index], empType.Training)) 
+
+          console.log("arr",arr)
+          let AnnualAward=[];
+          let Maintenance=0;
+          let MedicalBenefit=0;
+          let Petrol=0;
+          let IncomeTax=0;
+          let Withoutpay=0;
+          let salaryAdvance=0;
+          let ssc=0;
+          let staffLoan=0;
+          arr.forEach((v,i)=>{
+            // let subTotal=v.allowance_labels.filter(v1=>v1.label ==  "Annual Award");
+            
+            // console.log("v",v.allowance_labels.filter(v1=>v1.label ==  "Annual Award")[0].value)
+            // v.allowance_labels.forEach((v1,k)=>{
+            //   console.log("v1",v1.label == "Annual Award")
+              
+            // })
+            // AnnualAward[i]=Total
+              // let annual= v.allowance_labels.filter(k=>k.label == "Annual Award");
+              // console.log("annual",annual)
+          })
+          console.log("annual award total",AnnualAward)
+          arr.push( {
+            "branch_name":keys[index],
+            "emp_type":empType.All,
+            "allowance_labels":
+            [{"label":"Annual Award",
+            "value":0},
+            {"label":"Maintenance",
+            "value":0},{"label":"Medical Benefit",
+            "value":0},{"label":"Petrol","value":0}],
+            "deduction_labels":[{"label":"Income Tax",
+            "value":0},{"label":"Leave Without Pay","value":0},
+            {"label":"Salary Advance","value":0},
+            {"label":"SSC","value":0},
+            {"label":"Staff Loan","value":0}]
+          })
+
+          // console.log(keys[index],element,arr.length)
+          
+          data[keys[index]] ={
+            branch_name:keys[index],
+            employeeType:arr
+          }
+          
+        }
+        
+      // console.log("format data ===> ",data,typeof(data))
+      let array=Object.values(data);
+      console.log("array",array)
+      this.setState({
+        FinalData:array
       })
+      // console.log("final data",this.state.FinalData)
+      //  let UniqueBranch=new Set();
+      //   list.forEach(v=>{
+      //     UniqueBranch.add(v.branch_name)
+      //   })
+      //   let uniqueMap=new Map();
+      //   UniqueBranch.forEach(v=>{
+      //     uniqueMap.set(v,{
+      //       "branch_name":v,
+      //       "EmpType":[
+      //         {
+      //           "emp_type": "Permanent",
+      //             "allowance_labels":[
+      //             {"label": "Annual Award", "value": 0},
+      //             {"label": "Maintenance", "value": 0},
+      //             {"label": "Medical Benefit", "value": 0},
+      //             {"label": "Petrol", "value": 0}
+      //             ],
+      //             "deduction_labels":[
+      //             {"label": "Income Tax", "value": 0},
+      //             {"label": "Leave Without Pay", "value": 0},
+      //             {"label": "Salary Advance", "value": 0},
+      //             {"label": "SSC", "value": 0},
+      //             {"label": "Staff Loan", "value": 0}
+      //             ]
+      //         },{
+      //           "emp_type": "Parttime",
+      //             "allowance_labels":[
+      //             {"label": "Annual Award", "value": 0},
+      //             {"label": "Maintenance", "value": 0},
+      //             {"label": "Medical Benefit", "value": 0},
+      //             {"label": "Petrol", "value": 0}
+      //             ],
+      //             "deduction_labels":[
+      //             {"label": "Income Tax", "value": 0},
+      //             {"label": "Leave Without Pay", "value": 0},
+      //             {"label": "Salary Advance", "value": 0},
+      //             {"label": "SSC", "value": 0},
+      //             {"label": "Staff Loan", "value": 0}
+      //             ]
+      //         },{
+      //           "emp_type": "Training",
+      //             "allowance_labels":[
+      //             {"label": "Annual Award", "value": 0},
+      //             {"label": "Maintenance", "value": 0},
+      //             {"label": "Medical Benefit", "value": 0},
+      //             {"label": "Petrol", "value": 0}
+      //             ],
+      //             "deduction_labels":[
+      //             {"label": "Income Tax", "value": 0},
+      //             {"label": "Leave Without Pay", "value": 0},
+      //             {"label": "Salary Advance", "value": 0},
+      //             {"label": "SSC", "value": 0},
+      //             {"label": "Staff Loan", "value": 0}
+      //             ]
+      //         }
+      //       ]
+      //     })
+      //   })
+      //   let mapValue=[...uniqueMap.values()]
+      })
+      
   }
   render() {
   
@@ -322,7 +549,7 @@ class PayrollSummaryReportWithLocation extends Component {
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                {/* <tr>
                     <td rowSpan={4}>All Alliance</td>
                     <td>All</td>
                     <td>jaslkdfj</td>
@@ -413,7 +640,29 @@ class PayrollSummaryReportWithLocation extends Component {
                     <td>kasdfjl</td>
                     <td>afsjlljfs</td>
                     
-                </tr>
+                </tr> */}
+                {/* {
+                  this.state.FinalData.map((v1,k)=>{
+                    return(
+                      <tr>
+                          <td>{v1.branch_name}</td>
+                          {
+                            v1.employeeType.map((v2,k2)=>{
+                                return(
+                                  <>
+                                    <td>All</td>
+                                    <td>Permanent</td>
+                                    <td>Training</td>
+                                    <td>Part Time</td>
+                                    <td></td>
+                                </>
+                                )
+                            })
+                          }
+                      </tr>
+                    )
+                  })
+                } */}
               </tbody>
           </table>
         </div>

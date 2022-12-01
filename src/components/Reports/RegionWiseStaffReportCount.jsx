@@ -45,6 +45,7 @@ class RegionWiseStaffReportCount extends Component {
                         uniqueDesign.add(v1.designations)
                     });
                 });
+                console.log("unique design",uniqueDesign)
                 
 
                 let uniqueMap = new Map();

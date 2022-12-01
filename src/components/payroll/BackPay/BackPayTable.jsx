@@ -64,15 +64,15 @@ export default class BackPayTable extends Component {
         $("#dataTables-table").on('click', '#toPrint', function () {
 
 
-            fetch(`${main_url}wedding_benefit/getWeddingAvailableAmount`)
-                .then(res => { if (res.ok) return res.json() })
-                .then(list => {
+            // fetch(`${main_url}wedding_benefit/getWeddingAvailableAmount`)
+            //     .then(res => { if (res.ok) return res.json() })
+            //     .then(list => {
 
                     var data = $(this).find("#print").text();
                     data = $.parseJSON(data);
 
-                    that.getPrintData(data, list.amount)
-                })
+                    that.getPrintData(data)
+                // })
 
         });
     }
@@ -164,61 +164,61 @@ export default class BackPayTable extends Component {
         data = data.filter(d => { return status === d.status });
         this._setTableData(data)
     }
-    async getPrintData(data, amount) {
+    // async getPrintData(data) {
 
-        var info = await getInformation('wedding_benefit', data.benefit_id)
-        var doc = new jsPDF("p", "mm", "a4");
-        var col = ["Benefit Title", "Amount"];
-        var rows = [];
-        var today = moment(Date.now()).format('YYYY-MM-DD')
-        var temp = ["Wedding Benefit", amount]
-        var temp1 = ["Total Amount:", amount];
-        rows.push(temp)
-        rows.push(temp1)
-        doc.setFontSize(12);
-        doc.addImage(imgData, 'image/jpeg', 10, 10, 50, 15)
-        doc.text('HR_0021 V3', 150, 15);
-        doc.text('Benefit Request Form', 150, 25)
-        doc.text('Generate Date: ' + today, 13, 40)
-        doc.text('Voucher No: ' + fno.fno_wedding + data.form_no, 150, 40)
+    //     var info = await getInformation('wedding_benefit', data.benefit_id)
+    //     var doc = new jsPDF("p", "mm", "a4");
+    //     var col = ["No", "Employee ID",];
+    //     var rows = [];
+    //     var today = moment(Date.now()).format('YYYY-MM-DD')
+    //     var temp = ["Wedding Benefit", amount]
+    //     var temp1 = ["Total Amount:", amount];
+    //     rows.push(temp)
+    //     rows.push(temp1)
+    //     doc.setFontSize(12);
+    //     doc.addImage(imgData, 'image/jpeg', 10, 10, 50, 15)
+    //     doc.text('HR_0021 V3', 150, 15);
+    //     doc.text('Benefit Request Form', 150, 25)
+    //     doc.text('Generate Date: ' + today, 13, 40)
+    //     doc.text('Voucher No: ' + fno.fno_wedding + data.form_no, 150, 40)
 
-        doc.autoTable(col, rows, { startY: 55 });
-        if (doc.previousAutoTable.finalY > 220) {
-            doc.addPage();
-            doc.previousAutoTable.finalY = 0;
-        }
-        doc.setFontSize(10);
-        doc.setFontType("bold");
-        doc.text('Request By', 13, doc.previousAutoTable.finalY + 17)
-        doc.text('Check By', 65, doc.previousAutoTable.finalY + 17)
-        doc.text('Verify By', 114, doc.previousAutoTable.finalY + 17)
-        doc.text('Approve By', 164, doc.previousAutoTable.finalY + 17)
-        doc.setFontSize(9);
-        doc.setFontType("normal");
-        doc.text(info.requested.requested_date, 13, doc.previousAutoTable.finalY + 25)
-        doc.text(info.requested.employment_id, 13, doc.previousAutoTable.finalY + 30)
-        doc.text(info.requested.requested_by, 13, doc.previousAutoTable.finalY + 35)
-        doc.text(info.requested.branch_name, 13, doc.previousAutoTable.finalY + 40)
-        doc.text(info.requested.designations, 13, doc.previousAutoTable.finalY + 45)
-        doc.text(info.checked.checked_date, 65, doc.previousAutoTable.finalY + 25)
-        doc.text(info.checked.employment_id, 65, doc.previousAutoTable.finalY + 30)
-        doc.text(info.checked.checked_by, 65, doc.previousAutoTable.finalY + 35)
-        doc.text(info.checked.branch_name, 65, doc.previousAutoTable.finalY + 40)
-        doc.text(info.checked.designations, 65, doc.previousAutoTable.finalY + 45)
-        doc.text(info.verified.verified_date, 114, doc.previousAutoTable.finalY + 25)
-        doc.text(info.verified.employment_id, 114, doc.previousAutoTable.finalY + 30)
-        doc.text(info.verified.verified_by, 114, doc.previousAutoTable.finalY + 35)
-        doc.text(info.verified.branch_name, 114, doc.previousAutoTable.finalY + 40)
-        doc.text(info.verified.designations, 114, doc.previousAutoTable.finalY + 45)
-        doc.text(info.approved.approved_date, 164, doc.previousAutoTable.finalY + 25)
-        doc.text(info.approved.employment_id, 164, doc.previousAutoTable.finalY + 30)
-        doc.text(info.approved.approved_by, 164, doc.previousAutoTable.finalY + 35)
-        doc.text(info.approved.branch_name, 164, doc.previousAutoTable.finalY + 40)
-        doc.text(info.approved.designations, 164, doc.previousAutoTable.finalY + 45)
-        await setPrintedStatus("wedding_benefit", data.benefit_id);
-        // doc.save('Wedding Benefit.pdf');
-        print(doc, data)
-    }
+    //     doc.autoTable(col, rows, { startY: 55 });
+    //     if (doc.previousAutoTable.finalY > 220) {
+    //         doc.addPage();
+    //         doc.previousAutoTable.finalY = 0;
+    //     }
+    //     doc.setFontSize(10);
+    //     doc.setFontType("bold");
+    //     doc.text('Request By', 13, doc.previousAutoTable.finalY + 17)
+    //     doc.text('Check By', 65, doc.previousAutoTable.finalY + 17)
+    //     doc.text('Verify By', 114, doc.previousAutoTable.finalY + 17)
+    //     doc.text('Approve By', 164, doc.previousAutoTable.finalY + 17)
+    //     doc.setFontSize(9);
+    //     doc.setFontType("normal");
+    //     doc.text(info.requested.requested_date, 13, doc.previousAutoTable.finalY + 25)
+    //     doc.text(info.requested.employment_id, 13, doc.previousAutoTable.finalY + 30)
+    //     doc.text(info.requested.requested_by, 13, doc.previousAutoTable.finalY + 35)
+    //     doc.text(info.requested.branch_name, 13, doc.previousAutoTable.finalY + 40)
+    //     doc.text(info.requested.designations, 13, doc.previousAutoTable.finalY + 45)
+    //     doc.text(info.checked.checked_date, 65, doc.previousAutoTable.finalY + 25)
+    //     doc.text(info.checked.employment_id, 65, doc.previousAutoTable.finalY + 30)
+    //     doc.text(info.checked.checked_by, 65, doc.previousAutoTable.finalY + 35)
+    //     doc.text(info.checked.branch_name, 65, doc.previousAutoTable.finalY + 40)
+    //     doc.text(info.checked.designations, 65, doc.previousAutoTable.finalY + 45)
+    //     doc.text(info.verified.verified_date, 114, doc.previousAutoTable.finalY + 25)
+    //     doc.text(info.verified.employment_id, 114, doc.previousAutoTable.finalY + 30)
+    //     doc.text(info.verified.verified_by, 114, doc.previousAutoTable.finalY + 35)
+    //     doc.text(info.verified.branch_name, 114, doc.previousAutoTable.finalY + 40)
+    //     doc.text(info.verified.designations, 114, doc.previousAutoTable.finalY + 45)
+    //     doc.text(info.approved.approved_date, 164, doc.previousAutoTable.finalY + 25)
+    //     doc.text(info.approved.employment_id, 164, doc.previousAutoTable.finalY + 30)
+    //     doc.text(info.approved.approved_by, 164, doc.previousAutoTable.finalY + 35)
+    //     doc.text(info.approved.branch_name, 164, doc.previousAutoTable.finalY + 40)
+    //     doc.text(info.approved.designations, 164, doc.previousAutoTable.finalY + 45)
+    //     await setPrintedStatus("wedding_benefit", data.benefit_id);
+    //     // doc.save('Wedding Benefit.pdf');
+    //     print(doc, data)
+    // }
 
     _setTableData = (data) => {
         console.log("table",data);
@@ -226,7 +226,7 @@ export default class BackPayTable extends Component {
         var l = [];
         var status;
         var permission = this.props.permission;
-        // var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
+        var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
         if(data){
             for (var i = 0; i < data.length; i++) {
                 console.log("stauts",data[i].status)
@@ -265,14 +265,34 @@ export default class BackPayTable extends Component {
                     amount:data[i].total ? data[i].total: "-",
                     status:status
                 }
-                obj.action =
-                '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' +
-                JSON.stringify(result) +
-                '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>';
-              obj.action +=
-                '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' +
-                JSON.stringify(result) +
-                '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>';
+                if (has_action) {
+                    if (result.status !== 3) {
+                        obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+                        obj.action += permission.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id ) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
+                    } else {
+                        obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+    
+                        if (result.print === 1) {
+                            obj.action +=
+                                '<button style="margin-right:10px" class="btn btn-info btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                                JSON.stringify(result) +
+                                '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
+                        } else {
+                            obj.action +=
+                                '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                                JSON.stringify(result) +
+                                '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
+                        }
+                    }
+                }
+            //     obj.action =
+            //     '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' +
+            //     JSON.stringify(result) +
+            //     '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>';
+            //   obj.action +=
+            //     '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' +
+            //     JSON.stringify(result) +
+            //     '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>';
                 l.push(obj)
     
             }
