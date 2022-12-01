@@ -120,6 +120,7 @@ export default class PayrollUpload extends Component {
         this._setTableData([]);
         this.setState({
           dataSource: [],
+          newDoc:[],
           activeStep:
             this.state.steps.length == this.state.activeStep + 1
               ? this.state.activeStep

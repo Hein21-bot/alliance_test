@@ -318,7 +318,9 @@ class PayrollSummaryReportWithLocation extends Component {
 
           console.log("arr",arr)
           let AnnualAward=[];
-          let Maintenance=0;
+          let AnnualAwardTotal=0;
+          let MaintenanceTotal=0;
+          let Maintenance=[];
           let MedicalBenefit=0;
           let Petrol=0;
           let IncomeTax=0;
@@ -327,7 +329,14 @@ class PayrollSummaryReportWithLocation extends Component {
           let ssc=0;
           let staffLoan=0;
           arr.forEach((v,i)=>{
-            // let subTotal=v.allowance_labels.filter(v1=>v1.label ==  "Annual Award");
+           
+            let AnnualAwardsubTotal=v.allowance_labels.filter(v1=>v1.label ==  "Annual Award");
+            let MaintenancesubTotal=v.allowance_labels.filter(v1=>v1.label == "Maintenance");
+            // console.log("subtotal====>",subTotal[0] && subTotal[0].value)
+            AnnualAwardTotal+=parseInt(AnnualAwardsubTotal[0] && AnnualAwardsubTotal[0].value);
+            MaintenanceTotal+=parseInt(MaintenancesubTotal[0] && MaintenanceTotal[0].value)
+            AnnualAward[i]=AnnualAwardTotal
+            console.log("annual award",AnnualAward[i])
             
             // console.log("v",v.allowance_labels.filter(v1=>v1.label ==  "Annual Award")[0].value)
             // v.allowance_labels.forEach((v1,k)=>{
