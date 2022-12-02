@@ -12,6 +12,7 @@ import { imgData } from "../../../utils/Global";
 import * as jsPDF from "jspdf";
 import { main_url } from "../../../utils/CommonFunction";
 import PayrollCalculated from "./PayrollCalculated";
+import PayrollAtmCashNext from "./PayrollAtmCashNext";
 import { toast, ToastContainer } from "react-toastify";
 import PayrollAtmCash from "./PayrollAtmCash";
 import Select from "react-select";
@@ -67,7 +68,7 @@ export default class PayrollMain extends Component {
       .then((list) => {
         // var obj = { state_name: 'All', state_id: 0};
         // list.push(obj);
-        let lists = list.unshift({ state_id: 0, state_name: "All" });
+        // let lists = list.unshift({ state_id: 0, state_name: "All" });
         this.setState({
           regionList: list.map((v) => ({
             label: v.state_name,
@@ -83,9 +84,9 @@ export default class PayrollMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        var obj = {deptname: 'All', departments_id: 0};
-        list.push(obj);
-        let lists = list.unshift({ departments_id: 0, deptname: "All" });
+        // var obj = {deptname: 'All', departments_id: 0};
+        // list.push(obj);
+        // let lists = list.unshift({ departments_id: 0, deptname: "All" });
         this.setState({
           departmentList: list.map((v) => ({
             label: v.deptname,
@@ -101,9 +102,9 @@ export default class PayrollMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        var obj = {label: 'All', value: 0};
-        list.push(obj);
-        let lists = list.unshift({ value: 0, label: "All" });
+        // var obj = {label: 'All', value: 0};
+        // list.push(obj);
+        // let lists = list.unshift({ value: 0, label: "All" });
         this.setState({
           designationList: list,
         });
@@ -116,9 +117,9 @@ export default class PayrollMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        var obj = { label: 'All', value: 0};
-        list.push(obj);
-        let lists = list.unshift({ value: 0, label: "All" });
+        // var obj = { label: 'All', value: 0};
+        // list.push(obj);
+        // let lists = list.unshift({ value: 0, label: "All" });
         this.setState({
           branchList: list,
         });
@@ -194,6 +195,11 @@ export default class PayrollMain extends Component {
         }
       });
   };
+  atmorcashback=()=>{
+    this.setState({
+      componentIndex:'atmOrCash'
+    })
+  }
 
   handleCalculate = () => {
     this.setState({
@@ -245,6 +251,11 @@ export default class PayrollMain extends Component {
         }
       });
   };
+  handleNextForATMOrCash=()=>{
+    this.setState({
+      componentIndex:"ATMorCashNext"
+    })
+  }
 
   handleDelete = () => {
     this.setState({
@@ -270,6 +281,7 @@ export default class PayrollMain extends Component {
   };
 
   handleSelectRegion = (e) => {
+    console.log("event",e)
     this.setState({
       selectedRegion: e,
     });
@@ -510,8 +522,8 @@ export default class PayrollMain extends Component {
                     }}
                   />
                 </div>
-                <div className="col-md-3">
-                  <div className="col-md-6">
+                <div className="col-md-4 btn-leftend">
+                  
                   <button
                     className="btn-primary btn"
                     onClick={this.onSearchClick}
@@ -519,8 +531,8 @@ export default class PayrollMain extends Component {
                   >
                     Get Payroll Data
                   </button>
-                  </div>
-                  <div className="col-md-6">
+                  
+                  
                   <button
                     className="btn-primary btn"
                     onClick={this.onNextClick}
@@ -528,7 +540,7 @@ export default class PayrollMain extends Component {
                   >
                     Payroll Prepare
                   </button>
-                  </div>
+                  
                 </div>
                 {/* <div className="col-md-1">
                   <button
@@ -606,8 +618,13 @@ export default class PayrollMain extends Component {
             handleSelectDesign={this.handleSelectDesign}
             handleSelectRegion={this.handleSelectRegion}
             handleSearchAtmOrCash={this.handleSearchAtmOrCash}
+            handleNextForATMOrCash={this.handleNextForATMOrCash}
           />
-        ) : null}
+        ) :componentIndex == "ATMorCashNext" ? (
+            <PayrollAtmCashNext filterDate={filterDate} selectedBranchMainList ={this.state.selectedBranchMainList} atmorcashback={this.atmorcashback}/>
+        )
+
+          : null}
       </div>
     );
   }

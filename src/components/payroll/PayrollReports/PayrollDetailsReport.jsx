@@ -24,7 +24,7 @@ class PayrollDetailsReport extends Component {
 
       date:moment().format('YYYY-MM-DD'),
       regionList: null,
-
+      dataSource:[],
       fullname:'',
       empName: 0,
       martial_status: null,
@@ -68,11 +68,10 @@ class PayrollDetailsReport extends Component {
     this.$el = $(this.el);
     this.setState(
       {
-        dataSource: this.props.data,
-
+        
       },
       () => {
-        this._setTableData(this.state.dataSource);
+        
       }
 
     );
@@ -233,116 +232,7 @@ class PayrollDetailsReport extends Component {
 
 
 
-  _setTableData = (data) => {
-    var table;
-    var l = [];
-    if (data) {
-      for (var i = 0; i < data.length; i++) {
-        let result = data[i];
-        let obj = [];
-        obj = {
-          no: i + 1,
-          employee_id: data[i].employment_id ? data[i].employment_id : '-',
-          employee_name: data[i].fullname ?data[i].fullname : "-",
-          branch: data[i].branch_name ? data[i].branch_name : "-",
-          designation: data[i].designations ? data[i].designations : "-",
-          level:data[i].carrer_level ? data[i].carrer_level : "-",
-          region: data[i].region_name ? data[i].region_name : "-",
-          employee_status: data[i].martial_status ? data[i].martial_status : '-',
-          gross_salary: data[i].contact_person ? data[i].contact_person : '-',
-          deduction_or_addition: data[i].contact_person_phone ? data[i].contact_person_phone : "-",
-          salary_after_deduction_addition: data[i].guarantee_person ? data[i].guarantee_person : '-',
-          ssc_3: data[i].gurantee_person_phone ? data[i].gurantee_person_phone : "-",
-          ssc_2: data[i].gurantee_person_phone ? data[i].gurantee_person_phone : "-",
-          income_tax: data[i].gurantee_person_phone ? data[i].gurantee_person_phone : "-",
-          net_salary_paid: data[i].gurantee_person_phone ? data[i].gurantee_person_phone : "-",
-          total_gross_salary: data[i].gurantee_person_phone ? data[i].gurantee_person_phone : "-",
-          maintenance: data[i].gurantee_person_phone ? data[i].gurantee_person_phone : "-",
-          petrol: data[i].gurantee_person_phone ? data[i].gurantee_person_phone : "-",
-          back_pay: data[i].gurantee_person_phone ? data[i].gurantee_person_phone : "-",
-          allowance: data[i].gurantee_person_phone ? data[i].gurantee_person_phone : "-",
-          income_tax_adjust: data[i].gurantee_person_phone ? data[i].gurantee_person_phone : "-",
-          medical_fund: data[i].gurantee_person_phone ? data[i].gurantee_person_phone : "-",
-          confirmation: data[i].gurantee_person_phone ? data[i].gurantee_person_phone : "-",
-          annual_award: data[i].gurantee_person_phone ? data[i].gurantee_person_phone : "-",
-          incentive: data[i].gurantee_person_phone ? data[i].gurantee_person_phone : "-",
-          other_deduction: data[i].gurantee_person_phone ? data[i].gurantee_person_phone : "-",
-          salary_cut: data[i].gurantee_person_phone ? data[i].gurantee_person_phone : "-",
-          deduction_loan: data[i].gurantee_person_phone ? data[i].gurantee_person_phone : "-",
-          atm_or_cash: data[i].gurantee_person_phone ? data[i].gurantee_person_phone : "-",
-          total: data[i].gurantee_person_phone ? data[i].gurantee_person_phone : "-",
-
-        }
-        l.push(obj)
-
-      }
-    }
-      if ($.fn.dataTable.isDataTable('#dataTables-table')) {
-        table = $('#dataTables-table').dataTable();
-        table.fnClearTable();
-        table.fnDestroy();
-        $('#dataTables-table').empty();
-      }
-      var column = [
-        { title: "No", data: "no" },
-        { title: "Employee Id", data: "employee_id" },
-        { title: "Employee Name", data: "employee_name" },
-        { title: "Designation", data: "designation" },
-        { title :'Level',data:'level'},
-        { title: "Region", data: "region" },
-        { title: "Branch", data: "branch" },
-        { title: "Employee Status", data: "employee_status" },
-        { title: "Gross Salary", data: "gross_salary" },
-        { title: "Deduction(+)/Additions(-)", data: "deduction_or_addition" },
-        { title: "Salary After Deductions/Additions", data: "salary_after_deduction_addition" },
-        { title: "SSC(Employer 3%)", data: "ssc_2" },
-        { title: "SSC(Employee 2%)", data: "ssc_3" },
-        { title: "Income Tax", data: "income_tax" },
-        { title: "Net Salary Paid", data: "net_salary_paid" },
-        { title: "Total Gross Salary", data: "total_gross_salary" },
-        { title: "Maintenance", data: "maintenance" },
-        { title: "Petrol", data: "petrol" },
-        { title: "Back Pay", data: "back_pay" },
-        { title: "Allowance", data: "allowance" },
-         { title: "Income Tax Adjust", data: "income_tax_adjust" },
-          { title: "Medical Fund", data: "medical_fund" }, 
-          { title: "Confirmation on Salary Adjustment", data: "confirmation" },
-          { title: "Annual Award", data: "annual_award" },
-          { title: "Incentive", data: "incentive" },
-          { title: "Other Deduction", data: "other_deduction" },
-          { title: "Salary Cut", data: "salary_cut" },
-          { title: "Deduction of Loan", data: "deduction_loan" },
-          { title: "ATM or Cash",data:'atm_or_cash'},
-          { title :"Total",data:'total'}
-
-      ]
-      table = $("#dataTables-table").DataTable({
-
-        autofill: true,
-        bLengthChange: false,
-        bInfo: false,
-        responsive: true,
-        pageLength: 50,
-        paging: true,
-            buttons: true,
-        dom: 'Bfrtip',
-         buttons: [
-       
-        'excel'
-         ],
-        buttons: [
-          
-          {
-              extend: 'excelHtml5',
-              title: 'Payroll Details Report',
-          },
-         
-        ],
-        data: l,
-        columns: column
-      });
-    
-  }
+ 
   handleSearchData = () => {
     // this.setState({
     const branchId = this.state.selected_Branch ? this.state.selected_Branch.value : 0
@@ -353,11 +243,15 @@ class PayrollDetailsReport extends Component {
     const Date=moment(this.state.date).format('YYYY-MM-DD')
     // })
 
-    fetch(main_url + "report/employeeReport/" + regionId + "/" + departmentId + "/" + branchId + "/" + designationId + "/" + employee+"/"+Date)
-      .then(res => { if (res.ok) return res.json() })
-      .then(list => {
-        this._setTableData(list);
+    fetch(main_url + "payroll_report/payrollReportSummary/2022-11/0/0")
+      .then((res) => {
+        if (res.ok) return res.json();
       })
+      .then((list) => {
+        this.setState({
+          dataSource: list,
+        });
+      });
   }
   render() {
   
@@ -365,6 +259,7 @@ class PayrollDetailsReport extends Component {
       <div>
         <div className="row  white-bg dashboard-header">
         <h3 className="" style={{paddingLeft:"10px"}}>Payroll Details Report</h3>
+          <div style={{overflow:'scroll'}}>
           <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
           <DatePicker
                             dateFormat="DD/MM/YYYY"
@@ -482,10 +377,117 @@ class PayrollDetailsReport extends Component {
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
           </div>
         
-        <table width="99%"
-          className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
-          id="dataTables-table"
-        />
+          <table className="table table-bordered" style={{overflow:'scroll'}}>
+            <thead>
+              <tr style={{overflow:'scroll'}}>
+                <th rowSpan={2}>No</th>
+                <th rowSpan={2}>Employee ID</th>
+                <th rowSpan={2}>Name</th>
+                <th rowSpan={2}>Position</th>
+                <th rowSpan={2}>Level</th>
+                <th rowSpan={2}>Branch Name</th>
+                <th rowSpan={2}>Department</th>
+                <th rowSpan={2}>Region</th>
+                <th rowSpan={2}>Employee Status</th>
+                <th rowSpan={2}>Gross salary</th>
+                <th rowSpan={2}>Deductions(+)/Additions(-)</th>
+                <th rowSpan={2}>Salary after deductions/additions</th>
+                <th colSpan={2}>SSC</th>
+                <th rowSpan={2}>Income Tax</th>
+                <th rowSpan={2}>Net Salary Paid</th>
+                <th rowSpan={2}>Total Gross Salary</th>
+                <th rowSpan={2}>Maintenance</th>
+                <th rowSpan={2}>Petrol</th>
+                <th rowSpan={2}>Backpay</th>
+                <th rowSpan={2}>Allowance</th>
+                <th rowSpan={2}>Income Tax Adjust</th>
+                <th rowSpan={2}>Medical Fund</th>
+                <th rowSpan={2}>Confirmation on Salary Adjustment</th>
+                <th rowSpan={2}>Annual Award</th>
+                <th rowSpan={2}>Incentive</th>
+                <th rowSpan={2}>Other Deduction</th>
+                <th rowSpan={2}>Salary Cut(Tablet)</th>
+                <th rowSpan={2}>Deduction of Loan</th>
+                <th rowSpan={2}>ATM or Cash</th>
+                <th rowSpan={2}>Total</th>
+              </tr>
+              <tr>
+                <th>Employer 3%</th>
+                <th>Employee 2%</th>
+              </tr>
+            </thead>
+            <tbody>
+             
+             
+                      {
+                        this.state.dataSource !=undefined && this.state.dataSource.length > 0 && this.state.dataSource.map((v,i)=>{
+                          return(
+                            <tr>
+                              <td>{i+1}</td>
+                              <td>{v.employee_id}</td>
+                              <td>{v.name}</td>
+                              <td>{v.position}</td>
+                              <td>{v.carrer_level}</td>
+                              <td>{v.branch}</td>
+                              <td>{v.departments}</td>
+                              <td>{v.region}</td>
+                              <td>{v.employee_status}</td>
+                              <td>{v.detail_amount}</td>
+                              <td>{v.detail_amount}</td>
+                              <td>{v.allowance_labels && v.allowance_labels.length > 0 && v.allowance_labels[i] && v.allowance_labels[i].label=="Maintenance" ? v.allowance_labels[i].value : 0}</td>
+                              <td>{v.allowance_labels && v.allowance_labels.length > 0 && v.allowance_labels[i] && v.allowance_labels[i].label=="Petrol" ? v.allowance_labels[i].value : 0}</td>
+                              <td>{v.allowance_labels && v.allowance_labels.length > 0 && v.allowance_labels[i] && v.allowance_labels[i].label=="BackPay" ? v.allowance_labels[i].value : 0}</td>
+                              <td>{v.deduction_labels && v.deduction_labels.length > 0 && v.deduction_labels[i] && v.deduction_labels[i].label=="Income Tax" ? v.deduction_labels[i].value : 0}</td>
+                              <td>{v.deduction_labels && v.deduction_labels.length > 0 && v.deduction_labels[i] && v.deduction_labels[i].label=="Income Tax" ? v.deduction_labels[i].value : 0}</td>
+                              <td>{v.deduction_labels && v.deduction_labels.length > 0 && v.deduction_labels[i] && v.deduction_labels[i].label=="Salary Cut" ? v.deduction_labels[i].value : 0}</td>
+                              <td>{v.deduction_labels && v.deduction_labels.length > 0 && v.deduction_labels[i] && v.deduction_labels[i].label=="Deduction of Loan" ? v.deduction_labels[i].value : 0}</td>
+                              <td>{v.allowance_labels && v.allowance_labels.length > 0 && v.allowance_labels[i] && v.allowance_labels[i].label=="Maintenance" ? v.allowance_labels[i].value : 0}</td>
+                              <td>{v.allowance_labels && v.allowance_labels.length > 0 && v.allowance_labels[i] && v.allowance_labels[i].label=="Petrol" ? v.allowance_labels[i].value : 0}</td>
+                              <td>{v.allowance_labels && v.allowance_labels.length > 0 && v.allowance_labels[i] && v.allowance_labels[i].label=="BackPay" ? v.allowance_labels[i].value : 0}</td>
+                              <td>{v.deduction_labels && v.deduction_labels.length > 0 && v.deduction_labels[i] && v.deduction_labels[i].label=="Income Tax" ? v.deduction_labels[i].value : 0}</td>
+                              <td>{v.deduction_labels && v.deduction_labels.length > 0 && v.deduction_labels[i] && v.deduction_labels[i].label=="Income Tax" ? v.deduction_labels[i].value : 0}</td>
+                              <td>{v.deduction_labels && v.deduction_labels.length > 0 && v.deduction_labels[i] && v.deduction_labels[i].label=="Salary Cut" ? v.deduction_labels[i].value : 0}</td>
+                              <td>{v.deduction_labels && v.deduction_labels.length > 0 && v.deduction_labels[i] && v.deduction_labels[i].label=="Deduction of Loan" ? v.deduction_labels[i].value : 0}</td>
+                              <td>{v.allowance_labels && v.allowance_labels.length > 0 && v.allowance_labels[i] && v.allowance_labels[i].label=="Maintenance" ? v.allowance_labels[i].value : 0}</td>
+                              <td>{v.allowance_labels && v.allowance_labels.length > 0 && v.allowance_labels[i] && v.allowance_labels[i].label=="Petrol" ? v.allowance_labels[i].value : 0}</td>
+                              <td>{v.allowance_labels && v.allowance_labels.length > 0 && v.allowance_labels[i] && v.allowance_labels[i].label=="Petrol" ? v.allowance_labels[i].value : 0}</td>
+
+                              <td>{v.allowance_labels && v.allowance_labels.length > 0 && v.allowance_labels[i] && v.allowance_labels[i].label=="Petrol" ? v.allowance_labels[i].value : 0}</td>
+
+                              <td>{v.allowance_labels && v.allowance_labels.length > 0 && v.allowance_labels[i] && v.allowance_labels[i].label=="BackPay" ? v.allowance_labels[i].value : 0}</td>
+                              <td>{v.detail_amount}</td>
+                    
+                            </tr>
+                          )
+                        })
+                      }
+                      <tr style={{textAlign:'center'}}>
+                        <td colSpan={9} style={{verticalAlign:'middle'}}>Total</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+            </tbody>
+          </table>
+          </div>
       </div>
       </div>
     )

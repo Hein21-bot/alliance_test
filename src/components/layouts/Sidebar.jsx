@@ -547,7 +547,7 @@ export default class Sidebar extends Component {
               </li>
               
               <li
-                className={this.checkPathName() === "/payroll" || pathname === '/pay_slip'  || pathname === '/ssc' || pathname === "/payroll_main" || pathname === '/foreigner_salary' || pathname === "/resign_or_dismiss_salary" ? "active" : ""}
+                className={this.checkPathName() === "/payroll" || pathname === '/pay_slip'  || pathname === '/payroll_generate' || pathname === '/ssc' || pathname === "/payroll_main" || pathname === '/foreigner_salary' || pathname === "/resign_or_dismiss_salary" ? "active" : ""}
                
              >
                 <a href="/pay_slip" className="sideList">
@@ -565,6 +565,13 @@ export default class Sidebar extends Component {
                   </li>
                   <li
                     className={
+                      pathname === "/payroll_generate" ? "active" : ""
+                    }
+                  >
+                    <a href="/payroll_generate">PaySlip Generate</a>
+                  </li>
+                  <li
+                    className={
                       pathname === "/ssc" ? "active" : " "
                     }
                   >
@@ -576,6 +583,13 @@ export default class Sidebar extends Component {
                     }
                   >
                     <a href="/payroll_main">Payroll</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/payroll_main" ? "active" : " "
+                    }
+                  >
+                    <a href="/payroll_main">Payroll Generate</a>
                   </li>
                   <li
                     className={

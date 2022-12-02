@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import ApprovalInformation from '../../Common/ApprovalInformation';
 import { main_url } from "../../../utils/CommonFunction";
+import moment from "moment/moment";
 export default class ForeignerSalaryView extends Component {
   constructor(props) {
     super(props);
@@ -66,8 +67,8 @@ export default class ForeignerSalaryView extends Component {
                       <label>Request Month</label>
                       <input
                       className="form-control"
-                        dateFormat="MMM"
-                        value={new Date(request_month)}
+                        // dateFormat="MMM"
+                        value={moment(request_month).format('MMM')}
                         timeFormat={false}
                         disabled={true}
                       />

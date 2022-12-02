@@ -22,7 +22,7 @@ class BackPayMain extends Component {
             isEdit: false,
             datasource: [],
             requestData: [],
-            permission_status: { isAddNew: true},
+            permission_status: { isAddNew: true,isEdit:true},
             requestType: '',
             active_tab: 0,
             BackPayData:[]
