@@ -294,8 +294,6 @@ export default class BackPayAddNew extends Component {
   }
 
   handleEmployeeId=(e)=>{
-    console.log(e)
-    
     if (e) {
         fetch(`${main_url}employee/getDetailUser/${e.user_id}`)
           .then((res) => {
@@ -313,12 +311,6 @@ export default class BackPayAddNew extends Component {
                   user_id:data[0].user_id
                 }
             })
-            // if (data.length > 0) {
-            //   this.getData(this.props.id);
-            //   this.setState({ tableEdit: true, tableView: false });
-  
-  
-            // }
           });
       }
       console.log(">>",e)
