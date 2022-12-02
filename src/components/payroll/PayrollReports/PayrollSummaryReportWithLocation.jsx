@@ -28,7 +28,15 @@ class PayrollSummaryReportWithLocation extends Component {
     super(props);
     this.state = {
 
-
+      annaulAwardTotal:0,
+      petrolTotal:0,
+      maintenanceTotal:0,
+      medicalTotal:0,
+      incometaxTotal:0,
+      withoutpayTotal:0,
+      salaryTotal:0,
+      sscTotal:0,
+      staffLoanTotal:0,
       date:moment().format('YYYY-MM-DD'),
       regionList: null,
       FinalData:[],
@@ -307,36 +315,90 @@ class PayrollSummaryReportWithLocation extends Component {
           let train= element["empType"].find(d=>d.emp_type === empType.Training)
           // console.log("training",train)
 
+          if(perm) arr.push(perm) 
+          else arr.push( getTemplatePartTime(keys[index], empType.Permanent)) 
+
           if(partTime) arr.push(partTime) 
           else arr.push( getTemplatePartTime(keys[index], empType.PartTime)) 
 
-          if(perm) arr.push(perm) 
-          else arr.push( getTemplatePartTime(keys[index], empType.Permanent)) 
-          
           if(train) arr.push(train) 
           else arr.push( getTemplatePartTime(keys[index], empType.Training)) 
+
+         
 
           console.log("arr",arr)
           let AnnualAward=[];
           let AnnualAwardTotal=0;
           let MaintenanceTotal=0;
           let Maintenance=[];
-          let MedicalBenefit=0;
-          let Petrol=0;
-          let IncomeTax=0;
-          let Withoutpay=0;
-          let salaryAdvance=0;
-          let ssc=0;
-          let staffLoan=0;
+          let MedicalBenefit=[];
+          let MedicalBenefitTotal=0;
+          let PetrolTotal=0;
+          let Petrol=[];
+          let IncomeTax=[];
+          let IncomeTaxTotal=0;
+          let Withoutpay=[];
+          let WithoutpayTotal=0;
+          let salaryAdvance=[];
+          let salaryAdvanceTotal=0
+          let ssc=[];
+          let sscTotal=0;
+          let staffLoan=[];
+          let staffLoanTotal=0;
+         
+          // if(AnnualAward.length == 2){
+           
+          // }
+          
           arr.forEach((v,i)=>{
            
             let AnnualAwardsubTotal=v.allowance_labels.filter(v1=>v1.label ==  "Annual Award");
             let MaintenancesubTotal=v.allowance_labels.filter(v1=>v1.label == "Maintenance");
+            let MedicalsubTotal=v.allowance_labels.filter(v1=>v1.label == "Medical Benefit");
+            let PetrolsubTotal=v.allowance_labels.filter(v1=>v1.label == "Petrol");
+            let IncomeTaxsubTotal=v.deduction_labels.filter(v=>v.label == "Income Tax");
+            let WithoutpaysubTotal=v.deduction_labels.filter(v=>v.label == "Leave Without Pay");
+            let salaryAdvancesubTotal=v.deduction_labels.filter(v=>v.label == "Salary Advance");
+            let sscsubTotal=v.deduction_labels.filter(v=>v.label == "SSC");
+            let staffLoansubTotal=v.deduction_labels.filter(v=>v.label == "SSC");
+
             // console.log("subtotal====>",subTotal[0] && subTotal[0].value)
             AnnualAwardTotal+=parseInt(AnnualAwardsubTotal[0] && AnnualAwardsubTotal[0].value);
-            MaintenanceTotal+=parseInt(MaintenancesubTotal[0] && MaintenanceTotal[0].value)
-            AnnualAward[i]=AnnualAwardTotal
-            console.log("annual award",AnnualAward[i])
+            MaintenanceTotal+=parseInt(MaintenancesubTotal[0] && MaintenancesubTotal[0].value);
+            MedicalBenefitTotal+=parseInt(MedicalsubTotal[0] && MedicalsubTotal[0].value);
+            PetrolTotal+=parseInt(PetrolsubTotal[0] && PetrolsubTotal[0].value);
+            IncomeTaxTotal+=parseInt(IncomeTaxsubTotal[0] && IncomeTaxsubTotal[0].value);
+            WithoutpayTotal+=parseInt(WithoutpaysubTotal[0] && WithoutpaysubTotal[0].value);
+            salaryAdvanceTotal+=parseInt(salaryAdvancesubTotal[0] && salaryAdvancesubTotal[0].value);
+            sscTotal+=parseInt(sscsubTotal[0] && sscsubTotal[0].value);
+            staffLoanTotal+=parseInt(staffLoansubTotal[0] && staffLoansubTotal[0].value);
+
+
+            AnnualAward[i]=AnnualAwardTotal;
+            Maintenance[i]=MaintenanceTotal;
+            MedicalBenefit[i]=MedicalBenefitTotal;
+            Petrol[i]=PetrolTotal;
+            IncomeTax[i]=IncomeTaxTotal;
+            Withoutpay[i]=WithoutpayTotal;
+            salaryAdvance[i]=salaryAdvanceTotal;
+            ssc[i]=sscTotal;
+            staffLoan[i]=staffLoanTotal;
+
+            
+
+            this.setState({
+              annaulAwardTotal:AnnualAwardTotal,
+              maintenanceTotal:MaintenanceTotal,
+              petrolTotal:PetrolTotal,
+              medicalTotal:MedicalBenefitTotal,
+              withoutpayTotal:WithoutpayTotal,
+              incometaxTotal:IncomeTaxTotal,
+              salaryTotal:salaryAdvanceTotal,
+              sscTotal:sscTotal,
+              staffLoanTotal:staffLoanTotal
+
+            })
+            console.log("annual award",AnnualAwardTotal)
             
             // console.log("v",v.allowance_labels.filter(v1=>v1.label ==  "Annual Award")[0].value)
             // v.allowance_labels.forEach((v1,k)=>{
@@ -348,21 +410,23 @@ class PayrollSummaryReportWithLocation extends Component {
               // console.log("annual",annual)
           })
           console.log("annual award total",AnnualAward)
-          arr.push( {
+
+          arr.unshift( {
             "branch_name":keys[index],
             "emp_type":empType.All,
             "allowance_labels":
             [{"label":"Annual Award",
-            "value":0},
+            "value":this.state.annaulAwardTotal},
             {"label":"Maintenance",
-            "value":0},{"label":"Medical Benefit",
-            "value":0},{"label":"Petrol","value":0}],
+            "value":this.state.maintenanceTotal},{"label":"Medical Benefit",
+            "value":this.state.medicalTotal},{"label":"Petrol","value":0}],
             "deduction_labels":[{"label":"Income Tax",
-            "value":0},{"label":"Leave Without Pay","value":0},
-            {"label":"Salary Advance","value":0},
-            {"label":"SSC","value":0},
-            {"label":"Staff Loan","value":0}]
+            "value":this.state.incometaxTotal},{"label":"Leave Without Pay","value":this.state.withoutpayTotal},
+            {"label":"Salary Advance","value":this.state.salaryTotal},
+            {"label":"SSC","value":this.state.sscTotal},
+            {"label":"Staff Loan","value":this.state.staffLoanTotal}]
           })
+         
 
           // console.log(keys[index],element,arr.length)
           
@@ -650,28 +714,54 @@ class PayrollSummaryReportWithLocation extends Component {
                     <td>afsjlljfs</td>
                     
                 </tr> */}
-                {/* {
+                {
                   this.state.FinalData.map((v1,k)=>{
+                    console.log("lenght",v1.employeeType.length)
                     return(
-                      <tr>
-                          <td>{v1.branch_name}</td>
+                     
+                      <>
+                          
                           {
                             v1.employeeType.map((v2,k2)=>{
+                              console.log("k2",k2)
+                              
                                 return(
+                                  
                                   <>
-                                    <td>All</td>
-                                    <td>Permanent</td>
-                                    <td>Training</td>
-                                    <td>Part Time</td>
-                                    <td></td>
+                                  <tr>
+                                  {/* <td rowSpan={4}>{v1.branch_name}</td> */}
+                                  {k2 === 0 ? <td rowSpan={v1.employeeType.length} style={{verticalAlign:'middle'}}>{v1.branch_name}</td> : null}
+                                    <td>{v2.emp_type}</td>
+                                    <td>{v2.allowance_labels.filter(v1=>v1.label ==  "Annual Award")[0] && v2.allowance_labels.filter(v1=>v1.label ==  "Annual Award")[0].value}</td>
+                                    <td>{v2.allowance_labels.filter(v1=>v1.label ==  "Annual Award")[0] && v2.allowance_labels.filter(v1=>v1.label ==  "Annual Award")[0].value}</td>
+                                    <td>{v2.allowance_labels.filter(v1=>v1.label ==  "Annual Award")[0] && v2.allowance_labels.filter(v1=>v1.label ==  "Annual Award")[0].value}</td>
+                                    <td>{v2.allowance_labels.filter(v1=>v1.label ==  "Annual Award")[0] && v2.allowance_labels.filter(v1=>v1.label ==  "Annual Award")[0].value}</td>
+                                    <td>{v2.allowance_labels.filter(v1=>v1.label ==  "Annual Award")[0] && v2.allowance_labels.filter(v1=>v1.label ==  "Annual Award")[0].value}</td>
+                                    <td>{v2.deduction_labels.filter(v1=>v1.label ==  "Income Tax")[0] && v2.deduction_labels.filter(v1=>v1.label ==  "Income Tax")[0].value}</td>
+                                    <td>{v2.deduction_labels.filter(v1=>v1.label ==  "Income Tax")[0] && v2.deduction_labels.filter(v1=>v1.label ==  "Income Tax")[0].value}</td>
+                                    <td>{v2.deduction_labels.filter(v1=>v1.label ==  "Income Tax")[0] && v2.deduction_labels.filter(v1=>v1.label ==  "Income Tax")[0].value}</td>
+                                    <td>{v2.allowance_labels.filter(v1=>v1.label ==  "Maintenance")[0] && v2.allowance_labels.filter(v1=>v1.label ==  "Maintenance")[0].value}</td>
+                                    <td>{v2.allowance_labels.filter(v1=>v1.label ==  "Petrol")[0] && v2.allowance_labels.filter(v1=>v1.label ==  "Petrol")[0].value}</td>
+                                    <td>{v2.deduction_labels.filter(v1=>v1.label ==  "Income Tax")[0] && v2.deduction_labels.filter(v1=>v1.label ==  "Income Tax")[0].value}</td>
+                                    <td>{v2.deduction_labels.filter(v1=>v1.label ==  "Income Tax")[0] && v2.deduction_labels.filter(v1=>v1.label ==  "Income Tax")[0].value}</td>
+                                    <td>{v2.deduction_labels.filter(v1=>v1.label ==  "Income Tax")[0] && v2.deduction_labels.filter(v1=>v1.label ==  "Income Tax")[0].value}</td>
+                                    <td>{v2.allowance_labels.filter(v1=>v1.label ==  "Medical Benefit")[0] && v2.allowance_labels.filter(v1=>v1.label ==  "Medical Benefit")[0].value}</td>
+                                    <td>{v2.deduction_labels.filter(v1=>v1.label ==  "Leave Without Pay")[0] && v2.deduction_labels.filter(v1=>v1.label ==  "Leave Without Pay")[0].value}</td>
+                                    <td>{v2.deduction_labels.filter(v1=>v1.label ==  "Salary Advance")[0] && v2.deduction_labels.filter(v1=>v1.label ==  "Salary Advance")[0].value}</td>
+                                    <td>{v2.deduction_labels.filter(v1=>v1.label ==  "Income Tax")[0] && v2.deduction_labels.filter(v1=>v1.label ==  "Income Tax")[0].value}</td>
+                                    <td>{v2.deduction_labels.filter(v1=>v1.label ==  "Income Tax")[0] && v2.deduction_labels.filter(v1=>v1.label ==  "Income Tax")[0].value}</td>
+                                    
+                                    {k2 === 0 ? <td rowSpan={v1.employeeType.length} style={{verticalAlign:'middle'}}>232133</td> : null}
+                                    </tr>
                                 </>
                                 )
                             })
                           }
-                      </tr>
+                          
+                      </>
                     )
                   })
-                } */}
+                }
               </tbody>
           </table>
         </div>
