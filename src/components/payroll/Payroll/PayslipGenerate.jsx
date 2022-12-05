@@ -352,6 +352,16 @@ export default class PayslipGenerate extends Component {
         <div className="row col-md-12">
           <div className="col-md-10">
            <div className="row" style={{display:'flex',justifyContent:'center',alignItems:'end'}}>
+            <div className="col-md-2">
+              
+            <label>Month</label>
+                  <DatePicker
+                    dateFormat="MM/YYYY"
+                    value={this.props.filterDate ? this.props.filterDate : new Date()}
+                    timeFormat={false}
+                    onChange={this.props.onFilterDateChange.bind(this)}
+                  />
+            </div>
            <div className="col-md-2">
               <label htmlFor="">Designation</label>
               <Select
@@ -452,6 +462,7 @@ export default class PayslipGenerate extends Component {
               <label htmlFor="">Employee Name</label>
               <input type="text" className="form-control" value={this.state.fullname} disabled />
             </div>
+            
             <div className="col-md-2">
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
 

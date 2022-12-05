@@ -5,6 +5,7 @@ import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css';
 import 'datatables.net-dt/css/jquery.dataTables.css'
 import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 import 'jspdf-autotable';
+import DatePicker from "react-datetime";
 import Select from 'react-select';
 import moment from "moment";
 const $ = require('jquery');
@@ -24,19 +25,19 @@ class EmployeeReport extends Component {
   }
 
   async componentDidMount() {
+   if(this.props.filterDate){
     this.handleSearchData();
+   }
     this.$el = $(this.el);
     this.setState(
       {
         dataSource: this.props.data,
-
       },
       () => {
         this._setTableData(this.state.dataSource);
       }
 
     );
-    
     
   }
   
@@ -107,20 +108,14 @@ class EmployeeReport extends Component {
   }
   handleSearchData = () => {
    
-    fetch(main_url + 'payroll/getReviewDetailData/'+moment(this.props.filterDate).format('YYYY-MM')+'/0/0/0/0',{
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-        body: JSON.stringify(this.props.selectedBranchMainList),
-      })
+    fetch(main_url + 'payroll/getReviewDetailData/'+moment(this.props.filterDate).format('YYYY-MM')+'/0/0/0/0')
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
         this._setTableData(list);
       })
   }
   render() {
-  
+  console.log("filter date",this.props.filterDate);
     return (
       <div>
         <div className="row  white-bg dashboard-header">
@@ -132,7 +127,34 @@ class EmployeeReport extends Component {
                   onClick={this.props.atmorcashback}
                 >
                   Back
-                </button>  
+                </button>
+                <div style={{ marginBottom: 20 }}>
+              <div
+                className="row"
+                style={{ display: "flex", alignItems: "end" }}
+              >
+                <div className="col-md-2">
+                  <label>Month</label>
+                  <DatePicker
+                    dateFormat="MM/YYYY"
+                    value={this.props.filterDate ? this.props.filterDate : new Date()}
+                    timeFormat={false}
+                    onChange={this.props.onFilterDateChange.bind(this)}
+                  />
+                </div>
+                
+                <div className="col-md-2 btn-leftend">
+                  <button
+                    className="btn-primary btn"
+                    onClick={this.handleSearchData}
+                    style={{ marginTop: 20, minWidth: 70, marginRight: 10 }}
+                  >
+                    Search
+                  </button>
+                </div>
+               
+              </div>
+            </div>
         <table width="99%"
           className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
           id="dataTables-table"

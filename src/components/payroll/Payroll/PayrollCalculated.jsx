@@ -42,7 +42,8 @@ export default class PayrollCalculated extends Component {
       paymentList:[
         {label:'ATM',value:0},
         {label:'Cash',value:1}
-      ]
+      ],
+      selected_date:new Date()
 
     };
   }
@@ -260,14 +261,7 @@ export default class PayrollCalculated extends Component {
 
     // })
 
-    fetch(main_url + "payroll/reviewData/"+moment(this.props.filterDate).format('YYYY-MM-DD')+"/" + regionId + "/" + departmentId + "/" + designationId + "/" + branchId + "/" + employee,
-    {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-      body: JSON.stringify(this.props.selectedBranchMainList),
-    })
+    fetch(main_url + "payroll/getReviewDetailData/"+moment(this.props.filterDate).format('YYYY-MM')+"/" + regionId + "/" + departmentId + "/" + designationId + "/" + branchId + "/" + employee)
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
         this._setTableData(list);
@@ -346,12 +340,21 @@ export default class PayrollCalculated extends Component {
 
   
   render() {
-
+    console.log("filter date",this.props.filterDate)
     return (
       <div>
         <div className="row col-md-12">
           <div className="col-md-10">
            <div className="row" style={{display:'flex',justifyContent:'center',alignItems:'end'}}>
+           <div className="col-md-2">
+                  <label>Month</label>
+                  <DatePicker
+                    dateFormat="MM/YYYY"
+                    value={this.props.filterDate ? this.props.filterDate : new Date()}
+                    timeFormat={false}
+                    onChange={this.props.onFilterDateChange}
+                  />
+                </div>
            <div className="col-md-2">
               <label htmlFor="">Designation</label>
               <Select

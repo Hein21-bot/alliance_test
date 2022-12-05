@@ -29,7 +29,7 @@ export default class PayrollUpload extends Component {
       activeStep: 0,
       completed: 0,
       steps: [],
-     
+
       step_name: null,
       newDoc: [],
       dataSource: [],
@@ -117,18 +117,19 @@ export default class PayrollUpload extends Component {
           });
         }
         document.querySelector("#attachment").value = "";
-        this.setState({
-          dataSource: [],
-          newDoc:[],
-          activeStep:
-            this.state.steps.length == this.state.activeStep + 1
-              ? this.state.activeStep
-              : this.state.activeStep + 1,
-        },()=>{
-          this._setTableData(this.state.dataSource);
-        });
-        
-        
+        this.setState(
+          {
+            dataSource: [],
+            newDoc: [],
+            activeStep:
+              this.state.steps.length == this.state.activeStep + 1
+                ? this.state.activeStep
+                : this.state.activeStep + 1,
+          },
+          () => {
+            this._setTableData(this.state.dataSource);
+          }
+        );
       });
   };
 
@@ -142,17 +143,22 @@ export default class PayrollUpload extends Component {
 
   handleBack = () => {
     document.querySelector("#attachment").value = "";
-    console.log("document",document.querySelector("#attachment").value);
-    this.setState({
-      dataSource: [],
-      newDoc:[],
-      activeStep: this.state.activeStep == 0 ? 0 : this.state.activeStep - 1,
-    },()=>{
-      console.log("back datasource",this.state.dataSource,this.state.newDoc);
-      this._setTableData(this.state.dataSource);
-  });
-    
-    
+    console.log("document", document.querySelector("#attachment").value);
+    this.setState(
+      {
+        dataSource: [],
+        newDoc: [],
+        activeStep: this.state.activeStep == 0 ? 0 : this.state.activeStep - 1,
+      },
+      () => {
+        console.log(
+          "back datasource",
+          this.state.dataSource,
+          this.state.newDoc
+        );
+        this._setTableData(this.state.dataSource);
+      }
+    );
   };
 
   handleFetchSSCData = () => {
@@ -213,7 +219,7 @@ export default class PayrollUpload extends Component {
       loading: true,
     });
     var files = document.getElementById("attachment").files;
-    
+
     var newDoc = this.state.newDoc;
 
     for (let i = 0; i < files.length; i++) {
@@ -226,18 +232,23 @@ export default class PayrollUpload extends Component {
     formdata.append("uploadfile", imagedata);
     formdata.append("data", this.state.steps[this.state.activeStep]);
     let status = 0;
-    fetch(main_url + "payrollCalculate/addPayroll/"+moment(this.props.filterDate).format('YYYY-MM'), {
-      method: "POST",
-      body: formdata,
-    })
+    fetch(
+      main_url +
+        "payrollCalculate/addPayroll/" +
+        moment(this.props.filterDate).format("YYYY-MM"),
+      {
+        method: "POST",
+        body: formdata,
+      }
+    )
       .then((res) => {
         status = res.status;
         return res.json();
       })
       .then(async (response) => {
-        console.log("api response======>",response)
+        console.log("api response======>", response);
         if (status == 200) {
-          console.log('ma thi bu chit tal')
+          console.log("ma thi bu chit tal");
           this.setState({ dataSource: response, loading: false });
           await this._setTableData(response);
         } else {
@@ -254,15 +265,18 @@ export default class PayrollUpload extends Component {
           });
         }
       });
-      this.setState({
-        newDoc:[]
-      },()=>console.log("check new doc",this.state.newDoc))
-      // document.querySelector("#attachment").value = "";
-      console.log("check",document.getElementById("attachment").files)
+    this.setState(
+      {
+        newDoc: [],
+      },
+      () => console.log("check new doc", this.state.newDoc)
+    );
+    // document.querySelector("#attachment").value = "";
+    console.log("check", document.getElementById("attachment").files);
   }
 
   _setTableData = async (data) => {
-    console.log("set table======>",data)
+    console.log("set table======>", data);
     var table;
     var l = [];
     var status;
@@ -284,6 +298,8 @@ export default class PayrollUpload extends Component {
         state_name: data[i].state_name ? data[i].state_name : "-",
         deduction_amount: data[i].deduction_amount
           ? data[i].deduction_amount
+          : data[i].allowance_amount
+          ? data[i].allowance_amount
           : "-",
       };
       l.push(obj);
