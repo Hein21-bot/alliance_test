@@ -373,7 +373,7 @@ export default class PayrollMain extends Component {
         `payroll/getReviewDetailData/${moment(
           // this.state.filterDate
           this.props.filterDate
-        ).format("YYYY-MM")}/${region}/${dept}/${design}/${branch}`
+        ).format("YYYY-MM")}/${region}/${dept}/${design}/${branch}/0`
     )
       .then((response1) => {
         if (response1.ok) return response1.json();
