@@ -1,36 +1,39 @@
-import React,{Component} from 'react';
-import { main_url } from '../../../utils/CommonFunction';
+import React, { Component } from "react";
+import { main_url } from "../../../utils/CommonFunction";
 import DatePicker from "react-datetime";
 import Select from "react-select";
 import moment from "moment";
 import "react-toastify/dist/ReactToastify.min.css";
 import { toast, ToastContainer } from "react-toastify";
 
-const  $ = require('jquery');
+const $ = require("jquery");
 
-export default class MonthlyIncentive extends Component{
-constructor(props){
-super(props);
-this.state={
-dataSource : [],
-newDoc : [],
-employeeIdList : [],
-EmployeeNameList: [],
-regionList : [],
-branchList : [],
-designationList : [],
-co_fx : [{value:0,label:'CO'},{value:1,label:'FX'}],
-selected_month : new Date(),
-componentIndex : 'main',
-selected_region :'',
-selected_branch :'',
-selected_designation :'',
-selected_employeeID : '',
-selected_employee :'',
-selected_type :{value:0,label:'CO'},
-}
-}
- componentDidMount(){
+export default class MonthlyIncentive extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataSource: [],
+      newDoc: [],
+      employeeIdList: [],
+      EmployeeNameList: [],
+      regionList: [],
+      branchList: [],
+      designationList: [],
+      co_fx: [
+        { value: 1, label: "CO" },
+        { value: 2, label: "FX" },
+      ],
+      selected_month: new Date(),
+      componentIndex: "main",
+      selected_region: "",
+      selected_branch: "",
+      selected_designation: "",
+      selected_employeeID: "",
+      selected_employee: "",
+      selected_type: { value: 1, label: "CO" },
+    };
+  }
+  componentDidMount() {
     this.$el = $(this.el);
     this.setDataTable(this.state.dataSource);
     this.getEmployeeCodeList();
@@ -43,67 +46,71 @@ selected_type :{value:0,label:'CO'},
     // }, () => {
     //     this.setDataTable(this.state.dataSource)
     // });
+  }
 
-}
+  checkFiles(e) {
+      this.setState({
+        loading: true,
+      });
+      var files = document.getElementById("attachment").files;
+      var newDoc = this.state.newDoc;
 
-// checkFiles(e) {
-//     this.setState({
-//       loading: true,
-//     });
-//     var files = document.getElementById("attachment").files;
-//     var newDoc = this.state.newDoc;
-
-//     for (let i = 0; i < files.length; i++) {
-//       var getfile = document.querySelector("#attachment").files[i];
-//       newDoc.push(getfile);
-//     }
-//     // document.querySelector("#attachment").value = "";
-//     const formdata = new FormData();
-//     var imagedata = newDoc[0];
-//     formdata.append("uploadfile", imagedata);
-//     formdata.append("data", this.state.steps[this.state.activeStep]);
-//     let status = 0;
-//     fetch(main_url + "payrollCalculate/addPayroll/", {
-//       method: "POST",
-//       body: formdata,
-//     })
-//       .then((res) => {
-//         status = res.status;
-//         return res.json();
-//       })
-//       .then(async (response) => {
-//         if (status == 200) {
-//           console.log('ma thi bu chit tal')
-//           this.setState({ dataSource: response, loading: false });
-//           await this._setTableData(response);
-//         } else {
-//           toast.error("Fail to Save Information", {
-//             position: "top-right",
-//             autoClose: 5000,
-//             hideProgressBar: false,
-//             closeOnClick: true,
-//             pauseOnHover: true,
-//             draggable: true,
-//           });
-//           this.setState({
-//             loading: false,
-//           });
-//         }
-//       });
-//   }
-
-getRegionList() {
-    fetch(`${main_url}benefit/getRegionList`)
-        .then(res => { if (res.ok) return res.json() })
-        .then(list => {
-            let lists = list.unshift({ state_id: 0, state_name: 'All' })
-            this.setState({
-                regionList: list.map(v => ({ ...v, label: v.state_name, value: v.state_id }))
-            })
+      for (let i = 0; i < files.length; i++) {
+        var getfile = document.querySelector("#attachment").files[i];
+        newDoc.push(getfile);
+      }
+      // document.querySelector("#attachment").value = "";
+      const formdata = new FormData();
+      var imagedata = newDoc[0];
+      formdata.append("uploadfile", imagedata);
+      formdata.append("data", this.state.steps[this.state.activeStep]);
+      let status = 0;
+      fetch(main_url + "incentiveCo/addIncentiveCo/" + "this." , {
+        method: "POST",
+        body: formdata,
+      })
+        .then((res) => {
+          status = res.status;
+          return res.json();
         })
-  };
+        .then(async (response) => {
+          if (status == 200) {
+            this.setState({ dataSource: response, loading: false });
+            await this._setTableData(response);
+          } else {
+            toast.error("Fail to Save Information", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+            });
+            this.setState({
+              loading: false,
+            });
+          }
+        });
+    }
 
-getDesignationList() {
+  getRegionList() {
+    fetch(`${main_url}benefit/getRegionList`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        let lists = list.unshift({ state_id: 0, state_name: "All" });
+        this.setState({
+          regionList: list.map((v) => ({
+            ...v,
+            label: v.state_name,
+            value: v.state_id,
+          })),
+        });
+      });
+  }
+
+  getDesignationList() {
     fetch(`${main_url}main/getDesignations`)
       .then((res) => {
         if (res.ok) return res.json();
@@ -114,22 +121,22 @@ getDesignationList() {
           designationList: list, //list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
         });
       });
-  };
+  }
 
-getBranchList() {
+  getBranchList() {
     fetch(`${main_url}main/getBranch`)
-        .then((res) => {
-            if (res.ok) return res.json();
-        })
-        .then((list) => {
-            let lists = list.unshift({ value: 0, label: 'All' })
-            this.setState({
-                branchList: list
-            });
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        let lists = list.unshift({ value: 0, label: "All" });
+        this.setState({
+          branchList: list,
         });
-  };
+      });
+  }
 
-getEmployeeCodeList() {
+  getEmployeeCodeList() {
     fetch(`${main_url}employee/getEmployeeCode`)
       .then((res) => {
         if (res.ok) return res.json();
@@ -143,7 +150,7 @@ getEmployeeCodeList() {
           })),
         });
       });
-  };
+  }
 
   getEmployeeName() {
     fetch(`${main_url}report/employeeName`)
@@ -152,10 +159,10 @@ getEmployeeCodeList() {
       })
       .then((list) => {
         this.setState({
-          EmployeeNameList: list
-        })
-      })
-  };
+          EmployeeNameList: list,
+        });
+      });
+  }
 
   handleSelectedDeaprtment = (event) => {
     if (event !== null)
@@ -189,30 +196,32 @@ getEmployeeCodeList() {
     if (event !== null)
       this.setState({
         selected_employeeID: event,
-        selected_employee : this.state.EmployeeNameList.filter(v=>v.value == event.user_id)[0].label
+        selected_employee: this.state.EmployeeNameList.filter(
+          (v) => v.value == event.user_id
+        )[0].label,
       });
   };
 
   handleSelectedMonth = (event) => {
     this.setState({
-        selected_month: event,
-      });
+      selected_month: event,
+    });
   };
 
   handleSelectedType = (event) => {
-    this.setState({
+    this.setState(
+      {
         selected_type: event,
-      },()=>{
-        this.state.selected_type.value == 0 ? (
-        this.setDataTable (this.state.dataSource)):(this._setDataTable (this.state.dataSource))
-      });
-      
+      },
+      () => {
+        this.state.selected_type.value == 1
+          ? this.setDataTable(this.state.dataSource)
+          : this._setDataTable(this.state.dataSource);
+      }
+    );
   };
 
-
-
-setDataTable(data) {
-  console.log("tableeeeeee");
+  setDataTable(data) {
     var table;
     if ($.fn.dataTable.isDataTable("#dataTables-Table")) {
       table = $("#dataTables-Table").dataTable();
@@ -226,23 +235,39 @@ setDataTable(data) {
       const result = data[i];
       const obj = {
         no: index + 1,
-        request_month: data[i].request_month ? moment(data[i].request_month).format("MMM"): "-",
+        request_month: data[i].request_month
+          ? moment(data[i].request_month).format("MMM")
+          : "-",
         employment_id: data[i].employment_id ? data[i].employment_id : "-",
-        pay_roll:data[i].request_type == 1 ? "Back Pay Salary" : data[i].request_type ==2 ? "Refund Salary" : "•	Temporary Contract Salary",
+        pay_roll:
+          data[i].request_type == 1
+            ? "Back Pay Salary"
+            : data[i].request_type == 2
+            ? "Refund Salary"
+            : "•	Temporary Contract Salary",
         fullname: data[i].fullname ? data[i].fullname : "-",
         designations: data[i].designations ? data[i].designations : "-",
-        departments:data[i].deptname ? data[i].deptname : '-',
-        region:data[i].state_name ? data[i].state_name:'-',
-        branch:data[i].location_master_name ? data[i].location_master_name: '-',
-        amount:data[i].amount ? data[i].amount : '-',
-        reason:data[i].reason ? data[i].reason : '-',
-        start_working_day:data[i].start_working_day ? moment(data[i].start_working_day).format('YYYY-MM-DD') : '-',
-        end_working_day:data[i].last_working_day ? moment(data[i].last_working_day).format('YYYY-MM-DD') : '-',
-        working_day:data[i].work_calendar_day== 0 ? "Working Day" : 'Calendar Day',
-        total_working_day:data[i].total_working_day ? data[i].total_working_day: '-',
-        salary_per_day:data[i].salary_per_day ? data[i].salary_per_day : '-',
-        total_salary:data[i].total_salary? data[i].total_salary : '-',
-        atm_or_cash: data[i].atm_cash  == 0 ? "ATM" : "Cash",
+        departments: data[i].deptname ? data[i].deptname : "-",
+        region: data[i].state_name ? data[i].state_name : "-",
+        branch: data[i].location_master_name
+          ? data[i].location_master_name
+          : "-",
+        amount: data[i].amount ? data[i].amount : "-",
+        reason: data[i].reason ? data[i].reason : "-",
+        start_working_day: data[i].start_working_day
+          ? moment(data[i].start_working_day).format("YYYY-MM-DD")
+          : "-",
+        end_working_day: data[i].last_working_day
+          ? moment(data[i].last_working_day).format("YYYY-MM-DD")
+          : "-",
+        working_day:
+          data[i].work_calendar_day == 0 ? "Working Day" : "Calendar Day",
+        total_working_day: data[i].total_working_day
+          ? data[i].total_working_day
+          : "-",
+        salary_per_day: data[i].salary_per_day ? data[i].salary_per_day : "-",
+        total_salary: data[i].total_salary ? data[i].total_salary : "-",
+        atm_or_cash: data[i].atm_cash == 0 ? "ATM" : "Cash",
         action:
           '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' +
           index +
@@ -265,30 +290,29 @@ setDataTable(data) {
       data: l,
       columns: [
         { title: "No", data: "no" },
-        { title :"Request Month",data:"request_month"},
-        { title : "Payroll Type",data:'pay_roll'},
+        { title: "Request Month", data: "request_month" },
+        { title: "Payroll Type", data: "pay_roll" },
         { title: "Employee Id", data: "employment_id" },
         { title: "Employee Name", data: "fullname" },
         { title: "Position", data: "designations" },
-        { title :"Departments",data:"departments"},
-        { title :"Region",data:"region"},
-        { title :"Branch",data:"branch"},
-        { title :"Amount",data:"amount"},
-        { title :"Reason",data:"reason"},
-        { title :"Start Working Day",data:"start_working_day"},
-        { title :"End Working Day",data:"end_working_day"},
-        { title :"Working Day/Calendar Day",data:"working_day"},
-        { title: "Total Working Day",data:"total_working_day"},
-        { title: "Salary Per Day",data:"salary_per_day"},
-        { title: "Total Salary",data:"total_salary"},
-        { title: "ATM Or Cash",data:"atm_or_cash"},
-        { title: "Action",data:'action'}
+        { title: "Departments", data: "departments" },
+        { title: "Region", data: "region" },
+        { title: "Branch", data: "branch" },
+        { title: "Amount", data: "amount" },
+        { title: "Reason", data: "reason" },
+        { title: "Start Working Day", data: "start_working_day" },
+        { title: "End Working Day", data: "end_working_day" },
+        { title: "Working Day/Calendar Day", data: "working_day" },
+        { title: "Total Working Day", data: "total_working_day" },
+        { title: "Salary Per Day", data: "salary_per_day" },
+        { title: "Total Salary", data: "total_salary" },
+        { title: "ATM Or Cash", data: "atm_or_cash" },
+        { title: "Action", data: "action" },
       ],
     });
   }
 
-_setDataTable(data) {
-  console.log("table111111111");
+  _setDataTable(data) {
     var table;
     if ($.fn.dataTable.isDataTable("#dataTables-Table-One")) {
       table = $("#dataTables-Table-One").dataTable();
@@ -303,7 +327,12 @@ _setDataTable(data) {
       const obj = {
         no: index + 1,
         employment_id: data[i].employment_id ? data[i].employment_id : "-",
-        co_count:data[i].request_type == 1 ? "Back Pay Salary" : data[i].request_type ==2 ? "Refund Salary" : "•	Temporary Contract Salary",
+        co_count:
+          data[i].request_type == 1
+            ? "Back Pay Salary"
+            : data[i].request_type == 2
+            ? "Refund Salary"
+            : "•	Temporary Contract Salary",
         co_incentive: data[i].fullname ? data[i].fullname : "-",
         co_incentive_total: data[i].designations ? data[i].designations : "-",
       };
@@ -323,43 +352,47 @@ _setDataTable(data) {
         { title: "Employee Id", data: "employment_id" },
         { title: "CO Count", data: "co_count" },
         { title: "CO Incentive", data: "co_incentive" },
-        { title :"CO Incentive Total",data:"co_incentive_total"},
+        { title: "CO Incentive Total", data: "co_incentive_total" },
       ],
     });
   }
 
-render(){  
-return(
-   <div>
-    <div>
-    <div className='col-lg-3' >
-        <label>Request Month</label>
-        <DatePicker
-            dateFormat="MM/YYYY"
-            value={this.state.selected_month}
-            timeFormat={false}
-            onChange={this.handleSelectedMonth}
+  render() {
+    return (
+      <div>
+        <div>
+          <div className="col-lg-3">
+            <label>Request Month</label>
+            <DatePicker
+              dateFormat="MM/YYYY"
+              value={this.state.selected_month}
+              timeFormat={false}
+              onChange={this.handleSelectedMonth}
+            />
+          </div>
+          <div className="col-lg-3">
+            <label>CO/FX</label>
+            <Select
+              options={this.state.co_fx}
+              onChange={this.handleSelectedType}
+              value={this.state.selected_type}
+              className="react-select-container"
+              classNamePrefix="react-select"
+            />
+          </div>
 
-        /></div>
-         <div className='col-lg-3' >
-        <label>CO/FX</label>
-        <Select 
-          options={this.state.co_fx}
-          onChange={this.handleSelectedType}
-          value={this.state.selected_type}
-          className="react-select-container"
-          classNamePrefix="react-select"/></div>
+          <div className="col-lg-3">
+            <label>Designation</label>
+            <Select
+              options={this.state.designationList}
+              onChange={this.handleSelectedDesignation}
+              value={this.state.selected_designation}
+              className="react-select-container"
+              classNamePrefix="react-select"
+            />
+          </div>
 
-    <div className='col-lg-3' >
-        <label>Designation</label>
-        <Select 
-          options={this.state.designationList}
-          onChange={this.handleSelectedDesignation}
-          value={this.state.selected_designation}
-          className="react-select-container"
-          classNamePrefix="react-select"/></div>
-
-    {/* <div className='col-lg-3' >
+          {/* <div className='col-lg-3' >
         <label>Region</label>
         <Select 
           options={this.state.regionList}
@@ -399,28 +432,42 @@ return(
                         placeholder="Employee Name"
                         // onChange={this.claimChangeText}
                       /></div> */}
-                      
-        <div className='col-lg-3' style={{marginTop:'22px',display:"flex",justifyContent:'space-between'}}>
-        <button className='btn-primary btn'>Search</button>
-        </div>
-                
-        <div className="col-lg-3" style={{marginLeft:30,paddingTop:30}}>
-                    <input
-                      // className="dropZone"
-                      type="file"
-                      id="attachment"
-                      // name="attachment"
-                      // onChange={this.checkFiles.bind(this)}
-                    style={{height:30}}
-                    ></input>
-                  </div>
 
-                  <div className='col-lg-3' style={{marginTop:'22px',display:"flex",justifyContent:'space-between'}}>
-        <button className='btn-primary btn'>Calculate</button>
-        </div>
+          <div
+            className="col-lg-3"
+            style={{
+              marginTop: "22px",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <button className="btn-primary btn">Search</button>
+          </div>
 
-      {/* { this.state.newDoc.length > 0 ?( */}
-        <div className="col-md-12">
+          <div className="col-lg-3" style={{ marginLeft: 30, paddingTop: 30 }}>
+            <input
+              // className="dropZone"
+              type="file"
+              id="attachment"
+              // name="attachment"
+              // onChange={this.checkFiles.bind(this)}
+              style={{ height: 30 }}
+            ></input>
+          </div>
+
+          <div
+            className="col-lg-3"
+            style={{
+              marginTop: "22px",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <button className="btn-primary btn">Calculate</button>
+          </div>
+
+          {/* { this.state.newDoc.length > 0 ?( */}
+          <div className="col-md-12">
                 <table
                   width="99%"
                   className="table table-striped table-bordered table-hover responsive nowrap dt-responsive"
@@ -428,21 +475,192 @@ return(
                 />
               </div>
           {/* ): '' } */}
-          </div>
+        </div>
 
-              {
-                this.state.selected_type.value == 1 ? (  
-                  
-                  <div>
-                 <div className="col-md-12">
-                  <table
-                  width="99%"
-                  className="table table-striped table-bordered table-hover responsive nowrap dt-responsive"
-                  id="dataTables-Table-One"
-                />
+        {this.state.selected_type.value == 2 ? (
+          <div>
+            <div className="col-md-12">
+              <table
+                width="99%"
+                className="table table-striped table-bordered table-hover responsive nowrap dt-responsive"
+                id="dataTables-Table-One"
+              />
+
+              <div style={{ display: "flex", justifyContent: "end" }}>
+                <div
+                  className="col-lg-1"
+                  style={{
+                    marginTop: "22px",
+                    display: "flex",
+                    justifyContent: "end",
+                  }}
+                >
+                  <button className="btn-primary btn">Delete</button>
                 </div>
+                <div
+                  className="col-lg-1"
+                  style={{
+                    marginTop: "22px",
+                    display: "flex",
+                    justifyContent: "end",
+                  }}
+                >
+                  <button className="btn-primary btn">Generate</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : this.state.selected_type.value == 1 ? (
+          <div>
+              <table
+                className="table table-bordered"
+                style={{ overflow: "scroll" }}
+              >
+                <thead>
+                  <tr
+                    style={{
+                      backgroundColor: "blue",
+                      color: "white",
+                      overflow: "scroll",
+                    }}
+                  >
+                    <th
+                      style={{ textAlign: "center", verticalAlign: "middle" }}
+                      rowSpan={3}
+                    >
+                      Employee ID
+                    </th>
+                    <th style={{ textAlign: "center" }} colSpan={4}>
+                      Credit
+                    </th>
+                    <th style={{ textAlign: "center" }}>Saving</th>
+                    <th style={{ textAlign: "center" }} colSpan={2}>
+                      Collection Rate
+                    </th>
+                    <th style={{ textAlign: "center" }} colSpan={2}>
+                      PAR
+                    </th>
+                    <th
+                      style={{ textAlign: "center", verticalAlign: "middle" }}
+                      rowSpan={3}
+                    >
+                      Credit Incentive
+                    </th>
+                    <th
+                      style={{ textAlign: "center", verticalAlign: "middle" }}
+                      rowSpan={3}
+                    >
+                      Saving Incentive
+                    </th>
+                    <th
+                      style={{ textAlign: "center", verticalAlign: "middle" }}
+                      rowSpan={3}
+                    >
+                      Collective Rate Incentive
+                    </th>
+                    <th
+                      style={{ textAlign: "center", verticalAlign: "middle" }}
+                      rowSpan={3}
+                    >
+                      PAR Deduction Incentive
+                    </th>
+                  </tr>
+                  <tr>
+                    <th style={{ textAlign: "center" }} colSpan={2}>
+                      Disbursement
+                    </th>
+                    <th style={{ textAlign: "center" }} colSpan={2}>
+                      Portfolio
+                    </th>
+                    <th
+                      style={{ textAlign: "center", verticalAlign: "middle" }}
+                      rowSpan={2}
+                    >
+                      Outstanding
+                    </th>
+                    <th
+                      style={{ textAlign: "center", verticalAlign: "middle" }}
+                      rowSpan={2}
+                    >
+                      Demand
+                    </th>
+                    <th
+                      style={{ textAlign: "center", verticalAlign: "middle" }}
+                      rowSpan={2}
+                    >
+                      Actual
+                    </th>
+                    <th
+                      style={{ textAlign: "center", verticalAlign: "middle" }}
+                      rowSpan={2}
+                    >
+                      NO.s
+                    </th>
+                    <th
+                      style={{ textAlign: "center", verticalAlign: "middle" }}
+                      rowSpan={2}
+                    >
+                      Amount
+                    </th>
+                  </tr>
+                  <tr>
+                    <th style={{ textAlign: "center" }}>NO.s</th>
+                    <th style={{ textAlign: "center" }}>Amount</th>
+                    <th style={{ textAlign: "center" }}>NO.s</th>
+                    <th style={{ textAlign: "center" }}>Outstanding</th>
+                  </tr>
+                </thead>
+                <tbody style={{ textAlign: "center" }}>
+                  <tr>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>6</td>
+                    <td>7</td>
+                    <td>8</td>
+                    <td>9</td>
+                    <td>10</td>
+                    <td>11</td>
+                    <td>12</td>
+                    <td>13</td>
+                    <td>14</td>
+                  </tr>
+                </tbody>
+              </table>
 
-                  <div className="row" style={{display:'flex',justifyContent:'center'}}>
+            <div style={{ display: "flex", justifyContent: "end" }}>
+              <div
+                className="col-lg-1"
+                style={{
+                  marginTop: "22px",
+                  display: "flex",
+                  justifyContent: "end",
+                }}
+              >
+                <button className="btn-primary btn">Delete</button>
+              </div>
+              <div
+                className="col-lg-1"
+                style={{
+                  marginTop: "22px",
+                  display: "flex",
+                  justifyContent: "end",
+                }}
+              >
+                <button className="btn-primary btn">Generate</button>
+              </div>
+            </div>
+          </div>
+        ) : ''}
+      </div>
+    );
+  }
+}
+
+{
+  /* <div className="row" style={{display:'flex',justifyContent:'center'}}>
                     <div className='col-lg-7 col-md-8 col-sm-12' style={{ background: 'white',marginTop:30,border:"1px solid grey " }}>
                  <div className="" style={{display:'flex',justifyContent:'center', background: '#1872ab',marginTop:20}}><h2 style={{color:"white",marginTop:10,fontSize:18,fontWeight:"bold"}}>Monthly Incentive</h2></div>
                  <div className="" style={{display:'flex',justifyContent:'center',paddingTop:20}}><h3>Staff Information</h3></div>
@@ -488,15 +706,11 @@ return(
                  <p>Department</p>
                  </div>
                     </div>
-                  </div>
-                 </div>
-                  
-                
-                ): this.state.selected_type.value == 0 ? ( console.log('8978978'),
-                 
-                 <div>  
+                  </div> */
+}
 
-                  {/* <div className="row" style={{display:'flex',justifyContent:'space-around'}}>
+{
+  /* <div className="row" style={{display:'flex',justifyContent:'space-around'}}>
                    <div className='col-lg-4 col-md-4 col-sm-12' style={{ background: 'white',marginTop:30,border:"1px solid grey " }}>
                     
                   <div className="" style={{display:'flex',justifyContent:'center', background: '#1872ab',marginTop:20}}><h2 style={{color:"white",marginTop:10,fontSize:18,fontWeight:"bold"}}>Monthly Incentive</h2>
@@ -649,75 +863,5 @@ return(
                  </div>
                    </div>
                    </div>
-                  </div>  */}
-
-                  <div>
-                    <table className="table table-bordered" style={{overflow:'scroll'}}>
-                      <thead>
-                      <tr style={{ backgroundColor: 'blue', color: 'white',overflow:'scroll' }}>                 
-                          <th style={{textAlign:'center',verticalAlign:'middle'}} rowSpan={3}>Employee ID</th>
-                          <th style={{textAlign:'center'}} colSpan={4}>Credit</th>
-                          <th style={{textAlign:'center'}}>Saving</th>
-                          <th style={{textAlign:'center'}} colSpan={2}>Collection Rate</th>
-                          <th style={{textAlign:'center'}} colSpan={2}>PAR</th>
-                          <th style={{textAlign:'center',verticalAlign:'middle'}}rowSpan={3}>Credit Incentive</th>
-                          <th style={{textAlign:'center',verticalAlign:'middle'}}rowSpan={3}>Saving Incentive</th>
-                          <th style={{textAlign:'center',verticalAlign:'middle'}}rowSpan={3}>Collective Rate Incentive</th>
-                          <th style={{textAlign:'center',verticalAlign:'middle'}}rowSpan={3}>PAR Deduction Incentive</th>
-                        </tr>
-                        <tr>
-                          <th style={{textAlign:'center'}}colSpan={2}>Disbursement</th>
-                          <th style={{textAlign:'center'}}colSpan={2}>Portfolio</th>
-                          <th style={{textAlign:'center',verticalAlign:'middle'}}rowSpan={2}>Outstanding</th>
-                          <th style={{textAlign:'center',verticalAlign:'middle'}}rowSpan={2}>Demand</th>
-                          <th style={{textAlign:'center',verticalAlign:'middle'}}rowSpan={2}>Actual</th>
-                          <th style={{textAlign:'center',verticalAlign:'middle'}}rowSpan={2}>NO.s</th>
-                          <th style={{textAlign:'center',verticalAlign:'middle'}}rowSpan={2}>Amount</th>
-                        </tr>
-                        <tr>
-                          <th style={{textAlign:'center'}}>NO.s</th>
-                          <th style={{textAlign:'center'}}>Amount</th>
-                          <th style={{textAlign:'center'}}>NO.s</th>
-                          <th style={{textAlign:'center'}}>Outstanding</th>
-                        </tr>
-                      </thead>
-                      <tbody style={{ textAlign:'center'}}>
-                        <tr>
-                          <td>1</td>
-                          <td>2</td>
-                          <td>3</td>
-                          <td>4</td>
-                          <td>5</td>
-                          <td>6</td>
-                          <td>7</td>
-                          <td>8</td>
-                          <td>9</td>
-                          <td>10</td>
-                          <td>11</td>
-                          <td>12</td>
-                          <td>13</td>
-                          <td>14</td>
-                          </tr>
-                      </tbody>
-
-                     </table>
-                  </div>
-
-                  <div style={{display:'flex',justifyContent:'end'}}>
-                  <div className='col-lg-1' style={{marginTop:'22px',display:"flex",justifyContent:'end'}}>
-                     <button className='btn-primary btn'>Delete</button>
-                   </div>
-                   <div className='col-lg-1' style={{marginTop:'22px',display:"flex",justifyContent:'end'}}>
-                     <button className='btn-primary btn'>Generate</button>
-                  </div></div>
-                   
-              </div>
-                ) : null
-              }
-              
-   </div>
-);
+                  </div>  */
 }
-}
-
-
