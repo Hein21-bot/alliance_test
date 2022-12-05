@@ -189,6 +189,24 @@ export default class PayrollMain extends Component {
     this.setState({
       componentIndex: "atmOrCash",
     });
+    fetch(
+      main_url +
+        `payroll/getReviewDetailData/${moment(
+          this.state.filterDate
+          // '2022-12'
+        ).format("YYYY-MM")}/${this.state.selectedRegion.value}/0/0/0/0`
+    )
+      .then((response1) => {
+        if (response1.ok) return response1.json();
+      })
+      .then((res1) => {
+        if (res1) {
+          this.setState({
+            payrollCalculatedData: res1,
+            loading: false,
+          });
+        }
+      });
   };
 
   handleCalculate = () => {
