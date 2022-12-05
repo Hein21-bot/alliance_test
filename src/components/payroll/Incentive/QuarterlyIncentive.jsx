@@ -6,9 +6,6 @@ import moment from "moment";
 const $ = require('jquery');
 
 
-
-
-
 export default class QuarterlyIncentive extends Component{
     constructor(props){
         super(props);
