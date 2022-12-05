@@ -33,7 +33,7 @@ export default class PayrollMain extends Component {
     this.state = {
       filterDate: new Date(),
       employeeData: [],
-      componentIndex: this.props.id != 3 ? 'main' : 'calculate',
+      componentIndex: this.props.id == 3 ? 'calculate' : this.props.id == 2 ? 'ATMorCashNext':'main',
       pathname: window.location.pathname,
       payrollCheckData: [],
       payrollCalculatedData: [],
@@ -143,6 +143,7 @@ export default class PayrollMain extends Component {
   };
 
   onFilterDateChange = (e) => {
+    console.log("event",e)
     this.setState({
       filterDate: e,
     });
@@ -219,7 +220,7 @@ export default class PayrollMain extends Component {
               `payroll/getReviewDetailData/${moment(
                 this.state.filterDate
                 // '2022-12'
-              ).format("YYYY-MM")}/${this.state.selectedRegion.value}/0/0/0`
+              ).format("YYYY-MM")}/${this.state.selectedRegion.value}/0/0/0/0`
           )
             .then((response1) => {
               if (response1.ok) return response1.json();
@@ -258,16 +259,51 @@ export default class PayrollMain extends Component {
 
   handleConfirm = async () => {
     let status = 0;
+    let formdata={}
+    formdata.remark=this.state.paySlipRemark;
+    formdata.date=moment(this.state.filterDate).format('YYYY-MM')
     await fetch(`${main_url}payroll/addPayslipRemark`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
       },
-      body: `data=${JSON.stringify(this.state.paySlipRemark)}`,
+      body:JSON.stringify(formdata) ,
     }).then((res) => {
       status = res.status;
       return res.text();
+    })
+    .then((text) => {
+      if (status == 200) {
+        fetch(
+          main_url +
+            `payroll/getReviewDetailData/${moment(
+              this.state.filterDate
+              // '2022-12'
+            ).format("YYYY-MM")}/${this.state.selectedRegion.value}/0/0/0/0`
+        )
+          .then((response1) => {
+            if (response1.ok) return response1.json();
+          })
+          .then((res1) => {
+            if (res1) {
+              this.setState({
+                payrollCalculatedData: res1,
+                loading: false,
+              });
+            }
+          });
+      } else {
+        // toast.error(text, {
+        //   position: "top-right",
+        //   autoClose: 5000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        // });
+      }
     });
+    ;
     this.setState({
       componentIndex: "atmOrCash",
     });
@@ -318,15 +354,8 @@ export default class PayrollMain extends Component {
       main_url +
         `payroll/getReviewDetailData/${moment(
           // this.state.filterDate
-          "2022-12"
-        ).format("YYYY-MM")}/${region}/${dept}/${design}/${branch}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-        body: JSON.stringify(this.state.selectedBranchMainList),
-      }
+          this.props.filterDate
+        ).format("YYYY-MM")}/${region}/${dept}/${design}/${branch}`
     )
       .then((response1) => {
         if (response1.ok) return response1.json();
@@ -590,6 +619,7 @@ export default class PayrollMain extends Component {
               handleConfirm={this.handleConfirm}
               paySlipRemark={this.state.paySlipRemark}
               onChangeText={this.onChangeText}
+              onFilterDateChange={this.onFilterDateChange}
             />
           )
         ) : componentIndex == "atmOrCash" ? (
@@ -615,6 +645,7 @@ export default class PayrollMain extends Component {
             filterDate={filterDate}
             selectedBranchMainList={this.state.selectedBranchMainList}
             atmorcashback={this.atmorcashback}
+            onFilterDateChange={this.onFilterDateChange}
           />
         ) : null}
       </div>
