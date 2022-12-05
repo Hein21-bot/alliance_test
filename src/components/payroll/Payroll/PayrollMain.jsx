@@ -16,6 +16,7 @@ import PayrollAtmCashNext from "./PayrollAtmCashNext";
 import { toast, ToastContainer } from "react-toastify";
 import PayrollAtmCash from "./PayrollAtmCash";
 import Select from "react-select";
+import { useParams } from "react-router-dom";
 const $ = require("jquery");
 const jzip = require("jzip");
 window.JSZip = jzip;
@@ -32,7 +33,7 @@ export default class PayrollMain extends Component {
     this.state = {
       filterDate: new Date(),
       employeeData: [],
-      componentIndex: "main",
+      componentIndex: this.props.id != 3 ? 'main' : 'calculate',
       pathname: window.location.pathname,
       payrollCheckData: [],
       payrollCalculatedData: [],
@@ -66,9 +67,6 @@ export default class PayrollMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        // var obj = { state_name: 'All', state_id: 0};
-        // list.push(obj);
-        // let lists = list.unshift({ state_id: 0, state_name: "All" });
         this.setState({
           regionList: list.map((v) => ({
             label: v.state_name,
@@ -84,9 +82,6 @@ export default class PayrollMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        // var obj = {deptname: 'All', departments_id: 0};
-        // list.push(obj);
-        // let lists = list.unshift({ departments_id: 0, deptname: "All" });
         this.setState({
           departmentList: list.map((v) => ({
             label: v.deptname,
@@ -102,9 +97,6 @@ export default class PayrollMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        // var obj = {label: 'All', value: 0};
-        // list.push(obj);
-        // let lists = list.unshift({ value: 0, label: "All" });
         this.setState({
           designationList: list,
         });
@@ -117,9 +109,6 @@ export default class PayrollMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        // var obj = { label: 'All', value: 0};
-        // list.push(obj);
-        // let lists = list.unshift({ value: 0, label: "All" });
         this.setState({
           branchList: list,
         });
@@ -127,12 +116,12 @@ export default class PayrollMain extends Component {
   }
 
   getEmployeeInfo = async () => {
-    const {selectedRegionMain, selectedBranchMainList} = this.state;
+    const { selectedRegionMain, selectedBranchMainList } = this.state;
     let region = selectedRegionMain != null ? selectedRegionMain.value : 0;
     await fetch(main_url + `payroll/getEmpInfo/${region}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-type': 'application/json; charset=UTF-8',
+        "Content-type": "application/json; charset=UTF-8",
       },
       body: JSON.stringify(selectedBranchMainList),
     })
@@ -175,12 +164,12 @@ export default class PayrollMain extends Component {
         `payroll/reviewData/${moment(this.state.filterDate).format(
           "YYYY-MM"
         )}/0/0/0/0/0`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-          },
-          body: JSON.stringify(this.state.selectedBranchMainList),
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify(this.state.selectedBranchMainList),
       }
     )
       .then((response) => {
@@ -195,11 +184,11 @@ export default class PayrollMain extends Component {
         }
       });
   };
-  atmorcashback=()=>{
+  atmorcashback = () => {
     this.setState({
-      componentIndex:'atmOrCash'
-    })
-  }
+      componentIndex: "atmOrCash",
+    });
+  };
 
   handleCalculate = () => {
     this.setState({
@@ -207,7 +196,18 @@ export default class PayrollMain extends Component {
       loading: true,
     });
     let status = 0;
-    fetch(main_url + `payrollCalculate/calculate/`+moment(this.state.filterDate).format('YYYY-MM'))
+    fetch(
+      main_url +
+        `payrollCalculate/calculate/` +
+        moment(this.state.filterDate).format("YYYY-MM"),
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify(this.state.selectedBranchMainList),
+      }
+    )
       .then((response) => {
         status = response.status;
         return response.text();
@@ -219,14 +219,7 @@ export default class PayrollMain extends Component {
               `payroll/getReviewDetailData/${moment(
                 this.state.filterDate
                 // '2022-12'
-              ).format("YYYY-MM")}/${this.state.selectedRegion.value}/0/0/0`,
-              {
-                method: 'POST',
-                headers: {
-                  'Content-type': 'application/json; charset=UTF-8',
-                },
-                body: JSON.stringify(this.state.selectedBranchMainList),
-              }
+              ).format("YYYY-MM")}/${this.state.selectedRegion.value}/0/0/0`
           )
             .then((response1) => {
               if (response1.ok) return response1.json();
@@ -251,11 +244,11 @@ export default class PayrollMain extends Component {
         }
       });
   };
-  handleNextForATMOrCash=()=>{
+  handleNextForATMOrCash = () => {
     this.setState({
-      componentIndex:"ATMorCashNext"
-    })
-  }
+      componentIndex: "ATMorCashNext",
+    });
+  };
 
   handleDelete = () => {
     this.setState({
@@ -281,7 +274,7 @@ export default class PayrollMain extends Component {
   };
 
   handleSelectRegion = (e) => {
-    console.log("event",e)
+    console.log("event", e);
     this.setState({
       selectedRegion: e,
     });
@@ -327,13 +320,13 @@ export default class PayrollMain extends Component {
           // this.state.filterDate
           "2022-12"
         ).format("YYYY-MM")}/${region}/${dept}/${design}/${branch}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-          },
-          body: JSON.stringify(this.state.selectedBranchMainList),
-        }
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify(this.state.selectedBranchMainList),
+      }
     )
       .then((response1) => {
         if (response1.ok) return response1.json();
@@ -349,13 +342,13 @@ export default class PayrollMain extends Component {
   };
 
   onSearchClick = () => {
-    const {selectedRegionMain, selectedBranchMainList} = this.state;
-    console.log('branch list ===>', selectedBranchMainList);
+    const { selectedRegionMain, selectedBranchMainList } = this.state;
+    console.log("branch list ===>", selectedBranchMainList);
     let region = selectedRegionMain != null ? selectedRegionMain.value : 0;
     fetch(main_url + `payroll/getEmpInfo/${region}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-type': 'application/json; charset=UTF-8',
+        "Content-type": "application/json; charset=UTF-8",
       },
       body: JSON.stringify(selectedBranchMainList),
     })
@@ -480,7 +473,10 @@ export default class PayrollMain extends Component {
         {componentIndex == "main" ? (
           <div>
             <div style={{ marginBottom: 20 }}>
-              <div className="row" style={{display:'flex',alignItems:'end'}}>
+              <div
+                className="row"
+                style={{ display: "flex", alignItems: "end" }}
+              >
                 <div className="col-md-2">
                   <label>Month</label>
                   <DatePicker
@@ -523,7 +519,6 @@ export default class PayrollMain extends Component {
                   />
                 </div>
                 <div className="col-md-4 btn-leftend">
-                  
                   <button
                     className="btn-primary btn"
                     onClick={this.onSearchClick}
@@ -531,8 +526,7 @@ export default class PayrollMain extends Component {
                   >
                     Get Payroll Data
                   </button>
-                  
-                  
+
                   <button
                     className="btn-primary btn"
                     onClick={this.onNextClick}
@@ -540,7 +534,6 @@ export default class PayrollMain extends Component {
                   >
                     Payroll Prepare
                   </button>
-                  
                 </div>
                 {/* <div className="col-md-1">
                   <button
@@ -560,9 +553,6 @@ export default class PayrollMain extends Component {
                     Payroll Prepare
                   </button>
                 </div> */}
-               
-                
-                
               </div>
             </div>
             <table
@@ -620,11 +610,13 @@ export default class PayrollMain extends Component {
             handleSearchAtmOrCash={this.handleSearchAtmOrCash}
             handleNextForATMOrCash={this.handleNextForATMOrCash}
           />
-        ) :componentIndex == "ATMorCashNext" ? (
-            <PayrollAtmCashNext filterDate={filterDate} selectedBranchMainList ={this.state.selectedBranchMainList} atmorcashback={this.atmorcashback}/>
-        )
-
-          : null}
+        ) : componentIndex == "ATMorCashNext" ? (
+          <PayrollAtmCashNext
+            filterDate={filterDate}
+            selectedBranchMainList={this.state.selectedBranchMainList}
+            atmorcashback={this.atmorcashback}
+          />
+        ) : null}
       </div>
     );
   }

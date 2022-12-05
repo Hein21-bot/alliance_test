@@ -135,7 +135,7 @@ import PayrollMain from './payroll/Payroll/PayrollMain';
 import PayrollUpload from './payroll/Payroll/PayrollUpload';
 import MonthlyIncentive from './payroll/Incentive/MonthlyIncentive';
 import QuarterlyIncentive from './payroll/Incentive/QuarterlyIncentive';
-import PayrollCalculated from './payroll/Payroll/PayrollCalculated';
+import PayslipGenerate1 from './payroll/Payroll/PayslipGenerate1';
 
 
 const Main = () => (
@@ -275,7 +275,7 @@ const Main = () => (
         <Route path='/payroll_details_report' component={PayrollDetailsReport}></Route>
         <Route path='/payroll_details_report_with_location' component={PayrollSummaryReportWithLocation}></Route>
         <Route path='/monthly_incentive' component={MonthlyIncentive}></Route>
-        <Route path='/payroll_generate' component={PayrollCalculated}></Route>
+        <Route path='/payroll_generate' component={PayslipGenerate1}></Route>
         <Route path='/quarterly_incentive' component={QuarterlyIncentive}></Route>
 
 
