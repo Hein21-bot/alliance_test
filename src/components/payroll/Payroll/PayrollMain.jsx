@@ -358,6 +358,7 @@ export default class PayrollMain extends Component {
   };
 
   handleSearchAtmOrCash = () => {
+    console.log()
     let region = this.state.selectedRegion
       ? this.state.selectedRegion.value
       : 0;
@@ -372,7 +373,7 @@ export default class PayrollMain extends Component {
       main_url +
         `payroll/getReviewDetailData/${moment(
           // this.state.filterDate
-          this.props.filterDate
+          this.state.filterDate
         ).format("YYYY-MM")}/${region}/${dept}/${design}/${branch}/0`
     )
       .then((response1) => {
