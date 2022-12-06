@@ -20,12 +20,14 @@ export default class PayrollAtmCash extends Component {
         { label:'Please Choose ATM or Cash',value:0},
         { label: "ATM", value: 1 },
         { label: "Cash", value: 2 },
-      ]
+      ],
+      
     };
   }
 
   async componentDidMount() {
     await this.getPayrollHeader();
+   
 
     let tempArray = [];
     this.props.dataSource.map((v, i) => {
@@ -53,6 +55,7 @@ export default class PayrollAtmCash extends Component {
       });
     }
   }
+ 
 
   getPayrollHeader = async () => {
     await fetch(`${main_url}payroll/getPayrollHeader`)
@@ -222,6 +225,20 @@ export default class PayrollAtmCash extends Component {
                 />
               </div>
               <div className="col-md-3">
+                <label>Employee ID</label>
+                <Select
+                  options={this.props.employeeIdList}
+                  value={this.props.selected_employeeId}
+                  onChange={this.props.handleSelectedEmpId}
+                  className="react-select-container"
+                  classNamePrefix="react-select"
+                />
+              </div>
+              <div className="col-md-3">
+                <label>Employee Name</label>
+                <input type="text" className="form-control" value={this.props.fullname} disabled />
+              </div>
+              <div className="col-md-3">
                   <label>ATM / Cash</label>
                   <Select
                     options={this.state.atmOrCashOption}
@@ -233,8 +250,11 @@ export default class PayrollAtmCash extends Component {
                   />
                   
               </div>
-              <div
-                className="row col-md-6 btn-rightend"
+              
+            </div>
+            <div className="row">
+            <div
+                className="col-md-12 btn-rightend"
                 style={{ marginBottom: "10px" }}
               >
                 <button

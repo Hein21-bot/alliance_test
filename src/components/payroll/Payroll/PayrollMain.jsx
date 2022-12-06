@@ -50,6 +50,9 @@ export default class PayrollMain extends Component {
       selectedBranchMain: "",
       selectedRegionMain: null,
       selectedBranchMainList: [],
+      employeeIdList:[],
+      fullname:'',
+      selected_employeeId:null
     };
   }
 
@@ -59,6 +62,48 @@ export default class PayrollMain extends Component {
     this.getDepartmentList();
     this.getDesignationList();
     this.getBranchList();
+    this.getEmployeeCode();
+  }
+  getEmployeeCode() {
+    fetch(`${main_url}employee/getEmployeeCode`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        this.setState({
+          employeeIdList: list.map((v) => ({
+            ...v,
+            label: v.employee_code,
+            value: v.user_id,
+          })),
+        });
+      });
+  }
+  handleSelectedEmpId = async (event) => {
+    console.log("event",event)
+    if (event != null)
+    if (event) {
+      fetch(`${main_url}employee/getDetailUser/${event.user_id}`)
+        .then((res) => {
+          if (res.ok) return res.json();
+        })
+        .then((data) => {
+          this.setState({
+              fullname:data[0].employee_name
+          })
+          // if (data.length > 0) {
+          //   this.getData(this.props.id);
+          //   this.setState({ tableEdit: true, tableView: false });
+
+
+          // }
+        });
+    }
+      this.setState(
+        {
+          selected_employeeId: event
+        }
+      )
   }
 
   getRegionList = () => {
@@ -264,9 +309,35 @@ export default class PayrollMain extends Component {
       });
   };
   handleNextForATMOrCash = () => {
-    this.setState({
-      componentIndex: "ATMorCashNext",
-    });
+    let status =0
+    fetch(
+      main_url +
+        `payroll/atm_cash_btnControl/` +
+        moment(this.state.filterDate).format("YYYY-MM")
+    )
+      .then((response) => {
+        status = response.status;
+        return response.text();
+      })
+      .then((text) => {
+        if (status == 200) {
+           this.setState({
+              componentIndex: "ATMorCashNext",
+            });
+        } else {
+          toast.error(text, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+        }
+      });
+    // this.setState({
+    //   componentIndex: "ATMorCashNext",
+    // });
   };
 
   handleDelete = () => {
@@ -369,12 +440,13 @@ export default class PayrollMain extends Component {
     let branch = this.state.selectedBranch
       ? this.state.selectedBranch.value
       : 0;
+    let empId=this.state.selected_employeeId ? this.state.selected_employeeId.value : 0
     fetch(
       main_url +
         `payroll/getReviewDetailData/${moment(
           // this.state.filterDate
           this.state.filterDate
-        ).format("YYYY-MM")}/${region}/${dept}/${design}/${branch}/0`
+        ).format("YYYY-MM")}/${region}/${dept}/${design}/${branch}/${empId}`
     )
       .then((response1) => {
         if (response1.ok) return response1.json();
@@ -514,6 +586,9 @@ export default class PayrollMain extends Component {
       selectedBranchMain,
       selectedBranchMainList,
       selectedRegionMain,
+      employeeIdList,
+      selected_employeeId,
+      fullname
     } = this.state;
     return (
       <div style={{ minHeight: "200vh" }}>
@@ -659,6 +734,12 @@ export default class PayrollMain extends Component {
             handleSearchAtmOrCash={this.handleSearchAtmOrCash}
             handleNextForATMOrCash={this.handleNextForATMOrCash}
             filterDate={filterDate}
+            employeeIdList={employeeIdList}
+            selected_employeeId={selected_employeeId}
+            handleSelectedEmpId={this.handleSelectedEmpId}
+            fullname={fullname}
+
+            
           />
         ) : componentIndex == "ATMorCashNext" ? (
           <PayrollAtmCashNext

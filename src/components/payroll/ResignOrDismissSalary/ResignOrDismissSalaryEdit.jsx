@@ -460,7 +460,7 @@ export default class ResignOrDismissSalaryEdit extends Component {
                   </div>
                   <div className="row margin-top-20">
                     <div className="col-md-3">
-                      <label>SSC (Employee 3%)</label>
+                      <label>SSC (Employer 3%)</label>
                       <input
                         className="form-control"
                         disabled
