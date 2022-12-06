@@ -658,6 +658,7 @@ export default class PayrollMain extends Component {
             handleSelectRegion={this.handleSelectRegion}
             handleSearchAtmOrCash={this.handleSearchAtmOrCash}
             handleNextForATMOrCash={this.handleNextForATMOrCash}
+            filterDate={filterDate}
           />
         ) : componentIndex == "ATMorCashNext" ? (
           <PayrollAtmCashNext
