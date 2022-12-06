@@ -138,7 +138,20 @@ export default class PayrollCheck extends Component {
       // buttons: [
       //     'copy', 'csv', 'excel', 'pdf'
       // ],
-      buttons: [],
+      buttons:  [
+    {
+            extend: 'csvHtml5',
+            title: 'Payroll Check and Review',
+    },
+    {
+        extend: 'excelHtml5',
+        title: 'Payroll Check and Review',
+    },
+    {
+        extend: 'pdfHtml5',
+        title: 'Payroll Check and Review',
+    }],
+      // buttons: [],
       data: j,
       columns: column,
     });
