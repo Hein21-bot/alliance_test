@@ -225,7 +225,7 @@ export default class PayrollAtmCash extends Component {
                 <label>Employee ID</label>
                 <Select
                   options={this.props.employeeIdList}
-                  value={this.props.selected_employeeId}
+                  value={this.props.empId}
                   onChange={this.props.handleSelectedEmpId}
                   className="react-select-container"
                   classNamePrefix="react-select"
@@ -233,7 +233,13 @@ export default class PayrollAtmCash extends Component {
               </div>
               <div className="col-md-2">
                 <label>Employee Name</label>
-                <input type="text" className="form-control" value={this.props.fullname} disabled />
+                <Select
+                  options={this.props.empNameList}
+                  value={this.props.employeeName}
+                  onChange={this.props.handleSelectedName}
+                  className="react-select-container"
+                  classNamePrefix="react-select"
+                />
               </div>
               <div className="">
               <button

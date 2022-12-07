@@ -553,7 +553,7 @@ export default class Sidebar extends Component {
               </li>
               
               <li
-                className={this.checkPathName() === "/payroll" || this.checkPathName() === 'payroll_calculation' || pathname === '/payslip_generate' || pathname === '/ssc' || pathname === "/payroll_main" || pathname === '/foreigner_salary' || pathname === "/resign_or_dismiss_salary" || pathname === '/payroll_generate' ? "active" : ""}
+                className={this.checkPathName() === "/payroll" || this.checkPathName() === 'payroll_calculation' || this.checkPathName() === '/payroll_reports' || pathname === '/payslip_generate' || pathname === '/ssc' || pathname === "/payroll_main" || pathname === '/foreigner_salary' || pathname === "/resign_or_dismiss_salary" || pathname === '/payroll_generate' || pathname ==='/pay_slip' ? "active" : ""}
                
              >
                 <a href="/ssc" className="sideList">
@@ -597,7 +597,7 @@ export default class Sidebar extends Component {
                    
                 </ul>
                   </li>
-                  
+                 
                   
                  
                   <li
@@ -618,9 +618,20 @@ export default class Sidebar extends Component {
                   >
                     <a href="/foreigner_salary">Foreigner Salary</a>
                   </li>
+                  <li className={this.checkPathName() === "/payroll_reports" || pathname == "/pay_slip"  ? "active" : " "}>
+                    <a href="/pay_slip" className="sideText">Payroll Related Reports</a>
+                    <ul className="nav nav-third-level collapse">
+                    
+                  <li className={pathname === "/pay_slip" ? "active" : ""}>
+                    <a href="/pay_slip">PaySlip</a>
+                  </li>
+                  
+                   
+                </ul>
+                  </li>
                 </ul>
               </li>
-              <li
+              {/* <li
                 className={
                   this.checkPathName() === "/payroll_reports" || pathname === '/pay_slip' ? "active" : ""
                 }
@@ -634,14 +645,10 @@ export default class Sidebar extends Component {
                   <li className={pathname === "/pay_slip" ? "active" : ""}>
                     <a href="/pay_slip">PaySlip</a>
                   </li>
-                  {/* <li
-                    className={pathname === "/new_leave" ? "active" : ""}
-                  >
-                    <a href="/new_leave">New Leave</a>
-                  </li> */}
+                 
                 </ul>
 
-              </li>
+              </li> */}
 
 
               <li

@@ -36,6 +36,8 @@ export default class PayrollMain extends Component {
       componentIndex: this.props.id == 3 ? 'calculate' : this.props.id == 2 ? 'ATMorCashNext':'main',
       pathname: window.location.pathname,
       payrollCheckData: [],
+      empId:null,
+      employeeName:null,
       payrollCalculatedData: [],
       loading: false,
       paySlipRemark: "",
@@ -62,49 +64,97 @@ export default class PayrollMain extends Component {
     this.getDepartmentList();
     this.getDesignationList();
     this.getBranchList();
-    this.getEmployeeCode();
+    // this.getEmployeeCode();
+    this.getEmployeeList();
+    this.getEmployeeName();
   }
-  getEmployeeCode() {
-    fetch(`${main_url}employee/getEmployeeCode`)
-      .then((res) => {
-        if (res.ok) return res.json();
-      })
-      .then((list) => {
-        this.setState({
-          employeeIdList: list.map((v) => ({
-            ...v,
-            label: v.employee_code,
-            value: v.user_id,
-          })),
-        });
-      });
-  }
-  handleSelectedEmpId = async (event) => {
-    console.log("event",event)
-    if (event != null)
-    if (event) {
-      fetch(`${main_url}employee/getDetailUser/${event.user_id}`)
-        .then((res) => {
-          if (res.ok) return res.json();
+  // getEmployeeCode() {
+  //   fetch(`${main_url}employee/getEmployeeCode`)
+  //     .then((res) => {
+  //       if (res.ok) return res.json();
+  //     })
+  //     .then((list) => {
+  //       this.setState({
+  //         employeeIdList: list.map((v) => ({
+  //           ...v,
+  //           label: v.employee_code,
+  //           value: v.user_id,
+  //         })),
+  //       });
+  //     });
+  // }
+  // handleSelectedEmpId = async (event) => {
+  //   console.log("event",event)
+  //   if (event != null)
+  //   if (event) {
+  //     fetch(`${main_url}employee/getDetailUser/${event.user_id}`)
+  //       .then((res) => {
+  //         if (res.ok) return res.json();
+  //       })
+  //       .then((data) => {
+  //         this.setState({
+  //             fullname:data[0].employee_name
+  //         })
+  //         // if (data.length > 0) {
+  //         //   this.getData(this.props.id);
+  //         //   this.setState({ tableEdit: true, tableView: false });
+
+
+  //         // }
+  //       });
+  //   }
+  //     this.setState(
+  //       {
+  //         selected_employeeId: event
+  //       }
+  //     )
+  // }
+  getEmployeeList() {
+    fetch(`${main_url}main/getEmployeeWithDesignation/0`)
+        .then(res => res.json())
+        .then(data => {
+          let lists=data.unshift({value:0,label:'All',employment_id:'All'})
+         let filterData=data.filter(v=>v.value !=1)
+            this.setState({
+              employeeIdList: filterData.map(v => ({ ...v, label: v.employment_id, value: v.value, name: v.label })),
+                // allEmployeeID: all
+            })
+
         })
-        .then((data) => {
-          this.setState({
-              fullname:data[0].employee_name
-          })
-          // if (data.length > 0) {
-          //   this.getData(this.props.id);
-          //   this.setState({ tableEdit: true, tableView: false });
-
-
-          // }
-        });
-    }
-      this.setState(
-        {
-          selected_employeeId: event
-        }
-      )
-  }
+}
+getEmployeeName() {
+    fetch(`${main_url}report/employeeName`)
+        .then((res) => {
+            if (res.ok) return res.json();
+        })
+        .then((list) => {
+            let lists = list.unshift({ value: 0, label: "All" });
+            this.setState({
+                empNameList: list.map((v) => ({
+                    ...v
+                }))
+            })
+        })
+}
+handleSelectedEmpId = async (event) => {
+  console.log("event=======>",event)
+  console.log("empName List====>",this.state.empNameList.filter(v=>v.value==event.value))
+  this.setState({
+      empId: event,
+      employeeName: this.state.empNameList.filter(v => v.value == event.value),
+      
+  }, 
+  // () => { console.log("name>>>>>",this.state.empId.value,this.state.employeeName.value) }
+  )
+}
+handleSelectedName = async (event) => {
+  console.log("selected name",event.label)
+  this.setState({
+      employeeName: event,
+      empId: this.state.employeeIdList.filter(v => v.value == event.value)[0],
+      selectedEmployeeName:event
+  },()=>{console.log("listnaem",this.state.employeeName.value,this.state.empId.value)})
+}
 
   getRegionList = () => {
     fetch(`${main_url}benefit/getRegionList`)
@@ -127,7 +177,10 @@ export default class PayrollMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
+        let lists=list.push({label:'All',value:0})
+
         this.setState({
+          
           departmentList: list.map((v) => ({
             label: v.deptname,
             value: v.departments_id,
@@ -142,6 +195,8 @@ export default class PayrollMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
+        let lists=list.push({label:'All',value:0})
+
         this.setState({
           designationList: list,
         });
@@ -154,6 +209,7 @@ export default class PayrollMain extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
+        let lists=list.push({label:'All',value:0})
         this.setState({
           branchList: list,
         });
@@ -440,7 +496,7 @@ export default class PayrollMain extends Component {
     let branch = this.state.selectedBranch
       ? this.state.selectedBranch.value
       : 0;
-    let empId=this.state.selected_employeeId ? this.state.selected_employeeId.value : 0
+    let empId=this.state.empId ? this.state.empId.value : 0
     fetch(
       main_url +
         `payroll/getReviewDetailData/${moment(
@@ -588,7 +644,11 @@ export default class PayrollMain extends Component {
       selectedRegionMain,
       employeeIdList,
       selected_employeeId,
-      fullname
+      fullname,
+      empNameList,
+      empId,
+      employeeName
+      
     } = this.state;
     return (
       <div style={{ minHeight: "200vh" }}>
@@ -737,8 +797,11 @@ export default class PayrollMain extends Component {
             employeeIdList={employeeIdList}
             selected_employeeId={selected_employeeId}
             handleSelectedEmpId={this.handleSelectedEmpId}
-            fullname={fullname}
-
+            empNameList={empNameList}
+            handleSelectedName={this.handleSelectedName}
+            empId={empId}
+            employeeName={employeeName}
+           
             
           />
         ) : componentIndex == "ATMorCashNext" ? (
