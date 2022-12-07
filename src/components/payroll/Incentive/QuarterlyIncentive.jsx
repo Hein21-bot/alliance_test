@@ -142,7 +142,7 @@ export default class QuarterlyIncentive extends Component{
         render(){
             return(
                 <div>
-    <div className='col-lg-3' >
+    <div className='col-lg-2' >
         <label>Request Month</label>
         <DatePicker
             dateFormat="MM/YYYY"
@@ -152,7 +152,7 @@ export default class QuarterlyIncentive extends Component{
 
         /></div>
 
-    <div className='col-lg-3' >
+    <div className='col-lg-2' >
         <label>Region</label>
         <Select 
           options={this.state.regionList}
@@ -161,7 +161,7 @@ export default class QuarterlyIncentive extends Component{
           className="react-select-container"
           classNamePrefix="react-select"/></div>
 
-    <div className='col-lg-3' >
+    <div className='col-lg-2' >
         <label>Branch </label>
         <Select 
           options={this.state.branchList}
@@ -170,7 +170,7 @@ export default class QuarterlyIncentive extends Component{
           className="react-select-container"
           classNamePrefix="react-select"/></div>
 
-    <div className='col-lg-3' style={{marginBottom:20}} >
+    <div className='col-lg-2' style={{marginBottom:20}} >
         <label>Department</label>
         <Select 
           options={this.state.departmentList}
@@ -179,9 +179,9 @@ export default class QuarterlyIncentive extends Component{
           className="react-select-container"
           classNamePrefix="react-select"/></div>
           
-    <div className="row" style={{display:'flex',justifyContent:'end',marginBottom:20,paddingRight:25}}><button className='btn-primary btn'>Search</button></div>
+    <div className="row" style={{paddingTop:25,marginLeft:15}}><button className='btn-primary btn'>Search</button></div>
   
-    <div className="col-lg-3" style={{ marginLeft: 30, paddingTop: 30 }}>
+    <div className="col-lg-2" style={{ paddingTop: 8 }}>
             <input
               // className="dropZone"
               type="file"
@@ -193,9 +193,9 @@ export default class QuarterlyIncentive extends Component{
           </div>
 
           <div
-            className="col-lg-3"
+            className="col-lg-2"
             style={{
-              marginTop: "22px",
+              // marginTop: "22px",
               display: "flex",
               justifyContent: "space-between",
             }}
