@@ -180,6 +180,28 @@ export default class QuarterlyIncentive extends Component{
           classNamePrefix="react-select"/></div>
           
     <div className="row" style={{display:'flex',justifyContent:'end',marginBottom:20,paddingRight:25}}><button className='btn-primary btn'>Search</button></div>
+  
+    <div className="col-lg-3" style={{ marginLeft: 30, paddingTop: 30 }}>
+            <input
+              // className="dropZone"
+              type="file"
+              id="attachment"
+              // name="attachment"
+              // onChange={ this.checkFiles.bind(this)}
+              style={{ height: 30 }}
+            ></input>
+          </div>
+
+          <div
+            className="col-lg-3"
+            style={{
+              marginTop: "22px",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <button className="btn-primary btn">Calculate</button>
+          </div>
 
            <div>
                 <table

@@ -19,9 +19,10 @@ export default class MonthlyIncentive extends Component {
       regionList: [],
       branchList: [],
       designationList: [],
+      fxData:[],
       co_fx: [
-        { value: 1, label: "CO" },
-        { value: 2, label: "FX" },
+        { value: 1, label: "CO" ,name:'co'},
+        { value: 2, label: "FX" ,name:'fx' },
       ],
       selected_month: new Date(),
       componentIndex: "main",
@@ -30,7 +31,8 @@ export default class MonthlyIncentive extends Component {
       selected_designation: "",
       selected_employeeID: "",
       selected_employee: "",
-      selected_type: { value: 1, label: "CO" },
+      selected_type: { value: 1, label: "CO",name:'co' },
+      loading:false,
     };
   }
   componentDidMount() {
@@ -47,51 +49,6 @@ export default class MonthlyIncentive extends Component {
     //     this.setDataTable(this.state.dataSource)
     // });
   }
-
-  checkFiles(e) {
-      this.setState({
-        loading: true,
-      });
-      var files = document.getElementById("attachment").files;
-      var newDoc = this.state.newDoc;
-
-      for (let i = 0; i < files.length; i++) {
-        var getfile = document.querySelector("#attachment").files[i];
-        newDoc.push(getfile);
-      }
-      // document.querySelector("#attachment").value = "";
-      const formdata = new FormData();
-      var imagedata = newDoc[0];
-      formdata.append("uploadfile", imagedata);
-      formdata.append("data", this.state.steps[this.state.activeStep]);
-      let status = 0;
-      fetch(main_url + "incentiveCo/addIncentiveCo/" + "this." , {
-        method: "POST",
-        body: formdata,
-      })
-        .then((res) => {
-          status = res.status;
-          return res.json();
-        })
-        .then(async (response) => {
-          if (status == 200) {
-            this.setState({ dataSource: response, loading: false });
-            await this._setTableData(response);
-          } else {
-            toast.error("Fail to Save Information", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-            });
-            this.setState({
-              loading: false,
-            });
-          }
-        });
-    }
 
   getRegionList() {
     fetch(`${main_url}benefit/getRegionList`)
@@ -209,17 +166,77 @@ export default class MonthlyIncentive extends Component {
   };
 
   handleSelectedType = (event) => {
+ document.querySelector("#attachment").value = "";
+
     this.setState(
       {
         selected_type: event,
+        fxData: [],
       },
       () => {
-        this.state.selected_type.value == 1
+        this.state.selected_type.value == 1 ||  this.state.selected_type.value == 2
           ? this.setDataTable(this.state.dataSource)
-          : this._setDataTable(this.state.dataSource);
+          : this._setDataTable(this.state.fxData);
       }
     );
   };
+  
+ deleteClick = (e)=>{ console.log("dsfsfsf")
+//  document.querySelector("#attachment").value = "";
+  this.setState({
+    fxData:[],
+  },
+  () => {
+    this.state.selected_type.value == 2 && this.state.fxData.length > 0
+      ? this._setDataTable(this.state.fxData)
+      : this.setDataTable(this.state.dataSource);
+  })
+ }
+
+    checkFiles(e) {
+      this.setState({
+        loading: true,
+        newDoc: []
+      });
+      var files = document.getElementById("attachment").files;
+      var newDoc = this.state.newDoc;
+      for(let i = 0; i < files.length; i++) {
+        var getfile = document.querySelector("#attachment").files[i];
+        newDoc.push(getfile);
+      };
+      // document.querySelector("#attachment").value = "";
+      const formdata = new FormData();
+      var imagedata = newDoc[0];
+      formdata.append("uploadfile", imagedata);
+      let status = 0;
+      fetch(`${main_url}incentiveCo/addIncentiveCo/${moment(this.state.selected_month).format("YYYY-MM")}/${this.state.selected_type.name}`, {
+        method: "POST",
+        body: formdata,
+      })
+        .then((res) => {
+          status = res.status;
+          return res.json();
+        })
+        .then( (response) => {
+          if (status == 200) {
+            this.setState({ loading: false,fxData:response});
+             this. _setDataTable(response);
+             this.setDataTable(this.state.dataSource);
+          } else {
+            toast.error("Fail to Save Information", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+            });
+            this.setState({
+              loading: false,
+            });
+          }
+        })
+    }
 
   setDataTable(data) {
     var table;
@@ -326,15 +343,10 @@ export default class MonthlyIncentive extends Component {
       const result = data[i];
       const obj = {
         no: index + 1,
-        employment_id: data[i].employment_id ? data[i].employment_id : "-",
-        co_count:
-          data[i].request_type == 1
-            ? "Back Pay Salary"
-            : data[i].request_type == 2
-            ? "Refund Salary"
-            : "•	Temporary Contract Salary",
-        co_incentive: data[i].fullname ? data[i].fullname : "-",
-        co_incentive_total: data[i].designations ? data[i].designations : "-",
+        employment_id: data[i].employeeID ? data[i].employeeID: "-",
+        co_count:data[i].coCount ? data[i].coCount : "-",
+        co_incentive: data[i].incentiveAmount ? data[i].incentiveAmount : "-",
+        co_incentive_total: data[i].coIncentiveTotal ? data[i].coIncentiveTotal : "-",
       };
       l.push(obj);
     }
@@ -351,13 +363,13 @@ export default class MonthlyIncentive extends Component {
       columns: [
         { title: "Employee Id", data: "employment_id" },
         { title: "CO Count", data: "co_count" },
-        { title: "CO Incentive", data: "co_incentive" },
+        { title: "CO Incentive Amount", data: "co_incentive" },
         { title: "CO Incentive Total", data: "co_incentive_total" },
       ],
     });
   }
 
-  render() {
+  render() { console.log("length",this.state.loading)
     return (
       <div>
         <div>
@@ -450,7 +462,7 @@ export default class MonthlyIncentive extends Component {
               type="file"
               id="attachment"
               // name="attachment"
-              // onChange={this.checkFiles.bind(this)}
+              onChange={ this.checkFiles.bind(this)}
               style={{ height: 30 }}
             ></input>
           </div>
@@ -466,18 +478,22 @@ export default class MonthlyIncentive extends Component {
             <button className="btn-primary btn">Calculate</button>
           </div>
 
-          {/* { this.state.newDoc.length > 0 ?( */}
+          { 
+           this.state.loading  ||  this.state.fxData.length > 0 ? "" : ( console.log(this.state.loading,this.state.fxData.length),
           <div className="col-md-12">
                 <table
                   width="99%"
                   className="table table-striped table-bordered table-hover responsive nowrap dt-responsive"
                   id="dataTables-Table"
                 />
-              </div>
-          {/* ): '' } */}
+              </div>)
+          }
         </div>
-
-        {this.state.selected_type.value == 2 ? (
+       {this.state.loading  ? (
+            <div className="col-lg-12" style={{display:'flex',justifyContent:'center' }}>
+             <span class="loader"></span>
+            </div>):(
+        this.state.selected_type.value == 2 &&  this.state.fxData.length > 0 ? (
           <div>
             <div className="col-md-12">
               <table
@@ -495,7 +511,7 @@ export default class MonthlyIncentive extends Component {
                     justifyContent: "end",
                   }}
                 >
-                  <button className="btn-primary btn">Delete</button>
+                  <button className="btn-primary btn" onClick={this.deleteClick.bind()}>Delete</button>
                 </div>
                 <div
                   className="col-lg-1"
@@ -510,7 +526,7 @@ export default class MonthlyIncentive extends Component {
               </div>
             </div>
           </div>
-        ) : this.state.selected_type.value == 1 ? (
+        ) : this.state.selected_type.value == 1 &&  this.state.fxData.length > 0 ? (
           <div>
               <table
                 className="table table-bordered"
@@ -611,22 +627,29 @@ export default class MonthlyIncentive extends Component {
                   </tr>
                 </thead>
                 <tbody style={{ textAlign: "center" }}>
+                  {
+                    this.state.fxData.map((v,i)=>{
+                      return(
+                        <>
                   <tr>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>4</td>
-                    <td>5</td>
-                    <td>6</td>
-                    <td>7</td>
-                    <td>8</td>
-                    <td>9</td>
-                    <td>10</td>
-                    <td>11</td>
-                    <td>12</td>
-                    <td>13</td>
-                    <td>14</td>
+                    <td>{v.employeeID}</td>
+                    <td>{v.creditDisbursementNo}</td>
+                    <td>{v.creditDisbursementAmount}</td>
+                    <td>{v.creditPortfolioNo}</td>
+                    <td>{v.creditPortfolOutstanding}</td>
+                    <td>{v.savingOutstanding}</td>
+                    <td>{v.collectionRateDemand}</td>
+                    <td>{v.collectionActual}</td>
+                    <td>{v.parNo}</td>
+                    <td>{v.parAmount}</td>
+                    <td>{v.creditIncentive}</td>
+                    <td>{v.savingIncentive}</td>
+                    <td>{v.collectiveRateIncentive}</td>
+                    <td>{v.parDeductionRate}</td>
                   </tr>
+                  </>  )
+                    })
+                }
                 </tbody>
               </table>
 
@@ -639,7 +662,7 @@ export default class MonthlyIncentive extends Component {
                   justifyContent: "end",
                 }}
               >
-                <button className="btn-primary btn">Delete</button>
+                <button className="btn-primary btn" onClick={this.deleteClick.bind()}>Delete</button>
               </div>
               <div
                 className="col-lg-1"
@@ -653,7 +676,8 @@ export default class MonthlyIncentive extends Component {
               </div>
             </div>
           </div>
-        ) : ''}
+        ) : ''
+         )} 
       </div>
     );
   }
