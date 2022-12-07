@@ -357,6 +357,7 @@ export default class PayrollCalculated extends Component {
       <div>
        
            <div className="row" style={{display:'flex',justifyContent:'center',alignItems:'end'}}>
+          
            <div className="col-md-2">
                   <label>Month</label>
                   <DatePicker
@@ -365,55 +366,8 @@ export default class PayrollCalculated extends Component {
                     timeFormat={false}
                     onChange={this.props.onFilterDateChange}
                   />
-                </div>
-           <div className="col-md-2">
-              <label htmlFor="">Designation</label>
-              <Select
-              styles={{
-                container: base => ({
-                  ...base,
-                  //   flex: 1
-                 
-                  marginRight:10
-                }),
-                control: base => ({
-                  ...base,
-                  minHeight: '18px'
-                }),
+              </div>
 
-              }}
-              placeholder="Designation"
-              options={this.state.designationList}
-              onChange={this.handleSelectedDesignation}
-              value={this.state.selected_designation}
-              className='react-select-container'
-              classNamePrefix="react-select"
-            />
-            </div>
-            <div className="col-md-2">
-              <label htmlFor="">Branch</label>
-              <Select
-              styles={{
-                container: base => ({
-                  ...base,
-                  //   flex: 1
-                 
-                  marginRight:10
-                }),
-                control: base => ({
-                  ...base,
-                  minHeight: '18px'
-                }),
-
-              }}
-              placeholder="Branch"
-              options={this.state.branchlist}
-              onChange={this.handleSelectedBranch}
-              value={this.state.selected_Branch}
-              className='react-select-container'
-              classNamePrefix="react-select"
-            />
-            </div>
             <div className="col-md-2">
               <label htmlFor="">Region</label>
               <Select
@@ -438,8 +392,9 @@ export default class PayrollCalculated extends Component {
               classNamePrefix="react-select"
             />
             </div>
+
             <div className="col-md-2">
-              <label htmlFor="">Employee Name</label>
+              <label htmlFor="">Branch</label>
               <Select
               styles={{
                 container: base => ({
@@ -454,20 +409,17 @@ export default class PayrollCalculated extends Component {
                 }),
 
               }}
-              placeholder="Employee ID"
-              options={this.state.employeeIdList}
-              onChange={this.handleSelectedEmpId}
-              value={this.state.selected_employeeId}
+              placeholder="Branch"
+              options={this.state.branchlist}
+              onChange={this.handleSelectedBranch}
+              value={this.state.selected_Branch}
               className='react-select-container'
               classNamePrefix="react-select"
             />
             </div>
+
             <div className="col-md-2">
-              <label htmlFor="">Employee Name</label>
-              <input type="text" className="form-control" value={this.state.fullname} disabled />
-            </div>
-            <div className="col-md-2">
-              <label htmlFor="">Departments</label>
+              <label htmlFor="">Department</label>
               <Select
               styles={{
                 container: base => ({
@@ -490,25 +442,82 @@ export default class PayrollCalculated extends Component {
               classNamePrefix="react-select"
             />
             </div>
+
+           <div className="col-md-2">
+              <label htmlFor="">Designation</label>
+              <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                 
+                  marginRight:10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Designation"
+              options={this.state.designationList}
+              onChange={this.handleSelectedDesignation}
+              value={this.state.selected_designation}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+            </div>
+
+            <div className="col-md-2">
+              <label htmlFor="">Employee ID</label>
+              <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                 
+                  marginRight:10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Employee ID"
+              options={this.state.employeeIdList}
+              onChange={this.handleSelectedEmpId}
+              value={this.state.selected_employeeId}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+            </div>
+
+            <div className="col-md-2">
+              <label htmlFor="">Employee Name</label>
+              <input type="text" className="form-control" value={this.state.fullname} disabled />
+            </div>
+
             <div className="col-md-2" style={{display:'flex',alignItems:'end'}}>
             <button className='btn btn-primary text-center' style={{marginRight:10}}  onClick={() => this.handleSearchData()}>Search</button>
             <button
-              className="btn-primary btn"
+              className="btn-danger btn"
               onClick={this.props.handleDelete}
               
             >
               Delete
             </button>
               </div>
+
            </div>
           
          <div className="row" style={{margin:5}}>
           
-          <div className="col-md-3" style={{border:'1px solid black'}}>
+          <div className="col-md-5 col-lg-4 col-sm-7 " style={{border:'1px solid black'}}>
           <h3 style={{textAlign:'center'}}>Pay Slip Generate</h3>
               <div className="row" style={{display:'flex',alignItems:'end',marginBottom:5}}>
-              <div className="col-md-6 col-lg-6" >
-            
+             
+              <div className="col-md-7 col-lg-7" >
             <label>Pay Slip Remark</label>
             <input
               type="text"
@@ -518,21 +527,22 @@ export default class PayrollCalculated extends Component {
               className="form-control"
               onChange={this.props.onChangeText}
             />
+             </div>
 
-        </div>
-         <div
-            className="col-md-6 col-lg-6"
-            // style={{background:'white',margin:20}}
+          <div
+            className="col-md-5 col-lg-5 "
+            style={{display:'flex',justifyContent:'center'}}
           >
            
             <button
-              className="btn btn-primary"
+              className="btn" style={{backgroundColor:"#28a745",color:"#ffffff"}}
               onClick={this.props.handleConfirm}
               
             >
               Pay Slip Generate
             </button>
           </div>
+
               </div>
           </div>
         
