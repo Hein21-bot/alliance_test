@@ -355,8 +355,7 @@ export default class PayrollCalculated extends Component {
     console.log("filter date",this.props.filterDate)
     return (
       <div>
-        <div className="row col-md-12">
-          <div className="col-md-10">
+       
            <div className="row" style={{display:'flex',justifyContent:'center',alignItems:'end'}}>
            <div className="col-md-2">
                   <label>Month</label>
@@ -468,29 +467,6 @@ export default class PayrollCalculated extends Component {
               <input type="text" className="form-control" value={this.state.fullname} disabled />
             </div>
             <div className="col-md-2">
-            <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
-
-              </div>
-           </div>
-          </div>
-          <div className="col-md-2">
-            
-              <label>Pay Slip Remark</label>
-              <input
-                
-                type="text"
-                data-name="paySlipRemark"
-                value={this.props.paySlipRemark}
-                placeholder="Remark"
-                className="form-control"
-                onChange={this.props.onChangeText}
-              />
-
-          </div>
-          
-          <div className="col-md-10" style={{marginTop:5}}>
-            <div className="row">
-            <div className="col-md-2">
               <label htmlFor="">Departments</label>
               <Select
               styles={{
@@ -514,32 +490,57 @@ export default class PayrollCalculated extends Component {
               classNamePrefix="react-select"
             />
             </div>
-           
-            </div>
-          </div>
-          <div
-            className="col-md-2 btn-rightend"
-            style={{ marginBottom: "10px" }}
-          >
+            <div className="col-md-2" style={{display:'flex',alignItems:'end'}}>
+            <button className='btn btn-primary text-center' style={{marginRight:10}}  onClick={() => this.handleSearchData()}>Search</button>
             <button
               className="btn-primary btn"
               onClick={this.props.handleDelete}
-              style={{ marginTop: 20 }}
+              
             >
               Delete
             </button>
+              </div>
+           </div>
+          
+         <div className="row" style={{margin:5}}>
+          
+          <div className="col-md-3" style={{border:'1px solid black'}}>
+          <h3 style={{textAlign:'center'}}>Pay Slip Generate</h3>
+              <div className="row" style={{display:'flex',alignItems:'end',marginBottom:5}}>
+              <div className="col-md-6 col-lg-6" >
+            
+            <label>Pay Slip Remark</label>
+            <input
+              type="text"
+              data-name="paySlipRemark"
+              value={this.props.paySlipRemark}
+              placeholder="Remark"
+              className="form-control"
+              onChange={this.props.onChangeText}
+            />
+
+        </div>
+         <div
+            className="col-md-6 col-lg-6"
+            // style={{background:'white',margin:20}}
+          >
+           
             <button
-              className="btn-primary btn"
+              className="btn btn-primary"
               onClick={this.props.handleConfirm}
-              style={{ marginTop: 20,marginLeft:10 }}
+              
             >
-              Confirm
+              Pay Slip Generate
             </button>
           </div>
+              </div>
+          </div>
+        
+         </div>
           
-        </div>
+        
 
-        <div>
+        <div style={{marginTop:10}}>
           <table
             width="99%"
             className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"

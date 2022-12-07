@@ -55,8 +55,9 @@ class EmployeeReport extends Component {
           branch: data[i].branch ? data[i].branch : "-",
           designation: data[i].designation ? data[i].designation : "-",
           region: data[i].region ? data[i].region : "-",
+          
           atmorcash:data[i].cash_or_atm ==1 ? "ATM" : data[i].cash_or_atm == 2 ? "Cash" : '-',
-          amount:data[i].detail_amount ? data[i].detail_amount : '-'
+          basic_salary:data[i].detail_amount ? data[i].detail_amount : '-'
           
         }
         l.push(obj)
@@ -77,7 +78,7 @@ class EmployeeReport extends Component {
         { title: "Region", data: "region" },
         { title: "Branch", data: "branch" },
         { title:"ATM or Cash",data:"atmorcash"},
-        { title:"Amount",data:'amount'}
+        { title:"Baisc Salary",data:'basic_salary'}
       ]
       table = $("#dataTables-table").DataTable({
 
@@ -120,14 +121,7 @@ class EmployeeReport extends Component {
       <div>
         <div className="row  white-bg dashboard-header">
         <h3 className="" style={{paddingLeft:"10px"}}>Payroll Generate</h3>
-                <button
-                  className="btn btn-primary"
-                  style={{ minWidth: "100px", margin: 5 }}
-                  type="button"
-                  onClick={this.props.atmorcashback}
-                >
-                  Back
-                </button>
+                
                 <div style={{ marginBottom: 20 }}>
               <div
                 className="row"
@@ -143,15 +137,32 @@ class EmployeeReport extends Component {
                   />
                 </div>
                 
-                <div className="col-md-2 btn-leftend">
-                  <button
-                    className="btn-primary btn"
-                    onClick={this.handleSearchData}
-                    style={{ marginTop: 20, minWidth: 70, marginRight: 10 }}
-                  >
-                    Search
-                  </button>
+                <div>
+                  <div className="row">
+                    
+                        <div className="col-md-4">
+                          <button
+                          className="btn-primary btn"
+                          onClick={this.handleSearchData}
+                          style={{ marginTop: 20, minWidth: 70, marginRight: 10 }}
+                        >
+                          Search
+                        </button>
+                        </div>
+                          <div className="col-md-6">
+                          <button
+                      className="btn btn-primary"
+                      style={{ minWidth: "100px",marginTop:20 }}
+                      type="button"
+                      onClick={this.props.atmorcashback}
+                    >
+                      Check Pay Slip Data
+                    </button>
+                          </div>
+                    
+                  </div>
                 </div>
+                
                
               </div>
             </div>

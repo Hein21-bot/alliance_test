@@ -160,13 +160,14 @@ export default class PayrollCheck extends Component {
   render() {
     return (
       <div>
+        <h3>Net Salary Calculation</h3>
         <div className="col-md-12 btn-rightend" style={{marginBottom: '10px'}}>
           <button
             className="btn-primary btn"
             onClick={this.props.handleCalculate}
             style={{ marginTop: 20 }}
           >
-            Calculate
+            Calculate Net Salary
           </button>
         </div>
         <div>
