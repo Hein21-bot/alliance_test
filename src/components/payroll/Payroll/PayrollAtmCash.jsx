@@ -21,13 +21,14 @@ export default class PayrollAtmCash extends Component {
         { label: "ATM", value: 1 },
         { label: "Cash", value: 2 },
       ],
+      generate_disabled:false
       
     };
   }
 
   async componentDidMount() {
     await this.getPayrollHeader();
-   
+    
 
     let tempArray = [];
     this.props.dataSource.map((v, i) => {
@@ -39,6 +40,13 @@ export default class PayrollAtmCash extends Component {
       dataSource: tempArray,
       dataSourceToFilter: tempArray,
     });
+    this.props.payrollCalculatedAllData.map(v=>{
+      if(v.cash_or_atm == 0){
+        this.setState({
+          generate_disabled:true
+        })
+      }
+    })
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -271,15 +279,17 @@ export default class PayrollAtmCash extends Component {
             </div>
             <div>
                 <div className="row">
-                <div className="col-md-6">
-            <button
-                className="btn-primary btn"
-                onClick={this.handleGenerate}
-                style={{ marginRight:5 }}
-              >
-                Generate
-              </button>
-            </div>
+                {
+                  this.state.generate_disabled ? '':<div className="col-md-6">
+                  <button
+                      className="btn-primary btn"
+                      onClick={this.handleGenerate}
+                      style={{ marginRight:5 }}
+                    >
+                      Generate
+                    </button>
+                  </div>
+                }
             <div className="col-md-6">
             <button
                 className="btn-primary btn"
