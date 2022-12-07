@@ -21,14 +21,14 @@ export default class PayrollAtmCash extends Component {
         { label: "ATM", value: 1 },
         { label: "Cash", value: 2 },
       ],
-      generate_disabled:false
+     
       
     };
   }
 
   async componentDidMount() {
     await this.getPayrollHeader();
-    
+   
 
     let tempArray = [];
     this.props.dataSource.map((v, i) => {
@@ -36,17 +36,11 @@ export default class PayrollAtmCash extends Component {
       obj["payment_type"] = this.state.atmOrCashSelected;
       tempArray.push(obj);
     });
+    
     this.setState({
       dataSource: tempArray,
       dataSourceToFilter: tempArray,
     });
-    this.props.payrollCalculatedAllData.map(v=>{
-      if(v.cash_or_atm == 0){
-        this.setState({
-          generate_disabled:true
-        })
-      }
-    })
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -175,7 +169,7 @@ export default class PayrollAtmCash extends Component {
   };
 
   render() {
-    console.log('dataSource ===>', this.state.dataSource)
+    // console.log('dataSource ===>', this.props.payrollCalculatedAllData)
     return (
       <div>
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -279,17 +273,16 @@ export default class PayrollAtmCash extends Component {
             </div>
             <div>
                 <div className="row">
-                {
-                  this.state.generate_disabled ? '':<div className="col-md-6">
-                  <button
-                      className="btn-primary btn"
-                      onClick={this.handleGenerate}
-                      style={{ marginRight:5 }}
-                    >
-                      Generate
-                    </button>
-                  </div>
-                }
+               <div className="col-md-6">
+                <button
+                    className="btn-primary btn"
+                    onClick={this.handleGenerate}
+                    style={{ marginRight:5 }}
+                  >
+                    Generate
+                  </button>
+                </div>
+               
             <div className="col-md-6">
             <button
                 className="btn-primary btn"
