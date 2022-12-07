@@ -147,9 +147,9 @@ export default class PayrollAtmCash extends Component {
           this.props.handleSelectDept(null);
           this.props.handleSelectDesign(null);
           this.props.handleSelectBranch(null);
-          // this.setState({
-          //   atmOrCashSelected: { label: "ATM", value: 1 }
-          // })
+          this.setState({
+            atmOrCashSelected: null
+          })
           // window.location.reload();
         } else {
           toast.error(text, {
@@ -176,12 +176,12 @@ export default class PayrollAtmCash extends Component {
             {/* <div className="col-md-12" style={{ marginTop: 20 }}>
               <div className="ibox float-e-margins" id="add_check_form">
                 <div className="ibox-content p-md"> */}
-            <div className="row">
-              <div className="col-md-3">
+            <div className="row" style={{display:'flex',justifyContent:'end',alignItems:'end'}}>
+              <div className="col-md-2">
                 <label htmlFor="">Date</label>
                 <input type="text" value={moment(this.props.filterDate).format('YYYY-MM')} className="form-control" disabled />
               </div>
-              <div className="col-md-3">
+              <div className="col-md-2">
                 <label>Region</label>
                 <Select
                   options={this.props.regionList}
@@ -191,7 +191,7 @@ export default class PayrollAtmCash extends Component {
                   classNamePrefix="react-select"
                 />
               </div>
-              <div className="col-md-3">
+              <div className="col-md-2">
                 <label>Department</label>
                 <Select
                   options={this.props.departmentList}
@@ -201,7 +201,7 @@ export default class PayrollAtmCash extends Component {
                   classNamePrefix="react-select"
                 />
               </div>
-              <div className="col-md-3">
+              <div className="col-md-2">
                 <label>Designation</label>
                 <Select
                   options={this.props.designationList}
@@ -211,10 +211,7 @@ export default class PayrollAtmCash extends Component {
                   classNamePrefix="react-select"
                 />
               </div>
-             
-            </div>
-            <div className="row">
-            <div className="col-md-3">
+              <div className="col-md-2">
                 <label>Branch</label>
                 <Select
                   options={this.props.branchList}
@@ -224,7 +221,7 @@ export default class PayrollAtmCash extends Component {
                   classNamePrefix="react-select"
                 />
               </div>
-              <div className="col-md-3">
+              <div className="col-md-2">
                 <label>Employee ID</label>
                 <Select
                   options={this.props.employeeIdList}
@@ -234,59 +231,78 @@ export default class PayrollAtmCash extends Component {
                   classNamePrefix="react-select"
                 />
               </div>
-              <div className="col-md-3">
+              <div className="col-md-2">
                 <label>Employee Name</label>
                 <input type="text" className="form-control" value={this.props.fullname} disabled />
               </div>
-              <div className="col-md-3">
-                  <label>ATM / Cash</label>
-                  <Select
-                    options={this.state.atmOrCashOption}
-                    value={this.state.atmOrCashSelected}
-                    onChange={this.handleSelectedAll}
-                    className="react-select-container"
-                    classNamePrefix="react-select"
-                    placeholder="Please Choose ATM or Cash"
-                  />
-                  
-              </div>
-              
-            </div>
-            <div className="row">
-            <div
-                className="col-md-12 btn-rightend"
-                style={{ marginBottom: "10px" }}
-              >
-                <button
+              <div className="">
+              <button
                   className="btn-primary btn"
                   onClick={this.props.handleSearchAtmOrCash}
-                  style={{ marginTop: 20, marginRight: 10 }}
+                  // style={{ marginTop: 20, marginRight: 10 }}
                 >
                   Search
                 </button>
-                <button
-                  className="btn-primary btn"
-                  onClick={this.handleGenerate}
-                  style={{ marginTop: 20,marginRight:10 }}
-                >
-                  Generate
-                </button>
-                <button
-                  className="btn-primary btn"
-                  onClick={this.props.handleNextForATMOrCash}
-                  style={{ marginTop: 20 }}
-                >
-                  Next
-                </button>
+              </div>
+             
+            </div>
+            <div className="row" style={{display:'flex',justifyContent:'end',marginBottom:10,marginTop:10}}>
+              <div className="col-lg-3 col-md-5 col-sm-6" style={{border:'1px solid black'}}>
+                <h3 style={{textAlign:'center'}}>Payroll Generate</h3>
+              <div className="row" style={{display:'flex',justifyContent:'space-between',alignItems:'end',marginBottom:10}}>
+            
+            <div className="col-md-6">
+                <label>ATM / Cash</label>
+                <Select
+                  options={this.state.atmOrCashOption}
+                  value={this.state.atmOrCashSelected}
+                  onChange={this.handleSelectedAll}
+                  className="react-select-container"
+                  classNamePrefix="react-select"
+                  placeholder="Please Choose ATM or Cash"
+                />
+                
+            </div>
+            <div>
+                <div className="row">
+                <div className="col-md-6">
+            <button
+                className="btn-primary btn"
+                onClick={this.handleGenerate}
+                style={{ marginRight:5 }}
+              >
+                Generate
+              </button>
+            </div>
+            <div className="col-md-6">
+            <button
+                className="btn-primary btn"
+                onClick={this.props.handleNextForATMOrCash}
+                // style={{ marginTop: 20 }}
+              >
+                Next
+              </button>
+            </div>
+                </div>
+            </div>
+            
+            {/* <div
+              className="btn-leftend"
+              style={{ marginRight: 10 }}
+            >
+              
+              
+              
+            </div> */}
+            
+          </div>
               </div>
             </div>
-            {/* </div>
-              </div>
-            </div> */}
+           
           </div>
         </div>
         {/* <div className="row col-md-12"></div> */}
-        <div className="">
+        <div style={{marginTop:5}}>
           <table
             className="table table-bordered"
             id="payroll_atm_cash"
