@@ -20,18 +20,28 @@ class EmployeeReport extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      regionList: [],
+      branchList: [],
+      departmentList:[],
+      selected_region: "",
+      selected_branch: "",
+      selected_department:'',
+    
     }
   }
 
   async componentDidMount() {
    if(this.props.filterDate){
     this.handleSearchData();
+    this.getBranchList();
+    this.getRegionList();
+    this.getDepartmentList();
    }
     this.$el = $(this.el);
     this.setState(
       {
         dataSource: this.props.data,
+
       },
       () => {
         this._setTableData(this.state.dataSource);
@@ -41,6 +51,69 @@ class EmployeeReport extends Component {
     
   }
   
+  getRegionList() {
+    fetch(`${main_url}benefit/getRegionList`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        let lists = list.unshift({ state_id: 0, state_name: "All" });
+        this.setState({
+          regionList: list.map((v) => ({
+            ...v,
+            label: v.state_name,
+            value: v.state_id,
+          })),
+        });
+      });
+  }
+
+  getDepartmentList() {
+    fetch(main_url + `main/getDepartment`)
+    .then((res) => {
+      if (res.ok) return res.json();
+    })
+    .then((res1) => {
+      res1.unshift({ label: "All", value: 0 })
+      this.setState({ departmentList: res1 });
+    })
+    .catch((error) => console.error(`Fetch Error =\n`, error));
+  };
+
+  getBranchList() {
+    fetch(`${main_url}main/getBranch`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        let lists = list.unshift({ value: 0, label: "All" });
+        this.setState({
+          branchList: list,
+        });
+      });
+  };
+
+  handleSelectedRegion = (event) => {
+    if (event !== null)
+      this.setState({
+        selected_region: event,
+      });
+  };
+
+  handleSelectedBranch = (event) => {
+    if (event !== null)
+      this.setState({
+        selected_branch: event,
+      });
+  };
+
+  handleSelectedDepartment = (event) => {
+    if (event !== null)
+      this.setState({
+        selected_department: event,
+      });
+  };
+
   _setTableData = (data) => {
     var table;
     var l = [];
@@ -108,15 +181,17 @@ class EmployeeReport extends Component {
     
   }
   handleSearchData = () => {
-   
-    fetch(main_url + 'payroll/getReviewDetailData/'+moment(this.props.filterDate).format('YYYY-MM')+'/0/0/0/0/0')
+    let region = this.state.selected_region ? this.state.selected_region.value : 0;
+     let   department  = this.state.selected_department ? this.state.selected_department.value : 0
+      let  branch  = this.state.selected_branch ? this.state.selected_branch.value : 0
+
+    fetch(main_url + 'payroll/getReviewDetailData/'+moment(this.props.filterDate).format('YYYY-MM')+'/'+region+'/'+department+'/0/'+branch+'/0')
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
         this._setTableData(list);
       })
   }
-  render() {
-  console.log("filter date",this.props.filterDate);
+  render() { console.log(this.state.selected_branch);
     return (
       <div>
         <div className="row  white-bg dashboard-header">
@@ -137,6 +212,33 @@ class EmployeeReport extends Component {
                   />
                 </div>
                 
+   <div className='col-lg-2' >
+        <label>Region</label>
+        <Select 
+          options={this.state.regionList}
+          onChange={this.handleSelectedRegion}
+          value={this.state.selected_region}
+          className="react-select-container"
+          classNamePrefix="react-select"/></div>
+
+     <div className='col-lg-2' >
+        <label>Branch </label>
+        <Select 
+          options={this.state.branchList}
+          onChange={this.handleSelectedBranch}
+          value={this.state.selected_branch}
+          className="react-select-container"
+          classNamePrefix="react-select"/></div>
+
+<div className='col-lg-2' >
+        <label>Department</label>
+        <Select 
+          options={this.state.departmentList}
+          onChange={this.handleSelectedDepartment}
+          value={this.state.selected_department}
+          className="react-select-container"
+          classNamePrefix="react-select"/></div>
+
                 <div>
                   <div className="row">
                     

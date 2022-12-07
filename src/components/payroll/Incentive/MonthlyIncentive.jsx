@@ -48,7 +48,7 @@ export default class MonthlyIncentive extends Component {
     // }, () => {
     //     this.setDataTable(this.state.dataSource)
     // });
-  }
+  };
 
   getRegionList() {
     fetch(`${main_url}benefit/getRegionList`)
@@ -65,7 +65,7 @@ export default class MonthlyIncentive extends Component {
           })),
         });
       });
-  }
+  };
 
   getDesignationList() {
     fetch(`${main_url}main/getDesignations`)
@@ -78,7 +78,7 @@ export default class MonthlyIncentive extends Component {
           designationList: list, //list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
         });
       });
-  }
+  };
 
   getBranchList() {
     fetch(`${main_url}main/getBranch`)
@@ -91,7 +91,7 @@ export default class MonthlyIncentive extends Component {
           branchList: list,
         });
       });
-  }
+  };
 
   getEmployeeCodeList() {
     fetch(`${main_url}employee/getEmployeeCode`)
@@ -107,7 +107,7 @@ export default class MonthlyIncentive extends Component {
           })),
         });
       });
-  }
+  };
 
   getEmployeeName() {
     fetch(`${main_url}report/employeeName`)
@@ -118,13 +118,6 @@ export default class MonthlyIncentive extends Component {
         this.setState({
           EmployeeNameList: list,
         });
-      });
-  }
-
-  handleSelectedDeaprtment = (event) => {
-    if (event !== null)
-      this.setState({
-        selected_department: event,
       });
   };
 
@@ -181,7 +174,7 @@ export default class MonthlyIncentive extends Component {
     );
   };
   
- deleteClick = (e)=>{ console.log("dsfsfsf")
+ deleteClick = (e)=>{ 
 //  document.querySelector("#attachment").value = "";
   this.setState({
     fxData:[],
@@ -191,9 +184,9 @@ export default class MonthlyIncentive extends Component {
       ? this._setDataTable(this.state.fxData)
       : this.setDataTable(this.state.dataSource);
   })
- }
+  };
 
-    checkFiles(e) {
+  checkFiles(e) {
       this.setState({
         loading: true,
         newDoc: []
@@ -236,7 +229,7 @@ export default class MonthlyIncentive extends Component {
             });
           }
         })
-    }
+  };
 
   setDataTable(data) {
     var table;
@@ -327,7 +320,7 @@ export default class MonthlyIncentive extends Component {
         { title: "Action", data: "action" },
       ],
     });
-  }
+  };
 
   _setDataTable(data) {
     var table;
@@ -367,7 +360,7 @@ export default class MonthlyIncentive extends Component {
         { title: "CO Incentive Total", data: "co_incentive_total" },
       ],
     });
-  }
+  };
 
   render() { console.log("length",this.state.loading)
     return (
