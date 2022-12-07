@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { main_url } from "../../../utils/CommonFunction";
 import Select from "react-select";
 import { toast, ToastContainer } from "react-toastify";
+import moment from "moment";
 
 export default class PayrollAtmCash extends Component {
   constructor(props) {
@@ -10,16 +11,23 @@ export default class PayrollAtmCash extends Component {
       dataSource: [],
       dataSourceToFilter: [],
       steps: [],
-      atmOrCashSelected: { label: "ATM", value: 1 },
+      atmOrCashSelected: null,
       atmOrCashOption: [
         { label: "ATM", value: 1 },
         { label: "Cash", value: 2 },
       ],
+      atmOrCashList:[
+        { label:'Please Choose ATM or Cash',value:0},
+        { label: "ATM", value: 1 },
+        { label: "Cash", value: 2 },
+      ],
+      
     };
   }
 
   async componentDidMount() {
     await this.getPayrollHeader();
+   
 
     let tempArray = [];
     this.props.dataSource.map((v, i) => {
@@ -47,6 +55,7 @@ export default class PayrollAtmCash extends Component {
       });
     }
   }
+ 
 
   getPayrollHeader = async () => {
     await fetch(`${main_url}payroll/getPayrollHeader`)
@@ -158,7 +167,7 @@ export default class PayrollAtmCash extends Component {
   };
 
   render() {
-    console.log('dataSource ===>', this.state.dataSource && this.state.dataSource[1])
+    console.log('dataSource ===>', this.state.dataSource)
     return (
       <div>
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -168,6 +177,10 @@ export default class PayrollAtmCash extends Component {
               <div className="ibox float-e-margins" id="add_check_form">
                 <div className="ibox-content p-md"> */}
             <div className="row">
+              <div className="col-md-3">
+                <label htmlFor="">Date</label>
+                <input type="text" value={moment(this.props.filterDate).format('YYYY-MM')} className="form-control" disabled />
+              </div>
               <div className="col-md-3">
                 <label>Region</label>
                 <Select
@@ -198,7 +211,10 @@ export default class PayrollAtmCash extends Component {
                   classNamePrefix="react-select"
                 />
               </div>
-              <div className="col-md-3">
+             
+            </div>
+            <div className="row">
+            <div className="col-md-3">
                 <label>Branch</label>
                 <Select
                   options={this.props.branchList}
@@ -208,8 +224,20 @@ export default class PayrollAtmCash extends Component {
                   classNamePrefix="react-select"
                 />
               </div>
-            </div>
-            <div className="row">
+              <div className="col-md-3">
+                <label>Employee ID</label>
+                <Select
+                  options={this.props.employeeIdList}
+                  value={this.props.selected_employeeId}
+                  onChange={this.props.handleSelectedEmpId}
+                  className="react-select-container"
+                  classNamePrefix="react-select"
+                />
+              </div>
+              <div className="col-md-3">
+                <label>Employee Name</label>
+                <input type="text" className="form-control" value={this.props.fullname} disabled />
+              </div>
               <div className="col-md-3">
                   <label>ATM / Cash</label>
                   <Select
@@ -222,8 +250,11 @@ export default class PayrollAtmCash extends Component {
                   />
                   
               </div>
-              <div
-                className="row col-md-9 btn-rightend"
+              
+            </div>
+            <div className="row">
+            <div
+                className="col-md-12 btn-rightend"
                 style={{ marginBottom: "10px" }}
               >
                 <button
@@ -365,6 +396,8 @@ export default class PayrollAtmCash extends Component {
             </thead>
             <tbody>
               {this.state.dataSource.map((v1, i1) => {
+                // console.log("payment type",v1.payment_type!=null ? v1.payment_type : this.state.atmOrCashOption.filter(v=>v.value == v1.cash_or_atm) ? this.state.atmOrCashOption.filter(v=>v.value == v1.cash_or_atm)[0] : 'Please Choose ATM or Cash',v1.payment_type,v1.cash_or_atm)
+                // console.log("atm or cash",this.state.dataSource,this.state.atmOrCashOption,this.state.dataSource && this.state.atmOrCashOption && this.state.atmOrCashOption.filter(v=>v.value == v1.cash_or_atm))
                 return (
                   <>
                     <tr style={{ textAlign: "center" }} key={i1}>
@@ -375,7 +408,7 @@ export default class PayrollAtmCash extends Component {
                         <div style={{width: '100px'}}>
                         <Select
                           options={this.state.atmOrCashOption}
-                          value={v1.payment_type}
+                          value={v1.payment_type!=null ? v1.payment_type : this.state.atmOrCashList.filter(v=>v.value == v1.cash_or_atm) && this.state.atmOrCashList.filter(v=>v.value == v1.cash_or_atm)[0]}
                           onChange={(e) =>
                             this.handleSelectedForEachRow(e, v1.user_id)
                           }

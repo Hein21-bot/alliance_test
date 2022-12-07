@@ -108,7 +108,7 @@ class EmployeeReport extends Component {
   }
   handleSearchData = () => {
    
-    fetch(main_url + 'payroll/getReviewDetailData/'+moment(this.props.filterDate).format('YYYY-MM')+'/0/0/0/0')
+    fetch(main_url + 'payroll/getReviewDetailData/'+moment(this.props.filterDate).format('YYYY-MM')+'/0/0/0/0/0')
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
         this._setTableData(list);

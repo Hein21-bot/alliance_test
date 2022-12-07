@@ -334,12 +334,25 @@ export default class SSC extends Component {
       paging: true,
       buttons: true,
       dom: "Bfrtip",
-      buttons: [
-        //     'copy', 'csv',
-        "excel",
-        //  , 'pdf'
-      ],
-      buttons: [],
+      // buttons: [
+      //   //     'copy', 'csv',
+      //   "excel",
+      //   //  , 'pdf'
+      // ],
+      // buttons: [],
+      buttons:  [
+        {
+                extend: 'csvHtml5',
+                title: 'SSC',
+        },
+        {
+            extend: 'excelHtml5',
+            title: 'SSC',
+        },
+        {
+            extend: 'pdfHtml5',
+            title: 'SSC',
+        }],
       data: l,
       columns: column,
       // createdRow: function (row, data, td, index) {
@@ -369,7 +382,7 @@ export default class SSC extends Component {
     return (
       <div>
         {/* <div className="d-flex row justify-content-center align-item-center"> */}
-        <div className="col-md-12 col-lg-12">
+        <div className="col-md-12 col-lg-12" style={{marginBottom:10}}>
           <div className="form-horizontal" name="demo-form">
             <div className="row">
               <div className="col-md-4">
@@ -453,7 +466,7 @@ export default class SSC extends Component {
           </div>
         </div>
         {/* </div> */}
-        <div>
+        <div style={{}}>
           <table
             width="99%"
             className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"

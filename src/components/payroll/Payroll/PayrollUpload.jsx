@@ -29,7 +29,7 @@ export default class PayrollUpload extends Component {
       activeStep: 0,
       completed: 0,
       steps: [],
-
+      loading:false,
       step_name: null,
       newDoc: [],
       dataSource: [],
@@ -400,6 +400,11 @@ export default class PayrollUpload extends Component {
                 </button>
               </div>
             ) : (
+              this.state.loading ? (
+                <div style={{ display: "flex", justifyContent: "center" }}>
+              <h2>Loading...</h2>
+            </div>
+              ) :(
               <div>
                 <div
                   className="col-md-12 col-lg-12"
@@ -478,7 +483,7 @@ export default class PayrollUpload extends Component {
                     </button>
                   )}
                 </div>
-              </div>
+              </div>)
             )}
           </Box>
           {this.state.dataSource.length > 0 ? (

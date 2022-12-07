@@ -332,7 +332,19 @@ export default class PayrollCalculated extends Component {
       // buttons: [
       //     'copy', 'csv', 'excel', 'pdf'
       // ],
-      buttons: [],
+      buttons:  [
+        {
+                extend: 'csvHtml5',
+                title: 'Payslip Generate',
+        },
+        {
+            extend: 'excelHtml5',
+            title: 'Payslip Generate',
+        },
+        {
+            extend: 'pdfHtml5',
+            title: 'Payslip Generate',
+        }],
       data: j,
       columns: column,
     });

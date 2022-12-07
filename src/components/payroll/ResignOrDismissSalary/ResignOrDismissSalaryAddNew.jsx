@@ -200,7 +200,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
       this.state.userInfo.basic_salary + parseFloat(newValue);
     newData.deductionOrAddition = newValue;
     newData.ssc3 = newData.salaryAfterDorA * 0.03;
-    newData.ssc2 = newData.salaryAfterDorA * 0.02;
+    // newData.ssc2 = this.state.userInfo.basic_salary >= 300000 ? 300000*0.02 : this.state.userInfo.basic_salary * 0.02
     newData.totalSalary =
       newData.salaryAfterDorA -
       newData.ssc2 -
@@ -557,16 +557,23 @@ export default class ResignOrDismissSalaryAddNew extends Component {
               state_name: data[0].state_name,
               basic_salary: data[0].basic_salary,
             },
+          },()=>{
+            const newData = this.state.addNewData;
+          newData.ssc2 = this.state.userInfo.basic_salary >= 300000 ? 300000*0.02 : this.state.userInfo.basic_salary * 0.02
+          this.setState({ addNewData: newData });
           });
         }
       });
   }
 
   handleSelectedEmployeeId = (event) => {
+    
+    console.log("basic salary",this.state.userInfo.basic_salary)
     if (event !== null) this.getData(event.user_id);
     this.setState({
       selectedEmployeeId: event,
-    });
+    },);
+    
   };
 
   render() {
@@ -743,7 +750,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
                   </div>
                   <div className="row margin-top-20">
                     <div className="col-md-3">
-                      <label>SSC (Employee 3%)</label>
+                      <label>SSC (Employer 3%)</label>
                       <input
                         className="form-control"
                         disabled
