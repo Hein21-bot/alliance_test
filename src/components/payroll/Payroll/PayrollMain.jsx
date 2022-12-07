@@ -55,7 +55,7 @@ export default class PayrollMain extends Component {
       employeeIdList:[],
       fullname:'',
       selected_employeeId:null,
-      payrollCalculatedAllData:[]
+ 
     };
   }
 
@@ -288,6 +288,9 @@ handleSelectedName = async (event) => {
       });
   };
   atmorcashback = () => {
+    this.setState({
+      componentIndex: "atmOrCash",
+    });
     fetch(
       main_url +
         `payroll/getReviewDetailData/${moment(
@@ -306,28 +309,6 @@ handleSelectedName = async (event) => {
           });
         }
       });
-      fetch(
-        main_url +
-          `payroll/getReviewDetailData/${moment(
-            this.state.filterDate
-            // '2022-12'
-          ).format("YYYY-MM")}/0/0/0/0/0`
-      )
-        .then((response1) => {
-          if (response1.ok) return response1.json();
-        })
-        .then((res1) => {
-          if (res1) {
-            this.setState({
-              payrollCalculatedAllData: res1,
-              loading: false,
-            });
-          }
-        });
-    this.setState({
-      componentIndex: "atmOrCash",
-    });
-    
   };
 
   handleCalculate = () => {
@@ -457,24 +438,6 @@ handleSelectedName = async (event) => {
               });
             }
           });
-          fetch(
-            main_url +
-              `payroll/getReviewDetailData/${moment(
-                this.state.filterDate
-                // '2022-12'
-              ).format("YYYY-MM")}/0/0/0/0/0`
-          )
-            .then((response1) => {
-              if (response1.ok) return response1.json();
-            })
-            .then((res1) => {
-              if (res1) {
-                this.setState({
-                  payrollCalculatedAllData: res1,
-                 
-                });
-              }
-            });
       } else {
         // toast.error(text, {
         //   position: "top-right",
@@ -685,7 +648,8 @@ handleSelectedName = async (event) => {
       fullname,
       empNameList,
       empId,
-      employeeName,payrollCalculatedAllData
+      employeeName,
+   
       
     } = this.state;
     return (
@@ -838,10 +802,7 @@ handleSelectedName = async (event) => {
             empNameList={empNameList}
             handleSelectedName={this.handleSelectedName}
             empId={empId}
-            employeeName={employeeName}
-            payrollCalculatedAllData={payrollCalculatedAllData}
-           
-            
+            employeeName={employeeName}      
           />
         ) : componentIndex == "ATMorCashNext" ? (
           <PayrollAtmCashNext
