@@ -386,7 +386,7 @@ class TeamBuildingAddNew extends Component {
                                 </div>
                             </div>
                             <div className="form-group col-md-6">
-                                <div><label htmlFor="designation" className="col-sm-12">Select Quater</label></div>
+                                <div><label htmlFor="designation" className="col-sm-12">Select Quarter</label></div>
                                 <div className="col-sm-10">
                                     <Select
                                         options={this.state.quater_list}
