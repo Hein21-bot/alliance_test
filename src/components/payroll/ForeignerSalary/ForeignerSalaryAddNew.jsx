@@ -172,23 +172,6 @@ export default class ForeignerSalaryAddNew extends Component {
     this.setState({ addNewData: newData });
   };
 
-  onGrossSalaryChange = (e) => {
-    let newValue = parseFloat(e.target.value);
-    const newData = this.state.addNewData;
-    newData.salaryAfterDorA =
-      newValue + parseFloat(newData.deductionOrAddition);
-    newData.grossSalary = newValue;
-    newData.ssc3 = newData.salaryAfterDorA * 0.03;
-    newData.ssc2 = newData.salaryAfterDorA * 0.02;
-    newData.totalSalary =
-      newData.salaryAfterDorA -
-      newData.ssc2 -
-      newData.incomeTax +
-      newData.maintenance +
-      newData.petrol;
-    this.setState({ addNewData: newData });
-  };
-
   allowanceChange=(e)=>{
     const newData = this.state.addNewData;
     newData.allowance = e.target.value;
@@ -200,8 +183,6 @@ export default class ForeignerSalaryAddNew extends Component {
     const newData = this.state.addNewData;
     newData.salaryAfterDorA = newData.grossSalary + parseFloat(newValue);
     newData.deductionOrAddition = newValue;
-    newData.ssc3 = newData.salaryAfterDorA * 0.03;
-    newData.ssc2 = newData.salaryAfterDorA * 0.02;
     newData.totalSalary =
       newData.salaryAfterDorA -
       newData.ssc2 -
@@ -353,6 +334,21 @@ export default class ForeignerSalaryAddNew extends Component {
             })
           });
       }
+    if(this.state.DetailUser.basic_salary >= 300000){
+      const newData = this.state.addNewData;
+      newData.ssc3 = 300000 * 0.03;
+      newData.ssc2=300000*0.03;
+      this.setState({
+        addNewData:newData
+      })
+    }else{
+      const newData = this.state.addNewData;
+      newData.ssc3 = this.state.DetailUser.basic_salary * 0.03;
+      newData.ssc2 = this.state.DetailUser.basic_salary * 0.02;
+      this.setState({
+        addNewData:newData
+      })
+    }
 
     this.setState({
         selectedEmployeeId:e
@@ -455,7 +451,7 @@ export default class ForeignerSalaryAddNew extends Component {
       const obj = {
         no: index + 1,
         request_month: data[i].request_month
-          ? moment(data[i].request_month).format("MMM")
+          ? moment(data[i].request_month).format("YYYY-MM")
           : "-",
         employment_id: data[i].employment_id ? data[i].employment_id : "-",
         fullname: data[i].fullname ? data[i].fullname : "-",
@@ -676,7 +672,7 @@ export default class ForeignerSalaryAddNew extends Component {
                     <div className="col-md-3">
                       <label>Request Month</label>
                       <DatePicker
-                        dateFormat="MMM"
+                        dateFormat="MM/YYYY"
                         value={addNewData.requestMonth}
                         timeFormat={false}
                         onChange={this.onRequestMonthChange.bind(this)}
@@ -761,7 +757,7 @@ export default class ForeignerSalaryAddNew extends Component {
                         type="number"
                         disabled
                         data-name="salaryAfterDorA"
-                        value={addNewData.salaryAfterDorA}
+                        value={this.state.DetailUser ? this.state.DetailUser.basic_salary : ""}
                         placeholder={"Enter Salary After Deduction or Addition"}
                       />
                     </div>

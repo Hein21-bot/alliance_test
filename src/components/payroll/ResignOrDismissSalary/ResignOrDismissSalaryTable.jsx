@@ -7,6 +7,7 @@ import "jspdf-autotable";
 import moment from "moment";
 import DatePicker from "react-datetime";
 import { imgData } from "../../../utils/Global";
+import Select from "react-select";
 import * as jsPDF from "jspdf";
 import {
   main_url,
@@ -35,6 +36,9 @@ export default class ResignOrDismissSalaryTable extends Component {
       user_id: getUserId("user_info"),
       dataSource: [],
       is_main_role: getMainRole(),
+      s_date:new Date(),
+      e_date:new Date(),
+      
     };
   }
   async componentDidMount() {
@@ -106,6 +110,41 @@ export default class ResignOrDismissSalaryTable extends Component {
   }
   getReject() {
     this.search(4);
+  }
+  handleStartDate = (event) => {
+    this.setState({
+      s_date: event,
+    });
+  };
+
+  handleEndDate = (event) => {
+    this.setState({
+      e_date: event,
+    });
+  };
+  handleSearchData = async (s_date, e_date, user_id) => {
+    let branchId = this.state.selected_branch.value == undefined ? 0 : this.state.selected_branch.value
+    fetch(
+      main_url +
+      "allowance/getTravelRequestFilter/" +
+      s_date +
+      "/" +
+      e_date +
+      "/" +
+      user_id +
+      "/" +
+      branchId
+    )
+      .then(res => { if (res.ok) return res.json() })
+      .then(list => {
+        if (this.state.pending_approve == 'myrequest') {
+          this.setState({ dataList: list, data: list.filter(v => v.user_id == this.state.user_id) }, () => { this._setTableData(this.state.data) });
+        } else if (this.state.pending_approve == 'allrequest') {
+          this.setState({ dataList: list, data: list.filter(v => v.user_id != this.state.user_id) }, () => { this._setTableData(this.state.data) });
+
+        }
+
+      })
   }
 
   search(status) {
@@ -232,7 +271,7 @@ export default class ResignOrDismissSalaryTable extends Component {
         obj = {
           no: i + 1,
           requestMonth: data[i].request_month
-            ? moment(data[i].request_month).format("MMM")
+            ? moment(data[i].request_month).format("YYYY-MM")
             : "-",
           employee_id: data[i].employment_id ? data[i].employment_id : "-",
           fullname: data[i].fullname ? data[i].fullname : "-",
@@ -387,12 +426,67 @@ export default class ResignOrDismissSalaryTable extends Component {
     return (
       <div>
         {" "}
+        {/* <div className="row" style={{display:'flex',alignItems:'end'}}>
+        <div className="col-md-2">
+              <div>
+                <label className="col-sm-12">Start Date</label>
+              </div>
+              <div className="col-md-12">
+                <DatePicker
+                  dateFormat="DD/MM/YYYY"
+                  value={this.state.s_date}
+                  onChange={this.handleStartDate}
+                  timeFormat={false}
+                />
+              </div>
+            </div>
+            <div className="col-md-2">
+              <div>
+                <label className="col-sm-12">End Date</label>
+              </div>
+              <div className="col-md-12">
+                <DatePicker
+                  dateFormat="DD/MM/YYYY"
+                  value={this.state.e_date}
+                  onChange={this.handleEndDate}
+                  timeFormat={false}
+                />
+              </div>
+            </div>
+            <div className="col-md-3">
+              <div>
+                <label className="col-sm-12">Branch</label>
+              </div>
+              <div className="col-md-10">
+                <Select
+                  options={this.state.branch}
+                  value={this.state.selected_branch}
+                  onChange={this.handleBranch}
+                  className="react-select-container checkValidate"
+                  classNamePrefix="react-select"
+                />
+              </div>
+            </div>
+            <div className="col-md-2">
+              <div className="col-md-10 margin-top-20">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => this.handleSearchData(moment(this.state.s_date).format("YYYY-MM-DD"), moment(this.state.e_date).format("YYYY-MM-DD"), this.state.user_info.user_id)}
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+        </div> */}
         <div
           className=""
           style={{ display: "flex", justifyContent: "end", marginRight: 33 }}
         >
           <div className="row">
             <div className="row border-bottom white-bg dashboard-header">
+               <div className="col-12">
+               
               <div className="row">
                 <div class="btn-group-g ">
                   <button
@@ -432,6 +526,7 @@ export default class ResignOrDismissSalaryTable extends Component {
                   </button>
                 </div>
               </div>
+               </div>
             </div>
           </div>
         </div>

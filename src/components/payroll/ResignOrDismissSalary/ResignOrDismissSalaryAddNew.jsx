@@ -358,7 +358,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
       const obj = {
         no: index + 1,
         request_month: data[i].request_month
-          ? moment(data[i].request_month).format("MMM")
+          ? moment(data[i].request_month).format("YYYY-MM")
           : "-",
         employment_id: data[i].employment_id ? data[i].employment_id : "-",
         employee_name: data[i].employee_name ? data[i].employee_name : "-",
@@ -599,7 +599,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
                     <div className="col-md-3">
                       <label>Request Month</label>
                       <DatePicker
-                        dateFormat="MMM"
+                        dateFormat="MM/YYYY"
                         value={addNewData.requestMonth}
                         timeFormat={false}
                         onChange={this.onRequestMonthChange.bind(this)}

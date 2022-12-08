@@ -26,6 +26,7 @@ class EmployeeReport extends Component {
       selected_region: "",
       selected_branch: "",
       selected_department:'',
+      steps:[]
     
     }
   }
@@ -36,6 +37,7 @@ class EmployeeReport extends Component {
     this.getBranchList();
     this.getRegionList();
     this.getDepartmentList();
+    this.getPayrollHeader();
    }
     this.$el = $(this.el);
     this.setState(
@@ -92,6 +94,24 @@ class EmployeeReport extends Component {
         });
       });
   };
+  getPayrollHeader = async () => {
+    await fetch(`${main_url}payroll/getPayrollHeader`)
+      .then((response) => {
+        if (response.ok) return response.json();
+      })
+      .then((res) => {
+        var formatData = [];
+
+        res.map((v) => {
+          formatData.push(v.name);
+        });
+
+        if (res) {
+          this.setState({ steps: formatData });
+        }
+      })
+      .catch((error) => console.error(`Fetch Error =\n`, error));
+  };
 
   handleSelectedRegion = (event) => {
     if (event !== null)
@@ -120,19 +140,35 @@ class EmployeeReport extends Component {
     if (data) {
       for (var i = 0; i < data.length; i++) {
         let result = data[i];
-        let obj = [];
-        obj = {
-          no: i + 1,
-          employee_id: data[i].employee_id ? data[i].employee_id : '-',
-          employee_name: data[i].name ?data[i].name : "-",
-          branch: data[i].branch ? data[i].branch : "-",
-          designation: data[i].designation ? data[i].designation : "-",
-          region: data[i].region ? data[i].region : "-",
+        let obj = {};
+        // obj = {
+        //   no: i + 1,
+        //   employee_id: data[i].employee_id ? data[i].employee_id : '-',
+        //   employee_name: data[i].name ?data[i].name : "-",
+        //   branch: data[i].branch ? data[i].branch : "-",
+        //   designation: data[i].designation ? data[i].designation : "-",
+        //   region: data[i].region ? data[i].region : "-",
           
-          atmorcash:data[i].cash_or_atm ==1 ? "ATM" : data[i].cash_or_atm == 2 ? "Cash" : '-',
-          basic_salary:data[i].detail_amount ? data[i].detail_amount : '-'
+        //   atmorcash:data[i].cash_or_atm ==1 ? "ATM" : data[i].cash_or_atm == 2 ? "Cash" : '-',
+        //   basic_salary:data[i].detail_amount ? data[i].detail_amount : '-'
           
-        }
+        // }
+        obj["no"] = i + 1;
+        obj["employee_id"] = result.employee_id ? result.employee_id : "-";
+        obj["employee_name"] = result.name ? result.name : "-";
+        obj["designation"] = result.designation ? result.designation : "-";
+        obj["branch"] = result.branch ? result.branch : "-";
+        obj["region"] = result.region ? result.region : "-";
+        obj['atmorcash']=result.cash_or_atm == 1? "ATM":result.cash_or_atm == 2 ? "Cash": '-'
+        obj["basic_salary"] = result.detail_amount ? result.detail_amount : "-";
+        this.state.steps.map((v, index) => {
+          console.log("v====>",v)
+          obj[v.replace(/\s/g, "").toLowerCase()] = result.labels.filter(
+            (a) => a.label == v
+          )[0]
+            ? result.labels.filter((a) => a.label == v)[0].value
+            : "-";
+        });
         l.push(obj)
 
       }
@@ -151,8 +187,14 @@ class EmployeeReport extends Component {
         { title: "Region", data: "region" },
         { title: "Branch", data: "branch" },
         { title:"ATM or Cash",data:"atmorcash"},
-        { title:"Baisc Salary",data:'basic_salary'}
+        { title:"Net Salary",data:'basic_salary'}
       ]
+      this.state.steps.map((v) => {
+        var obj = {};
+        obj["title"] = v;
+        obj["data"] = v.replace(/\s/g, "").toLowerCase();
+        column.push(obj);
+      });
       table = $("#dataTables-table").DataTable({
 
         autofill: true,
