@@ -8,6 +8,7 @@ import moment from 'moment'
 import DatePicker from 'react-datetime';
 import { imgData } from '../../../utils/Global';
 import * as jsPDF from 'jspdf';
+import Select from 'react-select';
 import { main_url, getMainRole,getFirstDayOfYear, getInformation, getUserId, setPrintedStatus, print, fno } from "../../../utils/CommonFunction";
 const $ = require('jquery');
 const jzip = require('jzip');
@@ -32,6 +33,8 @@ export default class ForeignerSalaryTable extends Component {
             to_date: moment() ,
             from_date:getFirstDayOfYear(),
             tab:this.props.tab,
+            s_date:new Date(),
+            e_date:new Date()
         }
     }
     componentDidMount() {
@@ -382,7 +385,62 @@ export default class ForeignerSalaryTable extends Component {
     render() { console.log("tab==>",this.props.view)
         return (
             
-            <div>   <div className=''style={{display:'flex',justifyContent:'end',marginRight:33}}>          
+            <div>
+                {/* <div className="row" style={{display:'flex',alignItems:'end'}}>
+                    <div className="col-md-2">
+                        <div>
+                            <label className="col-sm-12">Start Date</label>
+                        </div>
+                        <div className="col-md-12">
+                            <DatePicker
+                            dateFormat="DD/MM/YYYY"
+                            value={this.state.s_date}
+                            onChange={this.handleStartDate}
+                            timeFormat={false}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-md-2">
+                    <div>
+                        <label className="col-sm-12">End Date</label>
+                    </div>
+                    <div className="col-md-12">
+                        <DatePicker
+                        dateFormat="DD/MM/YYYY"
+                        value={this.state.e_date}
+                        onChange={this.handleEndDate}
+                        timeFormat={false}
+                        />
+                    </div>
+                    </div>
+                    <div className="col-md-3">
+                    <div>
+                        <label className="col-sm-12">Branch</label>
+                    </div>
+                    <div className="col-md-10">
+                        <Select
+                        options={this.state.branch}
+                        value={this.state.selected_branch}
+                        onChange={this.handleBranch}
+                        className="react-select-container checkValidate"
+                        classNamePrefix="react-select"
+                        />
+                    </div>
+                    </div>
+                    <div className="col-md-2">
+                    <div className="col-md-10 margin-top-20">
+                        <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={() => this.handleSearchData(moment(this.state.s_date).format("YYYY-MM-DD"), moment(this.state.e_date).format("YYYY-MM-DD"), this.state.user_info.user_id)}
+                        >
+                        Search
+                        </button>
+                    </div>
+                    </div>
+                </div> */}
+
+                <div className=''style={{display:'flex',justifyContent:'end',marginRight:33}}>          
                        {/* <div className='row'style={{display:'flex',paddingLeft:20}}>  
                         <div className="col" style={{padding:0,width:150}}>
                                     <div><label className="col"style={{padding:0}}>Start Date</label></div>

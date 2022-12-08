@@ -144,6 +144,21 @@ class PayrollSummaryReport extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
+        let uniqueDeductiondata=new Set();
+        list.forEach(v=>{
+          v.deduction.forEach(v1=>{
+            uniqueDeductiondata.add(v1.salary_payment_deduction_label)
+          })
+        })
+        console.log("unique data",uniqueDeductiondata)
+        let uniqueDeductionMap=new Map();
+        uniqueDeductiondata.forEach(v=>{
+          uniqueDeductionMap.set({
+            'salary_payment_deduction_label':v,
+            'salary_payment_deduction_value':0
+          })
+        })
+        console.log("unique map",)
         this.setState({
           dataSource: list,
         });
@@ -231,9 +246,9 @@ class PayrollSummaryReport extends Component {
                 <th rowSpan={2}>Deductions(+)/Additions(-)</th>
                 <th rowSpan={2}>Salary after deductions/additions</th>
                 <th colSpan={2}>SSC</th>
-                <th rowSpan={2}>Income Tax</th>
                 <th rowSpan={2}>Net Salary Paid</th>
                 <th rowSpan={2}>Total Gross Salary</th>
+                <th rowSpan={2}>Income Tax</th>
                 <th rowSpan={2}>Maintenance</th>
                 <th rowSpan={2}>Petrol</th>
                 <th rowSpan={2}>Backpay</th>
@@ -256,16 +271,17 @@ class PayrollSummaryReport extends Component {
                           return(
                             <tr>
                               <td>{i+1}</td>
-                              <td>{v.region}</td>
-                              <td>{v.branch}</td>
-                              <td>{v.detail_amount}</td>
-                              <td>0</td>
-                              <td>{v.detail_amount}</td>
-                              <td>{v.detail_amount}</td>
-                              <td>{v.detail_amount}</td>
-                              <td>{v.deduction_labels && v.deduction_labels.length > 0 && v.deduction_labels[i] && v.deduction_labels[i].label=="Income Tax" ? v.deduction_labels[i].value : 0}</td>
-                              <td>{v.detail_amount}</td>
-                              <td>{v.detail_amount}</td>
+                              <td>{v.state_name}</td>
+                              <td>{v.location_master_name}</td>
+                              <td>{v.gross_salary}</td>
+                              <td>{v.deduction_addition_data}</td>
+                              <td>{v.after_deduction_or_addition}</td>
+                              <td>{v.ssc[0].Employee_3}</td>
+                              <td>{v.ssc[0].Employer_2}</td>
+                              <td>{v.net_salary}</td>
+                              <td>{v.total_gross_salary}</td>
+                              
+                              {/* <td>{v.detail_amount}</td>
                               <td>{v.allowance_labels && v.allowance_labels.length > 0 && v.allowance_labels[i] && v.allowance_labels[i].label=="Maintenance" ? v.allowance_labels[i].value : 0}</td>
                               <td>{v.allowance_labels && v.allowance_labels.length > 0 && v.allowance_labels[i] && v.allowance_labels[i].label=="Petrol" ? v.allowance_labels[i].value : 0}</td>
                               <td>{v.allowance_labels && v.allowance_labels.length > 0 && v.allowance_labels[i] && v.allowance_labels[i].label=="BackPay" ? v.allowance_labels[i].value : 0}</td>
@@ -273,7 +289,7 @@ class PayrollSummaryReport extends Component {
                               <td>{v.deduction_labels && v.deduction_labels.length > 0 && v.deduction_labels[i] && v.deduction_labels[i].label=="Income Tax" ? v.deduction_labels[i].value : 0}</td>
                               <td>{v.deduction_labels && v.deduction_labels.length > 0 && v.deduction_labels[i] && v.deduction_labels[i].label=="Salary Cut" ? v.deduction_labels[i].value : 0}</td>
                               <td>{v.deduction_labels && v.deduction_labels.length > 0 && v.deduction_labels[i] && v.deduction_labels[i].label=="Deduction of Loan" ? v.deduction_labels[i].value : 0}</td>
-                              <td>{v.detail_amount}</td>
+                              <td>{v.detail_amount}</td> */}
                     
                             </tr>
                           )

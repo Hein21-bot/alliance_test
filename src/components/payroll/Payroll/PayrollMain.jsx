@@ -776,6 +776,13 @@ handleSelectedName = async (event) => {
               paySlipRemark={this.state.paySlipRemark}
               onChangeText={this.onChangeText}
               onFilterDateChange={this.onFilterDateChange}
+              employeeIdList={employeeIdList}
+              selected_employeeId={selected_employeeId}
+              handleSelectedEmpId={this.handleSelectedEmpId}
+              empNameList={empNameList}
+              handleSelectedName={this.handleSelectedName}
+              empId={empId}
+              employeeName={employeeName}      
             />
           )
         ) : componentIndex == "atmOrCash" ? (

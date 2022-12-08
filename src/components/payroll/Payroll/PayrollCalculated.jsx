@@ -257,7 +257,7 @@ export default class PayrollCalculated extends Component {
     const departmentId = this.state.selected_department ? this.state.selected_department.departments_id : 0
     const designationId = this.state.selected_designation ? this.state.selected_designation.value : 0
     const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
-    const employee = this.state.selected_employeeId ? this.state.selected_employeeId.value : 0
+    const employee = this.props.empId ? this.props.empId.value : 0
 
     // })
 
@@ -469,35 +469,25 @@ export default class PayrollCalculated extends Component {
             </div>
 
             <div className="col-md-2">
-              <label htmlFor="">Employee ID</label>
-              <Select
-              styles={{
-                container: base => ({
-                  ...base,
-                  //   flex: 1
-                 
-                  marginRight:10
-                }),
-                control: base => ({
-                  ...base,
-                  minHeight: '18px'
-                }),
-
-              }}
-              placeholder="Employee ID"
-              options={this.state.employeeIdList}
-              onChange={this.handleSelectedEmpId}
-              value={this.state.selected_employeeId}
-              className='react-select-container'
-              classNamePrefix="react-select"
-            />
-            </div>
-
-            <div className="col-md-2">
-              <label htmlFor="">Employee Name</label>
-              <input type="text" className="form-control" value={this.state.fullname} disabled />
-            </div>
-
+                <label>Employee ID</label>
+                <Select
+                  options={this.props.employeeIdList}
+                  value={this.props.empId}
+                  onChange={this.props.handleSelectedEmpId}
+                  className="react-select-container"
+                  classNamePrefix="react-select"
+                />
+              </div>
+              <div className="col-md-2">
+                <label>Employee Name</label>
+                <Select
+                  options={this.props.empNameList}
+                  value={this.props.employeeName}
+                  onChange={this.props.handleSelectedName}
+                  className="react-select-container"
+                  classNamePrefix="react-select"
+                />
+              </div>
             <div className="col-md-2" style={{display:'flex',alignItems:'end'}}>
             <button className='btn btn-primary text-center' style={{marginRight:10}}  onClick={() => this.handleSearchData()}>Search</button>
             <button
