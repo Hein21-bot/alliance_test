@@ -26,14 +26,15 @@ class EmployeeReport extends Component {
       selected_region: "",
       selected_branch: "",
       selected_department:'',
-      steps:[]
+      steps:[],
+      FinalData:[]
     
     }
   }
 
   async componentDidMount() {
    if(this.props.filterDate){
-    this.handleSearchData();
+    // this.handleSearchData();
     this.getBranchList();
     this.getRegionList();
     this.getDepartmentList();
@@ -44,11 +45,7 @@ class EmployeeReport extends Component {
       {
         dataSource: this.props.data,
 
-      },
-      () => {
-        this._setTableData(this.state.dataSource);
       }
-
     );
     
   }
@@ -187,7 +184,7 @@ class EmployeeReport extends Component {
         { title: "Region", data: "region" },
         { title: "Branch", data: "branch" },
         { title:"ATM or Cash",data:"atmorcash"},
-        { title:"Net Salary",data:'basic_salary'}
+        // { title:"Net Salary",data:'basic_salary'}
       ]
       this.state.steps.map((v) => {
         var obj = {};
@@ -195,6 +192,7 @@ class EmployeeReport extends Component {
         obj["data"] = v.replace(/\s/g, "").toLowerCase();
         column.push(obj);
       });
+      column.push({ title: "Net Salary",data:'basic_salary'})
       table = $("#dataTables-table").DataTable({
 
         autofill: true,
@@ -230,6 +228,9 @@ class EmployeeReport extends Component {
     fetch(main_url + 'payroll/getReviewDetailData/'+moment(this.props.filterDate).format('YYYY-MM')+'/'+region+'/'+department+'/0/'+branch+'/0')
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
+        this.setState({
+          FinalData:list
+        })
         this._setTableData(list);
       })
   }
