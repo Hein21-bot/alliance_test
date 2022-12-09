@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { main_url,getUserId } from "../../../utils/CommonFunction";
+import { main_url,getUserId} from "../../../utils/CommonFunction";
 import DatePicker from "react-datetime";
 import Select from "react-select";
 import moment from "moment";
-import "react-toastify/dist/ReactToastify.min.css";
 import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const $ = require("jquery");
 
@@ -50,15 +50,15 @@ export default class MonthlyIncentive extends Component {
     //     this.setDataTable(this.state.dataSource)
     // });
   };
-   
-  showToast = (status, text) => {
-    if (status === 200) {
+
+  showToast = (status, text) => { 
+    if (status === 200) { console.log(text)
       toast.success(text ,{
         position: "top-right",
         autoClose: 5000,
       });
-    } else {
-      toast.error(text);
+    } else { 
+      toast.error("Fail To Save Information!");
     }
   };
 
@@ -172,7 +172,6 @@ export default class MonthlyIncentive extends Component {
 
   handleSelectedType = (event) => {
  document.querySelector("#attachment").value = "";
-
     this.setState(
       {
         selected_type: event,
@@ -187,8 +186,9 @@ export default class MonthlyIncentive extends Component {
   };
   
  actionClick = (e)=>{ 
-   document.querySelector("#attachment").value = "";
-if (e==0)  {
+   
+if (e == 0)  {
+  document.querySelector("#attachment").value = "";
   this.setState({
     fxData:[],  },
   () => {
@@ -198,16 +198,21 @@ if (e==0)  {
   })} else {
     this._setDataTable(this.state.fxData)
   }
+if ( this.state.fxData.length > 0 && (e == 1 || e == 2 || e ==0 )){
   let status = 0
   fetch(`${main_url}incentive/monthlyGenerate/${this.state.selected_type.name}/${moment(this.state.selected_month).format("YYYY-MM")}/${e}`)
-  .then((res) => {console.log('sdddad',res)
+  .then((res) => {
     status=res.status;
     return res.text();
   })
   .then((text) => {
-    this.showToast(status, text);
+ if (e != 0){
+  this.showToast(status, text);
+ }  
   });
-
+} else {
+  toast.error("Please Choose Attachment File!");
+}
   };
 
   checkFiles(e) {
@@ -386,9 +391,10 @@ if (e==0)  {
     });
   };
 
-  render() { console.log("length",this.state.loading)
+  render() { console.log("length",this.state.fxData.length)
     return (
       <div>
+        <ToastContainer/>
         <div className="row">
           
           <div className="col-lg-3" >
@@ -470,7 +476,7 @@ if (e==0)  {
               marginTop: "25px",
             }}
           >
-            <button className="btn-primary btn"  onClick={()=>this.actionClick(0)} >Search</button>
+            <button className="btn-primary btn" >Search</button>
           </div>
         </div>
 
@@ -519,9 +525,9 @@ if (e==0)  {
                 id="dataTables-Table-One"
               />
 
-              <div style={{ display: "flex", justifyContent: "end" }}>
+              <div style={{ display:"flex",justifyContent:'end' }}>
                 <div
-                  className="col-lg-1"
+                  className="col-lg-2"
                   style={{
                     marginTop: "22px",
                     display: "flex",
@@ -531,11 +537,11 @@ if (e==0)  {
                   <button className="btn-primary btn" onClick={()=>this.actionClick(0)}>Delete</button>
                 </div>
                 <div
-                  className="col-lg-1"
+                  className="col-lg-2"
                   style={{
                     marginTop: "22px",
                     display: "flex",
-                    justifyContent: "end",
+                    justifyContent: "start",
                   }}
                 >
                   <button className="btn-primary btn" onClick={()=>this.actionClick(2)}>Generate</button>
