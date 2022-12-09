@@ -234,10 +234,61 @@ export default class QuarterlyIncentive extends Component{
            </div>
 
           <div>
+            {/* <div>
                 <table
                       width="99%"
                       className="table table-striped table-bordered table-hover responsive nowrap dt-responsive"
                       id="dataTables-Table"/>
+                      </div> */}
+             <div>
+             <table className="table table-bordered" style={{overflow:'scroll'}}>
+              <thead>
+              <tr style={{overflow:'scroll',backgroundColor:"blue",color:'white' }}>
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>No</th>
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>ID</th>
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Name</th>
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Position</th>
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }} colSpan={3}>Monthly Salary</th>
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Avarage Salary</th>
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Department Score</th>
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Bsc %</th>
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Incentive</th>
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Remark</th>
+                </tr>
+                <tr>
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }}>1</th>
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }}>2</th>
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }}>3</th>
+                </tr>
+              </thead>
+              {/* <tbody style={{ textAlign: "center" }}>
+                 {
+                    this.state.fxData.map((v,i)=>{
+                      return(
+                        <>
+                  <tr>
+                    <td>{v.employeeID}</td>
+                    <td>{v.creditDisbursementNo}</td>
+                    <td>{v.creditDisbursementAmount}</td>
+                    <td>{v.creditPortfolioNo}</td>
+                    <td>{v.creditPortfolOutstanding}</td>
+                    <td>{v.savingOutstanding}</td>
+                    <td>{v.collectionRateDemand}</td>
+                    <td>{v.collectionActual}</td>
+                    <td>{v.parNo}</td>
+                    <td>{v.parAmount}</td>
+                    <td>{v.creditIncentive}</td>
+                    <td>{v.savingIncentive}</td>
+                    <td>{v.collectiveRateIncentive}</td>
+                    <td>{v.parDeductionRate}</td>
+                  </tr>
+                  </>  )
+                    })
+                }   
+              </tbody> */}
+             </table>
+             </div>
+  
            </div>
          </div>
             )

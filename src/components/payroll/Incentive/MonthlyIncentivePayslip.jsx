@@ -3,6 +3,9 @@ import { main_url,getUserId } from "../../../utils/CommonFunction";
 import DatePicker from "react-datetime";
 import Select from "react-select";
 import moment from "moment";
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.min.css";
+
 // const $ = require('jquery');
 
 
@@ -13,16 +16,17 @@ constructor(props){
     this.state={
       user_id: getUserId("user_info"),
       coData:[],
+      dataSource:[],
       employeeIdList: [],
       EmployeeNameList: [],
       regionList: [],
       branchList: [],
       designationList: [],
       fxData:[],
-      co_fx: [
-        { value: 1, label: "CO" ,name:'co'},
-        { value: 2, label: "FX" ,name:'fx' },
-      ],
+      // co_fx: [
+      //   { value: 1, label: "CO" ,name:'co'},
+      //   { value: 2, label: "FX" ,name:'fx' },
+      // ],
       selected_month: new Date(),
       componentIndex: "main",
       selected_region: "",
@@ -152,43 +156,70 @@ getRegionList() {
     });
   };
 
-  handleSelectedType = (event) => {
-    this.setState(
-      {
-        selected_type: event,
-        fxData: [],
-      }
-    );
-  };
+  // handleSelectedType = (event) => {
+  //   this.setState(
+  //     {
+  //       selected_type: event,
+  //       fxData: [],
+  //     }
+  //   );
+  // };
 
-getFxData (e){
-  fetch(`${main_url}incentive/monthlyFXPayslip/${this.state.user_id}/${moment(this.state.selected_month).format("YYYY-MM")}`)
-  .then((res) => {
-    if (res.ok) return res.json();
-  })
-  .then((list) => {
-    this.setState({
-      fxData: list,
-    });
-  });
-};
+// getFxData (){
+// let status = 0
+//   fetch(`${main_url}incentive/monthlyFXPayslip/${this.state.user_id}/${moment(this.state.selected_month).format("YYYY-MM")}`)
+//   .then((res) => {
+//     status=res.status;
+//     if (res.ok) return res.json();
+//   })
+//   .then((list) => {
+//     if(list != undefined){
+//       this.setState({
+//         fxData: list,
+//         coDdata:[]
+//       });
+//     }else{
+//       toast.error('No FX data for this user!')
+//     }
+//   });
+  
+// };
 
-getCoData (e){
-  fetch(`${main_url}incentive/monthlyCOPayslip/${this.state.user_id}/${moment(this.state.selected_month).format("YYYY-MM")}`)
-  .then((res) => {
-    if (res.ok) return res.json();
-  })
-  .then((list) => {
-    this.setState({
-      coData: list,
-    });
-  });
-};
+// getCoData (){
+//   fetch(`${main_url}incentive/monthlyCOPayslip/${this.state.user_id}/${moment(this.state.selected_month).format("YYYY-MM")}`)
+//   .then((res) => {
+//     if (res.ok) return res.json();
+//   })
+//   .then((list) => { 
+//     if(list != undefined){
+//       this.setState({
+//         coData: list,
+//         fxData:[]
+//       });
+//     }
+    
+//   });
+// };
 
+  getIncentive () {
+    fetch(`${main_url}incentive/findDesigination/${moment(this.state.selected_month).format("YYYY-MM")}/${this.state.user_id}`)
+    .then((res)=>{
+      if(res.ok) return res.json();
+    })
+    .then((list) =>{
+      this.setState({
+    dataSource:list
+      })
+    })
+    .catch((error)=>{
 
-render(){  console.log(this.state.fxData.length)
+    })
+  }
+
+render(){  console.log(this.state.dataSource)
     return( 
         <div>
+          <ToastContainer position={toast.POSITION.TOP_RIGHT} />
           <div className="row">
           
           <div className="col-lg-3" >
@@ -201,7 +232,7 @@ render(){  console.log(this.state.fxData.length)
             />
           </div>
 
-          <div className="col-lg-3">
+          {/* <div className="col-lg-3">
             <label>CO/FX</label>
             <Select
               options={this.state.co_fx}
@@ -210,7 +241,7 @@ render(){  console.log(this.state.fxData.length)
               className="react-select-container"
               classNamePrefix="react-select"
             />
-          </div>
+          </div> */}
 
           {/* <div className="col-lg-3">
             <label>Designation</label>
@@ -270,13 +301,15 @@ render(){  console.log(this.state.fxData.length)
               marginTop: "25px",
             }}
           >
-            { this.state.selected_type.value == 1 ? (
-            <button className="btn-primary btn"  onClick={()=>this.getCoData()} >Search</button>):(
-            <button className="btn-primary btn"  onClick={()=>this.getFxData()} >Search</button>)
-            }
+            {/* { this.state.selected_type.value == 1 ? ( */}
+            {/* <button className="btn-primary btn"  onClick={()=>this.getCoData()} >Search</button> */}
+            <button className="btn-primary btn"  onClick={()=>this.getIncentive()} >Search</button>
+            
+            {/* } */}
           </div>
         </div>
-{ this.state.selected_type.value == 1 ? ( this.state.coData.length > 0 ? (
+{ this.state.selected_type.value == 1 ? ( this.state.coData.length > 0 && this.state.coData
+ != undefined ? (
   <div className="row" style={{display:'flex',justifyContent:'space-around'}}>
   <div className='col-lg-4 col-md-4 col-sm-12' style={{ background: 'white',marginTop:30,border:"1px solid grey " }}>
    
