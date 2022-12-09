@@ -502,7 +502,7 @@ if ( this.state.fxData.length > 0 && (e == 1 || e == 2 || e ==0 )){
           </div>
         </div>
         { 
-           this.state.loading  ||  this.state.fxData.length > 0 ? "" : ( console.log(this.state.loading,this.state.fxData.length),
+           this.state.loading  ||  this.state.fxData.length > 0 ? "" : ( 
           <div className="col-md-12">
                 <table
                   width="99%"
@@ -514,7 +514,7 @@ if ( this.state.fxData.length > 0 && (e == 1 || e == 2 || e ==0 )){
         {  
             this.state.loading  ? (
             <div className="col-lg-12" style={{display:'flex',justifyContent:'center' }}>
-             <span class="loader"></span>
+             <h1>Loading...</h1>
             </div>):(
              this.state.selected_type.value == 2 &&  this.state.fxData.length > 0 ? (
           <div>
