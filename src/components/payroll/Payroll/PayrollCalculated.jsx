@@ -283,6 +283,7 @@ export default class PayrollCalculated extends Component {
         obj["branch"] = result.branch ? result.branch : "-";
         obj["region"] = result.region ? result.region : "-";
         obj["netSalary"] = result.detail_amount ? result.detail_amount : "-";
+        obj['basic_salary']=result.basic_salary ? result.basic_salary : '-'
         this.state.steps.map((v, index) => {
           obj[v.replace(/\s/g, "").toLowerCase()] = result.labels.filter(
             (a) => a.label == v
@@ -309,6 +310,7 @@ export default class PayrollCalculated extends Component {
       { title: "Department", data: "department" },
       { title: "Branch", data: "branch" },
       { title: "Region", data: "region" },
+      { title:'Baisc Salary',data:'basic_salary'}
     ];
 
     this.state.steps.map((v) => {

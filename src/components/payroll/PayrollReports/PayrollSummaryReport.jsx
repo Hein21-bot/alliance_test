@@ -46,6 +46,7 @@ class PayrollSummaryReport extends Component {
       date: moment().format("YYYY-MM-DD"),
       dataSource: [],
       PayrollList: [],
+      ReportHeader:[]
     };
   }
 
@@ -61,6 +62,7 @@ class PayrollSummaryReport extends Component {
     this.getBranchList();
     this.handleSearchData();
     this.getpayRoll();
+    this.getPayrollReportHeader();
   }
 
   getBranchList() {
@@ -74,6 +76,18 @@ class PayrollSummaryReport extends Component {
           branchlist: list.map((v) => ({
             ...v,
           })),
+        });
+      });
+  }
+  getPayrollReportHeader(){
+    fetch(`${main_url}payroll_report/getPayrollReportHeader/`+moment(this.state.data).format('YYYY-MM'))
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        
+        this.setState({
+          ReportHeader:list
         });
       });
   }
@@ -139,32 +153,34 @@ class PayrollSummaryReport extends Component {
 
     // })
 
-    fetch(main_url + "payroll_report/payrollReportSummary/2022-11/0/0")
+    fetch(main_url + "payroll_report/payrollReportSummary/2022-12/0/0")
       .then((res) => {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        let uniqueDeductiondata=new Set();
-        list.forEach(v=>{
-          v.deduction.forEach(v1=>{
-            uniqueDeductiondata.add(v1.salary_payment_deduction_label)
-          })
-        })
-        console.log("unique data",uniqueDeductiondata)
-        let uniqueDeductionMap=new Map();
-        uniqueDeductiondata.forEach(v=>{
-          uniqueDeductionMap.set({
-            'salary_payment_deduction_label':v,
-            'salary_payment_deduction_value':0
-          })
-        })
-        console.log("unique map",)
+        // let uniqueDeductiondata=new Set();
+        // list.forEach(v=>{
+        //   v.deduction.forEach(v1=>{
+        //     uniqueDeductiondata.add(v1.salary_payment_deduction_label)
+        //   })
+        // })
+        // console.log("unique data",uniqueDeductiondata)
+        // let uniqueDeductionMap=new Map();
+        // uniqueDeductiondata.forEach(v=>{
+        //   uniqueDeductionMap.set({
+        //     'salary_payment_deduction_label':v,
+        //     'salary_payment_deduction_value':0
+        //   })
+        // })
+        // console.log("unique map",)
         this.setState({
           dataSource: list,
         });
       });
   };
   render() {
+    let filterData=this.state.ReportHeader && this.state.ReportHeader.filter(v=>v.label != 'Income Tax' && v.label != "SSC")
+    console.log("filter data",filterData)
     return (
       <div style={{overflowX:'auto'}}>
         <div className="row dashboard-header">
@@ -246,16 +262,18 @@ class PayrollSummaryReport extends Component {
                 <th rowSpan={2}>Deductions(+)/Additions(-)</th>
                 <th rowSpan={2}>Salary after deductions/additions</th>
                 <th colSpan={2}>SSC</th>
+                {
+                 this.state.ReportHeader && this.state.ReportHeader.filter(v=>v.label == "Income Tax") ? <th rowSpan={2}>Income Tax</th> : ''
+                }
                 <th rowSpan={2}>Net Salary Paid</th>
                 <th rowSpan={2}>Total Gross Salary</th>
-                <th rowSpan={2}>Income Tax</th>
-                <th rowSpan={2}>Maintenance</th>
-                <th rowSpan={2}>Petrol</th>
-                <th rowSpan={2}>Backpay</th>
-                <th rowSpan={2}>Income Tax Adjust</th>
-                <th rowSpan={2}>Deduct for using office cycle</th>
-                <th rowSpan={2}>Salary Cut(Tablet)</th>
-                <th rowSpan={2}>Deduction of Loan</th>
+                {
+                  filterData && filterData.map(v=>{
+                   return (
+                    <th rowSpan={2}>{v.label}</th>
+                   )
+                  })
+                }
                 <th rowSpan={2}>Total</th>
               </tr>
               <tr>
@@ -268,6 +286,7 @@ class PayrollSummaryReport extends Component {
              
                       {
                         this.state.dataSource !=undefined && this.state.dataSource.length > 0 && this.state.dataSource.map((v,i)=>{
+                          console.log("ssc",v.ssc)
                           return(
                             <tr>
                               <td>{i+1}</td>
@@ -276,10 +295,25 @@ class PayrollSummaryReport extends Component {
                               <td>{v.gross_salary}</td>
                               <td>{v.deduction_addition_data}</td>
                               <td>{v.after_deduction_or_addition}</td>
-                              <td>{v.ssc[0].Employee_3}</td>
-                              <td>{v.ssc[0].Employer_2}</td>
+                              <td>{v.ssc.length > 0 && v.ssc[0] && v.ssc[0].Employee_3}</td>
+                              <td>{v.ssc.length > 0 && v.ssc[0] && v.ssc[0].Employer_2}</td>
+                              {
+                               v.deduction.length > 0 && v.deduction.filter(v1=>{
+                                 
+                                  return(
+                                    <td>{v1.salary_payment_deduction_label === 'Income Tax' ? v1.salary_payment_deduction_value : 0}</td>
+                                  )
+                                })
+                              }
                               <td>{v.net_salary}</td>
                               <td>{v.total_gross_salary}</td>
+                              {/* {
+                                filterData.map(a=>{
+                                  return(
+                                    v.deduction.filter(v1=>v1.salary_payment_deduction_label == )
+                                  )
+                                })
+                              } */}
                               
                               {/* <td>{v.detail_amount}</td>
                               <td>{v.allowance_labels && v.allowance_labels.length > 0 && v.allowance_labels[i] && v.allowance_labels[i].label=="Maintenance" ? v.allowance_labels[i].value : 0}</td>
