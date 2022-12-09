@@ -553,7 +553,7 @@ export default class Sidebar extends Component {
               </li>
               
               <li
-                className={this.checkPathName() === "/payroll" || this.checkPathName() === 'payroll_calculation' || this.checkPathName() === '/payroll_reports' || pathname === '/payslip_generate' || pathname === '/ssc' || pathname === "/payroll_main" || pathname === '/foreigner_salary' || pathname === "/resign_or_dismiss_salary" || pathname === '/payroll_generate' || pathname ==='/pay_slip' ? "active" : ""}
+                className={this.checkPathName() === "/payroll" || this.checkPathName() === 'payroll_calculation' || this.checkPathName() === '/payroll_reports' || pathname === '/payslip_generate' || pathname === '/ssc' || pathname === "/payroll_main" || pathname === '/foreigner_salary' || pathname === "/resign_or_dismiss_salary" || pathname === '/payroll_generate' || pathname ==='/pay_slip'|| pathname== '/monthly_incentive' || pathname == "/monthly_incentive_payslip" ? "active" : ""}
                
              >
                 <a href="/ssc" className="sideList">
@@ -570,7 +570,7 @@ export default class Sidebar extends Component {
                   >
                     <a href="/ssc">SSC Calculation</a>
                   </li>
-                  <li className={this.checkPathName() === "/payroll_calculation" || pathname == "/payroll_main" || pathname == '/payslip_generate' || pathname == '/payroll_generate'  ? "active" : " "}>
+                  <li className={this.checkPathName() === "/payroll_calculation" || pathname == "/payroll_main" || pathname == '/payslip_generate' || pathname == '/payroll_generate'   ? "active" : " "}>
                     <a href="/payroll_calculation" className="sideText">Payroll Calculation</a>
                     <ul className="nav nav-third-level collapse">
                     <li
@@ -608,6 +608,24 @@ export default class Sidebar extends Component {
                     }
                   >
                     <a href="/resign_or_dismiss_salary">Resing Or Dismiss Salary</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/monthly_incentive"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/monthly_incentive">Monthly Incentive</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/monthly_incentive_payslip"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/monthly_incentive_payslip">Monthly Incentive Payslip</a>
                   </li>
                   <li
                     className={

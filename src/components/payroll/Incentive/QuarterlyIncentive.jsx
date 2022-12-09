@@ -14,16 +14,19 @@ export default class QuarterlyIncentive extends Component{
             regionList : [],
             branchList : [],
             departmentList : [],
+            quater_list : [],
             selected_month : new Date(),
             selected_region :'',
             selected_branch :'',
             selected_department :'',
+            selected_quater:'',
         }};
         componentDidMount(){
             this.$el = $(this.el);
             this.getRegionList();
             this.getBranchList();
             this.getDepartment();
+            this.getQuaterList();
             this.setDataTable(this.state.dataSource);
         }
 
@@ -65,38 +68,54 @@ export default class QuarterlyIncentive extends Component{
                 })
           };
 
-          handleSelectedDeaprtment = (event) => {
+        getQuaterList() {
+            fetch(`${main_url}team_building/getQuater`)
+                .then(res => { if (res.ok) return res.json() })
+                .then(list => {
+                    this.setState({
+                        quater_list: list
+                    })
+                })
+          };
+
+        handleSelectedDeaprtment = (event) => {
             if (event !== null)
               this.setState({
                 selected_department: event,
               });
           };
         
-          handleSelectedRegion = (event) => {
+        handleSelectedRegion = (event) => {
             if (event !== null)
               this.setState({
                 selected_region: event,
               });
           };
         
-          handleSelectedBranch = (event) => {
+        handleSelectedBranch = (event) => {
             if (event !== null)
               this.setState({
                 selected_branch: event,
               });
           };
 
-          handleSelectedMonth = (event) => {
+        handleSelectedMonth = (event) => {
             this.setState({
                 selected_month: event,
               });
           };
           
-          handleSelectedBranch = (event) => {
+        handleSelectedBranch = (event) => {
             if (event !== null)
               this.setState({
                 selected_branch: event,
               });
+          };
+
+        handleSelectedQuater = (event) => {
+            this.setState({
+                selected_quater: event
+            })
           };
 
         setDataTable(data) {
@@ -139,29 +158,40 @@ export default class QuarterlyIncentive extends Component{
             });
           };
 
-        render(){
+  render(){
             return(
-                <div>
-    <div className='col-lg-2' >
-        <label>Request Month</label>
+        <div>
+          <div className='col-lg-2' >
+        <label>Select Year</label>
         <DatePicker
-            dateFormat="MM/YYYY"
+            dateFormat="YYYY"
             value={this.state.selected_month}
             timeFormat={false}
             onChange={this.handleSelectedMonth}
 
-        /></div>
+           /></div>
+         
+          <div className='col-lg-2' >
+          <label>Select Quarter</label>
+          <Select
+            dateFormat="YYYY"
+            options={this.state.quater_list}
+            value={this.state.selected_quater}
+            timeFormat={false}
+            onChange={this.handleSelectedQuater}
 
-    <div className='col-lg-2' >
+           /></div>
+
+          <div className='col-lg-2' >
         <label>Region</label>
         <Select 
           options={this.state.regionList}
           onChange={this.handleSelectedRegion}
           value={this.state.selected_region}
           className="react-select-container"
-          classNamePrefix="react-select"/></div>
+           classNamePrefix="react-select"/></div>
 
-    <div className='col-lg-2' >
+          <div className='col-lg-2' >
         <label>Branch </label>
         <Select 
           options={this.state.branchList}
@@ -170,7 +200,7 @@ export default class QuarterlyIncentive extends Component{
           className="react-select-container"
           classNamePrefix="react-select"/></div>
 
-    <div className='col-lg-2' style={{marginBottom:20}} >
+          <div className='col-lg-2' style={{marginBottom:20}} >
         <label>Department</label>
         <Select 
           options={this.state.departmentList}
@@ -179,9 +209,9 @@ export default class QuarterlyIncentive extends Component{
           className="react-select-container"
           classNamePrefix="react-select"/></div>
           
-    <div className="row" style={{paddingTop:25,marginLeft:15}}><button className='btn-primary btn'>Search</button></div>
+          <div className="row" style={{paddingTop:25,marginLeft:15}}><button className='btn-primary btn'>Search</button></div>
   
-    <div className="col-lg-2" style={{ paddingTop: 8 }}>
+          <div className="col-lg-2" style={{ paddingTop: 8 }}>
             <input
               // className="dropZone"
               type="file"
@@ -190,7 +220,7 @@ export default class QuarterlyIncentive extends Component{
               // onChange={ this.checkFiles.bind(this)}
               style={{ height: 30 }}
             ></input>
-          </div>
+           </div>
 
           <div
             className="col-lg-2"
@@ -201,15 +231,15 @@ export default class QuarterlyIncentive extends Component{
             }}
           >
             <button className="btn-primary btn">Calculate</button>
-          </div>
+           </div>
 
-           <div>
+          <div>
                 <table
                       width="99%"
                       className="table table-striped table-bordered table-hover responsive nowrap dt-responsive"
-                      id="dataTables-Table"
-                    /></div>
-                </div>
+                      id="dataTables-Table"/>
+           </div>
+         </div>
             )
         }
 }

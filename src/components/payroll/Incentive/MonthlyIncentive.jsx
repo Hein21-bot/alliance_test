@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { main_url } from "../../../utils/CommonFunction";
+import { main_url,getUserId } from "../../../utils/CommonFunction";
 import DatePicker from "react-datetime";
 import Select from "react-select";
 import moment from "moment";
@@ -13,6 +13,7 @@ export default class MonthlyIncentive extends Component {
     super(props);
     this.state = {
       dataSource: [],
+      dataSources:[],
       newDoc: [],
       employeeIdList: [],
       EmployeeNameList: [],
@@ -48,6 +49,17 @@ export default class MonthlyIncentive extends Component {
     // }, () => {
     //     this.setDataTable(this.state.dataSource)
     // });
+  };
+   
+  showToast = (status, text) => {
+    if (status === 200) {
+      toast.success(text ,{
+        position: "top-right",
+        autoClose: 5000,
+      });
+    } else {
+      toast.error(text);
+    }
   };
 
   getRegionList() {
@@ -174,16 +186,28 @@ export default class MonthlyIncentive extends Component {
     );
   };
   
- deleteClick = (e)=>{ 
-//  document.querySelector("#attachment").value = "";
+ actionClick = (e)=>{ 
+   document.querySelector("#attachment").value = "";
+if (e==0)  {
   this.setState({
-    fxData:[],
-  },
+    fxData:[],  },
   () => {
     this.state.selected_type.value == 2 && this.state.fxData.length > 0
       ? this._setDataTable(this.state.fxData)
       : this.setDataTable(this.state.dataSource);
+  })} else {
+    this._setDataTable(this.state.fxData)
+  }
+  let status = 0
+  fetch(`${main_url}incentive/monthlyGenerate/${this.state.selected_type.name}/${moment(this.state.selected_month).format("YYYY-MM")}/${e}`)
+  .then((res) => {console.log('sdddad',res)
+    status=res.status;
+    return res.text();
   })
+  .then((text) => {
+    this.showToast(status, text);
+  });
+
   };
 
   checkFiles(e) {
@@ -365,8 +389,9 @@ export default class MonthlyIncentive extends Component {
   render() { console.log("length",this.state.loading)
     return (
       <div>
-        <div>
-          <div className="col-lg-3">
+        <div className="row">
+          
+          <div className="col-lg-3" >
             <label>Request Month</label>
             <DatePicker
               dateFormat="MM/YYYY"
@@ -375,6 +400,7 @@ export default class MonthlyIncentive extends Component {
               onChange={this.handleSelectedMonth}
             />
           </div>
+
           <div className="col-lg-3">
             <label>CO/FX</label>
             <Select
@@ -406,7 +432,7 @@ export default class MonthlyIncentive extends Component {
           className="react-select-container"
           classNamePrefix="react-select"/></div>
 
-     <div className='col-lg-3' >
+          <div className='col-lg-3' >
         <label>Branch </label>
         <Select 
           options={this.state.branchList}
@@ -415,7 +441,7 @@ export default class MonthlyIncentive extends Component {
           className="react-select-container"
           classNamePrefix="react-select"/></div>
 
-    <div className='col-lg-3' >
+          <div className='col-lg-3' >
         <label>Employee Id </label>
         <Select 
                                 options={this.state.employeeIdList}
@@ -424,9 +450,9 @@ export default class MonthlyIncentive extends Component {
                                 className="react-select-container"
                                 classNamePrefix="react-select"/>
 
-         </div>
+          </div>
 
-    <div className='col-lg-3' >
+          <div className='col-lg-3' >
         <label>Employee Name</label>
               <input 
                         className="form-control checkValidate"
@@ -435,28 +461,28 @@ export default class MonthlyIncentive extends Component {
                         data-name="fullname"
                         value={this.state.selected_employee}
                         placeholder="Employee Name"
-                        // onChange={this.claimChangeText}
-                      /></div> */}
+                        // onChange={this.claimChangeText}/>
+          </div> */}
 
           <div
             className="col-lg-3"
             style={{
-              marginTop: "22px",
-              display: "flex",
-              justifyContent: "space-between",
+              marginTop: "25px",
             }}
           >
-            <button className="btn-primary btn">Search</button>
+            <button className="btn-primary btn"  onClick={()=>this.actionClick(0)} >Search</button>
           </div>
+        </div>
 
-          <div className="col-lg-3" style={{ marginLeft: 30, paddingTop: 30 }}>
+        <div className="row">
+        <div className="col-lg-2" style={{ paddingTop: 30 }}>
             <input
               // className="dropZone"
               type="file"
               id="attachment"
               // name="attachment"
               onChange={ this.checkFiles.bind(this)}
-              style={{ height: 30 }}
+              style={{ height:30 }}
             ></input>
           </div>
 
@@ -464,14 +490,12 @@ export default class MonthlyIncentive extends Component {
             className="col-lg-3"
             style={{
               marginTop: "22px",
-              display: "flex",
-              justifyContent: "space-between",
             }}
           >
-            <button className="btn-primary btn">Calculate</button>
+            <button className="btn-primary btn" onClick={()=>this.actionClick(1)}>Pay Slip Generate</button>
           </div>
-
-          { 
+        </div>
+        { 
            this.state.loading  ||  this.state.fxData.length > 0 ? "" : ( console.log(this.state.loading,this.state.fxData.length),
           <div className="col-md-12">
                 <table
@@ -480,13 +504,13 @@ export default class MonthlyIncentive extends Component {
                   id="dataTables-Table"
                 />
               </div>)
-          }
-        </div>
-       {this.state.loading  ? (
+        }
+        {  
+            this.state.loading  ? (
             <div className="col-lg-12" style={{display:'flex',justifyContent:'center' }}>
              <span class="loader"></span>
             </div>):(
-        this.state.selected_type.value == 2 &&  this.state.fxData.length > 0 ? (
+             this.state.selected_type.value == 2 &&  this.state.fxData.length > 0 ? (
           <div>
             <div className="col-md-12">
               <table
@@ -504,7 +528,7 @@ export default class MonthlyIncentive extends Component {
                     justifyContent: "end",
                   }}
                 >
-                  <button className="btn-primary btn" onClick={this.deleteClick.bind()}>Delete</button>
+                  <button className="btn-primary btn" onClick={()=>this.actionClick(0)}>Delete</button>
                 </div>
                 <div
                   className="col-lg-1"
@@ -514,13 +538,13 @@ export default class MonthlyIncentive extends Component {
                     justifyContent: "end",
                   }}
                 >
-                  <button className="btn-primary btn">Generate</button>
+                  <button className="btn-primary btn" onClick={()=>this.actionClick(2)}>Generate</button>
                 </div>
               </div>
             </div>
           </div>
-        ) : this.state.selected_type.value == 1 &&  this.state.fxData.length > 0 ? (
-          <div>
+            ) : this.state.selected_type.value == 1 &&  this.state.fxData.length > 0 ? (
+            <div>
               <table
                 className="table table-bordered"
                 style={{ overflow: "scroll" }}
@@ -655,7 +679,7 @@ export default class MonthlyIncentive extends Component {
                   justifyContent: "end",
                 }}
               >
-                <button className="btn-primary btn" onClick={this.deleteClick.bind()}>Delete</button>
+                <button className="btn-primary btn" onClick={()=>this.actionClick(0)}>Delete</button>
               </div>
               <div
                 className="col-lg-1"
@@ -665,13 +689,13 @@ export default class MonthlyIncentive extends Component {
                   justifyContent: "end",
                 }}
               >
-                <button className="btn-primary btn">Generate</button>
+                <button className="btn-primary btn"  onClick={()=>this.actionClick(2)}>Generate</button>
               </div>
             </div>
-          </div>
-        ) : ''
-         )} 
-      </div>
+           </div>
+            ) : '')
+         } 
+        </div>
     );
   }
 }
