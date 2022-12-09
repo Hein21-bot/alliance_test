@@ -276,7 +276,7 @@ const Main = () => (
         <Route path="/quarterly_incentive_report" component={QuarterlyIncentiveReport}></Route>
         <Route path='/payroll_summary_report' component={PayrollSummaryReport}></Route>
         <Route path='/payroll_details_report' component={PayrollDetailsReport}></Route>
-        <Route path='/payroll_details_report_with_location' component={PayrollSummaryReportWithLocation}></Route>
+        <Route path='/payroll_summary_report_with_location' component={PayrollSummaryReportWithLocation}></Route>
         <Route path='/monthly_incentive' component={MonthlyIncentive}></Route>
         <Route path='/monthly_incentive_payslip' component={MonthlyIncentivePayslip}></Route>
         <Route path='/payslip_generate' component={PayslipGenerate1}></Route>

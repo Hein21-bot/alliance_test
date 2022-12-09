@@ -6,6 +6,7 @@ import "datatables.net-dt/css/jquery.dataTables.css";
 import "datatables.net-buttons-dt/css/buttons.dataTables.css";
 import { main_url } from "../../utils/CommonFunction";
 import "jspdf-autotable";
+import DatePicker from "react-datetime";
 const $ = require("jquery");
 const jzip = require("jzip");
 window.JSZip = jzip;
@@ -20,7 +21,7 @@ class SSCReport extends Component {
         super(props);
         this.state = {
             dataSource:[],
-            data:new Date()
+            date:new Date()
         };
 }
 componentDidMount() { 
@@ -52,7 +53,7 @@ _setTableData = (data) => {
           year: data[i].dateName ? moment(data[i].dateName).format('YYYY') : '-',
           month: data[i].dateName ? moment(data[i].dateName).format('MMM') : "-",
           er_ssn: data[i].fullname ? data[i].fullname : "-",
-          er_name: data[i].designations ? data[i].designations : "-",
+          er_name: 'Alliance',
           ee_ssn: data[i].career_sub_level ? data[i].career_sub_level : "-",
           ee_name: data[i].fullname ? data[i].fullname : "-",
           ss1ee_rate: data[i].ss1Ee ? data[i].ss1Ee : "-",
@@ -114,7 +115,7 @@ _setTableData = (data) => {
           // },
           {
               extend: 'excelHtml5',
-              title: 'Comfirmation Approve List',
+              title: 'SSC Report For Goverment',
           },
           // {
           //     extend: 'pdfHtml5',
@@ -127,7 +128,23 @@ _setTableData = (data) => {
     };
 render(){
     return(
-        <div> <table
+        <div> 
+          <h3>SSC Report For Goverment</h3>
+          <div className="row" style={{display:'flex',alignItems:'end',marginBottom:10,marginTop:5}}>
+            <div className="col-md-2">
+              
+              <DatePicker
+              dateFormat="YYYY-MM"
+              value={this.state.date}
+              onChange={this.handleSelectedDate}
+              timeFormat={false}
+            />
+            </div>
+            <div className="col-md-2">
+              <button className="btn btn-primary" onClick={this.getSSCReport}>Search</button>
+            </div>
+          </div>
+          <table
         width="99%"
         className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
         id="dataTables-table"
