@@ -8,6 +8,7 @@ import 'jspdf-autotable';
 import Select from 'react-select';
 import DatePicker from 'react-datetime';
 import moment from "moment";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 const $ = require('jquery');
 const jzip = require('jzip');
 window.JSZip = jzip;
@@ -421,6 +422,13 @@ handleSelectedEmpId = async (event) => {
       <div>
         <div className="row  white-bg dashboard-header">
         <h3 className="" style={{paddingLeft:"10px"}}>Payroll Details Report</h3>
+        <ReactHTMLTableToExcel 
+                    className="btn-excel"
+                    table="ho_staff"
+                    filename="HO Staff Report"
+                    buttonText="Excel"
+                    sheet="Sheet"
+                    />
           <div style={{overflow:'scroll'}}>
           <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
           <DatePicker
@@ -621,7 +629,7 @@ handleSelectedEmpId = async (event) => {
                       <td style={{textAlign:'center'}}>{v.employment_id}</td>
                       <td style={{textAlign:'center'}}>{v.fullname}</td>
                       <td style={{textAlign:'center'}}>{v.designations}</td>
-                      <td style={{textAlign:'center'}}>{v.level}</td>
+                      <td style={{textAlign:'center'}}>{v.career_sub_level}</td>
                       <td style={{textAlign:'center'}}>{v.deptname}</td>
                       <td style={{textAlign:'center'}}>{v.state_name}</td>
                       <td style={{textAlign:'center'}}>{v.location_master_name}</td>

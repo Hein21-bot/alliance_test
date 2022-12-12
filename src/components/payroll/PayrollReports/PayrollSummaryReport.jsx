@@ -8,6 +8,7 @@ import "jspdf-autotable";
 import Select from "react-select";
 import DatePicker from "react-datetime";
 import moment from "moment";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 const $ = require("jquery");
 const jzip = require("jzip");
 window.JSZip = jzip;
@@ -156,7 +157,7 @@ class PayrollSummaryReport extends Component {
 
     // })
 
-    fetch(main_url + "payroll_report/payrollReportSummary/"+Date+'/'+regionId+'/'+branchId)
+    fetch(main_url + "payroll_report/payrollSummaryReport/"+Date+'/'+regionId+'/'+branchId)
       .then((res) => {
         if (res.ok) return res.json();
       })
@@ -191,6 +192,22 @@ class PayrollSummaryReport extends Component {
       this.state.dataSource != undefined && this.state.dataSource.length > 0
         ? this.state.dataSource
         : [];
+        // let ATMorCash = Deduction.reduce((r, c) => {
+        //   let R = [...r];
+        //   const index = R.findIndex(
+        //     (v) =>
+        //       v.salary_payment_deduction_label == c.salary_payment_deduction_label
+        //   );
+        //   if (index == -1) {
+        //     R.push({
+        //       salary_payment_deduction_label: c.salary_payment_deduction_label,
+        //       value: c.salary_payment_deduction_value,
+        //     });
+        //   } else {
+        //     R[index].value += c.salary_payment_deduction_value;
+        //   }
+        //   return R;
+        // }, []);
     let filterIncomeTax = finalDatasource.map(
       (d) =>
         d.deduction.length > 0 &&
@@ -282,6 +299,13 @@ class PayrollSummaryReport extends Component {
           <h3 className="" style={{ paddingLeft: "10px" }}>
             Employee Salary Report
           </h3>
+          <ReactHTMLTableToExcel 
+                    className="btn-excel"
+                    table="ho_staff"
+                    filename="HO Staff Report"
+                    buttonText="Excel"
+                    sheet="Sheet"
+                    />
           <div
             className="flex-row"
             style={{

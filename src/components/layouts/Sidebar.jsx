@@ -609,7 +609,7 @@ export default class Sidebar extends Component {
                   >
                     <a href="/resign_or_dismiss_salary">Resing Or Dismiss Salary</a>
                   </li>
-                  <li
+                  {/* <li
                     className={
                       pathname === "/monthly_incentive"
                         ? "active"
@@ -626,7 +626,7 @@ export default class Sidebar extends Component {
                     }
                   >
                     <a href="/monthly_incentive_payslip">Monthly Incentive Payslip</a>
-                  </li>
+                  </li> */}
                   <li
                     className={
                       pathname === "/foreigner_salary"
@@ -636,12 +636,15 @@ export default class Sidebar extends Component {
                   >
                     <a href="/foreigner_salary">Foreigner Salary</a>
                   </li>
-                  <li className={this.checkPathName() === "/payroll_reports" || pathname == "/pay_slip" || pathname == '/payroll_summary_report' || pathname == '/payroll_details_report'  ? "active" : " "}>
+                  <li className={this.checkPathName() === "/payroll_reports" || pathname == "/pay_slip" || pathname == '/payroll_summary_report' || pathname == '/payroll_details_report' || pathname == '/ssc_report' ? "active" : " "}>
                     <a href="/pay_slip" className="sideText">Payroll Related Reports</a>
                     <ul className="nav nav-third-level collapse">
                     
                   <li className={pathname === "/pay_slip" ? "active" : ""}>
                     <a href="/pay_slip">PaySlip</a>
+                  </li>
+                  <li className={pathname === "/ssc_report" ? "active" : ""}>
+                    <a href="/ssc_report">SSC Report for Goverment</a>
                   </li>
                   <li className={pathname === "/payroll_summary_report" ? "active" : ""}>
                     <a href="/payroll_summary_report">Payroll Summary Report</a>

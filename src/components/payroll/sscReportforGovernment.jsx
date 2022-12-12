@@ -52,7 +52,7 @@ _setTableData = (data) => {
           no: i + 1,
           year: data[i].dateName ? moment(data[i].dateName).format('YYYY') : '-',
           month: data[i].dateName ? moment(data[i].dateName).format('MMM') : "-",
-          er_ssn: data[i].fullname ? data[i].fullname : "-",
+          er_ssn: "-",
           er_name: 'Alliance',
           ee_ssn: data[i].career_sub_level ? data[i].career_sub_level : "-",
           ee_name: data[i].fullname ? data[i].fullname : "-",
