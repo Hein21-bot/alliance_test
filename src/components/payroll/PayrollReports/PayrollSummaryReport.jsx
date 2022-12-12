@@ -181,7 +181,8 @@ class PayrollSummaryReport extends Component {
         });
       });
   };
-  render() {
+  render() {  console.log("value in deduction is =============>", this.state.dataSource)
+                console.log("final data is =============>", this.state.finalDatasource)
     let filterData =
       this.state.ReportHeader &&
       this.state.ReportHeader.filter(
@@ -190,7 +191,7 @@ class PayrollSummaryReport extends Component {
     let finalDatasource =
       this.state.dataSource != undefined && this.state.dataSource.length > 0
         ? this.state.dataSource
-        : [];
+        : []; 
     let filterIncomeTax = finalDatasource.map(
       (d) =>
         d.deduction.length > 0 &&
@@ -274,7 +275,7 @@ class PayrollSummaryReport extends Component {
       }
       return R;
     }, []);
-    console.log("value in deduction is =============>", totalAdditionData);
+   
     // console.log("income tax total",NextFilterIncomeTax.length > 0 && NextFilterIncomeTax.reduce((p,c)=>{return p+c[0].salary_payment_deduction_value},0))
     return (
       <div style={{ overflowX: "auto" }}>
