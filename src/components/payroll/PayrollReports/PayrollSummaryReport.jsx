@@ -369,10 +369,25 @@ class PayrollSummaryReport extends Component {
                 )}
                 <th rowSpan={2}>Net Salary Paid</th>
                 <th rowSpan={2}>Total Gross Salary</th>
-                {filterData &&
+                {
+                  totalDeductionData.length > 0 && totalDeductionData.map(v=>{
+                    return(
+                      <td rowSpan={2}>{v.salary_payment_deduction_label}</td>
+                    )
+                  })
+                }
+                {
+                  totalAdditionData.length > 0 && totalAdditionData.map(v=>{
+                    return(
+                      <td rowSpan={2}>{v.salary_payment_allowance_label}</td>
+                    )
+                  })
+                }
+
+                {/* {filterData &&
                   filterData.map((v) => {
                     return <th rowSpan={2}>{v.label}</th>;
-                  })}
+                  })} */}
                 <th rowSpan={2}>Total</th>
               </tr>
               <tr>
