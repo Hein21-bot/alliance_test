@@ -85,7 +85,7 @@ class PayrollSummaryReport extends Component {
     //   `${main_url}payroll_report/getPayrollReportHeader/` +
     //     moment(this.state.data).format("YYYY-MM")
     // )
-    fetch(`${main_url}payroll_report/getPayrollReportHeader/2023-03`)
+    fetch(`${main_url}payroll_report/getPayrollReportHeader/`+moment(this.state.date).format('YYYY-MM'))
       .then((res) => {
         if (res.ok) return res.json();
       })
