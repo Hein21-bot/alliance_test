@@ -49,6 +49,9 @@ class SSCReport extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
+        this.setState({
+          dataSource:list
+        })
         this._setTableData(list);
       });
   }
@@ -143,6 +146,13 @@ class SSCReport extends Component {
   };
   render() {
     let filterDate = this.state.date;
+    let FinalData=this.state.dataSource !=undefined && this.state.dataSource.length > 0 ? this.state.dataSource : [];
+    let MaleTotal=FinalData.filter(v=>v.gender == 'Male')
+    let FemaleTotal=FinalData.filter(v=>v.gender == 'Female')
+    let ZeroTotal=FinalData.filter(v=>v.gender == '0')
+    let NullTotal=FinalData.filter(v=>v.gender == 'null')
+    console.log("total====>",ZeroTotal,NullTotal)
+    let Total=MaleTotal.length+FemaleTotal.length
     return (
       <div>
         <h3>SSC Report For Goverment</h3>
@@ -194,7 +204,7 @@ class SSCReport extends Component {
                 }}
               >
                 <td>Total</td>
-                <td>1230</td>
+                <td>{Total}</td>
               </tr>
               <tr
                 style={{
@@ -203,7 +213,7 @@ class SSCReport extends Component {
                 }}
               >
                 <td>Male</td>
-                <td>52</td>
+                <td>{MaleTotal.length}</td>
               </tr>
               <tr
                 style={{
@@ -212,7 +222,7 @@ class SSCReport extends Component {
                 }}
               >
                 <td>Femlae</td>
-                <td>655</td>
+                <td>{FemaleTotal.length}</td>
               </tr>
             </tbody>
           </table>
