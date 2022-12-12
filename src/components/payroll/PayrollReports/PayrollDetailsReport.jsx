@@ -47,8 +47,11 @@ class PayrollDetailsReport extends Component {
       EmployeeNameList: null,
       selected_employeeId: null,
       selected_employee_status:null,
-      employeeIdList:[],
+      // employeeIdList:[],
       EmployeeStatus:[
+        {
+          value:0,label:'All'
+        },
         {
             value:1,label:'Permanent'
         },
@@ -59,9 +62,13 @@ class PayrollDetailsReport extends Component {
             value:3,label:'Training'
         }
       ],
+      empNameList:[],
+      employeeList:[],
       date: moment().format("YYYY-MM"),
       PayrollList: [],
       ReportHeader: [],
+      employeeName:null,
+      empId:null
     }
   }
 
@@ -80,9 +87,12 @@ class PayrollDetailsReport extends Component {
     this.getDepartmentList();
     this.getBranchList();
    
-    this.getEmployeeCode();
+    // this.getEmployeeCode();
     this.handleSearchData();
     this.getPayrollReportHeader();
+    // this.getEmployeeCode();
+    this.getEmployeeName();
+    this.getEmployeeList();
 
     
   }
@@ -162,47 +172,84 @@ class PayrollDetailsReport extends Component {
         });
       });
   }
-  getEmployeeCode() {
-    fetch(`${main_url}employee/getEmployeeCode`)
-      .then((res) => {
-        if (res.ok) return res.json();
-      })
-      .then((list) => {
-        this.setState({
-          employeeIdList: list.map((v) => ({
-            ...v,
-            label: v.employee_code,
-            value: v.user_id,
-          })),
-        });
-      });
-  }
-  handleSelectedEmpId = async (event) => {
-    console.log("event",event)
-    if (event != null)
-    if (event) {
-      fetch(`${main_url}employee/getDetailUser/${event.user_id}`)
-        .then((res) => {
-          if (res.ok) return res.json();
+  // getEmployeeCode() {
+  //   fetch(`${main_url}employee/getEmployeeCode`)
+  //     .then((res) => {
+  //       if (res.ok) return res.json();
+  //     })
+  //     .then((list) => {
+  //       this.setState({
+  //         employeeIdList: list.map((v) => ({
+  //           ...v,
+  //           label: v.employee_code,
+  //           value: v.user_id,
+  //         })),
+  //       });
+  //     });
+  // }
+  getEmployeeList() {
+    fetch(`${main_url}main/getEmployeeWithDesignation/0`)
+        .then(res => res.json())
+        .then(data => {
+         
+            this.setState({
+                employeeList: data.map(v => ({ ...v, label: v.employment_id, value: v.value, name: v.label })),
+                // allEmployeeID: all
+            })
+
         })
-        .then((data) => {
-          this.setState({
-              fullname:data[0].employee_name
-          })
-          // if (data.length > 0) {
-          //   this.getData(this.props.id);
-          //   this.setState({ tableEdit: true, tableView: false });
+}
+getEmployeeName() {
+    fetch(`${main_url}report/employeeName`)
+        .then((res) => {
+            if (res.ok) return res.json();
+        })
+        .then((list) => {
+            let lists = list.unshift({ value: 0, label: "All" });
+            this.setState({
+                empNameList: list.map((v) => ({
+                    ...v
+                }))
+            })
+        })
+}
+handleSelectedEmpId = async (event) => {
+  console.log("event=======>",event)
+  console.log("empName List====>",this.state.empNameList.filter(v=>v.value==event.value))
+  this.setState({
+      empId: event,
+      employeeName: this.state.empNameList.filter(v => v.value == event.value),
+      
+  }, 
+  // () => { console.log("name>>>>>",this.state.empId.value,this.state.employeeName.value) }
+  )
+}
+  // handleSelectedEmpId = async (event) => {
+  //   console.log("event",event)
+  //   if (event != null)
+  //   if (event) {
+  //     fetch(`${main_url}employee/getDetailUser/${event.user_id}`)
+  //       .then((res) => {
+  //         if (res.ok) return res.json();
+  //       })
+  //       .then((data) => {
+  //         this.setState({
+  //             fullname:data[0].employee_name
+  //         })
+  //         // if (data.length > 0) {
+  //         //   this.getData(this.props.id);
+  //         //   this.setState({ tableEdit: true, tableView: false });
 
 
-          // }
-        });
-    }
-      this.setState(
-        {
-          selected_employeeId: event
-        }
-      )
-  }
+  //         // }
+  //       });
+  //   }
+  //     this.setState(
+  //       {
+  //         selected_employeeId: event
+  //       }
+  //     )
+  // }
   handleSelectedBranch = async (event) => {
     if (event != null)
       this.setState({
@@ -245,6 +292,14 @@ class PayrollDetailsReport extends Component {
         date:event
     })
   }
+  handleSelectedName = async (event) => {
+    console.log("selected name",event.label)
+    this.setState({
+        employeeName: event,
+        empId: this.state.employeeList.filter(v => v.value == event.value)[0],
+        selectedEmployeeName:event
+    },()=>{console.log("listnaem",this.state.employeeName.value,this.state.empId.value)})
+}
 
   handleSearchData = () => {
     // this.setState({
@@ -252,11 +307,12 @@ class PayrollDetailsReport extends Component {
     const departmentId = this.state.selected_department ? this.state.selected_department.departments_id : 0
     const designationId = this.state.selected_designation ? this.state.selected_designation.value : 0
     const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
-    const employee = this.state.selected_employeeId ? this.state.selected_employeeId.value : 0
-    const Date=moment(this.state.date).format('YYYY-MM-DD')
+    const employee = this.state.empId ? this.state.empId.value: 0
+    const Date=moment(this.state.date).format('YYYY-MM')
+    const Status=this.state.selected_employee_status ? this.state.selected_employee_status.value : 0
     // })
 
-    fetch(main_url + "payroll_report/payrollReportSummary/2023-03/0/0")
+    fetch(main_url + "payroll_report/payrollReportSummary/"+Date+"/"+regionId+"/"+branchId+"/"+departmentId+'/'+Status+'/'+employee)
       .then((res) => {
         if (res.ok) return res.json();
       })
@@ -368,7 +424,7 @@ class PayrollDetailsReport extends Component {
           <div style={{overflow:'scroll'}}>
           <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
           <DatePicker
-                            dateFormat="DD/MM/YYYY"
+                            dateFormat="YYYY-MM"
                             value={this.state.date}
                             onChange={this.handleSelectedDate}
                             timeFormat={false}
@@ -459,27 +515,49 @@ class PayrollDetailsReport extends Component {
               classNamePrefix="react-select"
             />
             <Select
-              styles={{
-                container: base => ({
-                  ...base,
-                  //   flex: 1
-                  width: 150,
-                  marginRight:10
-                }),
-                control: base => ({
-                  ...base,
-                  minHeight: '18px'
-                }),
+                                styles={{
+                                    container: base => ({
+                                        ...base,
+                                        //   flex: 1
+                                        width: 150,
+                                        paddingLeft: 10,
+                                        paddingRight: 10
+                                    }),
+                                    control: base => ({
+                                        ...base,
+                                        minHeight: '18px'
+                                    }),
 
-              }}
-              placeholder="Employee ID"
-              options={this.state.employeeIdList}
-              onChange={this.handleSelectedEmpId}
-              value={this.state.selected_employeeId}
-              className='react-select-container'
-              classNamePrefix="react-select"
-            />
-            <input type="text" className="form-control" style={{width:'150px'}} value={this.state.fullname} disabled/>
+                                }}
+                                placeholder="Employee ID"
+                                options={this.state.employeeList}
+                                onChange={this.handleSelectedEmpId}
+                                value={this.state.empId}
+                                className='react-select-container'
+                                classNamePrefix="react-select"
+                            />
+                            <Select
+                                styles={{
+                                    container: base => ({
+                                        ...base,
+                                        //   flex: 1
+                                        width: 160,
+                                        paddingLeft: 10,
+                                        paddingRight: 10
+                                    }),
+                                    control: base => ({
+                                        ...base,
+                                        minHeight: '18px'
+                                    }),
+
+                                }}
+                                placeholder="Employee Name"
+                                options={this.state.empNameList}
+                                onChange={this.handleSelectedName}
+                                value={this.state.employeeName}
+                                className='react-select-container'
+                                classNamePrefix="react-select"
+                            />
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
           </div>
         
@@ -512,10 +590,20 @@ class PayrollDetailsReport extends Component {
                 )}
                 <th rowSpan={2}>Net Salary Paid</th>
                 <th rowSpan={2}>Total Gross Salary</th>
-                {filterData &&
-                  filterData.map((v) => {
-                    return <th rowSpan={2}>{v.label}</th>;
-                  })}
+                {
+                  totalDeductionData.length > 0 && totalDeductionData.map(v=>{
+                    return(
+                      <td rowSpan={2}>{v.salary_payment_deduction_label}</td>
+                    )
+                  })
+                }
+                {
+                  totalAdditionData.length > 0 && totalAdditionData.map(v=>{
+                    return(
+                      <td rowSpan={2}>{v.salary_payment_allowance_label}</td>
+                    )
+                  })
+                }
                 <th rowSpan={2}>Total</th>
                 <th rowSpan={2}>ATM or Cash</th>
               </tr>
@@ -569,34 +657,34 @@ class PayrollDetailsReport extends Component {
                       )}
                       <td style={{textAlign:'center'}}>{v.net_salary}</td>
                       <td style={{textAlign:'center'}}>{v.total_gross_salary}</td>
-                      {filterData.map((a, i) => {
+                      {totalDeductionData.map((a, i) => {
                         return (
                           <td style={{textAlign:'center'}}>
                             {v.deduction.length > 0 &&
                             v.deduction.filter(
-                              (d) => d.salary_payment_deduction_label == a.label
+                              (d) => d.salary_payment_deduction_label == a.salary_payment_deduction_label
                             ).length > 0
                               ? v.deduction.filter(
                                   (d) =>
-                                    d.salary_payment_deduction_label == a.label
+                                    d.salary_payment_deduction_label == a.salary_payment_deduction_label
                                 )[0].salary_payment_deduction_value
                               : 0}
                           </td>
                         );
                       })}
-                      {filterData.map((a, i) => {
+                      {/* {totalAdditionData.map((a, i) => {
                         return (
                           <>
                             {v.addition.length > 0 &&
                             v.addition.filter(
-                              (d) => d.salary_payment_addition_label == a.label
+                              (d) => d.salary_payment_allowance_label == a.salary_payment_allowance_label
                             ).length > 0 ? (
                               <td style={{textAlign:'center'}}>
                                 {
                                   v.addition.filter(
                                     (d) =>
-                                      d.salary_payment_addition_label == a.label
-                                  )[0].salary_payment_addition_value
+                                      d.salary_payment_allowance_label == a.salary_payment_allowance_label
+                                  )[0].salary_payment_allowance_value
                                 }
                               </td>
                             ) : (
@@ -604,9 +692,24 @@ class PayrollDetailsReport extends Component {
                             )}
                           </>
                         );
+                      })} */}
+                      {totalAdditionData.map((a, i) => {
+                        return (
+                          <td style={{textAlign:'center'}}>
+                            {v.addition.length > 0 &&
+                            v.addition.filter(
+                              (d) => d.salary_payment_allowance_label == a.salary_payment_allowance_label
+                            ).length > 0
+                              ? v.addition.filter(
+                                  (d) =>
+                                    d.salary_payment_allowance_label == a.salary_payment_allowance_label
+                                )[0].salary_payment_allowance_value
+                              : 0}
+                          </td>
+                        );
                       })}
                       <td style={{textAlign:'center'}}>{v.total}</td>
-                      <td style={{textAlign:'center'}}>{v.cash_atm}</td>
+                      <td style={{textAlign:'center'}}>{v.payment_type == 1 ? "ATM" : v.payment_type == 2 ? 'Cash' : '-'}</td>
                     </tr>
                   );
                 })}

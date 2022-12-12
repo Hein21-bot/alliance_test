@@ -435,40 +435,55 @@ class PayrollSummaryReport extends Component {
                       )}
                       <td style={{textAlign:'center'}}>{v.net_salary}</td>
                       <td style={{textAlign:'center'}}>{v.total_gross_salary}</td>
-                      {filterData.map((a, i) => {
+                      {totalDeductionData.map((a, i) => {
                         return (
                           <td style={{textAlign:'center'}}>
                             {v.deduction.length > 0 &&
                             v.deduction.filter(
-                              (d) => d.salary_payment_deduction_label == a.label
+                              (d) => d.salary_payment_deduction_label == a.salary_payment_deduction_label
                             ).length > 0
                               ? v.deduction.filter(
                                   (d) =>
-                                    d.salary_payment_deduction_label == a.label
+                                    d.salary_payment_deduction_label == a.salary_payment_deduction_label
                                 )[0].salary_payment_deduction_value
                               : 0}
                           </td>
                         );
                       })}
-                      {filterData.map((a, i) => {
+                      {/* {totalAdditionData.map((a, i) => {
                         return (
                           <>
                             {v.addition.length > 0 &&
                             v.addition.filter(
-                              (d) => d.salary_payment_addition_label == a.label
+                              (d) => d.salary_payment_allowance_label == a.salary_payment_allowance_label
                             ).length > 0 ? (
                               <td style={{textAlign:'center'}}>
                                 {
                                   v.addition.filter(
                                     (d) =>
-                                      d.salary_payment_addition_label == a.label
-                                  )[0].salary_payment_addition_value
+                                      d.salary_payment_allowance_label == a.salary_payment_allowance_label
+                                  )[0].salary_payment_allowance_value
                                 }
                               </td>
                             ) : (
                               ""
                             )}
                           </>
+                        );
+                      })} */}
+                      {totalAdditionData.map((a, i) => {
+                        return (
+                          <td style={{textAlign:'center'}}>
+                            {v.addition.length > 0 &&
+                            v.addition.filter(
+                              (d) => d.salary_payment_allowance_label == a.salary_payment_allowance_label
+                            ).length > 0
+                              ? v.addition.filter(
+                                  (d) =>
+                                    d.salary_payment_allowance_label == a.salary_payment_allowance_label
+                                )[0].salary_payment_allowance_value
+                              : 0}
+                          </td>
                         );
                       })}
                       <td style={{textAlign:'center'}}>{v.total}</td>
