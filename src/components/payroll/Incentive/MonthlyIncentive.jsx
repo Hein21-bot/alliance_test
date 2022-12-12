@@ -515,6 +515,7 @@ if ( this.state.fxData.length > 0 && (e == 1 || e == 2 || e ==0 )){
             this.state.loading  ? (
             <div className="col-lg-12" style={{display:'flex',justifyContent:'center' }}>
              <h1>Loading...</h1>
+             {/* <span className="loader"></span> */}
             </div>):(
              this.state.selected_type.value == 2 &&  this.state.fxData.length > 0 ? (
           <div>
