@@ -48,6 +48,8 @@ class PayrollSummaryReport extends Component {
       dataSource: [],
       PayrollList: [],
       ReportHeader: [],
+      ReportDetails:[],
+      AtmCash:[]
     };
   }
 
@@ -64,6 +66,8 @@ class PayrollSummaryReport extends Component {
     this.handleSearchData();
     this.getpayRoll();
     this.getPayrollReportHeader();
+    this.PayrollSummaryReportATMorCash();
+    this.PayrollSummaryReportDetails();
   }
 
   getBranchList() {
@@ -119,6 +123,46 @@ class PayrollSummaryReport extends Component {
         selected_Branch: event,
       });
   };
+  PayrollSummaryReportDetails=async ()=>{
+    const branchId = this.state.selected_Branch
+      ? this.state.selected_Branch.value
+      : 0;
+
+    const regionId = this.state.selected_region
+      ? this.state.selected_region.state_id
+      : 0;
+    const Date = moment(this.state.date).format("YYYY-MM");
+    fetch(main_url + "payroll_report/payrollSummaryReportDetails/"+Date+'/'+regionId+'/'+branchId)
+    .then((res) => {
+      if (res.ok) return res.json();
+    })
+    .then((list) => {
+      
+      this.setState({
+        ReportDetails:list,
+      });
+    });
+  }
+  PayrollSummaryReportATMorCash=async()=>{
+    const branchId = this.state.selected_Branch
+    ? this.state.selected_Branch.value
+    : 0;
+
+  const regionId = this.state.selected_region
+    ? this.state.selected_region.state_id
+    : 0;
+  const Date = moment(this.state.date).format("YYYY-MM");
+  fetch(main_url + "payroll_report/payrollSummaryReportAtmCash/"+Date+'/'+regionId+'/'+branchId)
+  .then((res) => {
+    if (res.ok) return res.json();
+  })
+  .then((list) => {
+    
+    this.setState({
+      AtmCash:list,
+    });
+  });
+  }
 
   handleSelectedRegion = async (event) => {
     if (event != null)
@@ -144,7 +188,7 @@ class PayrollSummaryReport extends Component {
       });
   };
 
-  handleSearchData = () => {
+  handleSearchData = async () => {
     // this.setState({
     const branchId = this.state.selected_Branch
       ? this.state.selected_Branch.value
@@ -181,9 +225,11 @@ class PayrollSummaryReport extends Component {
           dataSource: list,
         });
       });
+      await this.PayrollSummaryReportATMorCash();
+      await this.PayrollSummaryReportDetails();
+
   };
-  render() {  console.log("value in deduction is =============>", this.state.dataSource)
-                console.log("final data is =============>", this.state.finalDatasource)
+  render() { 
     let filterData =
       this.state.ReportHeader &&
       this.state.ReportHeader.filter(
@@ -193,6 +239,19 @@ class PayrollSummaryReport extends Component {
       this.state.dataSource != undefined && this.state.dataSource.length > 0
         ? this.state.dataSource
         : [];
+    let FinalAtmCash=this.state.AtmCash != undefined && this.state.AtmCash.length > 0 ? this.state.AtmCash : []
+    let FinalReportDetails=this.state.ReportDetails != undefined && this.state.ReportDetails.length > 0 ? this.state.ReportDetails : []
+
+    console.log("final atmcash",FinalAtmCash)
+    let AtmTotal=FinalAtmCash.filter(v=>v.payment_type == '1') && FinalAtmCash.filter(v=>v.payment_type == '1')[0]
+    console.log("atm total",AtmTotal);
+    let CashTotal=FinalAtmCash.filter(v=>v.payment_type == '2') && FinalAtmCash.filter(v=>v.payment_type == '2')[0]
+    
+    let AtmAmount =AtmTotal != undefined ? AtmTotal.total_amount : '-';
+    console.log("atm amount",AtmAmount)
+    let CashAmount =CashTotal != undefined ? CashTotal.total_amount : '-';
+    let Total=AtmAmount+CashAmount;
+
     let filterIncomeTax = finalDatasource.map(
       (d) =>
         d.deduction.length > 0 &&
@@ -207,6 +266,7 @@ class PayrollSummaryReport extends Component {
     let NextFilterIncomeTax = filterIncomeTax.filter((d) =>
       d.length > 0 ? d[0] : 0
     );
+    console.log("next filter incometax",NextFilterIncomeTax)
     let FilterDeduction = finalDatasource.filter((v) => v.deduction.length > 0);
     let FilterAddition=finalDatasource.filter((v)=>v.addition.length > 0);
     let Deduction = [];
@@ -243,7 +303,7 @@ class PayrollSummaryReport extends Component {
         // Deduction.push(v.deduction.filter(d=>d.salary_payment_deduction_label == header.label).length > 0 && v.deduction.filter(d=>d.salary_payment_deduction_label == header.label)[0])
       });
     });
-    console.log("filter addition",Addition)
+    
     let totalDeductionData = Deduction.reduce((r, c) => {
       let R = [...r];
       const index = R.findIndex(
@@ -281,23 +341,19 @@ class PayrollSummaryReport extends Component {
     return (
       <div style={{ overflowX: "auto" }}>
         <div className="row dashboard-header">
-          <h3 className="" style={{ paddingLeft: "10px" }}>
-            Employee Salary Report
+         
+          <h3 className="">
+            Payroll Summary Report
           </h3>
-          <ReactHTMLTableToExcel 
-                    className="btn-excel"
-                    table="ho_staff"
-                    filename="HO Staff Report"
-                    buttonText="Excel"
-                    sheet="Sheet"
-                    />
-          <div
+          
+         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+         <div
             className="flex-row"
             style={{
               display: "flex",
               justifyContent: "left",
               alignItems: "center",
-              margin: "10px 10px 10px 10px",
+              margin: "10px 10px 10px 0px",
             }}
           >
             <DatePicker
@@ -355,53 +411,65 @@ class PayrollSummaryReport extends Component {
               Search
             </button>
           </div>
+          <ReactHTMLTableToExcel 
+                    className="btn-excel"
+                    table="payroll_summary_report"
+                    filename="Payroll Summary Report"
+                    buttonText="Excel"
+                    sheet="Sheet"
+                    />
+         </div>
+          
           <table
             className="table table-bordered"
             style={{ overflow: "scroll" }}
+            id='payroll_summary_report'
           >
             <thead>
-              <tr style={{ overflow: "scroll" }}>
-                <th rowSpan={2}>No</th>
-                <th rowSpan={2}>Region</th>
-                <th rowSpan={2}>Branch Name</th>
-                <th rowSpan={2}>Gross salary</th>
-                <th rowSpan={2}>Deductions(+)/Additions(-)</th>
-                <th rowSpan={2}>Salary after deductions/additions</th>
-                <th colSpan={2}>SSC</th>
+              <tr style={{ overflow: "scroll",textAlign:'center' }}>
+                <th rowSpan={2} style={{verticalAlign:'middle',textAlign:'center'}}>
+                  No
+                </th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Region</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Branch Name</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Gross salary</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Deductions(+)/Additions(-)</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Salary after deductions/additions</th>
+                <th colSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>SSC</th>
                 {this.state.ReportHeader &&
                 this.state.ReportHeader.filter(
                   (v) => v.label == "Income Tax"
                 ) ? (
-                  <th rowSpan={2}>Income Tax</th>
+                  <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Income Tax</th>
                 ) : (
                   ""
                 )}
-                <th rowSpan={2}>Net Salary Paid</th>
-                <th rowSpan={2}>Total Gross Salary</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Net Salary Paid</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Total Gross Salary</th>
                 {
                   totalDeductionData.length > 0 && totalDeductionData.map(v=>{
                     return(
-                      <td rowSpan={2}>{v.salary_payment_deduction_label}</td>
+                      <th rowSpan={2} style={{verticalAlign:'middle',textAlign:'center'}}>{v.salary_payment_deduction_label}</th>
                     )
                   })
                 }
                 {
                   totalAdditionData.length > 0 && totalAdditionData.map(v=>{
                     return(
-                      <td rowSpan={2}>{v.salary_payment_allowance_label}</td>
+                      <th rowSpan={2} style={{verticalAlign:'middle',textAlign:'center'}}>{v.salary_payment_allowance_label}</th>
                     )
                   })
                 }
 
                 {/* {filterData &&
                   filterData.map((v) => {
-                    return <th rowSpan={2}>{v.label}</th>;
+                    return <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>{v.label}</th>;
                   })} */}
-                <th rowSpan={2}>Total</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Total</th>
               </tr>
               <tr>
-                <th>Employer 3%</th>
-                <th>Employee 2%</th>
+                <th style={{verticalAlign:'middle',textAlign:'center'}}>Employer 3%</th>
+                <th style={{verticalAlign:'middle',textAlign:'center'}}>Employee 2%</th>
               </tr>
             </thead>
             <tbody>
@@ -499,101 +567,112 @@ class PayrollSummaryReport extends Component {
                   );
                 })}
 
-              {/* <tr>
-                <td colSpan={3}>Total (Permanent)</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-              </tr>
+              
+              {
+                  FinalReportDetails.map(v=>{
+                    return(
+                      <tr>
+                        <td colSpan={3} style={{textAlign:'center',fontWeight:'bold'}}>{v.name}</td>
+                        <td style={{textAlign:'center',fontWeight:'bold'}}>{v.gross_salary}</td>
+                        <td style={{textAlign:'center',fontWeight:'bold'}}>{v.deduction_addition_data}</td>
+                        <td style={{textAlign:'center',fontWeight:'bold'}}>{v.after_deduction_or_addition}</td>
+                        <td style={{textAlign:'center',fontWeight:'bold'}}>{v.ssc.length > 0 && v.ssc[0].Employee_3}</td>
+                        <td style={{textAlign:'center',fontWeight:'bold'}}>{v.ssc.length > 0 && v.ssc[0].Employer_2}</td>
+                        {v.deduction.length > 0 ? (
+                        v.deduction.filter(
+                          (v1) =>
+                            v1.salary_payment_deduction_label == "Income Tax"
+                        ).length > 0 ? (
+                          <td style={{textAlign:'center',fontWeight:'bold'}}>
+                            {
+                              v.deduction.filter(
+                                (v1) =>
+                                  v1.salary_payment_deduction_label ==
+                                  "Income Tax"
+                              )[0].salary_payment_deduction_value
+                            }
+                          </td>
+                        ) : (
+                          <td style={{textAlign:'center',fontWeight:'bold'}}>0</td>
+                        )
+                      ) : (
+                        <td style={{textAlign:'center',fontWeight:'bold'}}>0</td>
+                      )}
+                        <td style={{textAlign:'center',fontWeight:'bold'}}>{v.net_salary}</td>
+                      <td style={{textAlign:'center',fontWeight:'bold'}}>{v.total_gross_salary}</td>
+                      {totalDeductionData.map((a, i) => {
+                        return (
+                          <td style={{textAlign:'center',fontWeight:'bold'}}>
+                            {v.deduction.length > 0 &&
+                            v.deduction.filter(
+                              (d) => d.salary_payment_deduction_label == a.salary_payment_deduction_label
+                            ).length > 0
+                              ? v.deduction.filter(
+                                  (d) =>
+                                    d.salary_payment_deduction_label == a.salary_payment_deduction_label
+                                )[0].salary_payment_deduction_value
+                              : 0}
+                          </td>
+                        );
+                      })}
+                       {totalAdditionData.map((a, i) => {
+                        return (
+                          <td style={{textAlign:'center',fontWeight:'bold'}}>
+                            {v.addition.length > 0 &&
+                            v.addition.filter(
+                              (d) => d.salary_payment_allowance_label == a.salary_payment_allowance_label
+                            ).length > 0
+                              ? v.addition.filter(
+                                  (d) =>
+                                    d.salary_payment_allowance_label == a.salary_payment_allowance_label
+                                )[0].salary_payment_allowance_value
+                              : 0}
+                          </td>
+                        );
+                      })}
+                      <td style={{textAlign:'center',fontWeight:'bold'}}>{v.total}</td>
+                      </tr>
+                    )
+                  })
+              }
               <tr>
-                <td colSpan={3}>PartTime</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-              </tr>
-              <tr>
-                <td colSpan={3}>Training</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-                <td>131</td>
-              </tr> */}
-              <tr>
-                <td colSpan={3} style={{textAlign:'center'}}>All Total</td>
-                <td style={{textAlign:'center'}}>
+                <td colSpan={3} style={{textAlign:'center',fontWeight:'bold'}}>All Total</td>
+                <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
                     return p + c.gross_salary;
                   }, 0)}
                 </td>
-                <td style={{textAlign:'center'}}>
+                <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
                     return p + c.deduction_addition_data;
                   }, 0)}
                 </td>
-                <td style={{textAlign:'center'}}>
+                <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
                     return p + c.after_deduction_or_addition;
                   }, 0)}
                 </td>
-                <td style={{textAlign:'center'}}>
+                <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
-                    return p + c.ssc[0].Employee_3;
+                    return p +c.ssc[0].Employee_3
                   }, 0)}
                 </td>
-                <td style={{textAlign:'center'}}>
+                <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
-                    return p + c.ssc[0].Employer_2;
+                    return p + c.ssc[0].Employer_2
                   }, 0)}
                 </td>
-                <td style={{textAlign:'center'}}>
+                <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {NextFilterIncomeTax.reduce((p, c) => {
                     return p + c[0].salary_payment_deduction_value;
                   }, 0)}
                 </td>
-                <td style={{textAlign:'center'}}>
+                <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
                     return p + c.net_salary;
                   }, 0)}
                 </td>
-                <td style={{textAlign:'center'}}>
+                <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
                     return p + c.total_gross_salary;
                   }, 0)}
@@ -601,18 +680,18 @@ class PayrollSummaryReport extends Component {
                 {
                   totalDeductionData.map(v=>{
                     return (
-                      <td style={{textAlign:'center'}}>{v.value}</td>
+                      <td style={{textAlign:'center',fontWeight:'bold'}}>{v.value}</td>
                     )
                   })
                 }
                 {
                   totalAdditionData.map(v=>{
                     return (
-                      <td style={{textAlign:'center'}}>{v.value}</td>
+                      <td style={{textAlign:'center',fontWeight:'bold'}}>{v.value}</td>
                     )
                   })
                 }
-                <td style={{textAlign:'center'}}>
+                <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
                     return p + c.total;
                   }, 0)}
@@ -620,7 +699,7 @@ class PayrollSummaryReport extends Component {
               </tr>
             </tbody>
           </table>
-          {/* <div style={{ display: "flex", justifyContent: "center" }}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
             <table className="table table-bordered" style={{ width: "20%" }}>
               <thead>
                 <tr>
@@ -631,19 +710,19 @@ class PayrollSummaryReport extends Component {
               <tbody>
                 <tr>
                   <td>ATM</td>
-                  <td></td>
+                  <td>{AtmAmount}</td>
                 </tr>
                 <tr>
                   <td>Cash</td>
-                  <td>1312</td>
+                  <td>{CashAmount}</td>
                 </tr>
                 <tr>
                   <td>Total</td>
-                  <td>3516546</td>
+                  <td>{Total}</td>
                 </tr>
               </tbody>
             </table>
-          </div> */}
+          </div>
         </div>
       </div>
     );

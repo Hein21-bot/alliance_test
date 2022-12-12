@@ -421,16 +421,11 @@ handleSelectedEmpId = async (event) => {
     return (
       <div>
         <div className="row  white-bg dashboard-header">
-        <h3 className="" style={{paddingLeft:"10px"}}>Payroll Details Report</h3>
-        <ReactHTMLTableToExcel 
-                    className="btn-excel"
-                    table="ho_staff"
-                    filename="HO Staff Report"
-                    buttonText="Excel"
-                    sheet="Sheet"
-                    />
+        <h3 className="">Payroll Details Report</h3>
+        
           <div style={{overflow:'scroll'}}>
-          <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+          <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 0px' }}>
           <DatePicker
                             dateFormat="YYYY-MM"
                             value={this.state.date}
@@ -568,56 +563,67 @@ handleSelectedEmpId = async (event) => {
                             />
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
           </div>
+          <div>
+          <ReactHTMLTableToExcel 
+                    className="btn-excel"
+                    table="payroll_details_report"
+                    filename="Payroll Details Report"
+                    buttonText="Excel"
+                    sheet="Sheet"
+                    />
+          </div>
+          </div>
         
           <table
             className="table table-bordered"
             style={{ overflow: "scroll" }}
+            id='payroll_details_report'
           >
             <thead>
               <tr style={{ overflow: "scroll" }}>
-                <th rowSpan={2}>No</th>
-                <th rowSpan={2}>Employee ID</th>
-                <th rowSpan={2}>Name</th>
-                <th rowSpan={2}>Position</th>
-                <th rowSpan={2}>Level</th>
-                <th rowSpan={2}>Departments</th>
-                <th rowSpan={2}>Region</th>
-                <th rowSpan={2}>Branch Name</th>
-                <th rowSpan={2}>Employee Status</th>
-                <th rowSpan={2}>Gross salary</th>
-                <th rowSpan={2}>Deductions(+)/Additions(-)</th>
-                <th rowSpan={2}>Salary after deductions/additions</th>
-                <th colSpan={2}>SSC</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>No</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}} >Employee ID</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Name</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Position</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Level</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Departments</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Region</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Branch Name</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Employee Status</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Gross salary</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Deductions(+)/Additions(-)</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Salary after deductions/additions</th>
+                <th colSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>SSC</th>
                 {this.state.ReportHeader &&
                 this.state.ReportHeader.filter(
                   (v) => v.label == "Income Tax"
                 ) ? (
-                  <th rowSpan={2}>Income Tax</th>
+                  <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Income Tax</th>
                 ) : (
                   ""
                 )}
-                <th rowSpan={2}>Net Salary Paid</th>
-                <th rowSpan={2}>Total Gross Salary</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Net Salary Paid</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Total Gross Salary</th>
                 {
                   totalDeductionData.length > 0 && totalDeductionData.map(v=>{
                     return(
-                      <td rowSpan={2}>{v.salary_payment_deduction_label}</td>
+                      <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>{v.salary_payment_deduction_label}</th>
                     )
                   })
                 }
                 {
                   totalAdditionData.length > 0 && totalAdditionData.map(v=>{
                     return(
-                      <td rowSpan={2}>{v.salary_payment_allowance_label}</td>
+                      <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>{v.salary_payment_allowance_label}</th>
                     )
                   })
                 }
-                <th rowSpan={2}>Total</th>
-                <th rowSpan={2}>ATM or Cash</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>Total</th>
+                <th rowSpan={2} style={{textAlign:'center',verticalAlign:'middle'}}>ATM or Cash</th>
               </tr>
               <tr>
-                <th>Employer 3%</th>
-                <th>Employee 2%</th>
+                <th style={{textAlign:'center',verticalAlign:'middle'}}>Employer 3%</th>
+                <th style={{textAlign:'center',verticalAlign:'middle'}}>Employee 2%</th>
               </tr>
             </thead>
             <tbody>
@@ -780,43 +786,43 @@ handleSelectedEmpId = async (event) => {
                 <td>131</td>
               </tr> */}
               <tr>
-                <td colSpan={9} style={{textAlign:'center'}}>All Total</td>
-                <td style={{textAlign:'center'}}>
+                <td colSpan={9} style={{textAlign:'center',fontWeight:'bold'}}>All Total</td>
+                <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
                     return p + c.gross_salary;
                   }, 0)}
                 </td>
-                <td style={{textAlign:'center'}}>
+                <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
                     return p + c.deduction_addition_data;
                   }, 0)}
                 </td>
-                <td style={{textAlign:'center'}}>
+                <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
                     return p + c.after_deduction_or_addition;
                   }, 0)}
                 </td>
-                <td style={{textAlign:'center'}}>
+                <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
                     return p + c.ssc[0].Employee_3;
                   }, 0)}
                 </td>
-                <td style={{textAlign:'center'}}>
+                <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
                     return p + c.ssc[0].Employer_2;
                   }, 0)}
                 </td>
-                <td style={{textAlign:'center'}}>
+                <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {NextFilterIncomeTax.reduce((p, c) => {
                     return p + c[0].salary_payment_deduction_value;
                   }, 0)}
                 </td>
-                <td style={{textAlign:'center'}}>
+                <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
                     return p + c.net_salary;
                   }, 0)}
                 </td>
-                <td style={{textAlign:'center'}}>
+                <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
                     return p + c.total_gross_salary;
                   }, 0)}
@@ -824,18 +830,18 @@ handleSelectedEmpId = async (event) => {
                 {
                   totalDeductionData.map(v=>{
                     return (
-                      <td style={{textAlign:'center'}}>{v.value}</td>
+                      <td style={{textAlign:'center',fontWeight:'bold'}}>{v.value}</td>
                     )
                   })
                 }
                 {
                   totalAdditionData.map(v=>{
                     return (
-                      <td style={{textAlign:'center'}}>{v.value}</td>
+                      <td style={{textAlign:'center',fontWeight:'bold'}}>{v.value}</td>
                     )
                   })
                 }
-                <td style={{textAlign:'center'}}>
+                <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
                     return p + c.total;
                   }, 0)}

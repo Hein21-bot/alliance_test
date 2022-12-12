@@ -44,7 +44,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
         salaryAfterDorA: 0,
         ssc3: 0,
         ssc2: 0,
-        incomeTax: '',
+        incomeTax: 0,
         maintenance: 0,
         petrol: 0,
         totalSalary: 0,
@@ -310,7 +310,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
           salaryAfterDorA: 0,
           ssc3: 0,
           ssc2: 0,
-          incomeTax: '',
+          incomeTax: 0,
           maintenance: 0,
           petrol: 0,
           totalSalary: 0,
@@ -772,7 +772,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
                     <div className="col-md-3">
                       <label>Income Tax</label>
                       <input
-                        className="form-control checkValidate"
+                        className="form-control"
                         type="number"
                         data-name="incomeTax"
                         value={addNewData.incomeTax}
