@@ -44,7 +44,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
         salaryAfterDorA: 0,
         ssc3: 0,
         ssc2: 0,
-        incomeTax: '',
+        incomeTax: 0,
         maintenance: 0,
         petrol: 0,
         totalSalary: 0,
@@ -80,6 +80,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
 
       let newData = that.state.dataSource;
       let editData = newData[data];
+      console.log("editdata",editData)
       newData.splice(data, 1);
       that.setState(
         {
@@ -310,7 +311,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
           salaryAfterDorA: 0,
           ssc3: 0,
           ssc2: 0,
-          incomeTax: '',
+          incomeTax: 0,
           maintenance: 0,
           petrol: 0,
           totalSalary: 0,
@@ -719,7 +720,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
                         className="form-control"
                         type="number"
                         data-name="grossSalary"
-                        value={userInfo.basic_salary}
+                        value={userInfo.basic_salary ? userInfo.basic_salary : addNewData.gross_salary}
                         placeholder="Enter Lodging"
                         disabled={true}
                         // onChange={this.onGrossSalaryChange}
@@ -772,7 +773,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
                     <div className="col-md-3">
                       <label>Income Tax</label>
                       <input
-                        className="form-control checkValidate"
+                        className="form-control"
                         type="number"
                         data-name="incomeTax"
                         value={addNewData.incomeTax}
