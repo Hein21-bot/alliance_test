@@ -9,6 +9,7 @@ import Select from "react-select";
 import DatePicker from "react-datetime";
 import moment from "moment";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import { unstable_composeClasses } from "@mui/material";
 const $ = require("jquery");
 const jzip = require("jzip");
 window.JSZip = jzip;
@@ -235,7 +236,10 @@ class PayrollSummaryReport extends Component {
       this.state.ReportHeader.filter(
         (v) => v.label != "Income Tax" && v.label != "SSC"
       );
-    let finalDatasource =
+      // let atmCount= 
+      // this.state.dataSource != undefined && this.state.dataSource.length > 0
+      // ? this.state.dataSource.filter(v=>v.state_id == 3).length : 0; console.log('22222222222222',atmCount);
+      let finalDatasource =
       this.state.dataSource != undefined && this.state.dataSource.length > 0
         ? this.state.dataSource
         : [];

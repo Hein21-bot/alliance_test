@@ -3,6 +3,7 @@ import { main_url } from '../../../utils/CommonFunction';
 import DatePicker from "react-datetime";
 import Select from "react-select";
 import moment from "moment";
+import { toast, ToastContainer } from "react-toastify";
 const $ = require('jquery');
 
 
@@ -10,6 +11,7 @@ export default class QuarterlyIncentive extends Component{
     constructor(props){
         super(props);
         this.state={
+            newDoc:[],
             dataSource:[],
             regionList : [],
             branchList : [],
@@ -19,7 +21,17 @@ export default class QuarterlyIncentive extends Component{
             selected_region :'',
             selected_branch :'',
             selected_department :'',
-            selected_quater:'',
+            selected_quarter:'', 
+            loading:false,
+            quarter:'',
+            quarter_months:[
+              {value:1,month1:'Jan',month2:'Feb',month3:'March'},
+              {value:2,month1:'April',month2:'May',month3:'June'},
+              {value:3,month1:'July',month2:'Aug',month3:'Sept'},
+              {value:4,month1:'Oct',month2:'Nov',month3:'Dec'},
+
+            ]
+
         }};
         componentDidMount(){
             this.$el = $(this.el);
@@ -27,10 +39,8 @@ export default class QuarterlyIncentive extends Component{
             this.getBranchList();
             this.getDepartment();
             this.getQuaterList();
-            this.setDataTable(this.state.dataSource);
+            // this.setDataTable(this.state.dataSource);
         }
-
-     
 
         getDepartment(){
             fetch(main_url + `main/getDepartment`)
@@ -105,17 +115,83 @@ export default class QuarterlyIncentive extends Component{
               });
           };
           
-        handleSelectedBranch = (event) => {
-            if (event !== null)
-              this.setState({
-                selected_branch: event,
-              });
-          };
+        // handleSelectedBranch = (event) => {
+        //     if (event !== null)
+        //       this.setState({
+        //         selected_branch: event,
+        //       });
+        //   };
 
         handleSelectedQuater = (event) => {
             this.setState({
-                selected_quater: event
+                selected_quarter: event
             })
+          };
+
+        checkFiles(e) {       
+            var files = document.getElementById("attachment").files;
+            var newFile = [];
+            for(let i = 0; i < files.length; i++) {
+              var getfile = document.querySelector("#attachment").files[i];
+              newFile.push(getfile)
+           this.setState({
+              newDoc:newFile})
+            };
+          };
+
+        actionClick = (e)=>{  console.log(e,this.state.dataSource.length)
+          if (e == 0)  {
+            document.querySelector("#attachment").value = "";
+            this.setState({
+              dataSource:[]
+            })} 
+           
+            if ( this.state.dataSource.length > 0 && (e == 1 || e == 2 || e ==0 )){
+              let status = 0
+              fetch(`${main_url}incentive/quartelyGenerate/${this.state.selected_quarter.value}/${moment(this.state.selected_month).format("YYYY")}/${e}`)
+              .then((res) => {
+                status=res.status;
+                return res.text();
+              })
+              .then((text) => {
+             if (e != 0){
+              toast.success(text);
+             }  
+              });
+            } else {
+              toast.error("Please Calculate First!");
+            }
+          };
+
+        calculate(e){ console.log('ewrwerw',this.state.selected_quarter.value);
+         if(this.state.selected_quarter.value == undefined){
+           toast.error("Please Choose Quarter!")
+         }
+           else if (this.state.newDoc.length == 0 )  { 
+            toast.error("Please Choose Attachment File!")
+        } else {
+          this.setState({
+            loading:true
+          })
+        const formdata = new FormData();
+        var imagedata = this.state.newDoc[0];
+        formdata.append("uploadfile", imagedata);
+        let status = 0;
+        fetch(`${main_url}incentiveCo/quartelyImportFile/${moment(this.state.selected_month).format("YYYY")}/${this.state.selected_quarter.value}`, {
+            method: "POST",
+            body: formdata,
+          })
+            .then((res) => {
+              status = res.status;
+              return res.json();
+            })
+            .then( (response) => {
+             this.setState({
+               dataSource:response,
+               quarter:response[0].quarter,
+               loading:false
+             })
+            })}
           };
 
         setDataTable(data) {
@@ -158,9 +234,10 @@ export default class QuarterlyIncentive extends Component{
             });
           };
 
-  render(){
+  render(){   
             return(
         <div>
+          <ToastContainer/>
           <div className='col-lg-2' >
         <label>Select Year</label>
         <DatePicker
@@ -176,7 +253,7 @@ export default class QuarterlyIncentive extends Component{
           <Select
             dateFormat="YYYY"
             options={this.state.quater_list}
-            value={this.state.selected_quater}
+            value={this.state.selected_quarter}
             timeFormat={false}
             onChange={this.handleSelectedQuater}
 
@@ -217,12 +294,23 @@ export default class QuarterlyIncentive extends Component{
               type="file"
               id="attachment"
               // name="attachment"
-              // onChange={ this.checkFiles.bind(this)}
+              onChange={()=> this.checkFiles()}
               style={{ height: 30 }}
             ></input>
            </div>
 
           <div
+            className="col-lg-1"
+            style={{
+              // marginTop: "22px",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <button className="btn-primary btn" onClick={ ()=>this.calculate()}>Calculate</button>
+           </div>
+
+           <div
             className="col-lg-2"
             style={{
               // marginTop: "22px",
@@ -230,7 +318,7 @@ export default class QuarterlyIncentive extends Component{
               justifyContent: "space-between",
             }}
           >
-            <button className="btn-primary btn">Calculate</button>
+            <button className="btn-primary btn" onClick={ ()=>this.actionClick(1)}>Pay Slip Generate</button>
            </div>
 
           <div>
@@ -240,6 +328,9 @@ export default class QuarterlyIncentive extends Component{
                       className="table table-striped table-bordered table-hover responsive nowrap dt-responsive"
                       id="dataTables-Table"/>
                       </div> */}
+          { this.state.loading ? ( <div className="col-lg-12" style={{display:'flex',justifyContent:'center' }}><h1>Loading...</h1></div>) : 
+          this.state.dataSource.length > 0 ? (
+          
              <div>
              <table className="table table-bordered" style={{overflow:'scroll'}}>
               <thead>
@@ -249,48 +340,123 @@ export default class QuarterlyIncentive extends Component{
                   <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Name</th>
                   <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Position</th>
                   <th style={{ textAlign: "center", verticalAlign: "middle" }} colSpan={3}>Monthly Salary</th>
-                  <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Avarage Salary</th>
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Average Salary</th>
                   <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Department Score</th>
                   <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Bsc %</th>
                   <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Incentive</th>
                   <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Remark</th>
                 </tr>
-                <tr>
-                  <th style={{ textAlign: "center", verticalAlign: "middle" }}>1</th>
-                  <th style={{ textAlign: "center", verticalAlign: "middle" }}>2</th>
-                  <th style={{ textAlign: "center", verticalAlign: "middle" }}>3</th>
+                <tr> 
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }}>{this.state.quarter_months.filter(v=>v.value==this.state.quarter)[0].month1}</th>
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }}>{this.state.quarter_months.filter(v=>v.value==this.state.quarter)[0].month2}</th>
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }}>{this.state.quarter_months.filter(v=>v.value==this.state.quarter)[0].month3}</th>
                 </tr>
               </thead>
-              {/* <tbody style={{ textAlign: "center" }}>
+              <tbody style={{ textAlign: "center" }}>
                  {
-                    this.state.fxData.map((v,i)=>{
+                    this.state.dataSource.map((v,i)=>{
                       return(
                         <>
                   <tr>
+                    <td>{i+1}</td>
                     <td>{v.employeeID}</td>
-                    <td>{v.creditDisbursementNo}</td>
-                    <td>{v.creditDisbursementAmount}</td>
-                    <td>{v.creditPortfolioNo}</td>
-                    <td>{v.creditPortfolOutstanding}</td>
-                    <td>{v.savingOutstanding}</td>
-                    <td>{v.collectionRateDemand}</td>
-                    <td>{v.collectionActual}</td>
-                    <td>{v.parNo}</td>
-                    <td>{v.parAmount}</td>
-                    <td>{v.creditIncentive}</td>
-                    <td>{v.savingIncentive}</td>
-                    <td>{v.collectiveRateIncentive}</td>
-                    <td>{v.parDeductionRate}</td>
+                    <td>{v.name}</td>
+                    <td>{v.position}</td>
+                    <td>{v.month1}</td>
+                    <td>{v.month2}</td>
+                    <td>{v.month3}</td>
+                    <td>{v.average_salary}</td>
+                    <td>{v.dpt_score}</td>
+                    <td>{v.BSC}</td>
+                    <td>{v.incentive}</td>
+                    <td>{v.remark}</td>
                   </tr>
                   </>  )
                     })
                 }   
-              </tbody> */}
+              </tbody>
              </table>
-             </div>
-  
+             <div style={{ display: "flex", justifyContent: "end" }}>
+              <div
+                className="col-lg-1"
+                style={{
+                  marginTop: "22px",
+                  display: "flex",
+                  justifyContent: "end",
+                }}
+              >
+                <button className="btn-primary btn" onClick={()=>this.actionClick(0)}>Delete</button>
+              </div>
+
+              <div
+                className="col-lg-1"
+                style={{
+                  marginTop: "22px",
+                  display: "flex",
+                  justifyContent: "end",
+                }}
+              >
+                <button className="btn-primary btn" onClick={()=>this.actionClick(2)}>Generate</button>
+              </div>
+
+            </div>
+             </div>):('')
+               }  
            </div>
          </div>
             )
         }
 }
+
+
+
+
+  {
+    /* <div className="row" style={{display:'flex',justifyContent:'center'}}>
+                      <div className='col-lg-7 col-md-8 col-sm-12' style={{ background: 'white',marginTop:30,border:"1px solid grey " }}>
+                   <div className="" style={{display:'flex',justifyContent:'center', background: '#1872ab',marginTop:20}}><h2 style={{color:"white",marginTop:10,fontSize:18,fontWeight:"bold"}}>Monthly Incentive</h2></div>
+                   <div className="" style={{display:'flex',justifyContent:'center',paddingTop:20}}><h3>Staff Information</h3></div>
+                   <div className='col-lg-6' style={{ paddingLeft: '100px', paddingTop: '10px' }}><p>Staff ID</p>
+                   <p>Name</p>
+                   <p>Department</p>
+                   <p>Designation</p>
+                   <p>Branch</p>
+                   <p>Payment Month</p>
+                   </div>
+  
+                   <div className='col-lg-1' style={{ paddingLeft: '0px', paddingTop: '10px' }} ><p>:</p>
+                   <p>:</p>
+                   <p>:</p>
+                   <p>:</p>
+                   <p>:</p>
+                   <p>: </p>
+                   </div>
+  
+                   <div className=' col-lg-5' style={{ paddingLeft: '90px', paddingTop: '10px' }}><p>Staff ID</p>
+                   <p>Name</p>
+                   <p>Department</p>
+                   <p>Designation</p>
+                   <p>Branch</p>
+                   <p>Payment Month</p>
+                   </div>
+  
+                   <div className="row" style={{display:'flex',justifyContent:'center',paddingTop:20}}><h3>Incentive Information</h3>
+                   </div>
+                   <div className='col-lg-6' style={{ paddingLeft: '100px', paddingTop: '10px' }}><p>CO Count </p>
+                   <p>Co Incentive Total</p>
+                   <p>Incentive Amount </p>
+                   </div>
+  
+                   <div className='col-lg-1' style={{ paddingLeft: '0px', paddingTop: '10px' }} ><p>:</p>
+                   <p>:</p>
+                   <p>:</p>
+                   </div>
+  
+                  
+                   <div className=' col-lg-5' style={{ paddingLeft: '90px', paddingTop: '10px', marginBottom:20 }}><p>Staff ID</p>
+                   <p>Name</p>
+                   <p>Department</p>
+                   </div>
+                      </div>
+                    </div> */
+  }

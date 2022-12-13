@@ -13,7 +13,6 @@ export default class MonthlyIncentive extends Component {
     super(props);
     this.state = {
       dataSource: [],
-      dataSources:[],
       newDoc: [],
       employeeIdList: [],
       EmployeeNameList: [],
@@ -26,7 +25,6 @@ export default class MonthlyIncentive extends Component {
         { value: 2, label: "FX" ,name:'fx' },
       ],
       selected_month: new Date(),
-      componentIndex: "main",
       selected_region: "",
       selected_branch: "",
       selected_designation: "",
@@ -391,7 +389,7 @@ if ( this.state.fxData.length > 0 && (e == 1 || e == 2 || e ==0 )){
     });
   };
 
-  render() { console.log("length",this.state.fxData.length)
+  render() {
     return (
       <div>
         <ToastContainer/>
@@ -418,18 +416,7 @@ if ( this.state.fxData.length > 0 && (e == 1 || e == 2 || e ==0 )){
             />
           </div>
 
-          <div className="col-lg-3">
-            <label>Designation</label>
-            <Select
-              options={this.state.designationList}
-              onChange={this.handleSelectedDesignation}
-              value={this.state.selected_designation}
-              className="react-select-container"
-              classNamePrefix="react-select"
-            />
-          </div>
-
-          {/* <div className='col-lg-3' >
+          <div className='col-lg-3' >
         <label>Region</label>
         <Select 
           options={this.state.regionList}
@@ -447,6 +434,17 @@ if ( this.state.fxData.length > 0 && (e == 1 || e == 2 || e ==0 )){
           className="react-select-container"
           classNamePrefix="react-select"/></div>
 
+          <div className="col-lg-3">
+            <label>Designation</label>
+            <Select
+              options={this.state.designationList}
+              onChange={this.handleSelectedDesignation}
+              value={this.state.selected_designation}
+              className="react-select-container"
+              classNamePrefix="react-select"
+            />
+          </div>
+
           <div className='col-lg-3' >
         <label>Employee Id </label>
         <Select 
@@ -459,7 +457,7 @@ if ( this.state.fxData.length > 0 && (e == 1 || e == 2 || e ==0 )){
           </div>
 
           <div className='col-lg-3' >
-        <label>Employee Name</label>
+           <label>Employee Name</label>
               <input 
                         className="form-control checkValidate"
                         disabled={true}
@@ -467,17 +465,18 @@ if ( this.state.fxData.length > 0 && (e == 1 || e == 2 || e ==0 )){
                         data-name="fullname"
                         value={this.state.selected_employee}
                         placeholder="Employee Name"
-                        // onChange={this.claimChangeText}/>
-          </div> */}
+                         onChange={this.claimChangeText}/>
+           </div>
 
-          <div
+           <div
             className="col-lg-3"
             style={{
               marginTop: "25px",
             }}
           >
             <button className="btn-primary btn" >Search</button>
-          </div>
+          </div> 
+
         </div>
 
         <div className="row">
@@ -501,6 +500,7 @@ if ( this.state.fxData.length > 0 && (e == 1 || e == 2 || e ==0 )){
             <button className="btn-primary btn" onClick={()=>this.actionClick(1)}>Pay Slip Generate</button>
           </div>
         </div>
+
         { 
            this.state.loading  ||  this.state.fxData.length > 0 ? "" : ( 
           <div className="col-md-12">
@@ -688,6 +688,7 @@ if ( this.state.fxData.length > 0 && (e == 1 || e == 2 || e ==0 )){
               >
                 <button className="btn-primary btn" onClick={()=>this.actionClick(0)}>Delete</button>
               </div>
+
               <div
                 className="col-lg-1"
                 style={{
@@ -698,7 +699,9 @@ if ( this.state.fxData.length > 0 && (e == 1 || e == 2 || e ==0 )){
               >
                 <button className="btn-primary btn"  onClick={()=>this.actionClick(2)}>Generate</button>
               </div>
+
             </div>
+            
            </div>
             ) : '')
          } 
