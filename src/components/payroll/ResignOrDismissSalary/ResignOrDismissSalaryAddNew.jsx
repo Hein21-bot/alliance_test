@@ -80,6 +80,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
 
       let newData = that.state.dataSource;
       let editData = newData[data];
+      console.log("editdata",editData)
       newData.splice(data, 1);
       that.setState(
         {
@@ -719,7 +720,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
                         className="form-control"
                         type="number"
                         data-name="grossSalary"
-                        value={userInfo.basic_salary}
+                        value={userInfo.basic_salary ? userInfo.basic_salary : addNewData.gross_salary}
                         placeholder="Enter Lodging"
                         disabled={true}
                         // onChange={this.onGrossSalaryChange}
