@@ -36,7 +36,7 @@ class PayrollSummaryReportWithLocation extends Component {
       salaryTotal: 0,
       sscTotal: 0,
       staffLoanTotal: 0,
-      date: moment().format("YYYY-MM-DD"),
+      date: new Date(),
       regionList: null,
       FinalData: [],
       fullname: "",
@@ -200,11 +200,8 @@ class PayrollSummaryReportWithLocation extends Component {
     });
   };
   getPayrollReportHeader() {
-    // fetch(
-    //   `${main_url}payroll_report/getPayrollReportHeader/` +
-    //     moment(this.state.data).format("YYYY-MM")
-    // )
-    fetch(`${main_url}payroll_report/getPayrollReportHeader/2023-03`)
+    
+    fetch(`${main_url}payroll_report/getPayrollReportHeader/2023-02`)
       .then((res) => {
         if (res.ok) return res.json();
       })
@@ -216,117 +213,92 @@ class PayrollSummaryReportWithLocation extends Component {
   }
 
   handleSearchData = () => {
-    // this.setState({
-    // const branchId = this.state.selected_Branch ? this.state.selected_Branch.value : 0
-    // const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
-    // const employee_status = this.state.selected_employee_status ? this.state.selected_employee_status.value : 0
-    // const Date=moment(this.state.date).format('YYYY-MM-DD')
-    // })
+    const branchId = this.state.selected_Branch
+    ? this.state.selected_Branch.value
+    : 0;
 
-    // fetch(main_url + "report/employeeReport/" + regionId + "/" + branchId + "/" + employee_status+"/"+Date)
-    //   .then(res => { if (res.ok) return res.json() })
-    //   .then(list => {
-    //    this.setState({
-    //     data:list
-    //    })
-    //   })
-   
-    // const getTemplateAll = (branch,empType) => {
-    //   return {
-    //     "branch_name":branch,
-    //   "emp_type":empType,
-    //   "allowance_labels":
-    //   [{"label":"Annual Award",
-    //   "value":0},
-    //   {"label":"Maintenance",
-    //   "value":0},{"label":"Medical Benefit",
-    //   "value":0},{"label":"Petrol","value":0}],
-    //   "deduction_labels":[{"label":"Income Tax",
-    //   "value":0},{"label":"Leave Without Pay","value":0},
-    //   {"label":"Salary Advance","value":0},
-    //   {"label":"SSC","value":0},
-    //   {"label":"Staff Loan","value":0}]
-    // }
-    // }
-    fetch(main_url + "payroll_report/payrollWiseLocationReport/2023-03/0/0/0")
+  const regionId = this.state.selected_region
+    ? this.state.selected_region.state_id
+    : 0;
+  const Date = moment(this.state.date).format("YYYY-MM");
+  const Status=this.state.selected_employee_status ? this.state.selected_employee_status.value : 0
+    fetch(main_url + "payroll_report/payrollWiseLocationReport/"+Date+'/'+regionId+'/'+branchId+'/'+Status)
       .then(res => { if (res.ok) return res.json() })
-      .then(list => {
-        var additionMax = list.reduce((a, b)=> {
-          return b.addition && b.addition.length>a.addition && a.addition.length? b: a
+      .then(async list => {
+        // console.log('list data ====>', list)
+       if(list.length > 0){
+        console.log("list",list)
+        var additionMax =list.reduce((a, b)=> {
+          if(b.addition){
+            return b.addition.length>a.addition.length? b: a
+          }
           //return Math.max(a, b.addition?b.addition.length:0);
-        });
-        console.log('max',additionMax);
-        var deductionMax = list.reduce((a, b)=> {
-          return b.addtion && b.deduction.length>a.deduction && a.deduction.length? b: a
-          //return Math.max(a, b.addition?b.addition.length:0);
-        });
-        let deductionTemp=[]
-        deductionMax.deduction.map((v,i)=>{
-          return (v[i] ? v[i].salary_payment_deduction_value = 0 : 0)
+        },{addition:[]});
+        console.log('additionMax',additionMax)
+        var additionTemp = [];
+        await additionMax.length > 0 && additionMax.addition.length > 0 && additionMax.addition.map((v,i) => {
+          var obj = {}
+          obj['salary_payment_allowance_label'] = v.salary_payment_allowance_label;
+          obj['salary_payment_allowance_value'] = 0;
+          additionTemp.push(obj);
         })
-        // for (let index = 0; index < deductionMax.deduction.length; index++) {
-        //   return deductionMax.deduction[index].salary_payment_allowance_value =0
-          
-        // }
-        console.log('deductiontemp',deductionMax);
+        
+
+        var deductionMax =list.reduce((a, b) => {
+          if(b.deduction){
+            return b.deduction.length>a.deduction.length? b: a
+          }
+         
+        },{deduction:[]});
+        console.log(deductionMax,'deductionMax')
+        var deductionTemp = [];
+        await deductionMax.length > 0 && deductionMax.deduction.length > 0 && deductionMax.deduction.map((v,i) => {
+          var obj = {}
+          obj['salary_payment_deduction_label'] = v.salary_payment_deduction_label;
+          obj['salary_payment_deduction_value'] = 0;
+          deductionTemp.push(obj);
+        })
+       }
+    
        this.setState({
         data:list,
         
        })
        const getTemplatePartTime = (branch,empType) => {
         return {
-          "branch_name":branch,
-        "emp_type":empType,
-        "allowance_labels":[additionMax],
-        // [{"label":"Annual Award",
-        // "value":0},
-        // {"label":"Maintenance",
-        // "value":0},{"label":"Medical Benefit",
-        // "value":0},{"label":"Petrol","value":0}],
-  
-        "deduction_labels":[deductionMax]
+        "location_master_name":branch,
+        "name":empType,
+        "addition":[...additionTemp],
+        "total_amount": 0,
+        "gross_salary": 0,
+        "deduction_addition_data": 0,
+        "after_deduction_or_addition": 0,
+        "deduction":[...deductionTemp],
+        "ssc":[
+          {
+          "Employer_2": 0,
+          "Employee_3": 0
+          }
+          ],
+          "net_salary": 0,
+          "total_gross_salary": 0,
+          "deductionTotal": 0,
+          "additionTotal": 0,
+          "total": 0
       }
       }
 
       //  console.log(list)
        const formatD= list.length >0 ? list.reduce((r,c)=>{
             let R={...r};
-            if(!R[c.branch_name]){
-                R[c.branch_name]={
-                  branch_name: c.branch_name,
+            if(!R[c.location_master_name]){
+                R[c.location_master_name]={
+                  location_master_name: c.location_master_name,
                   empType: [ c]
                 }
-                // let empType1=[];
-                // if (c['emp_type'] === empType.PartTime) {
-                //   empType1.push(c);
-                // } else empType1.push( getTemplatePartTime(c.branch_name, empType.PartTime))
-
-                // if(c['emp_type'] === empType.Training){
-                //   empType1.push(c);
-                // } else empType1.push( getTemplatePartTime(c.branch_name, empType.Training));
-
-                // if (c['emp_type'] ===empType.Permanent ) {
-                //   empType1.push(c);
-                // } else empType1.push( getTemplatePartTime(c.branch_name, empType.Permanent));
-
-                // R[c.branch_name]['empType']= empType1
-
             }
             else {
-              // let empType1=R[c.branch_name]['empType'];
-              // if (c['emp_type'] === empType.PartTime) {
-              //   empType1.push(c);
-              // } else empType1.push( getTemplatePartTime(c.branch_name, empType.PartTime))
-
-              // if(c['emp_type'] === empType.Training){
-              //   empType1.push(c);
-              // } else empType1.push( getTemplatePartTime(c.branch_name, empType.Training));
-
-              // if (c['emp_type'] === empType.Permanent ) {
-              //   empType1.push(c);
-              // } else empType1.push( getTemplatePartTime(c.branch_name, empType.Permanent));
-
-              R[c.branch_name]['empType'].push(c)
+              R[c.location_master_name]['empType'].push(c)
             }
             return R;
         },[]): {};
@@ -335,12 +307,14 @@ class PayrollSummaryReportWithLocation extends Component {
         for (let index = 0; index < keys.length; index++) {
           const element = formatD[keys[index]];
           let arr=[];
-          let partTime= element["empType"].find(d=>d.emp_type === empType.PartTime)
+          let partTime= element["empType"].find(d=>d.name === empType.PartTime)
           // console.log("partTime",partTime)
-          let perm= element["empType"].find(d=>d.emp_type === empType.Permanent)
+          let perm= element["empType"].find(d=>d.name === empType.Permanent)
           // console.log("permanent",perm)
-          let train= element["empType"].find(d=>d.emp_type === empType.Training)
+          let train= element["empType"].find(d=>d.name === empType.Training)
           // console.log("training",train)
+          let All= element["empType"].find(d=>d.name === empType.All)
+
 
           if(perm) arr.push(perm)
           else arr.push( getTemplatePartTime(keys[index], empType.Permanent))
@@ -350,106 +324,81 @@ class PayrollSummaryReportWithLocation extends Component {
 
           if(train) arr.push(train)
           else arr.push( getTemplatePartTime(keys[index], empType.Training))
-
-          console.log("arr",arr)
-          let AnnualAward=[];
-          let AnnualAwardTotal=0;
-          let MaintenanceTotal=0;
-          let Maintenance=[];
-          let MedicalBenefit=[];
-          let MedicalBenefitTotal=0;
-          let PetrolTotal=0;
-          let Petrol=[];
-          let IncomeTax=[];
-          let IncomeTaxTotal=0;
-          let Withoutpay=[];
-          let WithoutpayTotal=0;
-          let salaryAdvance=[];
-          let salaryAdvanceTotal=0
-          let ssc=[];
-          let sscTotal=0;
-          let staffLoan=[];
-          let staffLoanTotal=0;
-
-          // if(AnnualAward.length == 2){
-
-          // }
-
-          arr.forEach((v,i)=>{
-
-            let AnnualAwardsubTotal=v.allowance_labels.filter(v1=>v1.label ==  "Annual Award");
-            let MaintenancesubTotal=v.allowance_labels.filter(v1=>v1.label == "Maintenance");
-            let MedicalsubTotal=v.allowance_labels.filter(v1=>v1.label == "Medical Benefit");
-            let PetrolsubTotal=v.allowance_labels.filter(v1=>v1.label == "Petrol");
-            let IncomeTaxsubTotal=v.deduction_labels.filter(v=>v.label == "Income Tax");
-            let WithoutpaysubTotal=v.deduction_labels.filter(v=>v.label == "Leave Without Pay");
-            let salaryAdvancesubTotal=v.deduction_labels.filter(v=>v.label == "Salary Advance");
-            let sscsubTotal=v.deduction_labels.filter(v=>v.label == "SSC");
-            let staffLoansubTotal=v.deduction_labels.filter(v=>v.label == "SSC");
-
-            // console.log("subtotal====>",subTotal[0] && subTotal[0].value)
-            AnnualAwardTotal+=parseInt(AnnualAwardsubTotal[0] && AnnualAwardsubTotal[0].value);
-            MaintenanceTotal+=parseInt(MaintenancesubTotal[0] && MaintenancesubTotal[0].value);
-            MedicalBenefitTotal+=parseInt(MedicalsubTotal[0] && MedicalsubTotal[0].value);
-            PetrolTotal+=parseInt(PetrolsubTotal[0] && PetrolsubTotal[0].value);
-            IncomeTaxTotal+=parseInt(IncomeTaxsubTotal[0] && IncomeTaxsubTotal[0].value);
-            WithoutpayTotal+=parseInt(WithoutpaysubTotal[0] && WithoutpaysubTotal[0].value);
-            salaryAdvanceTotal+=parseInt(salaryAdvancesubTotal[0] && salaryAdvancesubTotal[0].value);
-            sscTotal+=parseInt(sscsubTotal[0] && sscsubTotal[0].value);
-            staffLoanTotal+=parseInt(staffLoansubTotal[0] && staffLoansubTotal[0].value);
-
-            AnnualAward[i]=AnnualAwardTotal;
-            Maintenance[i]=MaintenanceTotal;
-            MedicalBenefit[i]=MedicalBenefitTotal;
-            Petrol[i]=PetrolTotal;
-            IncomeTax[i]=IncomeTaxTotal;
-            Withoutpay[i]=WithoutpayTotal;
-            salaryAdvance[i]=salaryAdvanceTotal;
-            ssc[i]=sscTotal;
-            staffLoan[i]=staffLoanTotal;
-
-            this.setState({
-              annaulAwardTotal:AnnualAwardTotal,
-              maintenanceTotal:MaintenanceTotal,
-              petrolTotal:PetrolTotal,
-              medicalTotal:MedicalBenefitTotal,
-              withoutpayTotal:WithoutpayTotal,
-              incometaxTotal:IncomeTaxTotal,
-              salaryTotal:salaryAdvanceTotal,
-              sscTotal:sscTotal,
-              staffLoanTotal:staffLoanTotal
-
-            })
-            console.log("annual award",AnnualAwardTotal)
-
-            // console.log("v",v.allowance_labels.filter(v1=>v1.label ==  "Annual Award")[0].value)
-            // v.allowance_labels.forEach((v1,k)=>{
-            //   console.log("v1",v1.label == "Annual Award")
-
-            // })
-            // AnnualAward[i]=Total
-              // let annual= v.allowance_labels.filter(k=>k.label == "Annual Award");
-              // console.log("annual",annual)
+          
+          // let filterData=arr.filter(v=>v.deduction.length > 0)
+          // console.log("filter arrr",arr)
+          let listAllowance = [];
+          let arrAllowance = []
+          arr.map(v=>{
+            console.log("addition temp",v)
+            console.log("addition",v.addition)
+            v.addition.forEach(additionObj => {
+              if(!listAllowance[additionObj.salary_payment_allowance_label]){
+                listAllowance[additionObj.salary_payment_allowance_label] = 0;
+              }
+              listAllowance[additionObj.salary_payment_allowance_label] += additionObj.salary_payment_allowance_value;
+            });
+          
           })
-          console.log("annual award total",AnnualAward)
+          for (let key in listAllowance) {
+            arrAllowance.push({"salary_payment_allowance_label":key, salary_payment_allowance_value: listAllowance[key]});
+          }
 
+          console.log("ta ku ku", arrAllowance);
+          console.log('list allowance',listAllowance)
+          let listDeduction = [];
+          let arrDeduction = [];
+          arr.map(v=>{
+            // console.log("addition",v.addition)
+            v.deduction.forEach(deductionObj => {
+              if(!listDeduction[deductionObj.salary_payment_deduction_label]){
+                listDeduction[deductionObj.salary_payment_deduction_label] = 0;
+              }
+              listDeduction[deductionObj.salary_payment_deduction_label] += deductionObj.salary_payment_deduction_value;
+            });
+          })
+          for (let key in listDeduction) {
+            arrDeduction.push({"salary_payment_deduction_label":key, salary_payment_deduction_value: listDeduction[key]});
+          }
+          if(All){
+              
+          }
+        else{
+          let temp=arr
           arr.unshift( {
-            "branch_name":keys[index],
-            "emp_type":empType.All,
-            "allowance_labels":
-            [{"label":"Annual Award",
-            "value":this.state.annaulAwardTotal},
-            {"label":"Maintenance",
-            "value":this.state.maintenanceTotal},{"label":"Medical Benefit",
-            "value":this.state.medicalTotal},{"label":"Petrol","value":0}],
-            "deduction_labels":[{"label":"Income Tax",
-            "value":this.state.incometaxTotal},{"label":"Leave Without Pay","value":this.state.withoutpayTotal},
-            {"label":"Salary Advance","value":this.state.salaryTotal},
-            {"label":"SSC","value":this.state.sscTotal},
-            {"label":"Staff Loan","value":this.state.staffLoanTotal}]
-          })
+          "location_master_name":keys[index],
+          "name":empType.All,
+          'addition':[...arrAllowance],
+          'deduction':[...arrDeduction],
+          "total_amount": temp.reduce((p,c)=>{return p+c.total_amount},0),
+          "gross_salary": temp.reduce((p,c)=>{return p+c.gross_salary},0),
+          "deduction_addition_data": temp.reduce((p,c)=>{return p+c.deduction_addition_data},0),
+          "after_deduction_or_addition": temp.reduce((p,c)=>{return p+c.after_deduction_or_addition},0),
+          "ssc":[
+            {
+            "Employer_2": temp.reduce((p,c)=>{
+              if(c.ssc.length > 0){
+                return p+c.ssc[0].Employer_2
+              }
+            },0),
+            "Employee_3": temp.reduce((p,c)=>{
+              if(c.ssc.length >0){
+                return p+c.ssc[0].Employee_3
+              }
+              
+            },0)
+            }
+            ],
+            "net_salary": temp.reduce((p,c)=>{return p+c.net_salary},0),
+            "total_gross_salary": temp.reduce((p,c)=>{return p+c.total_gross_salary},0),
+            "deductionTotal": temp.reduce((p,c)=>{return p+c.deductionTotal},0),
+            "additionTotal": temp.reduce((p,c)=>{return p+c.additionTotal},0),
+            "total": temp.reduce((p,c)=>{return p+c.total},0)
 
-          // console.log(keys[index],element,arr.length)
+        })
+        }
+
+         
 
           data[keys[index]] ={
             branch_name:keys[index],
@@ -460,178 +409,79 @@ class PayrollSummaryReportWithLocation extends Component {
 
       // console.log("format data ===> ",data,typeof(data))
       let array=Object.values(data);
-      console.log("array",array)
+      // console.log("array",array)
       this.setState({
         FinalData:array
       })
-      // console.log("final data",this.state.FinalData)
-      //  let UniqueBranch=new Set();
-      //   list.forEach(v=>{
-      //     UniqueBranch.add(v.branch_name)
-      //   })
-      //   let uniqueMap=new Map();
-      //   UniqueBranch.forEach(v=>{
-      //     uniqueMap.set(v,{
-      //       "branch_name":v,
-      //       "EmpType":[
-      //         {
-      //           "emp_type": "Permanent",
-      //             "allowance_labels":[
-      //             {"label": "Annual Award", "value": 0},
-      //             {"label": "Maintenance", "value": 0},
-      //             {"label": "Medical Benefit", "value": 0},
-      //             {"label": "Petrol", "value": 0}
-      //             ],
-      //             "deduction_labels":[
-      //             {"label": "Income Tax", "value": 0},
-      //             {"label": "Leave Without Pay", "value": 0},
-      //             {"label": "Salary Advance", "value": 0},
-      //             {"label": "SSC", "value": 0},
-      //             {"label": "Staff Loan", "value": 0}
-      //             ]
-      //         },{
-      //           "emp_type": "Parttime",
-      //             "allowance_labels":[
-      //             {"label": "Annual Award", "value": 0},
-      //             {"label": "Maintenance", "value": 0},
-      //             {"label": "Medical Benefit", "value": 0},
-      //             {"label": "Petrol", "value": 0}
-      //             ],
-      //             "deduction_labels":[
-      //             {"label": "Income Tax", "value": 0},
-      //             {"label": "Leave Without Pay", "value": 0},
-      //             {"label": "Salary Advance", "value": 0},
-      //             {"label": "SSC", "value": 0},
-      //             {"label": "Staff Loan", "value": 0}
-      //             ]
-      //         },{
-      //           "emp_type": "Training",
-      //             "allowance_labels":[
-      //             {"label": "Annual Award", "value": 0},
-      //             {"label": "Maintenance", "value": 0},
-      //             {"label": "Medical Benefit", "value": 0},
-      //             {"label": "Petrol", "value": 0}
-      //             ],
-      //             "deduction_labels":[
-      //             {"label": "Income Tax", "value": 0},
-      //             {"label": "Leave Without Pay", "value": 0},
-      //             {"label": "Salary Advance", "value": 0},
-      //             {"label": "SSC", "value": 0},
-      //             {"label": "Staff Loan", "value": 0}
-      //             ]
-      //         }
-      //       ]
-      //     })
-      //   })
-      //   let mapValue=[...uniqueMap.values()]
+      
       })
 
   }
-  // handleSearchData = () => {
-  //   fetch(main_url + "payroll_report/payrollWiseLocationReport/2023-03/0/0/0")
-  //     .then((res) => {
-  //       if (res.ok) return res.json();
-  //     })
-  //     .then((list) => {
-  //       // let uniqueDeductiondata=new Set();
-  //       // list.forEach(v=>{
-  //       //   v.deduction.forEach(v1=>{
-  //       //     uniqueDeductiondata.add(v1.salary_payment_deduction_label)
-  //       //   })
-  //       // })
-  //       // console.log("unique data",uniqueDeductiondata)
-  //       // let uniqueDeductionMap=new Map();
-  //       // uniqueDeductiondata.forEach(v=>{
-  //       //   uniqueDeductionMap.set({
-  //       //     'salary_payment_deduction_label':v,
-  //       //     'salary_payment_deduction_value':0
-  //       //   })
-  //       // })
-  //       // console.log("unique map",)
-  //       this.setState({
-  //         dataSource: list,
-  //       });
-  //       let finalData =
-  //         this.state.dataSource != undefined && this.state.dataSource.length > 0
-  //           ? this.state.dataSource
-  //           : [];
-  //       let sortData = finalData.reduce((r, c) => {
-  //         let R = [...r];
-  //         const index = R.findIndex((v) => v.location_master_name == c.location_master_name);
-  //         if (index == -1) {
-  //           R.push({
-  //             location_master_name: c.location_master_name,
-  //             branch: [c],
-  //           });
-  //         } else {
-  //           R[index].branch.push(c);
-  //         }
-  //         return R;
-  //       }, []);
-  //       console.log("sort data", sortData);
-  //     });
-  // };
+  
   render() {
+    console.log('final data',this.state.FinalData)
     let filterData =
     this.state.ReportHeader &&
     this.state.ReportHeader.filter(
       (v) => v.label != "Income Tax" && v.label != "SSC"
     );
   let finalDatasource =
-    this.state.dataSource != undefined && this.state.dataSource.length > 0
-      ? this.state.dataSource
+    this.state.FinalData != undefined && this.state.FinalData.length > 0
+      ? this.state.FinalData
       : [];
   let filterIncomeTax = finalDatasource.map(
-    (d) =>
-      d.deduction.length > 0 &&
-      d.deduction.filter(
-        (v) => v.salary_payment_deduction_label == "Income Tax"
-      )
+    (d) =>{
+      d.employeeType.map(v=>{
+        // console.log('v',v);
+        v.deduction.length > 0 &&
+        v.deduction.filter(v1=>v1.salary_payment_deduction_label == 'Income Tax')
+      })
+    }
+     
   );
-  // console.log(
-  //   "incometax",
-  //   filterIncomeTax.filter((d) => (d.length > 0 ? d[0] : 0))
-  // );
-  let NextFilterIncomeTax = filterIncomeTax.filter((d) =>
-    d.length > 0 ? d[0] : 0
-  );
-  let FilterDeduction = finalDatasource.filter((v) => v.deduction.length > 0);
-  let FilterAddition=finalDatasource.filter((v)=>v.addition.length > 0);
+  
+  console.log("filter income tax",filterIncomeTax)
+  
   let Deduction = [];
   let Addition=[]
-  FilterDeduction.map((v) => {
-    filterData.map((header) => {
-      if (
-        v.deduction.filter(
-          (d) => d.salary_payment_deduction_label == header.label
-        ).length > 0
-      ) {
-        Deduction.push(
-          v.deduction.filter(
+  finalDatasource.map((v) => {
+   v.employeeType.length > 0 && v.employeeType.map((v1)=>{
+      filterData.map((header) => {
+        if (
+          v1.deduction.filter(
             (d) => d.salary_payment_deduction_label == header.label
-          )[0]
-        );
-      }
-      // Deduction.push(v.deduction.filter(d=>d.salary_payment_deduction_label == header.label).length > 0 && v.deduction.filter(d=>d.salary_payment_deduction_label == header.label)[0])
-    });
+          ).length > 0
+        ) {
+          Deduction.push(
+            v1.deduction.filter(
+              (d) => d.salary_payment_deduction_label == header.label
+            )[0]
+          );
+        }
+        // Deduction.push(v.deduction.filter(d=>d.salary_payment_deduction_label == header.label).length > 0 && v.deduction.filter(d=>d.salary_payment_deduction_label == header.label)[0])
+      });
+    })
+    
   });
-  FilterAddition.map((v) => {
-    filterData.map((header) => {
-      if (
-        v.addition.filter(
-          (d) => d.salary_payment_allowance_label == header.label
-        ).length > 0
-      ) {
-        Addition.push(
-          v.addition.filter(
+  finalDatasource.map((v) => {
+    v.employeeType.length > 0 && v.employeeType.map((v1)=>{
+      filterData.map((header) => {
+        if (
+          v1.addition.filter(
             (d) => d.salary_payment_allowance_label == header.label
-          )[0]
-        );
-      }
-      // Deduction.push(v.deduction.filter(d=>d.salary_payment_deduction_label == header.label).length > 0 && v.deduction.filter(d=>d.salary_payment_deduction_label == header.label)[0])
-    });
+          ).length > 0
+        ) {
+          Addition.push(
+            v1.addition.filter(
+              (d) => d.salary_payment_allowance_label == header.label
+            )[0]
+          );
+        }
+        // Deduction.push(v.deduction.filter(d=>d.salary_payment_deduction_label == header.label).length > 0 && v.deduction.filter(d=>d.salary_payment_deduction_label == header.label)[0])
+      });
+    })
   });
-  console.log("filter addition",Addition)
+  // console.log("filter addition",Addition)
   let totalDeductionData = Deduction.reduce((r, c) => {
     let R = [...r];
     const index = R.findIndex(
@@ -689,7 +539,7 @@ class PayrollSummaryReportWithLocation extends Component {
               }}
             >
               <DatePicker
-                dateFormat="DD/MM/YYYY"
+                dateFormat="YYYY-MM"
                 value={this.state.date}
                 onChange={this.handleSelectedDate}
                 timeFormat={false}
@@ -815,18 +665,37 @@ class PayrollSummaryReportWithLocation extends Component {
               </tr>
               </thead>
               <tbody>
+                {
+                  this.state.FinalData.map((v1,k)=>{
+                    return(
+                      <>
+                      {
+                        v1.employeeType.map((v2,k2)=>{
+                          return(
+                            <>
+                            <tr style={{textAlign:'center'}}>
+                              
+                            </tr>
+                            </>
+                          )
+                        })
+                      }
+                      </>
+                    )
+                  })
+                }
 
                 {this.state.FinalData.map((v1, k) => {
-                  console.log("lenght", v1.employeeType.length);
+                 
                   return (
                     <>
                       {v1.employeeType.map((v2, k2) => {
-                        console.log("k2", k2);
+                        
 
                         return (
                           <>
-                            <tr>
-                              {/* <td rowSpan={4}>{v1.branch_name}</td> */}
+                            <tr style={{textAlign:'center'}}>
+                              
                               {k2 === 0 ? (
                                 <td
                                   rowSpan={v1.employeeType.length}
@@ -835,158 +704,74 @@ class PayrollSummaryReportWithLocation extends Component {
                                   {v1.branch_name}
                                 </td>
                               ) : null}
-                              <td>{v2.emp_type}</td>
-                              <td>
-                                {v2.allowance_labels.filter(
-                                  (v1) => v1.label == "Annual Award"
-                                )[0] &&
-                                  v2.allowance_labels.filter(
-                                    (v1) => v1.label == "Annual Award"
-                                  )[0].value}
-                              </td>
-                              <td>
-                                {v2.allowance_labels.filter(
-                                  (v1) => v1.label == "Annual Award"
-                                )[0] &&
-                                  v2.allowance_labels.filter(
-                                    (v1) => v1.label == "Annual Award"
-                                  )[0].value}
-                              </td>
-                              <td>
-                                {v2.allowance_labels.filter(
-                                  (v1) => v1.label == "Annual Award"
-                                )[0] &&
-                                  v2.allowance_labels.filter(
-                                    (v1) => v1.label == "Annual Award"
-                                  )[0].value}
-                              </td>
-                              <td>
-                                {v2.allowance_labels.filter(
-                                  (v1) => v1.label == "Annual Award"
-                                )[0] &&
-                                  v2.allowance_labels.filter(
-                                    (v1) => v1.label == "Annual Award"
-                                  )[0].value}
-                              </td>
-                              <td>
-                                {v2.allowance_labels.filter(
-                                  (v1) => v1.label == "Annual Award"
-                                )[0] &&
-                                  v2.allowance_labels.filter(
-                                    (v1) => v1.label == "Annual Award"
-                                  )[0].value}
-                              </td>
-                              <td>
-                                {v2.deduction_labels.filter(
-                                  (v1) => v1.label == "Income Tax"
-                                )[0] &&
-                                  v2.deduction_labels.filter(
-                                    (v1) => v1.label == "Income Tax"
-                                  )[0].value}
-                              </td>
-                              <td>
-                                {v2.deduction_labels.filter(
-                                  (v1) => v1.label == "Income Tax"
-                                )[0] &&
-                                  v2.deduction_labels.filter(
-                                    (v1) => v1.label == "Income Tax"
-                                  )[0].value}
-                              </td>
-                              <td>
-                                {v2.deduction_labels.filter(
-                                  (v1) => v1.label == "Income Tax"
-                                )[0] &&
-                                  v2.deduction_labels.filter(
-                                    (v1) => v1.label == "Income Tax"
-                                  )[0].value}
-                              </td>
-                              <td>
-                                {v2.allowance_labels.filter(
-                                  (v1) => v1.label == "Maintenance"
-                                )[0] &&
-                                  v2.allowance_labels.filter(
-                                    (v1) => v1.label == "Maintenance"
-                                  )[0].value}
-                              </td>
-                              <td>
-                                {v2.allowance_labels.filter(
-                                  (v1) => v1.label == "Petrol"
-                                )[0] &&
-                                  v2.allowance_labels.filter(
-                                    (v1) => v1.label == "Petrol"
-                                  )[0].value}
-                              </td>
-                              <td>
-                                {v2.deduction_labels.filter(
-                                  (v1) => v1.label == "Income Tax"
-                                )[0] &&
-                                  v2.deduction_labels.filter(
-                                    (v1) => v1.label == "Income Tax"
-                                  )[0].value}
-                              </td>
-                              <td>
-                                {v2.deduction_labels.filter(
-                                  (v1) => v1.label == "Income Tax"
-                                )[0] &&
-                                  v2.deduction_labels.filter(
-                                    (v1) => v1.label == "Income Tax"
-                                  )[0].value}
-                              </td>
-                              <td>
-                                {v2.deduction_labels.filter(
-                                  (v1) => v1.label == "Income Tax"
-                                )[0] &&
-                                  v2.deduction_labels.filter(
-                                    (v1) => v1.label == "Income Tax"
-                                  )[0].value}
-                              </td>
-                              <td>
-                                {v2.allowance_labels.filter(
-                                  (v1) => v1.label == "Medical Benefit"
-                                )[0] &&
-                                  v2.allowance_labels.filter(
-                                    (v1) => v1.label == "Medical Benefit"
-                                  )[0].value}
-                              </td>
-                              <td>
-                                {v2.deduction_labels.filter(
-                                  (v1) => v1.label == "Leave Without Pay"
-                                )[0] &&
-                                  v2.deduction_labels.filter(
-                                    (v1) => v1.label == "Leave Without Pay"
-                                  )[0].value}
-                              </td>
-                              <td>
-                                {v2.deduction_labels.filter(
-                                  (v1) => v1.label == "Salary Advance"
-                                )[0] &&
-                                  v2.deduction_labels.filter(
-                                    (v1) => v1.label == "Salary Advance"
-                                  )[0].value}
-                              </td>
-                              <td>
-                                {v2.deduction_labels.filter(
-                                  (v1) => v1.label == "Income Tax"
-                                )[0] &&
-                                  v2.deduction_labels.filter(
-                                    (v1) => v1.label == "Income Tax"
-                                  )[0].value}
-                              </td>
-                              <td>
-                                {v2.deduction_labels.filter(
-                                  (v1) => v1.label == "Income Tax"
-                                )[0] &&
-                                  v2.deduction_labels.filter(
-                                    (v1) => v1.label == "Income Tax"
-                                  )[0].value}
-                              </td>
+                              <td style={{verticalAlign:'middle'}}>{v2.name}</td>
+                              <td style={{verticalAlign:'middle'}}>{v2.gross_salary}</td>
+                              <td style={{verticalAlign:'middle'}}>{v2.deduction_addition_data}</td>
+                              <td style={{verticalAlign:'middle'}}>{v2.after_deduction_or_addition}</td>
+                              <td style={{verticalAlign:'middle'}}>{v2.ssc[0].Employer_2}</td>
+                              <td style={{verticalAlign:'middle'}}>{v2.ssc[0].Employee_3}</td>
+                              {v2.deduction.length > 0 ? (
+                        v2.deduction.filter(
+                          (v3) =>
+                            v3.salary_payment_deduction_label == "Income Tax"
+                        ).length > 0 ? (
+                          <td style={{verticalAlign:'midddle'}}>
+                            {
+                              v2.deduction.filter(
+                                (v4) =>
+                                  v4.salary_payment_deduction_label ==
+                                  "Income Tax"
+                              )[0].salary_payment_deduction_value
+                            }
+                          </td>
+                        ) : (
+                          <td style={{verticalAlign:'middle'}}>0</td>
+                        )
+                      ) : (
+                        <td style={{textAlign:'center'}}>0</td>
+                      )}
+                              <td style={{verticalAlign:'middle'}}>{v2.net_salary}</td>
+                              <td style={{verticalAlign:'middle'}}>{v2.total_gross_salary}</td>
+                              {totalDeductionData.map((a, i) => {
+                        return (
+                          <td style={{verticalAlign:'middle'}}>
+                            
+                            {v2.deduction.length > 0 &&
+                            v2.deduction.filter(
+                              (d) => d.salary_payment_deduction_label == a.salary_payment_deduction_label
+                            ).length > 0
+                              ? v2.deduction.filter(
+                                  (d) =>
+                                    d.salary_payment_deduction_label == a.salary_payment_deduction_label
+                                )[0].salary_payment_deduction_value
+                              : 0}
+                           
+                          </td>
+                        );
+                      })}
+                                   {totalAdditionData.map((a, i) => {
+                        return (
+                          <td style={{verticalAlign:'middle'}}>
+                            {v2.addition.length > 0 &&
+                            v2.addition.filter(
+                              (d) => d.salary_payment_allowance_label == a.salary_payment_allowance_label
+                            ).length > 0
+                              ? v2.addition.filter(
+                                  (d) =>
+                                    d.salary_payment_allowance_label == a.salary_payment_allowance_label
+                                )[0].salary_payment_allowance_value
+                              : 0}
+                          </td>
+                        );
+                      })}
+                         <td style={{verticalAlign:'middle'}}>{v2.total}</td>     
 
                               {k2 === 0 ? (
                                 <td
                                   rowSpan={v1.employeeType.length}
                                   style={{ verticalAlign: "middle" }}
                                 >
-                                  232133
+                                 {v1.employeeType[0].total}
                                 </td>
                               ) : null}
                             </tr>

@@ -245,13 +245,15 @@ export default class LeaveManagementTable extends Component {
             else if (result.application_status === 9) {
                 reject_status = '<small class="label label-warning" style="background-color:#eb6b1c"> Cancel Reject</small>'
             } else {
-                if (result.cancel_verify != null) {
-                    reject_status = '<small class="label label-warning" style="background-color:#eb6b1c"> Cancel Verify</small>'
-                } else if (result.cancel_approve != null) {
-                    reject_status = '<small class="label label-warning" style="background-color:#eb6b1c"> Cancel Approve</small>'
-                } else if (result.cancel_reject) {
+                if (result.cancel_reject) {
                     reject_status = '<small class="label label-warning" style="background-color:#eb6b1c"> Cancel Reject</small>'
-                } else if (result.leave_cancel_apply_date != null) {
+                }
+                else if (result.cancel_approve != null) {
+                    reject_status = '<small class="label label-warning" style="background-color:#eb6b1c"> Cancel Approve</small>'
+                }
+                else if (result.cancel_verify != null) {
+                    reject_status = '<small class="label label-warning" style="background-color:#eb6b1c"> Cancel Verify</small>'
+                }  else if (result.leave_cancel_apply_date != null) {
                     reject_status = '<small class="label label-warning" style="background-color:#eb6b1c"> Cancel Request </small>'
                 }
             }

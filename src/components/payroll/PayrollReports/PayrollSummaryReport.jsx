@@ -700,7 +700,7 @@ class PayrollSummaryReport extends Component {
             </tbody>
           </table>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <table className="table table-bordered" style={{ width: "20%" }}>
+            <table className="table table-bordered" id="payroll_summary_report" style={{ width: "20%" }}>
               <thead>
                 <tr>
                   <th></th>
