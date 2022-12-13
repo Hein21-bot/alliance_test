@@ -8,6 +8,7 @@ import "jspdf-autotable";
 import Select from "react-select";
 import DatePicker from "react-datetime";
 import moment from "moment";
+import { unstable_composeClasses } from "@mui/material";
 const $ = require("jquery");
 const jzip = require("jzip");
 window.JSZip = jzip;
@@ -156,7 +157,7 @@ class PayrollSummaryReport extends Component {
 
     // })
 
-    fetch(main_url + "payroll_report/payrollReportSummary/"+Date+'/'+regionId+'/'+branchId)
+    fetch(main_url + "payroll_report/payrollSummaryReport/"+Date+'/'+regionId+'/'+branchId)
       .then((res) => {
         if (res.ok) return res.json();
       })
@@ -182,13 +183,16 @@ class PayrollSummaryReport extends Component {
       });
   };
   render() {  console.log("value in deduction is =============>", this.state.dataSource)
-                console.log("final data is =============>", this.state.finalDatasource)
+                
     let filterData =
       this.state.ReportHeader &&
       this.state.ReportHeader.filter(
         (v) => v.label != "Income Tax" && v.label != "SSC"
       );
-    let finalDatasource =
+      // let atmCount= 
+      // this.state.dataSource != undefined && this.state.dataSource.length > 0
+      // ? this.state.dataSource.filter(v=>v.state_id == 3).length : 0; console.log('22222222222222',atmCount);
+      let finalDatasource =
       this.state.dataSource != undefined && this.state.dataSource.length > 0
         ? this.state.dataSource
         : []; 

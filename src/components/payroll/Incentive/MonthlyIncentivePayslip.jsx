@@ -34,7 +34,7 @@ constructor(props){
       selected_designation: "",
       selected_employeeID: "",
       selected_employee: "",
-      selected_type: { value: 1, label: "CO",name:'co' },
+      selected_type:0,
       
     }
 }
@@ -202,21 +202,31 @@ getRegionList() {
 // };
 
   getIncentive () {
-    fetch(`${main_url}incentive/findDesigination/${moment(this.state.selected_month).format("YYYY-MM")}/${this.state.user_id}`)
+    fetch(`${main_url}incentive/findDesignation/${moment(this.state.selected_month).format("YYYY-MM")}/${this.state.user_id}`)
     .then((res)=>{
       if(res.ok) return res.json();
     })
     .then((list) =>{
       this.setState({
-    dataSource:list
-      })
+        dataSource:list
+          })
+      if (list[0].CoFx === 'FX'){
+      this.setState({
+    fxData:list,
+    selected_type:2
+      })}else{
+        this.setState({
+          coData:list,
+          selected_type:1
+            })
+      }
     })
     .catch((error)=>{
 
     })
   }
 
-render(){  console.log(this.state.dataSource)
+render(){
     return( 
         <div>
           <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -308,8 +318,7 @@ render(){  console.log(this.state.dataSource)
             {/* } */}
           </div>
         </div>
-{ this.state.selected_type.value == 1 ? ( this.state.coData.length > 0 && this.state.coData
- != undefined ? (
+{  this.state.selected_type == 1 ?( this.state.coData.length > 0  ? ( 
   <div className="row" style={{display:'flex',justifyContent:'space-around'}}>
   <div className='col-lg-4 col-md-4 col-sm-12' style={{ background: 'white',marginTop:30,border:"1px solid grey " }}>
    
@@ -360,7 +369,7 @@ render(){  console.log(this.state.dataSource)
  </div>
 
 
- <div className=' col-lg-5' style={{ display:'flex',justifyContent:'center', paddingTop: '10px' }}><div className='col-lg-10'><p>{this.state.coData[0].credit_incentive}</p>
+ <div className=' col-lg-5' style={{ paddingTop: '10px' }}><div className='col-lg-10'><p>{this.state.coData[0].credit_incentive}</p>
 
  <p>{this.state.coData[0].saving_incentive}</p>
  <p>{this.state.coData[0].collection_rate}</p>
@@ -412,8 +421,8 @@ render(){  console.log(this.state.dataSource)
 <table className="table "style={{overflow:'scroll',  border:'1px solid black'}}>
 <thead>
 <tr style={{overflow:'scroll',border:'1px solid black' }}>
-            <th style={{textAlign:'center',width:100,border:'1px solid black'}} colSpan={2}>Outstanding</th>
-            <th style={{textAlign:'center',width:100,border:'1px solid black'}} colSpan={2}>{this.state.coData[0].detailCalaultaion[0].savingOutstanding}</th>       
+            <td style={{textAlign:'center',width:100,border:'1px solid black',fontWeight:'bold'}} colSpan={2}>Outstanding</td>
+            <td style={{textAlign:'center',width:100,border:'1px solid black'}} colSpan={2}>{this.state.coData[0].detailCalaultaion[0].savingOutstanding}</td>       
 </tr>
 </thead>
 </table>
@@ -466,7 +475,7 @@ render(){  console.log(this.state.dataSource)
   </div>
   </div>):('')
 
-):(  this.state.fxData.length > 0  ? ( 
+):(  this.state.fxData.length > 0 && this.state.fxData != undefined ? ( 
 
        <div className="row" style={{display:'flex',justifyContent:'center'}}>
                     <div className='col-lg-7 col-md-8 col-sm-12' style={{ background: 'white',marginTop:30,border:"1px solid grey " }}>
