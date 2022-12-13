@@ -127,7 +127,6 @@ import PaySlip from './payroll/payslip'
 import EmployeeSalaryReport from './payroll/PayrollReports/EmployeeSalaryReport';
 import PayrollReportWithBankNo from './payroll/PayrollReports/PayrollReportWithBankNo';
 import SalaryHistoryReport from './payroll/PayrollReports/SalaryHistoryReport';
-import QuarterlyIncentiveReport from './payroll/PayrollReports/QuarterlyIncentiveReport';
 import PayrollSummaryReport from './payroll/PayrollReports/PayrollSummaryReport';
 import PayrollDetailsReport from './payroll/PayrollReports/PayrollDetailsReport';
 import PayrollSummaryReportWithLocation from './payroll/PayrollReports/PayrollSummaryReportWithLocation';
@@ -135,8 +134,10 @@ import PayrollMain from './payroll/Payroll/PayrollMain';
 import PayrollUpload from './payroll/Payroll/PayrollUpload';
 import MonthlyIncentive from './payroll/Incentive/MonthlyIncentive';
 import MonthlyIncentivePayslip from './payroll/Incentive/MonthlyIncentivePayslip';
+import MonthlyIncentiveReport from './payroll/Incentive/MonthlyIncentiveReport';
 import QuarterlyIncentive from './payroll/Incentive/QuarterlyIncentive';
 import QuarterlyIncentivePayslip from './payroll/Incentive/QuarterlyIncentivePayslip';
+import QuarterlyIncentiveReport from './payroll/Incentive/QuarterlyIncentiveReport';
 import PayslipGenerate1 from './payroll/Payroll/PayslipGenerate1';
 import PayrollGenerate from './payroll/Payroll/PayrollGenerate';
 import PayrollCalculated from './payroll/Payroll/PayrollCalculated';
@@ -280,6 +281,7 @@ const Main = () => (
         <Route path='/payroll_summary_report_with_location' component={PayrollSummaryReportWithLocation}></Route>
         <Route path='/monthly_incentive' component={MonthlyIncentive}></Route>
         <Route path='/monthly_incentive_payslip' component={MonthlyIncentivePayslip}></Route>
+        <Route path='/monthly_incentive_report' component={MonthlyIncentiveReport}></Route>
         <Route path='/quarterly_incentive_payslip' component={QuarterlyIncentivePayslip}></Route>
         <Route path='/payslip_generate' component={PayslipGenerate1}></Route>
         <Route path='/quarterly_incentive' component={QuarterlyIncentive}></Route>

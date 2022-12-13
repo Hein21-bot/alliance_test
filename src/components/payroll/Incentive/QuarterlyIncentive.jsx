@@ -115,12 +115,12 @@ export default class QuarterlyIncentive extends Component{
               });
           };
           
-        handleSelectedBranch = (event) => {
-            if (event !== null)
-              this.setState({
-                selected_branch: event,
-              });
-          };
+        // handleSelectedBranch = (event) => {
+        //     if (event !== null)
+        //       this.setState({
+        //         selected_branch: event,
+        //       });
+        //   };
 
         handleSelectedQuater = (event) => {
             this.setState({
@@ -163,9 +163,11 @@ export default class QuarterlyIncentive extends Component{
             }
           };
 
-        calculate(e){ 
-         
-        if (this.state.newDoc.length == 0 )  { 
+        calculate(e){ console.log('ewrwerw',this.state.selected_quarter.value);
+         if(this.state.selected_quarter.value == undefined){
+           toast.error("Please Choose Quarter!")
+         }
+           else if (this.state.newDoc.length == 0 )  { 
             toast.error("Please Choose Attachment File!")
         } else {
           this.setState({
@@ -298,7 +300,7 @@ export default class QuarterlyIncentive extends Component{
            </div>
 
           <div
-            className="col-lg-2"
+            className="col-lg-1"
             style={{
               // marginTop: "22px",
               display: "flex",

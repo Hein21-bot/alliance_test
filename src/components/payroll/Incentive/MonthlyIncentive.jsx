@@ -13,7 +13,6 @@ export default class MonthlyIncentive extends Component {
     super(props);
     this.state = {
       dataSource: [],
-      dataSources:[],
       newDoc: [],
       employeeIdList: [],
       EmployeeNameList: [],
@@ -26,7 +25,6 @@ export default class MonthlyIncentive extends Component {
         { value: 2, label: "FX" ,name:'fx' },
       ],
       selected_month: new Date(),
-      componentIndex: "main",
       selected_region: "",
       selected_branch: "",
       selected_designation: "",
