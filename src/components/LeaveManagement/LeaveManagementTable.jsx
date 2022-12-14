@@ -273,7 +273,7 @@ export default class LeaveManagementTable extends Component {
             if (this.state.tab == 2) {
                 obj.action =
                     '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>'
-                if (result.application_status < 5 || result.application_status == 8 || result.application_status == 9) {
+                if (result.application_status < 5 ||  result.application_status == 9) {
                     obj.action +=
                         '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>'
                 }
