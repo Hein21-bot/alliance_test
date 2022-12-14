@@ -66,9 +66,9 @@ class PayrollSummaryReport extends Component {
     this.getBranchList();
     this.handleSearchData();
     this.getpayRoll();
-    this.getPayrollReportHeader();
-    this.PayrollSummaryReportATMorCash();
-    this.PayrollSummaryReportDetails();
+    // this.getPayrollReportHeader();
+    // this.PayrollSummaryReportATMorCash();
+    // this.PayrollSummaryReportDetails();
   }
 
   getBranchList() {
@@ -202,7 +202,7 @@ class PayrollSummaryReport extends Component {
 
     // })
 
-    fetch(main_url + "payroll_report/payrollSummaryReport/"+Date+'/'+regionId+'/'+branchId)
+    await fetch(main_url + "payroll_report/payrollSummaryReport/"+Date+'/'+regionId+'/'+branchId)
       .then((res) => {
         if (res.ok) return res.json();
       })
@@ -226,6 +226,7 @@ class PayrollSummaryReport extends Component {
           dataSource: list,
         });
       });
+      await this.getPayrollReportHeader();
       await this.PayrollSummaryReportATMorCash();
       await this.PayrollSummaryReportDetails();
 
@@ -246,13 +247,13 @@ class PayrollSummaryReport extends Component {
     let FinalAtmCash=this.state.AtmCash != undefined && this.state.AtmCash.length > 0 ? this.state.AtmCash : []
     let FinalReportDetails=this.state.ReportDetails != undefined && this.state.ReportDetails.length > 0 ? this.state.ReportDetails : []
 
-    console.log("final atmcash",FinalAtmCash)
+    // console.log("final atmcash",FinalAtmCash)
     let AtmTotal=FinalAtmCash.filter(v=>v.payment_type == '1') && FinalAtmCash.filter(v=>v.payment_type == '1')[0]
-    console.log("atm total",AtmTotal);
+    // console.log("atm total",AtmTotal);
     let CashTotal=FinalAtmCash.filter(v=>v.payment_type == '2') && FinalAtmCash.filter(v=>v.payment_type == '2')[0]
     
     let AtmAmount =AtmTotal != undefined ? AtmTotal.total_amount : '-';
-    console.log("atm amount",AtmAmount)
+    // console.log("atm amount",AtmAmount)
     let CashAmount =CashTotal != undefined ? CashTotal.total_amount : '-';
     let Total=AtmAmount+CashAmount;
 
@@ -270,8 +271,9 @@ class PayrollSummaryReport extends Component {
     let NextFilterIncomeTax = filterIncomeTax.filter((d) =>
       d.length > 0 ? d[0] : 0
     );
-    console.log("next filter incometax",NextFilterIncomeTax)
+    // console.log("next filter incometax",NextFilterIncomeTax)
     let FilterDeduction = finalDatasource.filter((v) => v.deduction.length > 0);
+    console.log('filter Deduction',FilterDeduction)
     let FilterAddition=finalDatasource.filter((v)=>v.addition.length > 0);
     let Deduction = [];
     let Addition=[]

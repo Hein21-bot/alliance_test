@@ -90,7 +90,7 @@ class PayrollDetailsReport extends Component {
    
     // this.getEmployeeCode();
     this.handleSearchData();
-    this.getPayrollReportHeader();
+    // this.getPayrollReportHeader();
     // this.getEmployeeCode();
     this.getEmployeeName();
     this.getEmployeeList();
@@ -163,7 +163,8 @@ class PayrollDetailsReport extends Component {
     //   `${main_url}payroll_report/getPayrollReportHeader/` +
     //     moment(this.state.data).format("YYYY-MM")
     // )
-    fetch(`${main_url}payroll_report/getPayrollReportHeader/2023-03`)
+    const Date=moment(this.state.date).format('YYYY-MM')
+    fetch(`${main_url}payroll_report/getPayrollReportHeader/`+Date)
       .then((res) => {
         if (res.ok) return res.json();
       })
@@ -215,8 +216,8 @@ getEmployeeName() {
         })
 }
 handleSelectedEmpId = async (event) => {
-  console.log("event=======>",event)
-  console.log("empName List====>",this.state.empNameList.filter(v=>v.value==event.value))
+  // console.log("event=======>",event)
+  // console.log("empName List====>",this.state.empNameList.filter(v=>v.value==event.value))
   this.setState({
       empId: event,
       employeeName: this.state.empNameList.filter(v => v.value == event.value),
@@ -294,7 +295,7 @@ handleSelectedEmpId = async (event) => {
     })
   }
   handleSelectedName = async (event) => {
-    console.log("selected name",event.label)
+    // console.log("selected name",event.label)
     this.setState({
         employeeName: event,
         empId: this.state.employeeList.filter(v => v.value == event.value)[0],
@@ -302,7 +303,7 @@ handleSelectedEmpId = async (event) => {
     },()=>{console.log("listnaem",this.state.employeeName.value,this.state.empId.value)})
 }
 
-  handleSearchData = () => {
+  handleSearchData = async() => {
     // this.setState({
     const branchId = this.state.selected_Branch ? this.state.selected_Branch.value : 0
     const departmentId = this.state.selected_department ? this.state.selected_department.departments_id : 0
@@ -313,7 +314,7 @@ handleSelectedEmpId = async (event) => {
     const Status=this.state.selected_employee_status ? this.state.selected_employee_status.value : 0
     // })
 
-    fetch(main_url + "payroll_report/payrollReportSummary/"+Date+"/"+regionId+"/"+branchId+"/"+departmentId+'/'+Status+'/'+employee)
+    await fetch(main_url + "payroll_report/payrollReportSummary/"+Date+"/"+regionId+"/"+branchId+"/"+departmentId+'/'+Status+'/'+employee)
       .then((res) => {
         if (res.ok) return res.json();
       })
@@ -322,6 +323,7 @@ handleSelectedEmpId = async (event) => {
           dataSource: list,
         });
       });
+      this.getPayrollReportHeader();
   }
   render() {
     let filterData =
@@ -348,6 +350,8 @@ handleSelectedEmpId = async (event) => {
       d.length > 0 ? d[0] : 0
     );
     let FilterDeduction = finalDatasource.filter((v) => v.deduction.length > 0);
+    console.log("filter deduction",FilterDeduction)
+    
     let FilterAddition=finalDatasource.filter((v)=>v.addition.length > 0);
     let Deduction = [];
     let Addition=[]
@@ -367,6 +371,7 @@ handleSelectedEmpId = async (event) => {
         // Deduction.push(v.deduction.filter(d=>d.salary_payment_deduction_label == header.label).length > 0 && v.deduction.filter(d=>d.salary_payment_deduction_label == header.label)[0])
       });
     });
+    console.log("deduction",Deduction)
     FilterAddition.map((v) => {
       filterData.map((header) => {
         if (
@@ -383,7 +388,7 @@ handleSelectedEmpId = async (event) => {
         // Deduction.push(v.deduction.filter(d=>d.salary_payment_deduction_label == header.label).length > 0 && v.deduction.filter(d=>d.salary_payment_deduction_label == header.label)[0])
       });
     });
-    console.log("filter addition",Addition)
+    // console.log("filter addition",Addition)
     let totalDeductionData = Deduction.reduce((r, c) => {
       let R = [...r];
       const index = R.findIndex(
@@ -400,6 +405,7 @@ handleSelectedEmpId = async (event) => {
       }
       return R;
     }, []);
+    // console.log("total Deduction data",totalDeductionData)
     let totalAdditionData = Addition.reduce((r, c) => {
       let R = [...r];
       const index = R.findIndex(
@@ -416,7 +422,7 @@ handleSelectedEmpId = async (event) => {
       }
       return R;
     }, []);
-    console.log("value in deduction is =============>", totalAdditionData);
+    // console.log("value in deduction is =============>", totalAdditionData);
   
     return (
       <div>
