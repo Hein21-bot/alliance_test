@@ -430,22 +430,24 @@ handleSelectedEmpId = async (event) => {
         <h3 className="">Payroll Details Report</h3>
         
           <div style={{overflow:'scroll'}}>
-          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-          <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 0px' }}>
+          <div className="row" style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+          
+          <div className='col-md-11' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 0px' }}>
+          <div className="col-md-3">
           <DatePicker
                             dateFormat="YYYY-MM"
                             value={this.state.date}
                             onChange={this.handleSelectedDate}
                             timeFormat={false}
                         />
-          <Select
+          </div>
+         <div className="col-md-3">
+         <Select
               styles={{
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150,
-                  marginRight:10,
-                  marginLeft:10
+                  
                 }),
                 control: base => ({
                   ...base,
@@ -460,13 +462,14 @@ handleSelectedEmpId = async (event) => {
               className='react-select-container'
               classNamePrefix="react-select"
             />
-            <Select
+         </div>
+           <div className="col-md-3">
+           <Select
               styles={{
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150,
-                  marginRight:10
+                 
                 }),
                 control: base => ({
                   ...base,
@@ -481,13 +484,14 @@ handleSelectedEmpId = async (event) => {
               className='react-select-container'
               classNamePrefix="react-select"
             />
+           </div>
+            <div className="col-md-3">
             <Select
               styles={{
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150,
-                  marginRight:10
+                  
                 }),
                 control: base => ({
                   ...base,
@@ -502,13 +506,14 @@ handleSelectedEmpId = async (event) => {
               className="react-select-container"
               classNamePrefix="react-select"
             />
-             <Select
+            </div>
+            <div className="col-md-3">
+            <Select
               styles={{
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150,
-                  marginRight:10
+                  
                 }),
                 control: base => ({
                   ...base,
@@ -523,14 +528,14 @@ handleSelectedEmpId = async (event) => {
               className='react-select-container'
               classNamePrefix="react-select"
             />
+            </div>
+            <div className="col-md-3">
             <Select
                                 styles={{
                                     container: base => ({
                                         ...base,
                                         //   flex: 1
-                                        width: 150,
-                                        paddingLeft: 10,
-                                        paddingRight: 10
+                                       
                                     }),
                                     control: base => ({
                                         ...base,
@@ -545,14 +550,14 @@ handleSelectedEmpId = async (event) => {
                                 className='react-select-container'
                                 classNamePrefix="react-select"
                             />
-                            <Select
+            </div>
+            <div className="col-md-3">
+            <Select
                                 styles={{
                                     container: base => ({
                                         ...base,
                                         //   flex: 1
-                                        width: 160,
-                                        paddingLeft: 10,
-                                        paddingRight: 10
+                                        
                                     }),
                                     control: base => ({
                                         ...base,
@@ -567,9 +572,12 @@ handleSelectedEmpId = async (event) => {
                                 className='react-select-container'
                                 classNamePrefix="react-select"
                             />
-            <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
+            </div>
+            <div className="col-md-3">
+            <button className='btn btn-primary text-center' onClick={() => this.handleSearchData()}>Search</button>
+            </div>
           </div>
-          <div>
+          <div className="col-md-1 btn-rightend">
           <ReactHTMLTableToExcel 
                     className="btn-excel"
                     table="payroll_details_report"
@@ -578,6 +586,7 @@ handleSelectedEmpId = async (event) => {
                     sheet="Sheet"
                     />
           </div>
+          
           </div>
         
           <table
