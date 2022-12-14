@@ -380,18 +380,6 @@ class SalaryHistoryReport extends Component {
                         </td>
                       );
                     })}
-                    {/* {v1.designations.map((designation, i) => {
-                      return (
-                        <>
-                          <td style={{ borderColor: "white" }}>
-                            {" "}
-                            {designation.gender[0].toLowerCase() == "female"
-                              ? designation.gender[1]
-                              : 0}
-                          </td>
-                        </>
-                      );
-                    })} */}
                   </tr>
                 );
               })}
