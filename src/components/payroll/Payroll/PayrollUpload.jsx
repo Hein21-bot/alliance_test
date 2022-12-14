@@ -29,7 +29,7 @@ export default class PayrollUpload extends Component {
       activeStep: 0,
       completed: 0,
       steps: [],
-      loading:false,
+      loading: false,
       step_name: null,
       newDoc: [],
       dataSource: [],
@@ -175,6 +175,15 @@ export default class PayrollUpload extends Component {
             dataSource: res,
           });
           this._setTableData(res);
+        }else{
+          toast.error(moment(this.props.filterDate).format("YYYY-MM")+"payroll is already calculate!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
         }
       });
   };
@@ -232,6 +241,7 @@ export default class PayrollUpload extends Component {
     formdata.append("uploadfile", imagedata);
     formdata.append("data", this.state.steps[this.state.activeStep]);
     let status = 0;
+    let statusText='';
     fetch(
       main_url +
         "payrollCalculate/addPayroll/" +
@@ -243,16 +253,25 @@ export default class PayrollUpload extends Component {
     )
       .then((res) => {
         status = res.status;
-        return res.json();
+        statusText=res.statusText;
+       
+        console.log("here ======>?", res.statusText)
+        if(res.ok){
+          return res.json()
+        }else{
+          return res.text();
+        }
+        
       })
       .then(async (response) => {
-        console.log("api response======>", response);
+        console.log("response",response);
         if (status == 200) {
           console.log("ma thi bu chit tal");
           this.setState({ dataSource: response, loading: false });
           await this._setTableData(response);
-        } else {
-          toast.error("Fail to Save Information", {
+        } else if(status == 400){
+          console.log('error======>')
+          toast.error(moment(this.props.filterDate).format("YYYY-MM")+"payroll is already calculate!", {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -264,7 +283,10 @@ export default class PayrollUpload extends Component {
             loading: false,
           });
         }
+      }).catch(err=>{
+        console.log("error",err)
       });
+      console.log("status", status);
     this.setState(
       {
         newDoc: [],
@@ -362,49 +384,81 @@ export default class PayrollUpload extends Component {
               ))}
             </Stepper>
             {this.state.steps[this.state.activeStep] == "SSC" ? (
-              <div
-                className="col-md-12 col-lg-12"
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  marginTop: 10,
-                }}
-              >
-                <button
-                  className="btn btn-primary"
-                  style={{ minWidth: "100px", margin: 5 }}
-                  id="saving_button"
-                  type="button"
-                  onClick={this.handleBackSSC}
-                >
-                  Back
-                </button>
-                <button
-                  className="btn btn-primary"
-                  style={{ minWidth: "100px", margin: 5 }}
-                  id="saving_button"
-                  type="button"
-                  onClick={this.handleFetchSSCData}
-                >
-                  Fetch SSC
-                </button>
-                <button
-                  className="btn btn-primary"
-                  style={{ minWidth: "100px", margin: 5 }}
-                  id="saving_button"
-                  type="button"
-                  onClick={this.handleNextSSC}
-                >
-                  Next
-                  {/* {this.state.steps.length == this.state.activeStep + 1 ? 'Preview Data' : 'Next'} */}
-                </button>
+              this.state.loading ? (
+                <h1 style={{ textAlign: "center" }}>Loading...</h1>
+              ) : (
+                <div>
+                  <div
+                    className="col-md-12 col-lg-12"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: 10,
+                    }}
+                  >
+                    <div>
+                      <label
+                        htmlFor="attachment"
+                        className="custom-file-label"
+                        style={{ marginTop: 50, marginRight: 20 }}
+                      >
+                        {steps[activeStep]}
+                      </label>
+                    </div>
+                    <div className="">
+                      <input
+                        className="dropZone"
+                        type="file"
+                        id="attachment"
+                        name="attachment"
+                        onChange={this.checkFiles.bind(this)}
+                      ></input>
+                    </div>
+                  </div>
+                  <div
+                    className="col-md-12 col-lg-12"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: 10,
+                    }}
+                  >
+                    <button
+                      className="btn btn-primary"
+                      style={{ minWidth: "100px", margin: 5 }}
+                      id="saving_button"
+                      type="button"
+                      onClick={this.handleBackSSC}
+                    >
+                      Back
+                    </button>
+                    <button
+                      className="btn btn-primary"
+                      style={{ minWidth: "100px", margin: 5 }}
+                      id="saving_button"
+                      type="button"
+                      onClick={this.handleFetchSSCData}
+                    >
+                      Fetch SSC
+                    </button>
+                    <button
+                      className="btn btn-primary"
+                      style={{ minWidth: "100px", margin: 5 }}
+                      id="saving_button"
+                      type="button"
+                      onClick={this.handleNextSSC}
+                    >
+                      Next
+                      {/* {this.state.steps.length == this.state.activeStep + 1 ? 'Preview Data' : 'Next'} */}
+                    </button>
+                  </div>
+                </div>
+              )
+            ) : this.state.loading ? (
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <h2>Loading...</h2>
               </div>
             ) : (
-              this.state.loading ? (
-                <div style={{ display: "flex", justifyContent: "center" }}>
-              <h2>Loading...</h2>
-            </div>
-              ) :(
               <div>
                 <div
                   className="col-md-12 col-lg-12"
@@ -483,7 +537,7 @@ export default class PayrollUpload extends Component {
                     </button>
                   )}
                 </div>
-              </div>)
+              </div>
             )}
           </Box>
           {this.state.dataSource.length > 0 ? (

@@ -227,14 +227,14 @@ class PayrollSummaryReportWithLocation extends Component {
       .then(async list => {
         // console.log('list data ====>', list)
        if(list.length > 0){
-        console.log("list",list)
+        // console.log("list",list)
         var additionMax =list.reduce((a, b)=> {
           if(b.addition){
             return b.addition.length>a.addition.length? b: a
           }
           //return Math.max(a, b.addition?b.addition.length:0);
         },{addition:[]});
-        console.log('additionMax',additionMax)
+        // console.log('additionMax',additionMax)
         var additionTemp = [];
         await additionMax.length > 0 && additionMax.addition.length > 0 && additionMax.addition.map((v,i) => {
           var obj = {}
@@ -250,7 +250,7 @@ class PayrollSummaryReportWithLocation extends Component {
           }
          
         },{deduction:[]});
-        console.log(deductionMax,'deductionMax')
+        // console.log(deductionMax,'deductionMax')
         var deductionTemp = [];
         await deductionMax.length > 0 && deductionMax.deduction.length > 0 && deductionMax.deduction.map((v,i) => {
           var obj = {}
@@ -287,8 +287,59 @@ class PayrollSummaryReportWithLocation extends Component {
           "total": 0
       }
       }
+      const getAllTemplate = (empType) => {
+        return {
+       
+        "name":empType,
+        "addition":[...additionTemp],
+        "total_amount": 0,
+        "gross_salary": 0,
+        "deduction_addition_data": 0,
+        "after_deduction_or_addition": 0,
+        "deduction":[...deductionTemp],
+        "ssc":[
+          {
+          "Employer_2": 0,
+          "Employee_3": 0
+          }
+          ],
+          "net_salary": 0,
+          "total_gross_salary": 0,
+          "deductionTotal": 0,
+          "additionTotal": 0,
+          "total": 0
+      }
+      }
 
       //  console.log(list)
+      let formatData = list.reduce((r, c) => {
+        let R = [...r];
+        const index = R.findIndex(
+          (v) =>
+            v.name == c.name
+        );
+        if (index == -1) {
+          R.push({
+            name: c.name,
+            empType: [c],
+          });
+        } else {
+          R[index].empType.push(c);
+        }
+        return R;
+      }, []);
+      console.log("formatdata",formatData)
+      let arrary=[];
+      formatData.map((v)=>{
+        let Permanent=formatData.filter((d)=>d.name == 'Permanent')
+        let PartTime=formatData.filter((d)=>d.name == 'Part Time')
+        let Training=formatData.filter((d)=>d.name == 'Training')
+        if(Permanent){
+            arrary.push(Permanent)
+        }else{
+          array.push( getTemplatePartTime(empType.Permanent))
+        }
+      })
        const formatD= list.length >0 ? list.reduce((r,c)=>{
             let R={...r};
             if(!R[c.location_master_name]){
@@ -330,8 +381,8 @@ class PayrollSummaryReportWithLocation extends Component {
           let listAllowance = [];
           let arrAllowance = []
           arr.map(v=>{
-            console.log("addition temp",v)
-            console.log("addition",v.addition)
+            // console.log("addition temp",v)
+            // console.log("addition",v.addition)
             v.addition.forEach(additionObj => {
               if(!listAllowance[additionObj.salary_payment_allowance_label]){
                 listAllowance[additionObj.salary_payment_allowance_label] = 0;
@@ -344,8 +395,8 @@ class PayrollSummaryReportWithLocation extends Component {
             arrAllowance.push({"salary_payment_allowance_label":key, salary_payment_allowance_value: listAllowance[key]});
           }
 
-          console.log("ta ku ku", arrAllowance);
-          console.log('list allowance',listAllowance)
+          // console.log("ta ku ku", arrAllowance);
+          // console.log('list allowance',listAllowance)
           let listDeduction = [];
           let arrDeduction = [];
           arr.map(v=>{
@@ -419,7 +470,7 @@ class PayrollSummaryReportWithLocation extends Component {
   }
   
   render() {
-    console.log('final data',this.state.FinalData)
+    // console.log('final data',this.state.FinalData)
     let filterData =
     this.state.ReportHeader &&
     this.state.ReportHeader.filter(
@@ -440,7 +491,7 @@ class PayrollSummaryReportWithLocation extends Component {
      
   );
   
-  console.log("filter income tax",filterIncomeTax)
+  // console.log("filter income tax",filterIncomeTax)
   
   let Deduction = [];
   let Addition=[]
@@ -514,7 +565,7 @@ class PayrollSummaryReportWithLocation extends Component {
     }
     return R;
   }, []);
-  console.log("value in deduction is =============>", totalAdditionData);
+  // console.log("value in deduction is =============>", totalAdditionData);
     return (
       <div>
         <div className="row  white-bg dashboard-header">

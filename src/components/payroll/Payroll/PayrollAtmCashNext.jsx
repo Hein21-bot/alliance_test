@@ -27,14 +27,14 @@ class EmployeeReport extends Component {
       selected_branch: "",
       selected_department:'',
       steps:[],
-      FinalData:[]
+      FinalData:[],
+      loading:false
     
     }
   }
 
   async componentDidMount() {
    if(this.props.filterDate){
-    // this.handleSearchData();
     this.getBranchList();
     this.getRegionList();
     this.getDepartmentList();
@@ -46,7 +46,20 @@ class EmployeeReport extends Component {
         dataSource: this.props.data,
 
       }
+    
     );
+    fetch(main_url + 'payroll/getReviewDetailData/'+moment(this.props.filterDate).format('YYYY-MM')+'/0/0/0/0/0')
+    .then(res => { if (res.ok) {
+      this.setState({
+        loading:false
+      })
+      return res.json() }})
+    .then(list => {
+      this.setState({
+        FinalData:list
+      })
+      this._setTableData(list);
+    })
     
   }
   
@@ -221,12 +234,19 @@ class EmployeeReport extends Component {
     
   }
   handleSearchData = () => {
+    this.setState({
+      loading:true
+    })
     let region = this.state.selected_region ? this.state.selected_region.value : 0;
      let   department  = this.state.selected_department ? this.state.selected_department.value : 0
       let  branch  = this.state.selected_branch ? this.state.selected_branch.value : 0
 
     fetch(main_url + 'payroll/getReviewDetailData/'+moment(this.props.filterDate).format('YYYY-MM')+'/'+region+'/'+department+'/0/'+branch+'/0')
-      .then(res => { if (res.ok) return res.json() })
+      .then(res => { if (res.ok) {
+        this.setState({
+          loading:false
+        })
+        return res.json() }})
       .then(list => {
         this.setState({
           FinalData:list
@@ -237,7 +257,9 @@ class EmployeeReport extends Component {
   render() { console.log(this.state.selected_branch);
     return (
       <div>
-        <div className="row  white-bg dashboard-header">
+        {
+          this.state.loading ? <h1 style={{textAlign:'center'}}>Loading...</h1> : (
+            <div className="row  white-bg dashboard-header">
         <h3 className="" style={{paddingLeft:"10px"}}>Payroll Generate</h3>
                 
                 <div style={{ marginBottom: 20 }}>
@@ -316,6 +338,8 @@ class EmployeeReport extends Component {
           id="dataTables-table"
         />
       </div>
+          )
+        }
       </div>
     )
   }
