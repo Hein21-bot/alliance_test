@@ -9,7 +9,7 @@ import {
 } from "../../../utils/CommonFunction";
 import "react-toastify/dist/ReactToastify.min.css";
 import { toast, ToastContainer } from "react-toastify";
-import ApprovalForm1 from "../../Common/ApprovalForm1";
+import ApprovalForm1 from "../../Common/ApprovalForm";
 import DatePicker from "react-datetime";
 import {
   getUserId,
@@ -47,7 +47,7 @@ export default class ResignOrDismissSalaryEdit extends Component {
 
   async componentDidMount() {
     await this.getExitStatus();
-    var work_flow = await getWorkFlowStatus(this.state.dataSource.user_id, this.state.updatedBy, 'Child Benefit', 'Benefit');
+    var work_flow = await getWorkFlowStatus(this.state.dataSource.user_id, this.state.updatedBy, 'ResignOrDismiss', 'ResignOrDismiss');
     this.setState({
         work_flow_status: work_flow,
         is_main_role: havePermission(work_flow)

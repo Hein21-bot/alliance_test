@@ -10,8 +10,8 @@ export default class ApprovalInformation extends Component {
         }
     }
 
-    render() { 
-        let info = this.state.info;
+    render() {  
+        let info = this.props.status;
         return (
             <div className="main-info">
                 <div className="header-info col-md-12">

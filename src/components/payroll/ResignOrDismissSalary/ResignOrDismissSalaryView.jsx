@@ -1,5 +1,7 @@
-import moment from "moment";
 import React, { Component } from "react";
+import moment from "moment";
+import { main_url } from "../../../utils/CommonFunction";
+import ApprovalInformation from '../../Common/ApprovalInformation';
 
 export default class ResignOrDismissSalaryView extends Component {
   constructor(props) {
@@ -8,8 +10,20 @@ export default class ResignOrDismissSalaryView extends Component {
       dataSource: null,
     };
   }
-
-  render() {
+  componentDidMount(){
+    this.getStatusInfo()
+  }
+  getStatusInfo() {
+    fetch(`${main_url}resign_or_dismiss/getOneDetailInfo/${this.props.dataSource.id}`)
+        .then(res => res.json())
+        .then(res => {
+            this.setState({
+                status_info: res
+            })
+        })
+        .catch(error => console.log(error))
+}
+  render() { 
     const {
       request_month,
       employment_id,
@@ -270,6 +284,14 @@ export default class ResignOrDismissSalaryView extends Component {
             />
           </div>
         </div>
+        {
+                            !Array.isArray(this.state.status_info) ?
+
+                                <div className="row approval-main margin-top-20">
+                                    <ApprovalInformation status={this.state.status_info} />
+                                </div>
+                                : ''
+                        }
       </div>
     );
   }

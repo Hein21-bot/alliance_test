@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import moment from "moment";
 import PayrollPageHeader from "../payrollHeader";
 import {
   main_url,
@@ -39,7 +40,7 @@ class ResignOrDismissSalaryMain extends Component {
   }
 
   getResignOrDismissData() {
-    fetch(`${main_url}resign_or_dismiss/get_resign_or_dismiss/${this.state.user_id}`)
+    fetch(`${main_url}resign_or_dismiss/get_resign_or_dismiss/0/0/0/${moment(this.state.selected_month).format('YYYY-MM')}/${this.state.user_id}`)
       .then((response) => {
         if (response.ok) return response.json();
       })
