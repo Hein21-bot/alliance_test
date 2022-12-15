@@ -40,7 +40,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
         requestMonth: new Date(),
         lastWorkingDay: new Date(),
         grossSalary: null,
-        deductionOrAddition: "",
+        deductionOrAddition: 0,
         salaryAfterDorA: 0,
         ssc3: 0,
         ssc2: 0,
@@ -201,6 +201,8 @@ export default class ResignOrDismissSalaryAddNew extends Component {
       this.state.userInfo.basic_salary + parseFloat(newValue);
     newData.deductionOrAddition = newValue;
     newData.ssc3 = newData.salaryAfterDorA * 0.03;
+    newData.ssc2 = newData.salaryAfterDorA * 0.02;
+
     // newData.ssc2 = this.state.userInfo.basic_salary >= 300000 ? 300000*0.02 : this.state.userInfo.basic_salary * 0.02
     newData.totalSalary =
       newData.salaryAfterDorA -
@@ -307,7 +309,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
           requestMonth: new Date(),
           lastWorkingDay: new Date(),
           grossSalary: null,
-          deductionOrAddition: "",
+          deductionOrAddition: 0,
           salaryAfterDorA: 0,
           ssc3: 0,
           ssc2: 0,
@@ -561,6 +563,8 @@ export default class ResignOrDismissSalaryAddNew extends Component {
           },()=>{
             const newData = this.state.addNewData;
           newData.ssc2 = this.state.userInfo.basic_salary >= 300000 ? 300000*0.02 : this.state.userInfo.basic_salary * 0.02
+          newData.ssc3 = this.state.userInfo.basic_salary >= 300000 ? 300000*0.03 : this.state.userInfo.basic_salary * 0.03
+          newData.salaryAfterDorA=this.state.userInfo.basic_salary
           this.setState({ addNewData: newData });
           });
         }
@@ -729,7 +733,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
                     <div className="col-md-3">
                       <label>Deduciton or Addition</label>
                       <input
-                        className="form-control checkValidate"
+                        className="form-control"
                         type="number"
                         data-name="deductionOrAddition"
                         value={addNewData.deductionOrAddition}
@@ -757,7 +761,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
                         disabled
                         type="number"
                         data-name="ssc3"
-                        value={addNewData.ssc3}
+                        value={addNewData.ssc3 ? addNewData.ssc3 : addNewData.SSC_employer}
                       />
                     </div>
                     <div className="col-md-3">
@@ -767,7 +771,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
                         disabled
                         type="number"
                         data-name="ssc2"
-                        value={addNewData.ssc2}
+                        value={addNewData.ssc2 ? addNewData.ssc2 : addNewData.SSC_employee}
                       />
                     </div>
                     <div className="col-md-3">
