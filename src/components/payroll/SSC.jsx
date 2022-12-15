@@ -39,6 +39,8 @@ export default class SSC extends Component {
       selectedDesign: { label: "All", value: 0 },
       selectedBranch: { label: "All", value: 0 },
       month: new Date(),
+      selectedBranchMain:null,
+      selectedBranchMainList: [],
     };
   }
 
@@ -177,6 +179,7 @@ export default class SSC extends Component {
       month: e,
     });
   };
+ 
 
   // checkFiles(e) {
   //   var files = document.getElementById("attachment").files;
@@ -215,7 +218,22 @@ export default class SSC extends Component {
   handleCalculate = () => {
     let month = moment(this.state.month).format("YYYY-MM");
     let status = 0;
-    fetch(main_url + `sscCalculate/addSsc/${month}`)
+    
+    const branch = this.state.selectedBranchMain ? this.state.selectedBranchMain.value : 0;
+    fetch(main_url + `sscCalculate/addSsc/${month}`,{
+      
+        // method: "POST",
+        // headers: {
+        //   'Content-Type': 'application/json',
+        // },
+        // // body: `data=${JSON.stringify(this.state.selectedBranchMain.value)}`,
+        // body: `data=${branch}`,
+        method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify(this.state.selectedBranchMainList),
+    })
       .then((res) => {
         status = res.status;
         return res.json();
@@ -231,6 +249,18 @@ export default class SSC extends Component {
       .catch((err) => {
         console.log("error =====>", err);
       });
+  };
+  handleSelectBranchMain = (event) => {
+    if (event !== null) {
+      this.setState({
+        selectedBranchMain: event,
+        selectedBranchMainList: event.map((v) => v.value),
+      });
+    } else {
+      this.setState({
+        selectedBranchMain: "",
+      });
+    }
   };
 
   handleSearch = () => {
@@ -368,6 +398,7 @@ export default class SSC extends Component {
   };
 
   render() {
+    console.log("selected branch main",this.state.selectedBranchMain && this.state.selectedBranchMain.value)
     const {
       regionList,
       departmentList,
@@ -378,13 +409,14 @@ export default class SSC extends Component {
       selectedDept,
       selectedDesign,
       month,
+      selectedBranchMain
     } = this.state;
     return (
       <div>
         {/* <div className="d-flex row justify-content-center align-item-center"> */}
         <div className="col-md-12 col-lg-12" style={{marginBottom:10}}>
           <div className="form-horizontal" name="demo-form">
-            <div className="row">
+            <div className="row" style={{display:'flex',justifyContent:'center',alignItems:'end'}}>
               <div className="col-md-4">
                 <label>Month</label>
                 <DatePicker
@@ -394,6 +426,28 @@ export default class SSC extends Component {
                   onChange={this.onMonthChange.bind(this)}
                 />
               </div>
+              <div className="col-md-4">
+                  <label>Remove Branch</label>
+                  <Select
+                    options={branchList}
+                    name="selecttitle"
+                    // isOptionDisabled={(workingDayOptions) => workingDayOptions.disabled}
+                    onChange={this.handleSelectBranchMain}
+                    value={selectedBranchMain}
+                    isClearable={true}
+                    isSearchable={true}
+                    className="react-select-container checkValidate"
+                    classNamePrefix="react-select"
+                    isMulti
+                    styles={{
+                      control: (provided) => ({
+                        ...provided,
+
+                        cursor: "pointer",
+                      }),
+                    }}
+                  />
+                </div>
               <div className="col-md-4">
                 <button
                   className="btn-primary btn"
@@ -405,7 +459,7 @@ export default class SSC extends Component {
               </div>
             </div>
 
-            <div className="row">
+            <div className="row" style={{marginTop:10}}>
               <div className="col-md-4">
                 <label>Region</label>
                 <Select
@@ -437,7 +491,7 @@ export default class SSC extends Component {
                 />
               </div>
             </div>
-            <div className="row">
+            <div className="row" style={{marginTop:10}}>
               <div className="col-md-4">
                 <label>Branch</label>
                 <Select
@@ -502,6 +556,7 @@ export default class SSC extends Component {
     );
   }
 }
+
 
 const tableTempData = [
   {
