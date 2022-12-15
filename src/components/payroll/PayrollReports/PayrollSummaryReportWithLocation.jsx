@@ -80,7 +80,12 @@ class PayrollSummaryReportWithLocation extends Component {
       ],
       ReportHeader:[],
       additionMax:null,
-      deductionMax:null
+      deductionMax:null,
+      AllDetail:{},
+      PermanentDetail:{},
+      PartTimeDetail:{},
+      TrainingDetail:{},
+      grandTotal:0
     };
   }
 
@@ -268,12 +273,12 @@ class PayrollSummaryReportWithLocation extends Component {
         return {
         "location_master_name":branch,
         "name":empType,
-        "addition":[...additionTemp],
+        "addition": (additionTemp!= undefined && additionTemp.length > 0) ? [...additionTemp] : [],
         "total_amount": 0,
         "gross_salary": 0,
         "deduction_addition_data": 0,
         "after_deduction_or_addition": 0,
-        "deduction":[...deductionTemp],
+        "deduction":(deductionTemp!= undefined && deductionTemp.length > 0) ? [...deductionTemp] : [],
         "ssc":[
           {
           "Employer_2": 0,
@@ -288,26 +293,29 @@ class PayrollSummaryReportWithLocation extends Component {
       }
       }
       const getAllTemplate = (empType) => {
+        console.log('addition temp is ==========>', additionTemp)
         return {
        
         "name":empType,
-        "addition":[...additionTemp],
-        "total_amount": 0,
-        "gross_salary": 0,
-        "deduction_addition_data": 0,
-        "after_deduction_or_addition": 0,
-        "deduction":[...deductionTemp],
-        "ssc":[
-          {
-          "Employer_2": 0,
-          "Employee_3": 0
-          }
-          ],
-          "net_salary": 0,
-          "total_gross_salary": 0,
-          "deductionTotal": 0,
-          "additionTotal": 0,
-          "total": 0
+        "empType":[{
+          "addition": (additionTemp!= undefined && additionTemp.length > 0) ? [...additionTemp] : [],
+          "total_amount": 0,
+          "gross_salary": 0,
+          "deduction_addition_data": 0,
+          "after_deduction_or_addition": 0,
+          "deduction":(deductionTemp!= undefined && deductionTemp.length > 0) ? [...deductionTemp] : [],
+          "ssc":[
+            {
+            "Employer_2": 0,
+            "Employee_3": 0
+            }
+            ],
+            "net_salary": 0,
+            "total_gross_salary": 0,
+            "deductionTotal": 0,
+            "additionTotal": 0,
+            "total": 0
+        }]
       }
       }
 
@@ -329,17 +337,305 @@ class PayrollSummaryReportWithLocation extends Component {
         return R;
       }, []);
       console.log("formatdata",formatData)
-      let arrary=[];
-      formatData.map((v)=>{
-        let Permanent=formatData.filter((d)=>d.name == 'Permanent')
-        let PartTime=formatData.filter((d)=>d.name == 'Part Time')
-        let Training=formatData.filter((d)=>d.name == 'Training')
+      let tempArr=[];
+        let Permanent=formatData.filter((d)=>d.name == 'Permanent') && formatData.filter((d)=>d.name == 'Permanent')[0]
+        console.log("permanent",Permanent);
+        let PartTime=formatData.filter((d)=>d.name == 'Part Time') && formatData.filter((d)=>d.name == 'Part Time')[0]
+        console.log("part time",PartTime);
+        let Training=formatData.filter((d)=>d.name == 'Training') && formatData.filter((d)=>d.name == 'Training')[0]
+        console.log('Training',Training);
         if(Permanent){
-            arrary.push(Permanent)
+            tempArr.push(Permanent)
         }else{
-          array.push( getTemplatePartTime(empType.Permanent))
+          tempArr.push( getAllTemplate(empType.Permanent))
         }
-      })
+        if(PartTime){
+          tempArr.push(PartTime)
+      }else{
+        tempArr.push( getAllTemplate(empType.PartTime))
+      }
+      if(Training){
+        tempArr.push(Training)
+    }else{
+      tempArr.push( getAllTemplate(empType.Training))
+    }
+      // formatData.map((v)=>{
+        
+      // })
+      console.log("array",tempArr)
+      let listAllAllowance = [];
+          let arrAllAllowance = []
+          list.map(v=>{
+            
+            v.addition.forEach(additionObj => {
+              if(!listAllAllowance[additionObj.salary_payment_allowance_label]){
+                listAllAllowance[additionObj.salary_payment_allowance_label] = 0;
+              }
+              listAllAllowance[additionObj.salary_payment_allowance_label] += additionObj.salary_payment_allowance_value;
+            });
+          
+          })
+          for (let key in listAllAllowance) {
+            arrAllAllowance.push({"salary_payment_allowance_label":key, salary_payment_allowance_value: listAllAllowance[key]});
+          }
+
+          let listAllDeduction = [];
+          let arrAllDeduction = [];
+          list.map(v=>{
+           
+            v.deduction.forEach(deductionObj => {
+              if(!listAllDeduction[deductionObj.salary_payment_deduction_label]){
+                listAllDeduction[deductionObj.salary_payment_deduction_label] = 0;
+              }
+              listAllDeduction[deductionObj.salary_payment_deduction_label] += deductionObj.salary_payment_deduction_value;
+            });
+          })
+          for (let key in listAllDeduction) {
+            arrAllDeduction.push({"salary_payment_deduction_label":key, salary_payment_deduction_value: listAllDeduction[key]});
+          }
+          let filterPermanent=tempArr.filter(v=>v.name == 'Permanent')
+          console.log('filter permanent',filterPermanent)
+          let listPermanentAllowance = [];
+          let arrPermanentAllowance = []
+          filterPermanent[0].empType.map(v=>{
+            
+            v.addition.forEach(additionObj => {
+              if(!listPermanentAllowance[additionObj.salary_payment_allowance_label]){
+                listPermanentAllowance[additionObj.salary_payment_allowance_label] = 0;
+              }
+              listPermanentAllowance[additionObj.salary_payment_allowance_label] += additionObj.salary_payment_allowance_value;
+            });
+          
+          })
+          for (let key in listPermanentAllowance) {
+            arrPermanentAllowance.push({"salary_payment_allowance_label":key, salary_payment_allowance_value: listPermanentAllowance[key]});
+          }
+
+          let listPermanentDeduction = [];
+          let arrPermanentDeduction = [];
+          filterPermanent[0].empType.map(v=>{
+           
+            v.deduction.forEach(deductionObj => {
+              if(!listPermanentDeduction[deductionObj.salary_payment_deduction_label]){
+                listPermanentDeduction[deductionObj.salary_payment_deduction_label] = 0;
+              }
+              listPermanentDeduction[deductionObj.salary_payment_deduction_label] += deductionObj.salary_payment_deduction_value;
+            });
+          })
+          for (let key in listPermanentDeduction) {
+            arrPermanentDeduction.push({"salary_payment_deduction_label":key, salary_payment_deduction_value: listPermanentDeduction[key]});
+          }
+
+          let filterPartTime=tempArr.filter(v=>v.name == 'Part Time')
+          let listPartTimeAllowance = [];
+          let arrPartTimeAllowance = []
+          filterPartTime[0].empType.map(v=>{
+            
+            v.addition.forEach(additionObj => {
+              if(!listPartTimeAllowance[additionObj.salary_payment_allowance_label]){
+                listPartTimeAllowance[additionObj.salary_payment_allowance_label] = 0;
+              }
+              listPartTimeAllowance[additionObj.salary_payment_allowance_label] += additionObj.salary_payment_allowance_value;
+            });
+          
+          })
+          for (let key in listPartTimeAllowance) {
+            arrPartTimeAllowance.push({"salary_payment_allowance_label":key, salary_payment_allowance_value: listPartTimeAllowance[key]});
+          }
+
+          let listPartTimeDeduction = [];
+          let arrPartTimeDeduction = [];
+          filterPartTime[0].empType.map(v=>{
+           
+            v.deduction.forEach(deductionObj => {
+              if(!listPartTimeDeduction[deductionObj.salary_payment_deduction_label]){
+                listPartTimeDeduction[deductionObj.salary_payment_deduction_label] = 0;
+              }
+              listPartTimeDeduction[deductionObj.salary_payment_deduction_label] += deductionObj.salary_payment_deduction_value;
+            });
+          })
+          for (let key in listPartTimeDeduction) {
+            arrPartTimeDeduction.push({"salary_payment_deduction_label":key, salary_payment_deduction_value: listPartTimeDeduction[key]});
+          }
+
+
+          let filterTraining=tempArr.filter(v=>v.name == 'Training')
+          let listTrainingAllowance = [];
+          let arrTrainingAllowance = []
+          filterTraining[0].empType.map(v=>{
+            
+            v.addition.forEach(additionObj => {
+              if(!listTrainingAllowance[additionObj.salary_payment_allowance_label]){
+                listTrainingAllowance[additionObj.salary_payment_allowance_label] = 0;
+              }
+              listTrainingAllowance[additionObj.salary_payment_allowance_label] += additionObj.salary_payment_allowance_value;
+            });
+          
+          })
+          for (let key in listTrainingAllowance) {
+            arrTrainingAllowance.push({"salary_payment_allowance_label":key, salary_payment_allowance_value: listTrainingAllowance[key]});
+          }
+
+          let listTrainingDeduction = [];
+          let arrTrainingDeduction = [];
+          filterTraining[0].empType.map(v=>{
+           
+            v.deduction.forEach(deductionObj => {
+              if(!listTrainingDeduction[deductionObj.salary_payment_deduction_label]){
+                listTrainingDeduction[deductionObj.salary_payment_deduction_label] = 0;
+              }
+              listTrainingDeduction[deductionObj.salary_payment_deduction_label] += deductionObj.salary_payment_deduction_value;
+            });
+          })
+          for (let key in listTrainingDeduction) {
+            arrTrainingDeduction.push({"salary_payment_deduction_label":key, salary_payment_deduction_value: listTrainingDeduction[key]});
+          }
+          
+        let PermanentDetail={
+          'name':'Permanent',
+          'empType':[{
+            "name":'Permanent',
+          'addition':[...arrPermanentAllowance],
+          'deduction':[...arrPermanentDeduction],
+          "total_amount": list.reduce((p,c)=>{return p+c.total_amount},0),
+          "gross_salary": list.reduce((p,c)=>{return p+c.gross_salary},0),
+          "deduction_addition_data": list.reduce((p,c)=>{return p+c.deduction_addition_data},0),
+          "after_deduction_or_addition": list.reduce((p,c)=>{return p+c.after_deduction_or_addition},0),
+          "ssc":[
+            {
+            "Employer_2": list.reduce((p,c)=>{
+              if(c.ssc.length > 0){
+                return p+c.ssc[0].Employer_2
+              }
+            },0),
+            "Employee_3": list.reduce((p,c)=>{
+              if(c.ssc.length >0){
+                return p+c.ssc[0].Employee_3
+              }
+              
+            },0)
+            }
+            ],
+            "net_salary": list.reduce((p,c)=>{return p+c.net_salary},0),
+            "total_gross_salary": list.reduce((p,c)=>{return p+c.total_gross_salary},0),
+            "deductionTotal": list.reduce((p,c)=>{return p+c.deductionTotal},0),
+            "additionTotal": list.reduce((p,c)=>{return p+c.additionTotal},0),
+            "total": list.reduce((p,c)=>{return p+c.total},0)
+          }]
+        }
+        console.log("Permanent detail",PermanentDetail)
+        let PartTimeDetail={
+          'name':'Part Time',
+          'empType':[{
+            "name":'Part Time',
+          'addition':[...arrPartTimeAllowance],
+          'deduction':[...arrPartTimeDeduction],
+          "total_amount": list.reduce((p,c)=>{return p+c.total_amount},0),
+          "gross_salary": list.reduce((p,c)=>{return p+c.gross_salary},0),
+          "deduction_addition_data": list.reduce((p,c)=>{return p+c.deduction_addition_data},0),
+          "after_deduction_or_addition": list.reduce((p,c)=>{return p+c.after_deduction_or_addition},0),
+          "ssc":[
+            {
+            "Employer_2": list.reduce((p,c)=>{
+              if(c.ssc.length > 0){
+                return p+c.ssc[0].Employer_2
+              }
+            },0),
+            "Employee_3": list.reduce((p,c)=>{
+              if(c.ssc.length >0){
+                return p+c.ssc[0].Employee_3
+              }
+              
+            },0)
+            }
+            ],
+            "net_salary": list.reduce((p,c)=>{return p+c.net_salary},0),
+            "total_gross_salary": list.reduce((p,c)=>{return p+c.total_gross_salary},0),
+            "deductionTotal": list.reduce((p,c)=>{return p+c.deductionTotal},0),
+            "additionTotal": list.reduce((p,c)=>{return p+c.additionTotal},0),
+            "total": list.reduce((p,c)=>{return p+c.total},0)
+          }]
+        }
+        console.log("PartTime detail",PartTimeDetail)
+        let TrainingDetail={
+          'name':'Training',
+          'empType':[{
+            "name":'Training',
+          'addition':[...arrTrainingAllowance],
+          'deduction':[...arrTrainingDeduction],
+          "total_amount": list.reduce((p,c)=>{return p+c.total_amount},0),
+          "gross_salary": list.reduce((p,c)=>{return p+c.gross_salary},0),
+          "deduction_addition_data": list.reduce((p,c)=>{return p+c.deduction_addition_data},0),
+          "after_deduction_or_addition": list.reduce((p,c)=>{return p+c.after_deduction_or_addition},0),
+          "ssc":[
+            {
+            "Employer_2": list.reduce((p,c)=>{
+              if(c.ssc.length > 0){
+                return p+c.ssc[0].Employer_2
+              }
+            },0),
+            "Employee_3": list.reduce((p,c)=>{
+              if(c.ssc.length >0){
+                return p+c.ssc[0].Employee_3
+              }
+              
+            },0)
+            }
+            ],
+            "net_salary": list.reduce((p,c)=>{return p+c.net_salary},0),
+            "total_gross_salary": list.reduce((p,c)=>{return p+c.total_gross_salary},0),
+            "deductionTotal": list.reduce((p,c)=>{return p+c.deductionTotal},0),
+            "additionTotal": list.reduce((p,c)=>{return p+c.additionTotal},0),
+            "total": list.reduce((p,c)=>{return p+c.total},0)
+          }]
+        }
+        console.log("Training detail",TrainingDetail)
+        let AllDetail={
+          'name':'All',
+          'empType':[{
+            "name":'All',
+          'addition':[...arrAllAllowance],
+          'deduction':[...arrAllDeduction],
+          "total_amount": list.reduce((p,c)=>{return p+c.total_amount},0),
+          "gross_salary": list.reduce((p,c)=>{return p+c.gross_salary},0),
+          "deduction_addition_data": list.reduce((p,c)=>{return p+c.deduction_addition_data},0),
+          "after_deduction_or_addition": list.reduce((p,c)=>{return p+c.after_deduction_or_addition},0),
+          "ssc":[
+            {
+            "Employer_2": list.reduce((p,c)=>{
+              if(c.ssc.length > 0){
+                return p+c.ssc[0].Employer_2
+              }
+            },0),
+            "Employee_3": list.reduce((p,c)=>{
+              if(c.ssc.length >0){
+                return p+c.ssc[0].Employee_3
+              }
+              
+            },0)
+            }
+            ],
+            "net_salary": list.reduce((p,c)=>{return p+c.net_salary},0),
+            "total_gross_salary": list.reduce((p,c)=>{return p+c.total_gross_salary},0),
+            "deductionTotal": list.reduce((p,c)=>{return p+c.deductionTotal},0),
+            "additionTotal": list.reduce((p,c)=>{return p+c.additionTotal},0),
+            "total": list.reduce((p,c)=>{return p+c.total},0)
+          }]
+        }
+        console.log("All detail",AllDetail)
+        // let DetailAll=AllDetail !=undefined && AllDetail.empType && AllDetail.empType.length > 0
+        // console.log("detail all",DetailAll) 
+        // let DetailPermanent=PermanentDetail !=undefined && PermanentDetail.empType && PermanentDetail.empType.length > 0 
+        // let DetailPartTime=PartTimeDetail !=undefined && PartTimeDetail.empType && PartTimeDetail.empType.length > 0 
+        // let DetailTraining=TrainingDetail !=undefined && TrainingDetail.empType && TrainingDetail.empType.length > 0 
+
+        let grandTotal=(AllDetail!=undefined && AllDetail.empType && AllDetail.empType.length > 0 && AllDetail.empType[0].total)
+        +(PermanentDetail!=undefined && PermanentDetail.empType && PermanentDetail.empType.length > 0 && PermanentDetail.empType[0].total)+(PartTimeDetail!=undefined && PartTimeDetail.empType && PartTimeDetail.empType.length > 0 && PartTimeDetail.empType[0].total)+(TrainingDetail!=undefined && TrainingDetail.empType && TrainingDetail.empType.length > 0 && TrainingDetail.empType[0].total)
+        this.setState({
+          AllDetail,PermanentDetail,PartTimeDetail,TrainingDetail,grandTotal
+        })
+
+
        const formatD= list.length >0 ? list.reduce((r,c)=>{
             let R={...r};
             if(!R[c.location_master_name]){
@@ -376,13 +672,10 @@ class PayrollSummaryReportWithLocation extends Component {
           if(train) arr.push(train)
           else arr.push( getTemplatePartTime(keys[index], empType.Training))
           
-          // let filterData=arr.filter(v=>v.deduction.length > 0)
-          // console.log("filter arrr",arr)
           let listAllowance = [];
           let arrAllowance = []
           arr.map(v=>{
-            // console.log("addition temp",v)
-            // console.log("addition",v.addition)
+            
             v.addition.forEach(additionObj => {
               if(!listAllowance[additionObj.salary_payment_allowance_label]){
                 listAllowance[additionObj.salary_payment_allowance_label] = 0;
@@ -395,12 +688,10 @@ class PayrollSummaryReportWithLocation extends Component {
             arrAllowance.push({"salary_payment_allowance_label":key, salary_payment_allowance_value: listAllowance[key]});
           }
 
-          // console.log("ta ku ku", arrAllowance);
-          // console.log('list allowance',listAllowance)
           let listDeduction = [];
           let arrDeduction = [];
           arr.map(v=>{
-            // console.log("addition",v.addition)
+           
             v.deduction.forEach(deductionObj => {
               if(!listDeduction[deductionObj.salary_payment_deduction_label]){
                 listDeduction[deductionObj.salary_payment_deduction_label] = 0;
@@ -470,6 +761,7 @@ class PayrollSummaryReportWithLocation extends Component {
   }
   
   render() {
+    console.log('state all detail',this.state.AllDetail!=undefined && this.state.AllDetail.empType && this.state.AllDetail.empType.length )
     // console.log('final data',this.state.FinalData)
     let filterData =
     this.state.ReportHeader &&
@@ -495,6 +787,14 @@ class PayrollSummaryReportWithLocation extends Component {
   
   let Deduction = [];
   let Addition=[]
+  let AllDeduction=[];
+  let AllAddition=[];
+  let PermanentDeduction=[];
+  let PermanentAddition=[];
+  let PartTimeDeduction=[];
+  let PartTimeAddition=[];
+  let TrainingDeduction=[];
+  let TrainingAddition=[];
   finalDatasource.map((v) => {
    v.employeeType.length > 0 && v.employeeType.map((v1)=>{
       filterData.map((header) => {
@@ -514,6 +814,138 @@ class PayrollSummaryReportWithLocation extends Component {
     })
     
   });
+  
+    this.state.AllDetail!=undefined && this.state.AllDetail.empType && this.state.AllDetail.empType.length > 0 && this.state.AllDetail.empType.map((v1)=>{
+       filterData.map((header) => {
+         if (
+           v1.deduction.filter(
+             (d) => d.salary_payment_deduction_label == header.label
+           ).length > 0
+         ) {
+           AllDeduction.push(
+             v1.deduction.filter(
+               (d) => d.salary_payment_deduction_label == header.label
+             )[0]
+           );
+         }
+         // Deduction.push(v.deduction.filter(d=>d.salary_payment_deduction_label == header.label).length > 0 && v.deduction.filter(d=>d.salary_payment_deduction_label == header.label)[0])
+       });
+     })
+     this.state.AllDetail!=undefined && this.state.AllDetail.empType && this.state.AllDetail.empType.length > 0 && this.state.AllDetail.empType.map((v1)=>{
+      filterData.map((header) => {
+        if (
+          v1.addition.filter(
+            (d) => d.salary_payment_allowance_label == header.label
+          ).length > 0
+        ) {
+          AllAddition.push(
+            v1.addition.filter(
+              (d) => d.salary_payment_allowance_label == header.label
+            )[0]
+          );
+        }
+        // Deduction.push(v.deduction.filter(d=>d.salary_payment_deduction_label == header.label).length > 0 && v.deduction.filter(d=>d.salary_payment_deduction_label == header.label)[0])
+      });
+    })
+    this.state.PermanentDetail!=undefined && this.state.PermanentDetail.empType && this.state.PermanentDetail.empType.length > 0 && this.state.PermanentDetail.empType.map((v1)=>{
+      filterData.map((header) => {
+        if (
+          v1.deduction.filter(
+            (d) => d.salary_payment_deduction_label == header.label
+          ).length > 0
+        ) {
+          PermanentDeduction.push(
+            v1.deduction.filter(
+              (d) => d.salary_payment_deduction_label == header.label
+            )[0]
+          );
+        }
+        // Deduction.push(v.deduction.filter(d=>d.salary_payment_deduction_label == header.label).length > 0 && v.deduction.filter(d=>d.salary_payment_deduction_label == header.label)[0])
+      });
+    })
+    this.state.PermanentDetail!=undefined && this.state.PermanentDetail.empType && this.state.PermanentDetail.empType.length > 0 && this.state.PermanentDetail.empType.map((v1)=>{
+     filterData.map((header) => {
+       if (
+         v1.addition.filter(
+           (d) => d.salary_payment_allowance_label == header.label
+         ).length > 0
+       ) {
+         PermanentAddition.push(
+           v1.addition.filter(
+             (d) => d.salary_payment_allowance_label == header.label
+           )[0]
+         );
+       }
+       // Deduction.push(v.deduction.filter(d=>d.salary_payment_deduction_label == header.label).length > 0 && v.deduction.filter(d=>d.salary_payment_deduction_label == header.label)[0])
+     });
+   })
+   this.state.PartTimeDetail!=undefined && this.state.PartTimeDetail.empType && this.state.PartTimeDetail.empType.length > 0 && this.state.PartTimeDetail.empType.map((v1)=>{
+    filterData.map((header) => {
+      if (
+        v1.deduction.filter(
+          (d) => d.salary_payment_deduction_label == header.label
+        ).length > 0
+      ) {
+        PartTimeDeduction.push(
+          v1.deduction.filter(
+            (d) => d.salary_payment_deduction_label == header.label
+          )[0]
+        );
+      }
+      // Deduction.push(v.deduction.filter(d=>d.salary_payment_deduction_label == header.label).length > 0 && v.deduction.filter(d=>d.salary_payment_deduction_label == header.label)[0])
+    });
+  })
+  this.state.PartTimeDetail!=undefined && this.state.PartTimeDetail.empType && this.state.PartTimeDetail.empType.length > 0 && this.state.PartTimeDetail.empType.map((v1)=>{
+   filterData.map((header) => {
+     if (
+       v1.addition.filter(
+         (d) => d.salary_payment_allowance_label == header.label
+       ).length > 0
+     ) {
+       PartTimeAddition.push(
+         v1.addition.filter(
+           (d) => d.salary_payment_allowance_label == header.label
+         )[0]
+       );
+     }
+     // Deduction.push(v.deduction.filter(d=>d.salary_payment_deduction_label == header.label).length > 0 && v.deduction.filter(d=>d.salary_payment_deduction_label == header.label)[0])
+   });
+ })
+ this.state.TrainingDetail!=undefined && this.state.TrainingDetail.empType && this.state.TrainingDetail.empType.length > 0 && this.state.TrainingDetail.empType.map((v1)=>{
+  filterData.map((header) => {
+    if (
+      v1.deduction.filter(
+        (d) => d.salary_payment_deduction_label == header.label
+      ).length > 0
+    ) {
+      TrainingDeduction.push(
+        v1.deduction.filter(
+          (d) => d.salary_payment_deduction_label == header.label
+        )[0]
+      );
+    }
+    // Deduction.push(v.deduction.filter(d=>d.salary_payment_deduction_label == header.label).length > 0 && v.deduction.filter(d=>d.salary_payment_deduction_label == header.label)[0])
+  });
+})
+this.state.TrainingDetail!=undefined && this.state.TrainingDetail.empType && this.state.TrainingDetail.empType.length > 0 && this.state.TrainingDetail.empType.map((v1)=>{
+ filterData.map((header) => {
+   if (
+     v1.addition.filter(
+       (d) => d.salary_payment_allowance_label == header.label
+     ).length > 0
+   ) {
+     TrainingAddition.push(
+       v1.addition.filter(
+         (d) => d.salary_payment_allowance_label == header.label
+       )[0]
+     );
+   }
+   // Deduction.push(v.deduction.filter(d=>d.salary_payment_deduction_label == header.label).length > 0 && v.deduction.filter(d=>d.salary_payment_deduction_label == header.label)[0])
+ });
+})
+     console.log('all deduction',AllDeduction)
+     
+   
   finalDatasource.map((v) => {
     v.employeeType.length > 0 && v.employeeType.map((v1)=>{
       filterData.map((header) => {
@@ -549,6 +981,7 @@ class PayrollSummaryReportWithLocation extends Component {
     }
     return R;
   }, []);
+  console.log("total deduction data",totalDeductionData)
   let totalAdditionData = Addition.reduce((r, c) => {
     let R = [...r];
     const index = R.findIndex(
@@ -717,23 +1150,327 @@ class PayrollSummaryReportWithLocation extends Component {
               </thead>
               <tbody>
                 {
-                  this.state.FinalData.map((v1,k)=>{
-                    return(
-                      <>
-                      {
-                        v1.employeeType.map((v2,k2)=>{
-                          return(
-                            <>
-                            <tr style={{textAlign:'center'}}>
-                              
-                            </tr>
-                            </>
-                          )
-                        })
-                      }
-                      </>
-                    )
-                  })
+                  this.state.FinalData!=undefined && this.state.FinalData.length > 0  ? <>
+                  <tr style={{textAlign:'center'}}>
+                  <td rowSpan={4} style={{verticalAlign:'middle'}}>All Alliance</td>
+                  <td style={{verticalAlign:'middle'}}>{this.state.AllDetail!=undefined && this.state.AllDetail.name}</td>
+                  {
+                    this.state.AllDetail!=undefined && this.state.AllDetail.empType && this.state.AllDetail.empType.length > 0 && this.state.AllDetail.empType.map((v)=>{
+                      return(
+                        <>
+                        <td style={{verticalAlign:'middle'}}>{v.gross_salary}</td>
+                        <td style={{verticalAlign:'middle'}}>{v.deduction_addition_data}</td>
+                        <td style={{verticalAlign:'middle'}}>{v.after_deduction_or_addition}</td>
+                        <td style={{verticalAlign:'middle'}}>{v.ssc && v.ssc.length > 0 && v.ssc[0].Employer_2}</td>
+                        <td style={{verticalAlign:'middle'}}>{v.ssc && v.ssc.length > 0 && v.ssc[0].Employee_3}</td>
+                        {v.deduction.length > 0 ? (
+                        v.deduction.filter(
+                          (v1) =>
+                            v1.salary_payment_deduction_label == "Income Tax"
+                        ).length > 0 ? (
+                          <td style={{verticalAlign:'midddle'}}>
+                            {
+                              v.deduction.filter(
+                                (v2) =>
+                                  v2.salary_payment_deduction_label ==
+                                  "Income Tax"
+                              )[0].salary_payment_deduction_value
+                            }
+                          </td>
+                        ) : (
+                          <td style={{verticalAlign:'middle'}}>0</td>
+                        )
+                      ) : (
+                        <td style={{textAlign:'center'}}>0</td>
+                      )}
+                      <td style={{verticalAlign:'middle'}}>{v.net_salary}</td>
+                      <td style={{verticalAlign:'middle'}}>{v.total_gross_salary}</td>
+                      {AllDeduction.map((a, i) => {
+                        return (
+                          <td style={{verticalAlign:'middle'}}>
+                            
+                            {v.deduction.length > 0 &&
+                            v.deduction.filter(
+                              (d) => d.salary_payment_deduction_label == a.salary_payment_deduction_label
+                            ).length > 0
+                              ? v.deduction.filter(
+                                  (d) =>
+                                    d.salary_payment_deduction_label == a.salary_payment_deduction_label
+                                )[0].salary_payment_deduction_value
+                              : 0}
+                           
+                          </td>
+                        );
+                      })}
+                       {AllAddition.map((a, i) => {
+                        return (
+                          <td style={{verticalAlign:'middle'}}>
+                            {v.addition.length > 0 &&
+                            v.addition.filter(
+                              (d) => d.salary_payment_allowance_label == a.salary_payment_allowance_label
+                            ).length > 0
+                              ? v.addition.filter(
+                                  (d) =>
+                                    d.salary_payment_allowance_label == a.salary_payment_allowance_label
+                                )[0].salary_payment_allowance_value
+                              : 0}
+                          </td>
+                        );
+                      })}
+                         <td style={{verticalAlign:'middle'}}>{v.total}</td>
+                         <td rowSpan={4} style={{verticalAlign:'middle'}}>{this.state.grandTotal}</td>     
+                        </>
+                      )
+                    })
+                  }
+                  {/* <td>{this.state.AllDetail.empType!=undefined && this.state.AllDetail.empType.length > 0 && this.state.AllDetail.empType[0].gross_salary}</td>
+                  <td>{this.state.AllDetail.empType!=undefined && this.state.AllDetail.empType.length > 0 && this.state.AllDetail.empType[0].deduction_addition_data}</td>
+                  <td>{this.state.AllDetail.empType!=undefined && this.state.AllDetail.empType.length > 0 && this.state.AllDetail.empType[0].after_deduction_or_addition}</td>
+                  <td>{this.state.AllDetail.empType!=undefined && this.state.AllDetail.empType.length > 0 && this.statt.AllDetail.empType[0].ssc[0].Employer_2}</td>
+                  <td>{this.state.AllDetail.empType!=undefined && this.state.AllDetail.empType.length > 0 && this.statt.AllDetail.empType[0].ssc[0].Employee_3}</td> */}
+                </tr>
+                <tr style={{textAlign:'center'}}>
+                 
+                  <td>{this.state.PermanentDetail!=undefined && this.state.PermanentDetail.name}</td>
+                  {
+                    this.state.PermanentDetail!=undefined && this.state.PermanentDetail.empType && this.state.PermanentDetail.empType.length > 0 && this.state.PermanentDetail.empType.map((v)=>{
+                      return(
+                        <>
+                        <td style={{verticalAlign:'middle'}}>{v.gross_salary}</td>
+                        <td style={{verticalAlign:'middle'}}>{v.deduction_addition_data}</td>
+                        <td style={{verticalAlign:'middle'}}>{v.after_deduction_or_addition}</td>
+                        <td style={{verticalAlign:'middle'}}>{v.ssc && v.ssc.length > 0 && v.ssc[0].Employer_2}</td>
+                        <td style={{verticalAlign:'middle'}}>{v.ssc && v.ssc.length > 0 && v.ssc[0].Employee_3}</td>
+                        {v.deduction.length > 0 ? (
+                        v.deduction.filter(
+                          (v1) =>
+                            v1.salary_payment_deduction_label == "Income Tax"
+                        ).length > 0 ? (
+                          <td style={{verticalAlign:'midddle'}}>
+                            {
+                              v.deduction.filter(
+                                (v2) =>
+                                  v2.salary_payment_deduction_label ==
+                                  "Income Tax"
+                              )[0].salary_payment_deduction_value
+                            }
+                          </td>
+                        ) : (
+                          <td style={{verticalAlign:'middle'}}>0</td>
+                        )
+                      ) : (
+                        <td style={{textAlign:'center'}}>0</td>
+                      )}
+                      <td style={{verticalAlign:'middle'}}>{v.net_salary}</td>
+                      <td style={{verticalAlign:'middle'}}>{v.total_gross_salary}</td>
+                      {PermanentDeduction.map((a, i) => {
+                        return (
+                          <td style={{verticalAlign:'middle'}}>
+                            
+                            {v.deduction.length > 0 &&
+                            v.deduction.filter(
+                              (d) => d.salary_payment_deduction_label == a.salary_payment_deduction_label
+                            ).length > 0
+                              ? v.deduction.filter(
+                                  (d) =>
+                                    d.salary_payment_deduction_label == a.salary_payment_deduction_label
+                                )[0].salary_payment_deduction_value
+                              : 0}
+                           
+                          </td>
+                        );
+                      })}
+                       {PermanentAddition.map((a, i) => {
+                        return (
+                          <td style={{verticalAlign:'middle'}}>
+                            {v.addition.length > 0 &&
+                            v.addition.filter(
+                              (d) => d.salary_payment_allowance_label == a.salary_payment_allowance_label
+                            ).length > 0
+                              ? v.addition.filter(
+                                  (d) =>
+                                    d.salary_payment_allowance_label == a.salary_payment_allowance_label
+                                )[0].salary_payment_allowance_value
+                              : 0}
+                          </td>
+                        );
+                      })}
+                         <td style={{verticalAlign:'middle'}}>{v.total}</td>
+                        </>
+                      )
+                    })
+                  }
+                  {/* <td>{this.state.AllDetail.empType!=undefined && this.state.AllDetail.empType.length > 0 && this.state.AllDetail.empType[0].gross_salary}</td>
+                  <td>{this.state.AllDetail.empType!=undefined && this.state.AllDetail.empType.length > 0 && this.state.AllDetail.empType[0].deduction_addition_data}</td>
+                  <td>{this.state.AllDetail.empType!=undefined && this.state.AllDetail.empType.length > 0 && this.state.AllDetail.empType[0].after_deduction_or_addition}</td>
+                  <td>{this.state.AllDetail.empType!=undefined && this.state.AllDetail.empType.length > 0 && this.statt.AllDetail.empType[0].ssc[0].Employer_2}</td>
+                  <td>{this.state.AllDetail.empType!=undefined && this.state.AllDetail.empType.length > 0 && this.statt.AllDetail.empType[0].ssc[0].Employee_3}</td> */}
+
+
+                  <td></td>
+                </tr>
+                <tr style={{textAlign:'center'}}>
+                 
+                  <td style={{verticalAlign:'middle'}}>{this.state.PartTimeDetail!=undefined && this.state.PartTimeDetail.name}</td>
+                  {
+                    this.state.PartTimeDetail!=undefined && this.state.PartTimeDetail.empType && this.state.PartTimeDetail.empType.length > 0 && this.state.PartTimeDetail.empType.map((v)=>{
+                      return(
+                        <>
+                        <td style={{verticalAlign:'middle'}}>{v.gross_salary}</td>
+                        <td style={{verticalAlign:'middle'}}>{v.deduction_addition_data}</td>
+                        <td style={{verticalAlign:'middle'}}>{v.after_deduction_or_addition}</td>
+                        <td style={{verticalAlign:'middle'}}>{v.ssc && v.ssc.length > 0 && v.ssc[0].Employer_2}</td>
+                        <td style={{verticalAlign:'middle'}}>{v.ssc && v.ssc.length > 0 && v.ssc[0].Employee_3}</td>
+                        {v.deduction.length > 0 ? (
+                        v.deduction.filter(
+                          (v1) =>
+                            v1.salary_payment_deduction_label == "Income Tax"
+                        ).length > 0 ? (
+                          <td style={{verticalAlign:'midddle'}}>
+                            {
+                              v.deduction.filter(
+                                (v2) =>
+                                  v2.salary_payment_deduction_label ==
+                                  "Income Tax"
+                              )[0].salary_payment_deduction_value
+                            }
+                          </td>
+                        ) : (
+                          <td style={{verticalAlign:'middle'}}>0</td>
+                        )
+                      ) : (
+                        <td style={{textAlign:'center'}}>0</td>
+                      )}
+                      <td style={{verticalAlign:'middle'}}>{v.net_salary}</td>
+                      <td style={{verticalAlign:'middle'}}>{v.total_gross_salary}</td>
+                      {PartTimeDeduction.map((a, i) => {
+                        return (
+                          <td style={{verticalAlign:'middle'}}>
+                            
+                            {v.deduction.length > 0 &&
+                            v.deduction.filter(
+                              (d) => d.salary_payment_deduction_label == a.salary_payment_deduction_label
+                            ).length > 0
+                              ? v.deduction.filter(
+                                  (d) =>
+                                    d.salary_payment_deduction_label == a.salary_payment_deduction_label
+                                )[0].salary_payment_deduction_value
+                              : 0}
+                           
+                          </td>
+                        );
+                      })}
+                       {PartTimeAddition.map((a, i) => {
+                        return (
+                          <td style={{verticalAlign:'middle'}}>
+                            {v.addition.length > 0 &&
+                            v.addition.filter(
+                              (d) => d.salary_payment_allowance_label == a.salary_payment_allowance_label
+                            ).length > 0
+                              ? v.addition.filter(
+                                  (d) =>
+                                    d.salary_payment_allowance_label == a.salary_payment_allowance_label
+                                )[0].salary_payment_allowance_value
+                              : 0}
+                          </td>
+                        );
+                      })}
+                         <td style={{verticalAlign:'middle'}}>{v.total}</td>
+                        </>
+                      )
+                    })
+                  }
+                  {/* <td>{this.state.AllDetail.empType!=undefined && this.state.AllDetail.empType.length > 0 && this.state.AllDetail.empType[0].gross_salary}</td>
+                  <td>{this.state.AllDetail.empType!=undefined && this.state.AllDetail.empType.length > 0 && this.state.AllDetail.empType[0].deduction_addition_data}</td>
+                  <td>{this.state.AllDetail.empType!=undefined && this.state.AllDetail.empType.length > 0 && this.state.AllDetail.empType[0].after_deduction_or_addition}</td>
+                  <td>{this.state.AllDetail.empType!=undefined && this.state.AllDetail.empType.length > 0 && this.statt.AllDetail.empType[0].ssc[0].Employer_2}</td>
+                  <td>{this.state.AllDetail.empType!=undefined && this.state.AllDetail.empType.length > 0 && this.statt.AllDetail.empType[0].ssc[0].Employee_3}</td> */}
+
+
+                  <td></td>
+                </tr>
+                <tr style={{textAlign:'center'}}>
+                 
+                 <td>{this.state.TrainingDetail!=undefined && this.state.TrainingDetail.name}</td>
+                 {
+                   this.state.TrainingDetail!=undefined && this.state.TrainingDetail.empType && this.state.TrainingDetail.empType.length > 0 && this.state.TrainingDetail.empType.map((v)=>{
+                     return(
+                       <>
+                       <td>{v.gross_salary}</td>
+                       <td>{v.deduction_addition_data}</td>
+                       <td>{v.after_deduction_or_addition}</td>
+                       <td>{v.ssc && v.ssc.length > 0 && v.ssc[0].Employer_2}</td>
+                       <td>{v.ssc && v.ssc.length > 0 && v.ssc[0].Employee_3}</td>
+                       {v.deduction.length > 0 ? (
+                       v.deduction.filter(
+                         (v1) =>
+                           v1.salary_payment_deduction_label == "Income Tax"
+                       ).length > 0 ? (
+                         <td style={{verticalAlign:'midddle'}}>
+                           {
+                             v.deduction.filter(
+                               (v2) =>
+                                 v2.salary_payment_deduction_label ==
+                                 "Income Tax"
+                             )[0].salary_payment_deduction_value
+                           }
+                         </td>
+                       ) : (
+                         <td style={{verticalAlign:'middle'}}>0</td>
+                       )
+                     ) : (
+                       <td style={{textAlign:'center'}}>0</td>
+                     )}
+                     <td>{v.net_salary}</td>
+                     <td>{v.total_gross_salary}</td>
+                     {TrainingDeduction.map((a, i) => {
+                       return (
+                         <td style={{verticalAlign:'middle'}}>
+                           
+                           {v.deduction.length > 0 &&
+                           v.deduction.filter(
+                             (d) => d.salary_payment_deduction_label == a.salary_payment_deduction_label
+                           ).length > 0
+                             ? v.deduction.filter(
+                                 (d) =>
+                                   d.salary_payment_deduction_label == a.salary_payment_deduction_label
+                               )[0].salary_payment_deduction_value
+                             : 0}
+                          
+                         </td>
+                       );
+                     })}
+                    
+                      {TrainingAddition.map((a, i) => {
+                       return (
+                         <td style={{verticalAlign:'middle'}}>
+                           {v.addition.length > 0 &&
+                           v.addition.filter(
+                             (d) => d.salary_payment_allowance_label == a.salary_payment_allowance_label
+                           ).length > 0
+                             ? v.addition.filter(
+                                 (d) =>
+                                   d.salary_payment_allowance_label == a.salary_payment_allowance_label
+                               )[0].salary_payment_allowance_value
+                             : 0}
+                         </td>
+                       );
+                     })}
+                        <td style={{verticalAlign:'middle'}}>{v.total}</td>
+                       </>
+                     )
+                   })
+                 }
+                 {/* <td>{this.state.AllDetail.empType!=undefined && this.state.AllDetail.empType.length > 0 && this.state.AllDetail.empType[0].gross_salary}</td>
+                 <td>{this.state.AllDetail.empType!=undefined && this.state.AllDetail.empType.length > 0 && this.state.AllDetail.empType[0].deduction_addition_data}</td>
+                 <td>{this.state.AllDetail.empType!=undefined && this.state.AllDetail.empType.length > 0 && this.state.AllDetail.empType[0].after_deduction_or_addition}</td>
+                 <td>{this.state.AllDetail.empType!=undefined && this.state.AllDetail.empType.length > 0 && this.statt.AllDetail.empType[0].ssc[0].Employer_2}</td>
+                 <td>{this.state.AllDetail.empType!=undefined && this.state.AllDetail.empType.length > 0 && this.statt.AllDetail.empType[0].ssc[0].Employee_3}</td> */}
+
+
+                 <td></td>
+               </tr>
+                  </> : null
                 }
 
                 {this.state.FinalData.map((v1, k) => {
