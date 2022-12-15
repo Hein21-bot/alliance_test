@@ -245,13 +245,15 @@ export default class LeaveManagementTable extends Component {
             else if (result.application_status === 9) {
                 reject_status = '<small class="label label-warning" style="background-color:#eb6b1c"> Cancel Reject</small>'
             } else {
-                if (result.cancel_verify != null) {
-                    reject_status = '<small class="label label-warning" style="background-color:#eb6b1c"> Cancel Verify</small>'
-                } else if (result.cancel_approve != null) {
-                    reject_status = '<small class="label label-warning" style="background-color:#eb6b1c"> Cancel Approve</small>'
-                } else if (result.cancel_reject) {
+                if (result.cancel_reject) {
                     reject_status = '<small class="label label-warning" style="background-color:#eb6b1c"> Cancel Reject</small>'
-                } else if (result.leave_cancel_apply_date != null) {
+                }
+                else if (result.cancel_approve != null) {
+                    reject_status = '<small class="label label-warning" style="background-color:#eb6b1c"> Cancel Approve</small>'
+                }
+                else if (result.cancel_verify != null) {
+                    reject_status = '<small class="label label-warning" style="background-color:#eb6b1c"> Cancel Verify</small>'
+                }  else if (result.leave_cancel_apply_date != null) {
                     reject_status = '<small class="label label-warning" style="background-color:#eb6b1c"> Cancel Request </small>'
                 }
             }
@@ -271,7 +273,7 @@ export default class LeaveManagementTable extends Component {
             if (this.state.tab == 2) {
                 obj.action =
                     '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>'
-                if (result.application_status < 5 || result.application_status == 8 || result.application_status == 9) {
+                if (result.application_status < 5 ||  result.application_status == 9) {
                     obj.action +=
                         '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>'
                 }

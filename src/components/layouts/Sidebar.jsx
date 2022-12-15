@@ -58,6 +58,9 @@ export default class Sidebar extends Component {
     if (pathname.includes("dashboard")) {
       return "/dashboard";
     }
+    if(pathname.includes('employee_salary_report')){
+      return '/payroll_reports'
+    }
     if (pathname.includes("employee")) {
       return "/employee_management";
     }
@@ -85,6 +88,13 @@ export default class Sidebar extends Component {
     if(pathname.includes('payroll_reports')){
       return '/payroll_reports'
     }
+    if(pathname.includes('salary_history_report')){
+      return '/payroll_reports'
+    }
+    if(pathname.includes('payrollReport_with_bankno')){
+      return '/payroll_reports'
+    }
+    
     else return "/dashboard";
   }
 
@@ -553,7 +563,7 @@ export default class Sidebar extends Component {
               </li>
               
               <li
-                className={this.checkPathName() === "/payroll" || this.checkPathName() === 'payroll_calculation' || this.checkPathName() === '/payroll_reports' || pathname === '/payslip_generate' || pathname === '/ssc' || pathname === "/payroll_main" || pathname === '/foreigner_salary' || pathname === "/resign_or_dismiss_salary" || pathname === '/payroll_generate' || pathname ==='/pay_slip'|| pathname== '/monthly_incentive' || pathname == "/monthly_incentive_payslip" ? "active" : ""}
+                className={this.checkPathName() === "/payroll" || this.checkPathName() === 'payroll_calculation' || this.checkPathName() === '/payroll_reports' || pathname === '/payslip_generate' || pathname === '/ssc' || pathname === "/payroll_main" || pathname === '/foreigner_salary' || pathname === "/resign_or_dismiss_salary" || pathname === '/payroll_generate' || pathname ==='/pay_slip'|| pathname== '/monthly_incentive' || pathname == "/monthly_incentive_payslip" || pathname == '/employee_salary_report' ? "active" : ""}
                
              >
                 <a href="/ssc" className="sideList">
@@ -636,7 +646,7 @@ export default class Sidebar extends Component {
                   >
                     <a href="/foreigner_salary">Foreigner Salary</a>
                   </li>
-                  <li className={this.checkPathName() === "/payroll_reports" || pathname == "/pay_slip" || pathname == '/payroll_summary_report' || pathname == '/payroll_details_report' || pathname == '/ssc_report' ? "active" : " "}>
+                  <li className={this.checkPathName() === "/payroll_reports" || pathname == "/pay_slip" || pathname == '/payroll_summary_report' || pathname == '/payroll_details_report' || pathname == '/ssc_report' || pathname == '/employee_salary_report' || pathname == '/salary_history_report' || pathname == '/payrollReport_with_bankno' ? "active" : " "}>
                     <a href="/pay_slip" className="sideText">Payroll Related Reports</a>
                     <ul className="nav nav-third-level collapse">
                     
@@ -652,8 +662,15 @@ export default class Sidebar extends Component {
                   <li className={pathname === "/payroll_details_report" ? "active" : ""}>
                     <a href="/payroll_details_report">Payroll Details Report</a>
                   </li>
-                  
-                   
+                  <li className={pathname === "/employee_salary_report" ? "active" : ""}>
+                    <a href="/employee_salary_report">Employee Salary Report</a>
+                  </li>
+                  <li className={pathname === "/salary_history_report" ? "active" : ""}>
+                    <a href="/salary_history_report">Salary History Report</a>
+                  </li>
+                  <li className={pathname === "/payrollReport_with_bankno" ? "active" : ""}>
+                    <a href="/payrollReport_with_bankno">Payroll Report With Bank No</a>
+                  </li>
                 </ul>
                   </li>
                 </ul>

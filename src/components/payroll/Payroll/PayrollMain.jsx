@@ -10,7 +10,7 @@ import PayrollUpload from "./PayrollUpload";
 import PayrollCheck from "./PayrollCheck";
 import { imgData } from "../../../utils/Global";
 import * as jsPDF from "jspdf";
-import { main_url } from "../../../utils/CommonFunction";
+import { getTrainingVenue, main_url } from "../../../utils/CommonFunction";
 import PayrollCalculated from "./PayrollCalculated";
 import PayrollAtmCashNext from "./PayrollAtmCashNext";
 import { toast, ToastContainer } from "react-toastify";
@@ -252,9 +252,43 @@ handleSelectedName = async (event) => {
   };
 
   onNextClick = () => {
-    this.setState({
-      componentIndex: "upload",
+    let status =0;
+    fetch(
+      main_url +
+        `payroll/alreadyGenerateSalary/${moment(this.state.filterDate).format(
+          "YYYY-MM"
+        )}`
+    )
+    .then((response) => {
+      status = response.status;
+      return response.text();
+    })
+    .then((text) => {
+      if (status == 200) {
+        this.setState({
+          componentIndex:'upload'
+        })
+        // toast.success(text, {
+        //   position: "top-right",
+        //   autoClose: 5000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        // });
+        // window.location.reload();
+      } else {
+        toast.error(text, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
     });
+    
   };
 
   handleReview = () => {
@@ -365,9 +399,9 @@ handleSelectedName = async (event) => {
         }
       });
   };
-  handleNextForATMOrCash = () => {
+  handleNextForATMOrCash = async() => {
     let status =0
-    fetch(
+    await fetch(
       main_url +
         `payroll/atm_cash_btnControl/` +
         moment(this.state.filterDate).format("YYYY-MM")
@@ -404,6 +438,9 @@ handleSelectedName = async (event) => {
   };
 
   handleConfirm = async () => {
+    this.setState({
+      loading:true
+    })
     let status = 0;
     let formdata={}
     formdata.remark=this.state.paySlipRemark;
@@ -433,26 +470,27 @@ handleSelectedName = async (event) => {
           .then((res1) => {
             if (res1) {
               this.setState({
+                componentIndex: "atmOrCash",
                 payrollCalculatedData: res1,
                 loading: false,
               });
             }
           });
       } else {
-        // toast.error(text, {
-        //   position: "top-right",
-        //   autoClose: 5000,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   draggable: true,
-        // });
+        this.setState({
+          loading:false
+        })
+        toast.error(text, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     });
     ;
-    this.setState({
-      componentIndex: "atmOrCash",
-    });
   };
 
   handleSelectRegion = (e) => {
@@ -629,6 +667,7 @@ handleSelectedName = async (event) => {
   };
 
   render() {
+    console.log("component index",this.state.componentIndex)
     const {
       filterDate,
       componentIndex,
@@ -649,6 +688,7 @@ handleSelectedName = async (event) => {
       empNameList,
       empId,
       employeeName,
+      loading
    
       
     } = this.state;
@@ -782,10 +822,11 @@ handleSelectedName = async (event) => {
               empNameList={empNameList}
               handleSelectedName={this.handleSelectedName}
               empId={empId}
+              loading={loading}
               employeeName={employeeName}      
             />
           )
-        ) : componentIndex == "atmOrCash" ? (
+        ) : componentIndex == "atmOrCash" ? this.state.loading ? <h1>Loading...</h1> : (
           <PayrollAtmCash
             dataSource={this.state.payrollCalculatedData}
             regionList={regionList}
@@ -814,6 +855,7 @@ handleSelectedName = async (event) => {
         ) : componentIndex == "ATMorCashNext" ? (
           <PayrollAtmCashNext
             filterDate={filterDate}
+            dataSource={this.state.payrollCalculatedData}
             selectedBranchMainList={this.state.selectedBranchMainList}
             atmorcashback={this.atmorcashback}
             onFilterDateChange={this.onFilterDateChange}

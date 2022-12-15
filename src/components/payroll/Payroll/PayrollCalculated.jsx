@@ -25,7 +25,7 @@ export default class PayrollCalculated extends Component {
     super(props);
     this.state = {
       dataSource: [],
-    
+      loading:false,
       designationList:[],
       regionList:[],
       departmentlist:[],
@@ -253,6 +253,9 @@ export default class PayrollCalculated extends Component {
     })
   }
   handleSearchData=()=>{
+    this.setState({
+      loading:true
+    })
     const branchId = this.state.selected_Branch ? this.state.selected_Branch.value : 0
     const departmentId = this.state.selected_department ? this.state.selected_department.departments_id : 0
     const designationId = this.state.selected_designation ? this.state.selected_designation.value : 0
@@ -262,7 +265,13 @@ export default class PayrollCalculated extends Component {
     // })
 
     fetch(main_url + "payroll/getReviewDetailData/"+moment(this.props.filterDate).format('YYYY-MM')+"/" + regionId + "/" + departmentId + "/" + designationId + "/" + branchId + "/" + employee)
-      .then(res => { if (res.ok) return res.json() })
+      .then(res => { if (res.ok){
+        this.setState({
+          loading:false
+        })
+        return res.json() 
+      }
+        })
       .then(list => {
         this._setTableData(list);
       })
@@ -354,201 +363,206 @@ export default class PayrollCalculated extends Component {
 
   
   render() {
-    console.log("filter date",this.props.filterDate)
+    console.log("loading",this.state.loading)
     return (
+      
       <div>
        
-           <div className="row" style={{display:'flex',justifyContent:'center',alignItems:'end'}}>
+           {
+            this.state.loading ? <h1 style={{textAlign:'center'}}>Loading...</h1> : (<div>
+              <div className="row" style={{display:'flex',justifyContent:'center',alignItems:'end'}}>
           
-           <div className="col-md-2">
-                  <label>Month</label>
-                  <DatePicker
-                    dateFormat="MM/YYYY"
-                    value={this.props.filterDate ? this.props.filterDate : new Date()}
-                    timeFormat={false}
-                    onChange={this.props.onFilterDateChange}
-                  />
-              </div>
-
-            <div className="col-md-2">
-              <label htmlFor="">Region</label>
-              <Select
-              styles={{
-                container: base => ({
-                  ...base,
-                  //   flex: 1
-                 
-                  marginRight:10
-                }),
-                control: base => ({
-                  ...base,
-                  minHeight: '18px'
-                }),
-
-              }}
-              placeholder="Region"
-              options={this.state.regionList}
-              onChange={this.handleSelectedRegion}
-              value={this.state.selected_region}
-              className='react-select-container'
-              classNamePrefix="react-select"
-            />
-            </div>
-
-            <div className="col-md-2">
-              <label htmlFor="">Branch</label>
-              <Select
-              styles={{
-                container: base => ({
-                  ...base,
-                  //   flex: 1
-                 
-                  marginRight:10
-                }),
-                control: base => ({
-                  ...base,
-                  minHeight: '18px'
-                }),
-
-              }}
-              placeholder="Branch"
-              options={this.state.branchlist}
-              onChange={this.handleSelectedBranch}
-              value={this.state.selected_Branch}
-              className='react-select-container'
-              classNamePrefix="react-select"
-            />
-            </div>
-
-            <div className="col-md-2">
-              <label htmlFor="">Department</label>
-              <Select
-              styles={{
-                container: base => ({
-                  ...base,
-                  //   flex: 1
-                 
-                  marginRight:10
-                }),
-                control: base => ({
-                  ...base,
-                  minHeight: '18px'
-                }),
-
-              }}
-              placeholder="Department"
-              options={this.state.departmentlist}
-              onChange={this.handleSelectedDepartment}
-              value={this.state.selected_department}
-              className="react-select-container"
-              classNamePrefix="react-select"
-            />
-            </div>
-
-           <div className="col-md-2">
-              <label htmlFor="">Designation</label>
-              <Select
-              styles={{
-                container: base => ({
-                  ...base,
-                  //   flex: 1
-                 
-                  marginRight:10
-                }),
-                control: base => ({
-                  ...base,
-                  minHeight: '18px'
-                }),
-
-              }}
-              placeholder="Designation"
-              options={this.state.designationList}
-              onChange={this.handleSelectedDesignation}
-              value={this.state.selected_designation}
-              className='react-select-container'
-              classNamePrefix="react-select"
-            />
-            </div>
-
-            <div className="col-md-2">
-                <label>Employee ID</label>
-                <Select
-                  options={this.props.employeeIdList}
-                  value={this.props.empId}
-                  onChange={this.props.handleSelectedEmpId}
-                  className="react-select-container"
-                  classNamePrefix="react-select"
-                />
-              </div>
-              <div className="col-md-2">
-                <label>Employee Name</label>
-                <Select
-                  options={this.props.empNameList}
-                  value={this.props.employeeName}
-                  onChange={this.props.handleSelectedName}
-                  className="react-select-container"
-                  classNamePrefix="react-select"
-                />
-              </div>
-            <div className="col-md-2" style={{display:'flex',alignItems:'end'}}>
-            <button className='btn btn-primary text-center' style={{marginRight:10}}  onClick={() => this.handleSearchData()}>Search</button>
-            <button
-              className="btn-danger btn"
-              onClick={this.props.handleDelete}
-              
-            >
-              Delete
-            </button>
-              </div>
-
-           </div>
-          
-         <div className="row" style={{margin:5}}>
-          
-          <div className="col-md-5 col-lg-4 col-sm-7 " style={{border:'1px solid black'}}>
-          <h3 style={{textAlign:'center'}}>Pay Slip Generate</h3>
-              <div className="row" style={{display:'flex',alignItems:'end',marginBottom:5}}>
-             
-              <div className="col-md-7 col-lg-7" >
-            <label>Pay Slip Remark</label>
-            <input
-              type="text"
-              data-name="paySlipRemark"
-              value={this.props.paySlipRemark}
-              placeholder="Remark"
-              className="form-control"
-              onChange={this.props.onChangeText}
-            />
+          <div className="col-md-2">
+                 <label>Month</label>
+                 <DatePicker
+                   dateFormat="MM/YYYY"
+                   value={this.props.filterDate ? this.props.filterDate : new Date()}
+                   timeFormat={false}
+                   onChange={this.props.onFilterDateChange}
+                 />
              </div>
 
-          <div
-            className="col-md-5 col-lg-5 "
-            style={{display:'flex',justifyContent:'center'}}
-          >
-           
-            <button
-              className="btn" style={{backgroundColor:"#28a745",color:"#ffffff"}}
-              onClick={this.props.handleConfirm}
-              
-            >
-              Pay Slip Generate
-            </button>
-          </div>
+           <div className="col-md-2">
+             <label htmlFor="">Region</label>
+             <Select
+             styles={{
+               container: base => ({
+                 ...base,
+                 //   flex: 1
+                
+                 marginRight:10
+               }),
+               control: base => ({
+                 ...base,
+                 minHeight: '18px'
+               }),
 
-              </div>
+             }}
+             placeholder="Region"
+             options={this.state.regionList}
+             onChange={this.handleSelectedRegion}
+             value={this.state.selected_region}
+             className='react-select-container'
+             classNamePrefix="react-select"
+           />
+           </div>
+
+           <div className="col-md-2">
+             <label htmlFor="">Branch</label>
+             <Select
+             styles={{
+               container: base => ({
+                 ...base,
+                 //   flex: 1
+                
+                 marginRight:10
+               }),
+               control: base => ({
+                 ...base,
+                 minHeight: '18px'
+               }),
+
+             }}
+             placeholder="Branch"
+             options={this.state.branchlist}
+             onChange={this.handleSelectedBranch}
+             value={this.state.selected_Branch}
+             className='react-select-container'
+             classNamePrefix="react-select"
+           />
+           </div>
+
+           <div className="col-md-2">
+             <label htmlFor="">Department</label>
+             <Select
+             styles={{
+               container: base => ({
+                 ...base,
+                 //   flex: 1
+                
+                 marginRight:10
+               }),
+               control: base => ({
+                 ...base,
+                 minHeight: '18px'
+               }),
+
+             }}
+             placeholder="Department"
+             options={this.state.departmentlist}
+             onChange={this.handleSelectedDepartment}
+             value={this.state.selected_department}
+             className="react-select-container"
+             classNamePrefix="react-select"
+           />
+           </div>
+
+          <div className="col-md-2">
+             <label htmlFor="">Designation</label>
+             <Select
+             styles={{
+               container: base => ({
+                 ...base,
+                 //   flex: 1
+                
+                 marginRight:10
+               }),
+               control: base => ({
+                 ...base,
+                 minHeight: '18px'
+               }),
+
+             }}
+             placeholder="Designation"
+             options={this.state.designationList}
+             onChange={this.handleSelectedDesignation}
+             value={this.state.selected_designation}
+             className='react-select-container'
+             classNamePrefix="react-select"
+           />
+           </div>
+
+           <div className="col-md-2">
+               <label>Employee ID</label>
+               <Select
+                 options={this.props.employeeIdList}
+                 value={this.props.empId}
+                 onChange={this.props.handleSelectedEmpId}
+                 className="react-select-container"
+                 classNamePrefix="react-select"
+               />
+             </div>
+             <div className="col-md-2">
+               <label>Employee Name</label>
+               <Select
+                 options={this.props.empNameList}
+                 value={this.props.employeeName}
+                 onChange={this.props.handleSelectedName}
+                 className="react-select-container"
+                 classNamePrefix="react-select"
+               />
+             </div>
+           <div className="col-md-2" style={{display:'flex',alignItems:'end'}}>
+           <button className='btn btn-primary text-center' style={{marginRight:10}}  onClick={() => this.handleSearchData()}>Search</button>
+           <button
+             className="btn-danger btn"
+             onClick={this.props.handleDelete}
+             
+           >
+             Delete
+           </button>
+             </div>
+
           </div>
-        
-         </div>
+         
+        <div className="row" style={{margin:5}}>
+         
+         <div className="col-md-5 col-lg-4 col-sm-7 " style={{border:'1px solid black'}}>
+         <h3 style={{textAlign:'center'}}>Pay Slip Generate</h3>
+             <div className="row" style={{display:'flex',alignItems:'end',marginBottom:5}}>
+            
+             <div className="col-md-7 col-lg-7" >
+           <label>Pay Slip Remark</label>
+           <input
+             type="text"
+             data-name="paySlipRemark"
+             value={this.props.paySlipRemark}
+             placeholder="Remark"
+             className="form-control"
+             onChange={this.props.onChangeText}
+           />
+            </div>
+
+         <div
+           className="col-md-5 col-lg-5 "
+           style={{display:'flex',justifyContent:'center'}}
+         >
           
-        
+           <button
+             className="btn" style={{backgroundColor:"#28a745",color:"#ffffff"}}
+             onClick={this.props.handleConfirm}
+             
+           >
+             Pay Slip Generate
+           </button>
+         </div>
 
-        <div style={{marginTop:10}}>
-          <table
-            width="99%"
-            className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
-            id="dataTables-table"
-          />
+             </div>
+         </div>
+       
         </div>
+         
+       
+
+       <div style={{marginTop:10}}>
+         <table
+           width="99%"
+           className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
+           id="dataTables-table"
+         />
+       </div>
+            </div>)
+           }
       </div>
     );
   }
