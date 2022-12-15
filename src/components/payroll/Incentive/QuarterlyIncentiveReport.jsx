@@ -3,6 +3,9 @@ import { main_url } from '../../../utils/CommonFunction';
 import Select from 'react-select';
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import moment from "moment";
+import DatePicker from "react-datetime";
+import MonthlyIncentive from "./MonthlyIncentive";
+
 
 class QuarterlyIncentiveReport extends Component {
   constructor(props) {
@@ -11,16 +14,14 @@ class QuarterlyIncentiveReport extends Component {
 
       fullname:'',
       data:[],
+      quater_list:[],
       regionList: null,
       empName: 0,
-      martial_status: null,
-      contact_person: null,
-      contact_phone: null,
-      guarantee_contact_person: null,
-      guarantee_contact_phone: null,
-      phone_no: null,
+      quarter:'',
       employee_id: null,
       employee_date: moment().format("YYYY-MM-DD"),
+      selected_month : new Date(),
+      selected_quarter:{value: 1, label: "Jan to March"},
       selected_Branch: null,
       selected_department: null,
       selected_designation: null,
@@ -33,7 +34,14 @@ class QuarterlyIncentiveReport extends Component {
       departmentId: null,
       regionId: null,
       employeeIdList: null,
-      selected_employeeId: null
+      selected_employeeId: null,
+      quarter_months:[
+        {value:1,month1:'Jan',month2:'Feb',month3:'March'},
+        {value:2,month1:'April',month2:'May',month3:'June'},
+        {value:3,month1:'July',month2:'Aug',month3:'Sept'},
+        {value:4,month1:'Oct',month2:'Nov',month3:'Dec'},
+
+      ]
     }
   }
 
@@ -42,7 +50,20 @@ class QuarterlyIncentiveReport extends Component {
     this.getBranchList();
     this.getDesignationList();
     this.getEmployeeCodeList();
-  }
+    this.getQuaterList();
+
+  } 
+
+  getQuaterList() {
+    fetch(`${main_url}team_building/getQuater`)
+        .then(res => { if (res.ok) return res.json() })
+        .then(list => {
+            this.setState({
+                quater_list: list
+            })
+        })
+  };
+
   getDesignationList() {
     fetch(`${main_url}main/getDesignations`)
       .then((res) => {
@@ -105,6 +126,18 @@ class QuarterlyIncentiveReport extends Component {
       });
   }
 
+  handleSelectedMonth = (event) => {
+    this.setState({
+        selected_month: event,
+      });
+  };
+
+  handleSelectedQuater = (event) => {
+    this.setState({
+        selected_quarter: event
+    })
+  };
+
   handleSelectedBranch = async (event) => {
     if (event != null)
       this.setState({
@@ -159,14 +192,21 @@ class QuarterlyIncentiveReport extends Component {
     const designationId = this.state.selected_designation ? this.state.selected_designation.value : 0
     const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
     const employee = this.state.selected_employeeId ? this.state.selected_employeeId.value : 0
+    const quarterSelect  =  this.state.selected_quarter ? this.state.selected_quarter.value :0
     // })
 
-    fetch(main_url + "incentive/quartelyIncentiveReport/" + regionId + "/" + branchId + "/" + designationId + "/" + employee)
+    fetch(main_url + "salary_report/quartelyReport/" + employee + "/" + designationId + "/" + branchId + "/" + regionId + "/" + quarterSelect + "/" + moment(this.state.selected_month).format('YYYY') ) 
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
+        if (list.length > 0){
         this.setState({
-            data:list
-        })
+            data:list,
+            quarter:list[0].quarter 
+
+        })}else{
+          this.setState({
+            data:list, })
+        }
       })
   }
 
@@ -174,105 +214,87 @@ class QuarterlyIncentiveReport extends Component {
   
     return (
       <div>
-          <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
-          <Select
-              styles={{
-                container: base => ({
-                  ...base,
-                  //   flex: 1
-                  width: 150,
-                  marginRight:10
-                }),
-                control: base => ({
-                  ...base,
-                  minHeight: '18px'
-                }),
+          <div className='' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center' ,marginBottom:20}}>
 
-              }}
+          <div className='col-lg-2' style={{padding:0}} >
+          <DatePicker
+            dateFormat="YYYY"
+            value={this.state.selected_month}
+            timeFormat={false}
+            onChange={this.handleSelectedMonth}
+           /></div>
+
+         <div className='col-lg-2' >
+          <Select
+            dateFormat="YYYY"
+            options={this.state.quater_list}
+            value={this.state.selected_quarter}
+            timeFormat={false}
+            onChange={this.handleSelectedQuater}
+           /></div>
+
+          <div className='col-lg-2' >
+              <Select
               placeholder="Branch"
               options={this.state.branchlist}
               onChange={this.handleSelectedBranch}
               value={this.state.selected_Branch}
               className='react-select-container'
               classNamePrefix="react-select"
-            />
-            <Select
-              styles={{
-                container: base => ({
-                  ...base,
-                  //   flex: 1
-                  width: 150,
-                  marginRight:10
-                }),
-                control: base => ({
-                  ...base,
-                  minHeight: '18px'
-                }),
+            /></div>
 
-              }}
+            <div className='col-lg-2' >
+            <Select
               placeholder="Region"
               options={this.state.regionList}
               onChange={this.handleSelectedRegion}
               value={this.state.selected_region}
               className='react-select-container'
               classNamePrefix="react-select"
-            />
-            <Select
-              styles={{
-                container: base => ({
-                  ...base,
-                  //   flex: 1
-                  width: 150,
-                  marginRight:10
-                }),
-                control: base => ({
-                  ...base,
-                  minHeight: '18px'
-                }),
+            /></div>
 
-              }}
+            <div className='col-lg-2' >
+            <Select
               placeholder="Designation"
               options={this.state.designationList}
               onChange={this.handleSelectedDesignation}
               value={this.state.selected_designation}
               className='react-select-container'
               classNamePrefix="react-select"
-            />
-            
-            <Select
-              styles={{
-                container: base => ({
-                  ...base,
-                  //   flex: 1
-                  width: 150,
-                  marginRight:10
-                }),
-                control: base => ({
-                  ...base,
-                  minHeight: '18px'
-                }),
+            /></div>
 
-              }}
+            <div className='col-lg-2' >
+            <Select
               placeholder="Employee ID"
               options={this.state.employeeIdList}
               onChange={this.handleSelectedEmpId}
               value={this.state.selected_employeeId}
               className='react-select-container'
               classNamePrefix="react-select"
-            />
+            /></div>
+
+            <div className="col-lg-2">
             <input type="text" className="form-control" style={{width:'150px'}} value={this.state.fullname} placeholder="Employee Name" disabled/>
+            </div>
+
+            <div className="col-lg-2">
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
+            </div>
+
           </div>
 
-          <ReactHTMLTableToExcel 
-                    className="btn-excel"
-                    table="reg_wise_staff"
-                    filename="Quarterly Incentive Report"
-                    buttonText="Excel"
-                    sheet="Sheet"
-                    />
-
-          <table className="table table-bordered" id="reg_wise_staff" style={{overflow:'scroll'}}>
+          
+{  this.state.data.length > 0 ?(
+  <div>
+             <ReactHTMLTableToExcel 
+             className="btn-excel"
+             table="quarterly_incentive"
+             filename="Quarterly Incentive Report"
+             buttonText="Excel"
+             sheet="Sheet"
+             // style={{marginTop:30}}
+             />
+          <table className="table table-bordered" id="quarterly_incentive" style={{overflow:'scroll'}}>
             <thead>
                 <tr>
                     <th style={{textAlign:'center'}} rowSpan={3}>Sr No</th>
@@ -289,32 +311,75 @@ class QuarterlyIncentiveReport extends Component {
                     <th style={{textAlign:'center'}} rowSpan={3}>Remark</th>
                 </tr>
                 <tr>
-                    <th style={{textAlign:'center'}}>Jan</th>
-                    <th style={{textAlign:'center'}}>Feb</th>
-                    <th style={{textAlign:'center'}}>March</th>
+                <th style={{ textAlign: "center", verticalAlign: "middle" }}>{this.state.quarter_months.filter(v=>v.value==this.state.quarter)[0].month1}</th>
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }}>{this.state.quarter_months.filter(v=>v.value==this.state.quarter)[0].month2}</th>
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }}>{this.state.quarter_months.filter(v=>v.value==this.state.quarter)[0].month3}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>2</td>
-                    <td>A-13221</td>
-                    <td>Ye Htet</td>
-                    <td>IT</td>
-                    <td>CO,FX</td>
-                    <td>Mdy</td>
-                    <td>Mandalay</td>
-                    <td>20000</td>
-                    <td>30000</td>
-                    <td>40000</td>
-                    <td>45611</td>
-
-                    <td>2.5%</td>
-                    <td>44.10</td>
-                    <td></td>
-                </tr>
+            {
+                    this.state.data.map((v,i)=>{
+                      return(
+                        <>
+                  <tr>
+                    <td>{i+1}</td>
+                    <td>{v.employeeID}</td>
+                    <td>{v.name}</td>
+                    <td>{v.position}</td>
+                    <td>CO/FX</td>
+                    <td>{v.location_master_name}</td>
+                    <td>{v.location_master_code}</td>
+                    <td>{v.month1}</td>
+                    <td>{v.month2}</td>
+                    <td>{v.month3}</td>
+                    <td>{v.average_salary}</td>
+                    <td>{v.BSC}</td>
+                    <td>{v.incentive}</td>
+                    <td>{v.remark}</td>
+                  </tr>
+                  </>  )
+                    })
+                }  
             </tbody>
-          </table>
-        
+          </table></div>):(
+             <div>
+             <ReactHTMLTableToExcel 
+             className="btn-excel"
+             table="quarterly_incentive"
+             filename="Quarterly Incentive Report"
+             buttonText="Excel"
+             sheet="Sheet"
+             // style={{marginTop:30}}
+             />
+          <table className="table table-bordered" id="quarterly_incentive" style={{overflow:'scroll'}}>
+            <thead>
+                <tr>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Sr No</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Employee Code</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Name</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Position</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>BSC Category</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Branch</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Branch Code</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} colSpan={3}>Monthly Salary</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Average Salary</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>BSC%</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Total Incentive</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Remark</th>
+                </tr>
+                <tr>
+                <th style={{ textAlign: "center", verticalAlign: "middle" }}>{this.state.quarter_months.filter(v=>v.value == this.state.selected_quarter.value)[0].month1}</th>
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }}>{this.state.quarter_months.filter(v=>v.value == this.state.selected_quarter.value)[0].month2}</th>
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }}>{this.state.quarter_months.filter(v=>v.value == this.state.selected_quarter.value)[0].month3}</th>
+                </tr>
+            </thead>
+            <tbody>
+              <td colSpan={14}style={{ textAlign: "center", verticalAlign: "middle",height:35,fontSize:15,borderBottom:'1px solid black' }}>No data available in table</td>
+           
+            </tbody>
+          </table></div>
+          )
+}
       
       </div>
     )
