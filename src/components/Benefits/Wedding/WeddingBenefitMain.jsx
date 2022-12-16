@@ -105,7 +105,7 @@ class WeddingBenefitMain extends Component {
     }
              
 
-    render() {
+    render() { console.log(this.state.permission_status);
         
         return (
             <div className="wedding-benefit border-bottom white-bg dashboard-header">
