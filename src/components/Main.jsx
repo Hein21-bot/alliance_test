@@ -2,12 +2,13 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 import { Redirect, Route, Switch } from 'react-router-dom';
 //staff loan
-import ApplyForm from '../components/Allowance/StaffLoan/ApplyForm';
-import RepaymentSchedule from '../components/Allowance/StaffLoan/RepaymentSchedule';
+// import StaffLoanMain from './Allowance/StaffLoan/StaffLoanMain';
+// import ApplyForm from '../components/Allowance/StaffLoan/ApplyForm';
+// import RepaymentSchedule from '../components/Allowance/StaffLoan/RepaymentSchedule';
 // import StaffLoanList from './Allowance/StaffLoan/StaffLoanList';
-import StaffLoanApproval from './Allowance/StaffLoan/StaffLoanApproval';
-import SettlementSheet from './Allowance/StaffLoan/SettlementSheet';
-import StaffLoanView from './Allowance/StaffLoan/StaffLoanView';
+// import StaffLoanApproval from './Allowance/StaffLoan/StaffLoanApproval';
+// import SettlementSheet from './Allowance/StaffLoan/SettlementSheet';
+// import StaffLoanView from './Allowance/StaffLoan/StaffLoanView';
 
 //salary advance
 import SalaryAdvanceRequestForm from './Allowance/SalaryAdvance/SalaryAdvanceRequestForm';
@@ -38,7 +39,6 @@ import TeamBuildingMain from './Benefits/TeamBuilding/TeamBuildingMain';
 import HospitalizationMain from './Benefits/HospitalizationBenefit/HospitalizationMain';
 import CycleMain from './Benefits/CycleInsuranceBenefit/CycleMain';
 
-import StaffLoanMain from './Allowance/StaffLoan/StaffLoanMain';
 import SalaryAdvacneMain from './Allowance/SalaryAdvance/SalaryAdvanceMain';
 
 //helpDesk
@@ -141,6 +141,7 @@ import QuarterlyIncentiveReport from './payroll/Incentive/QuarterlyIncentiveRepo
 import PayslipGenerate1 from './payroll/Payroll/PayslipGenerate1';
 import PayrollGenerate from './payroll/Payroll/PayrollGenerate';
 import PayrollCalculated from './payroll/Payroll/PayrollCalculated';
+import StaffLoanMain from './StaffLoan/StaffLoanMain';
 
 
 const Main = () => (
@@ -152,12 +153,12 @@ const Main = () => (
         <Route path='/helpDesk' component={HelpDesk} />
         <Route path='/staffComplain' component={StaffComplainMain} />
 
-        <Route path="/staff_loan" component={StaffLoanMain}></Route>
+        {/* <Route path="/staff_loan" component={StaffLoanMain}></Route>
         <Route path="/staff_loan_applyform" component={ApplyForm}></Route>
         <Route path="/staff_loan_approval" component={StaffLoanApproval}></Route>
         <Route path="/staff_loan_repayment" component={RepaymentSchedule}></Route>
         <Route path="/staff_loan_settlement" component={SettlementSheet}></Route>
-        <Route path="/staff_loan_view" component={StaffLoanView}></Route>
+        <Route path="/staff_loan_view" component={StaffLoanView}></Route> */}
 
         <Route path="/salary_advance" component={SalaryAdvacneMain}></Route>
         <Route path="/salary_advance_request_form" component={SalaryAdvanceRequestForm}></Route>
@@ -286,6 +287,8 @@ const Main = () => (
         <Route path='/payslip_generate' component={PayslipGenerate1}></Route>
         <Route path='/quarterly_incentive' component={QuarterlyIncentive}></Route>
         <Route path='/payroll_generate' component={PayrollGenerate}></Route>
+
+        <Route path='/staff_loan' component={StaffLoanMain} ></Route>
 
 
 
