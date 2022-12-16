@@ -7,6 +7,8 @@ import "datatables.net-buttons-dt/css/buttons.dataTables.css";
 import { main_url } from "../../utils/CommonFunction";
 import "jspdf-autotable";
 import DatePicker from "react-datetime";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
+
 const $ = require("jquery");
 const jzip = require("jzip");
 window.JSZip = jzip;
@@ -156,6 +158,13 @@ class SSCReport extends Component {
     return (
       <div>
         <h3>SSC Report For Goverment</h3>
+        <ReactHTMLTableToExcel 
+                    className="btn-excel"
+                    table="ssc_report"
+                    filename="SSC Report For Goverment"
+                    buttonText="Excel"
+                    sheet="Sheet"
+                    />
         <div
           className="row"
           style={{
@@ -182,6 +191,7 @@ class SSCReport extends Component {
             </button>
           </div>
         </div>
+        <table id="ssc_report">
         <table className="table table-bordered">
           <thead>
             <tr style={{textAlign:'center'}}>
@@ -280,6 +290,7 @@ class SSCReport extends Component {
             </tbody>
           </table>
         </div>
+        </table>
       </div>
     );
   }

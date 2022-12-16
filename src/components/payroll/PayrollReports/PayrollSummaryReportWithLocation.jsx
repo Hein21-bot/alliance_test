@@ -497,18 +497,18 @@ class PayrollSummaryReportWithLocation extends Component {
             "name":'Permanent',
           'addition':[...arrPermanentAllowance],
           'deduction':[...arrPermanentDeduction],
-          "total_amount": list.reduce((p,c)=>{return p+c.total_amount},0),
-          "gross_salary": list.reduce((p,c)=>{return p+c.gross_salary},0),
-          "deduction_addition_data": list.reduce((p,c)=>{return p+c.deduction_addition_data},0),
-          "after_deduction_or_addition": list.reduce((p,c)=>{return p+c.after_deduction_or_addition},0),
+          "total_amount": filterPermanent[0].empType.reduce((p,c)=>{return p+c.total_amount},0),
+          "gross_salary":filterPermanent[0].empType.reduce((p,c)=>{return p+c.gross_salary},0),
+          "deduction_addition_data":filterPermanent[0].empType.reduce((p,c)=>{return p+c.deduction_addition_data},0),
+          "after_deduction_or_addition":filterPermanent[0].empType.reduce((p,c)=>{return p+c.after_deduction_or_addition},0),
           "ssc":[
             {
-            "Employer_2": list.reduce((p,c)=>{
+            "Employer_2":filterPermanent[0].empType.reduce((p,c)=>{
               if(c.ssc.length > 0){
                 return p+c.ssc[0].Employer_2
               }
             },0),
-            "Employee_3": list.reduce((p,c)=>{
+            "Employee_3":filterPermanent[0].empType.reduce((p,c)=>{
               if(c.ssc.length >0){
                 return p+c.ssc[0].Employee_3
               }
@@ -516,11 +516,11 @@ class PayrollSummaryReportWithLocation extends Component {
             },0)
             }
             ],
-            "net_salary": list.reduce((p,c)=>{return p+c.net_salary},0),
-            "total_gross_salary": list.reduce((p,c)=>{return p+c.total_gross_salary},0),
-            "deductionTotal": list.reduce((p,c)=>{return p+c.deductionTotal},0),
-            "additionTotal": list.reduce((p,c)=>{return p+c.additionTotal},0),
-            "total": list.reduce((p,c)=>{return p+c.total},0)
+            "net_salary":filterPermanent[0].empType.reduce((p,c)=>{return p+c.net_salary},0),
+            "total_gross_salary":filterPermanent[0].empType.reduce((p,c)=>{return p+c.total_gross_salary},0),
+            "deductionTotal":filterPermanent[0].empType.reduce((p,c)=>{return p+c.deductionTotal},0),
+            "additionTotal":filterPermanent[0].empType.reduce((p,c)=>{return p+c.additionTotal},0),
+            "total":filterPermanent[0].empType.reduce((p,c)=>{return p+c.total},0)
           }]
         }
         console.log("Permanent detail",PermanentDetail)
@@ -530,18 +530,18 @@ class PayrollSummaryReportWithLocation extends Component {
             "name":'Part Time',
           'addition':[...arrPartTimeAllowance],
           'deduction':[...arrPartTimeDeduction],
-          "total_amount": list.reduce((p,c)=>{return p+c.total_amount},0),
-          "gross_salary": list.reduce((p,c)=>{return p+c.gross_salary},0),
-          "deduction_addition_data": list.reduce((p,c)=>{return p+c.deduction_addition_data},0),
-          "after_deduction_or_addition": list.reduce((p,c)=>{return p+c.after_deduction_or_addition},0),
+          "total_amount": filterPartTime[0].empType.reduce((p,c)=>{return p+c.total_amount},0),
+          "gross_salary": filterPartTime[0].empType.reduce((p,c)=>{return p+c.gross_salary},0),
+          "deduction_addition_data": filterPartTime[0].empType.reduce((p,c)=>{return p+c.deduction_addition_data},0),
+          "after_deduction_or_addition": filterPartTime[0].empType.reduce((p,c)=>{return p+c.after_deduction_or_addition},0),
           "ssc":[
             {
-            "Employer_2": list.reduce((p,c)=>{
+            "Employer_2": filterPartTime[0].empType.reduce((p,c)=>{
               if(c.ssc.length > 0){
                 return p+c.ssc[0].Employer_2
               }
             },0),
-            "Employee_3": list.reduce((p,c)=>{
+            "Employee_3": filterPartTime[0].empType.reduce((p,c)=>{
               if(c.ssc.length >0){
                 return p+c.ssc[0].Employee_3
               }
@@ -549,11 +549,11 @@ class PayrollSummaryReportWithLocation extends Component {
             },0)
             }
             ],
-            "net_salary": list.reduce((p,c)=>{return p+c.net_salary},0),
-            "total_gross_salary": list.reduce((p,c)=>{return p+c.total_gross_salary},0),
-            "deductionTotal": list.reduce((p,c)=>{return p+c.deductionTotal},0),
-            "additionTotal": list.reduce((p,c)=>{return p+c.additionTotal},0),
-            "total": list.reduce((p,c)=>{return p+c.total},0)
+            "net_salary": filterPartTime[0].empType.reduce((p,c)=>{return p+c.net_salary},0),
+            "total_gross_salary": filterPartTime[0].empType.reduce((p,c)=>{return p+c.total_gross_salary},0),
+            "deductionTotal": filterPartTime[0].empType.reduce((p,c)=>{return p+c.deductionTotal},0),
+            "additionTotal": filterPartTime[0].empType.reduce((p,c)=>{return p+c.additionTotal},0),
+            "total": filterPartTime[0].empType.reduce((p,c)=>{return p+c.total},0)
           }]
         }
         console.log("PartTime detail",PartTimeDetail)
@@ -563,18 +563,18 @@ class PayrollSummaryReportWithLocation extends Component {
             "name":'Training',
           'addition':[...arrTrainingAllowance],
           'deduction':[...arrTrainingDeduction],
-          "total_amount": list.reduce((p,c)=>{return p+c.total_amount},0),
-          "gross_salary": list.reduce((p,c)=>{return p+c.gross_salary},0),
-          "deduction_addition_data": list.reduce((p,c)=>{return p+c.deduction_addition_data},0),
-          "after_deduction_or_addition": list.reduce((p,c)=>{return p+c.after_deduction_or_addition},0),
+          "total_amount": filterTraining[0].empType.reduce((p,c)=>{return p+c.total_amount},0),
+          "gross_salary": filterTraining[0].empType.reduce((p,c)=>{return p+c.gross_salary},0),
+          "deduction_addition_data": filterTraining[0].empType.reduce((p,c)=>{return p+c.deduction_addition_data},0),
+          "after_deduction_or_addition": filterTraining[0].empType.reduce((p,c)=>{return p+c.after_deduction_or_addition},0),
           "ssc":[
             {
-            "Employer_2": list.reduce((p,c)=>{
+            "Employer_2": filterTraining[0].empType.reduce((p,c)=>{
               if(c.ssc.length > 0){
                 return p+c.ssc[0].Employer_2
               }
             },0),
-            "Employee_3": list.reduce((p,c)=>{
+            "Employee_3": filterTraining[0].empType.reduce((p,c)=>{
               if(c.ssc.length >0){
                 return p+c.ssc[0].Employee_3
               }
@@ -582,11 +582,11 @@ class PayrollSummaryReportWithLocation extends Component {
             },0)
             }
             ],
-            "net_salary": list.reduce((p,c)=>{return p+c.net_salary},0),
-            "total_gross_salary": list.reduce((p,c)=>{return p+c.total_gross_salary},0),
-            "deductionTotal": list.reduce((p,c)=>{return p+c.deductionTotal},0),
-            "additionTotal": list.reduce((p,c)=>{return p+c.additionTotal},0),
-            "total": list.reduce((p,c)=>{return p+c.total},0)
+            "net_salary": filterTraining[0].empType.reduce((p,c)=>{return p+c.net_salary},0),
+            "total_gross_salary": filterTraining[0].empType.reduce((p,c)=>{return p+c.total_gross_salary},0),
+            "deductionTotal": filterTraining[0].empType.reduce((p,c)=>{return p+c.deductionTotal},0),
+            "additionTotal": filterTraining[0].empType.reduce((p,c)=>{return p+c.additionTotal},0),
+            "total": filterTraining[0].empType.reduce((p,c)=>{return p+c.total},0)
           }]
         }
         console.log("Training detail",TrainingDetail)
@@ -761,7 +761,7 @@ class PayrollSummaryReportWithLocation extends Component {
   }
   
   render() {
-    console.log('state all detail',this.state.AllDetail!=undefined && this.state.AllDetail.empType && this.state.AllDetail.empType.length )
+    console.log('state all detail',this.state.AllDetail,this.state.PermanentDetail,this.state.PartTimeDetail,this.state.TrainingDetail)
     // console.log('final data',this.state.FinalData)
     let filterData =
     this.state.ReportHeader &&
@@ -1218,7 +1218,7 @@ this.state.TrainingDetail!=undefined && this.state.TrainingDetail.empType && thi
                         );
                       })}
                          <td style={{verticalAlign:'middle'}}>{v.total}</td>
-                         <td rowSpan={4} style={{verticalAlign:'middle'}}>{this.state.grandTotal}</td>     
+                         <td rowSpan={4} style={{verticalAlign:'middle'}}>{v.total}</td>     
                         </>
                       )
                     })

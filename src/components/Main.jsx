@@ -275,13 +275,13 @@ const Main = () => (
         <Route path='/employee_salary_report' component={EmployeeSalaryReport}></Route>
         <Route path="/payrollReport_with_bankno" component={PayrollReportWithBankNo}></Route>
         <Route path="/salary_history_report" component={SalaryHistoryReport}></Route>
-        <Route path="/quarterly_incentive_report" component={QuarterlyIncentiveReport}></Route>
+        <Route path="/quarterly_report" component={QuarterlyIncentiveReport}></Route>
         <Route path='/payroll_summary_report' component={PayrollSummaryReport}></Route>
         <Route path='/payroll_details_report' component={PayrollDetailsReport}></Route>
         <Route path='/payroll_summary_report_with_location' component={PayrollSummaryReportWithLocation}></Route>
         <Route path='/monthly_incentive' component={MonthlyIncentive}></Route>
         <Route path='/monthly_incentive_payslip' component={MonthlyIncentivePayslip}></Route>
-        <Route path='/monthly_incentive_report' component={MonthlyIncentiveReport}></Route>
+        <Route path='/monthly_report' component={MonthlyIncentiveReport}></Route>
         <Route path='/quarterly_incentive_payslip' component={QuarterlyIncentivePayslip}></Route>
         <Route path='/payslip_generate' component={PayslipGenerate1}></Route>
         <Route path='/quarterly_incentive' component={QuarterlyIncentive}></Route>

@@ -44,10 +44,10 @@ export default class ResignOrDismissSalaryAddNew extends Component {
         salary_after_deduction_or_addition: 0,
         ssc3: 0,
         ssc2: 0,
-        incomeTax: 0,
+        income_tax: 0,
         maintenance: 0,
         petrol: 0,
-        totalSalary: 0,
+        total_salary: 0,
         reason: "",
         atmOrCash: 0,
         exitStatus: 0,
@@ -93,10 +93,10 @@ export default class ResignOrDismissSalaryAddNew extends Component {
             salary_after_deduction_or_addition: editData.salary_after_deduction_or_addition,
             ssc3: editData.ssc3,
             ssc2: editData.ssc2,
-            incomeTax: editData.income_tax,
+            income_tax: editData.income_tax,
             maintenance: editData.maintenance,
             petrol: editData.petrol,
-            totalSalary: editData.total_salary,
+            total_salary: editData.total_salary,
             reason: editData.reason,
             atmOrCash: editData.atm_or_cash,
             exitStatus: editData.exit_status,
@@ -186,10 +186,10 @@ export default class ResignOrDismissSalaryAddNew extends Component {
   //   newData.grossSalary = newValue;
   //   newData.ssc3 = newData.salary_after_deduction_or_addition * 0.03;
   //   newData.ssc2 = newData.salary_after_deduction_or_addition * 0.02;
-  //   newData.totalSalary =
+  //   newData.total_salary =
   //     newData.salary_after_deduction_or_addition -
   //     newData.ssc2 -
-  //     newData.incomeTax +
+  //     newData.income_tax +
   //     newData.maintenance +
   //     newData.petrol;
   //   this.setState({ addNewData: newData });
@@ -208,23 +208,23 @@ export default class ResignOrDismissSalaryAddNew extends Component {
     // newData.ssc2 = newData.salary_after_deduction_or_addition * 0.02;
 
     // newData.ssc2 = this.state.userInfo.basic_salary >= 300000 ? 300000*0.02 : this.state.userInfo.basic_salary * 0.02
-    newData.totalSalary =
+    newData.total_salary =
       newData.salary_after_deduction_or_addition -
       newData.ssc2 -
-      newData.incomeTax +
+      newData.income_tax +
       newData.maintenance +
       newData.petrol;
     this.setState({ addNewData: newData });
   };
 
   onIncomeTaxChange = (e) => {
-    let newValue = parseFloat(e.target.value);
+    let newValue = parseInt(e.target.value);
     const newData = this.state.addNewData;
-    newData.incomeTax = newValue;
-    newData.totalSalary =
+    newData.income_tax = newValue;
+    newData.total_salary =
       newData.salary_after_deduction_or_addition -
       newData.ssc2 -
-      newData.incomeTax +
+      newData.income_tax +
       newData.maintenance +
       newData.petrol;
     this.setState({ addNewData: newData });
@@ -234,10 +234,10 @@ export default class ResignOrDismissSalaryAddNew extends Component {
     let newValue = parseFloat(e.target.value);
     const newData = this.state.addNewData;
     newData.maintenance = newValue;
-    newData.totalSalary =
+    newData.total_salary =
       newData.salary_after_deduction_or_addition -
       newData.ssc2 -
-      newData.incomeTax +
+      newData.income_tax +
       newData.maintenance +
       newData.petrol;
     this.setState({ addNewData: newData });
@@ -247,10 +247,10 @@ export default class ResignOrDismissSalaryAddNew extends Component {
     let newValue = parseFloat(e.target.value);
     const newData = this.state.addNewData;
     newData.petrol = newValue;
-    newData.totalSalary =
+    newData.total_salary =
       newData.salary_after_deduction_or_addition -
       newData.ssc2 -
-      newData.incomeTax +
+      newData.income_tax +
       newData.maintenance +
       newData.petrol;
     this.setState({ addNewData: newData });
@@ -294,12 +294,12 @@ export default class ResignOrDismissSalaryAddNew extends Component {
       tempData.gross_salary = userInfo.basic_salary;
       tempData.deduction_or_addition = newData.deduction_or_addition;
       tempData.salary_after_deduction_or_addition = newData.salary_after_deduction_or_addition;
-      tempData.SSC_employer = newData.ssc3;
-      tempData.SSC_employee = newData.ssc2;
-      tempData.income_tax = newData.incomeTax;
+      tempData.ssc3 = newData.ssc3;
+      tempData.ssc2 = newData.ssc2;
+      tempData.income_tax = newData.income_tax;
       tempData.maintenance = newData.maintenance;
       tempData.petrol = newData.petrol;
-      tempData.total_salary = newData.totalSalary;
+      tempData.total_salary = newData.total_salary;
       tempData.reason = newData.reason;
       tempData.atm_or_cash = newData.atmOrCash;
       tempData.exit_status = newData.exitStatus;
@@ -317,10 +317,10 @@ export default class ResignOrDismissSalaryAddNew extends Component {
           salary_after_deduction_or_addition: 0,
           ssc3: 0,
           ssc2: 0,
-          incomeTax: 0,
+          income_tax: 0,
           maintenance: 0,
           petrol: 0,
-          totalSalary: 0,
+          total_salary: 0,
           reason: "",
           atmOrCash: 0,
           exitStatus: 0,
@@ -389,8 +389,8 @@ export default class ResignOrDismissSalaryAddNew extends Component {
           .salary_after_deduction_or_addition
           ? data[i].salary_after_deduction_or_addition
           : 0,
-        ssc3: data[i].SSC_employer ? data[i].SSC_employer : 0,
-        ssc2: data[i].SSC_employee ? data[i].SSC_employee : 0,
+        ssc3: data[i].ssc3 ? data[i].ssc3 : 0,
+        ssc2: data[i].ssc2 ? data[i].ssc2 : 0,
         income_tax: data[i].income_tax ? data[i].income_tax : 0,
         maintenance: data[i].maintenance ? data[i].maintenance : 0,
         petrol: data[i].petrol ? data[i].petrol : 0,
@@ -471,8 +471,8 @@ export default class ResignOrDismissSalaryAddNew extends Component {
           deduction_or_addition: v.deduction_or_addition,
           salary_after_deduction_or_addition:
             v.salary_after_deduction_or_addition,
-            SSC_employer: v.SSC_employer,
-            SSC_employee: v.SSC_employee,
+            ssc3: v.ssc3,
+            ssc2: v.ssc2,
           income_tax: parseFloat(v.income_tax),
           maintenance: v.maintenance,
           petrol: v.petrol,
@@ -765,7 +765,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
                         disabled
                         type="number"
                         data-name="ssc3"
-                        value={addNewData.ssc3 ? addNewData.ssc3 : addNewData.SSC_employer}
+                        value={addNewData.ssc3 ? addNewData.ssc3 : addNewData.ssc3}
                       />
                     </div>
                     <div className="col-md-3">
@@ -775,7 +775,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
                         disabled
                         type="number"
                         data-name="ssc2"
-                        value={addNewData.ssc2 ? addNewData.ssc2 : addNewData.SSC_employee}
+                        value={addNewData.ssc2 ? addNewData.ssc2 : addNewData.ssc2}
                       />
                     </div>
                     <div className="col-md-3">
@@ -783,8 +783,8 @@ export default class ResignOrDismissSalaryAddNew extends Component {
                       <input
                         className="form-control"
                         type="number"
-                        data-name="incomeTax"
-                        value={addNewData.incomeTax}
+                        data-name="income_tax"
+                        value={addNewData.income_tax}
                         placeholder={"Enter Income Tax"}
                         onChange={this.onIncomeTaxChange}
                       />
@@ -819,8 +819,8 @@ export default class ResignOrDismissSalaryAddNew extends Component {
                         className="form-control"
                         disabled
                         type="number"
-                        data-name="totalSalary"
-                        value={addNewData.totalSalary}
+                        data-name="total_salary"
+                        value={addNewData.total_salary}
                       />
                     </div>
                     <div className="col-md-3">
