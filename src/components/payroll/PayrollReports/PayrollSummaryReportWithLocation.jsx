@@ -100,7 +100,7 @@ class PayrollSummaryReportWithLocation extends Component {
     this.getRegionList();
     this.getDepartmentList();
     this.getBranchList();
-    this.getPayrollReportHeader();
+    // this.getPayrollReportHeader();
 
     this.handleSearchData();
   }
@@ -205,8 +205,9 @@ class PayrollSummaryReportWithLocation extends Component {
     });
   };
   getPayrollReportHeader() {
+  const Date = moment(this.state.date).format("YYYY-MM");
     
-    fetch(`${main_url}payroll_report/getPayrollReportHeader/2023-02`)
+    fetch(`${main_url}payroll_report/getPayrollReportHeader/`+Date)
       .then((res) => {
         if (res.ok) return res.json();
       })
@@ -218,6 +219,7 @@ class PayrollSummaryReportWithLocation extends Component {
   }
 
   handleSearchData = () => {
+    this.getPayrollReportHeader();
     const branchId = this.state.selected_Branch
     ? this.state.selected_Branch.value
     : 0;
@@ -1005,21 +1007,15 @@ this.state.TrainingDetail!=undefined && this.state.TrainingDetail.empType && thi
           <h3 className="" style={{ paddingLeft: "10px" }}>
             Payroll Summary Report With Locatin Wise/Status Wise
           </h3>
-          <div style={{ overflow: "scroll" }}>
-            <ReactHTMLTableToExcel
-              className="btn-excel"
-              table="reg_wise_staff"
-              filename="Payroll Summary Report With Location Wise/Status Wise"
-              buttonText="Excel"
-              sheet="Sheet"
-            />
+          <div className="row" style={{ marginBottom:10 }}>
+            <div className="col-md-12" style={{marginBottom:10}}>
             <div
               className="flex-row"
               style={{
                 display: "flex",
                 justifyContent: "left",
                 alignItems: "center",
-                margin: "10px 10px 10px 10px",
+                
               }}
             >
               <DatePicker
@@ -1102,7 +1098,19 @@ this.state.TrainingDetail!=undefined && this.state.TrainingDetail.empType && thi
                 Search
               </button>
             </div>
-            <table
+            </div>
+            <div className="col-md-12 btn-leftend">
+            <ReactHTMLTableToExcel
+              className="btn-excel"
+              table="reg_wise_staff"
+              filename="Payroll Summary Report With Location Wise/Status Wise"
+              buttonText="Excel"
+              sheet="Sheet"
+            />
+            </div>
+            
+          </div>
+          <table
               className="table table-bordered"
               id="reg_wise_staff"
               style={{ overflow: "scroll" }}
@@ -1571,7 +1579,6 @@ this.state.TrainingDetail!=undefined && this.state.TrainingDetail.empType && thi
                 })}
               </tbody>
             </table>
-          </div>
         </div>
       </div>
     );

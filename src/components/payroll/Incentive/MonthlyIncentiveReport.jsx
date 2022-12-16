@@ -255,7 +255,7 @@ getRegionList() {
 
         <div>
 
-            <div className="col-lg-12" style={{marginBottom:20}}>
+            <div className="col-lg-12" style={{marginBottom:20,marginLeft:0,padding:0}}>
 
           <div className="col-lg-3" >
             <label>Request Month</label>
@@ -340,9 +340,10 @@ getRegionList() {
           </div> 
 
             </div>
-
-        { this.state.coData.length > 0 && this.state.table_type === 1  ? (   console.log("data shi tl",this.state.fxData,this.state.coData),
+            <div className="col-lg-12">
+            { this.state.coData.length > 0 && this.state.table_type === 1  ? (   console.log("data shi tl",this.state.fxData,this.state.coData),
                 <>
+                        <div style={{marginBottom:10}}>
                         <ReactHTMLTableToExcel 
                          className="btn-excel"
                          table="monthly_incentive"
@@ -351,6 +352,7 @@ getRegionList() {
                          sheet="Sheet"
                         
                          />
+                        </div>
                 <table
                 className="table table-bordered"
                 id='monthly_incentive'
@@ -479,6 +481,7 @@ getRegionList() {
                 </>
             ) : this.state.coData.length === 0 && this.state.table_type === 1  ? (  console.log("456456456456"),
                 <>
+                        <div style={{marginBottom:10}}>
                         <ReactHTMLTableToExcel 
                          className="btn-excel"
                          table="monthly_incentive"
@@ -486,6 +489,7 @@ getRegionList() {
                          buttonText="Excel"
                          sheet="Sheet"
                          />
+                        </div>
 
                 <table
                 className="table table-bordered"
@@ -603,6 +607,9 @@ getRegionList() {
           /></div>
             ):('',console.log("fxReport",this.state.coData.length,this.state.table_type === 2))
           }
+            </div>
+
+        
 
         </div>
    ) }

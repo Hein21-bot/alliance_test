@@ -271,7 +271,7 @@ class EmployeeSalaryReport extends Component {
       paging: true,
       buttons: true,
       dom: "Bfrtip",
-      buttons: ["excel"],
+      // buttons: ["excel"],
       buttons: [
         {
           extend: "excelHtml5",
@@ -287,7 +287,7 @@ class EmployeeSalaryReport extends Component {
     return (
       <div>
         <div className="row  white-bg dashboard-header">
-          <h3 className="" style={{ paddingLeft: "10px" }}>
+          <h3 className="">
             Employee Salary Report
           </h3>
           <div
@@ -296,10 +296,10 @@ class EmployeeSalaryReport extends Component {
               display: "flex",
               justifyContent: "left",
               alignItems: "center",
-              margin: "10px 10px 10px 10px",
+              marginBottom:10,padding:0,marginLeft:0
             }}
           >
-            <div className="col-md-2">
+            <div className="col-md-2" style={{paddingLeft:0}}>
               <label htmlFor="">Branch</label>
               <Select
                 styles={{
@@ -312,6 +312,7 @@ class EmployeeSalaryReport extends Component {
                   control: (base) => ({
                     ...base,
                     minHeight: "18px",
+                    
                   }),
                 }}
                 placeholder="Branch"
@@ -416,7 +417,7 @@ class EmployeeSalaryReport extends Component {
               />
             </div>
 
-            <div className="col-md-2">
+            <div className="col-md-2 btn-leftend">
               <button
                 className="btn btn-primary text-center"
                 style={{

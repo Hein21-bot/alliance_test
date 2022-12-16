@@ -430,9 +430,9 @@ handleSelectedEmpId = async (event) => {
         <h3 className="">Payroll Details Report</h3>
         
           <div style={{overflow:'scroll'}}>
-          <div className="row" style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+          <div className="row">
           
-          <div className='col-md-11' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 0px' }}>
+          <div className='col-md-12' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center',marginLeft:0,marginBottom:10,padding:0}}>
           <div className="col-md-3">
           <DatePicker
                             dateFormat="YYYY-MM"
@@ -577,7 +577,7 @@ handleSelectedEmpId = async (event) => {
             <button className='btn btn-primary text-center' onClick={() => this.handleSearchData()}>Search</button>
             </div>
           </div>
-          <div className="col-md-1 btn-rightend">
+          <div className="col-md-12 btn-leftend" style={{marginBottom:10}}>
           <ReactHTMLTableToExcel 
                     className="btn-excel"
                     table="payroll_details_report"
