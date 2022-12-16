@@ -8,9 +8,11 @@ import moment from 'moment'
 import DatePicker from 'react-datetime';
 import { imgData } from '../../../utils/Global';
 import * as jsPDF from 'jspdf';
+import Select from "react-select";
 import { main_url, getMainRole,getFirstDayOfYear, getInformation, getUserId, setPrintedStatus, print, fno } from "../../../utils/CommonFunction";
 const $ = require('jquery');
 const jzip = require('jzip');
+
 window.JSZip = jzip;
 $.DataTable = require('datatables.net-bs4');
 $.DataTable = require('datatables.net-responsive-bs4');
@@ -32,10 +34,20 @@ export default class BackPayTable extends Component {
             to_date: moment() ,
             from_date:getFirstDayOfYear(),
             tab:this.props.tab,
+            regionList: [],
+            branchList: [],
+            departmentList: [],
+            selected_month: new Date(),
+            selected_region: "",
+            selected_branch: "",
+            selected_department: "",
         }
     }
     componentDidMount() {
         this.$el = $(this.el);
+        this.getBranchList();
+        this.getDepartmentList();
+        this.getRegionList();
 
         this.setState({
             dataSource: this.state.dataSource
@@ -89,6 +101,7 @@ export default class BackPayTable extends Component {
           );
         }
       }
+
 
     getRequest() {
         this.search(0);
@@ -159,11 +172,91 @@ export default class BackPayTable extends Component {
             this.getMyBenefits();
         }
     }
+    getRegionList() {
+        fetch(`${main_url}benefit/getRegionList`)
+          .then((res) => {
+            if (res.ok) return res.json();
+          })
+          .then((list) => {
+            let lists = list.unshift({ state_id: 0, state_name: "All" });
+            this.setState({
+              regionList: list.map((v) => ({
+                ...v,
+                label: v.state_name,
+                value: v.state_id,
+              })),
+            });
+          });
+      };
+    
+      getDepartmentList() {
+        fetch(main_url + `main/getDepartment`)
+        .then((res) => {
+          if (res.ok) return res.json();
+        })
+        .then((res1) => {
+          res1.unshift({ label: "All", value: 0 })
+          this.setState({ departmentList: res1 });
+        })
+        .catch((error) => console.error(`Fetch Error =\n`, error));
+      };
+    
+      getBranchList() {
+        fetch(`${main_url}main/getBranch`)
+          .then((res) => {
+            if (res.ok) return res.json();
+          })
+          .then((list) => {
+            let lists = list.unshift({ value: 0, label: "All" });
+            this.setState({
+              branchList: list,
+            });
+          });
+      };
     search(status) {
         let data = this.state.dataSource;
         data = data.filter(d => { return status === d.status });
         this._setTableData(data)
     }
+    handleSelectedMonth = (event) => {
+        this.setState({
+          selected_month: event,
+        });
+      };
+    
+      handleSelectedRegion = (event) => {
+        if (event !== null)
+          this.setState({
+            selected_region: event,
+          });
+      };
+    
+      handleSelectedBranch = (event) => {
+        if (event !== null)
+          this.setState({
+            selected_branch: event,
+          });
+      };
+    
+      handleSelectedDepartment = (event) => {
+        if (event !== null)
+                  this.setState({
+                    selected_department: event,
+                  });
+              };
+    handleSearchData = async (s_date, e_date, user_id) => {
+        const departmentId = this.state.selected_department ? this.state.selected_department.value : 0
+      const branchId = this.state.selected_branch ? this.state.selected_branch.value :0
+      const regionId = this.state.selected_region ? this.state.selected_region.value : 0
+        fetch(`${main_url}back_pay/get_back_pay/${regionId}/${branchId}/${departmentId}/${moment(this.state.selected_month).format('YYYY-MM')}/${this.state.user_id}`)
+          .then(res => { if (res.ok) return res.json() })
+          .then((res) => {
+            if (res) {
+              this.setState({ dataSource: res },()=>{ this._setTableData(res)});
+            }
+          })
+          .catch((error) => console.error(`Fetch Error =\n`, error));
+      }
     // async getPrintData(data) {
 
     //     var info = await getInformation('wedding_benefit', data.benefit_id)
@@ -357,52 +450,113 @@ export default class BackPayTable extends Component {
     render() { console.log("tab==>",this.state.dataSource)
         return (
             
-            <div>   <div className=''style={{display:'flex',justifyContent:'end',marginRight:33}}>          
-                       {/* <div className='row'style={{display:'flex',paddingLeft:20}}>  
-                        <div className="col" style={{padding:0,width:150}}>
-                                    <div><label className="col"style={{padding:0}}>Start Date</label></div>
-                                    <div className="col"style={{padding:0}}>
-                                    <DatePicker
-                                       dateFormat="DD/MM/YYYY"
-                                       value={this.state.from_date}
-                                       onChange={this.handleStartDate}
-                                       timeFormat={false}/>
-                                    </div>
-                        </div>
-                        <div className="col"style={{padding:0, marginLeft:10,width:150}}>
-                                    <div><label className="col"style={{padding:0}}>End Date</label></div>
-                                    <div className="col"style={{padding:0}}>
-                                    <DatePicker
-                                       dateFormat="DD/MM/YYYY"
-                                       value={this.state.to_date}
-                                       onChange={this.handleEndDate}
-                                       timeFormat={false}/>
-                                    </div>
-                        </div>
-                        <div className="col-md-2" style={{padding:0,marginTop:4}}>
-                                    <div className="col-md-10 margin-top-20 padding-0">
-                                        <button type="button" className="btn btn-primary" onClick={this.filter.bind(this)}>Search</button>
-                                    </div>
-                        </div> </div> */}
-                    <div className='row'>                 
-                        <div className="row border-bottom white-bg dashboard-header" >
-                    <div className="row">
-                        <div class="btn-group-g ">
-                            <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
-                            <button type="button" class=" btn label-check g" onClick={this.getCheck.bind(this)}>Check</button>
-                            <button type="button" class="btn label-verified g" onClick={this.getVerified.bind(this)}>Verify</button>
-                            <button type="button" class="btn label-approve g" onClick={this.getApprove.bind(this)}>Approve</button>
-                            <button type="button" class="btn label-reject g" onClick={this.getReject.bind(this)}>Reject</button>
-                        </div>
-                    </div>
-                        </div>
-                    </div>    
-                        </div>
-                        <table width="99%"
-                    className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
-                    id="dataTables-table"
-                        />
+            <div>
+        <div className="row">
+       <div className="col-lg-2" >
+            <label>Request Month</label>
+            <DatePicker
+              dateFormat="MM/YYYY"
+              value={this.state.selected_month}
+              timeFormat={false}
+              onChange={this.handleSelectedMonth}
+            />
+          </div>
+
+          <div className='col-lg-2' >
+        <label>Region</label>
+        <Select 
+          options={this.state.regionList}
+          onChange={this.handleSelectedRegion}
+          value={this.state.selected_region}
+          className="react-select-container"
+          classNamePrefix="react-select"/></div>
+
+          <div className='col-lg-2' >
+        <label>Branch </label>
+        <Select 
+          options={this.state.branchList}
+          onChange={this.handleSelectedBranch}
+          value={this.state.selected_branch}
+          className="react-select-container"
+          classNamePrefix="react-select"/></div>
+
+          <div className="col-lg-2">
+            <label>Department</label>
+            <Select
+              options={this.state.departmentList}
+              onChange={this.handleSelectedDepartment}
+              value={this.state.selected_department}
+              className="react-select-container"
+              classNamePrefix="react-select"
+            />
+          </div>
+        
+          <div
+            className="col-lg-2"
+            style={{
+              marginTop: "25px",
+            }}
+          >
+            <button className="btn-primary btn" onClick={this.handleSearchData.bind(this)}>Search</button>
+          </div> </div>
+
+        <div
+          className="row"
+          style={{ display: "flex", justifyContent: "end", marginRight: 33 }}
+        >
+          <div className="row">
+            <div className="row border-bottom white-bg dashboard-header">
+               <div className="col-12">
+               
+              <div className="row">
+                <div class="btn-group-g ">
+                  <button
+                    type="button"
+                    class="btn label-request g"
+                    onClick={this.getRequest.bind(this)}
+                  >
+                    Request
+                  </button>
+                  <button
+                    type="button"
+                    class=" btn label-check g"
+                    onClick={this.getCheck.bind(this)}
+                  >
+                    Check
+                  </button>
+                  <button
+                    type="button"
+                    class="btn label-verified g"
+                    onClick={this.getVerified.bind(this)}
+                  >
+                    Verify
+                  </button>
+                  <button
+                    type="button"
+                    class="btn label-approve g"
+                    onClick={this.getApprove.bind(this)}
+                  >
+                    Approve
+                  </button>
+                  <button
+                    type="button"
+                    class="btn label-reject g"
+                    onClick={this.getReject.bind(this)}
+                  >
+                    Reject
+                  </button>
+                </div>
+              </div>
+               </div>
             </div>
+          </div>
+        </div>
+        <table
+          width="99%"
+          className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
+          id="dataTables-table"
+        />
+      </div>
         )
     }
 }

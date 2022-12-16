@@ -22,7 +22,7 @@ class BackPayMain extends Component {
             isEdit: false,
             datasource: [],
             requestData: [],
-            permission_status: { isAddNew: true,isEdit:true},
+            permission_status: {},
             requestType: '',
             active_tab: 0,
             BackPayData:[]
@@ -31,21 +31,26 @@ class BackPayMain extends Component {
     }
 
     async componentDidMount() {
-        await this.BackPayData();
+        var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Child Benefit', 'Benefit');
+       
+        this.setState({
+            permission_status: permission_status
+        })
+        // await this.BackPayData();
       }
     
-      BackPayData() {
-        fetch(`${main_url}back_pay/get_back_pay/${this.state.user_id}`)
-          .then((response) => {
-            if (response.ok) return response.json();
-          })
-          .then((res) => {
-            if (res) {
-              this.setState({ BackPayData: res });
-            }
-          })
-          .catch((error) => console.error(`Fetch Error =\n`, error));
-      }
+    //   BackPayData() {
+    //     fetch(`${main_url}back_pay/get_back_pay/${this.state.user_id}`)
+    //       .then((response) => {
+    //         if (response.ok) return response.json();
+    //       })
+    //       .then((res) => {
+    //         if (res) {
+    //           this.setState({ BackPayData: res });
+    //         }
+    //       })
+    //       .catch((error) => console.error(`Fetch Error =\n`, error));
+    //   }
     
 
     changeTab(tab) {
@@ -120,7 +125,7 @@ class BackPayMain extends Component {
                 <br />
 
                 {this.state.isTable ? (
-          <BackPayTable dataSource={this.state.BackPayData} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm}/>
+          <BackPayTable dataSource={this.state.BackPayData} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status}/>
         ) : this.state.isAddNew ? (
           <BackPayAddNew
             view={isView}

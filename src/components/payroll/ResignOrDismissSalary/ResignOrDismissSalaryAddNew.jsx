@@ -200,8 +200,8 @@ export default class ResignOrDismissSalaryAddNew extends Component {
     newData.salaryAfterDorA =
       this.state.userInfo.basic_salary + parseFloat(newValue);
     newData.deductionOrAddition = newValue;
-    newData.ssc3 = newData.salaryAfterDorA * 0.03;
-    newData.ssc2 = newData.salaryAfterDorA * 0.02;
+    // newData.ssc3 = newData.salaryAfterDorA * 0.03;
+    // newData.ssc2 = newData.salaryAfterDorA * 0.02;
 
     // newData.ssc2 = this.state.userInfo.basic_salary >= 300000 ? 300000*0.02 : this.state.userInfo.basic_salary * 0.02
     newData.totalSalary =
