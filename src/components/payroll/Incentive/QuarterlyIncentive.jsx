@@ -21,9 +21,10 @@ export default class QuarterlyIncentive extends Component{
             selected_region :'',
             selected_branch :'',
             selected_department :'',
-            selected_quarter:'', 
+            selected_quarter:{value: 1, label: "Jan to March"},
             loading:false,
             quarter:'',
+            viewButton:false,
             quarter_months:[
               {value:1,month1:'Jan',month2:'Feb',month3:'March'},
               {value:2,month1:'April',month2:'May',month3:'June'},
@@ -127,6 +128,27 @@ export default class QuarterlyIncentive extends Component{
                 selected_quarter: event
             })
           };
+   
+          handleSearch(){     
+    const branchId = this.state.selected_branch ? this.state.selected_branch.value : 0
+    const designationId = this.state.selected_department ? this.state.selected_department.value : 0
+    const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
+    const employee = this.state.selected_employeeId ? this.state.selected_employeeId.value : 0
+    const quarterSelect  =  this.state.selected_quarter ? this.state.selected_quarter.value :0 
+    fetch(main_url + "salary_report/quartelyReport/" + employee + "/" + designationId + "/" + branchId + "/" + regionId + "/" + quarterSelect + "/" + moment(this.state.selected_month).format('YYYY') ) 
+      .then(res => { if (res.ok) return res.json() })
+      .then(list => {
+        if (list.length > 0){
+        this.setState({
+          dataSource:list,
+            quarter:list[0].quarter 
+
+        })}else{
+          this.setState({
+            data:list, })
+        }
+      })
+          }
 
         checkFiles(e) {       
             var files = document.getElementById("attachment").files;
@@ -140,11 +162,7 @@ export default class QuarterlyIncentive extends Component{
           };
 
         actionClick = (e)=>{  console.log(e,this.state.dataSource.length)
-          if (e == 0)  {
-            document.querySelector("#attachment").value = "";
-            this.setState({
-              dataSource:[]
-            })} 
+          
            
             if ( this.state.dataSource.length > 0 && (e == 1 || e == 2 || e ==0 )){
               let status = 0
@@ -157,13 +175,19 @@ export default class QuarterlyIncentive extends Component{
              if (e != 0){
               toast.success(text);
              }  
+             if (e == 0)  {
+              document.querySelector("#attachment").value = "";
+              this.setState({
+                viewButton:false,
+                dataSource:[]
+              })}
               });
             } else {
               toast.error("Please Calculate First!");
             }
           };
 
-        calculate(e){ console.log('ewrwerw',this.state.selected_quarter.value);
+        calculate(e){ 
          if(this.state.selected_quarter.value == undefined){
            toast.error("Please Choose Quarter!")
          }
@@ -189,7 +213,8 @@ export default class QuarterlyIncentive extends Component{
              this.setState({
                dataSource:response,
                quarter:response[0].quarter,
-               loading:false
+               loading:false,
+               viewButton:true
              })
             })}
           };
@@ -286,7 +311,7 @@ export default class QuarterlyIncentive extends Component{
           className="react-select-container"
           classNamePrefix="react-select"/></div>
           
-          <div className="row" style={{paddingTop:25,marginLeft:15}}><button className='btn-primary btn'>Search</button></div>
+          <div className="row" style={{paddingTop:25,marginLeft:15}}><button className='btn-primary btn' onClick={()=>this.handleSearch()}>Search</button></div>
   
           <div className="col-lg-2" style={{ paddingTop: 8 }}>
             <input
@@ -376,6 +401,7 @@ export default class QuarterlyIncentive extends Component{
                 }   
               </tbody>
              </table>
+{       this.state.viewButton ? (
              <div style={{ display: "flex", justifyContent: "end" }}>
               <div
                 className="col-lg-1"
@@ -399,8 +425,37 @@ export default class QuarterlyIncentive extends Component{
                 <button className="btn-primary btn" onClick={()=>this.actionClick(2)}>Generate</button>
               </div>
 
-            </div>
-             </div>):('')
+            </div> ) : ('')
+  }
+             </div>):(
+           <table className="table table-bordered" id="quarterly_incentive" style={{overflow:'scroll'}}>
+           <thead>
+               <tr>
+                   <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Sr No</th>
+                   <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Employee Code</th>
+                   <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Name</th>
+                   <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Position</th>
+                   <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>BSC Category</th>
+                   <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Branch</th>
+                   <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Branch Code</th>
+                   <th style={{textAlign:'center',verticalAlign: "middle"}} colSpan={3}>Monthly Salary</th>
+                   <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Average Salary</th>
+                   <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>BSC%</th>
+                   <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Total Incentive</th>
+                   <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Remark</th>
+               </tr>
+               <tr>
+               <th style={{ textAlign: "center", verticalAlign: "middle" }}>{this.state.quarter_months.filter(v=>v.value == this.state.selected_quarter.value)[0].month1}</th>
+                 <th style={{ textAlign: "center", verticalAlign: "middle" }}>{this.state.quarter_months.filter(v=>v.value == this.state.selected_quarter.value)[0].month2}</th>
+                 <th style={{ textAlign: "center", verticalAlign: "middle" }}>{this.state.quarter_months.filter(v=>v.value == this.state.selected_quarter.value)[0].month3}</th>
+               </tr>
+           </thead>
+           <tbody>
+             <td colSpan={14}style={{ textAlign: "center", verticalAlign: "middle",height:35,fontSize:15,borderBottom:'1px solid black' }}>No data available in table</td>
+          
+           </tbody>
+         </table>
+           )
                }  
            </div>
          </div>
