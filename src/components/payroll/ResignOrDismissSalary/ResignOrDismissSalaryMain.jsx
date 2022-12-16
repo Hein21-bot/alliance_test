@@ -27,7 +27,7 @@ class ResignOrDismissSalaryMain extends Component {
       isTable: true,
       isView: false,
       isEdit: false,
-      permission_status: { isAddNew: true },
+      permission_status: {},
       requestType: "",
       active_tab: 0,
       resignOrDismissData: [],
@@ -37,6 +37,10 @@ class ResignOrDismissSalaryMain extends Component {
 
   async componentDidMount() {
     this.getResignOrDismissData();
+    var permission_status = await getPermissionStatus(this.state.user_info.designations_id,  'Wedding Benefit', 'Benefit');
+    this.setState({
+        permission_status: permission_status
+    })
   }
 
   getResignOrDismissData() {
@@ -126,7 +130,7 @@ class ResignOrDismissSalaryMain extends Component {
         <br />
 
         {this.state.isTable ? (
-          <ResignOrDismissSalaryTable dataSource={resignOrDismissData} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm}  permission={this.state.permission_status} />
+          <ResignOrDismissSalaryTable dataSource={resignOrDismissData} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm}  permission_status={this.state.permission_status} />
         ) : this.state.isAddNew ? (
           <ResignOrDismissSalaryAddNew
             view={isView}

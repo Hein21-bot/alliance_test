@@ -43,7 +43,7 @@ export default class ResignOrDismissSalaryTable extends Component {
       selected_region: "",
       selected_branch: "",
       selected_department: "",
-      
+      permission_status:'',
     };
   }
   async componentDidMount() {
@@ -52,10 +52,12 @@ export default class ResignOrDismissSalaryTable extends Component {
     this.getDepartmentList();
     this.setState(
       {
+        permission_status:this.props.permission_status,
         dataSource: this.props.dataSource,
       },
       () => {
         this._setTableData(this.state.dataSource);
+        // console.log('dtatttt',this.props.dataSource);
       }
     );
 
@@ -296,8 +298,8 @@ export default class ResignOrDismissSalaryTable extends Component {
     var table;
     var l = [];
     var status;
-    var permission = this.props.permission;
-    var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
+    var permission = this.props.permission_status;
+    var has_action = permission.isView == 1 || permission.isEdit == 1 ? true : false; console.log("action>>>>>>",this.props.permission_status,has_action);
     if (data) {
       for (var i = 0; i < data.length; i++) {
         let result = data[i];
@@ -368,36 +370,36 @@ export default class ResignOrDismissSalaryTable extends Component {
           status: status,
         };
 
-        obj.action =
-          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' +
-          JSON.stringify(result) +
-          '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>';
-        obj.action +=
-          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' +
-          JSON.stringify(result) +
-          '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>';
-        // if (has_action) {
-        //     if (result.status !== 3) {
-        // obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
-        // obj.action += permission.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
-        //     } else {
-        //         obj.action = permission.isView === 1 ?
+        // obj.action =
+        //   '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' +
+        //   JSON.stringify(result) +
+        //   '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>';
+        // obj.action +=
+        //   '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' +
+        //   JSON.stringify(result) +
+        //   '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>';
+        if (has_action) {
+            if (result.status !== 3) {
+        obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+        obj.action += permission.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
+            } else {
+                obj.action = permission.isView === 1 ?
 
-        //             '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+                    '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
 
-        //         if (result.print === 1) {
-        //             obj.action +=
-        //                 '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-        //                 JSON.stringify(result) +
-        //                 '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
-        //         } else {
-        //             obj.action +=
-        //                 '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-        //                 JSON.stringify(result) +
-        //                 '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
-        //         }
-        //     }
-        // }
+                if (result.print === 1) {
+                    obj.action +=
+                        '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                        JSON.stringify(result) +
+                        '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
+                } else {
+                    obj.action +=
+                        '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                        JSON.stringify(result) +
+                        '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
+                }
+            }
+        }
         l.push(obj);
       }
     }
@@ -435,12 +437,12 @@ export default class ResignOrDismissSalaryTable extends Component {
       { title: "ATM/Cash", data: "ATM_Cash" },
       { title: "Exit Status", data: "exit_status" },
       { title: 'Status', data: 'status'},
-      {title: 'Action', data: 'action'}
+      // {title: 'Action', data: 'action'}
     ];
 
-    // if (has_action) {
-    //     column.push({ title: "Action", data: "action" })
-    // }
+    if (has_action) {
+        column.push({ title: "Action", data: "action" })
+    }
 
     table = $("#dataTables-table").DataTable({
       autofill: true,
@@ -475,7 +477,7 @@ export default class ResignOrDismissSalaryTable extends Component {
   };
 
   render() {
-    console.log("tab==>", this.props.dataSource);
+    console.log("tab==>", this.state.permission_status);
 
     return (
       <div>
