@@ -16,7 +16,8 @@ import {
   validate,
   getBranch,
   alertText,
-  getWorkFlowStatus
+  getWorkFlowStatus,
+  getPermissionStatus
 } from "../../../utils/CommonFunction";
 import Select from "react-select";
 import moment from "moment";
@@ -311,7 +312,7 @@ export default class ResignOrDismissSalaryEdit extends Component {
 
   render() {
     const { dataSource, exitStatusList } = this.state;
-    console.log("dataSource =====>",havePermission(this.state.work_flow_status), this.state.dataSource);
+    console.log("dataSource =====>",havePermission(this.state.work_flow_status), this.state.work_flow_status);
     return (
       <div>
         <div className="row">
