@@ -108,7 +108,7 @@ class ResignOrDismissSalaryMain extends Component {
   };
 
 
-  render() {
+  render() {   console.log(this.state.permission_status);
     const { isView, isEdit, resignOrDismissData, datasource } = this.state;
     return (
       <div className="pay-roll border-bottom white-bg dashboard-header">
@@ -126,7 +126,7 @@ class ResignOrDismissSalaryMain extends Component {
         <br />
 
         {this.state.isTable ? (
-          <ResignOrDismissSalaryTable dataSource={resignOrDismissData} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} />
+          <ResignOrDismissSalaryTable dataSource={resignOrDismissData} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm}  permission={this.state.permission_status} />
         ) : this.state.isAddNew ? (
           <ResignOrDismissSalaryAddNew
             view={isView}
