@@ -352,14 +352,15 @@ class PayrollSummaryReport extends Component {
             Payroll Summary Report
           </h3>
           
-         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-         <div
+         <div className="row" style={{marginBottom:10}}>
+          <div className="col-md-12" style={{marginBottom:10}}>
+          <div
             className="flex-row"
             style={{
               display: "flex",
               justifyContent: "left",
               alignItems: "center",
-              margin: "10px 10px 10px 0px",
+             
             }}
           >
             <DatePicker
@@ -417,6 +418,8 @@ class PayrollSummaryReport extends Component {
               Search
             </button>
           </div>
+          </div>
+          <div className="col-md-12 btn-leftend">
           <ReactHTMLTableToExcel 
                     className="btn-excel"
                     table="payroll_summary_report"
@@ -424,12 +427,16 @@ class PayrollSummaryReport extends Component {
                     buttonText="Excel"
                     sheet="Sheet"
                     />
+          </div>
+         
+         
          </div>
           
+          <table id='payroll_summary_report'>
           <table
             className="table table-bordered"
             style={{ overflow: "scroll" }}
-            id='payroll_summary_report'
+            
           >
             <thead>
               <tr style={{ overflow: "scroll",textAlign:'center' }}>
@@ -729,6 +736,7 @@ class PayrollSummaryReport extends Component {
               </tbody>
             </table>
           </div>
+          </table>
         </div>
       </div>
     );
