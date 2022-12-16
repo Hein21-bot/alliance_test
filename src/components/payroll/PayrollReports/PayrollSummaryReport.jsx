@@ -426,10 +426,11 @@ class PayrollSummaryReport extends Component {
                     />
          </div>
           
+          <table id='payroll_summary_report'>
           <table
             className="table table-bordered"
             style={{ overflow: "scroll" }}
-            id='payroll_summary_report'
+            
           >
             <thead>
               <tr style={{ overflow: "scroll",textAlign:'center' }}>
@@ -729,6 +730,7 @@ class PayrollSummaryReport extends Component {
               </tbody>
             </table>
           </div>
+          </table>
         </div>
       </div>
     );
