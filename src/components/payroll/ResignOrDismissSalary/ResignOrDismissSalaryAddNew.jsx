@@ -40,8 +40,8 @@ export default class ResignOrDismissSalaryAddNew extends Component {
         requestMonth: new Date(),
         lastWorkingDay: new Date(),
         grossSalary: null,
-        deductionOrAddition: 0,
-        salaryAfterDorA: 0,
+        deduction_or_addition: 0,
+        salary_after_deduction_or_addition: 0,
         ssc3: 0,
         ssc2: 0,
         incomeTax: 0,
@@ -89,8 +89,8 @@ export default class ResignOrDismissSalaryAddNew extends Component {
             requestMonth: editData.request_month,
             lastWorkingDay: editData.last_working_day,
             grossSalary: editData.gross_salary,
-            deductionOrAddition: editData.deduction_or_addition,
-            salaryAfterDorA: editData.salary_after_deduction_or_addition,
+            deduction_or_addition: parseInt(editData.deduction_or_addition),
+            salary_after_deduction_or_addition: editData.salary_after_deduction_or_addition,
             ssc3: editData.ssc3,
             ssc2: editData.ssc2,
             incomeTax: editData.income_tax,
@@ -117,6 +117,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
         },
         () => that.setDataTable(newData)
       );
+      console.log("edit data deduction or addition",that.state.addNewData.deduction_or_addition)
     });
     $(document).on("click", "#toRemove", function () {
       var data = $(this).find("#remove").text();
@@ -180,13 +181,13 @@ export default class ResignOrDismissSalaryAddNew extends Component {
   // onGrossSalaryChange = (e) => {
   //   let newValue = parseFloat(e.target.value);
   //   const newData = this.state.addNewData;
-  //   newData.salaryAfterDorA =
-  //     newValue + parseFloat(newData.deductionOrAddition);
+  //   newData.salary_after_deduction_or_addition =
+  //     newValue + parseFloat(newData.deduction_or_addition);
   //   newData.grossSalary = newValue;
-  //   newData.ssc3 = newData.salaryAfterDorA * 0.03;
-  //   newData.ssc2 = newData.salaryAfterDorA * 0.02;
+  //   newData.ssc3 = newData.salary_after_deduction_or_addition * 0.03;
+  //   newData.ssc2 = newData.salary_after_deduction_or_addition * 0.02;
   //   newData.totalSalary =
-  //     newData.salaryAfterDorA -
+  //     newData.salary_after_deduction_or_addition -
   //     newData.ssc2 -
   //     newData.incomeTax +
   //     newData.maintenance +
@@ -195,17 +196,20 @@ export default class ResignOrDismissSalaryAddNew extends Component {
   // };
 
   onDeductionOrAddition = (e) => {
-    let newValue = e.target.value;
+    console.log("event",e.target.value)
+    let newValue = parseInt(e.target.value);
     const newData = this.state.addNewData;
-    newData.salaryAfterDorA =
-      this.state.userInfo.basic_salary + parseFloat(newValue);
-    newData.deductionOrAddition = newValue;
-    // newData.ssc3 = newData.salaryAfterDorA * 0.03;
-    // newData.ssc2 = newData.salaryAfterDorA * 0.02;
+    console.log("type of basice salary",typeof(this.state.userInfo.basic_salary))
+    newData.salary_after_deduction_or_addition =
+      (this.state.userInfo.basic_salary!=undefined ? this.state.userInfo.basic_salary : newData.grossSalary) + newValue;
+    console.log("event salary after deduction or addition",newData.salary_after_deduction_or_addition,typeof(newData.salary_after_deduction_or_addition))
+    newData.deduction_or_addition = newValue;
+    // newData.ssc3 = newData.salary_after_deduction_or_addition * 0.03;
+    // newData.ssc2 = newData.salary_after_deduction_or_addition * 0.02;
 
     // newData.ssc2 = this.state.userInfo.basic_salary >= 300000 ? 300000*0.02 : this.state.userInfo.basic_salary * 0.02
     newData.totalSalary =
-      newData.salaryAfterDorA -
+      newData.salary_after_deduction_or_addition -
       newData.ssc2 -
       newData.incomeTax +
       newData.maintenance +
@@ -218,7 +222,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
     const newData = this.state.addNewData;
     newData.incomeTax = newValue;
     newData.totalSalary =
-      newData.salaryAfterDorA -
+      newData.salary_after_deduction_or_addition -
       newData.ssc2 -
       newData.incomeTax +
       newData.maintenance +
@@ -231,7 +235,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
     const newData = this.state.addNewData;
     newData.maintenance = newValue;
     newData.totalSalary =
-      newData.salaryAfterDorA -
+      newData.salary_after_deduction_or_addition -
       newData.ssc2 -
       newData.incomeTax +
       newData.maintenance +
@@ -244,7 +248,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
     const newData = this.state.addNewData;
     newData.petrol = newValue;
     newData.totalSalary =
-      newData.salaryAfterDorA -
+      newData.salary_after_deduction_or_addition -
       newData.ssc2 -
       newData.incomeTax +
       newData.maintenance +
@@ -288,8 +292,8 @@ export default class ResignOrDismissSalaryAddNew extends Component {
       tempData.state_name = userInfo.state_name;
       tempData.last_working_day = newData.lastWorkingDay;
       tempData.gross_salary = userInfo.basic_salary;
-      tempData.deduction_or_addition = newData.deductionOrAddition;
-      tempData.salary_after_deduction_or_addition = newData.salaryAfterDorA;
+      tempData.deduction_or_addition = newData.deduction_or_addition;
+      tempData.salary_after_deduction_or_addition = newData.salary_after_deduction_or_addition;
       tempData.SSC_employer = newData.ssc3;
       tempData.SSC_employee = newData.ssc2;
       tempData.income_tax = newData.incomeTax;
@@ -309,8 +313,8 @@ export default class ResignOrDismissSalaryAddNew extends Component {
           requestMonth: new Date(),
           lastWorkingDay: new Date(),
           grossSalary: null,
-          deductionOrAddition: 0,
-          salaryAfterDorA: 0,
+          deduction_or_addition: 0,
+          salary_after_deduction_or_addition: 0,
           ssc3: 0,
           ssc2: 0,
           incomeTax: 0,
@@ -564,7 +568,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
             const newData = this.state.addNewData;
           newData.ssc2 = this.state.userInfo.basic_salary >= 300000 ? 300000*0.02 : this.state.userInfo.basic_salary * 0.02
           newData.ssc3 = this.state.userInfo.basic_salary >= 300000 ? 300000*0.03 : this.state.userInfo.basic_salary * 0.03
-          newData.salaryAfterDorA=this.state.userInfo.basic_salary
+          newData.salary_after_deduction_or_addition=this.state.userInfo.basic_salary
           this.setState({ addNewData: newData });
           });
         }
@@ -592,7 +596,7 @@ export default class ResignOrDismissSalaryAddNew extends Component {
       exitStatusList,
     } = this.state;
 
-    console.log("hahahaahaah ===>", exitStatusList, addNewData.exitStatus);
+    console.log("hahahaahaah ===>", addNewData.salary_after_deduction_or_addition,typeof(addNewData.salary_after_deduction_or_addition),typeof(addNewData.deduction_or_addition));
     return (
       <div>
         <div className="row">
@@ -735,8 +739,8 @@ export default class ResignOrDismissSalaryAddNew extends Component {
                       <input
                         className="form-control"
                         type="number"
-                        data-name="deductionOrAddition"
-                        value={addNewData.deductionOrAddition}
+                        data-name="deduction_or_addition"
+                        value={addNewData.deduction_or_addition}
                         placeholder="Enter Deduction or Addition"
                         onChange={this.onDeductionOrAddition}
                       />
@@ -747,8 +751,8 @@ export default class ResignOrDismissSalaryAddNew extends Component {
                         className="form-control"
                         type="number"
                         disabled
-                        data-name="salaryAfterDorA"
-                        value={addNewData.salaryAfterDorA}
+                        data-name="salary_after_deduction_or_addition"
+                        value={addNewData.salary_after_deduction_or_addition}
                         placeholder={"Enter Salary After Deduction or Addition"}
                       />
                     </div>
