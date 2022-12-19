@@ -201,11 +201,13 @@ export default class MonthlyIncentive extends Component {
             this.showToast(status, text);
           }
         });
-      if (e == 0) {
+      if (e == 0) { console.log("dfsdfsdfd");
         document.querySelector("#attachment").value = "";
         this._setDataTable([]);
         this.setState({
           deleteType: false,
+          newDoc: [],
+          searchData: [],
         });
       }
     } else {
@@ -256,7 +258,9 @@ export default class MonthlyIncentive extends Component {
             searchData: list,
             fxData: [],
             table_type: 1,
-            type: 1,
+            deleteType: false,
+
+            // type: 1,
           });
         } else {
           this.setState(
@@ -264,7 +268,9 @@ export default class MonthlyIncentive extends Component {
               fxData: list,
               coData: [],
               table_type: 2,
-              type: 1,
+            deleteType: false,
+
+              // type: 1,
             },
             async () => {
               await this._setDataTable(this.state.fxData);
@@ -685,7 +691,7 @@ export default class MonthlyIncentive extends Component {
                 })}
               </tbody>
             </table>
-
+         { this.state.deleteType === false ? ('') :(
             <div style={{ display: "flex", justifyContent: "end" }}>
               <div
                 className="col-lg-1"
@@ -718,7 +724,8 @@ export default class MonthlyIncentive extends Component {
                   Generate
                 </button>
               </div>
-            </div>
+            </div>)
+         }
           </div>
         ) : this.state.table_type == 1 && this.state.searchData.length == 0 ? (
           <table

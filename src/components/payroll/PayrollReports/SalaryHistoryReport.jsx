@@ -228,20 +228,14 @@ class SalaryHistoryReport extends Component {
     return (
       <div>
         <h3 className="">Salary History Report</h3>
-        <ReactHTMLTableToExcel
-          className="btn-excel"
-          table="reg_wise_staff"
-          filename="Salary History Report"
-          buttonText="Excel"
-          sheet="Sheet"
-        />
+       
         <div
           className="flex-row"
           style={{
             display: "flex",
             justifyContent: "left",
             alignItems: "end",
-            margin: "10px 10px 10px 10px",
+            margin: "10px 10px 10px 0px",
           }}
         >
           <div style={{ marginRight: "10px" }}>
@@ -298,6 +292,14 @@ class SalaryHistoryReport extends Component {
             </button>
           </div>
         </div>
+        <div style={{marginTop:30}}>
+        <ReactHTMLTableToExcel
+          className="btn-excel"
+          table="reg_wise_staff"
+          filename="Salary History Report"
+          buttonText="Excel"
+          sheet="Sheet"
+        />
         {this.state.employeeInfo != null && (
           <table className="table table-bordered" style={{ width: "20%" }}>
           <thead>
@@ -331,7 +333,6 @@ class SalaryHistoryReport extends Component {
         </table>
         )}
         
-
         <div style={{ overflowX: "auto" }}>
           <table
             className="table table-bordered"
@@ -393,6 +394,7 @@ class SalaryHistoryReport extends Component {
               </tr>
             </tbody>
           </table>
+        </div>
         </div>
       </div>
     );

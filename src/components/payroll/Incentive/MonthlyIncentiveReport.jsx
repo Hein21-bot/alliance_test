@@ -254,6 +254,7 @@ getRegionList() {
     return(
 
         <div>
+            <h3>Monthly Incentive Report</h3>
 
             <div className="col-lg-12" style={{marginBottom:20}}>
 
@@ -370,6 +371,12 @@ getRegionList() {
                     >
                       Employee ID
                     </th>
+                    <th
+                      style={{ textAlign: "center", verticalAlign: "middle" }}
+                      rowSpan={3}
+                    >
+                      Employee Name
+                    </th>
                     <th style={{ textAlign: "center" }} colSpan={4}>
                       Credit
                     </th>
@@ -457,6 +464,7 @@ getRegionList() {
                         <>
                   <tr>
                     <td>{v.employeeID}</td>
+                    <td>{v.fullname}</td>
                     <td>{v.creditDisbursementNo}</td>
                     <td>{v.creditDisbursementAmount}</td>
                     <td>{v.creditPortfolioNo}</td>
@@ -505,6 +513,12 @@ getRegionList() {
                       rowSpan={3}
                     >
                       Employee ID
+                    </th>
+                    <th
+                      style={{ textAlign: "center", verticalAlign: "middle" }}
+                      rowSpan={3}
+                    >
+                      Employee Name
                     </th>
                     <th style={{ textAlign: "center" }} colSpan={4}>
                       Credit

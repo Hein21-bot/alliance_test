@@ -297,18 +297,18 @@ class QuarterlyIncentiveReport extends Component {
           <table className="table table-bordered" id="quarterly_incentive" style={{overflow:'scroll'}}>
             <thead>
                 <tr>
-                    <th style={{textAlign:'center'}} rowSpan={3}>Sr No</th>
-                    <th style={{textAlign:'center'}} rowSpan={3}>Employee Code</th>
-                    <th style={{textAlign:'center'}} rowSpan={3}>Name</th>
-                    <th style={{textAlign:'center'}} rowSpan={3}>Position</th>
-                    <th style={{textAlign:'center'}} rowSpan={3}>BSC Category</th>
-                    <th style={{textAlign:'center'}} rowSpan={3}>Branch</th>
-                    <th style={{textAlign:'center'}} rowSpan={3}>Branch Code</th>
-                    <th style={{textAlign:'center'}} colSpan={3}>Monthly Salary</th>
-                    <th style={{textAlign:'center'}} rowSpan={3}>Average Salary</th>
-                    <th style={{textAlign:'center'}} rowSpan={3}>BSC%</th>
-                    <th style={{textAlign:'center'}} rowSpan={3}>Total Incentive</th>
-                    <th style={{textAlign:'center'}} rowSpan={3}>Remark</th>
+                    <th style={{textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Sr No</th>
+                    <th style={{textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Employee Code</th>
+                    <th style={{textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Employee Name</th>
+                    <th style={{textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Position</th>
+                    <th style={{textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>BSC Category</th>
+                    <th style={{textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Branch</th>
+                    <th style={{textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Branch Code</th>
+                    <th style={{textAlign: "center", verticalAlign: "middle" }} colSpan={3}>Monthly Salary</th>
+                    <th style={{textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Average Salary</th>
+                    <th style={{textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>BSC%</th>
+                    <th style={{textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Total Incentive</th>
+                    <th style={{textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Remark</th>
                 </tr>
                 <tr>
                 <th style={{ textAlign: "center", verticalAlign: "middle" }}>{this.state.quarter_months.filter(v=>v.value==this.state.quarter)[0].month1}</th>
@@ -354,18 +354,18 @@ class QuarterlyIncentiveReport extends Component {
           <table className="table table-bordered" id="quarterly_incentive" style={{overflow:'scroll'}}>
             <thead>
                 <tr>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Sr No</th>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Employee Code</th>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Name</th>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Position</th>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>BSC Category</th>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Branch</th>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Branch Code</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Sr No</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Employee Code</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Employee Name</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Position</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>BSC Category</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Branch</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Branch Code</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} colSpan={3}>Monthly Salary</th>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Average Salary</th>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>BSC%</th>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Total Incentive</th>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={3}>Remark</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Average Salary</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>BSC%</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Total Incentive</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Remark</th>
                 </tr>
                 <tr>
                 <th style={{ textAlign: "center", verticalAlign: "middle" }}>{this.state.quarter_months.filter(v=>v.value == this.state.selected_quarter.value)[0].month1}</th>
