@@ -364,12 +364,33 @@ class PayrollSummaryReportWithLocation extends Component {
       // formatData.map((v)=>{
         
       // })
-      console.log("array",tempArr)
+      console.log("array======>",tempArr)
+      let DetailArray=[];
+      let DetailListAllowance=[];
+      let DetailArrAllowance=[];
+      tempArr.map((v,i)=>{
+        v.empType.map((v1,i1)=>{
+          v1.addition && v1.addition.length > 0 && v1.addition.forEach(aa=>{
+            console.log("for each addition",aa)
+            // console.log("label=====>",DetailListAllowance[aa.salary_payment_allowance_label])
+            console.log("ma thi bu====>",DetailListAllowance[aa.salary_payment_allowance_label]);
+            if(!DetailListAllowance[aa.salary_payment_allowance_label]){
+              DetailListAllowance[aa.salary_payment_allowance_label] = 0;
+            }
+            DetailListAllowance[aa.salary_payment_allowance_label] += aa.salary_payment_allowance_value;
+          })
+          console.log("Detail list allowance",DetailListAllowance)
+          DetailArray.push(DetailListAllowance)
+
+        })
+      })
+      console.log("detail array",DetailArray)
       let listAllAllowance = [];
           let arrAllAllowance = []
           list.map(v=>{
             
             v.addition.forEach(additionObj => {
+              console.log("addition salary payment",listAllAllowance[additionObj.salary_payment_allowance_label])
               if(!listAllAllowance[additionObj.salary_payment_allowance_label]){
                 listAllAllowance[additionObj.salary_payment_allowance_label] = 0;
               }
@@ -377,6 +398,7 @@ class PayrollSummaryReportWithLocation extends Component {
             });
           
           })
+          console.log("list all allowance",listAllAllowance)
           for (let key in listAllAllowance) {
             arrAllAllowance.push({"salary_payment_allowance_label":key, salary_payment_allowance_value: listAllAllowance[key]});
           }

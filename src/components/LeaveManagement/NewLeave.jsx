@@ -5,6 +5,7 @@ import MyLeaveDetail from './MyLeaveDetail';
 import moment from 'moment'
 import { ToastContainer, toast } from 'react-toastify';
 import { main_url, getCookieData, calculationDate, validate, stopSaving, startSaving, calculationDate1, getUserId } from '../../utils/CommonFunction';
+import { format } from 'date-fns-tz';
 
 var form_validate = true;
 
@@ -149,6 +150,7 @@ export default class NewLeave extends Component {
 
 
     leaveDays(startDate, endDate) {
+        console.log("leave days",startDate,endDate)
         if (startDate <= endDate) {
             if (this.state.selectedCategory.value == 4 || this.state.selectedCategory.value == 1 || this.state.selectedCategory.value == 5) {
 
@@ -215,6 +217,7 @@ export default class NewLeave extends Component {
     }
 
     handleChangeStartDate = (event) => {
+        console.log(" start date event",moment(event).format('YYYY-MM-DD'))
         this.setState({
             startDate: event
         })
@@ -222,6 +225,7 @@ export default class NewLeave extends Component {
     }
 
     handleChangeEndDate = (event) => {
+        console.log("end date event",moment(event).format('YYYY-MM-DD'))
         this.setState({
             endDate: event
         })
