@@ -139,7 +139,7 @@ class PayrollReportWithBankNo extends Component {
     return (
       <div>
         <div className="row  white-bg dashboard-header">
-        <h3 className="" style={{paddingLeft:"10px"}}>Employee Salary Report</h3>
+        <h3 className="" style={{paddingLeft:"10px"}}>Payroll Report With Bank No</h3>
           <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
           <DatePicker
                             dateFormat="YYYY-MM"

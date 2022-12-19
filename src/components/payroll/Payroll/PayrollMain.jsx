@@ -60,7 +60,7 @@ export default class PayrollMain extends Component {
   }
 
   async componentDidMount() {
-    await this.getEmployeeInfo();
+    // await this.getEmployeeInfo();
     this.getRegionList();
     this.getDepartmentList();
     this.getDesignationList();
