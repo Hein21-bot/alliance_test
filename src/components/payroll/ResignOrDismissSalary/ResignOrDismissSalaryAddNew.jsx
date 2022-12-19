@@ -470,10 +470,10 @@ export default class ResignOrDismissSalaryAddNew extends Component {
           ),
           gross_salary: v.gross_salary,
           deduction_or_addition: v.deduction_or_addition,
-          salary_after_deduction_or_addition:
+          after_deduction_or_addition:
             v.salary_after_deduction_or_addition,
-            ssc3: v.ssc3,
-            ssc2: v.ssc2,
+            SSC_employer: v.ssc3,
+            SSC_employee: v.ssc2,
           income_tax: parseFloat(v.income_tax),
           maintenance: v.maintenance,
           petrol: v.petrol,

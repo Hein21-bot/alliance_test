@@ -11,7 +11,7 @@ import {
 import "react-toastify/dist/ReactToastify.min.css";
 import { toast, ToastContainer } from "react-toastify";
 import moment from "moment";
-import ApprovalForm1 from "../../Common/ApprovalForm";
+import ApprovalForm1 from "../../Common/ApprovalForm1";
 import DatePicker from "react-datetime";
 import {
   getUserId,
