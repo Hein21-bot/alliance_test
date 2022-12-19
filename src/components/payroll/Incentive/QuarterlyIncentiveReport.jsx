@@ -214,7 +214,7 @@ class QuarterlyIncentiveReport extends Component {
   
     return (
       <div>
-          <div className='' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center' ,marginBottom:20}}>
+          <div className='' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center' ,marginBottom:10}}>
 
           <div className='col-lg-2' style={{padding:0}} >
           <DatePicker
@@ -286,6 +286,7 @@ class QuarterlyIncentiveReport extends Component {
           
 {  this.state.data.length > 0 ?(
   <div>
+             <div style={{marginBottom:10}}>
              <ReactHTMLTableToExcel 
              className="btn-excel"
              table="quarterly_incentive"
@@ -294,7 +295,9 @@ class QuarterlyIncentiveReport extends Component {
              sheet="Sheet"
              // style={{marginTop:30}}
              />
-          <table className="table table-bordered" id="quarterly_incentive" style={{overflow:'scroll'}}>
+             </div>
+         <div>
+         <table className="table table-bordered" id="quarterly_incentive" style={{overflow:'scroll'}}>
             <thead>
                 <tr>
                     <th style={{textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Sr No</th>
@@ -341,8 +344,9 @@ class QuarterlyIncentiveReport extends Component {
                     })
                 }  
             </tbody>
-          </table></div>):(
+          </table></div></div>):(
              <div>
+             <div style={{marginBottom:10}}>
              <ReactHTMLTableToExcel 
              className="btn-excel"
              table="quarterly_incentive"
@@ -351,6 +355,7 @@ class QuarterlyIncentiveReport extends Component {
              sheet="Sheet"
              // style={{marginTop:30}}
              />
+             </div>
           <table className="table table-bordered" id="quarterly_incentive" style={{overflow:'scroll'}}>
             <thead>
                 <tr>

@@ -567,7 +567,7 @@ export default class Sidebar extends Component {
               </li>
               
               <li
-                className={this.checkPathName() === "/payroll" || this.checkPathName()==='/incentive' || this.checkPathName() === 'payroll_calculation' || this.checkPathName() === '/payroll_reports' || pathname === '/payslip_generate' || pathname === '/ssc' || pathname === "/payroll_main" || pathname === '/foreigner_salary' || pathname === "/resign_or_dismiss_salary" || pathname === '/payroll_generate' || pathname ==='/pay_slip'|| pathname== '/monthly_incentive'|| pathname == "/quarterly_incentive_payslip" || pathname == "/monthly_incentive_payslip" || pathname == "/quarterly_incentive" ||  pathname == '/employee_salary_report' || pathname === '/monthly_report'|| pathname === '/quarterly_report' || pathname == '/ssc_report' ? "active" : ""}
+                className={this.checkPathName() === "/payroll" || this.checkPathName()==='/incentive' || this.checkPathName() === 'payroll_calculation' || this.checkPathName() === '/payroll_reports' || pathname === '/payslip_generate' || pathname === '/ssc' || pathname === "/payroll_main" || pathname === '/foreigner_salary' || pathname === "/resign_or_dismiss_salary" || pathname === '/backpay' || pathname === '/payroll_generate' || pathname ==='/pay_slip'|| pathname== '/monthly_incentive'|| pathname == "/quarterly_incentive_payslip" || pathname == "/monthly_incentive_payslip" || pathname == "/quarterly_incentive" ||  pathname == '/employee_salary_report' || pathname === '/monthly_report'|| pathname === '/quarterly_report' || pathname == '/ssc_report' ? "active" : ""}
                
              >
                 <a href="/ssc" className="sideList">
@@ -683,6 +683,15 @@ export default class Sidebar extends Component {
                     }
                   >
                     <a href="/foreigner_salary">Foreigner Salary</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/backpay"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/backpay">BackPay</a>
                   </li>
                   <li className={this.checkPathName() === "/payroll_reports" || pathname == "/pay_slip" || pathname == '/payroll_summary_report' || pathname == '/payroll_details_report' || pathname == '/ssc_report' || pathname == '/payroll_summary_report_with_location' || pathname == '/employee_salary_report' || pathname == '/salary_history_report' || pathname == '/payrollReport_with_bankno' || pathname === '/monthly_report' || pathname === '/quarterly_report' || pathname == '/ssc_report' ? "active" : " "}>
                     <a href="/pay_slip" className="sideText">Payroll Related Reports</a>

@@ -157,15 +157,12 @@ class SSCReport extends Component {
     let Total=MaleTotal.length+FemaleTotal.length
     return (
       <div>
+        
         <h3>SSC Report For Goverment</h3>
-        <ReactHTMLTableToExcel 
-                    className="btn-excel"
-                    table="ssc_report"
-                    filename="SSC Report For Goverment"
-                    buttonText="Excel"
-                    sheet="Sheet"
-                    />
-        <div
+        <div style={{overflow:'scroll'}}>
+        <div className="row" style={{marignBottom:10}}>
+          <div className="col-md-12">
+          <div
           className="row"
           style={{
             display: "flex",
@@ -191,10 +188,20 @@ class SSCReport extends Component {
             </button>
           </div>
         </div>
-        <table id="ssc_report">
+          </div>
+          <div className="col-md-12 btn-leftend"><ReactHTMLTableToExcel 
+                    className="btn-excel"
+                    table="ssc_report"
+                    filename="SSC Report For Goverment"
+                    buttonText="Excel"
+                    sheet="Sheet"
+                    />
+          </div>
+        </div>
+        <table id="ssc_report" style={{overflow:'scroll',marginTop:10}}>
         <table className="table table-bordered">
           <thead>
-            <tr style={{textAlign:'center'}}>
+            <tr style={{textAlign:'center',overflow:'scroll'}}>
               <th style={{verticalAlign:'middle'}}>No</th>
               <th style={{verticalAlign:'middle'}}>Year</th>
               <th style={{verticalAlign:'middle'}}>Month</th>
@@ -291,6 +298,7 @@ class SSCReport extends Component {
           </table>
         </div>
         </table>
+        </div>
       </div>
     );
   }
