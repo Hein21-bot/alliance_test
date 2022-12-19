@@ -228,14 +228,14 @@ class SalaryHistoryReport extends Component {
     return (
       <div>
         <h3 className="">Salary History Report</h3>
-        
+       
         <div
           className="flex-row"
           style={{
             display: "flex",
             justifyContent: "left",
             alignItems: "end",
-            marginBottom:10
+            margin: "10px 10px 10px 0px",
           }}
         >
           <div style={{ marginRight: "10px" }}>
@@ -292,8 +292,8 @@ class SalaryHistoryReport extends Component {
             </button>
           </div>
         </div>
-       <div className="col-md-12 btn-leftend" style={{marginBottom:10,marginLeft:0,padding:0}}>
-       <ReactHTMLTableToExcel
+        <div style={{marginTop:30}}>
+        <ReactHTMLTableToExcel
           className="btn-excel"
           table="reg_wise_staff"
           filename="Salary History Report"
@@ -335,7 +335,6 @@ class SalaryHistoryReport extends Component {
         </table>
         )}
         
-
         <div style={{ overflowX: "auto" }}>
           <table
             className="table table-bordered"
