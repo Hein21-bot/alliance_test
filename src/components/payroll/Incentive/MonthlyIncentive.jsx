@@ -45,16 +45,10 @@ export default class MonthlyIncentive extends Component {
     this.getRegionList();
     this.getDesignationList();
     await this._setDataTable([]);
-    // this.setState({
-    //     dataSource: this.state.dataSource
-    // }, () => {
-    //     this.setDataTable(this.state.dataSource)
-    // });
   }
 
   showToast = (status, text) => {
     if (status === 200) {
-      console.log(text);
       toast.success(text, {
         position: "top-right",
         autoClose: 5000,
@@ -89,7 +83,7 @@ export default class MonthlyIncentive extends Component {
       .then((list) => {
         let lists = list.unshift({ value: 0, label: "All" });
         this.setState({
-          designationList: list, //list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
+          designationList: list,
         });
       });
   }
@@ -201,7 +195,7 @@ export default class MonthlyIncentive extends Component {
             this.showToast(status, text);
           }
         });
-      if (e == 0) { console.log("dfsdfsdfd");
+      if (e == 0) {
         document.querySelector("#attachment").value = "";
         this._setDataTable([]);
         this.setState({
@@ -259,8 +253,6 @@ export default class MonthlyIncentive extends Component {
             fxData: [],
             table_type: 1,
             deleteType: false,
-
-            // type: 1,
           });
         } else {
           this.setState(
@@ -269,8 +261,6 @@ export default class MonthlyIncentive extends Component {
               coData: [],
               table_type: 2,
             deleteType: false,
-
-              // type: 1,
             },
             async () => {
               await this._setDataTable(this.state.fxData);
@@ -293,7 +283,7 @@ export default class MonthlyIncentive extends Component {
       var getfile = document.querySelector("#attachment").files[i];
       newDoc.push(getfile);
     }
-    // document.querySelector("#attachment").value = "";
+
     const formdata = new FormData();
     var imagedata = newDoc[0];
     formdata.append("uploadfile", imagedata);
@@ -486,7 +476,7 @@ export default class MonthlyIncentive extends Component {
         </div>
 
         <div className="row">
-          <div className="col-lg-2" style={{ paddingTop: 30 }}>
+          <div className="col-lg-2" style={{ padding: '30px 0px 15px 15px' }}>
             <input
               // className="dropZone"
               type="file"
@@ -852,209 +842,3 @@ export default class MonthlyIncentive extends Component {
   }
 }
 
-{
-  /* <div className="row" style={{display:'flex',justifyContent:'center'}}>
-                    <div className='col-lg-7 col-md-8 col-sm-12' style={{ background: 'white',marginTop:30,border:"1px solid grey " }}>
-                 <div className="" style={{display:'flex',justifyContent:'center', background: '#1872ab',marginTop:20}}><h2 style={{color:"white",marginTop:10,fontSize:18,fontWeight:"bold"}}>Monthly Incentive</h2></div>
-                 <div className="" style={{display:'flex',justifyContent:'center',paddingTop:20}}><h3>Staff Information</h3></div>
-                 <div className='col-lg-6' style={{ paddingLeft: '100px', paddingTop: '10px' }}><p>Staff ID</p>
-                 <p>Name</p>
-                 <p>Department</p>
-                 <p>Designation</p>
-                 <p>Branch</p>
-                 <p>Payment Month</p>
-                 </div>
-
-                 <div className='col-lg-1' style={{ paddingLeft: '0px', paddingTop: '10px' }} ><p>:</p>
-                 <p>:</p>
-                 <p>:</p>
-                 <p>:</p>
-                 <p>:</p>
-                 <p>: </p>
-                 </div>
-
-                 <div className=' col-lg-5' style={{ paddingLeft: '90px', paddingTop: '10px' }}><p>Staff ID</p>
-                 <p>Name</p>
-                 <p>Department</p>
-                 <p>Designation</p>
-                 <p>Branch</p>
-                 <p>Payment Month</p>
-                 </div>
-
-                 <div className="row" style={{display:'flex',justifyContent:'center',paddingTop:20}}><h3>Incentive Information</h3>
-                 </div>
-                 <div className='col-lg-6' style={{ paddingLeft: '100px', paddingTop: '10px' }}><p>CO Count </p>
-                 <p>Co Incentive Total</p>
-                 <p>Incentive Amount </p>
-                 </div>
-
-                 <div className='col-lg-1' style={{ paddingLeft: '0px', paddingTop: '10px' }} ><p>:</p>
-                 <p>:</p>
-                 <p>:</p>
-                 </div>
-
-                
-                 <div className=' col-lg-5' style={{ paddingLeft: '90px', paddingTop: '10px', marginBottom:20 }}><p>Staff ID</p>
-                 <p>Name</p>
-                 <p>Department</p>
-                 </div>
-                    </div>
-                  </div> */
-}
-
-{
-  /* <div className="row" style={{display:'flex',justifyContent:'space-around'}}>
-                   <div className='col-lg-4 col-md-4 col-sm-12' style={{ background: 'white',marginTop:30,border:"1px solid grey " }}>
-                    
-                  <div className="" style={{display:'flex',justifyContent:'center', background: '#1872ab',marginTop:20}}><h2 style={{color:"white",marginTop:10,fontSize:18,fontWeight:"bold"}}>Monthly Incentive</h2>
-                  </div>
-
-                  <div className="" style={{display:'flex',justifyContent:'center',paddingTop:20}}><h3>Staff Information</h3></div>
-
-                  <div className='col-lg-6' style={{ paddingLeft: '30px', paddingTop: '10px' }}><p>Staff ID</p>
-                  <p>Name</p>
-                  <p>Department</p>
-                  <p>Designation</p>
-                  <p>Branch</p>
-                  <p>Payment Month</p>
-                  </div>
-
-                 <div className='col-lg-1' style={{ paddingLeft: '0px', paddingTop: '10px' }} ><p>:</p>
-                  <p>:</p>
-                  <p>:</p>
-                  <p>:</p>
-                  <p>:</p>
-                  <p>: </p>
-                  </div>
-
-                  <div className=' col-lg-5' style={{ paddingLeft: '90px', paddingTop: '10px' }}><p>Staff ID</p>
-                  <p>Name</p>
-                  <p>Department</p>
-                  <p>Designation</p>
-                  <p>Branch</p>
-                  <p>Payment Month</p>
-                  </div>
-                 
-                  <div className='row' style={{display:'flex',justifyContent:'center',paddingTop:20}}><h3>Incentive Information</h3>
-                  </div>
-
-                  <div className='col-lg-6' style={{ paddingLeft: '30px', paddingTop: '10px' }}><p>Credit Incentive</p>
-                  <p>Saving Incentive</p>
-                  <p>Collection Rate Incentive</p>
-                  <p>PAR Deduction Difference</p>
-                  <p>Grand Total</p>
-                  </div>
-
-                 <div className='col-lg-1' style={{ paddingLeft: '0px', paddingTop: '10px' }} ><p>:</p>
-                  <p>:</p>
-                  <p>:</p>
-                  <p>:</p>
-                  <p>:</p>
-                  </div>
-
-                
-                  <div className=' col-lg-5' style={{ paddingLeft: '90px', paddingTop: '10px' }}><p>Staff ID</p>
-                  <p>Name</p>
-                  <p>Department</p>
-                  <p>Designation</p>
-                  <p>Branch</p>
-                  </div>
-                   </div>
-
-                  <div className='col-lg-4 col-md-4 col-sm-12' style={{ background: 'white',marginTop:30,border:"1px solid grey " }}>                
-                  <div className="" style={{display:'flex',justifyContent:'center', background: '#1872ab',marginTop:20}}><h2 style={{color:"white",marginTop:10,fontSize:18,fontWeight:"bold"}}>Detail Calculation</h2>
-                  </div>
-
-                 <div style={{padding:50,paddingTop:10,paddingBottom:0}}>
-                 <div style={{display:'flex',justifyContent:'space-between'}}>
-                  <div className=""><h3>Credit Incentive</h3></div>
-                  <div className=""><h3>1382</h3></div>
-                 </div>
-
-                 <div>
-                 <table className="table "style={{overflow:'scroll',  border:'1px solid black'}}>
-                 <thead>
-                 <tr style={{overflow:'scroll',border:'1px solid black' }}>
-                             <th style={{width:100,textAlign:'center',border:'1px solid black'}} colSpan={2}>Disbursement</th>
-                             <th style={{verticalAlign:'middle',textAlign:'center',width:100,border:'1px solid black'}} colSpan={2}>Portfolio</th>       
-                </tr>
-                <tr>        
-                   <th style={{textAlign:'center',border:'1px solid black'}}>No.s</th>
-                             <th style={{textAlign:'center',border:'1px solid black'}}>Amount</th>
-                             <th style={{textAlign:'center',border:'1px solid black'}}>No.s</th>
-                             <th style={{textAlign:'center',border:'1px solid black'}}>Outstanding</th></tr>
-                 </thead>
-                 <tbody style={{ textAlign:'center'}}>
-                  <tr>
-                  <td style={{ border:'1px solid black' }}>324324</td>
-                  <td style={{ border:'1px solid black' }}>324324</td>
-                  <td style={{ border:'1px solid black' }}>324324</td>
-                  <td style={{ border:'1px solid black' }}>324324</td>
-                  </tr>
-                   </tbody>
-                 </table>
-                 </div>
-
-                 <div style={{display:'flex',justifyContent:'space-between'}}>
-                  <div className=""><h3>Saving Incentive</h3></div>
-                  <div className=""><h3>1382</h3></div>
-                 </div>
-
-                 <div>
-                 <table className="table "style={{overflow:'scroll',  border:'1px solid black'}}>
-                 <thead>
-                 <tr style={{overflow:'scroll',border:'1px solid black' }}>
-                             <th style={{textAlign:'center',width:100,border:'1px solid black'}} colSpan={2}>Outstanding</th>
-                             <th style={{textAlign:'center',width:100,border:'1px solid black'}} colSpan={2}>2222222</th>       
-                </tr>
-                </thead>
-                </table>
-                  </div>
-                
-                  <div style={{display:'flex',justifyContent:'space-between'}}>
-                  <div className=""><h3>Collection Rate Incentive</h3></div>
-                  <div className=""><h3>8000</h3></div>
-                 </div>
-               
-                 <div>
-                 <table className="table "style={{overflow:'scroll',  border:'1px solid black'}}>
-                 <thead>
-                 <tr style={{overflow:'scroll',border:'1px solid black' }}>
-                             <th style={{textAlign:'center',width:100,border:'1px solid black'}}>Demand</th>
-                             <th style={{textAlign:'center',width:100,border:'1px solid black'}}>Actual</th>       
-                </tr>
-                 </thead>
-                 <tbody style={{ textAlign:'center'}}>
-                  <tr>
-                  <td style={{ border:'1px solid black' }}>32435324</td>
-                  <td style={{ border:'1px solid black' }}>324323454</td>
-                  </tr>
-                   </tbody>
-                 </table>
-                 </div>
-
-                 <div style={{display:'flex',justifyContent:'space-between'}}>
-                  <div className=""><h3>PAR Deduction</h3></div>
-                  <div className=""><h3>34000</h3></div>
-                 </div>
-               
-                 <div>
-                 <table className="table "style={{overflow:'scroll',  border:'1px solid black'}}>
-                 <thead>
-                 <tr style={{overflow:'scroll',border:'1px solid black' }}>
-                             <th style={{textAlign:'center',width:100,border:'1px solid black'}}>No.s</th>
-                             <th style={{textAlign:'center',width:100,border:'1px solid black'}}>Amount</th>       
-                </tr>
-                 </thead>
-                 <tbody style={{ textAlign:'center'}}>
-                  <tr>
-                  <td style={{ border:'1px solid black' }}>32435324</td>
-                  <td style={{ border:'1px solid black' }}>324323454</td>
-                  </tr>
-                   </tbody>
-                 </table>
-                 </div>
-                   </div>
-                   </div>
-                  </div>  */
-}

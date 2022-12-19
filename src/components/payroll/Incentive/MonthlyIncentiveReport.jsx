@@ -15,7 +15,6 @@ export default class MonthlyIncentiveReport extends Component{
     constructor(props){
       super(props);{
         this.state={
-      // dataSource:[],
       employeeIdList: [],
       EmployeeNameList: [],
       regionList: [],
@@ -38,8 +37,6 @@ export default class MonthlyIncentiveReport extends Component{
         }
       }};
 componentDidMount(){
-    // this.$el = $(this.el);
-    // this.setDataTable(this.state.dataSource);
     this.getEmployeeCodeList();
     this.getEmployeeName();
     this.getBranchList();
@@ -72,7 +69,7 @@ getRegionList() {
       .then((list) => {
         let lists = list.unshift({ value: 0, label: "All" });
         this.setState({
-          designationList: list, //list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
+          designationList: list,
         });
       });
   };
@@ -187,7 +184,7 @@ getRegionList() {
             coData:[],
             table_type:2
         },()=>{
-          this.setDataTable(this.state.fxData)
+          this.setDataTable([])
         });
         }
       })
@@ -250,11 +247,11 @@ getRegionList() {
         });
       };
 
-    render(){  
+    render(){   console.log("eoorrrr",this.state.table_type,this.state.coData.length,this.state.fxData.length);
     return(
 
         <div>
-            <h3>Monthly Incentive Report</h3>
+            <h3 style={{margin:'15px 15px 15px 15px'}}>Monthly Incentive Report</h3>
 
             <div className="col-lg-12" style={{marginBottom:20,marginLeft:0,padding:0}}>
 
@@ -342,7 +339,7 @@ getRegionList() {
 
             </div>
             <div className="col-lg-12">
-            { this.state.coData.length > 0 && this.state.table_type === 1  ? (   console.log("data shi tl",this.state.fxData,this.state.coData),
+            {  this.state.table_type === 1  && this.state.coData.length > 0 ? (  
                 <>
                         <div style={{marginBottom:10}}>
                         <ReactHTMLTableToExcel 
@@ -487,7 +484,7 @@ getRegionList() {
                 </tbody>
                 </table>
                 </>
-            ) : this.state.coData.length === 0 && this.state.table_type === 1  ? (  console.log("456456456456"),
+            ) : this.state.table_type === 1 && this.state.coData.length === 0 ? (
                 <>
                         <div style={{marginBottom:10}}>
                         <ReactHTMLTableToExcel 
@@ -606,12 +603,12 @@ getRegionList() {
                 </thead>
                 <tbody style={{ textAlign: "center" }}>
                   <tr>
-                  <td colSpan={14}style={{ textAlign: "center", verticalAlign: "middle",height:35,fontSize:15,borderBottom:'1px solid black' }}>No data available in table</td>
+                  <td colSpan={15}style={{ textAlign: "center", verticalAlign: "middle",height:35,fontSize:15,borderBottom:'1px solid black' }}>No data available in table</td>
                   </tr>
                 </tbody>
                 </table>
                 </> 
-          ): this.state.table_type === 2 ? (  console.log("fxRepor11111t",this.state.coData.length),
+          ): this.state.table_type === 2 && this.state.fxData.length >= 0 ? ( console.log("sadsds"),
             
             <div className="col-lg-12" style={{marginTop:50}}>
             <table
@@ -619,7 +616,7 @@ getRegionList() {
             className="table table-striped table-bordered table-hover responsive nowrap dt-responsive"
             id="dataTables-Table"
           /></div>
-            ):('',console.log("fxReport",this.state.coData.length,this.state.table_type === 2))
+            ):(<></>)
           }
             </div>
 
