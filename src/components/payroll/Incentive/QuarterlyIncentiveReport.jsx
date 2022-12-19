@@ -214,7 +214,7 @@ class QuarterlyIncentiveReport extends Component {
             <h3 style={{margin:'15px 15px 15px 0px'}}>Quarterly Incentive Report</h3>
              
 
-          <div className='' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center' ,marginBottom:10}}>
+          <div className='' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center' ,marginBottom:30}}>
 
           <div className='col-lg-2' style={{padding:0}} >
           <DatePicker

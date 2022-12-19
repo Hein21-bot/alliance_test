@@ -164,6 +164,7 @@ getRegionList() {
   this.setState({
     coData:[],
     fxData:[],
+    loading:true
   })
   const employee = this.state.selected_employeeID ? this.state.selected_employeeID.value : 0
   const designationId = this.state.selected_designation ? this.state.selected_designation.value : 0
@@ -177,14 +178,17 @@ getRegionList() {
         this.setState({
             coData:list,
             fxData:[],
-            table_type:1
+            table_type:1,
+            loading:false
         });} else { 
           this.setState({
             fxData:list,
             coData:[],
-            table_type:2
+            table_type:2,
+            loading:false
+
         },()=>{
-          this.setDataTable([])
+          this.setDataTable(list)
         });
         }
       })
@@ -337,7 +341,7 @@ getRegionList() {
             <button className="btn-primary btn" onClick={this.handleSearch.bind(this)}>Search</button>
           </div> 
           { this.state.table_type == 1 ?(
-          <div className="col-lg-12" style={{paddingTop:10}}>
+          <div className="col-lg-12" style={{paddingTop:30}}>
                         <ReactHTMLTableToExcel 
                          className="btn-excel"
                          table="monthly_incentive"
@@ -602,7 +606,7 @@ getRegionList() {
                 
           ): this.state.table_type === 2 && this.state.fxData.length >= 0 ? ( 
             
-            <div className="col-lg-12" style={{marginTop:50}}>
+            <div className="col-lg-12" style={{marginTop:30}}>
             <table
             width="99%"
             className="table table-striped table-bordered table-hover responsive nowrap dt-responsive"
