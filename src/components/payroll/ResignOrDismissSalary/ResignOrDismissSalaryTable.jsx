@@ -18,6 +18,8 @@ import {
   setPrintedStatus,
   print,
   fno,
+  getCookieData,
+  getPermissionStatus
 } from "../../../utils/CommonFunction";
 const $ = require("jquery");
 const jzip = require("jzip");
@@ -34,6 +36,7 @@ export default class ResignOrDismissSalaryTable extends Component {
     super(props);
     this.state = {
       user_id: getUserId("user_info"),
+      user_info: getCookieData("user_info"),
       dataSource: [],
       is_main_role: getMainRole(),
       regionList: [],
@@ -43,16 +46,20 @@ export default class ResignOrDismissSalaryTable extends Component {
       selected_region: "",
       selected_branch: "",
       selected_department: "",
-      permission_status:'',
+      permission_status:{},
     };
   }
   async componentDidMount() {
     this.getBranchList();
     this.getRegionList();
     this.getDepartmentList();
+    var permission_status = await getPermissionStatus(this.state.user_info.designations_id,  'ResignOrDismiss', 'ResignOrDismiss');
+    this.setState({
+        permission_status: permission_status
+    })
     this.setState(
       {
-        permission_status:this.props.permission_status,
+        // permission_status:this.props.permission_status,
         dataSource: this.props.dataSource,
       },
       () => {
@@ -265,6 +272,7 @@ export default class ResignOrDismissSalaryTable extends Component {
   // }
 
   _setTableData = (data) => {
+    
     var on = {
       ATM_Cash: 0,
       SSC_employee: 3700,
@@ -298,8 +306,8 @@ export default class ResignOrDismissSalaryTable extends Component {
     var table;
     var l = [];
     var status;
-    var permission = this.props.permission_status;
-    var has_action = permission.isView == 1 || permission.isEdit == 1 ? true : false; console.log("action>>>>>>",this.props.permission_status,has_action);
+    console.log("permission",this.state.permission_status)
+    var has_action = this.state.permission_status.isView === 1 || this.state.permission_status.isEdit === 1 ? true : false; console.log("action>>>>>>",this.state.permission_status,has_action);
     if (data) {
       for (var i = 0; i < data.length; i++) {
         let result = data[i];
@@ -379,11 +387,12 @@ export default class ResignOrDismissSalaryTable extends Component {
         //   JSON.stringify(result) +
         //   '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>';
         if (has_action) {
+          console.log("has action",has_action)
             if (result.status !== 3) {
-        obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
-        obj.action += permission.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
+        obj.action = this.state.permission_status.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+        obj.action += this.state.permission_status.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
             } else {
-                obj.action = permission.isView === 1 ?
+                obj.action = this.state.permission_status.isView === 1 ?
 
                     '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
 
@@ -477,7 +486,8 @@ export default class ResignOrDismissSalaryTable extends Component {
   };
 
   render() {
-    console.log("tab==>", this.state.permission_status);
+    // console.log("tab==>", permission.isView == 1 || permission.isEdit == 1 ? true : false);
+    console.log("permission status",this.props.permission_status)
 
     return (
       <div>

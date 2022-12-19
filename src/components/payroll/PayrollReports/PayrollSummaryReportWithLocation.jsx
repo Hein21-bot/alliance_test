@@ -484,6 +484,7 @@ class PayrollSummaryReportWithLocation extends Component {
 
 
           let filterTraining=tempArr.filter(v=>v.name == 'Training')
+          console.log("filter training",filterTraining);
           let listTrainingAllowance = [];
           let arrTrainingAllowance = []
           filterTraining[0].empType.map(v=>{
@@ -581,6 +582,7 @@ class PayrollSummaryReportWithLocation extends Component {
           }]
         }
         console.log("PartTime detail",PartTimeDetail)
+        console.log("training total",arrTrainingAllowance,arrTrainingDeduction)
         let TrainingDetail={
           'name':'Training',
           'empType':[{
@@ -785,7 +787,7 @@ class PayrollSummaryReportWithLocation extends Component {
   }
   
   render() {
-    console.log('state all detail',this.state.AllDetail,this.state.PermanentDetail,this.state.PartTimeDetail,this.state.TrainingDetail)
+    console.log('final data',this.state.FinalData)
     // console.log('final data',this.state.FinalData)
     let filterData =
     this.state.ReportHeader &&
@@ -1029,7 +1031,8 @@ this.state.TrainingDetail!=undefined && this.state.TrainingDetail.empType && thi
           <h3 className="" style={{ paddingLeft: "10px" }}>
             Payroll Summary Report With Locatin Wise/Status Wise
           </h3>
-          <div className="row" style={{ marginBottom:10 }}>
+         <div style={{overflow:'scroll'}}>
+         <div className="row" style={{ marginBottom:10 }}>
             <div className="col-md-12" style={{marginBottom:10}}>
             <div
               className="flex-row"
@@ -1601,6 +1604,7 @@ this.state.TrainingDetail!=undefined && this.state.TrainingDetail.empType && thi
                 })}
               </tbody>
             </table>
+         </div>
         </div>
       </div>
     );

@@ -17,8 +17,8 @@ import ResignOrDismissSalaryView from "./ResignOrDismissSalaryView";
 import ResignOrDismissSalaryEdit from "./ResignOrDismissSalaryEdit";
 
 class ResignOrDismissSalaryMain extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       isAddNew: false,
       user_info: getCookieData("user_info"),
@@ -37,7 +37,7 @@ class ResignOrDismissSalaryMain extends Component {
 
   async componentDidMount() {
     this.getResignOrDismissData();
-    var permission_status = await getPermissionStatus(this.state.user_info.designations_id,  'Wedding Benefit', 'Benefit');
+    var permission_status = await getPermissionStatus(this.state.user_info.designations_id,  'ResignOrDismiss', 'ResignOrDismiss');
     this.setState({
         permission_status: permission_status
     })
@@ -130,7 +130,7 @@ class ResignOrDismissSalaryMain extends Component {
         <br />
 
         {this.state.isTable ? (
-          <ResignOrDismissSalaryTable dataSource={resignOrDismissData} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm}  permission_status={this.state.permission_status} />
+          <ResignOrDismissSalaryTable dataSource={resignOrDismissData} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} />
         ) : this.state.isAddNew ? (
           <ResignOrDismissSalaryAddNew
             view={isView}

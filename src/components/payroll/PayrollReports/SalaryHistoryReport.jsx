@@ -301,7 +301,8 @@ class SalaryHistoryReport extends Component {
           sheet="Sheet"
         />
        </div>
-        {this.state.employeeInfo != null && (
+       <table id="reg_wise_staff">
+       {this.state.employeeInfo != null && (
           <table className="table table-bordered" style={{ width: "20%" }}>
           <thead>
             <tr>
@@ -338,7 +339,7 @@ class SalaryHistoryReport extends Component {
         <div style={{ overflowX: "auto" }}>
           <table
             className="table table-bordered"
-            id="reg_wise_staff"
+           
             style={{ overflow: "scroll" }}
           >
             <thead>
@@ -349,7 +350,7 @@ class SalaryHistoryReport extends Component {
                   overflow: "scroll",
                 }}
               >
-                <th style={{ textAlign: "center", width: 100 }} rowSpan={2}>
+                <th style={{ textAlign: "center", width: 100 }}>
                   <div style={{ width: 100 }}></div>
                 </th>
                 {this.state.columnHeader != null &&
@@ -397,6 +398,7 @@ class SalaryHistoryReport extends Component {
             </tbody>
           </table>
         </div>
+       </table>
       </div>
     );
   }

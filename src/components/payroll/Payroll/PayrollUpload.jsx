@@ -446,7 +446,7 @@ export default class PayrollUpload extends Component {
                       style={{ minWidth: "100px", margin: 5 }}
                       id="saving_button"
                       type="button"
-                      onClick={this.handleNextSSC}
+                      onClick={this.handleNext}
                     >
                       Next
                       {/* {this.state.steps.length == this.state.activeStep + 1 ? 'Preview Data' : 'Next'} */}
