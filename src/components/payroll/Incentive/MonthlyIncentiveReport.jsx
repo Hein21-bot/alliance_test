@@ -253,7 +253,7 @@ getRegionList() {
         <div>
             <h3 style={{margin:'15px 15px 15px 15px'}}>Monthly Incentive Report</h3>
 
-            <div className="col-lg-12" style={{marginBottom:20,marginLeft:0,padding:0}}>
+            <div className="col-lg-12" style={{marginLeft:0,padding:0}}>
 
           <div className="col-lg-3" >
             <label>Request Month</label>
@@ -336,12 +336,8 @@ getRegionList() {
           >
             <button className="btn-primary btn" onClick={this.handleSearch.bind(this)}>Search</button>
           </div> 
-
-            </div>
-            <div className="col-lg-12">
-            {  this.state.table_type === 1  && this.state.coData.length > 0 ? (  
-                <>
-                        <div style={{marginBottom:10}}>
+          { this.state.table_type == 1 ?(
+          <div className="col-lg-12" style={{paddingTop:10}}>
                         <ReactHTMLTableToExcel 
                          className="btn-excel"
                          table="monthly_incentive"
@@ -350,7 +346,13 @@ getRegionList() {
                          sheet="Sheet"
                         
                          />
-                        </div>
+                        </div>):(<></>)
+                        }
+            </div>
+            <div className="col-lg-12" style={{marginTop:0}}>
+            {  this.state.table_type === 1  && this.state.coData.length > 0 ? (  
+               
+                       
                 <table
                 className="table table-bordered"
                 id='monthly_incentive'
@@ -456,7 +458,7 @@ getRegionList() {
                     <th style={{ textAlign: "center" }}>Outstanding</th>
                   </tr>
                 </thead>
-                <tbody style={{ textAlign: "center" }}>
+                <tbody style={{ textAlign: "center",backgroundColor:'#f3f3f4' }}>
                   {
                     this.state.coData.map((v)=>{
                       return(
@@ -483,19 +485,9 @@ getRegionList() {
                 }
                 </tbody>
                 </table>
-                </>
+                
             ) : this.state.table_type === 1 && this.state.coData.length === 0 ? (
-                <>
-                        <div style={{marginBottom:10}}>
-                        <ReactHTMLTableToExcel 
-                         className="btn-excel"
-                         table="monthly_incentive"
-                         filename="Monthly Incentive Report"
-                         buttonText="Excel"
-                         sheet="Sheet"
-                         />
-                        </div>
-
+              
                 <table
                 className="table table-bordered"
                 id='monthly_incentive'
@@ -607,8 +599,8 @@ getRegionList() {
                   </tr>
                 </tbody>
                 </table>
-                </> 
-          ): this.state.table_type === 2 && this.state.fxData.length >= 0 ? ( console.log("sadsds"),
+                
+          ): this.state.table_type === 2 && this.state.fxData.length >= 0 ? ( 
             
             <div className="col-lg-12" style={{marginTop:50}}>
             <table
