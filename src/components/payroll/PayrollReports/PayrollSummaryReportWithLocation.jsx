@@ -295,7 +295,7 @@ class PayrollSummaryReportWithLocation extends Component {
       }
       }
       const getAllTemplate = (empType) => {
-        console.log('addition temp is ==========>', additionTemp)
+        // console.log('addition temp is ==========>', additionTemp)
         return {
        
         "name":empType,
@@ -338,14 +338,14 @@ class PayrollSummaryReportWithLocation extends Component {
         }
         return R;
       }, []);
-      console.log("formatdata",formatData)
+      // console.log("formatdata",formatData)
       let tempArr=[];
         let Permanent=formatData.filter((d)=>d.name == 'Permanent') && formatData.filter((d)=>d.name == 'Permanent')[0]
-        console.log("permanent",Permanent);
+        // console.log("permanent",Permanent);
         let PartTime=formatData.filter((d)=>d.name == 'Part Time') && formatData.filter((d)=>d.name == 'Part Time')[0]
-        console.log("part time",PartTime);
+        // console.log("part time",PartTime);
         let Training=formatData.filter((d)=>d.name == 'Training') && formatData.filter((d)=>d.name == 'Training')[0]
-        console.log('Training',Training);
+        // console.log('Training',Training);
         if(Permanent){
             tempArr.push(Permanent)
         }else{
@@ -364,33 +364,33 @@ class PayrollSummaryReportWithLocation extends Component {
       // formatData.map((v)=>{
         
       // })
-      console.log("array======>",tempArr)
+      // console.log("array======>",tempArr)
       let DetailArray=[];
       let DetailListAllowance=[];
       let DetailArrAllowance=[];
       tempArr.map((v,i)=>{
         v.empType.map((v1,i1)=>{
           v1.addition && v1.addition.length > 0 && v1.addition.forEach(aa=>{
-            console.log("for each addition",aa)
+            // console.log("for each addition",aa)
             // console.log("label=====>",DetailListAllowance[aa.salary_payment_allowance_label])
-            console.log("ma thi bu====>",DetailListAllowance[aa.salary_payment_allowance_label]);
+            // console.log("ma thi bu====>",DetailListAllowance[aa.salary_payment_allowance_label]);
             if(!DetailListAllowance[aa.salary_payment_allowance_label]){
               DetailListAllowance[aa.salary_payment_allowance_label] = 0;
             }
             DetailListAllowance[aa.salary_payment_allowance_label] += aa.salary_payment_allowance_value;
           })
-          console.log("Detail list allowance",DetailListAllowance)
+          // console.log("Detail list allowance",DetailListAllowance)
           DetailArray.push(DetailListAllowance)
 
         })
       })
-      console.log("detail array",DetailArray)
+      // console.log("detail array",DetailArray)
       let listAllAllowance = [];
           let arrAllAllowance = []
           list.map(v=>{
             
             v.addition.forEach(additionObj => {
-              console.log("addition salary payment",listAllAllowance[additionObj.salary_payment_allowance_label])
+              // console.log("addition salary payment",listAllAllowance[additionObj.salary_payment_allowance_label])
               if(!listAllAllowance[additionObj.salary_payment_allowance_label]){
                 listAllAllowance[additionObj.salary_payment_allowance_label] = 0;
               }
@@ -398,7 +398,7 @@ class PayrollSummaryReportWithLocation extends Component {
             });
           
           })
-          console.log("list all allowance",listAllAllowance)
+          // console.log("list all allowance",listAllAllowance)
           for (let key in listAllAllowance) {
             arrAllAllowance.push({"salary_payment_allowance_label":key, salary_payment_allowance_value: listAllAllowance[key]});
           }
@@ -418,7 +418,7 @@ class PayrollSummaryReportWithLocation extends Component {
             arrAllDeduction.push({"salary_payment_deduction_label":key, salary_payment_deduction_value: listAllDeduction[key]});
           }
           let filterPermanent=tempArr.filter(v=>v.name == 'Permanent')
-          console.log('filter permanent',filterPermanent)
+          // console.log('filter permanent',filterPermanent)
           let listPermanentAllowance = [];
           let arrPermanentAllowance = []
           filterPermanent[0].empType.map(v=>{
@@ -484,7 +484,7 @@ class PayrollSummaryReportWithLocation extends Component {
 
 
           let filterTraining=tempArr.filter(v=>v.name == 'Training')
-          console.log("filter training",filterTraining);
+          // console.log("filter training",filterTraining);
           let listTrainingAllowance = [];
           let arrTrainingAllowance = []
           filterTraining[0].empType.map(v=>{
@@ -548,7 +548,7 @@ class PayrollSummaryReportWithLocation extends Component {
             "total":filterPermanent[0].empType.reduce((p,c)=>{return p+c.total},0)
           }]
         }
-        console.log("Permanent detail",PermanentDetail)
+        // console.log("Permanent detail",PermanentDetail)
         let PartTimeDetail={
           'name':'Part Time',
           'empType':[{
@@ -581,8 +581,8 @@ class PayrollSummaryReportWithLocation extends Component {
             "total": filterPartTime[0].empType.reduce((p,c)=>{return p+c.total},0)
           }]
         }
-        console.log("PartTime detail",PartTimeDetail)
-        console.log("training total",arrTrainingAllowance,arrTrainingDeduction)
+        // console.log("PartTime detail",PartTimeDetail)
+        // console.log("training total",arrTrainingAllowance,arrTrainingDeduction)
         let TrainingDetail={
           'name':'Training',
           'empType':[{
@@ -615,7 +615,7 @@ class PayrollSummaryReportWithLocation extends Component {
             "total": filterTraining[0].empType.reduce((p,c)=>{return p+c.total},0)
           }]
         }
-        console.log("Training detail",TrainingDetail)
+        // console.log("Training detail",TrainingDetail)
         let AllDetail={
           'name':'All',
           'empType':[{
@@ -649,6 +649,7 @@ class PayrollSummaryReportWithLocation extends Component {
           }]
         }
         console.log("All detail",AllDetail)
+        console.log('list detail is =======>', list.map(d => d.total))
         // let DetailAll=AllDetail !=undefined && AllDetail.empType && AllDetail.empType.length > 0
         // console.log("detail all",DetailAll) 
         // let DetailPermanent=PermanentDetail !=undefined && PermanentDetail.empType && PermanentDetail.empType.length > 0 
@@ -787,7 +788,7 @@ class PayrollSummaryReportWithLocation extends Component {
   }
   
   render() {
-    console.log('final data',this.state.FinalData)
+    // console.log('final data',this.state.FinalData)
     // console.log('final data',this.state.FinalData)
     let filterData =
     this.state.ReportHeader &&
@@ -969,7 +970,7 @@ this.state.TrainingDetail!=undefined && this.state.TrainingDetail.empType && thi
    // Deduction.push(v.deduction.filter(d=>d.salary_payment_deduction_label == header.label).length > 0 && v.deduction.filter(d=>d.salary_payment_deduction_label == header.label)[0])
  });
 })
-     console.log('all deduction',AllDeduction)
+    //  console.log('all deduction',AllDeduction)
      
    
   finalDatasource.map((v) => {
@@ -1007,7 +1008,7 @@ this.state.TrainingDetail!=undefined && this.state.TrainingDetail.empType && thi
     }
     return R;
   }, []);
-  console.log("total deduction data",totalDeductionData)
+  // console.log("total deduction data",totalDeductionData)
   let totalAdditionData = Addition.reduce((r, c) => {
     let R = [...r];
     const index = R.findIndex(
