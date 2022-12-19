@@ -160,7 +160,6 @@ class QuarterlyIncentiveReport extends Component {
   };
 
   handleSelectedEmpId = async (event) => {
-    console.log("event",event)
     if (event != null)
     if (event) {
       fetch(`${main_url}employee/getDetailUser/${event.user_id}`)
@@ -187,13 +186,11 @@ class QuarterlyIncentiveReport extends Component {
   }
 
   handleSearchData = () => {
-    // this.setState({
     const branchId = this.state.selected_Branch ? this.state.selected_Branch.value : 0
     const designationId = this.state.selected_designation ? this.state.selected_designation.value : 0
     const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
     const employee = this.state.selected_employeeId ? this.state.selected_employeeId.value : 0
     const quarterSelect  =  this.state.selected_quarter ? this.state.selected_quarter.value :0
-    // })
 
     fetch(main_url + "salary_report/quartelyReport/" + employee + "/" + designationId + "/" + branchId + "/" + regionId + "/" + quarterSelect + "/" + moment(this.state.selected_month).format('YYYY') ) 
       .then(res => { if (res.ok) return res.json() })
@@ -214,7 +211,10 @@ class QuarterlyIncentiveReport extends Component {
   
     return (
       <div>
-          <div className='' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center' ,marginBottom:10}}>
+            <h3 style={{margin:'15px 15px 15px 0px'}}>Quarterly Incentive Report</h3>
+             
+
+          <div className='' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center' ,marginBottom:30}}>
 
           <div className='col-lg-2' style={{padding:0}} >
           <DatePicker
@@ -353,7 +353,6 @@ class QuarterlyIncentiveReport extends Component {
              filename="Quarterly Incentive Report"
              buttonText="Excel"
              sheet="Sheet"
-             // style={{marginTop:30}}
              />
              </div>
           <table className="table table-bordered" id="quarterly_incentive" style={{overflow:'scroll'}}>

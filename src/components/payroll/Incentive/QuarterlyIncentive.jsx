@@ -115,13 +115,6 @@ export default class QuarterlyIncentive extends Component{
                 selected_month: event,
               });
           };
-          
-        // handleSelectedBranch = (event) => {
-        //     if (event !== null)
-        //       this.setState({
-        //         selected_branch: event,
-        //       });
-        //   };
 
         handleSelectedQuater = (event) => {
             this.setState({
@@ -161,9 +154,7 @@ export default class QuarterlyIncentive extends Component{
             };
           };
 
-        actionClick = (e)=>{  console.log(e,this.state.dataSource.length)
-          
-           
+        actionClick = (e)=>{    
             if ( this.state.dataSource.length > 0 && (e == 1 || e == 2 || e ==0 )){
               let status = 0
               fetch(`${main_url}incentive/quartelyGenerate/${this.state.selected_quarter.value}/${moment(this.state.selected_month).format("YYYY")}/${e}`)
@@ -263,7 +254,9 @@ export default class QuarterlyIncentive extends Component{
             return(
         <div>
           <ToastContainer/>
-          <div className='col-lg-2' >
+          <h3 style={{margin:'15px 15px 15px 0px'}}>Quarterly Incentive</h3>
+          <div className="col-lg-12" style={{padding:0}}>
+          <div className='col-lg-2' style={{margin:'0px 0px 0px 0px',padding:'0px 15px 0px 0px'}} >
         <label>Select Year</label>
         <DatePicker
             dateFormat="YYYY"
@@ -311,9 +304,10 @@ export default class QuarterlyIncentive extends Component{
           className="react-select-container"
           classNamePrefix="react-select"/></div>
           
-          <div className="row" style={{paddingTop:25,marginLeft:15}}><button className='btn-primary btn' onClick={()=>this.handleSearch()}>Search</button></div>
-  
-          <div className="col-lg-2" style={{ paddingTop: 8 }}>
+          <div className="row" style={{margin:'25px 15px 0px 15px'}}><button className='btn-primary btn' onClick={()=>this.handleSearch()}>Search</button></div>
+            </div>
+
+          <div className="col-lg-2" style={{ padding:'8px 0px 15px 0px'}}>
             <input
               // className="dropZone"
               type="file"
@@ -347,12 +341,7 @@ export default class QuarterlyIncentive extends Component{
            </div>
 
           <div>
-            {/* <div>
-                <table
-                      width="99%"
-                      className="table table-striped table-bordered table-hover responsive nowrap dt-responsive"
-                      id="dataTables-Table"/>
-                      </div> */}
+          
           { this.state.loading ? ( <div className="col-lg-12" style={{display:'flex',justifyContent:'center' }}><h1>Loading...</h1></div>) : 
           this.state.dataSource.length > 0 ? (
           
@@ -462,56 +451,3 @@ export default class QuarterlyIncentive extends Component{
             )
         }
 }
-
-
-
-
-  {
-    /* <div className="row" style={{display:'flex',justifyContent:'center'}}>
-                      <div className='col-lg-7 col-md-8 col-sm-12' style={{ background: 'white',marginTop:30,border:"1px solid grey " }}>
-                   <div className="" style={{display:'flex',justifyContent:'center', background: '#1872ab',marginTop:20}}><h2 style={{color:"white",marginTop:10,fontSize:18,fontWeight:"bold"}}>Monthly Incentive</h2></div>
-                   <div className="" style={{display:'flex',justifyContent:'center',paddingTop:20}}><h3>Staff Information</h3></div>
-                   <div className='col-lg-6' style={{ paddingLeft: '100px', paddingTop: '10px' }}><p>Staff ID</p>
-                   <p>Name</p>
-                   <p>Department</p>
-                   <p>Designation</p>
-                   <p>Branch</p>
-                   <p>Payment Month</p>
-                   </div>
-  
-                   <div className='col-lg-1' style={{ paddingLeft: '0px', paddingTop: '10px' }} ><p>:</p>
-                   <p>:</p>
-                   <p>:</p>
-                   <p>:</p>
-                   <p>:</p>
-                   <p>: </p>
-                   </div>
-  
-                   <div className=' col-lg-5' style={{ paddingLeft: '90px', paddingTop: '10px' }}><p>Staff ID</p>
-                   <p>Name</p>
-                   <p>Department</p>
-                   <p>Designation</p>
-                   <p>Branch</p>
-                   <p>Payment Month</p>
-                   </div>
-  
-                   <div className="row" style={{display:'flex',justifyContent:'center',paddingTop:20}}><h3>Incentive Information</h3>
-                   </div>
-                   <div className='col-lg-6' style={{ paddingLeft: '100px', paddingTop: '10px' }}><p>CO Count </p>
-                   <p>Co Incentive Total</p>
-                   <p>Incentive Amount </p>
-                   </div>
-  
-                   <div className='col-lg-1' style={{ paddingLeft: '0px', paddingTop: '10px' }} ><p>:</p>
-                   <p>:</p>
-                   <p>:</p>
-                   </div>
-  
-                  
-                   <div className=' col-lg-5' style={{ paddingLeft: '90px', paddingTop: '10px', marginBottom:20 }}><p>Staff ID</p>
-                   <p>Name</p>
-                   <p>Department</p>
-                   </div>
-                      </div>
-                    </div> */
-  }

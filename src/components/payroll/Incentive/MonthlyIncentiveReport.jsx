@@ -15,7 +15,6 @@ export default class MonthlyIncentiveReport extends Component{
     constructor(props){
       super(props);{
         this.state={
-      // dataSource:[],
       employeeIdList: [],
       EmployeeNameList: [],
       regionList: [],
@@ -38,8 +37,6 @@ export default class MonthlyIncentiveReport extends Component{
         }
       }};
 componentDidMount(){
-    // this.$el = $(this.el);
-    // this.setDataTable(this.state.dataSource);
     this.getEmployeeCodeList();
     this.getEmployeeName();
     this.getBranchList();
@@ -72,7 +69,7 @@ getRegionList() {
       .then((list) => {
         let lists = list.unshift({ value: 0, label: "All" });
         this.setState({
-          designationList: list, //list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
+          designationList: list,
         });
       });
   };
@@ -167,6 +164,7 @@ getRegionList() {
   this.setState({
     coData:[],
     fxData:[],
+    loading:true
   })
   const employee = this.state.selected_employeeID ? this.state.selected_employeeID.value : 0
   const designationId = this.state.selected_designation ? this.state.selected_designation.value : 0
@@ -180,14 +178,17 @@ getRegionList() {
         this.setState({
             coData:list,
             fxData:[],
-            table_type:1
+            table_type:1,
+            loading:false
         });} else { 
           this.setState({
             fxData:list,
             coData:[],
-            table_type:2
+            table_type:2,
+            loading:false
+
         },()=>{
-          this.setDataTable(this.state.fxData)
+          this.setDataTable(list)
         });
         }
       })
@@ -250,13 +251,13 @@ getRegionList() {
         });
       };
 
-    render(){  
+    render(){   console.log("eoorrrr",this.state.table_type,this.state.coData.length,this.state.fxData.length);
     return(
 
         <div>
-            <h3>Monthly Incentive Report</h3>
+            <h3 style={{margin:'15px 15px 15px 15px'}}>Monthly Incentive Report</h3>
 
-            <div className="col-lg-12" style={{marginBottom:20,marginLeft:0,padding:0}}>
+            <div className="col-lg-12" style={{marginLeft:0,padding:0}}>
 
           <div className="col-lg-3" >
             <label>Request Month</label>
@@ -339,12 +340,8 @@ getRegionList() {
           >
             <button className="btn-primary btn" onClick={this.handleSearch.bind(this)}>Search</button>
           </div> 
-
-            </div>
-            <div className="col-lg-12">
-            { this.state.coData.length > 0 && this.state.table_type === 1  ? (   console.log("data shi tl",this.state.fxData,this.state.coData),
-                <>
-                        <div style={{marginBottom:10}}>
+          { this.state.table_type == 1 ?(
+          <div className="col-lg-12" style={{paddingTop:30}}>
                         <ReactHTMLTableToExcel 
                          className="btn-excel"
                          table="monthly_incentive"
@@ -353,7 +350,13 @@ getRegionList() {
                          sheet="Sheet"
                         
                          />
-                        </div>
+                        </div>):(<></>)
+                        }
+            </div>
+            <div className="col-lg-12" style={{marginTop:0}}>
+            {  this.state.table_type === 1  && this.state.coData.length > 0 ? (  
+               
+                       
                 <table
                 className="table table-bordered"
                 id='monthly_incentive'
@@ -459,7 +462,7 @@ getRegionList() {
                     <th style={{ textAlign: "center" }}>Outstanding</th>
                   </tr>
                 </thead>
-                <tbody style={{ textAlign: "center" }}>
+                <tbody style={{ textAlign: "center",backgroundColor:'#f3f3f4' }}>
                   {
                     this.state.coData.map((v)=>{
                       return(
@@ -486,19 +489,9 @@ getRegionList() {
                 }
                 </tbody>
                 </table>
-                </>
-            ) : this.state.coData.length === 0 && this.state.table_type === 1  ? (  console.log("456456456456"),
-                <>
-                        <div style={{marginBottom:10}}>
-                        <ReactHTMLTableToExcel 
-                         className="btn-excel"
-                         table="monthly_incentive"
-                         filename="Monthly Incentive Report"
-                         buttonText="Excel"
-                         sheet="Sheet"
-                         />
-                        </div>
-
+                
+            ) : this.state.table_type === 1 && this.state.coData.length === 0 ? (
+              
                 <table
                 className="table table-bordered"
                 id='monthly_incentive'
@@ -606,20 +599,20 @@ getRegionList() {
                 </thead>
                 <tbody style={{ textAlign: "center" }}>
                   <tr>
-                  <td colSpan={14}style={{ textAlign: "center", verticalAlign: "middle",height:35,fontSize:15,borderBottom:'1px solid black' }}>No data available in table</td>
+                  <td colSpan={15}style={{ textAlign: "center", verticalAlign: "middle",height:35,fontSize:15,borderBottom:'1px solid black' }}>No data available in table</td>
                   </tr>
                 </tbody>
                 </table>
-                </> 
-          ): this.state.table_type === 2 ? (  console.log("fxRepor11111t",this.state.coData.length),
+                
+          ): this.state.table_type === 2 && this.state.fxData.length >= 0 ? ( 
             
-            <div className="col-lg-12" style={{marginTop:50}}>
+            <div className="col-lg-12" style={{marginTop:30}}>
             <table
             width="99%"
             className="table table-striped table-bordered table-hover responsive nowrap dt-responsive"
             id="dataTables-Table"
           /></div>
-            ):('',console.log("fxReport",this.state.coData.length,this.state.table_type === 2))
+            ):(<></>)
           }
             </div>
 
