@@ -595,7 +595,7 @@ export default class ResignOrDismissSalaryEdit extends Component {
               </div> */}
                                <div className="row save-btn">
                     {
-                        havePermission(this.state.work_flow_status) ?
+                        havePermission(this.state.work_flow_status) && this.state.dataSource.status !=5 ?
                             <ApprovalForm1 approvalStatus={this.approvalStatus.bind(this)} status={this.state.dataSource.status} work_flow={this.state.work_flow_status} />
                             :
                             <div className="col-md-12 btn-rightend">
