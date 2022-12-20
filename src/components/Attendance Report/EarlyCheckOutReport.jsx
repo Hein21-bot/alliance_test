@@ -78,6 +78,11 @@ class EarlyCheckOutReport extends Component {
            regionId : event
         })
     }
+    handleSelectedBranch = async (event) => {
+      this.setState({
+        branchId : event
+      })
+  }
     handleSelectedFromdate = async (event) => {
         this.setState({
            from_date : event
@@ -89,7 +94,7 @@ class EarlyCheckOutReport extends Component {
         })
     }
     handleSearchData = () => {
-        fetch(`${main_url}report/extensionReport/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${this.state.selectedStatus ? this.state.selectedStatus.value : 0}/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}`)
+        fetch(`${main_url}attendance/earlyCheckoutReport/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}`)
           .then(res => { if (res.ok) return res.json() })
           .then(list => { 
             this._setTableData(list);
@@ -102,20 +107,25 @@ class EarlyCheckOutReport extends Component {
         if (data){
         for (var i = 0; i < data.length; i++) {
             let result = data[i];
+          let  application_status = '';
+          if (result.check_out_status === 0) {
+            application_status = '<small class="label label-warning" style="background-color:#f60e2f"> Reject  </small>'
+          } else{
+            application_status = '<small class="label label-warning" style="background-color:#29a50a"> Approve  </small>'
+          }
             let obj = [];
                 obj = {
                 no: i + 1,
+                date:data[i].createdAt ? moment(data[i].createdAt).format('YYYY-MM-DD') :'-',
                 employee_id:data[i].employment_id ? data[i].employment_id :"-",
                 employee_name:data[i].fullname ? data[i].fullname : "-",
-                branch: data[i].branch_name ? data[i].branch_name: "-",
+                branch: data[i].location_master_name ? data[i].location_master_name: "-",
                 designation:data[i].designations ? data[i].designations : "-",
-                level:data[i].career_level ? data[i].career_level : "-",
-                department:data[i].deptname ? data[i].deptname : "-",
-                region:data[i].region_name ? data[i].region_name : '-',
-                pa_score:data[i].performance_score ? data[i].performance_score : '-',
-                target_achievement:data[i].target_achievement ? data[i].target_achievement : '-',
-                overall_performance:data[i].comment_overall_performance ? data[i].comment_overall_performance : '-',
-                extension_period:data[i].extension_period ? data[i].extension_period : '-'
+                checkIn:data[i].check_in_time ? moment(data[i].check_in_time).format('YYYY-MM-DD hh:mm:ss a') : "-",
+                checkOut:data[i].check_out_time ? moment(data[i].check_out_time).format('YYYY-MM-DD hh:mm:ss a') : "-",
+                workingHour:data[i].working_hour ? data[i].working_hour : '-',
+                reason:data[i].early_checkout_reason ? data[i].early_checkout_reason : '-',
+                status:application_status,
             }
             
             l.push(obj)
@@ -133,12 +143,12 @@ class EarlyCheckOutReport extends Component {
             { title: "Employee Id", data: "employee_id" },
             { title: "Employee Name", data: "employee_name" },
             { title: "Position", data: "designation" },
-            { title: "Branch", data: "level" },
-            { title: "Check In", data: "department" },
-            { title: "Check Out", data: "branch" },
-            { title: "Working Hour", data: "region" },
-            { title: "Reason", data: "pa_score" },
-            { title: "Status", data: "target_achievement" },
+            { title: "Branch", data: "branch" },
+            { title: "Check In", data: "checkIn" },
+            { title: "Check Out", data: "checkOut" },
+            { title: "Working Hour", data: "workingHour" },
+            { title: "Reason", data: "reason" },
+            { title: "Status", data: "status" },
         ]
         table = $("#dataTables-table").DataTable({
 
@@ -212,8 +222,8 @@ class EarlyCheckOutReport extends Component {
 
               }}
               placeholder="Branch"
-              options={this.state.selectedStatus}
-              onChange={this.handleSelectedStatus}
+              options={this.state.branch}
+              onChange={this.handleSelectedBranch}
               value={this.state.branchId}
               className='react-select-container'
               classNamePrefix="react-select"
@@ -260,7 +270,7 @@ class EarlyCheckOutReport extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
-            <Select
+            {/* <Select
               styles={{
                 container: base => ({
                   ...base,
@@ -280,7 +290,7 @@ class EarlyCheckOutReport extends Component {
               value={this.state.selectedStatus}
               className='react-select-container'
               classNamePrefix="react-select"
-            /> 
+            />  */}
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
             </div>
            

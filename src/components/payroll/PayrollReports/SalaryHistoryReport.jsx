@@ -501,10 +501,6 @@ class SalaryHistoryReport extends Component {
 
   </div>
 </div>
-
-
-
-
       </div>
     );
   }

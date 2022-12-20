@@ -88,7 +88,7 @@ class LateCheckInReport extends Component {
         })
     }
     handleSearchData = () => {
-        fetch(`${main_url}report/extensionReport/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}`)
+        fetch(`${main_url}attendance/lateCheckInReport/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}`)
           .then(res => { if (res.ok) return res.json() })
           .then(list => { 
             this._setTableData(list);
@@ -101,20 +101,26 @@ class LateCheckInReport extends Component {
         if (data){
         for (var i = 0; i < data.length; i++) {
             let result = data[i];
+          let  application_status = '';
             let obj = [];
+            if (result.status === 0) {
+              application_status = '<small class="label label-warning" style="background-color:#f60e2f"> Reject  </small>'
+            } else{
+              application_status = '<small class="label label-warning" style="background-color:#29a50a"> Approve  </small>'
+            }
                 obj = {
                 no: i + 1,
+                date:data[i].createdAt ? moment(data[i].createdAt).format('YYYY-MM-DD') : '-',
                 employee_id:data[i].employment_id ? data[i].employment_id :"-",
                 employee_name:data[i].fullname ? data[i].fullname : "-",
-                branch: data[i].branch_name ? data[i].branch_name: "-",
+                branch: data[i].location_master_name ? data[i].location_master_name: "-",
                 designation:data[i].designations ? data[i].designations : "-",
-                level:data[i].career_level ? data[i].career_level : "-",
-                department:data[i].deptname ? data[i].deptname : "-",
-                region:data[i].region_name ? data[i].region_name : '-',
-                pa_score:data[i].performance_score ? data[i].performance_score : '-',
-                target_achievement:data[i].target_achievement ? data[i].target_achievement : '-',
-                overall_performance:data[i].comment_overall_performance ? data[i].comment_overall_performance : '-',
-                extension_period:data[i].extension_period ? data[i].extension_period : '-'
+                checkIn:data[i].check_in_time ? moment(data[i].check_in_time).format('YYYY-MM-DD hh:mm:ss a') : "-",
+                checkOut:data[i].check_out_time ? moment(data[i].check_out_time).format('YYYY-MM-DD hh:mm:ss a') : "-",
+                workingHour:data[i].working_hour ? data[i].working_hour : '-',
+                lateMin:data[i].late_mins ? data[i].late_mins : '-',
+                reason:data[i].late_checkin_reason ? data[i].late_checkin_reason : '-',
+                status:application_status
             }
             
             l.push(obj)
@@ -132,13 +138,13 @@ class LateCheckInReport extends Component {
             { title: "Employee Id", data: "employee_id" },
             { title: "Employee Name", data: "employee_name" },
             { title: "Position", data: "designation" },
-            { title: "Branch", data: "level" },
-            { title: "Late Check in", data: "department" },
-            { title: "Check Out", data: "branch" },
-            { title: "Working Hour", data: "region" },
-            { title: "Late Min", data: "pa_score" },
-            { title: "Reason", data: "target_achievement" },
-            { title: "Status", data: "overall_performance" },
+            { title: "Branch", data: "branch" },
+            { title: "Late Check in", data: "checkIn" },
+            { title: "Check Out", data: "checkOut" },
+            { title: "Working Hour", data: "workingHour" },
+            { title: "Late Min", data: "lateMin" },
+            { title: "Reason", data: "reason" },
+            { title: "Status", data: "status" },
           
         ]
         table = $("#dataTables-table").DataTable({
