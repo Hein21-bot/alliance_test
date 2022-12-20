@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { main_url, getUserId } from "../../../utils/CommonFunction";
+import { main_url} from "../../../utils/CommonFunction";
 import DatePicker from "react-datetime";
 import Select from "react-select";
 import moment from "moment";
@@ -170,14 +170,8 @@ export default class MonthlyIncentive extends Component {
     document.querySelector("#attachment").value = "";
     this.setState({
       selected_type: event,
-      // searchData: [],
     });
   };
-  // async changeClick() {
-  //   this.setState({
-  //     deleteType: false,
-  //   })
-  // }
   actionClick = async (e) => {
     if (this.state.searchData.length > 0 && (e == 1 || e == 2 || e == 0)) {
       let status = 0;
@@ -381,6 +375,7 @@ export default class MonthlyIncentive extends Component {
     return (
       <div>
         <ToastContainer />
+        <h3 style={{margin:'15px 15px 15px 0px'}}>Monthly Incentive</h3>
         <div className="row">
           <div className="col-lg-3">
             <label>Request Month</label>

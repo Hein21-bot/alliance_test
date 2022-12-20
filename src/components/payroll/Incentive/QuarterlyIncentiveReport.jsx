@@ -4,8 +4,6 @@ import Select from 'react-select';
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import moment from "moment";
 import DatePicker from "react-datetime";
-import MonthlyIncentive from "./MonthlyIncentive";
-
 
 class QuarterlyIncentiveReport extends Component {
   constructor(props) {
@@ -170,12 +168,6 @@ class QuarterlyIncentiveReport extends Component {
           this.setState({
               fullname:data[0].employee_name
           })
-          // if (data.length > 0) {
-          //   this.getData(this.props.id);
-          //   this.setState({ tableEdit: true, tableView: false });
-
-
-          // }
         });
     }
       this.setState(
@@ -211,9 +203,7 @@ class QuarterlyIncentiveReport extends Component {
   
     return (
       <div>
-            <h3 style={{margin:'15px 15px 15px 0px'}}>Quarterly Incentive Report</h3>
-             
-
+          <h3 style={{margin:'15px 15px 15px 0px'}}>Quarterly Incentive Report</h3>            
           <div className='' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center' ,marginBottom:30}}>
 
           <div className='col-lg-2' style={{padding:0}} >
@@ -293,7 +283,6 @@ class QuarterlyIncentiveReport extends Component {
              filename="Quarterly Incentive Report"
              buttonText="Excel"
              sheet="Sheet"
-             // style={{marginTop:30}}
              />
              </div>
          <div>
@@ -382,9 +371,7 @@ class QuarterlyIncentiveReport extends Component {
            
             </tbody>
           </table></div>
-          )
-}
-      
+          )}    
       </div>
     )
   }

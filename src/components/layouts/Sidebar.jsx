@@ -516,7 +516,7 @@ export default class Sidebar extends Component {
               </li>
 
               <li
-                className={this.checkPathName() === "/attendance" || pathname === '/incomplete_and_missing_report' || pathname === '/holiday_attendance' || pathname === '/attendance_report_monthly' || pathname === "/attendance_type" || pathname === "/attendance_history" ? "active" : ""}
+                className={this.checkPathName() === "/attendance" || pathname === '/incomplete_and_missing_report' || pathname === '/holiday_attendance' || pathname === '/attendance_report_monthly' || pathname === "/attendance_type" || pathname === "/attendance_history" || pathname === "/late_reportby_employee" || pathname === "/late_checkin_report" || pathname === "/early_checkout_report" || pathname === "/absence_report" || pathname === "/weekly_attendance_report" || pathname === "/holiday_attendance_report" ? "active" : ""}
                 // style={{ display: isHR  ? 'block' : "none" }}
              >
                 <a href="/incomplete_and_missing_report" className="sideList">
@@ -561,6 +561,60 @@ export default class Sidebar extends Component {
                     }
                   >
                     <a href="/attendance_history">Attendance History</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/late_reportby_employee"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/late_reportby_employee">Late Report By Employee</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/late_checkin_report"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/late_checkin_report">Late Check In Report</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/early_checkout_report"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/early_checkout_report">Early Check Out Report</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/absence_report"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/absence_report">Absence Report</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/weekly_attendance_report"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/weekly_attendance_report">Weekly Attendance Report</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/holiday_attendance_report"
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    <a href="/holiday_attendance_report">Holiday Attendance Report</a>
                   </li>
                   
                 </ul>

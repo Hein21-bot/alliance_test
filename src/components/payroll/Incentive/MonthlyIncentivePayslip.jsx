@@ -1,14 +1,9 @@
 import React,{Component} from 'react';
 import { main_url,getUserId } from "../../../utils/CommonFunction";
 import DatePicker from "react-datetime";
-import Select from "react-select";
 import moment from "moment";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.min.css";
-
-// const $ = require('jquery');
-
-
 
 export default class MonthlyIncentivePayslip extends Component{
 constructor(props){
@@ -23,10 +18,6 @@ constructor(props){
       branchList: [],
       designationList: [],
       fxData:[],
-      // co_fx: [
-      //   { value: 1, label: "CO" ,name:'co'},
-      //   { value: 2, label: "FX" ,name:'fx' },
-      // ],
       selected_month: new Date(),
       componentIndex: "main",
       selected_region: "",
@@ -39,8 +30,6 @@ constructor(props){
     }
 }
 componentDidMount(){
-    // this.$el = $(this.el);
-    // this.setDataTable(this.state.dataSource);
     this.getEmployeeCodeList();
     this.getEmployeeName();
     this.getBranchList();
@@ -73,7 +62,7 @@ getRegionList() {
       .then((list) => {
         let lists = list.unshift({ value: 0, label: "All" });
         this.setState({
-          designationList: list, //list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
+          designationList: list,
         });
       });
   };
@@ -156,51 +145,6 @@ getRegionList() {
     });
   };
 
-  // handleSelectedType = (event) => {
-  //   this.setState(
-  //     {
-  //       selected_type: event,
-  //       fxData: [],
-  //     }
-  //   );
-  // };
-
-// getFxData (){
-// let status = 0
-//   fetch(`${main_url}incentive/monthlyFXPayslip/${this.state.user_id}/${moment(this.state.selected_month).format("YYYY-MM")}`)
-//   .then((res) => {
-//     status=res.status;
-//     if (res.ok) return res.json();
-//   })
-//   .then((list) => {
-//     if(list != undefined){
-//       this.setState({
-//         fxData: list,
-//         coDdata:[]
-//       });
-//     }else{
-//       toast.error('No FX data for this user!')
-//     }
-//   });
-  
-// };
-
-// getCoData (){
-//   fetch(`${main_url}incentive/monthlyCOPayslip/${this.state.user_id}/${moment(this.state.selected_month).format("YYYY-MM")}`)
-//   .then((res) => {
-//     if (res.ok) return res.json();
-//   })
-//   .then((list) => { 
-//     if(list != undefined){
-//       this.setState({
-//         coData: list,
-//         fxData:[]
-//       });
-//     }
-    
-//   });
-// };
-
   getIncentive () {
     fetch(`${main_url}incentive/findDesignation/${moment(this.state.selected_month).format("YYYY-MM")}/${this.state.user_id}`)
     .then((res)=>{
@@ -230,6 +174,7 @@ render(){
     return( 
         <div>
           <ToastContainer position={toast.POSITION.TOP_RIGHT} />
+          <h3 style={{margin:'15px 15px 15px 0px'}}>Monthly Incentive Payslip</h3>
           <div className="row">
           
           <div className="col-lg-3" >
@@ -242,80 +187,13 @@ render(){
             />
           </div>
 
-          {/* <div className="col-lg-3">
-            <label>CO/FX</label>
-            <Select
-              options={this.state.co_fx}
-              onChange={this.handleSelectedType}
-              value={this.state.selected_type}
-              className="react-select-container"
-              classNamePrefix="react-select"
-            />
-          </div> */}
-
-          {/* <div className="col-lg-3">
-            <label>Designation</label>
-            <Select
-              options={this.state.designationList}
-              onChange={this.handleSelectedDesignation}
-              value={this.state.selected_designation}
-              className="react-select-container"
-              classNamePrefix="react-select"
-            />
-          </div>
-
-          <div className='col-lg-3' >
-        <label>Region</label>
-        <Select 
-          options={this.state.regionList}
-          onChange={this.handleSelectedRegion}
-          value={this.state.selected_region}
-          className="react-select-container"
-          classNamePrefix="react-select"/></div>
-
-          <div className='col-lg-3' >
-        <label>Branch </label>
-        <Select 
-          options={this.state.branchList}
-          onChange={this.handleSelectedBranch}
-          value={this.state.selected_branch}
-          className="react-select-container"
-          classNamePrefix="react-select"/></div>
-
-          <div className='col-lg-3' >
-        <label>Employee Id </label>
-        <Select 
-                                options={this.state.employeeIdList}
-                                onChange={this.handleSelectedEmployeeId}
-                                value={this.state.selected_employeeID}
-                                className="react-select-container"
-                                classNamePrefix="react-select"/>
-
-          </div>
-
-          <div className='col-lg-3' >
-        <label>Employee Name</label>
-              <input 
-                        className="form-control checkValidate"
-                        disabled={true}
-                        type="text"
-                        data-name="fullname"
-                        value={this.state.selected_employee}
-                        placeholder="Employee Name"
-                        onChange={this.claimChangeText}/>
-          </div> */}
-
           <div
             className="col-lg-3"
             style={{
               marginTop: "25px",
             }}
           >
-            {/* { this.state.selected_type.value == 1 ? ( */}
-            {/* <button className="btn-primary btn"  onClick={()=>this.getCoData()} >Search</button> */}
             <button className="btn-primary btn"  onClick={()=>this.getIncentive()} >Search</button>
-            
-            {/* } */}
           </div>
         </div>
 {  this.state.selected_type == 1 ?( this.state.coData.length > 0  ? ( 
@@ -530,13 +408,4 @@ render(){
         </div>
     )
 }
-
-
-
-
-
-
-
-
-
 }

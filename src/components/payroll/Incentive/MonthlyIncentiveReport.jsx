@@ -7,10 +7,6 @@ import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
 const $ = require('jquery');
 
-
-
-
-
 export default class MonthlyIncentiveReport extends Component{
     constructor(props){
       super(props);{
@@ -615,10 +611,7 @@ getRegionList() {
             ):(<></>)
           }
             </div>
-
-        
-
-        </div>
+            </div>
    ) }
 
 }

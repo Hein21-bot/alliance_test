@@ -6,7 +6,6 @@ import moment from "moment";
 import { toast, ToastContainer } from "react-toastify";
 const $ = require('jquery');
 
-
 export default class QuarterlyIncentive extends Component{
     constructor(props){
         super(props);
@@ -40,7 +39,6 @@ export default class QuarterlyIncentive extends Component{
             this.getBranchList();
             this.getDepartment();
             this.getQuaterList();
-            // this.setDataTable(this.state.dataSource);
         }
 
         getDepartment(){
@@ -122,7 +120,7 @@ export default class QuarterlyIncentive extends Component{
             })
           };
    
-          handleSearch(){     
+        handleSearch(){     
     const branchId = this.state.selected_branch ? this.state.selected_branch.value : 0
     const designationId = this.state.selected_department ? this.state.selected_department.value : 0
     const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0

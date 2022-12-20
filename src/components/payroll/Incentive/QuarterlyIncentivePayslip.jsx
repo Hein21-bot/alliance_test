@@ -4,8 +4,6 @@ import DatePicker from "react-datetime";
 import Select from "react-select";
 import moment from "moment";
 
-
-
 export default class QuarterlyIncentivePayslip extends Component{
     constructor(props){
         super(props);
@@ -58,6 +56,7 @@ export default class QuarterlyIncentivePayslip extends Component{
         render(){   
             return( 
                 <div>
+                  <h3 style={{margin:'15px 15px 15px 15px'}}>Quarterly Incentive Payslip</h3>
                  <div className='col-lg-2' >
         <label>Select Year</label>
         <DatePicker

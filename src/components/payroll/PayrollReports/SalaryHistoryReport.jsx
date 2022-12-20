@@ -292,16 +292,8 @@ class SalaryHistoryReport extends Component {
             </button>
           </div>
         </div>
-        <div style={{marginTop:30}}>
-        <ReactHTMLTableToExcel
-          className="btn-excel"
-          table="reg_wise_staff"
-          filename="Salary History Report"
-          buttonText="Excel"
-          sheet="Sheet"
-        />
-       </div>
-       <table id="reg_wise_staff">
+       
+       {/* <table id="reg_wise_staff">
        {this.state.employeeInfo != null && (
           <table className="table table-bordered" style={{ width: "20%" }}>
           <thead>
@@ -397,7 +389,122 @@ class SalaryHistoryReport extends Component {
             </tbody>
           </table>
         </div>
-       </table>
+       </table> */}
+<div style={{display:'flex',justifyContent:'start'}}>
+  <div>
+ <table id="reg_wise_staff">
+
+  {this.state.employeeInfo != null && (
+    <div className="row" style={{marginLeft:0}}>
+      <div style={{marginTop:30}}>
+        <ReactHTMLTableToExcel
+          className="btn-excel"
+          table="reg_wise_staff"
+          filename="Salary History Report"
+          buttonText="Excel"
+          sheet="Sheet"
+        />
+       
+   <table className="table table-bordered" style={{ width:600 }}>
+           <thead>
+             <tr>
+               <th>Employee ID</th>
+               <th>{this.state.employeeInfo.employment_id}</th>
+             </tr>
+           </thead>
+           <tbody>
+             <tr>
+               <td>Name</td>
+               <td>{this.state.employeeInfo.fullname}</td>
+             </tr>
+             <tr>
+               <td>Position</td>
+               <td>{this.state.employeeInfo.designations}</td>
+             </tr>
+             <tr>
+               <td>Department</td>
+               <td>{this.state.employeeInfo.deptname}</td>
+             </tr>
+             <tr>
+               <td>Branch</td>
+               <td>{this.state.employeeInfo.location_master_name}</td>
+             </tr>
+             <tr>
+               <td>Region</td>
+               <td>{this.state.employeeInfo.state_name}</td>
+             </tr>
+           </tbody>
+        </table> </div>
+        </div>
+        )}
+        <table
+            className="table table-bordered"
+           
+            style={{ overflow: "scroll" ,minWidth:600}}
+          >
+            <thead>
+              <tr
+                style={{
+                  backgroundColor: "blue",
+                  color: "white",
+                  overflow: "scroll",
+                }}
+              >
+                <th style={{ textAlign: "center", width: 100 }}>
+                  <div style={{ width: 100 }}></div>
+                </th>
+                {this.state.columnHeader != null &&
+                  this.state.columnHeader.map((v1) => {
+                    return (
+                      <th style={{ textAlign: "center", width: 100 }}>
+                        {v1.column}
+                      </th>
+                    );
+                  })}
+              </tr>
+            </thead>
+
+            <tbody style={{ textAlign: "center" }}>
+              <tr>
+                <td style={{ borderColor: "white" }}>Basic Salary</td>
+                {this.state.basicSalaryData.map((b, i) => (
+                  <td style={{ borderColor: "white" }} align={"right"}>
+                    {b.basic_salary}
+                  </td>
+                ))}
+              </tr>
+              {this.state.salaryHistoryLabel.map((v1, k2) => {
+                return (
+                  <tr>
+                    <td style={{ borderColor: "white" }}>{v1.label}</td>
+                    {this.state.data.map((v2, k2) => {
+                      return (
+                        <td style={{ borderColor: "white" }} align={"right"}>
+                          {v2[v1.label] == undefined ? 0 : v2[v1.label]}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+              <tr>
+                <td style={{ borderColor: "white" }}>Net Salary</td>
+                {this.state.netSalaryData.map((b, i) => (
+                  <td style={{ borderColor: "white" }} align={"right"}>
+                    {b.net_salary}
+                  </td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+</table>
+
+  </div>
+</div>
+
+
+
+
       </div>
     );
   }
