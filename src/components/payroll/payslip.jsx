@@ -140,7 +140,7 @@ class PaySlip extends Component {
                         )}
                         <p>{this.state.data.length > 0 && this.state.data[0].payment_amount}</p>
                     </div>
-                    <div style={{ paddingLeft: '30px', paddingBottom: '10px' }}><h3>{this.state.data.length > 0 && this.state.data[0].comments}</h3></div>
+                    <div style={{ paddingLeft: '30px', paddingBottom: '10px' }}><h3>{this.state.data.length > 0 && this.state.data[0].remark}</h3></div>
                 </div>
 
             </div></div> : "" )}

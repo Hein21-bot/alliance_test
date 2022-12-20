@@ -9,7 +9,7 @@ import {
 } from "../../../utils/CommonFunction";
 import "react-toastify/dist/ReactToastify.min.css";
 import { toast, ToastContainer } from "react-toastify";
-import ApprovalForm1 from "../../Common/ApprovalForm";
+import ApprovalForm1 from "../../Common/ApprovalForm1";
 import DatePicker from "react-datetime";
 import {
   getUserId,
@@ -595,7 +595,7 @@ export default class ResignOrDismissSalaryEdit extends Component {
               </div> */}
                                <div className="row save-btn">
                     {
-                        havePermission(this.state.work_flow_status) ?
+                        havePermission(this.state.work_flow_status) && this.state.dataSource.status !=5 ?
                             <ApprovalForm1 approvalStatus={this.approvalStatus.bind(this)} status={this.state.dataSource.status} work_flow={this.state.work_flow_status} />
                             :
                             <div className="col-md-12 btn-rightend">

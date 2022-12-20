@@ -226,8 +226,8 @@ class EmployeeSalaryReport extends Component {
           level: data[i].career_sub_level ? data[i].career_sub_level : "-",
           department: data[i].deptname ? data[i].deptname : "-",
           region: data[i].state_name ? data[i].state_name : "-",
-          current_effective_date: data[i].effective_month
-            ? data[i].effective_month
+          current_effective_date: data[i].last_promotion_date
+            ? data[i].last_promotion_date
             : "-",
           current_effective_month: data[i].effective_month
             ? data[i].effective_month

@@ -132,7 +132,7 @@ export default class Sidebar extends Component {
       .then(res => res.json())
       .then(data => {
         if (Object.keys(data).length > 0) {
-          const checkHRVal = data[0].deptname == "HR";
+          const checkHRVal = data[0].deptname == "HR" || data[0].designations == 'Senior Internal Audit Manager';
           this.setState({
             isHR: checkHRVal,
           });
