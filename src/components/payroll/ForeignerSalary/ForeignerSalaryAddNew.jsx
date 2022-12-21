@@ -659,12 +659,13 @@ export default class ForeignerSalaryAddNew extends Component {
     this.setState({ addNewData: newData });
   }
   handlegrossSalary=(e)=>{
+    console.log("gross salary",e.target.value)
     const newData=this.state.DetailUser;
     const tempData=this.state.addNewData;
     newData.basic_salary=e.target.value;
     
     tempData.salaryAfterDorA=parseInt(e.target.value)+parseInt(tempData.deductionOrAddition);
-    newData.totalGrossSalary=parseInt(e.target.value)+parseInt(tempData.deductionOrAddition)+parseInt(newData.ssc3)
+    tempData.totalGrossSalary=parseInt(e.target.value)+parseInt(tempData.deductionOrAddition)+parseInt(tempData.ssc3)
     this.setState({DetailUser:newData,addNewData:tempData})
   }
 
