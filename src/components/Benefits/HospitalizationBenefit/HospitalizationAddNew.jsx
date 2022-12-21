@@ -198,7 +198,8 @@ class HospitalizationAddNew extends Component {
         data.withdraw_location = e.value;
         this.setState({
             selected_location: e,
-            setupData: data
+            setupData: data,
+            withdraw_location:e
         })
 
     }
@@ -328,7 +329,7 @@ class HospitalizationAddNew extends Component {
                     status: this.state.status == 5 || this.state.status == -1 ? 0 : this.state.status,
                     updatedBy: this.state.updatedBy,
                     createdBy: this.state.createdBy,
-                    withdraw_location: this.state.withdraw_location,
+                    withdraw_location: this.state.withdraw_location.value,
                     start_date: this.state.start_date,
                     end_date: this.state.end_date
 

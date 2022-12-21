@@ -621,7 +621,7 @@ export default class Sidebar extends Component {
               </li>
               
               <li
-                className={this.checkPathName() === "/payroll" || this.checkPathName()==='/incentive' || this.checkPathName() === 'payroll_calculation' || this.checkPathName() === '/payroll_reports' || pathname === '/payslip_generate' || pathname === '/ssc' || pathname === "/payroll_main" || pathname === '/foreigner_salary' || pathname === "/resign_or_dismiss_salary" || pathname === '/backpay' || pathname === '/payroll_generate' || pathname ==='/pay_slip'|| pathname== '/monthly_incentive'|| pathname == "/quarterly_incentive_payslip" || pathname == "/monthly_incentive_payslip" || pathname == "/quarterly_incentive" ||  pathname == '/employee_salary_report' || pathname === '/monthly_report'|| pathname === '/quarterly_report' || pathname == '/ssc_report' ? "active" : ""}
+                className={this.checkPathName() === "/payroll" || this.checkPathName()==='/incentive' || this.checkPathName() === 'payroll_calculation' || this.checkPathName() === '/payroll_reports'|| this.checkPathName()==='/pay_slip' || pathname === '/payslip_generate' || pathname === '/ssc' || pathname === "/payroll_main" || pathname === '/foreigner_salary' || pathname === "/resign_or_dismiss_salary" || pathname === '/backpay' || pathname === '/payroll_generate' || pathname ==='/payroll_pay_slip'|| pathname== '/monthly_incentive'|| pathname == "/quarterly_incentive_payslip" || pathname == "/monthly_incentive_payslip" || pathname == "/quarterly_incentive" ||  pathname == '/employee_salary_report' || pathname === '/monthly_report'|| pathname === '/quarterly_report' || pathname == '/ssc_report' ? "active" : ""}
                
              >
                 <a href="/ssc" className="sideList">
@@ -666,7 +666,7 @@ export default class Sidebar extends Component {
                 </ul>
                   </li>
                  
-                  <li className={this.checkPathName() === "/incentive" || pathname == "/monthly_incentive"|| pathname == "/monthly_incentive_payslip"|| pathname == "/quarterly_incentive_payslip" || pathname == '/quarterly_incentive' ? "active" : " "}>
+                  <li className={this.checkPathName() === "/incentive" || pathname == "/monthly_incentive" ||  pathname == '/quarterly_incentive' ? "active" : " "}>
                     <a href="/incentive" className="sideText">Incentive</a>
                     <ul className="nav nav-third-level collapse">
                     <li
@@ -676,13 +676,7 @@ export default class Sidebar extends Component {
                   >
                     <a href="/monthly_incentive">Monthly Incentive</a>
                   </li>
-                  <li
-                    className={
-                      pathname === "/monthly_incentive_payslip" ? "active" : " "
-                    }
-                  >
-                    <a href="/monthly_incentive_payslip">Monthly Incentive Pay Slip</a>
-                  </li>
+                  
                   <li
                     className={
                       pathname === "/quarterly_incentive" ? "active" : ""
@@ -690,15 +684,7 @@ export default class Sidebar extends Component {
                   >
                     <a href="/quarterly_incentive">Quarterly Incentive</a>
                   </li>
-                  <li
-                    className={
-                      pathname === "/quarterly_incentive_payslip" ? "active" : " "
-                    }
-                  >
-                    <a href="/quarterly_incentive_payslip">Quarterly Incentive Pay Slip</a>
-                  </li>
-                  
-                   
+                                    
                 </ul>
                   </li>
                  
@@ -711,24 +697,7 @@ export default class Sidebar extends Component {
                   >
                     <a href="/resign_or_dismiss_salary">Resing Or Dismiss Salary</a>
                   </li>
-                  {/* <li
-                    className={
-                      pathname === "/monthly_incentive"
-                        ? "active"
-                        : ""
-                    }
-                  >
-                    <a href="/monthly_incentive">Monthly Incentive</a>
-                  </li>
-                  <li
-                    className={
-                      pathname === "/monthly_incentive_payslip"
-                        ? "active"
-                        : ""
-                    }
-                  >
-                    <a href="/monthly_incentive_payslip">Monthly Incentive Payslip</a>
-                  </li> */}
+                
                   <li
                     className={
                       pathname === "/foreigner_salary"
@@ -747,13 +716,11 @@ export default class Sidebar extends Component {
                   >
                     <a href="/backpay">BackPay</a>
                   </li>
-                  <li className={this.checkPathName() === "/payroll_reports" || pathname == "/pay_slip" || pathname == '/payroll_summary_report' || pathname == '/payroll_details_report' || pathname == '/ssc_report' || pathname == '/payroll_summary_report_with_location' || pathname == '/employee_salary_report' || pathname == '/salary_history_report' || pathname == '/payrollReport_with_bankno' || pathname === '/monthly_report' || pathname === '/quarterly_report' || pathname == '/ssc_report' ? "active" : " "}>
-                    <a href="/pay_slip" className="sideText">Payroll Related Reports</a>
+                  <li className={this.checkPathName() === "/payroll_reports" ||  pathname == '/payroll_summary_report' || pathname == '/payroll_details_report' || pathname == '/ssc_report' || pathname == '/payroll_summary_report_with_location' || pathname == '/employee_salary_report' || pathname == '/salary_history_report' || pathname == '/payrollReport_with_bankno' || pathname === '/monthly_report' || pathname === '/quarterly_report' || pathname == '/ssc_report' ? "active" : " "}>
+                    <a href="/payroll_reports" className="sideText">Payroll Related Reports</a>
                     <ul className="nav nav-third-level collapse">
                     
-                  <li className={pathname === "/pay_slip" ? "active" : ""}>
-                    <a href="/pay_slip">PaySlip</a>
-                  </li>
+                 
                   <li className={pathname === "/ssc_report" ? "active" : ""}>
                     <a href="/ssc_report">SSC Report for Goverment</a>
                   </li>
@@ -781,6 +748,31 @@ export default class Sidebar extends Component {
                   <li className={pathname === "/quarterly_report" ? "active" : ""}>
                     <a href="/quarterly_report">Quarterly Incentive Report</a>
                   </li>
+                </ul>
+                  </li>
+
+                  <li className={this.checkPathName() ==="/pay_slip" || pathname =="/payroll_pay_slip"||pathname =="/payslip_monthly_incentive"|| pathname == "/payslip_quarterly_incentive"   ? "active" : " "}>
+                    <a href="/pay_slip" className="sideText">Pay Slip</a>
+                    <ul className="nav nav-third-level collapse">
+                    <li className={pathname === "/payroll_pay_slip" ? "active" : ""}>
+                    <a href="/payroll_pay_slip">PayRoll Pay Slip</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/payslip_monthly_incentive" ? "active" : " "
+                    }
+                  >
+                    <a href="/payslip_monthly_incentive">Monthly Incentive Pay Slip</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/payslip_quarterly_incentive" ? "active" : " "
+                    }
+                  >
+                    <a href="/payslip_quarterly_incentive">Quarterly Incentive Pay Slip</a>
+                  </li>
+                  
+                   
                 </ul>
                   </li>
                 </ul>

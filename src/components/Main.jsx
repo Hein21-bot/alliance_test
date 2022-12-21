@@ -272,7 +272,7 @@ const Main = () => (
         <Route path='/foreigner_salary' component={ForeignerSalaryMain}></Route>
         <Route path='/backpay' component={BackPayMain}></Route>
         <Route path='/ssc_report' component={SSCReport}></Route>
-        <Route path='/pay_slip' component={PaySlip}></Route>
+        <Route path='/payroll_pay_slip' component={PaySlip}></Route>
         <Route path='/employee_salary_report' component={EmployeeSalaryReport}></Route>
         <Route path="/payrollReport_with_bankno" component={PayrollReportWithBankNo}></Route>
         <Route path="/salary_history_report" component={SalaryHistoryReport}></Route>
@@ -281,9 +281,9 @@ const Main = () => (
         <Route path='/payroll_details_report' component={PayrollDetailsReport}></Route>
         <Route path='/payroll_summary_report_with_location' component={PayrollSummaryReportWithLocation}></Route>
         <Route path='/monthly_incentive' component={MonthlyIncentive}></Route>
-        <Route path='/monthly_incentive_payslip' component={MonthlyIncentivePayslip}></Route>
+        <Route path='/payslip_monthly_incentive' component={MonthlyIncentivePayslip}></Route>
         <Route path='/monthly_report' component={MonthlyIncentiveReport}></Route>
-        <Route path='/quarterly_incentive_payslip' component={QuarterlyIncentivePayslip}></Route>
+        <Route path='/payslip_quarterly_incentive' component={QuarterlyIncentivePayslip}></Route>
         <Route path='/payslip_generate' component={PayslipGenerate1}></Route>
         <Route path='/quarterly_incentive' component={QuarterlyIncentive}></Route>
         <Route path='/payroll_generate' component={PayrollGenerate}></Route>
