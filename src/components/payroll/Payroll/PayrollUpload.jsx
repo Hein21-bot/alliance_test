@@ -367,6 +367,7 @@ export default class PayrollUpload extends Component {
 
   render() {
     const { steps, activeStep } = this.state;
+    console.log("datasource",this.state.dataSource)
 
     return (
       <div>
@@ -550,7 +551,11 @@ export default class PayrollUpload extends Component {
                <div className="col-md-12" style={{display:'flex',justifyContent:'end'}}>
                 <div className="col-md-2">
                   <label htmlFor="" style={{textAlign:'right'}}>Total</label>
-                  <input type="text" className="form-control" value={this.state.dataSource.reduce((p,c)=>{return p+parseInt(c.deduction_amount ? c.deduction_amount : c.allowance_amount)},0)} disabled />
+                  {
+                    this.state.dataSource[0].deduction_amount ?  <input type="text" className="form-control" value={this.state.dataSource.reduce((p,c)=>{return p+c.deduction_amount},0)} disabled />: 
+                    <input type="text" className="form-control" value={this.state.dataSource.reduce((p,c)=>{return p+c.allowance_amount},0)} disabled />
+                  }
+                 
                 </div>
               </div>
             </div>
