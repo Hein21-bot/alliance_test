@@ -344,7 +344,7 @@ class PayrollSummaryReportWithLocation extends Component {
         // console.log("permanent",Permanent);
         let PartTime=formatData.filter((d)=>d.name == 'Part Time') && formatData.filter((d)=>d.name == 'Part Time')[0]
         // console.log("part time",PartTime);
-        let Training=formatData.filter((d)=>d.name == 'Training') && formatData.filter((d)=>d.name == 'Training')[0]
+        let Training=formatData.filter((d)=>d.name == 'Training') && formatData.filter((d)=>d.name == 'Training')[0] 
         // console.log('Training',Training);
         if(Permanent){
             tempArr.push(Permanent)
@@ -929,6 +929,7 @@ class PayrollSummaryReportWithLocation extends Component {
          (d) => d.salary_payment_allowance_label == header.label
        ).length > 0
      ) {
+      console.log("gg")
        PartTimeAddition.push(
          v1.addition.filter(
            (d) => d.salary_payment_allowance_label == header.label
@@ -1428,6 +1429,7 @@ this.state.TrainingDetail!=undefined && this.state.TrainingDetail.empType && thi
                  <td>{this.state.TrainingDetail!=undefined && this.state.TrainingDetail.name}</td>
                  {
                    this.state.TrainingDetail!=undefined && this.state.TrainingDetail.empType && this.state.TrainingDetail.empType.length > 0 && this.state.TrainingDetail.empType.map((v)=>{
+                    console.log("training detial",v.deduction,v.addition,TrainingDeduction)
                      return(
                        <>
                        <td>{v.gross_salary}</td>
@@ -1457,7 +1459,7 @@ this.state.TrainingDetail!=undefined && this.state.TrainingDetail.empType && thi
                      )}
                      <td>{v.net_salary}</td>
                      <td>{v.total_gross_salary}</td>
-                     {TrainingDeduction.map((a, i) => {
+                     {TrainingDeduction.length > 0 ? TrainingDeduction.map((a, i) => {
                        return (
                          <td style={{verticalAlign:'middle'}}>
                            
@@ -1473,9 +1475,13 @@ this.state.TrainingDetail!=undefined && this.state.TrainingDetail.empType && thi
                           
                          </td>
                        );
+                     }) : PermanentDeduction.map((a,i)=>{
+                        return(
+                          <td>0</td>
+                        )
                      })}
                     
-                      {TrainingAddition.map((a, i) => {
+                      {TrainingAddition.length > 0 ? TrainingAddition.map((a, i) => {
                        return (
                          <td style={{verticalAlign:'middle'}}>
                            {v.addition.length > 0 &&
@@ -1489,6 +1495,10 @@ this.state.TrainingDetail!=undefined && this.state.TrainingDetail.empType && thi
                              : 0}
                          </td>
                        );
+                     }):PermanentAddition.map((a,i)=>{
+                      return(
+                        <td>0</td>
+                      )
                      })}
                         <td style={{verticalAlign:'middle'}}>{v.total}</td>
                        </>
