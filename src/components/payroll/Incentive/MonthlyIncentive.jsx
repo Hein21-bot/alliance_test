@@ -197,6 +197,8 @@ export default class MonthlyIncentive extends Component {
           newDoc: [],
           searchData: [],
         });
+      } else if (e == 2){
+        window.location.reload()
       }
     } else {
       toast.error("Please Choose Attachment File!");

@@ -169,9 +169,12 @@ export default class QuarterlyIncentive extends Component{
               this.setState({
                 viewButton:false,
                 dataSource:[]
-              })}
+              })} else if (e == 2){ console.log("delete");
+              window.location.reload();
+            }
               });
-            } else {
+            }
+            else {
               toast.error("Please Calculate First!");
             }
           };
@@ -194,18 +197,28 @@ export default class QuarterlyIncentive extends Component{
             method: "POST",
             body: formdata,
           })
-            .then((res) => {
+            .then((res) => { 
               status = res.status;
               return res.json();
             })
-            .then( (response) => {
-             this.setState({
+            .then( (response) => { 
+              
+             this.setState({ 
                dataSource:response,
-               quarter:response[0].quarter,
+               quarter:response[0] ? response[0].quarter : this.state.selected_quarter.value,
                loading:false,
                viewButton:true
-             })
-            })}
+             })            
+            })
+          .catch((err) =>{ console.log(err)
+            toast.error('Data Is Already Calculated!')
+            this.setState({
+              loading:false,
+              dataSource:[],
+
+            })
+          })
+          }
           };
 
         setDataTable(data) {

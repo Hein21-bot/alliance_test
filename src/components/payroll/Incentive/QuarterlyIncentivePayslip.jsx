@@ -13,6 +13,13 @@ export default class QuarterlyIncentivePayslip extends Component{
             quater_list:[],
             selected_quarter:'', 
             selected_month : new Date(),
+            quarter_months:[
+              {value:1,month1:'January',month2:'February',month3:'March'},
+              {value:2,month1:'April',month2:'May',month3:'June'},
+              {value:3,month1:'July',month2:'August',month3:'September'},
+              {value:4,month1:'October',month2:'November',month3:'December'},
+
+            ]
         }}
 
         componentDidMount(){
@@ -106,37 +113,65 @@ export default class QuarterlyIncentivePayslip extends Component{
              <p>:</p>
              </div>
 
-             <div className=' col-lg-5' style={{ paddingLeft: '90px', paddingTop: '10px' }}><p>{this.state.dataSource[0].employeeID}</p>
-             <p>{this.state.dataSource[0].name}</p>
-             <p>{this.state.dataSource[0].deptname}</p>
-             <p>{this.state.dataSource[0].position}</p>
-             <p>{this.state.dataSource[0].location_master_name}</p>
-             <p>{this.state.dataSource[0].start_month}</p>
-             <p>{this.state.dataSource[0].end_month}</p>
+             <div className=' col-lg-5' style={{ paddingLeft: '90px', paddingTop: '10px' }}><p>{this.state.dataSource ? this.state.dataSource[0].employeeID :'-'}</p>
+             <p>{this.state.dataSource ? this.state.dataSource[0].name : '-'}</p>
+             <p>{this.state.dataSource? this.state.dataSource[0].department: '-'}</p>
+             <p>{this.state.dataSource ? this.state.dataSource[0].position: '-'}</p>
+             <p>{this.state.dataSource ? this.state.dataSource[0].branch: '-'}</p>
+             <p>{this.state.dataSource ? this.state.dataSource[0].start_month: '-'}</p>
+             <p>{this.state.dataSource ? this.state.dataSource[0].end_month: '-'}</p>
              </div>
  
              <div className="row col-lg-12" style={{display:'flex',justifyContent:'center',marginTop:20 , background: '#1872ab',marginLeft:0}}><h3 style={{color:'white'}}>Incentive Information</h3>
              </div>
-
-             <div className='col-lg-6' style={{ paddingLeft: '100px', paddingTop: '10px' }}><p>Average salary</p>
-             <p>Deaprtment Score</p>
+            <div className="row col-lg-12" style={{backgroundColor:'#f3f3f4', margin:'20px 0px 0px 0px'}}>
+             <div style={{display:'flex',justifyContent:'center'}}> <h4>Monthly Incentive</h4></div>
+             <div className='col-lg-6' style={{ paddingLeft: '85px', paddingTop: '10px' }}>
+              <p>{this.state.quarter_months.filter(v=>v.value == this.state.selected_quarter.value)[0].month1}</p>
+              <p>{this.state.quarter_months.filter(v=>v.value == this.state.selected_quarter.value)[0].month2}</p>
+              <p>{this.state.quarter_months.filter(v=>v.value == this.state.selected_quarter.value)[0].month3}</p>   
+            </div>
+            <div className='col-lg-1' style={{ paddingLeft: '0px', paddingTop: '10px' }}>
+              <p>:</p>
+              <p>:</p>
+              <p>:</p>
+            </div>
+            <div className='col-lg-5'style={{ paddingLeft: '90px', paddingTop: '10px'}}>
+              <p>{this.state.dataSource ? this.state.dataSource[0].month1 : '-'}</p>
+              <p>{this.state.dataSource ? this.state.dataSource[0].month2 : '-'}</p>
+              <p>{this.state.dataSource ? this.state.dataSource[0].month3 : '-'}</p>
+            </div>
+            </div>
+             <div className='col-lg-6' style={{ paddingLeft: '100px' }}><p>Average salary</p>
              <p>BSC%</p>
+             <p>Total Incentive</p>
+             <p>Branch Score</p>
+             <p>Cash Team Score</p>
+             <p>Additional 2.5%</p>
+             <p>Additional Amount(2.5%)</p>
              <p style={{fontWeight:'bold'}}>Incentive Amount</p>
              </div>
-
-             <div className='col-lg-1' style={{ paddingLeft: '0px', paddingTop: '10px' }} ><p>:</p>
+             <div className='col-lg-1' style={{ paddingLeft: '0px' }} ><p>:</p>
+             <p>:</p>
+             <p>:</p>
+             <p>:</p>
+             <p>:</p>
              <p>:</p>
              <p>:</p>
              <p>:</p>
              </div>
             
-             <div className=' col-lg-5' style={{ paddingLeft: '90px', paddingTop: '10px', marginBottom:20 }}><p>{this.state.dataSource[0].average_salary}</p>
-             <p>{this.state.dataSource[0].dpt_score}</p>
-             <p>{this.state.dataSource[0].BSC}</p>
-             <p style={{fontWeight:'bold'}}>{this.state.dataSource[0].incentive}</p>
+             <div className=' col-lg-5' style={{ paddingLeft: '90px', marginBottom:20 }}><p>{this.state.dataSource ? this.state.dataSource[0].average_salary : '-'}</p>
+             <p>{this.state.dataSource ? this.state.dataSource[0].BSC : '-'}%</p>
+             <p>{this.state.dataSource ? this.state.dataSource[0].total_incentive : '-'}</p>
+             <p>{this.state.dataSource ? this.state.dataSource[0].branch_score : '-'}</p>
+             <p>{this.state.dataSource ? this.state.dataSource[0].cash_team_score : '-'}</p>
+             <p>{this.state.dataSource ? this.state.dataSource[0].incentive : '-'}%</p>
+             <p>{this.state.dataSource ? this.state.dataSource[0].additional_amount : '-'}</p>
+             <p style={{fontWeight:'bold'}}>{this.state.dataSource ? this.state.dataSource[0].total : '-'}</p>
              </div> 
 
-             <div style={{marginBottom:30}}><span>Remark:</span></div>
+             <div style={{marginBottom:30}}><span>Remark:{this.state.dataSource ? this.state.dataSource[0].remark: '-'}</span></div>
                 </div>
 
               </div>):('')}
