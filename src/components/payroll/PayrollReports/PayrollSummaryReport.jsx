@@ -253,9 +253,9 @@ class PayrollSummaryReport extends Component {
     let CashTotal=FinalAtmCash.filter(v=>v.payment_type == '2') && FinalAtmCash.filter(v=>v.payment_type == '2')[0]
     
     let AtmAmount =AtmTotal != undefined ? AtmTotal.total_amount : '-';
-    // console.log("atm amount",AtmAmount)
+    console.log("atm amount",typeof(AtmAmount))
     let CashAmount =CashTotal != undefined ? CashTotal.total_amount : '-';
-    let Total=AtmAmount+CashAmount;
+    let Total=(typeof(AtmAmount) == 'number' ?  AtmAmount : 0)+(typeof(CashAmount)=='number' ?  CashAmount : 0);
 
     let filterIncomeTax = finalDatasource.map(
       (d) =>

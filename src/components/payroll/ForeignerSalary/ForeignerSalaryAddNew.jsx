@@ -36,8 +36,8 @@ export default class ForeignerSalaryAddNew extends Component {
         ssc3: 0,
         ssc2: 0,
         incomeTax: null,
-        maintenance: null,
-        petrol: null,
+        maintenance: 0,
+        petrol: 0,
         totalSalary: 0,
         reason: "",
         atmOrCash: 0,
@@ -102,8 +102,10 @@ export default class ForeignerSalaryAddNew extends Component {
     $(document).on("click", "#toEdit", function () {
       var data = $(this).find("#edit").text();
       data = $.parseJSON(data);
+      
       let newData = that.state.dataSource;
       let editData = newData[data];
+      console.log("edit data",editData)
       newData.splice(data, 1);
       that.setState(
         {
@@ -181,7 +183,7 @@ export default class ForeignerSalaryAddNew extends Component {
   onDeductionOrAddition = (e) => {
     let newValue = e.target.value;
     const newData = this.state.addNewData;
-    newData.salaryAfterDorA = newData.grossSalary + parseFloat(newValue);
+    newData.salaryAfterDorA = parseInt(this.state.DetailUser.basic_salary) + parseInt(newValue);
     newData.deductionOrAddition = newValue;
     newData.totalSalary =
       newData.salaryAfterDorA -
@@ -196,15 +198,15 @@ export default class ForeignerSalaryAddNew extends Component {
     const newData = this.state.addNewData;
     newData.incomeTax_$ = e.target.value;
     newData.netSalaryPaid=newData.salaryAfterDorA-newData.incomeTax_$;
-    newData.incomeTax_MMK=newData.exchangeRate*newData.incomeTax_$;
+    // newData.incomeTax_MMK=newData.exchangeRate*newData.incomeTax_$;
     this.setState({ addNewData: newData });
   };
 
-  // onIncomeTaxMMKChange=(e)=>{
-  //   const newData = this.state.addNewData;
-  //   newData.incomeTax_MMK = e.target.value;
-  //   this.setState({ addNewData: newData });
-  // };
+  onIncomeTaxMMKChange=(e)=>{
+    const newData = this.state.addNewData;
+    newData.incomeTax_MMK = e.target.value;
+    this.setState({ addNewData: newData });
+  };
 
   onMaintenanceChange = (e) => {
     let newValue = parseFloat(e.target.value);
@@ -311,6 +313,7 @@ export default class ForeignerSalaryAddNew extends Component {
   };
 
   exChangeRate=(event)=>{
+    console.log("exchange event",event.target.value)
     const newData = this.state.addNewData;
     newData.exchangeRate = event.target.value;
     this.setState({ addNewData: newData });
@@ -323,32 +326,37 @@ export default class ForeignerSalaryAddNew extends Component {
             if (res.ok) return res.json();
           })
           .then((data) => {
+            const newData=this.state.addNewData;
+            newData.salaryAfterDorA=data[0].basic_salary;
+            newData.ssc3=data[0].basic_salary > 300000 ? 300000*0.03 : data[0].basic_salary*0.03;
+            newData.ssc2=data[0].basic_salary > 300000 ? 300000*0.02 : data[0].basic_salary*0.02
             this.setState({
               DetailUser:{
                 employment_id:data[0].employment_id,
               employee_name:data[0].employee_name,
               designations:data[0].designations,
               basic_salary:data[0].basic_salary,
-              user_id:data[0].user_id
+              user_id:data[0].user_id,
               }
+              
             })
           });
       }
-    if(this.state.DetailUser.basic_salary >= 300000){
-      const newData = this.state.addNewData;
-      newData.ssc3 = 300000 * 0.03;
-      newData.ssc2=300000*0.03;
-      this.setState({
-        addNewData:newData
-      })
-    }else{
-      const newData = this.state.addNewData;
-      newData.ssc3 = this.state.DetailUser.basic_salary * 0.03;
-      newData.ssc2 = this.state.DetailUser.basic_salary * 0.02;
-      this.setState({
-        addNewData:newData
-      })
-    }
+    // if(this.state.DetailUser.basic_salary >= 300000){
+    //   const newData = this.state.addNewData;
+    //   newData.ssc3 = 300000 * 0.03;
+    //   newData.ssc2=300000*0.03;
+    //   this.setState({
+    //     addNewData:newData
+    //   })
+    // }else{
+    //   const newData = this.state.addNewData;
+    //   newData.ssc3 = this.state.DetailUser.basic_salary * 0.03;
+    //   newData.ssc2 = this.state.DetailUser.basic_salary * 0.02;
+    //   this.setState({
+    //     addNewData:newData
+    //   })
+    // }
 
     this.setState({
         selectedEmployeeId:e
@@ -389,6 +397,7 @@ export default class ForeignerSalaryAddNew extends Component {
       tempData.user_id=this.state.DetailUser.user_id;
       tempData.createdBy=this.state.userInfo.user_id;
       tempData.selectedEmployeeId=this.state.selectedEmployeeId;
+      console.log('tempData',tempData)
       data.push(tempData);
       this.setState({
         dataSource: data,
@@ -406,8 +415,8 @@ export default class ForeignerSalaryAddNew extends Component {
           incomeTax_MMK:0,
           houseAllowance:0,
           totalGrossSalary:0,
-          maintenance: "",
-          petrol: "",
+          maintenance: 0,
+          petrol: 0,
           totalSalary: 0,
           atmOrCash: 0,
           backPay:0,
@@ -626,6 +635,17 @@ export default class ForeignerSalaryAddNew extends Component {
     newData.houseAllowance = e.target.value;
     this.setState({ addNewData: newData });
   }
+  handlessc3=(e)=>{
+    const newData=this.state.addNewData;
+    newData.ssc3=e.target.value;
+    this.setState({addNewData:newData})
+  }
+  handlessc2=(e)=>{
+    const newData=this.state.addNewData;
+    newData.ssc2=e.target.value;
+    this.setState({addNewData:newData})
+  }
+
   handleTotalGrossSalary=(e)=>{
     const newData = this.state.addNewData;
     newData.totalGrossSalary = e.target.value;
@@ -635,6 +655,13 @@ export default class ForeignerSalaryAddNew extends Component {
     const newData = this.state.addNewData;
     newData.backPay = e.target.value;
     this.setState({ addNewData: newData });
+  }
+  handlegrossSalary=(e)=>{
+    const newData=this.state.DetailUser;
+    const tempData=this.state.addNewData;
+    newData.basic_salary=e.target.value;
+    tempData.salaryAfterDorA=parseInt(e.target.value)+parseInt(tempData.deductionOrAddition);
+    this.setState({DetailUser:newData,addNewData:tempData})
   }
 
   handlefileChanged(e) {
@@ -660,7 +687,7 @@ export default class ForeignerSalaryAddNew extends Component {
   render() {
     
     const { addNewData, userId, userInfo, dataSource } = this.state;
-    console.log("addNewData =====>",this.state.DetailUser);
+    console.log("addNewData =====>",this.state.addNewData);
     return (
       <div>
         <div className="row">
@@ -731,12 +758,12 @@ export default class ForeignerSalaryAddNew extends Component {
                       <label>Gross Salary</label>
                       <input
                         className="form-control"
-                        disabled={true}
+                        // disabled={true}
                         type="number"
                         data-name="grossSalary"
                         value={this.state.DetailUser ? this.state.DetailUser.basic_salary : ""}
                         placeholder="Enter Lodging"
-                        // onChange={this.onGrossSalaryChange}
+                        onChange={this.handlegrossSalary}
                       />
                     </div>
                     <div className="col-md-3">
@@ -755,10 +782,10 @@ export default class ForeignerSalaryAddNew extends Component {
                       <input
                         className="form-control"
                         type="number"
-                        disabled
                         data-name="salaryAfterDorA"
-                        value={this.state.DetailUser ? this.state.DetailUser.basic_salary : ""}
+                        value={addNewData.salaryAfterDorA}
                         placeholder={"Enter Salary After Deduction or Addition"}
+                        // onChange={this.handlegrossSalary}
                       />
                     </div>
                   </div>
@@ -768,20 +795,20 @@ export default class ForeignerSalaryAddNew extends Component {
                       <label>SSC (Employee 3%)</label>
                       <input
                         className="form-control"
-                        disabled
                         type="number"
                         data-name="ssc3"
                         value={addNewData.ssc3}
+                        onChange={this.handlessc3}
                       />
                     </div>
                     <div className="col-md-3">
                       <label>SSC (Employee 2%)</label>
                       <input
                         className="form-control"
-                        disabled
                         type="number"
                         data-name="ssc2"
                         value={addNewData.ssc2}
+                        onChange={this.handlessc2}
                       />
                     </div>
                     <div className="col-md-3">
@@ -798,13 +825,13 @@ export default class ForeignerSalaryAddNew extends Component {
                     <div className="col-md-3">
                       <label>Income Tax(MMK)</label>
                       <input
-                        disabled={true}
+                        // disabled={true}
                         className="form-control"
                         type="number"
                         data-name="incomeTax"
-                        value={addNewData.incomeTax_$*addNewData.exchangeRate}
+                        value={addNewData.incomeTax_MMK}
                         placeholder={"Enter Income Tax"}
-                        // onChange={this.onIncomeTaxMMKChange}
+                        onChange={this.onIncomeTaxMMKChange}
                       />
                     </div>
                 </div>
@@ -952,11 +979,12 @@ export default class ForeignerSalaryAddNew extends Component {
                         <label>Total Salary</label>
                         <input
                             className="form-control"
+                            disabled={true}
                             type="number"
                             data-name="totalSalary"
                             value={addNewData.totalSalary}
                             placeholder={"Enter Total Salary"}
-                            onChange={this.handleTotalSalary}
+                            // onChange={this.handleTotalSalary}
                         />
                     </div>
                     <div className="col-md-3">

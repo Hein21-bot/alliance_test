@@ -547,6 +547,12 @@ export default class PayrollUpload extends Component {
                 className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
                 id="dataTables-table"
               />
+               <div className="col-md-12" style={{display:'flex',justifyContent:'end'}}>
+                <div className="col-md-2">
+                  <label htmlFor="" style={{textAlign:'right'}}>Total</label>
+                  <input type="text" className="form-control" value={this.state.dataSource.reduce((p,c)=>{return p+parseInt(c.deduction_amount ? c.deduction_amount : c.allowance_amount)},0)} disabled />
+                </div>
+              </div>
             </div>
           ) : null}
         </div>
