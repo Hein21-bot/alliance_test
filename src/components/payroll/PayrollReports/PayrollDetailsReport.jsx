@@ -819,12 +819,12 @@ handleSelectedEmpId = async (event) => {
                 </td>
                 <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
-                    return p + c.ssc[0].Employee_3;
+                    return p + (c.ssc.length > 0  ? c.ssc[0].Employee_3 : 0);
                   }, 0)}
                 </td>
                 <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
-                    return p + c.ssc[0].Employer_2;
+                    return p + (c.ssc.length> 0 ? c.ssc[0].Employer_2 : 0);
                   }, 0)}
                 </td>
                 <td style={{textAlign:'center',fontWeight:'bold'}}>
