@@ -562,7 +562,7 @@ export default class Sidebar extends Component {
                   >
                     <a href="/attendance_history">Attendance History</a>
                   </li>
-                  <li
+                  {/* <li
                     className={
                       pathname === "/late_reportby_employee"
                         ? "active"
@@ -615,12 +615,12 @@ export default class Sidebar extends Component {
                     }
                   >
                     <a href="/holiday_attendance_report">Holiday Attendance Report</a>
-                  </li>
+                  </li> */}
                   
                 </ul>
               </li>
               
-              <li
+              {/* <li
                 className={this.checkPathName() === "/payroll" || this.checkPathName()==='/incentive' || this.checkPathName() === 'payroll_calculation' || this.checkPathName() === '/payroll_reports'|| this.checkPathName()==='/pay_slip' || pathname === '/payslip_generate' || pathname === '/ssc' || pathname === "/payroll_main" || pathname === '/foreigner_salary' || pathname === "/resign_or_dismiss_salary" || pathname === '/backpay' || pathname === '/payroll_generate' || pathname ==='/payroll_pay_slip'|| pathname== '/monthly_incentive'|| pathname == "/quarterly_incentive_payslip" || pathname == "/monthly_incentive_payslip" || pathname == "/quarterly_incentive" ||  pathname == '/employee_salary_report' || pathname === '/monthly_report'|| pathname === '/quarterly_report' || pathname == '/ssc_report' ? "active" : ""}
                
              >
@@ -776,7 +776,7 @@ export default class Sidebar extends Component {
                 </ul>
                   </li>
                 </ul>
-              </li>
+              </li> */}
               {/* <li
                 className={
                   this.checkPathName() === "/payroll_reports" || pathname === '/pay_slip' ? "active" : ""
@@ -947,14 +947,14 @@ export default class Sidebar extends Component {
                   <span className="sideText">Help Desk</span>
                 </a>
               </li>
-              {/* <li
+              <li
                 className={this.checkPathName() === "/pay_slip" || pathname =="/pay_slip" ? "active" : ""}
               >
                 <a href="/pay_slip" className="sideList" refresh="true">
                 <i className="fa fa-briefcase sideIcon"></i>
                   <span className="sideText">PaySlip</span>
                 </a>
-              </li> */}
+              </li>
               
               {/* <li
                 className={this.checkPathName() === "/ssc_report" || pathname =="/ssc_report" ? "active" : ""}

@@ -184,6 +184,7 @@ export default class ForeignerSalaryAddNew extends Component {
     let newValue = e.target.value;
     const newData = this.state.addNewData;
     newData.salaryAfterDorA = parseInt(this.state.DetailUser.basic_salary) + parseInt(newValue);
+    newData.totalGrossSalary=parseInt(newData.salaryAfterDorA)+parseInt(newData.ssc3)
     newData.deductionOrAddition = newValue;
     newData.totalSalary =
       newData.salaryAfterDorA -
@@ -638,6 +639,7 @@ export default class ForeignerSalaryAddNew extends Component {
   handlessc3=(e)=>{
     const newData=this.state.addNewData;
     newData.ssc3=e.target.value;
+    newData.totalGrossSalary=newData.salaryAfterDorA+parseInt(e.target.value)
     this.setState({addNewData:newData})
   }
   handlessc2=(e)=>{
@@ -646,21 +648,24 @@ export default class ForeignerSalaryAddNew extends Component {
     this.setState({addNewData:newData})
   }
 
-  handleTotalGrossSalary=(e)=>{
-    const newData = this.state.addNewData;
-    newData.totalGrossSalary = e.target.value;
-    this.setState({ addNewData: newData });
-  }
+  // handleTotalGrossSalary=(e)=>{
+  //   const newData = this.state.addNewData;
+  //   newData.totalGrossSalary = e.target.value;
+  //   this.setState({ addNewData: newData });
+  // }
   onBackPayChange=(e)=>{
     const newData = this.state.addNewData;
     newData.backPay = e.target.value;
     this.setState({ addNewData: newData });
   }
   handlegrossSalary=(e)=>{
+    console.log("gross salary",e.target.value)
     const newData=this.state.DetailUser;
     const tempData=this.state.addNewData;
     newData.basic_salary=e.target.value;
+    
     tempData.salaryAfterDorA=parseInt(e.target.value)+parseInt(tempData.deductionOrAddition);
+    tempData.totalGrossSalary=parseInt(e.target.value)+parseInt(tempData.deductionOrAddition)+parseInt(tempData.ssc3)
     this.setState({DetailUser:newData,addNewData:tempData})
   }
 
@@ -781,7 +786,9 @@ export default class ForeignerSalaryAddNew extends Component {
                       <label>Salary After Deduction or Addition</label>
                       <input
                         className="form-control"
+                        disabled={true}
                         type="number"
+                        
                         data-name="salaryAfterDorA"
                         value={addNewData.salaryAfterDorA}
                         placeholder={"Enter Salary After Deduction or Addition"}
@@ -863,11 +870,11 @@ export default class ForeignerSalaryAddNew extends Component {
                       <label>Total Gross Salary</label>
                       <input
                         className="form-control"
-                       
+                       disabled={true}
                         type="number"
                         data-name="totalGrossSalary"
                         value={addNewData.totalGrossSalary}
-                        onChange={this.handleTotalGrossSalary}
+                        // onChange={this.handleTotalGrossSalary}
                       />
                     </div>
                     <div className="col-md-3">
