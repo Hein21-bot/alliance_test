@@ -557,7 +557,7 @@ export default class MonthlyIncentive extends Component {
           <div>
             <table
               className="table table-bordered"
-              style={{ overflow: "scroll" }}
+              style={{ overflow: "Scroll",display:'block',whiteSpace:'nowrap' }}
             >
               <thead>
                 <tr
@@ -572,6 +572,12 @@ export default class MonthlyIncentive extends Component {
                     rowSpan={3}
                   >
                     Employee ID
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    Employee Name
                   </th>
                   <th style={{ textAlign: "center" }} colSpan={4}>
                     Credit
@@ -659,6 +665,7 @@ export default class MonthlyIncentive extends Component {
                     <>
                       <tr>
                         <td>{v.employeeID}</td>
+                        <td>{v.fullname}</td>
                         <td>{v.creditDisbursementNo}</td>
                         <td>{v.creditDisbursementAmount}</td>
                         <td>{v.creditPortfolioNo}</td>
@@ -718,7 +725,7 @@ export default class MonthlyIncentive extends Component {
           <table
             className="table table-bordered"
             id="monthly_incentive"
-            style={{ overflow: "scroll" }}
+            style={{ overflow: "Scroll",display:'block',whiteSpace:'nowrap'}}
           >
             <thead>
               <tr
@@ -733,6 +740,12 @@ export default class MonthlyIncentive extends Component {
                   rowSpan={3}
                 >
                   Employee ID
+                </th>
+                <th
+                  style={{ textAlign: "center", verticalAlign: "middle" }}
+                  rowSpan={3}
+                >
+                  Employee Name
                 </th>
                 <th style={{ textAlign: "center" }} colSpan={4}>
                   Credit
