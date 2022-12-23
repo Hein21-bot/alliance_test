@@ -15,7 +15,7 @@ export default class ForeignerSalaryView extends Component {
     this.getStatusInfo()
   }
   getStatusInfo() {
-    fetch(`${main_url}/foreigner_salary/getOneDetailInfo/${this.props.dataSource.id}`)
+    fetch(`${main_url}foreigner_salary/getOneDetailInfo/${this.props.dataSource.id}`)
         .then(res => res.json())
         .then(res => {
             this.setState({

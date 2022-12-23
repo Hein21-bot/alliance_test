@@ -21,7 +21,7 @@ export default class BackPayView extends Component {
   this.getStatusInfo();
 }
 getStatusInfo() {
-  fetch(`${main_url}child_benefit/getOneDetailInfo/${this.props.dataSource.id}`)
+  fetch(`${main_url}back_pay/getOneDetailInfo/${this.props.dataSource.id}`)
       .then(res => res.json())
       .then(res => {
           this.setState({

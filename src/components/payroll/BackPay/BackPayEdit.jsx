@@ -79,11 +79,16 @@ export default class BackPayAddNew extends Component {
   }
 
   async componentDidMount() {
-    var work_flow = await getWorkFlowStatus(this.props.dataSource.createdBy, this.state.updatedBy, 'Child Benefit', 'Benefit');
+    var work_flow = await getWorkFlowStatus(this.props.dataSource.createdBy, this.state.updatedBy, 'PayrollForBackPay-RefundAndTemporaryContract', 'PayrollForBackPay-RefundAndTemporaryContract');
     this.setState({
         work_flow_status: work_flow,
         is_main_role: havePermission(work_flow)
     })
+    // var work_flow = await getWorkFlowStatus(this.props.dataSource.createdBy, this.state.updatedBy, 'Child Benefit', 'Benefit');
+    // this.setState({
+    //     work_flow_status: work_flow,
+    //     is_main_role: havePermission(work_flow)
+    // })
     let that = this;
     let id = await getUserId("user_info");
     let branch = await getBranch();
@@ -410,7 +415,7 @@ export default class BackPayAddNew extends Component {
       const result = data[i];
       const obj = {
         no: index + 1,
-        request_month: data[i].request_month ? moment(data[i].request_month).format("MMM"): "-",
+        request_month: data[i].request_month ? moment(data[i].request_month).format("YYYY-MM"): "-",
         employment_id: data[i].employment_id ? data[i].employment_id : "-",
         pay_roll:data[i].request_type == 1 ? "Back Pay Salary" : data[i].request_type ==2 ? "Refund Salary" : "•	Temporary Contract Salary",
         fullname: data[i].fullname ? data[i].fullname : "-",
@@ -474,7 +479,7 @@ export default class BackPayAddNew extends Component {
   showToast = (status, text) => {
     if (status === 200) {
       toast.success(text);
-      window.location.reload('/foreigner_salary')
+      window.location.reload('/backpay')
       // {this.state.attendance_type == "late_check_in" ? this.LateCheckIn ? this.state.attendance_type == "field_check_in" : this.FieldCheckIn ? this.state.attendance_type == "early_check_out" : this.EarlyCheckOut : this.FieldCheckOut}
     } else {
       toast.error(text);
@@ -495,7 +500,8 @@ export default class BackPayAddNew extends Component {
       var info={
         id : this.props.dataSource.id,
         total:Total,
-        createdBy:this.props.dataSource.createdBy
+        createdBy:this.props.dataSource.createdBy,
+        status: 0
       };
       if (status_title !== '' && is_main_role) {
         var action = getActionStatus(status_title, this.state.preveData, this.state.updatedBy, this.state.comment);
@@ -534,6 +540,7 @@ export default class BackPayAddNew extends Component {
           selectedEmployeeId:v.selectedEmployeeId,
           selectedPayroll:v.selectedPayroll,
           // total:Total,
+          status:v.status == 5 ? 0 : v.status,
           atm_cash: v.atm_cash,
           user_id:v.user_id,
           reason:v.reason,
@@ -572,17 +579,18 @@ export default class BackPayAddNew extends Component {
         //   this.state.data,
         //   this.state.newDoc
         // );
-      } else {
-        startSaving();
-        toast.error(" Please Add Full Information", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-      }
+      } 
+      // else {
+      //   startSaving();
+      //   toast.error(" Please Add Full Information", {
+      //     position: "top-right",
+      //     autoClose: 5000,
+      //     hideProgressBar: false,
+      //     closeOnClick: true,
+      //     pauseOnHover: true,
+      //     draggable: true,
+      //   });
+      // }
     } else {
       startSaving();
       form_validate = false;
@@ -604,7 +612,7 @@ export default class BackPayAddNew extends Component {
 
   render() { 
     const { addNewData, userId, userInfo, dataSource } = this.state;
-    console.log("addNewData =====>",this.state.preveData);
+    console.log("addNewData =====>",this.state.preveData.status,havePermission(this.state.work_flow_status));
     return (
       <div>
         <div className="row">
@@ -900,11 +908,11 @@ export default class BackPayAddNew extends Component {
 
                      <div className="row save-btn">
                     {
-                        havePermission(this.state.work_flow_status) ?
+                        havePermission(this.state.work_flow_status) && this.props.dataSource.status !=5  ?
                             <ApprovalForm1 approvalStatus={this.approvalStatus.bind(this)} status={this.props.dataSource.status} work_flow={this.state.work_flow_status} />
                             :
                             <div className="col-md-12 btn-rightend">
-                                { this.state.preveData.status == 5 ?
+                                { this.props.dataSource.status == 5 ?
                                     <div>
                                         <button onClick={this.check.bind(this)} className="btn btn-primary" id="saving_button" type="button">Confirm</button>
                                     </div>

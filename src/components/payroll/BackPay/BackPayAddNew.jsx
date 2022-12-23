@@ -394,7 +394,7 @@ export default class BackPayAddNew extends Component {
       const obj = {
         no: index + 1,
         request_month: data[i].request_month
-          ? moment(data[i].request_month).format("MMM")
+          ? moment(data[i].request_month).format("YYYY-MM")
           : "-",
         employment_id: data[i].employment_id ? data[i].employment_id : "-",
         pay_roll:data[i].payRoll == 1 ? "Back Pay Salary" : data[i].payRoll ==2 ? "Refund Salary" : "•	Temporary Contract Salary",
@@ -459,7 +459,7 @@ export default class BackPayAddNew extends Component {
   showToast = (status, text) => {
     if (status === 200) {
       toast.success(text);
-      window.location.reload('/foreigner_salary')
+      window.location.reload('/backpay')
       // {this.state.attendance_type == "late_check_in" ? this.LateCheckIn ? this.state.attendance_type == "field_check_in" : this.FieldCheckIn ? this.state.attendance_type == "early_check_out" : this.EarlyCheckOut : this.FieldCheckOut}
     } else {
       toast.error(text);

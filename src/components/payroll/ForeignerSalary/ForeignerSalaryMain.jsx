@@ -29,7 +29,7 @@ class ForeignerSalaryMain extends Component {
       isView: false,
       isEdit: false,
       datasource: [],
-      permission_status: { isAddNew: true },
+      permission_status: {},
       requestType: "",
       
       branchList: [],
@@ -38,7 +38,10 @@ class ForeignerSalaryMain extends Component {
     };
   }
   async componentDidMount() {
-    
+    var permission_status = await getPermissionStatus(this.state.user_info.designations_id,'Foreigner Salary','Foreigner Salary');
+    this.setState({
+        permission_status: permission_status
+    })
     await this.getBranchList();
     await this.getDepartmentList();
     await this.getRegionList();

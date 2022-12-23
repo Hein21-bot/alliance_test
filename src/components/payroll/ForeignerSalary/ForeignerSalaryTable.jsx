@@ -18,6 +18,8 @@ import {
   setPrintedStatus,
   print,
   fno,
+  getPermissionStatus,
+  getCookieData
 } from "../../../utils/CommonFunction";
 const $ = require("jquery");
 const jzip = require("jzip");
@@ -34,6 +36,8 @@ export default class ForeignerSalaryTable extends Component {
     super(props);
     this.state = {
       user_id: getUserId("user_info"),
+      user_info: getCookieData("user_info"),
+      
       dataSource: [],
       selectedRequest: "",
       is_main_role: getMainRole(),
@@ -41,9 +45,14 @@ export default class ForeignerSalaryTable extends Component {
       selected_branch: { label: "All", value: 0 },
       selected_dept: { label: "All", value: 0 },
       selected_region: { label: "All", value: 0 },
+      permission_status:{}
     };
   }
-  componentDidMount() {
+  async componentDidMount() {
+    var permission_status = await getPermissionStatus(this.state.user_info.designations_id,'Foreigner Salary','Foreigner Salary');
+    this.setState({
+        permission_status: permission_status
+    })
     this.$el = $(this.el);
 
     this.setState(
@@ -267,6 +276,8 @@ export default class ForeignerSalaryTable extends Component {
     var table;
     var l = [];
     var status;
+    var has_action = this.state.permission_status.isView === 1 || this.state.permission_status.isEdit === 1 ? true : false;
+
     if (data) {
       for (var i = 0; i < data.length; i++) {
         let result = data[i];
@@ -331,37 +342,37 @@ export default class ForeignerSalaryTable extends Component {
           status: status ? status : "-",
           remark: "-",
         };
-        // if (has_action) {
-        //     if (result.status !== 3) {
-        // obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
-        //         obj.action += permission.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
-        //     } else {
-        //         obj.action = permission.isView === 1 ?
+        if (has_action) {
+            if (result.status !== 3) {
+        obj.action = this.state.permission_status.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+                obj.action += this.state.permission_status.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
+            } else {
+                obj.action = this.state.permission_status.isView === 1 ?
 
-        //             '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+                    '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
 
-        //         if (result.print === 1) {
-        //             obj.action +=
-        //                 '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-        //                 JSON.stringify(result) +
-        //                 '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
-        //         } else {
-        //             obj.action +=
-        //                 '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-        //                 JSON.stringify(result) +
-        //                 '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
-        //         }
-        //     }
-        // }
+                if (result.print === 1) {
+                    obj.action +=
+                        '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                        JSON.stringify(result) +
+                        '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
+                } else {
+                    obj.action +=
+                        '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                        JSON.stringify(result) +
+                        '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
+                }
+            }
+        }
 
-        obj.action =
-          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' +
-          JSON.stringify(result) +
-          '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>';
-        obj.action +=
-          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' +
-          JSON.stringify(result) +
-          '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>';
+        // obj.action =
+        //   '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' +
+        //   JSON.stringify(result) +
+        //   '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>';
+        // obj.action +=
+        //   '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' +
+        //   JSON.stringify(result) +
+        //   '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>';
         l.push(obj);
         // }
       }

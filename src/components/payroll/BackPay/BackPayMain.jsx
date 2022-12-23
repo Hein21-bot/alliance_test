@@ -8,6 +8,8 @@ import BackPayAddNew from './BackPayAddNew';
 import BackPayTable from './BackPayTable';
 import BackPayView from './BackPayView';
 import BackPayEdit from './BackPayEdit';
+import moment from 'moment'
+
 
 class BackPayMain extends Component {
     constructor() {
@@ -25,32 +27,33 @@ class BackPayMain extends Component {
             permission_status: {},
             requestType: '',
             active_tab: 0,
-            BackPayData:[]
+            BackPayData:[],
+            selected_month:new Date()
            
         }
     }
 
     async componentDidMount() {
-        var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Child Benefit', 'Benefit');
+        var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'PayrollForBackPay-RefundAndTemporaryContract', 'PayrollForBackPay-RefundAndTemporaryContract');
        
         this.setState({
             permission_status: permission_status
         })
-        // await this.BackPayData();
+        await this.BackPayData();
       }
     
-    //   BackPayData() {
-    //     fetch(`${main_url}back_pay/get_back_pay/${this.state.user_id}`)
-    //       .then((response) => {
-    //         if (response.ok) return response.json();
-    //       })
-    //       .then((res) => {
-    //         if (res) {
-    //           this.setState({ BackPayData: res });
-    //         }
-    //       })
-    //       .catch((error) => console.error(`Fetch Error =\n`, error));
-    //   }
+      BackPayData() {
+        fetch(`${main_url}back_pay/get_back_pay/0/0/0/${moment(this.state.selected_month).format('YYYY-MM')}/${this.state.user_id}`)
+          .then((response) => {
+            if (response.ok) return response.json();
+          })
+          .then((res) => {
+            if (res) {
+              this.setState({ BackPayData: res });
+            }
+          })
+          .catch((error) => console.error(`Fetch Error =\n`, error));
+      }
     
 
     changeTab(tab) {
@@ -125,7 +128,7 @@ class BackPayMain extends Component {
                 <br />
 
                 {this.state.isTable ? (
-          <BackPayTable dataSource={this.state.BackPayData} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status}/>
+          <BackPayTable dataSource={this.state.BackPayData} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} />
         ) : this.state.isAddNew ? (
           <BackPayAddNew
             view={isView}

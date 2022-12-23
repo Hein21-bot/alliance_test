@@ -9,7 +9,7 @@ import DatePicker from 'react-datetime';
 import { imgData } from '../../../utils/Global';
 import * as jsPDF from 'jspdf';
 import Select from "react-select";
-import { main_url, getMainRole,getFirstDayOfYear, getInformation, getUserId, setPrintedStatus, print, fno } from "../../../utils/CommonFunction";
+import { main_url, getMainRole,getFirstDayOfYear, getInformation, getUserId, setPrintedStatus, print, fno,getPermissionStatus,getCookieData } from "../../../utils/CommonFunction";
 const $ = require('jquery');
 const jzip = require('jzip');
 
@@ -28,6 +28,7 @@ export default class BackPayTable extends Component {
         super(props);
         this.state = {
             user_id: getUserId("user_info"),
+            user_info: getCookieData("user_info"),
             dataSource: [],
             selectedRequest: '',
             is_main_role: getMainRole(),
@@ -41,9 +42,14 @@ export default class BackPayTable extends Component {
             selected_region: "",
             selected_branch: "",
             selected_department: "",
+            permission_status:{}
         }
     }
-    componentDidMount() {
+    async componentDidMount() {
+      var permission_status = await getPermissionStatus(this.state.user_info.designations_id,'PayrollForBackPay-RefundAndTemporaryContract','PayrollForBackPay-RefundAndTemporaryContract');
+    this.setState({
+        permission_status: permission_status
+    })
         this.$el = $(this.el);
         this.getBranchList();
         this.getDepartmentList();
@@ -318,8 +324,8 @@ export default class BackPayTable extends Component {
         var table;
         var l = [];
         var status;
-        var permission = this.props.permission;
-        var has_action = permission.isView === 1 || permission.isEdit === 1 ? true : false;
+        // var permission = this.props.permission;
+        var has_action = this.state.permission_status.isView === 1 || this.state.permission_status.isEdit === 1 ? true : false;
         if(data){
             for (var i = 0; i < data.length; i++) {
                 console.log("stauts",data[i].status)
@@ -360,10 +366,10 @@ export default class BackPayTable extends Component {
                 }
                 if (has_action) {
                     if (result.status !== 3) {
-                        obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
-                        obj.action += permission.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id ) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
+                        obj.action = this.state.permission_status.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+                        obj.action += this.state.permission_status.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id ) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
                     } else {
-                        obj.action = permission.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+                        obj.action = this.state.permission_status.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
     
                         if (result.print === 1) {
                             obj.action +=
@@ -447,7 +453,7 @@ export default class BackPayTable extends Component {
         });
     }
 
-    render() { console.log("tab==>",this.state.dataSource)
+    render() { console.log("permission status==>",this.state.permission_status)
         return (
             
             <div>

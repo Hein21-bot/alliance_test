@@ -62,6 +62,7 @@ export default class ApprovalForm1 extends Component {
 
     render() {
         const permission = this.props.work_flow;
+        console.log("permission",permission,this.props.status)
         return (
 
             <div>
