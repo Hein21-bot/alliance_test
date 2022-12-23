@@ -354,6 +354,7 @@ export default class BackPayTable extends Component {
     
                 obj = {
                     no: i + 1,
+                    request_month:data[i].createdAt ? moment(data[i].createdAt).format('YYYY-MM') : '-',
                     form_no:data[i].form_no ? data[i].form_no : '-',
                     employee_id: data[i].employment_id ? data[i].employment_id: '-',
                     employee_name: data[i].fullname ? data[i].fullname: '-',
@@ -406,6 +407,7 @@ export default class BackPayTable extends Component {
 
         var column = [
             { title: "No", data: "no" },
+            { title:"Request Month",data:'request_month'},
             { title:'Form No',data:'form_no'},
             { title: "Employee Id", data: "employee_id" },
             { title: "Employee Name", data: "employee_name" },

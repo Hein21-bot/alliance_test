@@ -405,6 +405,7 @@ export default class ForeignerSalaryEdit extends Component {
   };
 
   render() { 
+    console.log("work flow status",this.state.work_flow_status)
     return (
       <div>
         <div className="row">

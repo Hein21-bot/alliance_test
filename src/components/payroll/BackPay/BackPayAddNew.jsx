@@ -479,7 +479,8 @@ export default class BackPayAddNew extends Component {
       
       var info={
         total:Total,
-        createdBy:this.state.userInfo.user_id
+        createdBy:this.state.userInfo.user_id,
+        createdAt:new Date()
       }
       const dataTostring = this.state.dataSource.map((v) => {
         return {

@@ -303,6 +303,7 @@ export default class ForeignerSalaryTable extends Component {
         }
         obj = {
           no: i + 1,
+          request_month:data[i].request_month ? moment(data[i].request_month).format('YYYY-MM') : '-',
           employee_id: data[i].employment_id ? data[i].employment_id : "-",
           employee_name: data[i].fullname ? data[i].fullname : "-",
           position: data[i].designations ? data[i].designations : "-",
@@ -386,6 +387,7 @@ export default class ForeignerSalaryTable extends Component {
 
     var column = [
       { title: "No", data: "no" },
+      { title :"Request Month",data:'request_month'},
       { title: "Employee Id", data: "employee_id" },
       { title: "Employee Name", data: "employee_name" },
       { title: "Position", data: "position" },
