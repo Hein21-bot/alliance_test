@@ -400,7 +400,10 @@ class AttendanceType extends Component {
           status: status,
         };
         // if (has_select) {
-        if (this.state.user_id != result.user_id && result.status == 0) {
+        if (this.state.user_id != result.user_id && ( this.state.attendance_type == "early_check_out" ||
+        this.state.attendance_type == "field_check_out"
+        ? result.check_out_status == 0 :
+         result.status === 0)   ) {
           obj.select =
             `<div style="alignItems:center" id="toSelect" class="select-btn"  ><input class=${this.state.user_id != result.user_id ? 'ipSelect' : 'null'}  type="checkbox"/><span id="select" class="hidden" >` +
             JSON.stringify(result) +
@@ -519,6 +522,9 @@ class AttendanceType extends Component {
           return res.text();
         })
         .then((text) => {
+          this.setState({
+            checkedListData : [],
+          })
           this.showToast(status, text);
         });
     }
@@ -557,6 +563,9 @@ class AttendanceType extends Component {
           return res.text();
         })
         .then((text) => {
+          this.setState({
+            checkedListData : [],
+          })
           this.showToast(status, text);
           this.hide();
         });
@@ -602,7 +611,7 @@ class AttendanceType extends Component {
     }
   
  
-  render() { 
+  render() {  console.log(this.state.checkedListData);
 
     return (
       <div>

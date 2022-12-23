@@ -162,11 +162,11 @@ export default class QuarterlyIncentivePayslip extends Component{
              </div>
             
              <div className=' col-lg-5' style={{ paddingLeft: '90px', marginBottom:20 }}><p>{this.state.dataSource ? this.state.dataSource[0].average_salary : '-'}</p>
-             <p>{this.state.dataSource ? this.state.dataSource[0].BSC : '-'}%</p>
+             <p>{this.state.dataSource ? (this.state.dataSource[0].BSC * 100).toFixed(2): '-'}%</p>
              <p>{this.state.dataSource ? this.state.dataSource[0].total_incentive : '-'}</p>
              <p>{this.state.dataSource ? this.state.dataSource[0].branch_score : '-'}</p>
              <p>{this.state.dataSource ? this.state.dataSource[0].cash_team_score : '-'}</p>
-             <p>{this.state.dataSource ? this.state.dataSource[0].incentive : '-'}%</p>
+             <p>{this.state.dataSource ? (this.state.dataSource[0].incentive * 100).toFixed(2) : '-'}%</p>
              <p>{this.state.dataSource ? this.state.dataSource[0].additional_amount : '-'}</p>
              <p style={{fontWeight:'bold'}}>{this.state.dataSource ? this.state.dataSource[0].total : '-'}</p>
              </div> 
