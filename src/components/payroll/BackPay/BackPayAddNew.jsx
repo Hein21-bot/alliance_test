@@ -144,6 +144,7 @@ export default class BackPayAddNew extends Component {
       console.log("in")
       const newData = this.state.addNewData;
       newData.totalWorkingDay = calculationDate(startDate,endDate);
+      newData.totalSalary=newData.totalWorkingDay*newData.salaryPerDay;
       console.log("total work day==+>",newData.totalWorkingDay)
         this.setState({
           addNewData:newData
@@ -217,6 +218,7 @@ export default class BackPayAddNew extends Component {
   handlesalaryPerDay=(event)=>{
     const newData = this.state.addNewData;
     newData.salaryPerDay = event.target.value;
+    newData.totalSalary=newData.totalWorkingDay*newData.salaryPerDay
     this.setState({ addNewData: newData });
   }
 
@@ -224,6 +226,12 @@ export default class BackPayAddNew extends Component {
     const newData = this.state.addNewData;
     newData.totalSalary = e.target.value;
     this.setState({ addNewData: newData });
+  }
+  handletotalWorkingDay=(e)=>{
+    const newData=this.state.addNewData;
+    newData.totalWorkingDay=e.target.value;
+    newData.totalSalary=newData.salaryPerDay * e.target.value
+    this.setState({addNewData:newData});
   }
   // handleTotal=(e)=>{
   //   const newData = this.state.addNewData;
@@ -583,7 +591,7 @@ export default class BackPayAddNew extends Component {
                   <div className="col-md-3">
                       <label>Request Month</label>
                       <DatePicker
-                        dateFormat="MMM"
+                        dateFormat='YYYY-MM'
                         value={addNewData.requestMonth}
                         timeFormat={false}
                         onChange={this.onRequestMonthChange.bind(this)}
@@ -782,11 +790,12 @@ export default class BackPayAddNew extends Component {
                       <label>Total Salary</label>
                       <input
                         className="form-control"
+                        disabled={true}
                         type="number"
                         data-name="totalSalary"
                         value={addNewData.totalSalary}
                         placeholder="Total Salary"
-                        onChange={this.ontotalSalaryChange}
+                        // onChange={this.ontotalSalaryChange}
                       />
                     </div>
                   </div>
