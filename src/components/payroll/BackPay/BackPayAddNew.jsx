@@ -492,7 +492,7 @@ export default class BackPayAddNew extends Component {
       }
       const dataTostring = this.state.dataSource.map((v) => {
         return {
-          request_month: moment(v.request_month).format("YYYY-MM-DD"),
+          request_month: moment(v.request_month).format("YYYY-MM"),
           request_type:v.payRoll,
           employment_id: v.employment_id,
           employee_name: v.fullname,
