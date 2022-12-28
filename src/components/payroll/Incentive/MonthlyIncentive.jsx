@@ -326,7 +326,16 @@ export default class MonthlyIncentive extends Component {
             loading: false,
           });
         }
-      });
+        
+      })
+      .catch((err) =>{ console.log(err)
+        toast.error('Data Is Already Calculated!')
+        this.setState({
+          loading:false,
+          searchData:[]
+
+        })
+      })
   }
 
   async _setDataTable(data) {
@@ -573,12 +582,12 @@ export default class MonthlyIncentive extends Component {
                   >
                     Employee ID
                   </th>
-                  <th
+                  {/* <th
                     style={{ textAlign: "center", verticalAlign: "middle" }}
                     rowSpan={3}
                   >
                     Employee Name
-                  </th>
+                  </th> */}
                   <th style={{ textAlign: "center" }} colSpan={4}>
                     Credit
                   </th>
@@ -665,7 +674,7 @@ export default class MonthlyIncentive extends Component {
                     <>
                       <tr>
                         <td>{v.employeeID}</td>
-                        <td>{v.fullname}</td>
+                        {/* <td>{v.fullname}</td> */}
                         <td>{v.creditDisbursementNo}</td>
                         <td>{v.creditDisbursementAmount}</td>
                         <td>{v.creditPortfolioNo}</td>
@@ -741,12 +750,12 @@ export default class MonthlyIncentive extends Component {
                 >
                   Employee ID
                 </th>
-                <th
+                {/* <th
                   style={{ textAlign: "center", verticalAlign: "middle" }}
                   rowSpan={3}
                 >
                   Employee Name
-                </th>
+                </th> */}
                 <th style={{ textAlign: "center" }} colSpan={4}>
                   Credit
                 </th>
