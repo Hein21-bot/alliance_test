@@ -229,8 +229,8 @@ class EmployeeSalaryReport extends Component {
           current_effective_date: data[i].last_promotion_date
             ? data[i].last_promotion_date
             : "-",
-          current_effective_month: data[i].effective_month
-            ? data[i].effective_month
+          current_effective_month: data[i].last_promotion_date
+            ? data[i].last_promotion_date
             : "-",
           current_salary: data[i].basic_salary ? data[i].basic_salary : "-",
         };
