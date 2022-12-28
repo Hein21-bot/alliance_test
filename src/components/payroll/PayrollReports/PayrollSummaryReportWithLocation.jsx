@@ -484,7 +484,90 @@ class PayrollSummaryReportWithLocation extends Component {
 
 
           let filterTraining=tempArr.filter(v=>v.name == 'Training')
-          // console.log("filter training",filterTraining);
+          
+          //  additionMax!=undefined && additionMax.addition.map(v=>{
+          //   filterTraining[0].empType[0].addition.map(v1=>{
+              
+          //     if(v.salary_payment_allowance_label == v1.salary_payment_allowance_label){
+          //       return v1
+          //     }else{
+          //       filterTraining[0].empType[0].addition.push({
+          //         salary_payment_allowance_label:v.salary_payment_allowance_label,
+          //         salary_payment_allowance_value:0
+          //       })
+          //     }
+          //   })
+          // })
+          additionMax != undefined && additionMax.addition.reduce((r,c) => {
+            if(filterPermanent[0].empType[0].addition.filter(v => v.salary_payment_allowance_label == c.salary_payment_allowance_label).length > 0){
+             
+            }else{
+              filterPermanent[0].empType[0].addition.push({
+                salary_payment_allowance_label:c.salary_payment_allowance_label,
+                salary_payment_allowance_value:0
+              })
+            }
+          },[])
+
+          deductionMax != undefined && deductionMax.deduction.reduce((r,c) => {
+            if(filterPermanent[0].empType[0].deduction.filter(v => v.salary_payment_deduction_label == c.salary_payment_deduction_label).length > 0){
+             
+            }else{
+              filterPermanent[0].empType[0].deduction.push({
+                salary_payment_deduction_label:c.salary_payment_deduction_label,
+                salary_payment_deduction_value:0
+              })
+            }
+          },[])
+
+
+          additionMax != undefined && additionMax.addition.reduce((r,c) => {
+            if(filterPartTime[0].empType[0].addition.filter(v => v.salary_payment_allowance_label == c.salary_payment_allowance_label).length > 0){
+             
+            }else{
+              filterPartTime[0].empType[0].addition.push({
+                salary_payment_allowance_label:c.salary_payment_allowance_label,
+                salary_payment_allowance_value:0
+              })
+            }
+          },[])
+
+          deductionMax != undefined && deductionMax.deduction.reduce((r,c) => {
+            if(filterPartTime[0].empType[0].deduction.filter(v => v.salary_payment_deduction_label == c.salary_payment_deduction_label).length > 0){
+             
+            }else{
+              filterPartTime[0].empType[0].deduction.push({
+                salary_payment_deduction_label:c.salary_payment_deduction_label,
+                salary_payment_deduction_value:0
+              })
+            }
+          },[])
+
+          additionMax != undefined && additionMax.addition.reduce((r,c) => {
+            if(filterTraining[0].empType[0].addition.filter(v => v.salary_payment_allowance_label == c.salary_payment_allowance_label).length > 0){
+             
+            }else{
+              filterTraining[0].empType[0].addition.push({
+                salary_payment_allowance_label:c.salary_payment_allowance_label,
+                salary_payment_allowance_value:0
+              })
+            }
+          },[])
+
+          deductionMax != undefined && deductionMax.deduction.reduce((r,c) => {
+            if(filterTraining[0].empType[0].deduction.filter(v => v.salary_payment_deduction_label == c.salary_payment_deduction_label).length > 0){
+             
+            }else{
+              filterTraining[0].empType[0].deduction.push({
+                salary_payment_deduction_label:c.salary_payment_deduction_label,
+                salary_payment_deduction_value:0
+              })
+            }
+          },[])
+
+
+          // console.log('ksdjflkjsad', filterTraining)
+          
           let listTrainingAllowance = [];
           let arrTrainingAllowance = []
           filterTraining[0].empType.map(v=>{
