@@ -335,7 +335,7 @@ class QuarterlyIncentiveReport extends Component {
             </tbody>
           </table></div></div>):(
              <div>
-             <div style={{marginBottom:10}}>
+             <div >
              <ReactHTMLTableToExcel 
              className="btn-excel"
              table="quarterly_incentive"

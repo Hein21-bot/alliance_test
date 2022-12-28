@@ -31,7 +31,9 @@ class ConfirmationReport extends Component {
             regionId:null,
             departmentId:null,
             from_date:moment(),
-            to_date:moment() 
+            dataSource:[],
+            to_date:moment(),
+            recommendation:[{label:'Confirmation',value:0},{label:'Extensions',value:1},{label:'Terminations',value:2}]
         }
     }
     
@@ -53,12 +55,12 @@ class ConfirmationReport extends Component {
         let department = await getDepartment();
        department.unshift({ label: 'All', value: 0 });
         let region = await getRegion();
-        region.unshift({region_name: 'ALL', region_id: 0});
+        region.unshift({state_name: 'ALL', state_id: 0});
         // await getConfirmationType;
         this.setState({
             branch: branch,
             department: department,
-            region: region.map(v => ({ ...v, label: v.region_name, value: v.region_id })),
+            region: region.map(v => ({ ...v, label: v.state_name, value: v.state_id })),
             // confirmation:comfirmation
            
         })
@@ -80,11 +82,11 @@ class ConfirmationReport extends Component {
         })
     }
      
-    // handleSelectedConfirmtype = async (event) => {
-    //     this.setState({
-    //        confirmation_type : event
-    //     })
-    // }
+    handleSelectedConfirmtype = async (event) => {
+        this.setState({
+           confirmation_type : event
+        })
+    }
     handleSelectedFromdate = async (event) => {
         this.setState({
            from_date : event
@@ -95,41 +97,39 @@ class ConfirmationReport extends Component {
            to_date : event
         })
     }
-    handleSearchData=()=>{
-    console.log(">>>>>",this.state.branchId,this.state.departmentId,this.state.regionId,this.state.designationId)
-    }
-    // handleSearchData = (branchId, departmentId, regionId,empName, designationId) => {
-    //     fetch(`${main_url}.../${regionId == undefined ? 0 : regionId}/${departmentId == undefined ? 0 : departmentId}/${designationId == undefined ? 0 : designationId}/${branchId == undefined ? 0 : branchId}/${empName == undefined ? 0 : empName}`)
-    //       .then(res => { if (res.ok) return res.json() })
-    //       .then(list => {
-    //         this._setTableData(list);
-    //       })
-    //   }
+    handleSearchData = () => {
+        fetch(`${main_url}report/confirmationReport/${this.state.regionId == undefined ? 0 : this.state.regionId.state_id}/${this.state.branchId == undefined ? 0 : this.state.branchId.value}/${this.state.departmentId == undefined ? 0 : this.state.departmentId.value}/${this.state.confirmation_type == undefined ? 0 : this.state.confirmation_type.label}/${moment(this.state.from_date).format('YYYY-MM-DD')}/${moment(this.state.to_date).format('YYYY-MM-DD')}`)
+          .then(res => { if (res.ok) return res.json() })
+          .then(list => {
+            this._setTableData(list);
+          })
+      }
 
     _setTableData = (data) => {
         var table;
         var l = [];
-        // for (var i = 0; i < data.length; i++) {
-        //     let result = data[i];
-        //     let obj = [];
-        //         obj = {
-        //         no: i + 1,
-        //         employee_id: employment_id,
-        //         employee_name: employee_name,
-        //         branch: branch_name, 
-        //         designation:designation,
-        //         level:level,
-        //         department:department,
-        //         region:region,
-        //         effective_date:effective_date,
-        //         pa_score:pa_score,
-        //         target_achievemen:target_achievement,
-        //         overall_performance:overall_performance,
-        //         comfirmation_type:comfirmation_type
-        //     }    
-        //     l.push(obj)
+        if (data) { 
+        for (var i = 0; i < data.length; i++) {
+            let result = data[i];
+            let obj = [];
+                obj = {
+                no: i + 1,
+                employee_id:data[i].employment_id ? data[i].employment_id :'-',
+                employee_name: data[i].fullname ? data[i].fullname :'-',
+                branch: data[i].branch_name ? data[i].branch_name :'-', 
+                designation:data[i].designations ? data[i].designations :'-',
+                level:data[i].career_level ? data[i].career_level : '-',
+                department:data[i].deptname ? data[i].deptname :'-',
+                region:data[i].region_name ? data[i].region_name :'-',
+                effective_date:data[i].effective_date ? data[i].effective_date :'-',
+                pa_score:data[i].performance_score ? data[i].performance_score :"-",
+                target_achievement:data[i].target_achievement ? data[i].target_achievement : '-',
+                overall_performance:data[i].comment_overall_performance ? data[i].comment_overall_performance :'-',
+                confirmation_type:data[i].confirm_or_not ? data[i].confirm_or_not : '-'
+            }    
+            l.push(obj)
 
-        // }
+        }}
         if ($.fn.dataTable.isDataTable('#dataTables-table')) {
             table = $('#dataTables-table').dataTable();
             table.fnClearTable();
@@ -168,12 +168,12 @@ class ConfirmationReport extends Component {
         //         // 'copy',
         //         // {
         //         //         extend: 'csvHtml5',
-        //         //         title: 'Child Benefit',
+        //         //         title: 'Confirmation Report',
         //         // },
-        //         // {
-        //         //     extend: 'excelHtml5',
-        //         //     title: 'Child Benefit',
-        //         // },
+        {
+            extend: 'excelHtml5',
+            title: 'Confirmation Report',
+        },
         //         // {
         //         //     extend: 'pdfHtml5',
         //         //     title: 'Child Benefit',
@@ -184,31 +184,37 @@ class ConfirmationReport extends Component {
         });
 
     }
-        render(){
+        render(){ console.log(this.state.region);
           
         return (
             <div>
             <div className="row  white-bg dashboard-header">
            
-              <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
+              <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 0px' }}>
+           <div style={{width:'150px',marginRight:10}}>
               <DatePicker
                   dateFormat="DD/MM/YYYY"
                   value={this.state.from_date}
                   onChange={this.handleSelectedFromdate}
                   timeFormat={false}
+                 
                 />
+                </div>
+                <div style={{width:'150px'}}>
               <DatePicker
                  dateFormat="DD/MM/YYYY"
                  value={this.state.to_date}
                  onChange={this.handleSelectedTodate}
                  timeFormat={false}
-                />
+                 style={{width:150}}
+                /> </div>
               <Select
               styles={{
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 150,
+                  marginLeft:10
                 }),
                 control: base => ({
                   ...base,
@@ -228,7 +234,9 @@ class ConfirmationReport extends Component {
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 150,
+                  marginLeft:10
+
                 }),
                 control: base => ({
                   ...base,
@@ -248,7 +256,9 @@ class ConfirmationReport extends Component {
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 150,
+                  marginLeft:10
+
                 }),
                 control: base => ({
                   ...base,
@@ -268,7 +278,9 @@ class ConfirmationReport extends Component {
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 150,
+                  marginLeft:10
+
                 }),
                 control: base => ({
                   ...base,
@@ -277,7 +289,7 @@ class ConfirmationReport extends Component {
 
               }}
               placeholder="Confirmation Type"
-              options={this.state.confirmation}
+              options={this.state.recommendation}
               onChange={this.handleSelectedConfirmtype}
               value={this.state.confirmation_type}
               className='react-select-container'
