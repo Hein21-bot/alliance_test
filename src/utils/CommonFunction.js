@@ -103,6 +103,7 @@ function getFirstDayOfNextMonth(a){
 function calculationDate(startDate, endDate) {
     var formatstartDate = new Date(startDate);
     var formatendDate = new Date(endDate)
+    console.log("calculationDate",formatstartDate,formatendDate)
     formatstartDate.setHours(0);
     formatstartDate.setMinutes(0);
     formatstartDate.setSeconds(0);

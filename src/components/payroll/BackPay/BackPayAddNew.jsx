@@ -333,11 +333,11 @@ export default class BackPayAddNew extends Component {
       tempData.region=this.state.DetailUser.state_name;
       tempData.branch=this.state.DetailUser.location_master_name;
       tempData.Amount=newData.Amount;
-      tempData.start_working_day=newData.payRoll == 3 ? newData.start_working_day : 0;
-      tempData.end_working_day=newData.payRoll == 3 ? newData.end_working_day : 0;
+      tempData.start_working_day=newData.payRoll == 3 ? newData.start_working_day : new Date();
+      tempData.end_working_day=newData.payRoll == 3 ? newData.end_working_day : new Date();
       tempData.workingDay=newData.workingDay;
       tempData.salaryPerDay=newData.salaryPerDay;
-      tempData.totalWorkingDay=newData.payRoll == 3 ? newData.totalWorkingDay : 0;
+      tempData.totalWorkingDay=newData.payRoll == 3 ? newData.totalWorkingDay : 1;
       tempData.Total=newData.totalSalary;
       tempData.selectedEmployeeId=this.state.selectedEmployeeId;
       tempData.atmOrCash=newData.atmOrCash;
@@ -414,10 +414,10 @@ export default class BackPayAddNew extends Component {
         branch:data[i].region ? data[i].region : '-',
         amount:data[i].Amount ? data[i].Amount : '-',
         reason:data[i].reason ? data[i].reason : '-',
-        start_working_day:data[i].start_working_day ? moment(data[i].start_working_day).format('YYYY-MM-DD') : '-',
-        end_working_day:data[i].end_working_day ? moment(data[i].end_working_day).format('YYYY-MM-DD') : '-',
+        start_working_day:data[i].payRoll == 3 ? data[i].start_working_day ? moment(data[i].start_working_day).format('YYYY-MM-DD') : '-' : '-',
+        end_working_day:data[i].payRoll == 3 ? data[i].end_working_day ? moment(data[i].end_working_day).format('YYYY-MM-DD') : '-' : '-',
         working_day:data[i].workingDay== 0 ? "Working Day" : 'Calendar Day',
-        total_working_day:data[i].totalWorkingDay ? data[i].totalWorkingDay : '-',
+        total_working_day:data[i].payRoll == 3 ? data[i].totalWorkingDay ? data[i].totalWorkingDay : '-' : '-',
         salary_per_day:data[i].salaryPerDay ? data[i].salaryPerDay : '-',
         total_salary:data[i].totalSalary ? data[i].totalSalary : '-',
         atm_or_cash: data[i].atmOrCash == 0 ? "ATM" : "Cash",
