@@ -39,6 +39,13 @@ class QuarterlyIncentiveReport extends Component {
         {value:3,month1:'July',month2:'Aug',month3:'Sept'},
         {value:4,month1:'Oct',month2:'Nov',month3:'Dec'},
 
+      ],
+      arr:[
+        {scpoe:0,data:"hi"},
+        {scpoe:0,data:"hola"},
+        {scpoe:1,data:"hello"},
+        {scpoe:1,data:"hi"},
+        {scpoe:3,data:"hola"},
       ]
     }
   }
@@ -200,7 +207,6 @@ class QuarterlyIncentiveReport extends Component {
   }
 
   render() {
-  
     return (
       <div>
           <h3 style={{margin:'15px 15px 15px 0px'}}>Quarterly Incentive Report</h3>            
@@ -315,19 +321,19 @@ class QuarterlyIncentiveReport extends Component {
                         <>
                   <tr>
                     <td>{i+1}</td>
-                    <td>{v.employeeID}</td>
-                    <td>{v.name}</td>
-                    <td>{v.position}</td>
+                    <td>{v.employeeID ? v.employeeID :'-'}</td>
+                    <td>{v.name ? v.name :'-'}</td>
+                    <td>{v.position ? v.position :'-'}</td>
                     <td>CO/FX</td>
-                    <td>{v.location_master_name}</td>
-                    <td>{v.location_master_code}</td>
-                    <td>{v.month1}</td>
-                    <td>{v.month2}</td>
-                    <td>{v.month3}</td>
-                    <td>{v.average_salary}</td>
-                    <td>{v.BSC}</td>
-                    <td>{v.incentive}</td>
-                    <td>{v.remark}</td>
+                    <td>{v.branch ? v.branch :'-'}</td>
+                    <td>{v.location_master_code ? v.location_master_code :'-'}</td>
+                    <td>{v.month1 ? v.month1:'-'}</td>
+                    <td>{v.month2 ? v.month2:'-'}</td>
+                    <td>{v.month3 ? v.month3:'-'}</td>
+                    <td>{v.average_salary ? v.average_salary:'-'}</td>
+                    <td>{v.BSC ? (v.BSC * 100).toFixed(2) + "%":'-'}</td>
+                    <td>{v.total_incentive ? v.total_incentive:'-'}</td>
+                    <td>{v.remark ? v.remark :'-'}</td>
                   </tr>
                   </>  )
                     })
