@@ -136,7 +136,7 @@ export default class QuarterlyIncentive extends Component{
 
         })}else{
           this.setState({
-            data:list, })
+            dataSource:list, })
         }
       })
           }
@@ -169,7 +169,7 @@ export default class QuarterlyIncentive extends Component{
               this.setState({
                 viewButton:false,
                 dataSource:[]
-              })} else if (e == 2){ console.log("delete");
+              })} else if (e == 2){ 
               window.location.reload();
             }
               });
@@ -210,7 +210,7 @@ export default class QuarterlyIncentive extends Component{
                viewButton:true
              })            
             })
-          .catch((err) =>{ console.log(err)
+          .catch((err) =>{ 
             toast.error('Data Is Already Calculated!')
             this.setState({
               loading:false,
@@ -262,7 +262,6 @@ export default class QuarterlyIncentive extends Component{
           };
 
   render(){   
-    console.log('data source =====>', this.state.dataSource);
             return(
         <div>
           <ToastContainer/>
@@ -394,24 +393,23 @@ export default class QuarterlyIncentive extends Component{
                         <>
                   <tr>
                     <td>{i+1}</td>
-                    <td>{v.employeeID}</td>
-                    <td>{v.name}</td>
-                    <td>{v.position}</td>
-                    <td>{v.branch}</td>
-                    <td>{v.department}</td>
-                    <td>{v.month1}</td>
-                    <td>{v.month2}</td>
-                    <td>{v.month3}</td>
-                    <td>{v.average_salary}</td>
-                    <td>{`${v.BSC * 100}%`}</td>
-                    <td>{v.total_incentive}</td>
-                    <td>{v.branch_score}</td>
-                    <td>{v.cash_team_score}</td>
-                    <td>{`${v.incentive * 100}%`}</td>
-                    <td>{v.additional_amount}</td>
-                    
-                    <td>{v.total}</td>
-                    <td>{v.remark}</td>
+                    <td>{v.employeeID ? v.employeeID:'-'}</td>
+                    <td>{v.name ? v.name :'-'}</td>
+                    <td>{v.position ? v.position :'-'}</td>
+                    <td>{v.branch ? v.branch:'-'}</td>
+                    <td>{v.department ? v.department :'-'}</td>
+                    <td>{v.month1 ? v.month1 :'-'}</td>
+                    <td>{v.month2 ? v.month2 : '-'}</td>
+                    <td>{v.month3 ? v.month3 :'-'}</td>
+                    <td>{v.average_salary ? v.average_salary :'-'}</td>
+                    <td>{v.BSC ? (v.BSC * 100).toFixed(2)+'%':'-'}</td>
+                    <td>{v.total_incentive ? v.total_incentive :'-'}</td>
+                    <td>{v.branch_score ? v.branch_score : '-'}</td>
+                    <td>{v.cash_team_score ? v.cash_team_score :'-'}</td>
+                    <td>{v.incentive ? (v.incentive * 100).toFixed(2)+'%' :'-'} </td>
+                    <td>{v.additional_amount ? v.additional_amount :'-'}</td>
+                    <td>{v.total ? v.total :'-'}</td>
+                    <td>{v.remark ? v.remark :'-'}</td>
                   </tr>
                   </>  )
                     })

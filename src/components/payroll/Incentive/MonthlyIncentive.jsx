@@ -328,7 +328,7 @@ export default class MonthlyIncentive extends Component {
         }
         
       })
-      .catch((err) =>{ console.log(err)
+      .catch((err) =>{ 
         toast.error('Data Is Already Calculated!')
         this.setState({
           loading:false,
