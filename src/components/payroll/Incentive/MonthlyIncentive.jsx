@@ -206,10 +206,12 @@ export default class MonthlyIncentive extends Component {
   };
 
   handleSearch = (e) => {
+    document.querySelector("#attachment").value = "";
     this.setState({
       searchData: [],
       fxData: [],
       coData: [],
+      loading:true,
     });
     const employee = this.state.selected_employeeID
       ? this.state.selected_employeeID.value
@@ -249,6 +251,7 @@ export default class MonthlyIncentive extends Component {
             fxData: [],
             table_type: 1,
             deleteType: false,
+            loading:false
           });
         } else {
           this.setState(
@@ -257,6 +260,8 @@ export default class MonthlyIncentive extends Component {
               coData: [],
               table_type: 2,
             deleteType: false,
+            loading:false
+
             },
             async () => {
               await this._setDataTable(this.state.fxData);
