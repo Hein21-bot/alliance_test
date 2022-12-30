@@ -111,7 +111,7 @@ class PayrollReportWithBankNo extends Component {
           
           {
               extend: 'excelHtml5',
-              title: 'Payroll Report With Bank Account No',
+              title: `'Payroll Report With Bank Account No-'${moment(this.state.date).format('YYYY-MM')}`,
           },
          
         ],

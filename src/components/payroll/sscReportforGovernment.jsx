@@ -192,7 +192,7 @@ class SSCReport extends Component {
           <div className="col-md-12 btn-leftend"><ReactHTMLTableToExcel 
                     className="btn-excel"
                     table="ssc_report"
-                    filename="SSC Report For Goverment"
+                    filename={"SSC Report For Goverment-"+moment(this.state.date).format('YYYY-MM')}
                     buttonText="Excel"
                     sheet="Sheet"
                     />

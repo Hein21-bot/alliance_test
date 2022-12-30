@@ -400,7 +400,7 @@ class SalaryHistoryReport extends Component {
         <ReactHTMLTableToExcel
           className="btn-excel"
           table="reg_wise_staff"
-          filename="Salary History Report"
+          filename={"Salary History Report("+moment(this.state.start_date).format('YYYY-MM')+'_'+moment(this.state.end_date).format('YYYY-MM')+')'}
           buttonText="Excel"
           sheet="Sheet"
         />

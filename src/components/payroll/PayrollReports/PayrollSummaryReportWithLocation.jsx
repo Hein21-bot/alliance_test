@@ -1213,7 +1213,7 @@ this.state.TrainingDetail!=undefined && this.state.TrainingDetail.empType && thi
             <ReactHTMLTableToExcel
               className="btn-excel"
               table="reg_wise_staff"
-              filename="Payroll Summary Report With Location Wise/Status Wise"
+              filename={"Payroll Summary Report With Location Wise/Status Wise-"+moment(this.state.date).format('YYYY-MM')}
               buttonText="Excel"
               sheet="Sheet"
             />
