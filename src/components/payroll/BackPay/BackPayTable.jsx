@@ -354,7 +354,7 @@ export default class BackPayTable extends Component {
     
                 obj = {
                     no: i + 1,
-                    request_month:data[i].createdAt ? moment(data[i].createdAt).format('YYYY-MM') : '-',
+                    request_month:data[i].requested_month ? moment(data[i].requested_month).format('YYYY-MM') : '-',
                     form_no:data[i].form_no ? data[i].form_no : '-',
                     employee_id: data[i].employment_id ? data[i].employment_id: '-',
                     employee_name: data[i].fullname ? data[i].fullname: '-',

@@ -105,13 +105,15 @@ export default class BackPayAddNew extends Component {
       var data = $(this).find("#edit").text();
       data = $.parseJSON(data);
       let newData = that.state.preveData;
+      
       let editData = newData[data];
+      console.log("edit data",editData)
       newData.splice(data, 1);
       
       that.setState(
         {
           dataSource: newData,
-          selectedPayroll:that.state.PayrollList.filter(v=>v.value== editData.request_type),
+          selectedPayroll:that.state.PayrollList.filter(v=>v.value== editData.request_type)[0],
           selectedEmployeeId:that.state.employeeIdList.filter(v=>v.value == editData.user_id),
           addNewData: {
             request_month: editData.request_month,
@@ -169,10 +171,12 @@ export default class BackPayAddNew extends Component {
     });
   }
   totalWorkingDays=(startDate,endDate)=>{
+    console.log('ggggg',startDate,endDate)
     if(startDate<=endDate){
       console.log("in")
       const newData = this.state.addNewData;
       newData.total_working_day = calculationDate(startDate,endDate);
+      newData.total_salary=newData.total_working_day*newData.salary_per_day;
       console.log("total work day==+>",newData.total_working_day)
         this.setState({
           addNewData:newData
@@ -187,7 +191,7 @@ export default class BackPayAddNew extends Component {
     this.setState({
       addNewData:newData
     })
-    this.totalWorkingDays(this.state.addNewData.start_working_day,event);
+    this.totalWorkingDays(moment(this.state.addNewData.start_working_day).format('YYYY-MM-DD'),moment(event).format('YYYY-MM-DD'));
   };
   handleAmount=(e)=>{
     const newData = this.state.addNewData;
@@ -226,7 +230,7 @@ export default class BackPayAddNew extends Component {
     this.setState({
         addNewData:newData
     })
-    this.totalWorkingDays(event,this.state.addNewData.last_working_day);
+    this.totalWorkingDays(moment(event).format('YYYY-MM-DD'),moment(this.state.addNewData.last_working_day).format('YYYY-MM-DD'));
   };
   
   onBackPayChange=(e)=>{
@@ -246,6 +250,7 @@ export default class BackPayAddNew extends Component {
   handlesalaryPerDay=(event)=>{
     const newData = this.state.addNewData;
     newData.salary_per_day = event.target.value;
+    newData.total_salary=newData.total_working_day*newData.salary_per_day
     this.setState({ addNewData: newData });
   }
 
@@ -323,6 +328,12 @@ export default class BackPayAddNew extends Component {
         selectedEmployeeId:e
     })
   }
+  handletotalWorkingDay=(e)=>{
+    const newData=this.state.addNewData;
+    newData.total_working_day=e.target.value;
+    newData.total_salary=newData.salary_per_day * e.target.value
+    this.setState({addNewData:newData});
+  }
   addData = (e) => {
     const { userInfo } = this.state;
     console.log("add data", this.state.newData,this.state.DetailUser);
@@ -335,8 +346,9 @@ export default class BackPayAddNew extends Component {
     //     totalAmount += data[i].totalSalary;
     // }
       let tempData = {};
-      tempData.request_month = moment(newData.request_month).format('MM');
-      tempData.request_type=newData.payRoll;
+      // tempData.request_month = moment(newData.request_month).format('MM');
+      tempData.request_month=newData.request_month !=undefined ? newData.request_month : this.state.preveData.length > 0 && this.state.dataSource[0].request_month
+      tempData.request_type=newData.request_type;
       tempData.employment_id = this.state.DetailUser.employment_id;
       tempData.fullname = this.state.DetailUser.employee_name;
       tempData.designations = this.state.DetailUser.designations;
@@ -344,11 +356,11 @@ export default class BackPayAddNew extends Component {
       tempData.state_name=this.state.DetailUser.state_name;
       tempData.location_master_name=this.state.DetailUser.location_master_name;
       tempData.amount=newData.amount;
-      tempData.start_working_day= moment(newData.start_working_day).format('YYYY-MM-DD');
-      tempData.last_working_day=moment(newData.last_working_day).format('YYYY-MM-DD');
+      tempData.start_working_day=newData.request_type == 3 ?  moment(newData.start_working_day).format('YYYY-MM-DD') : new Date();
+      tempData.last_working_day=newData.request_type == 3 ? moment(newData.last_working_day).format('YYYY-MM-DD') : new Date();
       tempData.work_calendar_day =newData.worwork_calendar_daykingDay;
       tempData.salary_per_day=newData.salary_per_day;
-      tempData.total_working_day =newData.total_working_day;
+      tempData.total_working_day =newData.request_type == 3 ? newData.total_working_day : 1;
       // tempData.Total=newData.totalSalary;
       // tempData.selectedEmployeeId=this.state.selectedEmployeeId;
       tempData.atm_cash=newData.atm_cash;
@@ -356,10 +368,11 @@ export default class BackPayAddNew extends Component {
       tempData.user_id=this.state.DetailUser.user_id;
       tempData.createdBy=this.state.userInfo.user_id;
       tempData.reason=newData.reason;
-      tempData.total_salary=newData.total_salary;
+      tempData.total_salary=newData.request_type == 3 ? newData.total_salary : 0;
 
 
       data.push(tempData);
+      console.log("add data",data)
       this.setState({
         preveData: data,
         selectedEmployeeId:null,
@@ -424,13 +437,13 @@ export default class BackPayAddNew extends Component {
         region:data[i].state_name ? data[i].state_name:'-',
         branch:data[i].location_master_name ? data[i].location_master_name: '-',
         amount:data[i].amount ? data[i].amount : '-',
-        reason:data[i].reason ? data[i].reason : '-',
-        start_working_day:data[i].start_working_day ? moment(data[i].start_working_day).format('YYYY-MM-DD') : '-',
-        end_working_day:data[i].last_working_day ? moment(data[i].last_working_day).format('YYYY-MM-DD') : '-',
+        reason:data[i].request_type !=3 ? data[i].reason ? data[i].reason : '-' : '-',
+        start_working_day:data[i].request_type==3 ? data[i].start_working_day ? moment(data[i].start_working_day).format('YYYY-MM-DD') : '-' : '-',
+        end_working_day:data[i].request_type == 3 ? data[i].last_working_day ? moment(data[i].last_working_day).format('YYYY-MM-DD') : '-' : '-',
         working_day:data[i].work_calendar_day== 0 ? "Working Day" : 'Calendar Day',
-        total_working_day:data[i].total_working_day ? data[i].total_working_day: '-',
-        salary_per_day:data[i].salary_per_day ? data[i].salary_per_day : '-',
-        total_salary:data[i].total_salary? data[i].total_salary : '-',
+        total_working_day:data[i].request_type == 3 ? data[i].total_working_day ? data[i].total_working_day: '-' : '-',
+        salary_per_day:data[i].request_type == 3 ? data[i].salary_per_day ? data[i].salary_per_day : '-' : '-',
+        total_salary:data[i].request_type == 3 ? data[i].total_salary? data[i].total_salary : '-' : '-',
         atm_or_cash: data[i].atm_cash  == 0 ? "ATM" : "Cash",
         action:
           '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' +
@@ -523,7 +536,7 @@ export default class BackPayAddNew extends Component {
      ; }
       const dataTostring = this.state.preveData.map((v) => {
         return {
-          request_month: moment(v.request_month).format("YYYY-MM-DD"),
+          request_month: moment(v.request_month).format("YYYY-MM"),
           request_type:v.request_type,
           employment_id: v.employment_id,
           employee_name: v.fullname,
@@ -611,8 +624,9 @@ export default class BackPayAddNew extends Component {
   
 
   render() { 
-    const { addNewData, userId, userInfo, dataSource } = this.state;
-    console.log("addNewData =====>",this.state.preveData.status,havePermission(this.state.work_flow_status));
+    const { addNewData, userId, userInfo, dataSource,preveData } = this.state;
+    console.log("addNewData =====>",this.state.addNewData,preveData);
+    let Total=this.state.preveData.reduce((p,c)=>{return p+parseInt(c.total_salary)},0)
     return (
       <div>
         <div className="row">
@@ -623,12 +637,21 @@ export default class BackPayAddNew extends Component {
                   <div className="row">
                   <div className="col-md-3">
                       <label>Request Month</label>
-                      <DatePicker
-                        dateFormat="MMM"
-                        value={moment(addNewData.request_month).format('MMM')}
+                      {
+                        this.state.dataSource.length > 0 ? <input type="text" className="form-control" value={moment(this.state.dataSource[0].request_month).format('YYYY-MM')} disabled/> : <DatePicker
+                        dateFormat='YYYY-MM'
+                        // disabled={this.state.dataSource && this.state.dataSource.length > 0 ? true : false}
+                        value={moment(addNewData.request_month).format('YYYY-MM')}
                         timeFormat={false}
                         onChange={this.onRequestMonthChange.bind(this)}
                       />
+                      }
+                      {/* <DatePicker
+                        dateFormat="YYYY-MM"
+                        value={moment(addNewData.request_month).format('YYYY-MM')}
+                        timeFormat={false}
+                        onChange={this.onRequestMonthChange.bind(this)}
+                      /> */}
                     </div>
                     <div className="col-md-3">
                         <label htmlFor="">Payroll Request Type</label>
@@ -723,7 +746,7 @@ export default class BackPayAddNew extends Component {
                   </div>
                   <div className="row margin-top-20">
                   
-                  <div className="col-md-3">
+                  <div className={this.state.selectedPayroll == null ? 'col-md-3' : this.state.selectedPayroll && this.state.selectedPayroll.payrollRequestId != 3 ? 'col-md-3' : 'col-md-6'}>
                       <label>Amount</label>
                       <input
                         className="form-control"
@@ -734,42 +757,37 @@ export default class BackPayAddNew extends Component {
                         onChange={this.handleAmount}
                       />
                     </div>
-                    <div className="col-md-3">
-                    <label>Reason</label>
-                      <input
-                        className="form-control checkValidate"
-                        type="text"
-                        data-name="reason"
-                        value={addNewData.reason}
-                        placeholder="Enter Reason"
-                        onChange={this.onReasonChange}
-                        multiple
-                      />
-                    </div>
-                    <div className="col-md-3">
-                      <label>Start Working Day</label>
-                      <DatePicker
-                        dateFormat="DD/MM/YYYY"
-                        value={moment(addNewData.start_working_day).format('DD-MM-YYYY')}
-                        onChange={this.handleSelectedFromdate}
-                        timeFormat={false}
-                    />
-                    </div>
-                    <div className="col-md-3">
-                      <label>End Working Day</label>
-                            <DatePicker
-                        dateFormat="DD/MM/YYYY"
-                        value={moment(addNewData.last_working_day).format('DD-MM-YYYY')}
-                        onChange={this.handleSelectedTodate}
-                        timeFormat={false}
+                    {
+                      this.state.selectedPayroll == null ? <div className="col-md-3">
+                      <label>Reason</label>
+                        <input
+                          className="form-control checkValidate"
+                          type="text"
+                          data-name="reason"
+                          value={addNewData.reason}
+                          placeholder="Enter Reason"
+                          onChange={this.onReasonChange}
+                          multiple
                         />
-                    </div>
-                </div>
-                <div className="row margin-top-20" style={{display:'flex',alignItems:'end'}}>
-                <div className="col-md-3">
-                      <div className="row">
+                      </div> : this.state.selectedPayroll && this.state.selectedPayroll.payrollRequestId != 3 ?  <div className="col-md-3">
+                      <label>Reason</label>
+                        <input
+                          className="form-control checkValidate"
+                          type="text"
+                          data-name="reason"
+                          value={addNewData.reason}
+                          placeholder="Enter Reason"
+                          onChange={this.onReasonChange}
+                          multiple
+                        />
+                      </div> : ''
+                    }
+                   
+                    <div className="col-md-3">
+                    <label>Working Day / Calendar Day</label>
+                      <div className="row" style={{marginLeft:5}}>
                         <div className="col-md-7">
-                        <label>Working Day / Calendar Day</label>
+                        
                       <div
                         onChange={this.onRadioWorkinDayChange}
                         className="row"
@@ -798,44 +816,10 @@ export default class BackPayAddNew extends Component {
                       </div>
                     </div>
                     <div className="col-md-3">
-                      <label>Total Working Day</label>
-                      <input
-                        className="form-control"
-                        
-                        type="number"
-                        data-name="totalWorkingDay"
-                        value={addNewData.total_working_day}
-                        onChange={this.handletotalWorkingDay}
-                      />
-                    </div>
-                    <div className="col-md-3">
-                      <label>Salary Per Day</label>
-                      <input
-                        className="form-control"
-                       
-                        type="number"
-                        data-name="salaryPerDay"
-                        value={addNewData.salary_per_day}
-                        onChange={this.handlesalaryPerDay}
-                      />
-                    </div>
-                    <div className="col-md-3">
-                      <label>Total Salary</label>
-                      <input
-                        className="form-control"
-                        type="number"
-                        data-name="totalSalary"
-                        value={addNewData.total_salary}
-                        placeholder="Total Salary"
-                        onChange={this.ontotalSalaryChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="row margin-top-20" style={{display:'flex',alignItems:'flex-end'}}>
-                    <div className="col-md-3">
-                       <div className="row">
+                    <label>ATM / Cash</label>
+                       <div className="row" style={{marginLeft:5}}>
                         <div className="col-md-5">
-                        <label>ATM / Cash</label>
+                        
                         <div
                           onChange={this.onRadioChange}
                           className="row"
@@ -867,6 +851,125 @@ export default class BackPayAddNew extends Component {
                         </div>
                        </div>
                       </div>
+                    
+                </div>
+                {
+                  this.state.selectedPayroll == null ? <div className="row margin-top-20" style={{display:'flex',alignItems:'end'}}>
+                  <div className="col-md-3">
+                        <label>Start Working Day</label>
+                        <DatePicker
+                          dateFormat="DD/MM/YYYY"
+                          value={moment(addNewData.start_working_day).format('DD/MM/YYYY')}
+                          onChange={this.handleSelectedFromdate}
+                          timeFormat={false}
+                      />
+                      </div>
+                      <div className="col-md-3">
+                        <label>End Working Day</label>
+                              <DatePicker
+                          dateFormat="DD/MM/YYYY"
+                          value={moment(addNewData.last_working_day).format('DD/MM/YYYY')}
+                          onChange={this.handleSelectedTodate}
+                          timeFormat={false}
+                          />
+                      </div>
+                  
+                      <div className="col-md-3">
+                        <label>Total Working Day</label>
+                        <input
+                          className="form-control"
+                          
+                          type="number"
+                          data-name="totalWorkingDay"
+                          value={addNewData.total_working_day}
+                          onChange={this.handletotalWorkingDay}
+                        />
+                      </div>
+                      <div className="col-md-3">
+                        <label>Salary Per Day</label>
+                        <input
+                          className="form-control"
+                         
+                          type="number"
+                          data-name="salaryPerDay"
+                          value={addNewData.salary_per_day}
+                          onChange={this.handlesalaryPerDay}
+                        />
+                      </div>
+                     
+                    </div> : this.state.selectedPayroll && this.state.selectedPayroll.payrollRequestId == 3 ?  <div className="row margin-top-20" style={{display:'flex',alignItems:'end'}}>
+                  <div className="col-md-3">
+                        <label>Start Working Day</label>
+                        <DatePicker
+                          dateFormat="DD/MM/YYYY"
+                          value={moment(addNewData.start_working_day).format('DD/MM/YYYY')}
+                          onChange={this.handleSelectedFromdate}
+                          timeFormat={false}
+                      />
+                      </div>
+                      <div className="col-md-3">
+                        <label>End Working Day</label>
+                              <DatePicker
+                          dateFormat="DD/MM/YYYY"
+                          value={moment(addNewData.last_working_day).format('DD/MM/YYYY')}
+                          onChange={this.handleSelectedTodate}
+                          timeFormat={false}
+                          />
+                      </div>
+                  
+                      <div className="col-md-3">
+                        <label>Total Working Day</label>
+                        <input
+                          className="form-control"
+                          
+                          type="number"
+                          data-name="totalWorkingDay"
+                          value={addNewData.total_working_day}
+                          onChange={this.handletotalWorkingDay}
+                        />
+                      </div>
+                      <div className="col-md-3">
+                        <label>Salary Per Day</label>
+                        <input
+                          className="form-control"
+                         
+                          type="number"
+                          data-name="salaryPerDay"
+                          value={addNewData.salary_per_day}
+                          onChange={this.handlesalaryPerDay}
+                        />
+                      </div>
+                     
+                    </div> : ''
+                }
+               
+                  <div className="row margin-top-20" style={{display:'flex',alignItems:'flex-end'}}>
+                    {
+                      this.state.selectedPayroll==null ?   <div className="col-md-3">
+                      <label>Total Salary</label>
+                      <input
+                        className="form-control"
+                        type="number"
+                        data-name="totalSalary"
+                        value={addNewData.total_salary}
+                        placeholder="Total Salary"
+                        onChange={this.ontotalSalaryChange}
+                      />
+                    </div> : this.state.selectedPayroll  && this.state.selectedPayroll.payrollRequestId == 3 ?  <div className="col-md-3">
+                      <label>Total Salary</label>
+                      <input
+                        className="form-control"
+                        disabled={true}
+                        type="number"
+                        data-name="totalSalary"
+                        value={addNewData.total_salary}
+                        placeholder="Total Salary"
+                        onChange={this.ontotalSalaryChange}
+                      />
+                    </div> : <div className="col-md-3"></div>
+                    }
+                 
+                    
                     <div className="col-md-9 btn-rightend">
                       <button
                         className="btn-primary btn"
@@ -888,23 +991,31 @@ export default class BackPayAddNew extends Component {
                   id="dataTables-Table"
                 />
               </div>
-              <div className="col-md-12" style={{display:'flex',alignItems:'end'}}>
+              {
+                this.state.selectedPayroll== null ? <div className="col-md-12" style={{display:'flex',alignItems:'end'}}>
+                <div className="col-md-3 btn-leftend mt20">
+                  <label htmlFor="">Total</label>
+                  <input type="text" className="form-control" value={this.state.preveData.reduce((p,c)=>{return p+parseInt(c.total_salary)},0)} disabled />
+                </div>
+              </div> : Total > 0 ? <div className="col-md-12" style={{display:'flex',alignItems:'end'}}>
+                <div className="col-md-3 btn-leftend mt20">
+                  <label htmlFor="">Total</label>
+                  <input type="text" className="form-control" value={this.state.preveData.reduce((p,c)=>{return p+parseInt(c.total_salary)},0)} disabled />
+                </div>
+              </div> : this.state.selectedPayroll && this.state.selectedPayroll.payrollRequestId == 3 ?  <div className="col-md-12" style={{display:'flex',alignItems:'end'}}>
                 <div className="col-md-3 btn-leftend mt20">
                   <label htmlFor="">Total</label>
                   <input type="text" className="form-control" value={this.state.preveData.reduce((p,c)=>{return p+parseInt(c.total_salary)},0)} disabled />
                 </div>
 
-                {/* <div className="col-md-9 btn-rightend mt20">
-                  <button
-                    onClick={this.check.bind(this)}
-                    id="saving_button"
-                    className="btn btn-primary"
-                  >
-                    <span>Submit</span>{" "}
-                  </button>
-                </div> */}
-
-              </div>
+              </div> : <div className="col-md-12"></div>
+              }
+              {/* <div className="col-md-12" style={{display:'flex',alignItems:'end'}}>
+                <div className="col-md-3 btn-leftend mt20">
+                  <label htmlFor="">Total</label>
+                  <input type="text" className="form-control" value={this.state.preveData.reduce((p,c)=>{return p+parseInt(c.total_salary)},0)} disabled />
+                </div>
+              </div> */}
 
                      <div className="row save-btn">
                     {

@@ -265,9 +265,13 @@ export default class NewLeave extends Component {
     save() {
         let path = 'addLeave';
         // let user_id = 0;
-        if(this.state.attachment.length == 0 && (this.state.selectedCategory.value !=1 && this.state.selectedCategory.value !=5)){
+        if( this.state.max_days == 0){
+            toast.error("Leave Balance is Zero")
+        }
+        else if(this.state.attachment.length == 0 && (this.state.selectedCategory.value !=1 && this.state.selectedCategory.value !=5)){
             toast.error("Please Choose Attachment File!")
-        }else{
+        }
+        else{
             if (validate('check_form')) {
                 if (this.state.leave_days1 != -1) {
     

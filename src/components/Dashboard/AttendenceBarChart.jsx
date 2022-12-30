@@ -52,7 +52,7 @@ class AttendenceBarChart extends Component {
             .then(response => {
                 if (response.ok) return response.json()
             })
-            .then(res => {
+            .then(res => { 
 
                 let data = res;
 
@@ -179,7 +179,7 @@ class AttendenceBarChart extends Component {
         });
     };
 
-    render() {
+    render() { 
         return (
             <div
                 className='text-center margin-y'

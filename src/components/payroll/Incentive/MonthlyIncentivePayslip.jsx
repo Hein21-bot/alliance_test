@@ -222,11 +222,11 @@ render(){
  </div>
 
  <div className=' col-lg-5' style={{  paddingTop: '10px' }}><div className='col-lg-10'><p>{this.state.coData[0].employment_id}</p>
- <p>{this.state.coData[0].fullname}</p>
- <p>{this.state.coData[0].deptname}</p>
- <p>{this.state.coData[0].designations}</p>
- <p>{this.state.coData[0].location_master_name}</p>
- <p>{this.state.coData[0].monthIncentive}</p>
+ <p>{this.state.coData[0].fullname ? this.state.coData[0].fullname :'-'}</p>
+ <p>{this.state.coData[0].deptname ? this.state.coData[0].deptname :'-'}</p>
+ <p>{this.state.coData[0].designations ? this.state.coData[0].designations :'-'}</p>
+ <p>{this.state.coData[0].location_master_name ? this.state.coData[0].location_master_name :'-'}</p>
+ <p>{this.state.coData[0].monthIncentive ? this.state.coData[0].monthIncentive :'-'}</p>
  </div></div>
 
  <div className='row' style={{display:'flex',justifyContent:'center',paddingTop:20}}><h3>Incentive Information</h3>
@@ -249,10 +249,10 @@ render(){
 
  <div className=' col-lg-5' style={{ paddingTop: '10px' }}><div className='col-lg-10'><p>{this.state.coData[0].credit_incentive}</p>
 
- <p>{this.state.coData[0].saving_incentive}</p>
- <p>{this.state.coData[0].collection_rate}</p>
+ <p>{this.state.coData[0].saving_incentive ? this.state.coData[0].saving_incentive :'0'}</p>
+ <p>{this.state.coData[0].collection_rate ? this.state.coData[0].collection_rate :'0'}</p>
  <p>{this.state.coData[0].PAR_deduction}</p>
- <p>{this.state.coData[0].total}</p>
+ <p>{this.state.coData[0].total ? this.state.coData[0].total :'-'}</p>
  </div></div>
   </div>
 
@@ -263,7 +263,7 @@ render(){
 <div style={{padding:50,paddingTop:10,paddingBottom:0}}>
 <div style={{display:'flex',justifyContent:'space-between'}}>
  <div className=""><h3>Credit Incentive</h3></div>
- <div className=""><h3>{this.state.coData[0].detailCalaultaion[0].credit_incentive}</h3></div>
+ <div className=""><h3>{this.state.coData[0].detailCalaultaion[0].credit_incentive ? this.state.coData[0].detailCalaultaion[0].credit_incentive :'0'}</h3></div>
 </div>
 
 <div>
@@ -281,10 +281,10 @@ render(){
 </thead>
 <tbody style={{ textAlign:'center'}}>
  <tr>
- <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].disbursementNo}</td>
- <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].disbursementAmount}</td>
- <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].portfolioNo}</td>
- <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].portfolioAmount}</td>
+ <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].disbursementNo ? this.state.coData[0].detailCalaultaion[0].disbursementNo :'0'}</td>
+ <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].disbursementAmount ? this.state.coData[0].detailCalaultaion[0].disbursementAmount :'0'}</td>
+ <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].portfolioNo ? this.state.coData[0].detailCalaultaion[0].portfolioNo :'0'}</td>
+ <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].portfolioAmount ? this.state.coData[0].detailCalaultaion[0].portfolioAmount :'0'}</td>
  </tr>
   </tbody>
 </table>
@@ -292,7 +292,7 @@ render(){
 
 <div style={{display:'flex',justifyContent:'space-between'}}>
  <div className=""><h3>Saving Incentive</h3></div>
- <div className=""><h3>{this.state.coData[0].detailCalaultaion[0].saving_incentive}</h3></div>
+ <div className=""><h3>{this.state.coData[0].detailCalaultaion[0].saving_incentive ? this.state.coData[0].detailCalaultaion[0].saving_incentive :'0'}</h3></div>
 </div>
 
 <div>
@@ -300,7 +300,7 @@ render(){
 <thead>
 <tr style={{overflow:'scroll',border:'1px solid black' }}>
             <td style={{textAlign:'center',width:100,border:'1px solid black',fontWeight:'bold'}} colSpan={2}>Outstanding</td>
-            <td style={{textAlign:'center',width:100,border:'1px solid black'}} colSpan={2}>{this.state.coData[0].detailCalaultaion[0].savingOutstanding}</td>       
+            <td style={{textAlign:'center',width:100,border:'1px solid black'}} colSpan={2}>{this.state.coData[0].detailCalaultaion[0].savingOutstanding ? this.state.coData[0].detailCalaultaion[0].savingOutstanding :'0'}</td>       
 </tr>
 </thead>
 </table>
@@ -308,7 +308,7 @@ render(){
 
  <div style={{display:'flex',justifyContent:'space-between'}}>
  <div className=""><h3>Collection Rate Incentive</h3></div>
- <div className=""><h3>{this.state.coData[0].detailCalaultaion[0].collection_rate}</h3></div>
+ <div className=""><h3>{this.state.coData[0].detailCalaultaion[0].collection_rate ? this.state.coData[0].detailCalaultaion[0].collection_rate :'0'}</h3></div>
 </div>
 
 <div>
@@ -321,8 +321,8 @@ render(){
 </thead>
 <tbody style={{ textAlign:'center'}}>
  <tr>
- <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].collectionRateDemand}</td>
- <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].collectionActual}</td>
+ <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].collectionRateDemand ? this.state.coData[0].detailCalaultaion[0].collectionRateDemand :'0'}</td>
+ <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].collectionActual ? this.state.coData[0].detailCalaultaion[0].collectionActual :'0'}</td>
  </tr>
   </tbody>
 </table>
@@ -330,7 +330,7 @@ render(){
 
 <div style={{display:'flex',justifyContent:'space-between'}}>
  <div className=""><h3>PAR Deduction</h3></div>
- <div className=""><h3>{this.state.coData[0].detailCalaultaion[0].PAR}</h3></div>
+ <div className=""><h3>{this.state.coData[0].detailCalaultaion[0].PAR ? this.state.coData[0].detailCalaultaion[0].PAR :'0'}</h3></div>
 </div>
 
 <div>
@@ -343,8 +343,8 @@ render(){
 </thead>
 <tbody style={{ textAlign:'center'}}>
  <tr>
- <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].parNo}</td>
- <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].parAmount}</td>
+ <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].parNo ? this.state.coData[0].detailCalaultaion[0].parNo :'0'}</td>
+ <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].parAmount ? this.state.coData[0].detailCalaultaion[0].parAmount :'0'}</td>
  </tr>
   </tbody>
 </table>
@@ -397,8 +397,8 @@ render(){
 
                 
                  <div className=' col-lg-5' style={{ paddingLeft: '90px', paddingTop: '10px', marginBottom:20 }}><p>{this.state.fxData[0].coCount}</p>
-                 <p>{this.state.fxData[0].coIncentiveTotal}</p>
-                 <p>{this.state.fxData[0].incentiveAmount}</p>
+                 <p>{this.state.fxData[0].coIncentiveTotal ? this.state.fxData[0].coIncentiveTotal :'0'}</p>
+                 <p>{this.state.fxData[0].incentiveAmount ? this.state.fxData[0].incentiveAmount :'0'}</p>
                  </div>
                     </div>
                   </div> ):('')

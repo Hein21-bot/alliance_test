@@ -321,7 +321,7 @@ export default class ForeignerSalaryEdit extends Component {
   
       }
       console.log("data",data)
-      fetch(`${main_url}foreigner_salary/edit_foreigner_salaryfsfs/${editData.id}`, {
+      fetch(`${main_url}foreigner_salary/edit_foreigner_salary/${editData.id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -752,7 +752,7 @@ export default class ForeignerSalaryEdit extends Component {
                             <div className="row save-btn">
                     {
                         havePermission(this.state.work_flow_status) ?
-                            <ApprovalForm1 approvalStatus={this.approvalStatus.bind(this)} status={this.state.editData.status} work_flow={this.state.work_flow_status} />
+                            <ApprovalForm1 approvalStatus={this.approvalStatus.bind(this)} status={this.state.editData.status} work_flow={this.state.work_flow_status} name={'foreigner_salary'}/>
                             :
                             <div className="col-md-12 btn-rightend">
                                 { this.state.editData.status == 5 ?
