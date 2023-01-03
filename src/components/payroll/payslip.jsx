@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { main_url, getUserId, } from "../../utils/CommonFunction";
 import moment from 'moment';
+
+import { toast, ToastContainer } from "react-toastify";
 import DatePicker from 'react-datetime';
 
 class PaySlip extends Component {
@@ -28,6 +30,16 @@ class PaySlip extends Component {
                 if (res) {
                     this.setState({ data: res });
                 }
+                else{
+                    toast.error(moment(this.state.month).format('YYYY-MM')+" payroll is not calculate", {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                      });
+                        }
             })
             .catch((error) => console.error(`Fetch Error =\n`, error));
     }
@@ -45,6 +57,7 @@ class PaySlip extends Component {
     render() {
         return (
             <div>
+                <ToastContainer position={toast.POSITION.TOP_RIGHT} />
             <div style={{ display: 'flex', paddingTop: 10 }}>
             <div className="col-sm-2">
                 <DatePicker

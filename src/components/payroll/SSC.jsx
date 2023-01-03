@@ -7,7 +7,7 @@ import "jspdf-autotable";
 import moment from "moment";
 import * as jsPDF from "jspdf";
 import { main_url } from "../../utils/CommonFunction";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import Select from "react-select";
 import DatePicker from "react-datetime";
 // import { main_url, getUserId, getMainRole, getInformation, print, fno } from "../../../../utils/CommonFunction";
@@ -235,20 +235,33 @@ export default class SSC extends Component {
       body: JSON.stringify(this.state.selectedBranchMainList),
     })
       .then((res) => {
-        status = res.status;
-        return res.json();
+        if(res.ok) return res.json();
+        // status = res.status;
+        // console.log(status)
+        // return res.json();
       })
-      .then((text) => {
-        if (status == 200) {
+      .then((res1) => {
+        
+        if (res1) {
           this.setState({
-            dataSource: text,
+            dataSource: res1,
           });
-          this._setTableData(text);
+          this._setTableData(res1);
+        }else{
+          console.log('scc already calculate====>')
+          toast.error(moment(this.state.month).format('YYYY-MM')+" ssc is already calculate", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
         }
       })
-      .catch((err) => {
-        console.log("error =====>", err);
-      });
+      // .catch((err) => {
+        // console.log("error =====>", err);
+      // });
   };
   handleSelectBranchMain = (event) => {
     if (event !== null) {
@@ -413,6 +426,8 @@ export default class SSC extends Component {
     } = this.state;
     return (
       <div>
+        <ToastContainer position={toast.POSITION.TOP_RIGHT} />
+
         {/* <div className="d-flex row justify-content-center align-item-center"> */}
         <div className="col-md-12 col-lg-12" style={{marginBottom:10}}>
           <div className="form-horizontal" name="demo-form">
