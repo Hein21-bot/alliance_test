@@ -127,9 +127,9 @@ export default class QuarterlyIncentivePayslip extends Component{
             <div className="row col-lg-12" style={{backgroundColor:'#f3f3f4', margin:'20px 0px 0px 0px'}}>
              <div style={{display:'flex',justifyContent:'center'}}> <h4>Monthly Incentive</h4></div>
              <div className='col-lg-6' style={{ paddingLeft: '85px', paddingTop: '10px' }}>
-              <p>{this.state.quarter_months.filter(v=>v.value == this.state.selected_quarter.value)[0].month1}</p>
-              <p>{this.state.quarter_months.filter(v=>v.value == this.state.selected_quarter.value)[0].month2}</p>
-              <p>{this.state.quarter_months.filter(v=>v.value == this.state.selected_quarter.value)[0].month3}</p>   
+              <p>{this.state.quarter_months.filter(v=>v.value == this.state.dataSource[0].quarter)[0].month1}</p>
+              <p>{this.state.quarter_months.filter(v=>v.value == this.state.dataSource[0].quarter)[0].month2}</p>
+              <p>{this.state.quarter_months.filter(v=>v.value == this.state.dataSource[0].quarter)[0].month3}</p>   
             </div>
             <div className='col-lg-1' style={{ paddingLeft: '0px', paddingTop: '10px' }}>
               <p>:</p>

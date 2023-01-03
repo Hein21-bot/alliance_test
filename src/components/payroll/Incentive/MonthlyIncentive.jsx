@@ -172,8 +172,8 @@ export default class MonthlyIncentive extends Component {
       selected_type: event,
     });
   };
-  actionClick = async (e) => {
-    if (this.state.searchData.length > 0 && (e == 1 || e == 2 || e == 0)) {
+  actionClick = async (e) => { console.log(this.state.newDoc.length);
+    if ( this.state.newDoc.length > 0 && this.state.searchData.length > 0 && (e == 1 || e == 2 || e == 0)) {
       let status = 0;
       fetch(
         `${main_url}incentive/monthlyGenerate/${
@@ -272,12 +272,14 @@ export default class MonthlyIncentive extends Component {
   };
 
   checkFiles(e) {
+    
     this.setState({
       loading: true,
       newDoc: [],
       searchData: [],
       coData: [],
     });
+   
     var files = document.getElementById("attachment").files;
     var newDoc = this.state.newDoc;
     for (let i = 0; i < files.length; i++) {
@@ -306,6 +308,7 @@ export default class MonthlyIncentive extends Component {
         if (status == 200 && this.state.selected_type.value == 1) {
           this.setState({
             loading: false,
+            newDoc:response,
             searchData: response,
             deleteType: true,
             table_type: 1,
@@ -314,6 +317,7 @@ export default class MonthlyIncentive extends Component {
           this.setState({
             loading: false,
             searchData: response,
+            newDoc:response,
             deleteType: true,
             table_type: 2,
           });
@@ -387,7 +391,7 @@ export default class MonthlyIncentive extends Component {
     });
   }
 
-  render() {
+  render() { console.log(this.state.newDoc.length);
     return (
       <div>
         <ToastContainer />

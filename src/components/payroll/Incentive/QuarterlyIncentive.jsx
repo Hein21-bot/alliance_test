@@ -141,7 +141,10 @@ export default class QuarterlyIncentive extends Component{
       })
           }
 
-        checkFiles(e) {       
+        checkFiles(e) {  
+          this.setState({
+            newDoc:[]
+          })     
             var files = document.getElementById("attachment").files;
             var newFile = [];
             for(let i = 0; i < files.length; i++) {
@@ -153,7 +156,7 @@ export default class QuarterlyIncentive extends Component{
           };
 
         actionClick = (e)=>{    
-            if ( this.state.dataSource.length > 0 && (e == 1 || e == 2 || e ==0 )){
+            if ( this.state.newDoc.length > 0 && this.state.dataSource.length > 0 && (e == 1 || e == 2 || e ==0 )){
               let status = 0
               fetch(`${main_url}incentive/quartelyGenerate/${this.state.selected_quarter.value}/${moment(this.state.selected_month).format("YYYY")}/${e}`)
               .then((res) => {

@@ -166,7 +166,10 @@ getRegionList() {
       }
     })
     .catch((error)=>{
-
+        this.setState({
+          dataSource:[],
+          coData:[],
+        })
     })
   }
 
