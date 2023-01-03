@@ -44,7 +44,7 @@ export default class ForeignerSalaryEdit extends Component {
   }
 
   async componentDidMount() {
-    var work_flow = await getWorkFlowStatus(this.state.editData.user_id, this.state.updatedBy,'Foreigner Salary','Foreigner Salary');
+    var work_flow = await getWorkFlowStatus(this.props.dataSource.createdBy,this.state.updatedBy,'Foreigner Salary','Foreigner Salary');
     this.setState({
         work_flow_status: work_flow,
         is_main_role: havePermission(work_flow)
@@ -405,7 +405,7 @@ export default class ForeignerSalaryEdit extends Component {
   };
 
   render() { 
-    console.log("work flow status",this.state.work_flow_status)
+    console.log("work flow status",this.props.dataSource)
     return (
       <div>
         <div className="row">

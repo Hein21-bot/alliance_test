@@ -850,7 +850,7 @@ export default class ForeignerSalaryAddNew extends Component {
                         disabled={true}
                         type="number"
                         data-name="netSalaryPaid"
-                        value={addNewData.salaryAfterDorA-addNewData.incomeTax_$}
+                        value={addNewData.salaryAfterDorA-addNewData.incomeTax_MMK}
                         placeholder={"Enter Net Salary Paid"}
                         // onChange={this.handleNetSalaryPaid}
                       />
