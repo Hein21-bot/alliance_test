@@ -581,6 +581,7 @@ export default class BackPayAddNew extends Component {
     console.log("eidt data",this.state.addNewData.end_working_day,this.state.edit,this.state.dataSource.reduce((p,c)=>{return p+parseInt(c.totalSalary)},0))
     const { addNewData, userId, userInfo, dataSource } = this.state;
     console.log("addNewData =====>",moment(this.state.addNewData.requestMonth).format('YYYY-MM'),this.state.selectedPayroll);
+    let Total=this.state.dataSource.reduce((p,c)=>{return p+parseInt(c.totalSalary)},0)
     return (
       <div>
         <div className="row">
@@ -990,10 +991,19 @@ export default class BackPayAddNew extends Component {
                 />
               </div>
               <div className="col-md-12" style={{display:'flex',alignItems:'end'}}>
-                <div className="col-md-3 btn-leftend mt20">
+                {
+                  Total > 0 ? <div className="col-md-3 btn-leftend mt20">
                   <label htmlFor="">Total</label>
                   <input type="text" className="form-control" value={this.state.dataSource.reduce((p,c)=>{return p+parseInt(c.totalSalary)},0)} disabled />
-                </div>
+                </div> : this.state.selectedPayroll && this.state.selectedPayroll.payrollRequestId == 3 ? <div className="col-md-3 btn-leftend mt20">
+                  <label htmlFor="">Total</label>
+                  <input type="text" className="form-control" value={this.state.dataSource.reduce((p,c)=>{return p+parseInt(c.totalSalary)},0)} disabled />
+                </div> : <div className="col-md-3"></div>
+                }
+                {/* <div className="col-md-3 btn-leftend mt20">
+                  <label htmlFor="">Total</label>
+                  <input type="text" className="form-control" value={this.state.dataSource.reduce((p,c)=>{return p+parseInt(c.totalSalary)},0)} disabled />
+                </div> */}
                 <div className="col-md-9 btn-rightend mt20">
                   <button
                     onClick={this.check.bind(this)}

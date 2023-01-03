@@ -189,7 +189,7 @@ class QuarterlyIncentiveReport extends Component {
         <ReactHTMLTableToExcel 
                     className="btn-excel"
                     table="reg_wise_staff"
-                    filename="Quarterly Incentive Report"
+                    filename={"Quarterly Incentive Report"+moment(this.state.date).format('YYYY-MM')}
                     buttonText="Excel"
                     sheet="Sheet"
                     />

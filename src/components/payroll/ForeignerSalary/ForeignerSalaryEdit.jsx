@@ -691,11 +691,12 @@ export default class ForeignerSalaryEdit extends Component {
                         <label>Total Salary</label>
                         <input
                             className="form-control"
+                            disabled={true}
                             type="number"
                             data-name="totalSalary"
                             value={this.state.editData.total_salary}
                             placeholder={"Enter Total Salary"}
-                            onChange={this.handleTotalSalary}
+                            // onChange={this.handleTotalSalary}
                         />
                     </div>
                     <div className="col-md-3">

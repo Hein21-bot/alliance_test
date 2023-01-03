@@ -341,7 +341,7 @@ getRegionList() {
                         <ReactHTMLTableToExcel 
                          className="btn-excel"
                          table="monthly_incentive"
-                         filename="Monthly Incentive Report"
+                         filename={"Monthly Incentive Report "+moment(this.state.selected_month).format('YYYY-MM')}
                          buttonText="Excel"
                          sheet="Sheet"
                         

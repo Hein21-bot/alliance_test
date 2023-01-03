@@ -368,7 +368,7 @@ export default class BackPayAddNew extends Component {
       tempData.user_id=this.state.DetailUser.user_id;
       tempData.createdBy=this.state.userInfo.user_id;
       tempData.reason=newData.reason;
-      tempData.total_salary=newData.total_salary;
+      tempData.total_salary=newData.request_type == 3 ? newData.total_salary : 0;
 
 
       data.push(tempData);
@@ -626,6 +626,7 @@ export default class BackPayAddNew extends Component {
   render() { 
     const { addNewData, userId, userInfo, dataSource,preveData } = this.state;
     console.log("addNewData =====>",this.state.addNewData,preveData);
+    let Total=this.state.preveData.reduce((p,c)=>{return p+parseInt(c.total_salary)},0)
     return (
       <div>
         <div className="row">
@@ -990,23 +991,26 @@ export default class BackPayAddNew extends Component {
                   id="dataTables-Table"
                 />
               </div>
-              <div className="col-md-12" style={{display:'flex',alignItems:'end'}}>
+              {
+                Total > 0 ? <div className="col-md-12" style={{display:'flex',alignItems:'end'}}>
+                <div className="col-md-3 btn-leftend mt20">
+                  <label htmlFor="">Total</label>
+                  <input type="text" className="form-control" value={this.state.preveData.reduce((p,c)=>{return p+parseInt(c.total_salary)},0)} disabled />
+                </div>
+              </div> : this.state.selectedPayroll && this.state.selectedPayroll.payrollRequestId == 3 ?  <div className="col-md-12" style={{display:'flex',alignItems:'end'}}>
                 <div className="col-md-3 btn-leftend mt20">
                   <label htmlFor="">Total</label>
                   <input type="text" className="form-control" value={this.state.preveData.reduce((p,c)=>{return p+parseInt(c.total_salary)},0)} disabled />
                 </div>
 
-                {/* <div className="col-md-9 btn-rightend mt20">
-                  <button
-                    onClick={this.check.bind(this)}
-                    id="saving_button"
-                    className="btn btn-primary"
-                  >
-                    <span>Submit</span>{" "}
-                  </button>
-                </div> */}
-
-              </div>
+              </div> : <div className="col-md-12"></div>
+              }
+              {/* <div className="col-md-12" style={{display:'flex',alignItems:'end'}}>
+                <div className="col-md-3 btn-leftend mt20">
+                  <label htmlFor="">Total</label>
+                  <input type="text" className="form-control" value={this.state.preveData.reduce((p,c)=>{return p+parseInt(c.total_salary)},0)} disabled />
+                </div>
+              </div> */}
 
                      <div className="row save-btn">
                     {
