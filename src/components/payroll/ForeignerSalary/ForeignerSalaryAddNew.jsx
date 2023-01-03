@@ -713,7 +713,7 @@ export default class ForeignerSalaryAddNew extends Component {
                     <div className="col-md-3">
                       <label>Exchange Rate</label>
                       <input
-                        className="form-control checkValidate"
+                        className="form-control"
                         type="number"
                         data-name="employment_id"
                         value={addNewData.exchangeRate}
