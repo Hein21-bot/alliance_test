@@ -352,8 +352,8 @@ export default class BackPayTable extends Component {
         doc.text(info.approved.approved_by, 164, doc.previousAutoTable.finalY + 35)
         doc.text(info.approved.branch_name, 164, doc.previousAutoTable.finalY + 40)
         doc.text(info.approved.designations, 164, doc.previousAutoTable.finalY + 45)
-        await setPrintedStatus("back_pay", data.id);
-        doc.save('Backpay.pdf');
+        // await setPrintedStatus("back_pay", data.id);
+        // doc.save('Backpay.pdf');
         print(doc, data)
     }
     // async getPrintData(data) {

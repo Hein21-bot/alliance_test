@@ -425,6 +425,25 @@ function print(doc, data) {
                         }
                     })
             }
+            else if (data.id != undefined) {
+                console.log("backpay");
+                fetch(main_url + 'back_pay/printBackPay/' + data.id, {
+                    method: "PUT",
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `info=${JSON.stringify(info)}`
+                }).then(res => {
+                    status = res.status;
+                    return res.text()
+                })
+                    .then(text => {
+                        if (status === 200) {
+                            // alert("Printed!");
+                            window.location.reload();
+                        }
+                    })
+            }
         }
         doc.autoPrint();
         window.open(doc.output('bloburl'), "_blank")
