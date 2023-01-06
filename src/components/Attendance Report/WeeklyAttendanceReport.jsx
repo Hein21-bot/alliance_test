@@ -32,6 +32,7 @@ class WeeklyAttendanceReport extends Component {
             from_date:moment(),
             to_date:moment(),
             EmployeeIDList:[],
+            selectedEmployeeId:'',
             selectedEmployeeID:null,
             selectedEmployeeName:null
         }
@@ -39,17 +40,6 @@ class WeeklyAttendanceReport extends Component {
     
     async componentDidMount (){
         this.$el = $(this.el);
-        this.setState(
-          {
-            dataSource: this.props.data,
-    
-          },
-          () => {
-           
-          }
-        );
-    
-
         let branch = await getBranch();
         branch.unshift({ label: 'All', value: 0 });
         let department = await getDepartment();
@@ -106,12 +96,13 @@ class WeeklyAttendanceReport extends Component {
     handleSelectedEmployeeID=async(event)=>{
         this.setState({
             selectedEmployeeID:event,
-            selectedEmployeeName:event.name
+            selectedEmployeeName:event.name,
+            selectedEmployeeId:event.value
         })
     }
     
     handleSearchData = () => {
-        fetch(`${main_url}report/extensionReport/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}`)
+        fetch(`${main_url}attendance/weekelyAttendance/${moment(this.state.from_date).format('YYYY-MM-DD')}/${moment(this.state.to_date).format('YYYY-MM-DD')}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.selectedEmployeeId ? this.state.selectedEmployeeId : 0}`)
           .then(res => { if (res.ok) return res.json() })
           .then(list => { 
            
