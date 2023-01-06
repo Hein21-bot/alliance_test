@@ -1,5 +1,5 @@
 import React,{Component} from "react";
-import {getBranch,getRegion,getDepartment,main_url,getFirstDayOfMonth} from '../../utils/CommonFunction';
+import {getBranch,getRegion,getDepartment,main_url,getDatesInRange} from '../../utils/CommonFunction';
 import DatePicker from 'react-datetime';
 import moment from "moment";
 import Select from "react-select";
@@ -34,7 +34,9 @@ class WeeklyAttendanceReport extends Component {
             EmployeeIDList:[],
             selectedEmployeeId:'',
             selectedEmployeeID:null,
-            selectedEmployeeName:null
+            selectedEmployeeName:null,
+            dataSource:[],
+            dateList:[]
         }
     }
     
@@ -53,7 +55,7 @@ class WeeklyAttendanceReport extends Component {
            
         })
         this.getEmployeeList();
-        this.handleSearchData();
+        // this.handleSearchData();
     }
     getEmployeeList() {
         fetch(`${main_url}main/getEmployeeWithDesignation/0`)
@@ -102,17 +104,21 @@ class WeeklyAttendanceReport extends Component {
     }
     
     handleSearchData = () => {
+     const dates=getDatesInRange((this.state.from_date),this.state.to_date)
+     console.log("dateeeeeeeeeee",dates);
         fetch(`${main_url}attendance/weekelyAttendance/${moment(this.state.from_date).format('YYYY-MM-DD')}/${moment(this.state.to_date).format('YYYY-MM-DD')}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.selectedEmployeeId ? this.state.selectedEmployeeId : 0}`)
           .then(res => { if (res.ok) return res.json() })
           .then(list => { 
-           
+           this.setState({
+            dataSource:list
+           })
           })
       }
 
-    
+     
    
   
-        render(){
+        render(){  
           
         return (
             <div>
@@ -309,10 +315,14 @@ class WeeklyAttendanceReport extends Component {
                                     )
                                 })
                             } */}
-                            <tr>
-                                <td style={{borderColor:'white'}}>Lae Lae Moe</td>
-                                <td style={{borderColor:'white'}}>IT Assistant</td>
-                                <td style={{borderColor:'white'}}>Branch</td>
+                            {
+                    this.state.dataSource.map((v,i)=>{
+                      return(
+                        <>
+                               <tr>
+                                <td style={{borderColor:'white'}}>{v.name}</td>
+                                <td style={{borderColor:'white'}}>{v.position}</td>
+                                <td style={{borderColor:'white'}}>{v.branch}</td>
                                 <td style={{borderColor:'white'}}>8:20:00AM</td>
                                 <td style={{borderColor:'white'}}>8:20:00AM</td>
                                 <td style={{borderColor:'white'}}>8:20:00AM</td>
@@ -324,9 +334,11 @@ class WeeklyAttendanceReport extends Component {
                                 <td style={{borderColor:'white'}}>8:20:00AM</td>
                                 <td style={{borderColor:'white'}}>8:20:00AM</td>
                                 
-                                <td style={{borderColor:'white'}}>89</td>
+                                <td style={{borderColor:'white'}}>{v.total_hours}</td>
                                 
                             </tr>
+                            </>)
+                    })}
                     </tbody>
 
                 </table>

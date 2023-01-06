@@ -14,14 +14,14 @@ const CryptoJS = require('crypto-js');
 //  const main_url = "http://192.168.:8087/";  
 // server 
 
-// const main_url = "http://192.168.100.38:8082/" // local
+const main_url = "http://192.168.100.38:8082/" // local
 // const main_url = "http://localhost:8082/"
 
 
 // const main_url = "http://103.29.91.26:50092/"; // test server
 
 
-const main_url = "http://103.29.91.26:8032/";  // live server
+// const main_url = "http://103.29.91.26:8032/";  // live server
 // const main_url = "http://192.168.100.21/";  // kyaw gyi
 
 
@@ -35,8 +35,8 @@ const main_url = "http://103.29.91.26:8032/";  // live server
 // const remote_url = "http://103.29.91.26:8032/marter_hrm"; // live server
 
 
-const remote_url = "http://103.29.91.26:50050"; // remote url live server
-// const remote_url = "http://103.29.91.26:50093"; // remote url test server
+// const remote_url = "http://103.29.91.26:50050"; // remote url live server
+const remote_url = "http://103.29.91.26:50093"; // remote url test server
 
 // const remote_url = "http://192.168.1.32:8080/marter_hrm";
 //const remote_url = "http://192.168.100.199:8087/";
@@ -964,7 +964,20 @@ const atten_report = {
     holiday: 7,
     pholiday: 8
 }
-
+function getDatesInRange(startDate, endDate) {
+    const teempdate = new Date(startDate)
+    const date = teempdate.getTime();
+    console.log("datttttteee",date);
+    const dates = [];
+  
+    while (date <= endDate) {
+      dates.push(new Date(date));
+    //   new Date(date).setDate(date.getDate() + 1);
+    const tempDate = new Date(date)
+         new Date(date).setDate(tempDate.getDate()+1)   
+    }
+    return dates, console.log(dates);
+  }
 async function getAttendancePolicy() {
     var res = await fetch(`${main_url}attendancePolicy/getAttendancePolicy`);
     if (res.ok) return res.json();
@@ -988,5 +1001,5 @@ export {
     print, stopSaving, startSaving, fno, getFirstDayOfMonth, getFirstDayOfYear, checkLimitAmount,
     checkHRManager, checkHRAssistant, checkApprovalStatus, isApprover, havePermissionForAmount,
     calculationDate, isRequestedUser, atten_report, approveAmount, calculationDate1, getAttendancePolicy,
-    getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError,getFirstDayOfPrevMonth,getFirstDayOfNextMonth,getMonth
+    getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError,getFirstDayOfPrevMonth,getFirstDayOfNextMonth,getMonth,getDatesInRange
 }
