@@ -290,7 +290,6 @@ export default class BackPayTable extends Component {
           "Backpay Amount",
           "Reason",
           "ATM or Cash",
-          "Remark"
         ];
         var rows = [];
         var claim = await this.getBackPay(data.id);
@@ -314,7 +313,7 @@ export default class BackPayTable extends Component {
           }
         }
         console.log("rows",rows)
-        rows.push(["Total", "", "", "", "", "","",claim.reduce((r,c)=>r+c.total_salary,0),"","",""]);
+        rows.push(["Total", "", "", "", "", "","",claim.reduce((r,c)=>r+c.total_salary,0),"",""]);
         doc.autoTable(col, rows, { startY: 55});
         if (doc.previousAutoTable.finalY > 220) {
             doc.addPage();
@@ -353,8 +352,8 @@ export default class BackPayTable extends Component {
         doc.text(info.approved.approved_by, 164, doc.previousAutoTable.finalY + 35)
         doc.text(info.approved.branch_name, 164, doc.previousAutoTable.finalY + 40)
         doc.text(info.approved.designations, 164, doc.previousAutoTable.finalY + 45)
-        await setPrintedStatus("back_pay", data.id);
-        doc.save('Backpay.pdf');
+        // await setPrintedStatus("back_pay", data.id);
+        // doc.save('Backpay.pdf');
         print(doc, data)
     }
     // async getPrintData(data) {

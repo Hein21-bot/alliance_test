@@ -21,7 +21,7 @@ const main_url = "http://192.168.100.38:8082/" // local
 // const main_url = "http://103.29.91.26:50092/"; // test server
 
 
-// const main_url = "http://103.29.91.26:8032/";  // live server
+const main_url = "http://103.29.91.26:8032/";  // live server
 // const main_url = "http://192.168.100.21/";  // kyaw gyi
 
 
@@ -35,13 +35,13 @@ const main_url = "http://192.168.100.38:8082/" // local
 // const remote_url = "http://103.29.91.26:8032/marter_hrm"; // live server
 
 
-// const remote_url = "http://103.29.91.26:50050"; // remote url live server
-const remote_url = "http://103.29.91.26:50093"; // remote url test server
+const remote_url = "http://103.29.91.26:50050"; // remote url live server
+// const remote_url = "http://103.29.91.26:50093"; // remote url test server
 
 // const remote_url = "http://192.168.1.32:8080/marter_hrm";
 //const remote_url = "http://192.168.100.199:8087/";
 // const main_url = "http://192.168.100.208:8087/";
-const limit_amount = 800001;
+const limit_amount = 3000001;
 
 const alertText = "Please Add Fully Information!";
 
@@ -414,6 +414,25 @@ function print(doc, data) {
                     },
                     body: `info=${JSON.stringify(info)}`
 
+                }).then(res => {
+                    status = res.status;
+                    return res.text()
+                })
+                    .then(text => {
+                        if (status === 200) {
+                            // alert("Printed!");
+                            window.location.reload();
+                        }
+                    })
+            }
+            else if (data.id != undefined) {
+                console.log("backpay");
+                fetch(main_url + 'back_pay/printBackPay/' + data.id, {
+                    method: "PUT",
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `info=${JSON.stringify(info)}`
                 }).then(res => {
                     status = res.status;
                     return res.text()

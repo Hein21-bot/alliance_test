@@ -166,7 +166,7 @@ export default class BenefitChildTable extends Component {
         var rows = [];
         var today = moment(Date.now()).format('YYYY-MM-DD')
         var temp = ["Child Delivery Benefit", data.child_count, amount]
-        var temp1 = ["Total Amount:", amount * data.child_count];
+        var temp1 = ["Total Amount:", amount];
         rows.push(temp)
         rows.push(temp1)
         doc.setFontSize(12);
