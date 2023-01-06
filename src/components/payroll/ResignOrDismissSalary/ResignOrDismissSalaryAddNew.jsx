@@ -149,22 +149,36 @@ export default class ResignOrDismissSalaryAddNew extends Component {
         });
       });
   }
-
-  getEmployeeCodeList() {
-    fetch(`${main_url}employee/getEmployeeCode`)
-      .then((res) => {
-        if (res.ok) return res.json();
-      })
-      .then((list) => {
-        this.setState({
-          employeeIdList: list.map((v) => ({
-            ...v,
-            label: v.employee_code,
-            value: v.user_id,
-          })),
-        });
-      });
+  getEmployeeCodeList(){
+    fetch(`${main_url}resign_or_dismiss/getResignStaff`)
+  .then((res) => {
+    if (res.ok) return res.json();
+  })
+  .then((list) => {
+    this.setState({
+      employeeIdList: list.map((v) => ({
+        ...v,
+        label: v.employment_id,
+        value: v.user_id,
+      })),
+    });
+  });
   }
+  // getEmployeeCodeList() {
+    // fetch(`${main_url}employee/getEmployeeCode`)
+      // .then((res) => {
+        // if (res.ok) return res.json();
+      // })
+      // .then((list) => {
+        // this.setState({
+          // employeeIdList: list.map((v) => ({
+            // ...v,
+            // label: v.employee_code,
+            // value: v.user_id,
+          // })),
+        // });
+      // });
+  // }
 
   onRequestMonthChange = (e) => {
     const newData = this.state.addNewData;
