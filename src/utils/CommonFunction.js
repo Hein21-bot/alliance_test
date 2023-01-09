@@ -14,11 +14,11 @@ const CryptoJS = require('crypto-js');
 //  const main_url = "http://192.168.:8087/";  
 // server 
 
-// const main_url = "http://192.168.100.38:8082/" // local
+const main_url = "http://192.168.100.38:8082/" // local
 // const main_url = "http://localhost:8082/"
 
 
-const main_url = "http://103.29.91.26:50092/"; // test server
+// const main_url = "http://103.29.91.26:50092/"; // test server
 
 
 // const main_url = "http://103.29.91.26:8032/";  // live server
@@ -41,7 +41,7 @@ const remote_url = "http://103.29.91.26:50093"; // remote url test server
 // const remote_url = "http://192.168.1.32:8080/marter_hrm";
 //const remote_url = "http://192.168.100.199:8087/";
 // const main_url = "http://192.168.100.208:8087/";
-const limit_amount = 3000001;
+const limit_amount = 800001;
 
 const alertText = "Please Add Fully Information!";
 
@@ -71,9 +71,7 @@ const fno = {
     fno_team: 'TB',
     fno_other: 'OB',
     fno_hospital: 'HP',
-    fno_cycle: 'CI',
-    fno_backpay:'BP',
-    fno_resign_dismiss:'RD'
+    fno_cycle: 'CI'
 }
 
 async function calculationWorkingExp(startDate, endDate) {
@@ -1027,5 +1025,5 @@ export {
     print, stopSaving, startSaving, fno, getFirstDayOfMonth, getFirstDayOfYear, checkLimitAmount,
     checkHRManager, checkHRAssistant, checkApprovalStatus, isApprover, havePermissionForAmount,
     calculationDate, isRequestedUser, atten_report, approveAmount, calculationDate1, getAttendancePolicy,
-    getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError,getFirstDayOfPrevMonth,getFirstDayOfNextMonth,getMonth,
+    getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError,getFirstDayOfPrevMonth,getFirstDayOfNextMonth,getMonth
 }
