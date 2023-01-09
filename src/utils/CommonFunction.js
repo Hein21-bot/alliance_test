@@ -964,20 +964,7 @@ const atten_report = {
     holiday: 7,
     pholiday: 8
 }
-function getDatesInRange(startDate, endDate) {
-    const teempdate = new Date(startDate)
-    const date = teempdate.getTime();
-    console.log("datttttteee",date);
-    const dates = [];
-  
-    while (date <= endDate) {
-      dates.push(new Date(date));
-    //   new Date(date).setDate(date.getDate() + 1);
-    const tempDate = new Date(date)
-         new Date(date).setDate(tempDate.getDate()+1)   
-    }
-    return dates, console.log(dates);
-  }
+
 async function getAttendancePolicy() {
     var res = await fetch(`${main_url}attendancePolicy/getAttendancePolicy`);
     if (res.ok) return res.json();
@@ -1001,5 +988,5 @@ export {
     print, stopSaving, startSaving, fno, getFirstDayOfMonth, getFirstDayOfYear, checkLimitAmount,
     checkHRManager, checkHRAssistant, checkApprovalStatus, isApprover, havePermissionForAmount,
     calculationDate, isRequestedUser, atten_report, approveAmount, calculationDate1, getAttendancePolicy,
-    getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError,getFirstDayOfPrevMonth,getFirstDayOfNextMonth,getMonth,getDatesInRange
+    getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError,getFirstDayOfPrevMonth,getFirstDayOfNextMonth,getMonth,
 }

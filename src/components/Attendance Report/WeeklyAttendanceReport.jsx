@@ -1,5 +1,5 @@
 import React,{Component} from "react";
-import {getBranch,getRegion,getDepartment,main_url,getDatesInRange} from '../../utils/CommonFunction';
+import {getBranch,getRegion,getDepartment,main_url} from '../../utils/CommonFunction';
 import DatePicker from 'react-datetime';
 import moment from "moment";
 import Select from "react-select";
@@ -102,10 +102,9 @@ class WeeklyAttendanceReport extends Component {
             selectedEmployeeId:event.value
         })
     }
-    
-    handleSearchData = () => {
-     const dates=getDatesInRange((this.state.from_date),this.state.to_date)
-     console.log("dateeeeeeeeeee",dates);
+  
+    handleSearchData = () => { 
+     
         fetch(`${main_url}attendance/weekelyAttendance/${moment(this.state.from_date).format('YYYY-MM-DD')}/${moment(this.state.to_date).format('YYYY-MM-DD')}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.selectedEmployeeId ? this.state.selectedEmployeeId : 0}`)
           .then(res => { if (res.ok) return res.json() })
           .then(list => { 
@@ -114,10 +113,6 @@ class WeeklyAttendanceReport extends Component {
            })
           })
       }
-
-     
-   
-  
         render(){  
           
         return (
