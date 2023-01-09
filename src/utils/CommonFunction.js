@@ -18,7 +18,11 @@ const CryptoJS = require('crypto-js');
 // const main_url = "http://localhost:8082/"
 
 
+
 // const main_url = "http://103.29.91.26:50092/"; // test servers
+
+// const main_url = "http://103.29.91.26:50092/"; // test server
+
 
 
 const main_url = "http://103.29.91.26:8032/";  // live server
@@ -72,7 +76,8 @@ const fno = {
     fno_other: 'OB',
     fno_hospital: 'HP',
     fno_cycle: 'CI',
-    fno_backpay:'BP'
+    fno_backpay:'BP',
+    fno_resign_dismiss:'RD'
 }
 
 async function calculationWorkingExp(startDate, endDate) {
