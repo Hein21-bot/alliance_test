@@ -30,7 +30,8 @@ $.DataTable = require("datatables.net-responsive-bs4");
 $.DataTable = require("datatables.net");
 require("datatables.net-buttons/js/dataTables.buttons.min");
 require("datatables.net-buttons/js/buttons.html5.min");
-
+const default_y = 10;
+const default_x=20;
 export default class ResignOrDismissSalaryTable extends Component {
   constructor(props) {
     super(props);
@@ -47,12 +48,14 @@ export default class ResignOrDismissSalaryTable extends Component {
       selected_branch: "",
       selected_department: "",
       permission_status:{},
+      exitStatusList:[]
     };
   }
   async componentDidMount() {
     this.getBranchList();
     this.getRegionList();
     this.getDepartmentList();
+    this.getExitStatus();
     var permission_status = await getPermissionStatus(this.state.user_info.designations_id,  'ResignOrDismiss', 'ResignOrDismiss');
     this.setState({
         permission_status: permission_status
@@ -74,22 +77,26 @@ export default class ResignOrDismissSalaryTable extends Component {
 
         var data = $(this).find("#view").text();
         data = $.parseJSON(data);
+        console.log("data=========>",data)
         that.props.goToViewForm(data);
 
     });
 
-    // $("#dataTables-table").on('click', '#toPrint', function () {
+    $("#dataTables-table").on('click', '#toPrint', function () {
 
-    //     fetch(`${main_url}child_benefit/getChildAvailableAmount`)
-    //         .then(res => { if (res.ok) return res.json() })
-    //         .then(list => {
-    //             var data = $(this).find("#print").text();
-    //             data = $.parseJSON(data);
+        // fetch(`${main_url}child_benefit/getChildAvailableAmount`)
+            // .then(res => { if (res.ok) return res.json() })
+            // .then(list => {
+                // var data = $(this).find("#print").text();
+                // data = $.parseJSON(data);
 
-    //             that.getPrintData(data, list.amount)
-    //         })
+                // that.getPrintData(data, list.amount)
+            // })
+            var data = $(this).find("#print").text();
+            data = $.parseJSON(data);
+            that.getPrintData(data,1)
 
-    // });
+    });
 
     $("#dataTables-table").on('click', '#toEdit', function () {
         var data = $(this).find("#edit").text();
@@ -127,6 +134,21 @@ export default class ResignOrDismissSalaryTable extends Component {
         });
       });
   };
+  getExitStatus() {
+    fetch(`${main_url}employee/getExitStatus`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        this.setState({
+          exitStatusList: list.map((v) => ({
+            ...v,
+            label: v.status,
+            value: v.id,
+          })),
+        });
+      });
+  }
 
   getDepartmentList() {
     fetch(main_url + `main/getDepartment`)
@@ -215,61 +237,123 @@ export default class ResignOrDismissSalaryTable extends Component {
       data = data.filter(d => { return status === d.status });
       this._setTableData(data)
   }
-  // async getPrintData(data, amount) {
+  async getPrintData(data, amount) {
+    console.log("print data",data)
+    const dataSource=data!=undefined && data;
+    const Atm_Cash=dataSource.ATM_Cash == 0 ? "ATM" : "Cash"
+    const exitStatus=this.state.exitStatusList.filter(v=>v.id==dataSource.exit_status)[0].label
+    console.log("exit status=====>",exitStatus)
+      var info = await getInformation('resign_or_dismiss', data.id)
+      var doc = new jsPDF("p", "mm", "a4");
+      var col = ["No","ID","Name","Position","Level","Branch","Department","Region","Last Working Day"];
+      var rows = [];
+      var today = moment(Date.now()).format('YYYY-MM-DD')
+      var temp = ['1',dataSource.employment_id, dataSource.fullname,dataSource.designations,dataSource.career_sub_level,dataSource.location_master_name,dataSource.state_name,dataSource.deptname,moment(dataSource.last_working_day).format('YYYY-MM-DD')]
+      // var temp1 = ["Total Amount:", amount];
+      rows.push(temp)
+      // rows.push(temp1)
+      doc.setFontSize(12);
+      doc.addImage(imgData, 'image/jpeg', 10, 10, 50, 15)
+      doc.text('HR_0021 V3', 150, 15);
+      doc.text('Resign or Dismiss Salary', 150, 25)
+      doc.text('Generate Date: ' + today, 13, 40)
+      doc.text('Voucher No: ' + fno.fno_resign_dismiss + data.form_no, 150, 40)
 
-  //     var info = await getInformation('wedding_benefit', data.benefit_id)
-  //     var doc = new jsPDF("p", "mm", "a4");
-  //     var col = ["Benefit Title", "Amount"];
-  //     var rows = [];
-  //     var today = moment(Date.now()).format('YYYY-MM-DD')
-  //     var temp = ["Wedding Benefit", amount]
-  //     var temp1 = ["Total Amount:", amount];
-  //     rows.push(temp)
-  //     rows.push(temp1)
-  //     doc.setFontSize(12);
-  //     doc.addImage(imgData, 'image/jpeg', 10, 10, 50, 15)
-  //     doc.text('HR_0021 V3', 150, 15);
-  //     doc.text('Benefit Request Form', 150, 25)
-  //     doc.text('Generate Date: ' + today, 13, 40)
-  //     doc.text('Voucher No: ' + fno.fno_wedding + data.form_no, 150, 40)
+      doc.autoTable(col, rows, { startY: 55 });
+      if (doc.previousAutoTable.finalY > 220) {
+          doc.addPage();
+          doc.previousAutoTable.finalY = 0;
+      }
+      doc.text(
+        "Gross Salary:" + dataSource.gross_salary,
+        13,
+        doc.previousAutoTable.finalY + default_y*1
+      );
+      doc.text(
+        "Deductino or Addition:" + dataSource.deduction_or_addition,
+        65,
+        doc.previousAutoTable.finalY + default_y*1
+      );
+      doc.text(
+        "Salary After Deduction Or" + '',
+        130,
+        doc.previousAutoTable.finalY + default_y*1
+      );
+      doc.text(
+        "Addition:" + dataSource.after_deduction_or_addition,
+        130,
+        doc.previousAutoTable.finalY + default_y+5
+      );
 
-  //     doc.autoTable(col, rows, { startY: 55 });
-  //     if (doc.previousAutoTable.finalY > 220) {
-  //         doc.addPage();
-  //         doc.previousAutoTable.finalY = 0;
-  //     }
-  //     doc.setFontSize(10);
-  //     doc.setFontType("bold");
-  //     doc.text('Request By', 13, doc.previousAutoTable.finalY + 17)
-  //     doc.text('Check By', 65, doc.previousAutoTable.finalY + 17)
-  //     doc.text('Verify By', 114, doc.previousAutoTable.finalY + 17)
-  //     doc.text('Approve By', 164, doc.previousAutoTable.finalY + 17)
-  //     doc.setFontSize(9);
-  //     doc.setFontType("normal");
-  //     doc.text(info.requested.requested_date, 13, doc.previousAutoTable.finalY + 25)
-  //     doc.text(info.requested.employment_id, 13, doc.previousAutoTable.finalY + 30)
-  //     doc.text(info.requested.requested_by, 13, doc.previousAutoTable.finalY + 35)
-  //     doc.text(info.requested.branch_name, 13, doc.previousAutoTable.finalY + 40)
-  //     doc.text(info.requested.designations, 13, doc.previousAutoTable.finalY + 45)
-  //     doc.text(info.checked.checked_date, 65, doc.previousAutoTable.finalY + 25)
-  //     doc.text(info.checked.employment_id, 65, doc.previousAutoTable.finalY + 30)
-  //     doc.text(info.checked.checked_by, 65, doc.previousAutoTable.finalY + 35)
-  //     doc.text(info.checked.branch_name, 65, doc.previousAutoTable.finalY + 40)
-  //     doc.text(info.checked.designations, 65, doc.previousAutoTable.finalY + 45)
-  //     doc.text(info.verified.verified_date, 114, doc.previousAutoTable.finalY + 25)
-  //     doc.text(info.verified.employment_id, 114, doc.previousAutoTable.finalY + 30)
-  //     doc.text(info.verified.verified_by, 114, doc.previousAutoTable.finalY + 35)
-  //     doc.text(info.verified.branch_name, 114, doc.previousAutoTable.finalY + 40)
-  //     doc.text(info.verified.designations, 114, doc.previousAutoTable.finalY + 45)
-  //     doc.text(info.approved.approved_date, 164, doc.previousAutoTable.finalY + 25)
-  //     doc.text(info.approved.employment_id, 164, doc.previousAutoTable.finalY + 30)
-  //     doc.text(info.approved.approved_by, 164, doc.previousAutoTable.finalY + 35)
-  //     doc.text(info.approved.branch_name, 164, doc.previousAutoTable.finalY + 40)
-  //     doc.text(info.approved.designations, 164, doc.previousAutoTable.finalY + 45)
-  //     await setPrintedStatus("wedding_benefit", data.benefit_id);
-  //     // doc.save('Wedding Benefit.pdf');
-  //     print(doc, data)
-  // }
+      doc.text(
+        "SSC(Employer 3%):" + dataSource.SSC_employer,
+        13,
+        doc.previousAutoTable.finalY + default_y+15
+      );
+      doc.text(
+        "SSC(Employee 2%):" + dataSource.SSC_employee,
+        65,
+        doc.previousAutoTable.finalY + default_y+15
+      );
+      doc.text(
+        "Income Tax:" + dataSource.income_tax,
+        130,
+        doc.previousAutoTable.finalY + default_y+15
+      );
+      doc.text(
+        "Maintenance:" + dataSource.maintenance,
+        13,
+        doc.previousAutoTable.finalY + default_y+25
+      );
+      doc.text(
+        "Petrol:" + dataSource.SSC_employee,
+        65,
+        doc.previousAutoTable.finalY + default_y+25
+      );
+      doc.text(
+        "Total Salary:" + dataSource.income_tax,
+        130,
+        doc.previousAutoTable.finalY + default_y+25
+      );
+      doc.text(
+        "ATM or Cash:" + Atm_Cash,13,doc.previousAutoTable.finalY+default_y+35
+      )
+      doc.text(
+        "Exit Status:"+exitStatus,65,doc.previousAutoTable.finalY+default_y+35
+      )
+            
+      
+      doc.setFontType("bold");
+      doc.text('Request By', 13, doc.previousAutoTable.finalY + 55)
+      doc.text('Check By', 65, doc.previousAutoTable.finalY + 55)
+      doc.text('Verify By', 114, doc.previousAutoTable.finalY + 55)
+      doc.text('Approve By', 164, doc.previousAutoTable.finalY + 55)
+      doc.setFontSize(9);
+      doc.setFontType("normal");
+      doc.text(moment(info.requested.requested_date).format('YYYY-MM-DD'), 13, doc.previousAutoTable.finalY + 60)
+      doc.text(info.requested.employment_id, 13, doc.previousAutoTable.finalY + 65)
+      doc.text(info.requested.requested_by, 13, doc.previousAutoTable.finalY + 70)
+      doc.text(info.requested.branch_name, 13, doc.previousAutoTable.finalY + 75)
+      doc.text(info.requested.designations, 13, doc.previousAutoTable.finalY + 80)
+      doc.text(moment(info.checked.checked_date).format('YYYY-MM-DD'), 65, doc.previousAutoTable.finalY + 60)
+      doc.text(info.checked.employment_id, 65, doc.previousAutoTable.finalY + 65)
+      doc.text(info.checked.checked_by, 65, doc.previousAutoTable.finalY + 70)
+      doc.text(info.checked.branch_name, 65, doc.previousAutoTable.finalY + 75)
+      doc.text(info.checked.designations, 65, doc.previousAutoTable.finalY + 80)
+      doc.text(moment(info.verified.verified_date).format('YYYY-MM-DD'), 114, doc.previousAutoTable.finalY + 60)
+      doc.text(info.verified.employment_id, 114, doc.previousAutoTable.finalY + 65)
+      doc.text(info.verified.verified_by, 114, doc.previousAutoTable.finalY + 70)
+      doc.text(info.verified.branch_name, 114, doc.previousAutoTable.finalY + 75)
+      doc.text(info.verified.designations, 114, doc.previousAutoTable.finalY + 80)
+      doc.text(moment(info.approved.approved_date).format('YYYY-MM-DD'), 164, doc.previousAutoTable.finalY + 60)
+      doc.text(info.approved.employment_id, 164, doc.previousAutoTable.finalY + 65)
+      doc.text(info.approved.approved_by, 164, doc.previousAutoTable.finalY + 70)
+      doc.text(info.approved.branch_name, 164, doc.previousAutoTable.finalY + 75)
+      doc.text(info.approved.designations, 164, doc.previousAutoTable.finalY + 80)
+// await setPrintedStatus("back_pay", data.id);
+// doc.save('Backpay.pdf');
+      print(doc, data)  
+  }
 
   _setTableData = (data) => {
     
