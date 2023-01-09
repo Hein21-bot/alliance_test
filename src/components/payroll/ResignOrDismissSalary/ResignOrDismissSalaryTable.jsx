@@ -238,6 +238,8 @@ export default class ResignOrDismissSalaryTable extends Component {
       this._setTableData(data)
   }
   async getPrintData(data, amount) {
+    // console.log("print data",data)
+    data['resign_or_dismiss_id']=data['id']
     console.log("print data",data)
     const dataSource=data!=undefined && data;
     const Atm_Cash=dataSource.ATM_Cash == 0 ? "ATM" : "Cash"
@@ -248,7 +250,7 @@ export default class ResignOrDismissSalaryTable extends Component {
       var col = ["No","ID","Name","Position","Level","Branch","Department","Region","Last Working Day"];
       var rows = [];
       var today = moment(Date.now()).format('YYYY-MM-DD')
-      var temp = ['1',dataSource.employment_id, dataSource.fullname,dataSource.designations,dataSource.career_sub_level,dataSource.location_master_name,dataSource.state_name,dataSource.deptname,moment(dataSource.last_working_day).format('YYYY-MM-DD')]
+      var temp = ['1',dataSource.employment_id, dataSource.fullname,dataSource.designations,dataSource.career_sub_level,dataSource.location_master_name,dataSource.deptname,dataSource.state_name,moment(dataSource.last_working_day).format('YYYY-MM-DD')]
       // var temp1 = ["Total Amount:", amount];
       rows.push(temp)
       // rows.push(temp1)
@@ -482,7 +484,7 @@ export default class ResignOrDismissSalaryTable extends Component {
 
                 if (result.print === 1) {
                     obj.action +=
-                        '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                        '<button style="margin-right:10px" class="btn btn-info btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
                         JSON.stringify(result) +
                         '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
                 } else {

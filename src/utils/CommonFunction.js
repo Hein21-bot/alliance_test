@@ -426,6 +426,25 @@ function print(doc, data) {
                         }
                     })
             }
+            else if (data.resign_or_dismiss_id != undefined) {
+                console.log("resign or dismiss salary");
+                fetch(main_url + 'resign_or_dimiss/printResignOrDimiss/' + data.resign_or_dismiss_id, {
+                    method: "PUT",
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `info=${JSON.stringify(info)}`
+                }).then(res => {
+                    status = res.status;
+                    return res.text()
+                })
+                    .then(text => {
+                        if (status === 200) {
+                            // alert("Printed!");
+                            // window.location.reload();
+                        }
+                    })
+            }
             else if (data.id != undefined) {
                 console.log("backpay");
                 fetch(main_url + 'back_pay/printBackPay/' + data.id, {
@@ -441,7 +460,26 @@ function print(doc, data) {
                     .then(text => {
                         if (status === 200) {
                             // alert("Printed!");
-                            window.location.reload();
+                            // window.location.reload();
+                        }
+                    })
+            }
+            else if (data.resign_or_dismiss_id != undefined) {
+                console.log("resign or dismiss salary");
+                fetch(main_url + 'resign_or_dimiss/printResignOrDimiss/' + data.resign_or_dismiss_id, {
+                    method: "PUT",
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `info=${JSON.stringify(info)}`
+                }).then(res => {
+                    status = res.status;
+                    return res.text()
+                })
+                    .then(text => {
+                        if (status === 200) {
+                            // alert("Printed!");
+                            // window.location.reload();
                         }
                     })
             }
