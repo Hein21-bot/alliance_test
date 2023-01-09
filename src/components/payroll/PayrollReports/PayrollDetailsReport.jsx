@@ -581,7 +581,7 @@ handleSelectedEmpId = async (event) => {
           <ReactHTMLTableToExcel 
                     className="btn-excel"
                     table="payroll_details_report"
-                    filename="Payroll Details Report"
+                    filename={"Payroll Details Report-"+moment(this.state.date).format('YYYY-MM')}
                     buttonText="Excel"
                     sheet="Sheet"
                     />

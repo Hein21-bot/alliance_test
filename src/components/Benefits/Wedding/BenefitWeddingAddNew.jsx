@@ -111,7 +111,7 @@ class BenefitWeddingAddNew extends Component {
     this.getDocument(one.benefit_id);
     this.setState({
       work_flow_status: work_flow,
-      spouseName: one.staff_spouse_name,
+      spouseName: one.spouse_name,
       employee_id: one.user_id,
       status: one.status,
       employee_name: one.employee_name,

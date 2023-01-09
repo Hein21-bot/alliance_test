@@ -423,7 +423,7 @@ class PayrollSummaryReport extends Component {
           <ReactHTMLTableToExcel 
                     className="btn-excel"
                     table="payroll_summary_report"
-                    filename="Payroll Summary Report"
+                    filename={"Payroll Summary Report"+moment(this.state.date).format('YYYY-MM')}
                     buttonText="Excel"
                     sheet="Sheet"
                     />

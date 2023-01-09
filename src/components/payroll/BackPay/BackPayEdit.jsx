@@ -992,12 +992,7 @@ export default class BackPayAddNew extends Component {
                 />
               </div>
               {
-                this.state.selectedPayroll== null ? <div className="col-md-12" style={{display:'flex',alignItems:'end'}}>
-                <div className="col-md-3 btn-leftend mt20">
-                  <label htmlFor="">Total</label>
-                  <input type="text" className="form-control" value={this.state.preveData.reduce((p,c)=>{return p+parseInt(c.total_salary)},0)} disabled />
-                </div>
-              </div> : Total > 0 ? <div className="col-md-12" style={{display:'flex',alignItems:'end'}}>
+                Total > 0 ? <div className="col-md-12" style={{display:'flex',alignItems:'end'}}>
                 <div className="col-md-3 btn-leftend mt20">
                   <label htmlFor="">Total</label>
                   <input type="text" className="form-control" value={this.state.preveData.reduce((p,c)=>{return p+parseInt(c.total_salary)},0)} disabled />

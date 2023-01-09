@@ -133,6 +133,7 @@ export default class ForeignerSalaryAddNew extends Component {
             medicalFund:editData.medicalFund,
             motorBikeUse:editData.motorBikeUse,
             salaryCut:editData.salaryCut,
+            netSalaryPaid:editData.netSalaryPaid,
             totalGrossSalary:editData.totalGrossSalary
           },
           DetailUser:{
@@ -176,7 +177,9 @@ export default class ForeignerSalaryAddNew extends Component {
 
   allowanceChange=(e)=>{
     const newData = this.state.addNewData;
-    newData.allowance = e.target.value;
+    newData.allowance = parseInt(e.target.value);
+    newData.totalSalary=newData.salaryAfterDorA-newData.ssc2-newData.incomeTax_MMK+newData.houseAllowance+newData.maintenance+newData.petrol+newData.backPay+newData.allowance+newData.annualAward+newData.medicalFund-newData.motorBikeUse-newData.salaryCut-newData.deductionOfLoan
+
     this.setState({ addNewData: newData });
   };
 
@@ -184,54 +187,63 @@ export default class ForeignerSalaryAddNew extends Component {
     let newValue = e.target.value;
     const newData = this.state.addNewData;
     newData.salaryAfterDorA = parseInt(this.state.DetailUser.basic_salary) + parseInt(newValue);
+    newData.netSalaryPaid=newData.salaryAfterDorA-newData.ssc2-newData.incomeTax_MMK
     newData.totalGrossSalary=parseInt(newData.salaryAfterDorA)+parseInt(newData.ssc3)
     newData.deductionOrAddition = newValue;
-    newData.totalSalary =
-      newData.salaryAfterDorA -
-      newData.ssc2 -
-      newData.incomeTax +
-      newData.maintenance +
-      newData.petrol;
+    newData.totalSalary=newData.netSalaryPaid+newData.houseAllowance+newData.maintenance+newData.petrol+newData.backPay+newData.allowance+newData.annualAward+newData.medicalFund-newData.motorBikeUse-newData.salaryCut-newData.deductionOfLoan
+    // newData.totalSalary =
+      // newData.salaryAfterDorA -
+      // newData.ssc2 -
+      // newData.incomeTax +
+      // newData.maintenance +
+      // newData.petrol;
     this.setState({ addNewData: newData });
   };
 
   onIncomeTax$Change = (e) => {
     const newData = this.state.addNewData;
     newData.incomeTax_$ = e.target.value;
-    newData.netSalaryPaid=newData.salaryAfterDorA-newData.incomeTax_$;
+    // newData.netSalaryPaid=newData.salaryAfterDorA-newData.incomeTax_$;
     // newData.incomeTax_MMK=newData.exchangeRate*newData.incomeTax_$;
     this.setState({ addNewData: newData });
   };
 
   onIncomeTaxMMKChange=(e)=>{
+    console.log('income tax mmk',parseInt(e.target.value))
     const newData = this.state.addNewData;
-    newData.incomeTax_MMK = e.target.value;
+    newData.incomeTax_MMK = parseInt(e.target.value);
+    newData.netSalaryPaid=newData.salaryAfterDorA-newData.ssc2-newData.incomeTax_MMK
+    newData.totalSalary=newData.netSalaryPaid+newData.houseAllowance+newData.maintenance+newData.petrol+newData.backPay+newData.allowance+newData.annualAward+newData.medicalFund-newData.motorBikeUse-newData.salaryCut-newData.deductionOfLoan
     this.setState({ addNewData: newData });
   };
 
   onMaintenanceChange = (e) => {
-    let newValue = parseFloat(e.target.value);
+    let newValue = parseInt(e.target.value);
     const newData = this.state.addNewData;
     newData.maintenance = newValue;
-    newData.totalSalary =
-      newData.salaryAfterDorA -
-      newData.ssc2 -
-      newData.incomeTax +
-      newData.maintenance +
-      newData.petrol;
+    newData.totalSalary=newData.salaryAfterDorA-newData.ssc2-newData.incomeTax_MMK+newData.houseAllowance+newValue+newData.petrol+newData.backPay+newData.allowance+newData.annualAward+newData.medicalFund-newData.motorBikeUse-newData.salaryCut-newData.deductionOfLoan
+
+    // newData.totalSalary =
+      // newData.salaryAfterDorA -
+      // newData.ssc2 -
+      // newData.incomeTax +
+      // newData.maintenance +
+      // newData.petrol;
     this.setState({ addNewData: newData });
   };
 
   onPetrolChange = (e) => {
-    let newValue = parseFloat(e.target.value);
+    let newValue = parseInt(e.target.value);
     const newData = this.state.addNewData;
     newData.petrol = newValue;
-    newData.totalSalary =
-      newData.salaryAfterDorA -
-      newData.ssc2 -
-      newData.incomeTax +
-      newData.maintenance +
-      newData.petrol;
+    newData.totalSalary=newData.salaryAfterDorA-newData.ssc2-newData.incomeTax_MMK+newData.houseAllowance+newData.maintenance+newValue+newData.backPay+newData.allowance+newData.annualAward+newData.medicalFund-newData.motorBikeUse-newData.salaryCut-newData.deductionOfLoan
+
+    // newData.totalSalary =
+      // newData.salaryAfterDorA -
+      // newData.ssc2 -
+      // newData.incomeTax +
+      // newData.maintenance +
+      // newData.petrol;
     this.setState({ addNewData: newData });
   };
 
@@ -255,31 +267,36 @@ export default class ForeignerSalaryAddNew extends Component {
 
   handleAnnualAward=(e)=>{
     const newData = this.state.addNewData;
-    newData.annualAward = e.target.value;
+    newData.annualAward = parseInt(e.target.value);
+    newData.totalSalary=newData.salaryAfterDorA-newData.ssc2-newData.incomeTax_MMK+newData.houseAllowance+newData.maintenance+newData.petrol+newData.backPay+newData.allowance+newData.annualAward+newData.medicalFund-newData.motorBikeUse-newData.salaryCut-newData.deductionOfLoan
     this.setState({ addNewData: newData });
   };
 
   handleMedicalFund=(e)=>{
     const newData = this.state.addNewData;
-    newData.medicalFund = e.target.value;
+    newData.medicalFund = parseInt(e.target.value);
+    newData.totalSalary=newData.salaryAfterDorA-newData.ssc2-newData.incomeTax_MMK+newData.houseAllowance+newData.maintenance+newData.petrol+newData.backPay+newData.allowance+newData.annualAward+newData.medicalFund-newData.motorBikeUse-newData.salaryCut-newData.deductionOfLoan
     this.setState({ addNewData: newData });
   };
 
   handleMotorBikeUse=(e)=>{
     const newData = this.state.addNewData;
-    newData.motorBikeUse = e.target.value;
+    newData.motorBikeUse = parseInt(e.target.value);
+    newData.totalSalary=newData.salaryAfterDorA-newData.ssc2-newData.incomeTax_MMK+newData.houseAllowance+newData.maintenance+newData.petrol+newData.backPay+newData.allowance+newData.annualAward+newData.medicalFund-newData.motorBikeUse-newData.salaryCut-newData.deductionOfLoan
     this.setState({ addNewData: newData });
   };
 
   handleSalaryCut=(e)=>{
     const newData = this.state.addNewData;
-    newData.salaryCut = e.target.value;
+    newData.salaryCut = parseInt(e.target.value);
+    newData.totalSalary=newData.salaryAfterDorA-newData.ssc2-newData.incomeTax_MMK+newData.houseAllowance+newData.maintenance+newData.petrol+newData.backPay+newData.allowance+newData.annualAward+newData.medicalFund-newData.motorBikeUse-newData.salaryCut-newData.deductionOfLoan
     this.setState({ addNewData: newData });
   };
 
   handleDeductionOfLoan=(e)=>{
     const newData = this.state.addNewData;
-    newData.deductionOfLoan = e.target.value;
+    newData.deductionOfLoan = parseInt(e.target.value);
+    newData.totalSalary=newData.salaryAfterDorA-newData.ssc2-newData.incomeTax_MMK+newData.houseAllowance+newData.maintenance+newData.petrol+newData.backPay+newData.allowance+newData.annualAward+newData.medicalFund-newData.motorBikeUse-newData.salaryCut-newData.deductionOfLoan
     this.setState({ addNewData: newData });
   };
 
@@ -633,7 +650,8 @@ export default class ForeignerSalaryAddNew extends Component {
   };
   handleHouseAllowance=(e)=>{
     const newData = this.state.addNewData;
-    newData.houseAllowance = e.target.value;
+    newData.houseAllowance = parseInt(e.target.value);
+    newData.totalSalary=newData.salaryAfterDorA-newData.ssc2-newData.incomeTax_MMK+newData.houseAllowance+newData.maintenance+newData.petrol+newData.backPay+newData.allowance+newData.annualAward+newData.medicalFund-newData.motorBikeUse-newData.salaryCut-newData.deductionOfLoan
     this.setState({ addNewData: newData });
   }
   handlessc3=(e)=>{
@@ -645,6 +663,10 @@ export default class ForeignerSalaryAddNew extends Component {
   handlessc2=(e)=>{
     const newData=this.state.addNewData;
     newData.ssc2=e.target.value;
+    newData.netSalaryPaid=newData.salaryAfterDorA-newData.ssc2-newData.incomeTax_MMK
+    newData.totalSalary=newData.netSalaryPaid+newData.houseAllowance+newData.maintenance+newData.petrol+newData.backPay+newData.allowance+newData.annualAward+newData.medicalFund-newData.motorBikeUse-newData.salaryCut-newData.deductionOfLoan
+
+    // newData.netSalaryPaid=
     this.setState({addNewData:newData})
   }
 
@@ -655,7 +677,8 @@ export default class ForeignerSalaryAddNew extends Component {
   // }
   onBackPayChange=(e)=>{
     const newData = this.state.addNewData;
-    newData.backPay = e.target.value;
+    newData.backPay = parseInt(e.target.value);
+    newData.totalSalary=newData.netSalaryPaid+newData.houseAllowance+newData.maintenance+newData.petrol+newData.backPay+newData.allowance+newData.annualAward+newData.medicalFund-newData.motorBikeUse-newData.salaryCut-newData.deductionOfLoan
     this.setState({ addNewData: newData });
   }
   handlegrossSalary=(e)=>{
@@ -665,6 +688,8 @@ export default class ForeignerSalaryAddNew extends Component {
     newData.basic_salary=e.target.value;
     
     tempData.salaryAfterDorA=parseInt(e.target.value)+parseInt(tempData.deductionOrAddition);
+    tempData.netSalaryPaid=tempData.salaryAfterDorA-tempData.ssc2-tempData.incomeTax_MMK
+    tempData.totalSalary=tempData.netSalaryPaid+tempData.houseAllowance+tempData.maintenance+tempData.petrol+tempData.backPay+tempData.allowance+tempData.annualAward+tempData.medicalFund-tempData.motorBikeUse-tempData.salaryCut-tempData.deductionOfLoan
     tempData.totalGrossSalary=parseInt(e.target.value)+parseInt(tempData.deductionOrAddition)+parseInt(tempData.ssc3)
     this.setState({DetailUser:newData,addNewData:tempData})
   }
@@ -692,7 +717,7 @@ export default class ForeignerSalaryAddNew extends Component {
   render() {
     
     const { addNewData, userId, userInfo, dataSource } = this.state;
-    console.log("addNewData =====>",this.state.addNewData);
+    console.log("addNewData =====>",addNewData.salaryAfterDorA-addNewData.ssc2-addNewData.incomeTax_MMK,addNewData.salaryAfterDorA,addNewData.ssc2,addNewData.incomeTax_MMK,addNewData.houseAllowance,addNewData.maintenance,addNewData.petrol,addNewData.backPay,addNewData.allowance,addNewData.annualAward,addNewData.medicalFund,addNewData.motorBikeUse,addNewData.salaryCut,addNewData.deductionOfLoan,addNewData.totalSalary);
     return (
       <div>
         <div className="row">
@@ -713,7 +738,7 @@ export default class ForeignerSalaryAddNew extends Component {
                     <div className="col-md-3">
                       <label>Exchange Rate</label>
                       <input
-                        className="form-control checkValidate"
+                        className="form-control"
                         type="number"
                         data-name="employment_id"
                         value={addNewData.exchangeRate}
@@ -799,7 +824,7 @@ export default class ForeignerSalaryAddNew extends Component {
                   <div className="row margin-top-20">
                   
                     <div className="col-md-3">
-                      <label>SSC (Employee 3%)</label>
+                      <label>SSC (Employer 3%)</label>
                       <input
                         className="form-control"
                         type="number"
@@ -850,7 +875,7 @@ export default class ForeignerSalaryAddNew extends Component {
                         disabled={true}
                         type="number"
                         data-name="netSalaryPaid"
-                        value={addNewData.salaryAfterDorA-addNewData.incomeTax_$}
+                        value={addNewData.netSalaryPaid}
                         placeholder={"Enter Net Salary Paid"}
                         // onChange={this.handleNetSalaryPaid}
                       />

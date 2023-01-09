@@ -24,6 +24,7 @@ export default class ResignOrDismissSalaryView extends Component {
         .catch(error => console.log(error))
 }
   render() { 
+    console.log("datasource ",this.props.dataSource)
     const {
       request_month,
       employment_id,

@@ -31,7 +31,8 @@ class AbsenceReport extends Component {
             from_date:moment(),
             to_date:moment(),
             EmployeeNameList:[],
-            selectedEmployeeName:null
+            selectedEmployeeName:null,
+            array_one:''
         }
     }
     
@@ -109,14 +110,18 @@ class AbsenceReport extends Component {
         })
     }
     handleSearchData = () => {
-        fetch(`${main_url}report/extensionReport/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}`)
+        fetch(`${main_url}attendance/absenceReport/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.selectedEmployeeName ? this.state.selectedEmployeeName.value : 0}`)
           .then(res => { if (res.ok) return res.json() })
           .then(list => { 
-            this._setTableData(list);
+            this.setState({
+              array_one:list[0].absent
+            })
+          
+            this._setTableData(this.state.array_one);
           })
       }
 
-    _setTableData = (data) => { 
+    _setTableData = (data) => { console.log(data);
         var table;
         var l = [];
         if (data){
@@ -127,15 +132,10 @@ class AbsenceReport extends Component {
                 no: i + 1,
                 employee_id:data[i].employment_id ? data[i].employment_id :"-",
                 employee_name:data[i].fullname ? data[i].fullname : "-",
-                branch: data[i].branch_name ? data[i].branch_name: "-",
                 designation:data[i].designations ? data[i].designations : "-",
-                level:data[i].career_level ? data[i].career_level : "-",
+                region:data[i].state_name ? data[i].state_name : '-',
+                branch: data[i].location_master_name ? data[i].location_master_name: "-",
                 department:data[i].deptname ? data[i].deptname : "-",
-                region:data[i].region_name ? data[i].region_name : '-',
-                pa_score:data[i].performance_score ? data[i].performance_score : '-',
-                target_achievement:data[i].target_achievement ? data[i].target_achievement : '-',
-                overall_performance:data[i].comment_overall_performance ? data[i].comment_overall_performance : '-',
-                extension_period:data[i].extension_period ? data[i].extension_period : '-'
             }
             
             l.push(obj)
@@ -151,16 +151,10 @@ class AbsenceReport extends Component {
             { title: "No", data: "no" },
             { title: "Employee Id", data: "employee_id" },
             { title: "Employee Name", data: "employee_name" },
-            { title: "Designation", data: "designation" },
-            { title: "Branch", data: "level" },
-            {title:"Region",data:'region'},
-            { title: "Late Check In", data: "department" },
-            { title: "Early Check Out", data: "branch" },
-            { title: "Incomplete", data: "region" },
-            { title: "Missing Attendance", data: "pa_score" },
-            { title: "Absence", data: "target_achievement" },
-            { title: "Leave", data: "target_achievement" },
-           
+            { title: "Position", data: "designation" },
+            { title: "Region",data:'region'},
+            { title: "Branch", data: "branch" },
+            { title: "Department", data: "department" },
         ]
         table = $("#dataTables-table").DataTable({
 
@@ -196,7 +190,7 @@ class AbsenceReport extends Component {
     }
    
   
-        render(){
+        render(){   console.log("dta========>",this.state.array_one);
           
         return (
             <div>
