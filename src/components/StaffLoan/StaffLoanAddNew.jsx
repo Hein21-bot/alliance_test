@@ -21,6 +21,7 @@ class StaffLoanAddNew extends Component {
     this.state = {
       user_info: getCookieData("user_info"),
       staffInfo: null,
+      user_id: getUserId("user_info"),
       staffGuarantorInfo: {
         staffGuarantorId: 0,
         staffGuarantorName: "",
@@ -28,15 +29,15 @@ class StaffLoanAddNew extends Component {
         staffGuarantorPosition: "",
         staffGuarantorBranch: "",
       },
-      user_id: "",
-      designation: "",
-      noOfChildren: "",
       status: 0,
-      available_amount: 0,
       createdBy: getUserId("user_info"),
       updatedBy: getUserId("user_info"),
       attachment: [],
       newDoc: [],
+      staffInfo: [],
+      getGuarantorInfo: [],
+      selectedGuarantor: [],
+      familyDropdown: []
     };
   }
 
@@ -45,19 +46,36 @@ class StaffLoanAddNew extends Component {
   }
 
   componentDidMount() {
-    // fetch(`${main_url}child_benefit/getChildAvailableAmount`)
-    //     .then(res => { if (res.ok) return res.json() })
-    //     .then(list => {
-    //         this.setState({
-    //             available_amount: list.amount
-    //         })
-    //     })
+    let { user_id } = this.state
+    fetch(`${main_url}staff_loan_new/getStaffUserInfo/${user_id}`)
+      .then(res => { if (res.ok) return res.json() })
+      .then(list => {
+        this.setState({
+          staffInfo: list
+        })
+      })
+    fetch(`${main_url}staff_loan_new/getGuarantorInfo`)
+      .then(res => { if (res.ok) return res.json() })
+      .then(list => {
+        this.setState({
+          getGuarantorInfo: list
+        })
+      })
+    fetch(`${main_url}staff_loan_new/familyDropDown`)
+      .then(res => { if (res.ok) return res.json() })
+      .then(list => {
+        this.setState({
+          familyDropdown: list
+        })
+      })
+
   }
 
-  handleNoOfChildren = (event) => {
+  handleSelectGuarantor = (event) => {
+    console.log('event is ==========>', event)
     this.setState({
-      noOfChildren: event.target.value,
-    });
+      selectedGuarantor: event
+    })
   };
   removeNewDocument(index, event) {
     var array = this.state.newDoc;
@@ -88,7 +106,6 @@ class StaffLoanAddNew extends Component {
       newDoc: newDoc,
     });
   }
-  //@kpk
 
   save() {
     console.log("new doc", this.state.newDoc);
@@ -143,6 +160,8 @@ class StaffLoanAddNew extends Component {
   }
 
   render() {
+    let { staffInfo, getGuarantorInfo, selectedGuarantor, familyDropdown } = this.state
+    console.log('staff info is =========>', familyDropdown)
     return (
       <div className="">
         <ToastContainer />
@@ -184,7 +203,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.fullname}
+                    value={staffInfo.length > 0 && staffInfo[0].fullname}
                   />
                 </div>
               </div>
@@ -199,7 +218,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.nrc}
+                    value={staffInfo.length > 0 && staffInfo[0].nrc}
                   />
                 </div>
               </div>
@@ -214,7 +233,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={""}
+                    value={staffInfo.length > 0 && staffInfo[0].account_no}
                   />
                 </div>
               </div>
@@ -232,7 +251,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.employment_id}
+                    value={staffInfo.length > 0 && staffInfo[0].dob}
                   />
                 </div>
               </div>
@@ -247,7 +266,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.fullname}
+                    value={staffInfo.length > 0 && staffInfo[0].employ_date}
                   />
                 </div>
               </div>
@@ -262,7 +281,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.nrc}
+                    value={staffInfo.length > 0 && staffInfo[0].basic_salary}
                   />
                 </div>
               </div>
@@ -277,7 +296,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.branch_name}
+                    value={staffInfo.length > 0 && staffInfo[0].state_name}
                   />
                 </div>
               </div>
@@ -295,7 +314,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.employment_id}
+                    value={staffInfo.length > 0 && staffInfo[0].location_master_name}
                   />
                 </div>
               </div>
@@ -310,7 +329,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.fullname}
+                    value={staffInfo.length > 0 && staffInfo[0].designations}
                   />
                 </div>
               </div>
@@ -325,7 +344,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.nrc}
+                    value={staffInfo.length > 0 && staffInfo[0].office_phone}
                   />
                 </div>
               </div>
@@ -340,7 +359,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.branch_name}
+                    value={staffInfo.length > 0 && staffInfo[0].personal_phone}
                   />
                 </div>
               </div>
@@ -358,7 +377,7 @@ class StaffLoanAddNew extends Component {
                     className="form-control"
                     disabled
                     rows={3}
-                    value={this.state.user_info.branch_name}
+                    value={staffInfo.length > 0 && staffInfo[0].address}
                   />
                 </div>
               </div>
@@ -396,9 +415,9 @@ class StaffLoanAddNew extends Component {
                       }),
                     }}
                     placeholder="Staff Guarantor ID"
-                    options={[]}
-                    // onChange={this.handleSelectedDepartment}
-                    value={""}
+                    options={getGuarantorInfo}
+                    onChange={this.handleSelectGuarantor.bind(this)}
+                    value={selectedGuarantor}
                     className="react-select-container"
                     classNamePrefix="react-select"
                   />
@@ -415,7 +434,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.fullname}
+                    value={selectedGuarantor.fullname}
                   />
                 </div>
               </div>
@@ -430,7 +449,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.nrc}
+                    value={selectedGuarantor.nrc}
                   />
                 </div>
               </div>
@@ -445,7 +464,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={""}
+                    value={selectedGuarantor.designations}
                   />
                 </div>
               </div>
@@ -462,7 +481,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={""}
+                    value={selectedGuarantor.location_master_name}
                   />
                 </div>
               </div>
@@ -489,7 +508,6 @@ class StaffLoanAddNew extends Component {
                   <input
                     type="text"
                     className="form-control"
-                    disabled
                     value={this.state.user_info.fullname}
                   />
                 </div>
@@ -504,7 +522,6 @@ class StaffLoanAddNew extends Component {
                   <input
                     type="text"
                     className="form-control"
-                    disabled
                     value={this.state.user_info.nrc}
                   />
                 </div>
@@ -530,7 +547,7 @@ class StaffLoanAddNew extends Component {
                       }),
                     }}
                     placeholder="Ralation with Family"
-                    options={[]}
+                    options={familyDropdown}
                     // onChange={this.handleSelectedDepartment}
                     value={""}
                     className="react-select-container"
@@ -548,7 +565,6 @@ class StaffLoanAddNew extends Component {
                   <input
                     type="text"
                     className="form-control"
-                    disabled
                     value={""}
                   />
                 </div>
@@ -565,7 +581,6 @@ class StaffLoanAddNew extends Component {
                   <textarea
                     type="text"
                     className="form-control"
-                    disabled
                     rows={3}
                     value={this.state.user_info.branch_name}
                   />
@@ -579,9 +594,8 @@ class StaffLoanAddNew extends Component {
                 </div>
                 <div className="col-md-12">
                   <input
-                    type="text"
+                    type="number"
                     className="form-control"
-                    disabled
                     value={""}
                   />
                 </div>
@@ -596,7 +610,6 @@ class StaffLoanAddNew extends Component {
                   <input
                     type="text"
                     className="form-control"
-                    disabled
                     value={""}
                   />
                 </div>
@@ -624,7 +637,7 @@ class StaffLoanAddNew extends Component {
                   <input
                     type="checkbox"
                     checked={"checked"}
-                    onChange={() => {}}
+                    onChange={() => { }}
                   />
                 </div>
               </div>
@@ -712,16 +725,16 @@ class StaffLoanAddNew extends Component {
                     value={new Date()}
                     dateFormat={false}
 
-                    // onChange={this.changeCaseTime.bind(this)}
+                  // onChange={this.changeCaseTime.bind(this)}
                   />
                 </div>
               </div>
-              <div className="col-md-3" style={{paddingTop: 20}}>
+              <div className="col-md-3" style={{ paddingTop: 20 }}>
                 <button
                   className="btn btn-primary"
                   id="add_button"
                   type="button"
-                  // onClick={this.save.bind(this)}
+                // onClick={this.save.bind(this)}
                 >
                   Add
                 </button>
@@ -736,9 +749,9 @@ class StaffLoanAddNew extends Component {
                 style={{ backgroundColor: "#27568A", color: "white", paddingTop: 5 }}
               >
                 <h3>Loan Request Information</h3>
-                </div>
               </div>
-              <div className="row" style={{marginBottom: 10}}>
+            </div>
+            <div className="row" style={{ marginBottom: 10 }}>
               <div className="col-md-3">
                 <div>
                   <label htmlFor="requestAmount" className="col-md-12">
@@ -779,16 +792,16 @@ class StaffLoanAddNew extends Component {
                   <input type="text" className="form-control" value={""} />
                 </div>
               </div>
-              </div>
-              <div className="row" style={{marginBottom: 10}}>
-                <div className="col-md-3">
+            </div>
+            <div className="row" style={{ marginBottom: 10 }}>
+              <div className="col-md-3">
                 <div>
                   <label htmlFor="withdrawLocation" className="col-md-12">
                     Withdraw Location
                   </label>
                 </div>
                 <div className="col-md-12">
-                <Select
+                  <Select
                     styles={{
                       container: (base) => ({
                         ...base,
@@ -809,10 +822,10 @@ class StaffLoanAddNew extends Component {
                     classNamePrefix="react-select"
                   />
                 </div>
-                
-                </div>
+
               </div>
-            
+            </div>
+
             {/* Loan Request Information */}
 
             <div className="col-md-12" style={{ marginBottom: 10 }}>
@@ -821,8 +834,8 @@ class StaffLoanAddNew extends Component {
                 style={{ backgroundColor: "#27568A", color: "white", paddingTop: 5 }}
               >
                 <h3>Attachment</h3>
-                </div>
               </div>
+            </div>
             <div className="row">
               <div className="form-group col-md-6">
                 <div>
@@ -890,7 +903,7 @@ class StaffLoanAddNew extends Component {
                 className="btn btn-primary"
                 id="saving_button"
                 type="button"
-                // onClick={this.save.bind(this)}
+              // onClick={this.save.bind(this)}
               >
                 Save
               </button>

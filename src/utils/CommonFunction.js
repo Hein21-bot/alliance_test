@@ -14,11 +14,11 @@ const CryptoJS = require('crypto-js');
 //  const main_url = "http://192.168.:8087/";  
 // server 
 
-// const main_url = "http://192.168.100.38:8082/" // local
+const main_url = "http://192.168.100.38:8082/" // local
 // const main_url = "http://localhost:8082/"
 
 
-const main_url = "http://103.29.91.26:50092/"; // test server
+// const main_url = "http://103.29.91.26:50092/"; // test server
 
 
 // const main_url = "http://103.29.91.26:8032/";  // live server
@@ -421,63 +421,6 @@ function print(doc, data) {
                         if (status === 200) {
                             // alert("Printed!");
                             window.location.reload();
-                        }
-                    })
-            }
-            else if (data.resign_or_dismiss_id != undefined) {
-                console.log("resign or dismiss salary");
-                fetch(main_url + 'resign_or_dimiss/printResignOrDimiss/' + data.resign_or_dismiss_id, {
-                    method: "PUT",
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: `info=${JSON.stringify(info)}`
-                }).then(res => {
-                    status = res.status;
-                    return res.text()
-                })
-                    .then(text => {
-                        if (status === 200) {
-                            // alert("Printed!");
-                            // window.location.reload();
-                        }
-                    })
-            }
-            else if (data.id != undefined) {
-                console.log("backpay");
-                fetch(main_url + 'back_pay/printBackPay/' + data.id, {
-                    method: "PUT",
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: `info=${JSON.stringify(info)}`
-                }).then(res => {
-                    status = res.status;
-                    return res.text()
-                })
-                    .then(text => {
-                        if (status === 200) {
-                            // alert("Printed!");
-                            // window.location.reload();
-                        }
-                    })
-            }
-            else if (data.resign_or_dismiss_id != undefined) {
-                console.log("resign or dismiss salary");
-                fetch(main_url + 'resign_or_dimiss/printResignOrDimiss/' + data.resign_or_dismiss_id, {
-                    method: "PUT",
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: `info=${JSON.stringify(info)}`
-                }).then(res => {
-                    status = res.status;
-                    return res.text()
-                })
-                    .then(text => {
-                        if (status === 200) {
-                            // alert("Printed!");
-                            // window.location.reload();
                         }
                     })
             }
