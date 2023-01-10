@@ -14,7 +14,7 @@ const CryptoJS = require('crypto-js');
 //  const main_url = "http://192.168.:8087/";  
 // server 
 
-// const main_url = "http://192.168.100.38:8082/" // local
+const main_url = "http://192.168.100.38:8082/" // local
 // const main_url = "http://localhost:8082/"
 
 
@@ -25,7 +25,7 @@ const CryptoJS = require('crypto-js');
 
 
 
-const main_url = "http://103.29.91.26:8032/";  // live server
+// const main_url = "http://103.29.91.26:8032/";  // live server
 // const main_url = "http://192.168.100.21/";  // kyaw gyi
 
 
@@ -39,8 +39,8 @@ const main_url = "http://103.29.91.26:8032/";  // live server
 // const remote_url = "http://103.29.91.26:8032/marter_hrm"; // live server
 
 
-const remote_url = "http://103.29.91.26:50050"; // remote url live server
-// const remote_url = "http://103.29.91.26:50093"; // remote url test server
+// const remote_url = "http://103.29.91.26:50050"; // remote url live server
+const remote_url = "http://103.29.91.26:50093"; // remote url test server
 
 // const remote_url = "http://192.168.1.32:8080/marter_hrm";
 //const remote_url = "http://192.168.100.199:8087/";
@@ -463,6 +463,12 @@ function getFirstDayOfMonth() {
     var date = new Date(), y = date.getFullYear(), m = date.getMonth();
     var firstDay = new Date(y, m, 1);
     return firstDay;
+}
+function getFirstDayOfCurrentWeek(){
+    var d = new Date();
+    var day = d.getDay(),
+        diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
+    return new Date(d.setDate(diff));
 }
 function getFirstDayOfYear() {
     var date = new Date(), y = date.getFullYear(), m = date.getMonth();
@@ -993,5 +999,5 @@ export {
     print, stopSaving, startSaving, fno, getFirstDayOfMonth, getFirstDayOfYear, checkLimitAmount,
     checkHRManager, checkHRAssistant, checkApprovalStatus, isApprover, havePermissionForAmount,
     calculationDate, isRequestedUser, atten_report, approveAmount, calculationDate1, getAttendancePolicy,
-    getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError,getFirstDayOfPrevMonth,getFirstDayOfNextMonth,getMonth,
+    getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError,getFirstDayOfPrevMonth,getFirstDayOfNextMonth,getMonth,getFirstDayOfCurrentWeek
 }
