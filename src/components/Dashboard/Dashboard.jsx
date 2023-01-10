@@ -213,7 +213,7 @@ export class Dashboard extends Component {
 
     };
     const {sidebarPermission}=this.state;
-    const DashboardPermission=sidebarPermission.length > 0 && ((sidebarPermission.filter(d => d.permission == "Head Count") && sidebarPermission.filter(d => d.permission == "Head Count")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Attandence") && sidebarPermission.filter(d => d.permission == "Attandence")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Leave") && sidebarPermission.filter(d => d.permission == "Leave")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Total Employee") && sidebarPermission.filter(d => d.permission == "Total Employee")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Expense") && sidebarPermission.filter(d => d.permission == "Expense")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Compansation and Benefit") && sidebarPermission.filter(d => d.permission == "Compansation and Benefit")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Help Desk") && sidebarPermission.filter(d => d.permission == "Help Desk")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Resign") && sidebarPermission.filter(d => d.permission == "Resign")[0].access == true))
+    const DashboardPermission=sidebarPermission.length > 0 && ((sidebarPermission.filter(d => d.permission == "Head Count") && sidebarPermission.filter(d => d.permission == "Head Count")[0].access == true ) || (sidebarPermission.filter(d => d.permission == "Attandence") && sidebarPermission.filter(d => d.permission == "Attandence")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Leave") && sidebarPermission.filter(d => d.permission == "Leave")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Total Employee") && sidebarPermission.filter(d => d.permission == "Total Employee")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Expense") && sidebarPermission.filter(d => d.permission == "Expense")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Compansation and Benefit") && sidebarPermission.filter(d => d.permission == "Compansation and Benefit")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Help Desk") && sidebarPermission.filter(d => d.permission == "Help Desk")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Resign") && sidebarPermission.filter(d => d.permission == "Resign")[0].access == true))
 
     return (
       
@@ -278,7 +278,7 @@ export class Dashboard extends Component {
           </button> : ''
           }
           {
-            sidebarPermission.length > 0 && sidebarPermission.filter(d=>d.permission == 'Expense') && sidebarPermission.filter(d=>d.permission == 'Expense')[0].access ==true ? 
+            sidebarPermission.length > 0 && sidebarPermission.filter(d=>d.permission == 'Compansation and Benefit') && sidebarPermission.filter(d=>d.permission == 'Compansation and Benefit')[0].access ==true ? 
             <button
             style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "benefit" ? '#23c6c8' : "#1872ab" }}
             onClick={() => this.tapButtonClick("benefit")}
