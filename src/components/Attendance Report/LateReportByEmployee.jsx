@@ -2,6 +2,8 @@ import React,{Component} from "react";
 import {getBranch,getRegion,getDepartment,main_url,getFirstDayOfMonth} from '../../utils/CommonFunction';
 import DatePicker from 'react-datetime';
 import moment from "moment";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 import Select from "react-select";
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css';
@@ -31,23 +33,14 @@ class LateReportByEmployee extends Component {
             from_date:moment(),
             to_date:moment(),
             EmployeeNameList:[],
-            selectedEmployeeName:null
+            selectedEmployeeName:null,
+            loading: false,
+            dataSource:[]
         }
     }
     
-    async componentDidMount (){
+    async componentDidMount () {
         this.$el = $(this.el);
-        this.setState(
-          {
-            dataSource: this.props.data,
-    
-          },
-          () => {
-            this._setTableData(this.state.dataSource);
-          }
-        );
-    
-
         let branch = await getBranch();
         branch.unshift({ label: 'All', value: 0 });
         let department = await getDepartment();
@@ -61,7 +54,11 @@ class LateReportByEmployee extends Component {
            
         })
         this.getEmployeeName();
-        this.handleSearchData();
+        
+       await this.handleSearchData();
+       await this.setState({},()=>{
+        this._setTableData(this.state.dataSource)
+       });
     }
     getEmployeeName() {
       fetch(`${main_url}report/employeeName`)
@@ -109,10 +106,23 @@ class LateReportByEmployee extends Component {
         })
     }
     handleSearchData = () => {
-        fetch(`${main_url}report/extensionReport/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}`)
+      //   this.setState({
+      //   loading:true,
+      //   dataSource:[]
+      // })
+        fetch(`${main_url}attendance/lateReportEmp/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${
+          this.state.selectedEmployeeName ? this.state.selectedEmployeeName.value : 0
+        }`)
           .then(res => { if (res.ok) return res.json() })
           .then(list => { 
-            this._setTableData(list);
+            this.setState({
+             loading:false,
+             dataSource:list
+            },
+             () => {
+             this._setTableData(this.state.dataSource);
+             } )
+            
           })
       }
 
@@ -127,15 +137,16 @@ class LateReportByEmployee extends Component {
                 no: i + 1,
                 employee_id:data[i].employment_id ? data[i].employment_id :"-",
                 employee_name:data[i].fullname ? data[i].fullname : "-",
-                branch: data[i].branch_name ? data[i].branch_name: "-",
+                branch: data[i].location_master_name ? data[i].location_master_name : "-",
                 designation:data[i].designations ? data[i].designations : "-",
-                level:data[i].career_level ? data[i].career_level : "-",
-                department:data[i].deptname ? data[i].deptname : "-",
-                region:data[i].region_name ? data[i].region_name : '-',
-                pa_score:data[i].performance_score ? data[i].performance_score : '-',
-                target_achievement:data[i].target_achievement ? data[i].target_achievement : '-',
-                overall_performance:data[i].comment_overall_performance ? data[i].comment_overall_performance : '-',
-                extension_period:data[i].extension_period ? data[i].extension_period : '-'
+                region:data[i].state_name ? data[i].state_name : '-',
+                late:data[i].late_count[0].late_count ? data[i].late_count[0].late_count : '-',
+                early:data[i].late_count[0].early_count ? data[i].late_count[0].early_count : '-',
+                incom:data[i].late_count[0].incom_count ? data[i].late_count[0].incom_count : '-',
+                miss:data[i].late_count[0].missing_count ? data[i].late_count[0].missing_count : '-',
+                abscence:data[i].late_count[0].absent_count ? data[i].late_count[0].absent_count : '-',
+                total:data[i].late_count[0] ? Object.values(data[i].late_count[0]).reduce((a,c)=>{return a+c},0) : '-',
+                
             }
             
             l.push(obj)
@@ -152,14 +163,14 @@ class LateReportByEmployee extends Component {
             { title: "Employee Id", data: "employee_id" },
             { title: "Employee Name", data: "employee_name" },
             { title: "Designation", data: "designation" },
-            { title: "Branch", data: "level" },
-            {title:"Region",data:'region'},
-            { title: "Late Check In", data: "department" },
-            { title: "Early Check Out", data: "branch" },
-            { title: "Incomplete", data: "region" },
-            { title: "Missing Attendance", data: "pa_score" },
-            { title: "Absence", data: "target_achievement" },
-            { title: "Leave", data: "target_achievement" },
+            { title: "Branch", data: "branch" },
+             {title: "Region",data:'region'},
+            { title: "Late Check In", data: "late" },
+            { title: "Early Check Out", data: "early" },
+            { title: "Incomplete", data: "incom" },
+            { title: "Missing Attendance", data: "miss" },
+            { title: "Absence", data: "abscence" },
+            { title: "Total", data: "total" },
            
         ]
         table = $("#dataTables-table").DataTable({
@@ -196,10 +207,11 @@ class LateReportByEmployee extends Component {
     }
    
   
-        render(){
+        render(){ 
           
         return (
             <div>
+              <ToastContainer/>
             <div className="row  white-bg dashboard-header">
            <h3 className="" style={{paddingLeft:"10px"}}>Late Report By Employee</h3>
               <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
@@ -306,11 +318,20 @@ class LateReportByEmployee extends Component {
             
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
             </div>
-            
-            <table width="99%"
+           { this.state.loading ? (
+            <div
+            className="col-lg-12"
+            style={{ display: "flex", justifyContent: "center" }}
+          >
+            <h1>Loading...</h1>
+            {/* <span className="loader"></span> */}
+          </div>):(
+          <>  <table width="99%"
                     className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
                     id="dataTables-table"
-                />
+                /></>
+                 )
+                } 
            </div>
            </div>
         )

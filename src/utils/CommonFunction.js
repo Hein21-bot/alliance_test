@@ -21,6 +21,10 @@ const CryptoJS = require('crypto-js');
 const main_url = "http://103.29.91.26:50092/"; // test server
 
 
+// const main_url = "http://103.29.91.26:50092/"; // test server
+
+
+
 // const main_url = "http://103.29.91.26:8032/";  // live server
 // const main_url = "http://192.168.100.21/";  // kyaw gyi
 
@@ -495,6 +499,12 @@ function getFirstDayOfMonth() {
     var date = new Date(), y = date.getFullYear(), m = date.getMonth();
     var firstDay = new Date(y, m, 1);
     return firstDay;
+}
+function getFirstDayOfCurrentWeek(){
+    var d = new Date();
+    var day = d.getDay(),
+        diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
+    return new Date(d.setDate(diff));
 }
 function getFirstDayOfYear() {
     var date = new Date(), y = date.getFullYear(), m = date.getMonth();
@@ -1025,5 +1035,5 @@ export {
     print, stopSaving, startSaving, fno, getFirstDayOfMonth, getFirstDayOfYear, checkLimitAmount,
     checkHRManager, checkHRAssistant, checkApprovalStatus, isApprover, havePermissionForAmount,
     calculationDate, isRequestedUser, atten_report, approveAmount, calculationDate1, getAttendancePolicy,
-    getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError,getFirstDayOfPrevMonth,getFirstDayOfNextMonth,getMonth
+    getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError,getFirstDayOfPrevMonth,getFirstDayOfNextMonth,getMonth,getFirstDayOfCurrentWeek
 }

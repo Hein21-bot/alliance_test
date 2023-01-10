@@ -709,7 +709,7 @@ export default class Sidebar extends Component {
                   >
                     <a href="/early_checkout_report">Early Check Out Report</a>
                   </li>
-                  {/* <li
+                  <li
                     className={
                       pathname === "/absence_report"
                         ? "active"
@@ -717,8 +717,8 @@ export default class Sidebar extends Component {
                     }
                   >
                     <a href="/absence_report">Absence Report</a>
-                  </li> */}
-                  {/* <li
+                  </li>
+                  <li
                     className={
                       pathname === "/weekly_attendance_report"
                         ? "active"
@@ -726,7 +726,7 @@ export default class Sidebar extends Component {
                     }
                   >
                     <a href="/weekly_attendance_report">Weekly Attendance Report</a>
-                  </li> */}
+                  </li>
                   <li
                     className={
                       pathname === "/holiday_attendance_report"
@@ -741,8 +741,8 @@ export default class Sidebar extends Component {
 
                 </ul>
               </li>
-
-               <li
+              
+              <li
                 className={this.checkPathName() === "/payroll" || this.checkPathName()==='/incentive' || this.checkPathName() === 'payroll_calculation' || this.checkPathName() === '/payroll_reports'|| this.checkPathName()==='/pay_slip' || pathname === '/payslip_generate' || pathname === '/ssc' || pathname === "/payroll_main" || pathname === '/foreigner_salary' || pathname === "/resign_or_dismiss_salary" || pathname === '/backpay' || pathname === '/payroll_generate' || pathname ==='/payroll_pay_slip'|| pathname== '/monthly_incentive'|| pathname == "/quarterly_incentive_payslip" || pathname == "/monthly_incentive_payslip" || pathname == "/quarterly_incentive" ||  pathname == '/employee_salary_report' || pathname === '/monthly_report'|| pathname === '/quarterly_report' || pathname == '/ssc_report' ? "active" : ""}
                style={{display:PayRoll ? 'block': 'none'}}
              >
@@ -953,7 +953,7 @@ export default class Sidebar extends Component {
                 </ul>
                   </li>
                 </ul>
-              </li> 
+              </li>
 
 
 

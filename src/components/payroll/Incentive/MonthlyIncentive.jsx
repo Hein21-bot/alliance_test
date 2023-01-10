@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { main_url} from "../../../utils/CommonFunction";
+import { main_url,getFirstDayOfCurrentWeek} from "../../../utils/CommonFunction";
 import DatePicker from "react-datetime";
 import Select from "react-select";
 import moment from "moment";
@@ -35,6 +35,7 @@ export default class MonthlyIncentive extends Component {
       selected_type: { value: 1, label: "CO", name: "co" },
       loading: false,
       table_type: 1,
+      validate:0,
       deleteType: false,
     };
   }
@@ -44,6 +45,7 @@ export default class MonthlyIncentive extends Component {
     this.getBranchList();
     this.getRegionList();
     this.getDesignationList();
+    // this.getFirstDayOfCurrentWeek();
     await this._setDataTable([]);
   }
 
@@ -87,7 +89,9 @@ export default class MonthlyIncentive extends Component {
         });
       });
   }
+  // getFirstDayOfCurrentWeek(){
 
+  // }
   getBranchList() {
     fetch(`${main_url}main/getBranch`)
       .then((res) => {
@@ -173,7 +177,12 @@ export default class MonthlyIncentive extends Component {
     });
   };
   actionClick = async (e) => { console.log(this.state.newDoc.length);
-    if ( this.state.newDoc.length > 0 && this.state.searchData.length > 0 && (e == 1 || e == 2 || e == 0)) {
+    if(e==1){
+      this.setState({
+        validate:1
+      })
+    }
+    if ( (((this.state.searchData.length > 0 && this.state.searchData[0].data[0].generate !== 2 ) || (this.state.fxData.length > 0 && this.state.fxData[0].generate !== 2)) && (e == 1 || e == 0))||(e==2 && this.state.validate === 1)) {
       let status = 0;
       fetch(
         `${main_url}incentive/monthlyGenerate/${
@@ -196,12 +205,20 @@ export default class MonthlyIncentive extends Component {
           deleteType: false,
           newDoc: [],
           searchData: [],
+          fxData:[]
         });
       } else if (e == 2){
         window.location.reload()
       }
-    } else {
+    } 
+    else if (e == 2 && this.state.validate !== 1){
+      toast.error("Please Calculated Pay Slip First!");
+    }
+    else if ((this.state.fxData.length === 0 && this.state.searchData.length === 0 ) && e === 1){
       toast.error("Please Choose Attachment File!");
+    }
+    else {
+      toast.error("Already Calculated Pay Slip!");
     }
   };
 
@@ -247,7 +264,7 @@ export default class MonthlyIncentive extends Component {
       .then((list) => {
         if (this.state.selected_type.value === 1) {
           this.setState({
-            searchData: list,
+            searchData:[list],
             fxData: [],
             table_type: 1,
             deleteType: false,
@@ -309,14 +326,14 @@ export default class MonthlyIncentive extends Component {
           this.setState({
             loading: false,
             newDoc:response,
-            searchData: response,
+            searchData:[response],
             deleteType: true,
             table_type: 1,
           });
         } else if (status == 200 && this.state.selected_type.value == 2) {
           this.setState({
             loading: false,
-            searchData: response,
+            fxData: response,
             newDoc:response,
             deleteType: true,
             table_type: 2,
@@ -391,7 +408,7 @@ export default class MonthlyIncentive extends Component {
     });
   }
 
-  render() { console.log(this.state.newDoc.length);
+  render() { console.log(this.state.fxData.length);
     return (
       <div>
         <ToastContainer />
@@ -502,7 +519,8 @@ export default class MonthlyIncentive extends Component {
             ></input>
           </div>
 
-          <div
+        {/* { this.state.searchData[0].data[0].generate === 2 ? ('') :(  */}
+        <div
             className="col-lg-3"
             style={{
               marginTop: "22px",
@@ -515,6 +533,7 @@ export default class MonthlyIncentive extends Component {
               Pay Slip Generate
             </button>
           </div>
+          {/* )} */}
         </div>
 
         {this.state.loading ? (
@@ -533,7 +552,7 @@ export default class MonthlyIncentive extends Component {
                 className="table table-striped table-bordered table-hover responsive nowrap dt-responsive"
                 id="dataTables-Table-One"
               />
-              {this.state.deleteType ? (
+              {this.state.fxData.length <= 0 || this.state.fxData[0].generate === 2 ? (''):(
                 <div style={{ display: "flex", justifyContent: "end" }}>
                   <div
                     className="col-lg-2"
@@ -566,12 +585,10 @@ export default class MonthlyIncentive extends Component {
                     </button>
                   </div>
                 </div>
-              ) : (
-                ""
               )}
             </div>
           </div>
-        ) : this.state.table_type == 1 && this.state.searchData.length > 0 ? (
+        ) : this.state.table_type == 1 && (this.state.searchData.length > 0 && this.state.searchData[0].data.length > 0) ? (
           <div>
             <table
               className="table table-bordered"
@@ -591,12 +608,30 @@ export default class MonthlyIncentive extends Component {
                   >
                     Employee ID
                   </th>
-                  {/* <th
+                  <th
                     style={{ textAlign: "center", verticalAlign: "middle" }}
                     rowSpan={3}
                   >
-                    Employee Name
-                  </th> */}
+                    FX Name
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    Client Officer Name
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    Branch Name
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    Product Name
+                  </th>
                   <th style={{ textAlign: "center" }} colSpan={4}>
                     Credit
                   </th>
@@ -678,12 +713,15 @@ export default class MonthlyIncentive extends Component {
                 </tr>
               </thead>
               <tbody style={{ textAlign: "center" }}>
-                {this.state.searchData.map((v, i) => {
+                {this.state.searchData[0].data.map((v, i) => { 
                   return (
                     <>
                       <tr>
                         <td>{v.employeeID}</td>
-                        {/* <td>{v.fullname}</td> */}
+                        <td>{v.fx_name}</td>
+                        <td>{v.co_name}</td>
+                        <td>{v.branch_name}</td>
+                        <td>{v.product_name}</td>
                         <td>{v.creditDisbursementNo}</td>
                         <td>{v.creditDisbursementAmount}</td>
                         <td>{v.creditPortfolioNo}</td>
@@ -703,7 +741,7 @@ export default class MonthlyIncentive extends Component {
                 })}
               </tbody>
             </table>
-         { this.state.deleteType === false ? ('') :(
+         {this.state.searchData[0].data[0].generate === 2 ? ('') :(
             <div style={{ display: "flex", justifyContent: "end" }}>
               <div
                 className="col-lg-1"
@@ -739,7 +777,7 @@ export default class MonthlyIncentive extends Component {
             </div>)
          }
           </div>
-        ) : this.state.table_type == 1 && this.state.searchData.length == 0 ? (
+        ) : this.state.table_type == 1 && (this.state.searchData.length == 0  || this.state.searchData[0].data.length == 0) ? (
           <table
             className="table table-bordered"
             id="monthly_incentive"
