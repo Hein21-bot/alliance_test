@@ -797,12 +797,30 @@ export default class MonthlyIncentive extends Component {
                 >
                   Employee ID
                 </th>
-                {/* <th
-                  style={{ textAlign: "center", verticalAlign: "middle" }}
-                  rowSpan={3}
-                >
-                  Employee Name
-                </th> */}
+                <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    FX Name
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    Client Officer Name
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    Branch Name
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    Product Name
+                  </th>
                 <th style={{ textAlign: "center" }} colSpan={4}>
                   Credit
                 </th>
@@ -886,7 +904,7 @@ export default class MonthlyIncentive extends Component {
             <tbody style={{ textAlign: "center" }}>
               <tr>
                 <td
-                  colSpan={14}
+                  colSpan={18}
                   style={{
                     textAlign: "center",
                     verticalAlign: "middle",
