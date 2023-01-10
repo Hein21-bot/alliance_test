@@ -58,7 +58,7 @@ export default class ResignOrDismissSalaryView extends Component {
               disabled
               type="text"
               placeholder={"Request Month"}
-              value={request_month}
+              value={moment(request_month).format('MM/YYYY')}
             />
           </div>
           <div className="col-md-3">
@@ -153,7 +153,7 @@ export default class ResignOrDismissSalaryView extends Component {
               disabled
               type="text"
               placeholder={"Last Working Day"}
-              value={moment(last_working_day).format('DD-MM-YYYY HH:mm:ss A')}
+              value={moment(last_working_day).format('DD/MM/YYYY')}
             />
           </div>
           <div className="col-md-3">
