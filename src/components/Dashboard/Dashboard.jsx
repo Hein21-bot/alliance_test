@@ -43,7 +43,8 @@ export class Dashboard extends Component {
       tapButtonTitle: "",
       confirmRequestPermission:null,
       user: getCookieData("user_info"),
-      compensation_permission:null
+      compensation_permission:null,
+      sidebarPermission:[]
       // fixAssetList: false,
       // fixAssetListTitle:""
     };
@@ -54,6 +55,7 @@ export class Dashboard extends Component {
     this.confirmRequest(id);
     this.compensationPermission(id);
     this.$el = $(this.el);
+    this.sidebarPermission(id);
     //   const a = await getMacAddress();
     //   const b = await getMacAddress1();
   }
@@ -72,6 +74,15 @@ export class Dashboard extends Component {
       .then(data => {
         this.setState({
           compensation_permission:data
+        })
+      })
+  }
+  sidebarPermission = async (id) => {
+    await fetch(`${main_url}main/sidebarPermission/${id}`)
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          sidebarPermission: data.map(v => ({ permission: v.permission_title, access: v.hrm_permission_add }))
         })
       })
   }
@@ -201,11 +212,18 @@ export class Dashboard extends Component {
 
 
     };
+    const {sidebarPermission}=this.state;
+    const DashboardPermission=sidebarPermission.length > 0 && ((sidebarPermission.filter(d => d.permission == "Head Count") && sidebarPermission.filter(d => d.permission == "Head Count")[0].access == true ) || (sidebarPermission.filter(d => d.permission == "Attandence") && sidebarPermission.filter(d => d.permission == "Attandence")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Leave") && sidebarPermission.filter(d => d.permission == "Leave")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Total Employee") && sidebarPermission.filter(d => d.permission == "Total Employee")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Expense") && sidebarPermission.filter(d => d.permission == "Expense")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Compansation and Benefit") && sidebarPermission.filter(d => d.permission == "Compansation and Benefit")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Help Desk") && sidebarPermission.filter(d => d.permission == "Help Desk")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Resign") && sidebarPermission.filter(d => d.permission == "Resign")[0].access == true))
+
     return (
+      
       <div>
         {/* <h3>Dashboard</h3> */}
         {/* <LeaveCalendar /> */}
-        {this.state.confirmRequestPermission && this.state.confirmRequestPermission.length>0 || this.state.user.user_id == 1110 || this.state.user.user_id == 1467 ? <div className=""
+        {
+        //this.state.confirmRequestPermission && this.state.confirmRequestPermission.length >0 || this.state.user.user_id == 1110 || this.state.user.user_id == 1467 
+        DashboardPermission
+        ? <div className=""
           style={{
             width: "100%",
             display: "flex",
@@ -218,46 +236,76 @@ export class Dashboard extends Component {
 
           }}
         >
-          <button className="button"
-            style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "headCount" ? '#23C6C8' : "#1872ab" }}
-            onClick={() => this.tapButtonClick("headCount")} >
-            Head Count
-          </button>
-          <button style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "attendenceChart" ? '#23c6c8' : "#1872ab" }}
+          {
+            sidebarPermission.length > 0 && sidebarPermission.filter(d=>d.permission == 'Head Count') && sidebarPermission.filter(d=>d.permission == 'Head Count')[0].access ==true ? 
+            <button className="button"
+              style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "headCount" ? '#23C6C8' : "#1872ab" }}
+              onClick={() => this.tapButtonClick("headCount")} >
+              Head Count
+            </button> : ''
+          }
+          {
+            sidebarPermission.length > 0 && sidebarPermission.filter(d=>d.permission == 'Attandence') && sidebarPermission.filter(d=>d.permission == 'Attandence')[0].access ==true ? 
+            <button style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "attendenceChart" ? '#23c6c8' : "#1872ab" }}
             onClick={() => this.tapButtonClick("attendenceChart")}
-          >Attandence</button>
-          <button
+          >Attandence</button> : ''
+          }
+          {
+            sidebarPermission.length > 0 && sidebarPermission.filter(d=>d.permission == 'Leave') && sidebarPermission.filter(d=>d.permission == 'Leave')[0].access ==true ? 
+            <button
             style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "leaveChart" ? '#23c6c8' : "#1872ab" }}
             onClick={() => this.tapButtonClick("leaveChart")}
           >
             Leave
-          </button>
-          <button
+          </button> : ''
+          }
+          {
+            sidebarPermission.length > 0 && sidebarPermission.filter(d=>d.permission == 'Total Employee') && sidebarPermission.filter(d=>d.permission == 'Total Employee')[0].access ==true ? 
+            <button
             style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "totalEmployee" ? '#23c6c8' : "#1872ab" }}
             onClick={() => this.tapButtonClick("totalEmployee")}
           >
             Total Employee
-          </button>
-          <button
+          </button> : ''
+          }
+          {
+            sidebarPermission.length > 0 && sidebarPermission.filter(d=>d.permission == 'Expense') && sidebarPermission.filter(d=>d.permission == 'Expense')[0].access ==true ? 
+            <button
             style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "expense" ? '#23c6c8' : "#1872ab" }}
             onClick={() => this.tapButtonClick("expense")}
           >
             Expense
-          </button>
-          {
-            this.state.compensation_permission && this.state.compensation_permission.length > 0 || this.state.user.user_id == 1110 || this.state.user.user_id == 1467 ? <button
-            style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "benefit" ? '#23c6c8' : "#1872ab" }}
-            onClick={() => this.tapButtonClick("benefit")}
-          >
-            Compansation and Benefit
           </button> : ''
           }
+          {
+            sidebarPermission.length > 0 && sidebarPermission.filter(d=>d.permission == 'Compansation and Benefit') && sidebarPermission.filter(d=>d.permission == 'Compansation and Benefit')[0].access ==true ? 
+            <button
+            style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "benefit" ? '#23c6c8' : "#1872ab" }}
+            onClick={() => this.tapButtonClick("benefit")}
+              >
+            Compansation and Benefit
+            </button> : ''
+          }
+
           
+          {/*
+            this.state.compensation_permission && this.state.compensation_permission.length > 0 || this.state.user.user_id == 1110 || this.state.user.user_id == 1467 ? 
+            <button
+            style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "benefit" ? '#23c6c8' : "#1872ab" }}
+            onClick={() => this.tapButtonClick("benefit")}
+              >
+            Compansation and Benefit
+            </button> : ''
+        */}
+        {
+            sidebarPermission.length > 0 && sidebarPermission.filter(d=>d.permission == 'Help Desk') && sidebarPermission.filter(d=>d.permission == 'Help Desk')[0].access ==true ? 
+            <button style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "helpdesk" ? '#23c6c8' : "#1872ab" }} onClick={() => this.tapButtonClick('helpdesk')}>Help Desk</button> : ""
+        }
+        {
+            sidebarPermission.length > 0 && sidebarPermission.filter(d=>d.permission == 'Resign') && sidebarPermission.filter(d=>d.permission == 'Resign')[0].access ==true ? 
 
-          <button style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "helpdesk" ? '#23c6c8' : "#1872ab" }} onClick={() => this.tapButtonClick('helpdesk')}>Help Desk</button>
-          <button style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "resign" ? '#23c6c8' : "#1872ab" }} onClick={() => this.tapButtonClick("resign")}
-          >Resign</button>
-
+          <button style={{ ...btn, backgroundColor: this.state.tapButtonTitle == "resign" ? '#23c6c8' : "#1872ab" }} onClick={() => this.tapButtonClick("resign")}>Resign</button> : ''
+        }
         </div> : ''}
         
         <Profile onClickFixAssetList={this.onClickFixAssetList}tapButtonTitle={this.state.tapButtonTitle} />
