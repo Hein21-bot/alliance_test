@@ -181,21 +181,22 @@ class LateReportByEmployee extends Component {
             responsive: true,
             pageLength: 50,
             paging: true,
-        //     // buttons: true,
+            buttons: true,
             dom: 'Bfrtip',
-        //     // buttons: [
+         buttons: [
+                   'excel'
         //     //     'copy', 'csv', 'excel', 'pdf'
-        //     // ],
+                   ],
             buttons: [
         //         // 'copy',
         //         // {
         //         //         extend: 'csvHtml5',
         //         //         title: 'Child Benefit',
         //         // },
-        //         // {
-        //         //     extend: 'excelHtml5',
-        //         //     title: 'Child Benefit',
-        //         // },
+                      {
+                          extend: 'excelHtml5',
+                          title: 'Late Report By Employee',
+                      },
         //         // {
         //         //     extend: 'pdfHtml5',
         //         //     title: 'Child Benefit',

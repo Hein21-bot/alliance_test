@@ -164,21 +164,22 @@ class AbsenceReport extends Component {
             responsive: true,
             pageLength: 50,
             paging: true,
-        //     // buttons: true,
+            buttons: true,
             dom: 'Bfrtip',
-        //     // buttons: [
+            buttons: [
+                      'excel'
         //     //     'copy', 'csv', 'excel', 'pdf'
-        //     // ],
+                     ],
             buttons: [
         //         // 'copy',
         //         // {
         //         //         extend: 'csvHtml5',
         //         //         title: 'Child Benefit',
         //         // },
-        //         // {
-        //         //     extend: 'excelHtml5',
-        //         //     title: 'Child Benefit',
-        //         // },
+                      {
+                          extend: 'excelHtml5',
+                          title: 'Absence Report',
+                      },
         //         // {
         //         //     extend: 'pdfHtml5',
         //         //     title: 'Child Benefit',

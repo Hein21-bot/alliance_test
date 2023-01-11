@@ -24,6 +24,7 @@ class StaffLoanAddNew extends Component {
     this.state = {
       user_info: getCookieData("user_info"),
       staffInfo: null,
+      user_id: getUserId("user_info"),
       staffGuarantorInfo: {
         staffGuarantorId: 0,
         staffGuarantorName: "",
@@ -88,11 +89,14 @@ class StaffLoanAddNew extends Component {
       designation: "",
       noOfChildren: "",
       status: 0,
-      available_amount: 0,
       createdBy: getUserId("user_info"),
       updatedBy: getUserId("user_info"),
       attachment: [],
       newDoc: [],
+      staffInfo: [],
+      getGuarantorInfo: [],
+      selectedGuarantor: [],
+      familyDropdown: []
     };
   }
 
@@ -149,10 +153,11 @@ class StaffLoanAddNew extends Component {
     //     })
   }
 
-  handleNoOfChildren = (event) => {
+  handleSelectGuarantor = (event) => {
+    console.log('event is ==========>', event)
     this.setState({
-      noOfChildren: event.target.value,
-    });
+      selectedGuarantor: event
+    })
   };
   removeFamilyGuarantorNRCDoc(index, event) {
     var array = this.state.FamilyGuarantorNRCDoc;
@@ -533,7 +538,6 @@ class StaffLoanAddNew extends Component {
       FamilyGuarantorNRCDoc: newDoc,
     });
   }
-  //@kpk
 
   save() {
     console.log("new doc", this.state.newDoc);
@@ -843,9 +847,9 @@ class StaffLoanAddNew extends Component {
                       }),
                     }}
                     placeholder="Staff Guarantor ID"
-                    options={[]}
-                    // onChange={this.handleSelectedDepartment}
-                    value={""}
+                    options={''}
+                    onChange={this.handleSelectGuarantor.bind(this)}
+                    value={''}
                     className="react-select-container"
                     classNamePrefix="react-select"
                   />
@@ -862,7 +866,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.fullname}
+                    value={user_info.fullname}
                   />
                 </div>
               </div>
@@ -877,7 +881,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.nrc}
+                    value={user_info.nrc}
                   />
                 </div>
               </div>
@@ -1179,7 +1183,7 @@ class StaffLoanAddNew extends Component {
                   />
                 </div>
               </div>
-              <div className="col-md-3" style={{paddingTop: 20}}>
+              <div className="col-md-3" style={{ paddingTop: 20 }}>
                 <button
                   className="btn btn-primary"
                   id="add_button"
@@ -1206,9 +1210,9 @@ class StaffLoanAddNew extends Component {
                 style={{ backgroundColor: "#27568A", color: "white", paddingTop: 5 }}
               >
                 <h3>Loan Request Information</h3>
-                </div>
               </div>
-              <div className="row" style={{marginBottom: 10}}>
+            </div>
+            <div className="row" style={{ marginBottom: 10 }}>
               <div className="col-md-3">
                 <div>
                   <label htmlFor="requestAmount" className="col-md-12">
@@ -1253,16 +1257,16 @@ class StaffLoanAddNew extends Component {
                   <input type="text" className="form-control" value={this.state.selectedLoanPurpose} onChange={this.handleLoanPurpose} />
                 </div>
               </div>
-              </div>
-              <div className="row" style={{marginBottom: 10}}>
-                <div className="col-md-3">
+            </div>
+            <div className="row" style={{ marginBottom: 10 }}>
+              <div className="col-md-3">
                 <div>
                   <label htmlFor="withdrawLocation" className="col-md-12">
                     Withdraw Location
                   </label>
                 </div>
                 <div className="col-md-12">
-                <Select
+                  <Select
                     styles={{
                       container: (base) => ({
                         ...base,
@@ -1283,10 +1287,10 @@ class StaffLoanAddNew extends Component {
                     classNamePrefix="react-select"
                   />
                 </div>
-                
-                </div>
+
               </div>
-            
+            </div>
+
             {/* Loan Request Information */}
 
             <div className="col-md-12" style={{ marginBottom: 10 }}>
@@ -1295,8 +1299,8 @@ class StaffLoanAddNew extends Component {
                 style={{ backgroundColor: "#27568A", color: "white", paddingTop: 5 }}
               >
                 <h3>Attachment</h3>
-                </div>
               </div>
+            </div>
             <div className="row">
               <div className="form-group col-md-6">
                 <div>

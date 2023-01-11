@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
+
 import {
   getBranch,
   getRegion,
@@ -178,11 +180,7 @@ class WeeklyAttendanceReport extends Component {
       });
   };
   render() {
-    console.log(
-      ">>>>>>>>>",
-     this.state.from_date,this.state.to_date
-    );
-
+   
     return (
       <div>
         <div className="row  white-bg dashboard-header">
@@ -312,16 +310,25 @@ class WeeklyAttendanceReport extends Component {
             </button>
           </div>
 
-          <table
+          {/* <table
             width="99%"
             className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
             id="dataTables-table"
-          />
-        </div>
-        <div style={{ overflowX: "auto" }}>
+          /> */}
+        <div>
+        <div className="col-lg-12" style={{paddingTop:30,paddingLeft:0}}>
+                        <ReactHTMLTableToExcel 
+                         className="btn-excel"
+                         table="monthly_incentive"
+                         filename={"Weekly Attendance Report "}
+                         buttonText="Excel"
+                         sheet="Sheet"
+                        
+                         />
+                        </div>
           <table
             className="table table-bordered"
-            style={{ overflow: "scroll" }}
+            style={{ overflow: "Scroll",display:'block',whiteSpace:'nowrap'}}
           >
             <thead>
               <tr
@@ -399,7 +406,7 @@ class WeeklyAttendanceReport extends Component {
             </tbody>):( <tbody style={{ textAlign: "center" }}>
               <tr>
                 <td
-                  colSpan={14}
+                  colSpan={20}
                   style={{
                     textAlign: "center",
                     verticalAlign: "middle",
@@ -415,6 +422,8 @@ class WeeklyAttendanceReport extends Component {
           </table>
         </div>
       </div>
+      </div>
+
     );
   }
 }
