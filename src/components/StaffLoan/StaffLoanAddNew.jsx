@@ -12,8 +12,11 @@ import {
 } from "../../utils/CommonFunction";
 import Select from "react-select";
 import DatePicker from "react-datetime";
+import moment from "moment";
 
 var form_validate = true;
+var saveBtn = false;
+
 
 class StaffLoanAddNew extends Component {
   constructor() {
@@ -21,6 +24,7 @@ class StaffLoanAddNew extends Component {
     this.state = {
       user_info: getCookieData("user_info"),
       staffInfo: null,
+      user_id: getUserId("user_info"),
       staffGuarantorInfo: {
         staffGuarantorId: 0,
         staffGuarantorName: "",
@@ -28,15 +32,71 @@ class StaffLoanAddNew extends Component {
         staffGuarantorPosition: "",
         staffGuarantorBranch: "",
       },
+      FamilyIncomeDoc:[],
+      StaffGuarantorNRCDoc:[],
+      OtherDoc:[],
+      RequestNRCDoc:[],
+      FamilyGuarantorNRCDoc:[],
+
+      dataSource:[],
+      familyRelation:[
+        {
+        label:'Parent',value : 1
+        },
+        {
+          label:'Sibling',value : 2
+        },
+        {
+          label:'Uncle',value : 3
+        }
+    ],
+    OtherLoanSelectBox:0,
+    OtherLoanList:[
+      {
+        label:'OtherLoan 1',value:1
+      },
+      {
+        label:'OtherLoan 2',value:2
+      }
+    ],
+    selectedOtherLoan:null,
+    selectedFamilyRelation:null,
+    selectedFamilyJob:'',
+    selectedFamilyNRC:'',
+    selectedFamilyName:'',
+    selectedFamilyAddress:'',
+    selectedFamilyIncome:0,
+    selectedFamilyPhone:null,
+    selectedInstitutionName:'',
+    selectedOutstandingAmount:0,
+    selectedInstallmentTerm:0,
+    selectedInstallmentAmount:0,
+    selectedMaturityDate:new Date(),
+    selectedRequestAmount:0,
+    selectedRepaymentPeriod:0,
+    selectedLoanPurpose:'',
+    WithdrawLocationList:[
+      {
+        label:'Mdy',value:1
+      },
+      {
+        label:'Ygn',value:2
+      }
+    ],
+    selectedWithdrawLocation:null,
+    InstallmentAmount:0,
       user_id: "",
       designation: "",
       noOfChildren: "",
       status: 0,
-      available_amount: 0,
       createdBy: getUserId("user_info"),
       updatedBy: getUserId("user_info"),
       attachment: [],
       newDoc: [],
+      staffInfo: [],
+      getGuarantorInfo: [],
+      selectedGuarantor: [],
+      familyDropdown: []
     };
   }
 
@@ -45,6 +105,45 @@ class StaffLoanAddNew extends Component {
   }
 
   componentDidMount() {
+    let that=this;
+    $(document).on("click", "#toEdit", function () {
+      var data = $(this).find("#edit").text();
+      data = $.parseJSON(data);
+      let newData = that.state.dataSource;
+      let editData = newData[data];
+      console.log("edit data===>",editData)
+      newData.splice(data, 1);
+      that.setState(
+        {
+          dataSource: newData,
+          selectedOtherLoan:editData.other_loan,
+          selectedOutstandingAmount:editData.outstanding_amount,
+          selectedInstallmentAmount:editData.installment_amount,    
+
+          selectedInstallmentTerm:editData.installment_term,    
+
+          selectedMaturityDate:editData.maturity_date,    
+
+          selectedInstitutionName:editData.institution_name,
+          OtherLoanSelectBox:editData.other_loan_selectbox    
+
+        },
+        () => that.setDataTable(newData)
+      );
+    });
+    $(document).on("click", "#toRemove", function () {
+      var data = $(this).find("#remove").text();
+      data = $.parseJSON(data);
+
+      let newData = that.state.dataSource;
+      newData.splice(data, 1);
+      that.setState(
+        {
+          dataSource: newData,
+        },
+        () => that.setDataTable(newData)
+      );
+    });
     // fetch(`${main_url}child_benefit/getChildAvailableAmount`)
     //     .then(res => { if (res.ok) return res.json() })
     //     .then(list => {
@@ -54,41 +153,391 @@ class StaffLoanAddNew extends Component {
     //     })
   }
 
-  handleNoOfChildren = (event) => {
+  handleSelectGuarantor = (event) => {
+    console.log('event is ==========>', event)
     this.setState({
-      noOfChildren: event.target.value,
-    });
+      selectedGuarantor: event
+    })
   };
-  removeNewDocument(index, event) {
-    var array = this.state.newDoc;
+  removeFamilyGuarantorNRCDoc(index, event) {
+    var array = this.state.FamilyGuarantorNRCDoc;
 
     array.splice(index, 1);
     this.setState({
-      newDoc: array,
+      FamilyGuarantorNRCDoc: array,
     });
-    console.log("new doc", this.state.newDoc);
+    console.log("family quarantor nrc doc", this.state.FamilyGuarantorNRCDoc);
+  }
+  removeFamilyIncomeDoc(index, event) {
+    var array = this.state.FamilyIncomeDoc;
+
+    array.splice(index, 1);
+    this.setState({
+      FamilyIncomeDoc: array,
+    });
+    console.log("family  income  doc", this.state.FamilyIncomeDoc);
+  }
+  removeOtherDoc(index, event) {
+    var array = this.state.OtherDoc;
+
+    array.splice(index, 1);
+    this.setState({
+      OtherDoc: array,
+    });
+    console.log("other doc", this.state.OtherDoc);
+  }
+  removeStaffGuarantorNRCDoc(index, event) {
+    var array = this.state.StaffGuarantorNRCDoc;
+
+    array.splice(index, 1);
+    this.setState({
+      StaffGuarantorNRCDoc: array,
+    });
+    console.log("staff quarantor doc", this.state.StaffGuarantorNRCDoc);
+  }
+  removeRequesterNRCDoc(index, event) {
+    var array = this.state.RequestNRCDoc;
+
+    array.splice(index, 1);
+    this.setState({
+      RequestNRCDoc: array,
+    });
+    console.log("requester nrc doc", this.state.RequestNRCDoc);
+  }
+  handleSelectedFamilyRelation=(e)=>{
+    this.setState({
+      selectedFamilyRelation:e
+    })
+  }
+  familyName=(e)=>{
+    this.setState({
+      selectedFamilyName:e.target.value
+    })
+  }
+  familyNRC=(e)=>{
+    this.setState({
+      selectedFamilyNRC:e.target.value
+    })
+  }
+  familyAddress=(e)=>{
+    this.setState({
+      selectedfamilyAddress:e.target.value
+    })
+  }
+  familyPhone=(e)=>{
+    this.setState({
+      selectedFamilyPhone:e.target.value
+    })
+  }
+  familyIncome=(e)=>{
+    this.setState({
+      selectedFamilyIncome:e.target.value
+    })
+  }
+  familyJob=(e)=>{
+    this.setState({
+      selectedFamilyJob:e.target.value
+    })
+  }
+  handleOtherLoan=(e)=>{
+    this.setState({
+      selectedOtherLoan:e
+    })
+  }
+  handelInstitutionName=(e)=>{
+    this.setState({
+      selectedInstitutionName:e.target.value
+    })
+  }
+  handleOutstandingAmount=(e)=>{
+    this.setState({
+      selectedOutstandingAmount:e.target.value
+    })
+  }
+  handleInstallmentTerm=(e)=>{
+    this.setState({
+      selectedInstallmentTerm:e.target.value
+    })
+  }
+  handleInstallmentAmount=(e)=>{
+    this.setState({
+      selectedInstallmentAmount:e.target.value
+    })
+  }
+  handleMaturityDate=(e)=>{
+    this.setState({
+      selectedMaturityDate:e
+    })
+  }
+  handleRequestAmount=(e)=>{
+    if(this.state.selectedRepaymentPeriod == 0){
+      this.setState({
+        selectedRequestAmount:e.target.value,
+        InstallmentAmount:e.target.value
+  
+      })
+    }else{
+      const tempAmount= e.target.value / this.state.selectedRepaymentPeriod
+      this.setState({
+        selectedRequestAmount:e.target.value,
+        InstallmentAmount:tempAmount
+      })
+    }
+    
+  }
+  handleRepaymentPeriod=(e)=>{
+    const tempAmount=this.state.selectedRequestAmount / e.target.value
+    this.setState({
+      selectedRepaymentPeriod:e.target.value,
+      InstallmentAmount:tempAmount
+    })
+  }
+  handleLoanPurpose=(e)=>{
+    this.setState({
+      selectedLoanPurpose:e.target.value
+    })
+  }
+  handleWithdrawLocation=(e)=>{
+    this.setState({
+      selectedWithdrawLocation:e
+    })
+  }
+  handleSelectBoxOtherLoan=(event)=>{
+    if(event.target.checked == true){
+      this.setState({
+        OtherLoanSelectBox:event.target.value
+      })
+    }else{
+      this.setState({
+        OtherLoanSelectBox:0
+      })
+    }
+  }
+  addData = (e) => {
+    const { userInfo } = this.state;
+    console.log("other loan select box",this.state.OtherLoanSelectBox)
+    var data = [...this.state.dataSource];
+    console.log("data",data)
+    let tempData = {};
+    if (this.state.OtherLoanSelectBox == 1 && this.state.selectedOtherLoan !=null && this.state.selectedInstitutionName != '' &&
+    this.state.selectedOutstandingAmount != 0 && this.state.selectedInstallmentTerm != 0 && this.state.selectedInstallmentAmount!=0
+    ) 
+    {
+      console.log("1")
+     
+      tempData.other_loan=this.state.selectedOtherLoan;
+      tempData.institution_name=this.state.selectedInstitutionName;
+      tempData.outstanding_amount=this.state.selectedOutstandingAmount;
+      tempData.installment_term=this.state.selectedInstallmentTerm;
+      tempData.installment_amount=this.state.selectedInstallmentAmount;
+      tempData.maturity_date=this.state.selectedMaturityDate;
+      tempData.other_loan_selectbox=this.state.OtherLoanSelectBox;
+      console.log(' select 1 tempData',tempData)
+      data.push(tempData);
+      this.setState({
+        dataSource: data,
+        selectedOtherLoan:null,
+        selectedInstitutionName:'',
+        selectedOutstandingAmount:0,
+        selectedInstallmentTerm:0,
+        selectedInstallmentAmount:0,
+        selectedMaturityDate:new Date(),
+        OtherLoanSelectBox:0
+      });
+      saveBtn = true;
+      form_validate = true;
+      this.setDataTable(data);
+    }else if (this.state.OtherLoanSelectBox == 0 && (this.state.selectedOtherLoan !=null || this.state.selectedInstitutionName ||
+      this.state.selectedOutstandingAmount != 0 || this.state.selectedInstallmentTerm != 0 || this.state.selectedInstallmentAmount)
+      ) 
+    { console.log("0")
+        
+        
+        tempData.other_loan=this.state.selectedOtherLoan;
+        tempData.institution_name=this.state.selectedInstitutionName;
+        tempData.outstanding_amount=this.state.selectedOutstandingAmount;
+        tempData.installment_term=this.state.selectedInstallmentTerm;
+        tempData.installment_amount=this.state.selectedInstallmentAmount;
+        tempData.maturity_date=this.state.selectedMaturityDate;
+        tempData.other_loan_selectbox=this.state.OtherLoanSelectBox;
+
+        console.log('select 0 tempData',tempData)
+        data.push(tempData);
+        this.setState({
+          dataSource: data,
+          selectedOtherLoan:null,
+          selectedInstitutionName:'',
+          electedOutstandingAmount:0,
+          selectedInstallmentTerm:0,
+          selectedInstallmentAmount:0,
+          selectedMaturityDate:new Date(),
+          OtherLoanSelectBox:0
+        });
+      saveBtn = true;
+      form_validate = true;
+      this.setDataTable(data);
+
+    }else{
+      toast.error("Some Field is Empty", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+  };
+  setDataTable(data) {
+    console.log("data===>",data)
+    var table;
+    if ($.fn.dataTable.isDataTable("#dataTables-Table")) {
+      table = $("#dataTables-Table").dataTable();
+      table.fnClearTable();
+      table.fnDestroy();
+      $("#dataTables-Table").empty();
+    }
+    var l = [];
+    for (var i = 0; i < data.length; i++) {
+      const index = i;
+      const result = data[i];
+      const obj = {
+        no: index + 1,
+        other_loan: data[i].other_loan != null
+          ? data[i].other_loan.label
+          : "-",
+        installment_term: data[i].installment_term ? data[i].installment_term : 0,
+        outstanding_amount: data[i].outstanding_amount ? data[i].outstanding_amount : 0,
+        institution_name: data[i].institution_name ? data[i].institution_name : "-",
+        installment_amount: data[i].installment_amount ? data[i].installment_amount : 0,
+        maturity_date:data[i].maturity_date ? moment(data[i].maturity_date).format('YYYY-MM-DD') : '-',
+        action:
+          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden">'+
+          index +
+          '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' +
+          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toRemove" ><span id="remove" class="hidden">'+
+          index +
+          '</span>  <i className="fa fa-cogs"></i>&nbsp;Remove</button>',
+      };
+      l.push(obj);
+    }
+    table = $("#dataTables-Table").DataTable({
+      autofill: false,
+      bLengthChange: false,
+      bInfo: false,
+      responsive: true,
+      paging: false,
+      buttons: false,
+      data: l,
+      columns: [
+        { title: "No", data: "no" },
+        { title: "Other Loan",data:"other_loan"},
+        { title: "Name of Institution", data: "institution_name" },
+        { title: "Outstanding Amount", data: "outstanding_amount" },
+        { title: "Installment Term", data: "installment_term" },
+        { title: "Installment Amount",data:"installment_amount"},
+        { title: "Maturity Date",data:"maturity_date"},
+        { title:'Action',data:'action'}
+      ],
+    });
   }
 
-  checkFiles(e) {
-    var files = document.getElementById("attach_file").files;
+  familyIncomeDoc(e) {
+    var files = document.getElementById("family_income_attach_file").files;
 
     if (files.length > 2) {
       toast.warning("You can only upload a maximum of 2 files!");
     }
 
-    let newDoc = this.state.newDoc;
-    var obj = document.querySelector("#attach_file").files.length;
+    let newDoc = this.state.FamilyIncomeDoc;
+    var obj = document.querySelector("#family_income_attach_file").files.length;
     for (var i = 0; i < obj; i++) {
-      var getfile = document.querySelector("#attach_file").files[i];
+      var getfile = document.querySelector("#family_income_attach_file").files[i];
       newDoc.push(getfile);
     }
-    document.getElementById("attach_file").value = "";
+    document.getElementById("family_income_attach_file").value = "";
     this.setState({
       // attachment: attachment,
-      newDoc: newDoc,
+      FamilyIncomeDoc: newDoc,
     });
   }
-  //@kpk
+
+  staffGuarantorNRCDoc(e) {
+    var files = document.getElementById("staff_guarantor_nrc_attach_file").files;
+
+    if (files.length > 2) {
+      toast.warning("You can only upload a maximum of 2 files!");
+    }
+
+    let newDoc = this.state.StaffGuarantorNRCDoc;
+    var obj = document.querySelector("#staff_guarantor_nrc_attach_file").files.length;
+    for (var i = 0; i < obj; i++) {
+      var getfile = document.querySelector("#staff_guarantor_nrc_attach_file").files[i];
+      newDoc.push(getfile);
+    }
+    document.getElementById("staff_guarantor_nrc_attach_file").value = "";
+    this.setState({
+      // attachment: attachment,
+      StaffGuarantorNRCDoc: newDoc,
+    });
+  }
+  OtherDoc(e) {
+    var files = document.getElementById("other_doc_attach_file").files;
+
+    if (files.length > 2) {
+      toast.warning("You can only upload a maximum of 2 files!");
+    }
+
+    let newDoc = this.state.OtherDoc;
+    var obj = document.querySelector("#other_doc_attach_file").files.length;
+    for (var i = 0; i < obj; i++) {
+      var getfile = document.querySelector("#other_doc_attach_file").files[i];
+      newDoc.push(getfile);
+    }
+    document.getElementById("other_doc_attach_file").value = "";
+    this.setState({
+      // attachment: attachment,
+      OtherDoc: newDoc,
+    });
+  }
+  RequesterNRCDoc(e) {
+    var files = document.getElementById("requester_nrc_attach_file").files;
+
+    if (files.length > 2) {
+      toast.warning("You can only upload a maximum of 2 files!");
+    }
+
+    let newDoc = this.state.RequestNRCDoc;
+    var obj = document.querySelector("#requester_nrc_attach_file").files.length;
+    for (var i = 0; i < obj; i++) {
+      var getfile = document.querySelector("#requester_nrc_attach_file").files[i];
+      newDoc.push(getfile);
+    }
+    document.getElementById("requester_nrc_attach_file").value = "";
+    this.setState({
+      // attachment: attachment,
+      RequestNRCDoc: newDoc,
+    });
+  }
+  familyGuarantorNRCDoc(e) {
+    var files = document.getElementById("family_guarantor_nrc_attach_file").files;
+
+    if (files.length > 2) {
+      toast.warning("You can only upload a maximum of 2 files!");
+    }
+
+    let newDoc = this.state.FamilyGuarantorNRCDoc;
+    var obj = document.querySelector("#family_guarantor_nrc_attach_file").files.length;
+    for (var i = 0; i < obj; i++) {
+      var getfile = document.querySelector("#family_guarantor_nrc_attach_file").files[i];
+      newDoc.push(getfile);
+    }
+    document.getElementById("family_guarantor_nrc_attach_file").value = "";
+    this.setState({
+      // attachment: attachment,
+      FamilyGuarantorNRCDoc: newDoc,
+    });
+  }
 
   save() {
     console.log("new doc", this.state.newDoc);
@@ -143,6 +592,8 @@ class StaffLoanAddNew extends Component {
   }
 
   render() {
+    console.log("user_info",this.state.user_info)
+    const{user_info}=this.state;
     return (
       <div className="">
         <ToastContainer />
@@ -169,7 +620,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.employment_id}
+                    value={user_info.employment_id}
                   />
                 </div>
               </div>
@@ -184,7 +635,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.fullname}
+                    value={user_info.fullname}
                   />
                 </div>
               </div>
@@ -199,7 +650,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.nrc}
+                    value={user_info.nrc}
                   />
                 </div>
               </div>
@@ -214,7 +665,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={""}
+                    value={user_info.bank}
                   />
                 </div>
               </div>
@@ -232,7 +683,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.employment_id}
+                    value={user_info.dob}
                   />
                 </div>
               </div>
@@ -247,7 +698,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.fullname}
+                    value={user_info.employ_date}
                   />
                 </div>
               </div>
@@ -262,7 +713,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.nrc}
+                    value={user_info.nrc}
                   />
                 </div>
               </div>
@@ -277,7 +728,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.branch_name}
+                    value={user_info.branch_name}
                   />
                 </div>
               </div>
@@ -295,7 +746,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.employment_id}
+                    value={user_info.branch_name}
                   />
                 </div>
               </div>
@@ -310,7 +761,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.fullname}
+                    value={user_info.designations}
                   />
                 </div>
               </div>
@@ -325,7 +776,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.nrc}
+                    value={user_info.office_phone}
                   />
                 </div>
               </div>
@@ -340,7 +791,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.branch_name}
+                    value={user_info.personal_phone}
                   />
                 </div>
               </div>
@@ -358,7 +809,7 @@ class StaffLoanAddNew extends Component {
                     className="form-control"
                     disabled
                     rows={3}
-                    value={this.state.user_info.branch_name}
+                    value={user_info.address}
                   />
                 </div>
               </div>
@@ -396,9 +847,9 @@ class StaffLoanAddNew extends Component {
                       }),
                     }}
                     placeholder="Staff Guarantor ID"
-                    options={[]}
-                    // onChange={this.handleSelectedDepartment}
-                    value={""}
+                    options={''}
+                    onChange={this.handleSelectGuarantor.bind(this)}
+                    value={''}
                     className="react-select-container"
                     classNamePrefix="react-select"
                   />
@@ -415,7 +866,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.fullname}
+                    value={user_info.fullname}
                   />
                 </div>
               </div>
@@ -430,7 +881,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={this.state.user_info.nrc}
+                    value={user_info.nrc}
                   />
                 </div>
               </div>
@@ -445,7 +896,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={""}
+                    value={user_info.designations}
                   />
                 </div>
               </div>
@@ -462,7 +913,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={""}
+                    value={user_info.branch_name}
                   />
                 </div>
               </div>
@@ -489,8 +940,9 @@ class StaffLoanAddNew extends Component {
                   <input
                     type="text"
                     className="form-control"
-                    disabled
-                    value={this.state.user_info.fullname}
+                    // disabled
+                    onChange={this.familyName}
+                    value={this.state.selectedFamilyName}
                   />
                 </div>
               </div>
@@ -504,8 +956,9 @@ class StaffLoanAddNew extends Component {
                   <input
                     type="text"
                     className="form-control"
-                    disabled
-                    value={this.state.user_info.nrc}
+                    // disabled
+                    onChange={this.familyNRC}
+                    value={this.state.selectedFamilyNRC}
                   />
                 </div>
               </div>
@@ -530,9 +983,9 @@ class StaffLoanAddNew extends Component {
                       }),
                     }}
                     placeholder="Ralation with Family"
-                    options={[]}
-                    // onChange={this.handleSelectedDepartment}
-                    value={""}
+                    options={this.state.familyRelation}
+                    onChange={this.handleSelectedFamilyRelation}
+                    value={this.state.selectedFamilyRelation}
                     className="react-select-container"
                     classNamePrefix="react-select"
                   />
@@ -548,8 +1001,9 @@ class StaffLoanAddNew extends Component {
                   <input
                     type="text"
                     className="form-control"
-                    disabled
-                    value={""}
+                    // disabled
+                    onChange={this.familyJob}
+                    value={this.state.selectedFamilyJob}
                   />
                 </div>
               </div>
@@ -565,9 +1019,10 @@ class StaffLoanAddNew extends Component {
                   <textarea
                     type="text"
                     className="form-control"
-                    disabled
+                    // disabled
                     rows={3}
-                    value={this.state.user_info.branch_name}
+                    onChange={this.familyAddress}
+                    value={this.state.selectedFamilyAddress}
                   />
                 </div>
               </div>
@@ -579,10 +1034,12 @@ class StaffLoanAddNew extends Component {
                 </div>
                 <div className="col-md-12">
                   <input
-                    type="text"
+                    type="number"
                     className="form-control"
-                    disabled
-                    value={""}
+                    // disabled
+                    onChange={this.familyIncome}
+                    onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()}
+                    value={this.state.selectedFamilyIncome}
                   />
                 </div>
               </div>
@@ -594,10 +1051,12 @@ class StaffLoanAddNew extends Component {
                 </div>
                 <div className="col-md-12">
                   <input
-                    type="text"
+                    type="number"
                     className="form-control"
-                    disabled
-                    value={""}
+                    // disabled
+                    onChange={this.familyPhone}
+                    onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()}
+                    value={this.state.selectedFamilyPhone}
                   />
                 </div>
               </div>
@@ -623,8 +1082,9 @@ class StaffLoanAddNew extends Component {
                 <div className="col-md-12">
                   <input
                     type="checkbox"
-                    checked={"checked"}
-                    onChange={() => {}}
+                    value='1'
+                    checked={this.state.OtherLoanSelectBox == 1 ? 'checked':''}
+                    onChange={this.handleSelectBoxOtherLoan}
                   />
                 </div>
               </div>
@@ -649,9 +1109,9 @@ class StaffLoanAddNew extends Component {
                       }),
                     }}
                     placeholder="Other Loan"
-                    options={[]}
-                    // onChange={this.handleSelectedDepartment}
-                    value={""}
+                    options={this.state.OtherLoanList}
+                    onChange={this.handleOtherLoan}
+                    value={this.state.selectedOtherLoan}
                     className="react-select-container"
                     classNamePrefix="react-select"
                   />
@@ -664,7 +1124,9 @@ class StaffLoanAddNew extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="text" className="form-control" value={""} />
+                  <input type="text" className='form-control' value={this.state.selectedInstitutionName}
+                  onChange={this.handelInstitutionName}
+                   />
                 </div>
               </div>
               <div className="col-md-3">
@@ -674,7 +1136,9 @@ class StaffLoanAddNew extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="text" className="form-control" value={""} />
+                  <input type="number" className="form-control" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={this.state.selectedOutstandingAmount}
+                  onChange={this.handleOutstandingAmount}
+                   />
                 </div>
               </div>
             </div>
@@ -686,7 +1150,9 @@ class StaffLoanAddNew extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="text" className="form-control" value={""} />
+                  <input type="number" className="form-control" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={this.state.selectedInstallmentTerm}
+                  onChange={this.handleInstallmentTerm}
+                   />
                 </div>
               </div>
               <div className="col-md-3">
@@ -696,7 +1162,9 @@ class StaffLoanAddNew extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="text" className="form-control" value={""} />
+                  <input type="number" className="form-control" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={this.state.selectedInstallmentAmount} 
+                  onChange={this.handleInstallmentAmount}
+                  />
                 </div>
               </div>
               <div className="col-md-3">
@@ -708,23 +1176,29 @@ class StaffLoanAddNew extends Component {
                 <div className="col-md-12">
                   <DatePicker
                     className="checkValidate"
-                    timeFormat={true}
-                    value={new Date()}
-                    dateFormat={false}
-
-                    // onChange={this.changeCaseTime.bind(this)}
+                    timeFormat={false}
+                    value={this.state.selectedMaturityDate}
+                    dateFormat="DD/MM/YYYY"
+                    onChange={this.handleMaturityDate}
                   />
                 </div>
               </div>
-              <div className="col-md-3" style={{paddingTop: 20}}>
+              <div className="col-md-3" style={{ paddingTop: 20 }}>
                 <button
                   className="btn btn-primary"
                   id="add_button"
                   type="button"
-                  // onClick={this.save.bind(this)}
+                  onClick={this.addData}
                 >
                   Add
                 </button>
+              </div>
+              <div className="col-md-12">
+                <table
+                  width="99%"
+                  className="table table-striped table-bordered table-hover responsive nowrap dt-responsive"
+                  id="dataTables-Table"
+                />
               </div>
             </div>
             {/* Other Loan Information */}
@@ -736,9 +1210,9 @@ class StaffLoanAddNew extends Component {
                 style={{ backgroundColor: "#27568A", color: "white", paddingTop: 5 }}
               >
                 <h3>Loan Request Information</h3>
-                </div>
               </div>
-              <div className="row" style={{marginBottom: 10}}>
+            </div>
+            <div className="row" style={{ marginBottom: 10 }}>
               <div className="col-md-3">
                 <div>
                   <label htmlFor="requestAmount" className="col-md-12">
@@ -746,7 +1220,9 @@ class StaffLoanAddNew extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="text" className="form-control" value={""} />
+                  <input type="number" className="form-control" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={this.state.selectedRequestAmount}
+                  onChange={this.handleRequestAmount}
+                   />
                 </div>
               </div>
               <div className="col-md-3">
@@ -756,7 +1232,9 @@ class StaffLoanAddNew extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="text" className="form-control" value={""} />
+                  <input type="number" className="form-control" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={this.state.selectedRepaymentPeriod} 
+                  onChange={this.handleRepaymentPeriod}
+                  />
                 </div>
               </div>
               <div className="col-md-3">
@@ -766,7 +1244,7 @@ class StaffLoanAddNew extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="text" className="form-control" value={""} />
+                  <input type="text" className="form-control" disabled value={this.state.InstallmentAmount} />
                 </div>
               </div>
               <div className="col-md-3">
@@ -776,19 +1254,19 @@ class StaffLoanAddNew extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="text" className="form-control" value={""} />
+                  <input type="text" className="form-control" value={this.state.selectedLoanPurpose} onChange={this.handleLoanPurpose} />
                 </div>
               </div>
-              </div>
-              <div className="row" style={{marginBottom: 10}}>
-                <div className="col-md-3">
+            </div>
+            <div className="row" style={{ marginBottom: 10 }}>
+              <div className="col-md-3">
                 <div>
                   <label htmlFor="withdrawLocation" className="col-md-12">
                     Withdraw Location
                   </label>
                 </div>
                 <div className="col-md-12">
-                <Select
+                  <Select
                     styles={{
                       container: (base) => ({
                         ...base,
@@ -802,17 +1280,17 @@ class StaffLoanAddNew extends Component {
                       }),
                     }}
                     placeholder="Withdraw Location"
-                    options={[]}
-                    // onChange={this.handleSelectedDepartment}
-                    value={""}
+                    options={this.state.WithdrawLocationList}
+                    onChange={this.handleWithdrawLocation}
+                    value={this.state.selectedWithdrawLocation}
                     className="react-select-container"
                     classNamePrefix="react-select"
                   />
                 </div>
-                
-                </div>
+
               </div>
-            
+            </div>
+
             {/* Loan Request Information */}
 
             <div className="col-md-12" style={{ marginBottom: 10 }}>
@@ -821,8 +1299,8 @@ class StaffLoanAddNew extends Component {
                 style={{ backgroundColor: "#27568A", color: "white", paddingTop: 5 }}
               >
                 <h3>Attachment</h3>
-                </div>
               </div>
+            </div>
             <div className="row">
               <div className="form-group col-md-6">
                 <div>
@@ -830,21 +1308,21 @@ class StaffLoanAddNew extends Component {
                     htmlFor="attachment"
                     className="col-sm-12 custom-file-label"
                   >
-                    Provide At Least One Or At Most Two Attachment
+                    Family Member Income Document
                   </label>
                 </div>
                 <div className="col-sm-10">
                   <input
                     className="dropZone "
                     type="file"
-                    id="attach_file"
+                    id="family_income_attach_file"
                     multiple
-                    onChange={this.checkFiles.bind(this)}
+                    onChange={this.familyIncomeDoc.bind(this)}
                   ></input>
                 </div>
                 <div>
-                  {this.state.newDoc.map((data, index) => (
-                    <div className="fileuploader-items col-md-4">
+                  {this.state.FamilyIncomeDoc.map((data, index) => (
+                    <div className="fileuploader-items col-md-6">
                       <ul className="fileuploader-items-list">
                         <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
                           <div className="columns">
@@ -866,7 +1344,7 @@ class StaffLoanAddNew extends Component {
                               <a
                                 className="fileuploader-action fileuploader-action-remove"
                                 onClick={(event) =>
-                                  this.removeNewDocument(index, event)
+                                  this.removeFamilyIncomeDoc(index, event)
                                 }
                               >
                                 {" "}
@@ -880,6 +1358,230 @@ class StaffLoanAddNew extends Component {
                   ))}
                 </div>
               </div>
+              <div className="form-group col-md-6">
+                <div>
+                  <label
+                    htmlFor="attachment"
+                    className="col-sm-12 custom-file-label"
+                  >
+                    Staff Guarantor NRC Document
+                  </label>
+                </div>
+                <div className="col-sm-10">
+                  <input
+                    className="dropZone "
+                    type="file"
+                    id="staff_guarantor_nrc_attach_file"
+                    multiple
+                    onChange={this.staffGuarantorNRCDoc.bind(this)}
+                  ></input>
+                </div>
+                  <div>
+                    {this.state.StaffGuarantorNRCDoc.map((data, index) => (
+                      <div className="fileuploader-items col-md-6">
+                        <ul className="fileuploader-items-list">
+                          <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
+                            <div className="columns">
+                              <div className="column-thumbnail">
+                                <div className="fileuploader-item-image fileuploader-no-thumbnail">
+                                  <div
+                                    className="fileuploader-item-icon"
+                                    style={{ backgroundColor: "#3f4fd3" }}
+                                  >
+                                    <i>{data.name.split(".")[1]}</i>
+                                  </div>
+                                </div>
+                                <span className="fileuploader-action-popup"></span>
+                              </div>
+                              <div className="column-title">
+                                <span className="own-text">{data.name}</span>
+                              </div>
+                              <div className="column-actions">
+                                <a
+                                  className="fileuploader-action fileuploader-action-remove"
+                                  onClick={(event) =>
+                                    this.removeStaffGuarantorNRCDoc(index, event)
+                                  }
+                                >
+                                  {" "}
+                                  <i></i>
+                                </a>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+              </div>
+              <div className="form-group col-md-6">
+                <div>
+                  <label
+                    htmlFor="attachment"
+                    className="col-sm-12 custom-file-label"
+                  >
+                    Other Attachment Files
+                  </label>
+                </div>
+                <div className="col-sm-10">
+                  <input
+                    className="dropZone "
+                    type="file"
+                    id="other_doc_attach_file"
+                    multiple
+                    onChange={this.OtherDoc.bind(this)}
+                  ></input>
+                </div>
+                <div>
+                  {this.state.OtherDoc.map((data, index) => (
+                    <div className="fileuploader-items col-md-6">
+                      <ul className="fileuploader-items-list">
+                        <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
+                          <div className="columns">
+                            <div className="column-thumbnail">
+                              <div className="fileuploader-item-image fileuploader-no-thumbnail">
+                                <div
+                                  className="fileuploader-item-icon"
+                                  style={{ backgroundColor: "#3f4fd3" }}
+                                >
+                                  <i>{data.name.split(".")[1]}</i>
+                                </div>
+                              </div>
+                              <span className="fileuploader-action-popup"></span>
+                            </div>
+                            <div className="column-title">
+                              <span className="own-text">{data.name}</span>
+                            </div>
+                            <div className="column-actions">
+                              <a
+                                className="fileuploader-action fileuploader-action-remove"
+                                onClick={(event) =>
+                                  this.removeOtherDoc(index, event)
+                                }
+                              >
+                                {" "}
+                                <i></i>
+                              </a>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="form-group col-md-6">
+                <div>
+                  <label
+                    htmlFor="attachment"
+                    className="col-sm-12 custom-file-label"
+                  >
+                    Requester NRC Document
+                  </label>
+                </div>
+                <div className="col-sm-10">
+                  <input
+                    className="dropZone "
+                    type="file"
+                    id="requester_nrc_attach_file"
+                    multiple
+                    onChange={this.RequesterNRCDoc.bind(this)}
+                  ></input>
+                </div>
+                <div>
+                  {this.state.RequestNRCDoc.map((data, index) => (
+                    <div className="fileuploader-items col-md-6">
+                      <ul className="fileuploader-items-list">
+                        <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
+                          <div className="columns">
+                            <div className="column-thumbnail">
+                              <div className="fileuploader-item-image fileuploader-no-thumbnail">
+                                <div
+                                  className="fileuploader-item-icon"
+                                  style={{ backgroundColor: "#3f4fd3" }}
+                                >
+                                  <i>{data.name.split(".")[1]}</i>
+                                </div>
+                              </div>
+                              <span className="fileuploader-action-popup"></span>
+                            </div>
+                            <div className="column-title">
+                              <span className="own-text">{data.name}</span>
+                            </div>
+                            <div className="column-actions">
+                              <a
+                                className="fileuploader-action fileuploader-action-remove"
+                                onClick={(event) =>
+                                  this.removeRequesterNRCDoc(index, event)
+                                }
+                              >
+                                {" "}
+                                <i></i>
+                              </a>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="form-group col-md-6">
+                  <div>
+                      <label
+                      htmlFor="attachment"
+                      className="col-sm-12 custom-file-label"
+                      >
+                      Family Guarantor NRC Document
+                      </label>
+                </div>
+                  <div className="col-sm-10">
+                    <input
+                    className="dropZone "
+                    type="file"
+                    id="family_guarantor_nrc_attach_file"
+                    multiple
+                    onChange={this.familyGuarantorNRCDoc.bind(this)}
+                    ></input>
+                  </div>
+                <div>
+                {this.state.FamilyGuarantorNRCDoc.map((data, index) => (
+                  <div className="fileuploader-items col-md-6">
+                    <ul className="fileuploader-items-list">
+                      <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
+                        <div className="columns">
+                          <div className="column-thumbnail">
+                            <div className="fileuploader-item-image fileuploader-no-thumbnail">
+                              <div
+                                className="fileuploader-item-icon"
+                                style={{ backgroundColor: "#3f4fd3" }}
+                              >
+                                <i>{data.name.split(".")[1]}</i>
+                              </div>
+                            </div>
+                            <span className="fileuploader-action-popup"></span>
+                          </div>
+                          <div className="column-title">
+                            <span className="own-text">{data.name}</span>
+                          </div>
+                          <div className="column-actions">
+                            <a
+                              className="fileuploader-action fileuploader-action-remove"
+                              onClick={(event) =>
+                                this.removeFamilyGuarantorNRCDoc(index, event)
+                              }
+                            >
+                              {" "}
+                              <i></i>
+                            </a>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                      ))}
+                  </div>
+                </div>
             </div>
           </form>
         </div>
@@ -890,7 +1592,7 @@ class StaffLoanAddNew extends Component {
                 className="btn btn-primary"
                 id="saving_button"
                 type="button"
-                // onClick={this.save.bind(this)}
+                onClick={this.save.bind(this)}
               >
                 Save
               </button>

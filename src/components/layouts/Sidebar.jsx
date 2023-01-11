@@ -1121,19 +1121,19 @@ export default class Sidebar extends Component {
 
                     <a href="/travelRequest">Travel Request</a>
                   </li>
-                   <li
+                   {/* <li
                     className={pathname === "/trainingRequest" ? "active" : ""}
                     style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == 'Training Allowance') && sidebarPermission.filter(d => d.permission == 'Training Allowance')[0].access == true ? 'block' : 'none') }}
                     >
                     <a href="/trainingRequest">Training Request</a>
-                  </li>
+                  </li> */}
                   <li
                     className={pathname === "/salary_advance" ? "active" : ""}
                     style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Salary Advance") && sidebarPermission.filter(d => d.permission == "Salary Advance")[0].access == true ? 'block' : 'none') }}
                   >
                     <a href="/salary_advance">Salary Advance</a>
                   </li>
-                   <li
+                   {/* <li
                     className={pathname === "/phonebillrequest" ? "active" : ""}
                     style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == 'Phone Bill') && sidebarPermission.filter(d => d.permission == 'Phone Bill')[0].access == true ? 'block' : 'none') }}
 
@@ -1144,7 +1144,7 @@ export default class Sidebar extends Component {
                     style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == 'Petrol By BM') && sidebarPermission.filter(d => d.permission == 'Petrol By BM')[0].access == true ? 'block' : 'none') }}
                   >
                     <a href="/petrolRequest">Petrol Request</a>
-                  </li> 
+                  </li>  */}
                 </ul>
 
               </li>
@@ -1189,7 +1189,7 @@ export default class Sidebar extends Component {
                 </a>
               </li>
 
-               <li
+               {/* <li
                 className={
                   this.checkPathName() === "/staff_loan" ? "active" : ""
                 }
@@ -1225,14 +1225,14 @@ export default class Sidebar extends Component {
                     </a>
                   </li>
                 </ul>
-              </li> 
+              </li>  */}
 
 
 
 
 
               
-              <li
+              {/* <li
                 className={
                   this.checkPathName() === "/notification" ? "active" : ""
                 }
@@ -1248,7 +1248,7 @@ export default class Sidebar extends Component {
                     <i className="fas fa-atlas sideIcon" style={{ color: 'white' }}></i>
                     <span className="sideText">Announcement Setting</span>
                   </a>
-                </li> 
+                </li>  */}
 
               <li>
                 <a href={remote_url} className="sideList" onClick={this.logout.bind(this)}>
