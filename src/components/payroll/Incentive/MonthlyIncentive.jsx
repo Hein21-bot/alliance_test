@@ -408,7 +408,7 @@ export default class MonthlyIncentive extends Component {
     });
   }
 
-  render() { console.log(this.state.fxData.length);
+  render() { console.log(this.state.searchData);
     return (
       <div>
         <ToastContainer />
