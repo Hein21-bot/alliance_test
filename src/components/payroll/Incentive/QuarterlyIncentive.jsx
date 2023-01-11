@@ -157,12 +157,12 @@ export default class QuarterlyIncentive extends Component{
           };
 
         actionClick = (e)=>{   
-          if(e==1){
+          if( e === 1 ){
             this.setState({
               validate:1
             })
           } 
-            if ( this.state.newDoc.length > 0 && this.state.dataSource.length > 0 && (e == 1 || e ==0 )||(this.state.validate === 1 && e === 2)){
+            if ((( this.state.dataSource.length > 0 && this.state.dataSource[0].generate !== 2) && (e == 1 || e ==0 ))||(e === 2 && this.state.validate === 1 )){ 
               let status = 0
               fetch(`${main_url}incentive/quartelyGenerate/${this.state.selected_quarter.value}/${moment(this.state.selected_month).format("YYYY")}/${e}`)
               .then((res) => {
@@ -182,14 +182,17 @@ export default class QuarterlyIncentive extends Component{
               window.location.reload();
             }
               });
-            }else if(e == 2 && this.state.validate !== 1){
-              toast.error("Please Generate PaySlip First!");
+              
             }
-            else if(e===1 && this.state.dataSource[0].generate === 2){
+            else if (e === 1 && this.state.dataSource.length === 0 ){
+              toast.error("Please Calculate First!");
+            }
+           
+            else if(e === 1 && this.state.dataSource[0].generate === 2){
               toast.error("Already Calculated Pay Slip!");
             }
-            else {
-              toast.error("Please Calculate First!");
+            else if(e === 2 && this.state.validate !== 1){
+              toast.error("Please Generate PaySlip First!");
             }
           };
 

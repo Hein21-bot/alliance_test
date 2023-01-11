@@ -350,7 +350,7 @@ getRegionList() {
                         </div>):(<></>)
                         }
             </div>
-            <div className="col-lg-12" style={{padding:'0px 15px 0px 15px',margin:'0px -30px 0px -15px', backgroundColor:'#fff'}}>
+            <div className="col-lg-12" style={{padding:'0px 0px 0px 0px',margin:'0px 0px 0px 0px', backgroundColor:'#fff'}}>
             {  this.state.table_type === 1  && this.state.coData.length > 0 ? (  
                
                        
@@ -529,11 +529,29 @@ getRegionList() {
                       Employee ID
                     </th>
                     <th
-                      style={{ textAlign: "center", verticalAlign: "middle" }}
-                      rowSpan={3}
-                    >
-                      Employee Name
-                    </th>
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    FX Name
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    Client Officer Name
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    Branch Name
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    Product Name
+                  </th>
                     <th style={{ textAlign: "center" }} colSpan={4}>
                       Credit
                     </th>
@@ -616,7 +634,7 @@ getRegionList() {
                 </thead>
                 <tbody style={{ textAlign: "center" }}>
                   <tr>
-                  <td colSpan={15}style={{ textAlign: "center", verticalAlign: "middle",height:35,fontSize:15,borderBottom:'1px solid black' }}>No data available in table</td>
+                  <td colSpan={18}style={{ textAlign: "center", verticalAlign: "middle",height:35,fontSize:15,borderBottom:'1px solid black' }}>No data available in table</td>
                   </tr>
                 </tbody>
                 </table>
