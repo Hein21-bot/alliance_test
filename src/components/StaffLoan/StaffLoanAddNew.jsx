@@ -22,8 +22,8 @@ class StaffLoanAddNew extends Component {
   constructor() {
     super();
     this.state = {
-      user_info: getCookieData("user_info"),
-      staffInfo: null,
+      
+      staffInfo: [],
       user_id: getUserId("user_info"),
       staffGuarantorInfo: {
         staffGuarantorId: 0,
@@ -39,16 +39,11 @@ class StaffLoanAddNew extends Component {
       FamilyGuarantorNRCDoc:[],
 
       dataSource:[],
-      familyRelation:[
-        {
-        label:'Parent',value : 1
-        },
-        {
-          label:'Sibling',value : 2
-        },
-        {
-          label:'Uncle',value : 3
-        }
+      familyRelation:[{
+        label:'Father',value:1
+      },{
+        label:'Mother',value:2
+      }
     ],
     OtherLoanSelectBox:0,
     OtherLoanList:[
@@ -93,10 +88,11 @@ class StaffLoanAddNew extends Component {
       updatedBy: getUserId("user_info"),
       attachment: [],
       newDoc: [],
-      staffInfo: [],
+      // staffInfo: [],
       getGuarantorInfo: [],
-      selectedGuarantor: [],
-      familyDropdown: []
+      selectedGuarantor: null,
+      familyDropdown: [],
+    user_info:getCookieData("user_info")
     };
   }
 
@@ -104,7 +100,31 @@ class StaffLoanAddNew extends Component {
     if (!form_validate) validate("check_form");
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    // let id=this.state.user_info!=undefined && this.state.user_info
+    let user_info= await getCookieData("user_info")
+    console.log(user_info)
+    await fetch(`${main_url}staff_loan_new/getStaffUserInfo/${user_info!=null && user_info.user_id}`)
+      .then(res => { if (res.ok) return res.json() })
+      .then(list => {
+        this.setState({
+          staffInfo: list
+        })
+      })
+    await fetch(`${main_url}staff_loan_new/getGuarantorInfo`)
+      .then(res => { if (res.ok) return res.json() })
+      .then(list => {
+        this.setState({
+          getGuarantorInfo: list
+        })
+      })
+    // fetch(`${main_url}staff_loan_new/familyDropDown`)
+    //   .then(res => { if (res.ok) return res.json() })
+    //   .then(list => {
+    //     this.setState({
+    //       familyRelation: list
+    //     })
+    //   })
     let that=this;
     $(document).on("click", "#toEdit", function () {
       var data = $(this).find("#edit").text();
@@ -221,7 +241,7 @@ class StaffLoanAddNew extends Component {
   }
   familyAddress=(e)=>{
     this.setState({
-      selectedfamilyAddress:e.target.value
+      selectedFamilyAddress:e.target.value
     })
   }
   familyPhone=(e)=>{
@@ -542,38 +562,75 @@ class StaffLoanAddNew extends Component {
   save() {
     console.log("new doc", this.state.newDoc);
     console.log("doc", this.state.doc);
-    if (this.state.newDoc.length == 0) {
+    if (this.state.FamilyGuarantorNRCDoc.length == 0 && this.state.FamilyIncomeDoc.length == 0 && this.state.StaffGuarantorNRCDoc.length == 0 && this.state.RequestNRCDoc.length == 0) {
       toast.error("Please Choose Attachment File!");
     } else {
-      if (validate("check_form") && this.state.newDoc.length > 0) {
+      if (this.state.FamilyGuarantorNRCDoc.length > 0 && this.state.FamilyIncomeDoc.length > 0 && this.state.StaffGuarantorNRCDoc.length > 0 && this.state.RequestNRCDoc.length > 0) {
         console.log("save new doc", this.state.newDoc);
         $("#saving_button").attr("disabled", true);
         var data = {
-          user_id: this.state.user_info.user_id,
-          child_count: this.state.noOfChildren,
-          available_amount: this.state.available_amount,
+          userId: this.state.user_info.user_id,
+          staffGuarantorUserId:this.state.selectedGuarantor!=null ? this.state.selectedGuarantor.value : '',
+          family_guarantor_name:this.state.familyName,
+          family_guarantor_nrc:this.state.selectedFamilyNRC,
+          family_guarantor_relation:this.state.selectedFamilyRelation.value,
+          family_guarantor_job:this.state.selectedFamilyJob,
+          family_guarantor_address:this.state.selectedFamilyAddress,
+          family_guarantor_income:this.state.selectedFamilyIncome,
+          family_guarantor_phone:this.state.selectedFamilyPhone,
+          request_amount:this.state.selectedRequestAmount,
+          repayment_period:this.state.selectedRepaymentPeriod,
+          installment_amount:this.state.InstallmentAmount,
+          loan_purpose:this.state.selectedLoanPurpose,
+          withdraw_location:this.state.selectedWithdrawLocation.value,
           status: this.state.status,
           createdBy: this.state.createdBy,
           updatedBy: this.state.updatedBy,
         };
+        const temp=this.state.dataSource.map((v)=>{
+          return{
+            nameOfInstitution:v.institution_name,
+            outstandingAmount:v.outstanding_amount,
+            installmentTerm:v.installment_term,
+            installmentAmount:v.installment_amount,
+            maturityDate:v.maturity_date,
+            otherLoan:v.other_loan.value,
+            otherLoanCheck:v.other_loan_selectbox
+          }
+        })
 
         const formdata = new FormData();
-
-        // var obj = document.querySelector("#attach_file").files.length;
-        // for (var i = 0; i < obj; i++) {
-        //     var imagedata = document.querySelector("#attach_file").files[i];
-        //     formdata.append('uploadfile', imagedata);
-        // }
-        var obj = this.state.newDoc.length;
-        for (var i = 0; i < obj; i++) {
-          var imagedata = this.state.newDoc[i];
-          formdata.append("uploadfile", imagedata);
+        var tempFamilyIncome = this.state.FamilyIncomeDoc.length;
+        for (var i = 0; i < tempFamilyIncome; i++) {
+          var imagedata = this.state.FamilyIncomeDoc[i];
+          formdata.append("family", imagedata);
+        }
+        var tempFamilyGuarantorNRC = this.state.FamilyGuarantorNRCDoc.length;
+        for (var i = 0; i < tempFamilyGuarantorNRC; i++) {
+          var imagedata = this.state.FamilyGuarantorNRCDoc[i];
+          formdata.append("familyGuaNRC", imagedata);
+        }
+        var tempOther = this.state.OtherDoc.length;
+        for (var i = 0; i < tempOther; i++) {
+          var imagedata = this.state.OtherDoc[i];
+          formdata.append("otherDOC", imagedata);
+        }
+        var tempStaffGuarantorNRC = this.state.StaffGuarantorNRCDoc.length;
+        for (var i = 0; i < tempStaffGuarantorNRC; i++) {
+          var imagedata = this.state.StaffGuarantorNRCDoc[i];
+          formdata.append("staffNRC", imagedata);
+        }
+        var tempRequesterNRC = this.state.RequestNRCDoc.length;
+        for (var i = 0; i < tempRequesterNRC; i++) {
+          var imagedata = this.state.RequestNRCDoc[i];
+          formdata.append("requesterNRC", imagedata);
         }
 
-        formdata.append("child_benefit", JSON.stringify(data));
-
+        formdata.append("staff_loan_info", JSON.stringify(data));
+        formdata.append('staff_loan_detail',JSON.stringify(temp))
+        console.log("formdata",formdata)
         let status = 0;
-        fetch(`${main_url}child_benefit/saveChildBenefit`, {
+        fetch(`${main_url}staff_loan_new/createStaffLoan`, {
           method: "POST",
           body: formdata,
         })
@@ -592,14 +649,14 @@ class StaffLoanAddNew extends Component {
   }
 
   render() {
-    console.log("user_info",this.state.user_info)
-    const{user_info}=this.state;
+    console.log("info=======>",this.state.getGuarantorInfo,this.state.selectedGuarantor)
+    const{staffInfo,getGuarantorInfo}=this.state;
     return (
       <div className="">
         <ToastContainer />
         <div className="row">
           <form className="form-group" id="check_form">
-            {/* StaffInformation */}
+           
             <div className="col-md-12" style={{ marginBottom: 10 }}>
               <div
                 className="col-md-12"
@@ -620,7 +677,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={user_info.employment_id}
+                    value={staffInfo.length > 0 ? staffInfo[0].customer_code : ''}
                   />
                 </div>
               </div>
@@ -635,7 +692,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={user_info.fullname}
+                    value={staffInfo.length > 0 ? staffInfo[0].fullname :""}
                   />
                 </div>
               </div>
@@ -650,7 +707,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={user_info.nrc}
+                    value={staffInfo.length > 0 ? staffInfo[0].nrc : ''}
                   />
                 </div>
               </div>
@@ -665,7 +722,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={user_info.bank}
+                    value={staffInfo.length > 0 ? staffInfo[0].account_no : ''}
                   />
                 </div>
               </div>
@@ -683,7 +740,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={user_info.dob}
+                    value={staffInfo.length > 0 ? staffInfo[0].dob : ''}
                   />
                 </div>
               </div>
@@ -698,7 +755,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={user_info.employ_date}
+                    value={staffInfo.length > 0 ? staffInfo[0].employ_date : ''}
                   />
                 </div>
               </div>
@@ -713,7 +770,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={user_info.nrc}
+                    value={staffInfo.length > 0 ?  staffInfo[0].basic_salary : ''}
                   />
                 </div>
               </div>
@@ -728,7 +785,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={user_info.branch_name}
+                    value={staffInfo.length > 0 ? staffInfo[0].state_name : ''}
                   />
                 </div>
               </div>
@@ -746,7 +803,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={user_info.branch_name}
+                    value={staffInfo.length > 0 ?  staffInfo[0].location_master_name : ''}
                   />
                 </div>
               </div>
@@ -761,7 +818,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={user_info.designations}
+                    value={staffInfo.length > 0 ?  staffInfo[0].designations : ''}
                   />
                 </div>
               </div>
@@ -776,7 +833,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={user_info.office_phone}
+                    value={staffInfo.length > 0 ? staffInfo[0].office_phone : ''}
                   />
                 </div>
               </div>
@@ -791,7 +848,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={user_info.personal_phone}
+                    value={staffInfo.length > 0 ? staffInfo[0].personal_phone : ''}
                   />
                 </div>
               </div>
@@ -809,14 +866,12 @@ class StaffLoanAddNew extends Component {
                     className="form-control"
                     disabled
                     rows={3}
-                    value={user_info.address}
+                    value={staffInfo.length > 0 ? staffInfo[0].address : ''}
                   />
                 </div>
               </div>
             </div>
-            {/* StaffInformation */}
-
-            {/* Staff Guarantor Information */}
+            
             <div className="col-md-12" style={{ marginBottom: 10 }}>
               <div
                 className="col-md-12"
@@ -837,9 +892,7 @@ class StaffLoanAddNew extends Component {
                     styles={{
                       container: (base) => ({
                         ...base,
-                        //   flex: 1
-                        // width: 150,
-                        // marginRight:10
+                       
                       }),
                       control: (base) => ({
                         ...base,
@@ -847,9 +900,9 @@ class StaffLoanAddNew extends Component {
                       }),
                     }}
                     placeholder="Staff Guarantor ID"
-                    options={''}
+                    options={this.state.getGuarantorInfo}
                     onChange={this.handleSelectGuarantor.bind(this)}
-                    value={''}
+                    value={this.state.selectedGuarantor}
                     className="react-select-container"
                     classNamePrefix="react-select"
                   />
@@ -866,7 +919,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={user_info.fullname}
+                    value={this.state.selectedGuarantor !=null ? this.state.selectedGuarantor.fullname : ''}
                   />
                 </div>
               </div>
@@ -881,7 +934,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={user_info.nrc}
+                    value={this.state.selectedGuarantor!=null ? this.state.selectedGuarantor.nrc : ''}
                   />
                 </div>
               </div>
@@ -896,7 +949,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={user_info.designations}
+                    value={this.state.selectedGuarantor !=null ?  this.state.selectedGuarantor.designations : ''}
                   />
                 </div>
               </div>
@@ -913,14 +966,12 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={user_info.branch_name}
+                    value={this.state.selectedGuarantor!=null ? this.state.selectedGuarantor.location_master_name : ''}
                   />
                 </div>
               </div>
             </div>
-            {/* Staff Guarantor Information */}
-
-            {/* Family Guarantor Information */}
+            
             <div className="col-md-12" style={{ marginBottom: 10 }}>
               <div
                 className="col-md-12"
@@ -1061,9 +1112,7 @@ class StaffLoanAddNew extends Component {
                 </div>
               </div>
             </div>
-            {/* Family Guarantor Information */}
-
-            {/* Other Loan Information */}
+            
             <div className="col-md-12" style={{ marginBottom: 10 }}>
               <div
                 className="col-md-12"
@@ -1201,9 +1250,7 @@ class StaffLoanAddNew extends Component {
                 />
               </div>
             </div>
-            {/* Other Loan Information */}
-
-            {/* Loan Request Information */}
+            
             <div className="col-md-12" style={{ marginBottom: 10 }}>
               <div
                 className="col-md-12"
@@ -1291,7 +1338,7 @@ class StaffLoanAddNew extends Component {
               </div>
             </div>
 
-            {/* Loan Request Information */}
+           
 
             <div className="col-md-12" style={{ marginBottom: 10 }}>
               <div
