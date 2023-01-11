@@ -201,14 +201,14 @@ render(){
         </div>
 {  this.state.selected_type == 1 ?( this.state.coData.length > 0  ? ( 
   <div className="row" style={{display:'flex',justifyContent:'space-around'}}>
-  <div className='col-lg-4 col-md-4 col-sm-12' style={{ background: 'white',marginTop:30,border:"1px solid grey " }}>
+  <div className='col-lg-5 col-md-4 col-sm-12' style={{ background: 'white',marginTop:30,border:"1px solid grey " }}>
    
  <div className="" style={{display:'flex',justifyContent:'center', background: '#1872ab',marginTop:20}}><h2 style={{color:"white",marginTop:10,fontSize:18,fontWeight:"bold"}}>Monthly Incentive</h2>
  </div>
 
  <div className="" style={{display:'flex',justifyContent:'center',paddingTop:20}}><h3>Staff Information</h3></div>
-
- <div className='col-lg-6' style={{ paddingLeft: '30px', paddingTop: '10px' }}><p>Staff ID</p>
+<div className='col-lg-12'>
+ {/* <div className='col-lg-6' style={{ paddingLeft: '30px', paddingTop: '10px' }}><p>Staff ID</p>
  <p>Name</p>
  <p>Department</p>
  <p>Designation</p>
@@ -230,8 +230,15 @@ render(){
  <p>{this.state.coData[0].designations ? this.state.coData[0].designations :'-'}</p>
  <p>{this.state.coData[0].location_master_name ? this.state.coData[0].location_master_name :'-'}</p>
  <p>{this.state.coData[0].monthIncentive ? this.state.coData[0].monthIncentive :'-'}</p>
- </div></div>
+ </div></div> */}
+<div><div className='col-lg-6'><p>Staff ID</p></div><div className='col-lg-1' style={{padding:0}}><p>:</p></div><div className=' col-lg-5'><p>{this.state.coData[0].employment_id ? this.state.coData[0].employment_id :'-'}</p><div></div></div></div>
+<div><div className='col-lg-6'><p>Name</p></div><div className='col-lg-1'style={{padding:0}}><p>:</p></div><div className=' col-lg-5'><p>{this.state.coData[0].fullname ? this.state.coData[0].fullname :'-'}</p><div></div></div></div>
+<div><div className='col-lg-6'><p>Department</p></div><div className='col-lg-1'style={{padding:0}}><p>:</p></div><div className=' col-lg-5'><p>{this.state.coData[0].deptname ? this.state.coData[0].deptname :'-'}</p><div></div></div></div>
+<div><div className='col-lg-6'><p>Designation</p></div><div className='col-lg-1'style={{padding:0}}><p>:</p></div><div className=' col-lg-5'><p>{this.state.coData[0].designations ? this.state.coData[0].designations :'-'}</p><div></div></div></div>
+<div><div className='col-lg-6'><p>Branch</p></div><div className='col-lg-1'style={{padding:0}}><p>:</p></div><div className=' col-lg-5'><p>{this.state.coData[0].location_master_name ? this.state.coData[0].location_master_name :'-'}</p><div></div></div></div>
+<div><div className='col-lg-6'><p>Payment Month</p></div><div className='col-lg-1'style={{padding:0}}><p>:</p></div><div className=' col-lg-5'><p>{this.state.coData[0].monthIncentive ? this.state.coData[0].monthIncentive :'-'}</p><div></div></div></div>
 
+</div>
  <div className='row' style={{display:'flex',justifyContent:'center',paddingTop:20}}><h3>Incentive Information</h3>
  </div>
 
@@ -250,7 +257,7 @@ render(){
  </div>
 
 
- <div className=' col-lg-5' style={{ paddingTop: '10px' }}><div className='col-lg-10'><p>{this.state.coData[0].credit_incentive}</p>
+ <div className=' col-lg-5' style={{ paddingTop: '10px' }}><div className='col-lg-10' style={{padding:0}}><p>{this.state.coData[0].credit_incentive}</p>
 
  <p>{this.state.coData[0].saving_incentive ? this.state.coData[0].saving_incentive :'0'}</p>
  <p>{this.state.coData[0].collection_rate ? this.state.coData[0].collection_rate :'0'}</p>
@@ -259,7 +266,7 @@ render(){
  </div></div>
   </div>
 
- <div className='col-lg-4 col-md-4 col-sm-12' style={{ background: 'white',marginTop:30,border:"1px solid grey " }}>                
+ <div className='col-lg-5 col-md-4 col-sm-12' style={{ background: 'white',marginTop:30,border:"1px solid grey " }}>                
  <div className="" style={{display:'flex',justifyContent:'center', background: '#1872ab',marginTop:20}}><h2 style={{color:"white",marginTop:10,fontSize:18,fontWeight:"bold"}}>Detail Calculation</h2>
  </div>
 

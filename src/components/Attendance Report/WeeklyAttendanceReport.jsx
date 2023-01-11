@@ -319,7 +319,7 @@ class WeeklyAttendanceReport extends Component {
         <div className="col-lg-12" style={{paddingTop:30,paddingLeft:0}}>
                         <ReactHTMLTableToExcel 
                          className="btn-excel"
-                         table="monthly_incentive"
+                         table="weekly_table"
                          filename={"Weekly Attendance Report "}
                          buttonText="Excel"
                          sheet="Sheet"
@@ -328,6 +328,7 @@ class WeeklyAttendanceReport extends Component {
                         </div>
           <table
             className="table table-bordered"
+            id='weekly_table'
             style={{ overflow: "Scroll",display:'block',whiteSpace:'nowrap'}}
           >
             <thead>

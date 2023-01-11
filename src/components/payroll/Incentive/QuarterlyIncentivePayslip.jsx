@@ -55,12 +55,15 @@ export default class QuarterlyIncentivePayslip extends Component{
             })
             .then((list) =>{
               this.setState({
-                dataSource:list
+                dataSource:list || []
                   })
+            // .catch((err)=>{
+            //   console.log(err)
+            // })
         })
     }
 
-        render(){   
+        render(){   console.log(this.state.selected_quarter.value);
             return( 
                 <div>
                   <h3 style={{margin:'15px 15px 15px 15px'}}>Quarterly Incentive Payslip</h3>
@@ -174,7 +177,7 @@ export default class QuarterlyIncentivePayslip extends Component{
              <div style={{marginBottom:30}}><span>Remark:{this.state.dataSource[0].remark ? this.state.dataSource[0].remark: '-'}</span></div>
                 </div>
 
-              </div>):('')}
+              </div>):(<></>)}
               </div>
             )}
 }

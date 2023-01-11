@@ -157,11 +157,11 @@ getRegionList() {
     };
 
    handleSearch=(e)=>{
-  this.setState({
-    coData:[],
-    fxData:[],
-    loading:true
-  })
+  // this.setState({
+  //   coData:[],
+  //   fxData:[],
+  //   loading:true
+  // })
   const employee = this.state.selected_employeeID ? this.state.selected_employeeID.value : 0
   const designationId = this.state.selected_designation ? this.state.selected_designation.value : 0
   const branchId = this.state.selected_branch ? this.state.selected_branch.value :0
@@ -172,7 +172,7 @@ getRegionList() {
       .then(list => {
         if (this.state.selected_type.value === 1){
         this.setState({
-            coData:list,
+            coData:[list],
             fxData:[],
             table_type:1,
             loading:false
@@ -253,7 +253,8 @@ getRegionList() {
         <div>
             <h3 style={{margin:'15px 15px 15px 15px'}}>Monthly Incentive Report</h3>
 
-            <div className="col-lg-12" style={{marginLeft:0,padding:0}}>
+            {/* <div className="col-lg-12" style={{marginLeft:0,padding:0}}> */}
+            <div className="row">
 
           <div className="col-lg-3" >
             <label>Request Month</label>
@@ -349,142 +350,162 @@ getRegionList() {
                         </div>):(<></>)
                         }
             </div>
-            <div className="col-lg-12" style={{marginTop:0}}>
+            <div className="col-lg-12" style={{padding:'0px 15px 0px 15px',margin:'0px -30px 0px -15px', backgroundColor:'#fff'}}>
             {  this.state.table_type === 1  && this.state.coData.length > 0 ? (  
                
                        
-                <table
-                className="table table-bordered"
-                id='monthly_incentive'
-                style={{ overflow: "scroll"}}
-              >
-                <thead>
-                  <tr
-                    style={{
-                      backgroundColor: "blue",
-                      color: "white",
-                      overflow: "scroll",
-                    }}
+               <table
+               id="monthly_incentive"
+              className="table table-bordered"
+              style={{ overflow: "Scroll",display:'block',whiteSpace:'nowrap' }}
+            >
+              <thead>
+                <tr
+                  style={{
+                    backgroundColor: "blue",
+                    color: "white",
+                    overflow: "scroll",
+                  }}
+                >
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
                   >
-                    <th
-                      style={{ textAlign: "center", verticalAlign: "middle" }}
-                      rowSpan={3}
-                    >
-                      Employee ID
-                    </th>
-                    <th
-                      style={{ textAlign: "center", verticalAlign: "middle" }}
-                      rowSpan={3}
-                    >
-                      Employee Name
-                    </th>
-                    <th style={{ textAlign: "center" }} colSpan={4}>
-                      Credit
-                    </th>
-                    <th style={{ textAlign: "center" }}>Saving</th>
-                    <th style={{ textAlign: "center" }} colSpan={2}>
-                      Collection Rate
-                    </th>
-                    <th style={{ textAlign: "center" }} colSpan={2}>
-                      PAR
-                    </th>
-                    <th
-                      style={{ textAlign: "center", verticalAlign: "middle" }}
-                      rowSpan={3}
-                    >
-                      Credit Incentive
-                    </th>
-                    <th
-                      style={{ textAlign: "center", verticalAlign: "middle" }}
-                      rowSpan={3}
-                    >
-                      Saving Incentive
-                    </th>
-                    <th
-                      style={{ textAlign: "center", verticalAlign: "middle" }}
-                      rowSpan={3}
-                    >
-                      Collective Rate Incentive
-                    </th>
-                    <th
-                      style={{ textAlign: "center", verticalAlign: "middle" }}
-                      rowSpan={3}
-                    >
-                      PAR Deduction Incentive
-                    </th>
-                  </tr>
-                  <tr>
-                    <th style={{ textAlign: "center" }} colSpan={2}>
-                      Disbursement
-                    </th>
-                    <th style={{ textAlign: "center" }} colSpan={2}>
-                      Portfolio
-                    </th>
-                    <th
-                      style={{ textAlign: "center", verticalAlign: "middle" }}
-                      rowSpan={2}
-                    >
-                      Outstanding
-                    </th>
-                    <th
-                      style={{ textAlign: "center", verticalAlign: "middle" }}
-                      rowSpan={2}
-                    >
-                      Demand
-                    </th>
-                    <th
-                      style={{ textAlign: "center", verticalAlign: "middle" }}
-                      rowSpan={2}
-                    >
-                      Actual
-                    </th>
-                    <th
-                      style={{ textAlign: "center", verticalAlign: "middle" }}
-                      rowSpan={2}
-                    >
-                      NO.s
-                    </th>
-                    <th
-                      style={{ textAlign: "center", verticalAlign: "middle" }}
-                      rowSpan={2}
-                    >
-                      Amount
-                    </th>
-                  </tr>
-                  <tr>
-                    <th style={{ textAlign: "center" }}>NO.s</th>
-                    <th style={{ textAlign: "center" }}>Amount</th>
-                    <th style={{ textAlign: "center" }}>NO.s</th>
-                    <th style={{ textAlign: "center" }}>Outstanding</th>
-                  </tr>
-                </thead>
-                <tbody style={{ textAlign: "center",backgroundColor:'#f3f3f4' }}>
-                  {
-                    this.state.coData.map((v)=>{
-                      return(
-                        <>
-                  <tr>
-                    <td>{v.employeeID}</td>
-                    <td>{v.fullname}</td>
-                    <td>{v.creditDisbursementNo}</td>
-                    <td>{v.creditDisbursementAmount}</td>
-                    <td>{v.creditPortfolioNo}</td>
-                    <td>{v.creditPortfolOutstanding}</td>
-                    <td>{v.savingOutstanding}</td>
-                    <td>{v.collectionRateDemand}</td>
-                    <td>{v.collectionActual}</td>
-                    <td>{v.parNo}</td>
-                    <td>{v.parAmount}</td>
-                    <td>{v.creditIncentive}</td>
-                    <td>{v.savingIncentive}</td>
-                    <td>{v.collectiveRateIncentive}</td>
-                    <td>{v.parDeductionRate}</td>
-                  </tr>
-                  </>  )
-                    })
-                }
-                </tbody>
-                </table>
+                    Employee ID
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    FX Name
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    Client Officer Name
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    Branch Name
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    Product Name
+                  </th>
+                  <th style={{ textAlign: "center" }} colSpan={4}>
+                    Credit
+                  </th>
+                  <th style={{ textAlign: "center" }}>Saving</th>
+                  <th style={{ textAlign: "center" }} colSpan={2}>
+                    Collection Rate
+                  </th>
+                  <th style={{ textAlign: "center" }} colSpan={2}>
+                    PAR
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    Credit Incentive
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    Saving Incentive
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    Collective Rate Incentive
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    PAR Deduction Incentive
+                  </th>
+                </tr>
+                <tr>
+                  <th style={{ textAlign: "center" }} colSpan={2}>
+                    Disbursement
+                  </th>
+                  <th style={{ textAlign: "center" }} colSpan={2}>
+                    Portfolio
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={2}
+                  >
+                    Outstanding
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={2}
+                  >
+                    Demand
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={2}
+                  >
+                    Actual
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={2}
+                  >
+                    NO.s
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={2}
+                  >
+                    Amount
+                  </th>
+                </tr>
+                <tr>
+                  <th style={{ textAlign: "center" }}>NO.s</th>
+                  <th style={{ textAlign: "center" }}>Amount</th>
+                  <th style={{ textAlign: "center" }}>NO.s</th>
+                  <th style={{ textAlign: "center" }}>Outstanding</th>
+                </tr>
+              </thead>
+              <tbody style={{ textAlign: "center" }}>
+                {this.state.coData[0].data ? this.state.coData[0].data.map((v, i) => { 
+                  return (
+                    <>
+                      <tr style={{backgroundColor:'#fff'}}>
+                        <td>{v.employeeID}</td>
+                        <td>{v.fx_name}</td>
+                        <td>{v.co_name}</td>
+                        <td>{v.branch_name}</td>
+                        <td>{v.product_name}</td>
+                        <td>{v.creditDisbursementNo}</td>
+                        <td>{v.creditDisbursementAmount}</td>
+                        <td>{v.creditPortfolioNo}</td>
+                        <td>{v.creditPortfolOutstanding}</td>
+                        <td>{v.savingOutstanding}</td>
+                        <td>{v.collectionRateDemand}</td>
+                        <td>{v.collectionActual}</td>
+                        <td>{v.parNo}</td>
+                        <td>{v.parAmount}</td>
+                        <td>{v.creditIncentive}</td>
+                        <td>{v.savingIncentive}</td>
+                        <td>{v.collectiveRateIncentive}</td>
+                        <td>{v.parDeductionRate}</td>
+                      </tr>
+                    </>
+                  );
+                }):''}
+              </tbody>
+            </table>
                 
             ) : this.state.table_type === 1 && this.state.coData.length === 0 ? (
               
@@ -612,6 +633,306 @@ getRegionList() {
           }
             </div>
             </div>
+
+      //   <div> 
+      //   <h3 style={{margin:'15px 15px 15px 0px'}}>Monthly Incentive</h3>
+      //   <div className="row">
+      //     <div className="col-lg-3">
+      //       <label>Request Month</label>
+      //       <DatePicker
+      //         dateFormat="MM/YYYY"
+      //         value={this.state.selected_month}
+      //         timeFormat={false}
+      //         onChange={this.handleSelectedMonth}
+      //       />
+      //     </div>
+
+      //     <div className="col-lg-3">
+      //       <label>CO/FX</label>
+      //       <Select
+      //         options={this.state.co_fx}
+      //         onChange={this.handleSelectedType}
+      //         value={this.state.selected_type}
+      //         className="react-select-container"
+      //         classNamePrefix="react-select"
+      //       />
+      //     </div>
+
+      //     <div className="col-lg-3">
+      //       <label>Region</label>
+      //       <Select
+      //         options={this.state.regionList}
+      //         onChange={this.handleSelectedRegion}
+      //         value={this.state.selected_region}
+      //         className="react-select-container"
+      //         classNamePrefix="react-select"
+      //       />
+      //     </div>
+
+      //     <div className="col-lg-3">
+      //       <label>Branch </label>
+      //       <Select
+      //         options={this.state.branchList}
+      //         onChange={this.handleSelectedBranch}
+      //         value={this.state.selected_branch}
+      //         className="react-select-container"
+      //         classNamePrefix="react-select"
+      //       />
+      //     </div>
+
+      //     <div className="col-lg-3">
+      //       <label>Designation</label>
+      //       <Select
+      //         options={this.state.designationList}
+      //         onChange={this.handleSelectedDesignation}
+      //         value={this.state.selected_designation}
+      //         className="react-select-container"
+      //         classNamePrefix="react-select"
+      //       />
+      //     </div>
+
+      //     <div className="col-lg-3">
+      //       <label>Employee Id </label>
+      //       <Select
+      //         options={this.state.employeeIdList}
+      //         onChange={this.handleSelectedEmployeeId}
+      //         value={this.state.selected_employeeID}
+      //         className="react-select-container"
+      //         classNamePrefix="react-select"
+      //       />
+      //     </div>
+
+      //     <div className="col-lg-3">
+      //       <label>Employee Name</label>
+      //       <input
+      //         className="form-control checkValidate"
+      //         disabled={true}
+      //         type="text"
+      //         data-name="fullname"
+      //         value={this.state.selected_employee}
+      //         placeholder="Employee Name"
+      //         onChange={this.claimChangeText}
+      //       />
+      //     </div>
+
+      //     <div
+      //       className="col-lg-3"
+      //       style={{
+      //         marginTop: "25px",
+      //       }}
+      //     >
+      //       <button
+      //         className="btn-primary btn"
+      //         onClick={() => this.handleSearch()}
+      //       >
+      //         Search
+      //       </button>
+      //     </div>
+      //   </div>
+
+       
+
+      //   { this.state.table_type === 1 ? (
+         
+      //    <div>
+      //       <div className="col-lg-12" style={{paddingTop:30}}>
+      //                  <ReactHTMLTableToExcel 
+      //                     className="btn-excel"
+      //                     table="monthly_incentive"
+      //                     filename={"Monthly Incentive Report "+moment(this.state.selected_month).format('YYYY-MM')}
+      //                     buttonText="Excel"
+      //                     sheet="Sheet"
+                        
+      //                     />
+      //                    </div>
+      //       <table
+      //         className="table table-bordered"
+      //         id="monthly_incentive"
+      //         style={{ overflow: "Scroll",display:'block',whiteSpace:'nowrap' }}
+      //       >
+      //         <thead>
+      //           <tr
+      //             style={{
+      //               backgroundColor: "blue",
+      //               color: "white",
+      //               overflow: "scroll",
+      //             }}
+      //           >
+      //             <th
+      //               style={{ textAlign: "center", verticalAlign: "middle" }}
+      //               rowSpan={3}
+      //             >
+      //               Employee ID
+      //             </th>
+      //             <th
+      //               style={{ textAlign: "center", verticalAlign: "middle" }}
+      //               rowSpan={3}
+      //             >
+      //               FX Name
+      //             </th>
+      //             <th
+      //               style={{ textAlign: "center", verticalAlign: "middle" }}
+      //               rowSpan={3}
+      //             >
+      //               Client Officer Name
+      //             </th>
+      //             <th
+      //               style={{ textAlign: "center", verticalAlign: "middle" }}
+      //               rowSpan={3}
+      //             >
+      //               Branch Name
+      //             </th>
+      //             <th
+      //               style={{ textAlign: "center", verticalAlign: "middle" }}
+      //               rowSpan={3}
+      //             >
+      //               Product Name
+      //             </th>
+      //             <th style={{ textAlign: "center" }} colSpan={4}>
+      //               Credit
+      //             </th>
+      //             <th style={{ textAlign: "center" }}>Saving</th>
+      //             <th style={{ textAlign: "center" }} colSpan={2}>
+      //               Collection Rate
+      //             </th>
+      //             <th style={{ textAlign: "center" }} colSpan={2}>
+      //               PAR
+      //             </th>
+      //             <th
+      //               style={{ textAlign: "center", verticalAlign: "middle" }}
+      //               rowSpan={3}
+      //             >
+      //               Credit Incentive
+      //             </th>
+      //             <th
+      //               style={{ textAlign: "center", verticalAlign: "middle" }}
+      //               rowSpan={3}
+      //             >
+      //               Saving Incentive
+      //             </th>
+      //             <th
+      //               style={{ textAlign: "center", verticalAlign: "middle" }}
+      //               rowSpan={3}
+      //             >
+      //               Collective Rate Incentive
+      //             </th>
+      //             <th
+      //               style={{ textAlign: "center", verticalAlign: "middle" }}
+      //               rowSpan={3}
+      //             >
+      //               PAR Deduction Incentive
+      //             </th>
+      //           </tr>
+      //           <tr>
+      //             <th style={{ textAlign: "center" }} colSpan={2}>
+      //               Disbursement
+      //             </th>
+      //             <th style={{ textAlign: "center" }} colSpan={2}>
+      //               Portfolio
+      //             </th>
+      //             <th
+      //               style={{ textAlign: "center", verticalAlign: "middle" }}
+      //               rowSpan={2}
+      //             >
+      //               Outstanding
+      //             </th>
+      //             <th
+      //               style={{ textAlign: "center", verticalAlign: "middle" }}
+      //               rowSpan={2}
+      //             >
+      //               Demand
+      //             </th>
+      //             <th
+      //               style={{ textAlign: "center", verticalAlign: "middle" }}
+      //               rowSpan={2}
+      //             >
+      //               Actual
+      //             </th>
+      //             <th
+      //               style={{ textAlign: "center", verticalAlign: "middle" }}
+      //               rowSpan={2}
+      //             >
+      //               NO.s
+      //             </th>
+      //             <th
+      //               style={{ textAlign: "center", verticalAlign: "middle" }}
+      //               rowSpan={2}
+      //             >
+      //               Amount
+      //             </th>
+      //           </tr>
+      //           <tr>
+      //             <th style={{ textAlign: "center" }}>NO.s</th>
+      //             <th style={{ textAlign: "center" }}>Amount</th>
+      //             <th style={{ textAlign: "center" }}>NO.s</th>
+      //             <th style={{ textAlign: "center" }}>Outstanding</th>
+      //           </tr>
+      //         </thead>
+      //         <tbody style={{ textAlign: "center" }}>
+      //           {/* { this.state.coData[0].data ? this.state.coData[0].data.map((v, i) => { 
+      //             return (
+      //               <>
+      //                 <tr>
+      //                   <td>{v.employeeID}</td>
+      //                   <td>{v.fx_name}</td>
+      //                   <td>{v.co_name}</td>
+      //                   <td>{v.branch_name}</td>
+      //                   <td>{v.product_name}</td>
+      //                   <td>{v.creditDisbursementNo}</td>
+      //                   <td>{v.creditDisbursementAmount}</td>
+      //                   <td>{v.creditPortfolioNo}</td>
+      //                   <td>{v.creditPortfolOutstanding}</td>
+      //                   <td>{v.savingOutstanding}</td>
+      //                   <td>{v.collectionRateDemand}</td>
+      //                   <td>{v.collectionActual}</td>
+      //                   <td>{v.parNo}</td>
+      //                   <td>{v.parAmount}</td>
+      //                   <td>{v.creditIncentive}</td>
+      //                   <td>{v.savingIncentive}</td>
+      //                   <td>{v.collectiveRateIncentive}</td>
+      //                   <td>{v.parDeductionRate}</td>
+      //                 </tr>
+      //               </>
+      //             );
+      //           }):<tr>
+      //           <td
+      //             colSpan={18}
+      //             style={{
+      //               textAlign: "center",
+      //               verticalAlign: "middle",
+      //               height: 35,
+      //               fontSize: 15,
+      //               borderBottom: "1px solid black",
+      //             }}
+      //           >
+      //             No data available in table
+      //           </td>
+      //         </tr>} */}
+      //         </tbody>
+      //       </table>
+        
+      //     </div>
+
+      //   )  : this.state.table_type === 2 ? (
+      //     <div className="col-lg-12" style={{marginTop:30}}>
+      //         <table
+      //         width="99%"
+      //         className="table table-striped table-bordered table-hover responsive nowrap dt-responsive"
+      //         id="dataTables-Table"
+      //       /></div>
+      //    ) : (
+      //    ''
+      //   )}
+
+      // </div>
+
+
+
+
+
+
+
+
    ) }
 
 }

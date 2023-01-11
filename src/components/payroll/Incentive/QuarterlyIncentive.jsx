@@ -29,9 +29,10 @@ export default class QuarterlyIncentive extends Component{
               {value:2,month1:'April',month2:'May',month3:'June'},
               {value:3,month1:'July',month2:'Aug',month3:'Sept'},
               {value:4,month1:'Oct',month2:'Nov',month3:'Dec'},
+              
 
-            ]
-
+            ],
+            validate:0
         }};
         componentDidMount(){
             this.$el = $(this.el);
@@ -155,8 +156,13 @@ export default class QuarterlyIncentive extends Component{
             };
           };
 
-        actionClick = (e)=>{    
-            if ( this.state.newDoc.length > 0 && this.state.dataSource.length > 0 && (e == 1 || e == 2 || e ==0 )){
+        actionClick = (e)=>{   
+          if(e==1){
+            this.setState({
+              validate:1
+            })
+          } 
+            if ( this.state.newDoc.length > 0 && this.state.dataSource.length > 0 && (e == 1 || e ==0 )||(this.state.validate === 1 && e === 2)){
               let status = 0
               fetch(`${main_url}incentive/quartelyGenerate/${this.state.selected_quarter.value}/${moment(this.state.selected_month).format("YYYY")}/${e}`)
               .then((res) => {
@@ -176,6 +182,11 @@ export default class QuarterlyIncentive extends Component{
               window.location.reload();
             }
               });
+            }else if(e == 2 && this.state.validate !== 1){
+              toast.error("Please Generate PaySlip First!");
+            }
+            else if(e===1 && this.state.dataSource[0].generate === 2){
+              toast.error("Already Calculated Pay Slip!");
             }
             else {
               toast.error("Please Calculate First!");
@@ -419,7 +430,7 @@ export default class QuarterlyIncentive extends Component{
                 }   
               </tbody>
              </table>
-{       this.state.viewButton ? (
+{       this.state.dataSource[0].generate !== 2 ? (
              <div style={{ display: "flex", justifyContent: "end" }}>
               <div
                 className="col-lg-1"
