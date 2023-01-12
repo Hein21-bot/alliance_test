@@ -127,18 +127,19 @@ export default class QuarterlyIncentive extends Component{
     const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
     const employee = this.state.selected_employeeId ? this.state.selected_employeeId.value : 0
     const quarterSelect  =  this.state.selected_quarter ? this.state.selected_quarter.value :0 
-    fetch(main_url + "salary_report/quartelyReport/" + employee + "/" + designationId + "/" + branchId + "/" + regionId + "/" + quarterSelect + "/" + moment(this.state.selected_month).format('YYYY') ) 
+    fetch(main_url + "salary_report/quartelyReport/" + employee + "/" + designationId + "/" + branchId + "/" + regionId + "/" + quarterSelect + "/" + moment(this.state.selected_month).format('YYYY') + "/" +'0' ) 
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
-        if (list.length > 0){
+        // if (list.length > 0){
         this.setState({
-          dataSource:list,
-            quarter:list[0].quarter 
+          dataSource:list || [],
+            quarter: this.state.selected_quarter.value,
 
-        })}else{
-          this.setState({
-            dataSource:list, })
-        }
+        })
+      // }else{
+      //     this.setState({
+      //       dataSource:list, })
+      //   }
       })
           }
 
@@ -151,6 +152,7 @@ export default class QuarterlyIncentive extends Component{
             for(let i = 0; i < files.length; i++) {
               var getfile = document.querySelector("#attachment").files[i];
               newFile.push(getfile)
+              console.log('kkkkk',newFile);
            this.setState({
               newDoc:newFile})
             };
@@ -208,6 +210,7 @@ export default class QuarterlyIncentive extends Component{
           })
         const formdata = new FormData();
         var imagedata = this.state.newDoc[0];
+        console.log(imagedata);
         formdata.append("uploadfile", imagedata);
         let status = 0;
         fetch(`${main_url}incentiveCo/quartelyImportFile/${moment(this.state.selected_month).format("YYYY")}/${this.state.selected_quarter.value}`, {
@@ -224,6 +227,7 @@ export default class QuarterlyIncentive extends Component{
                dataSource:response,
                quarter:response[0] ? response[0].quarter : this.state.selected_quarter.value,
                loading:false,
+               newDoc:[],
                viewButton:true
              })            
             })

@@ -359,7 +359,12 @@ export default class PayrollUpload extends Component {
         "excel",
         //  , 'pdf'
       ],
-      buttons: [],
+      buttons: [
+        {
+          extend: 'excelHtml5',
+          title: this.state.steps[this.state.activeStep],
+      },
+      ],
       data: l,
       columns: column,
     });
@@ -367,7 +372,7 @@ export default class PayrollUpload extends Component {
 
   render() {
     const { steps, activeStep } = this.state;
-    console.log("datasource",this.state.dataSource)
+    console.log("datasource",this.state.steps[this.state.activeStep])
 
     return (
       <div>

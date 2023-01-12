@@ -411,7 +411,7 @@ export default class SSC extends Component {
   };
 
   render() {
-    console.log("selected branch main",this.state.selectedBranchMain && this.state.selectedBranchMain.value)
+    console.log("selected branch main",this.state.dataSource.reduce((r,c)=>{return r+c.governmentAmount},0))
     const {
       regionList,
       departmentList,
@@ -560,6 +560,11 @@ export default class SSC extends Component {
                   <th scope="row">Female</th>
                   <td></td>
                   <td>{this.state.totalEmp[1].female}</td>
+                </tr>
+                <tr>
+                  <th scope="row">SSC Total</th>
+                  <td></td>
+                  <td>{this.state.dataSource.reduce((r,c)=>{return r+c.governmentAmount},0)}</td>
                 </tr>
               </tbody>
             </table>

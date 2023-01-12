@@ -157,28 +157,28 @@ getRegionList() {
     };
 
    handleSearch=(e)=>{
-  // this.setState({
-  //   coData:[],
-  //   fxData:[],
-  //   loading:true
-  // })
+  this.setState({
+    coData:[],
+    fxData:[],
+    loading:true
+  })
   const employee = this.state.selected_employeeID ? this.state.selected_employeeID.value : 0
   const designationId = this.state.selected_designation ? this.state.selected_designation.value : 0
   const branchId = this.state.selected_branch ? this.state.selected_branch.value :0
   const regionId = this.state.selected_region ? this.state.selected_region.value : 0
 
-    fetch(main_url + "salary_report/monthlyReport/" + employee + "/" + designationId + "/" + branchId + "/" + regionId + "/" + this.state.selected_type.name + "/" + moment(this.state.selected_month).format('YYYY-MM') ) 
-      .then(res => { if (res.ok) return res.json() })
+    fetch(main_url + "salary_report/monthlyReport/" + employee + "/" + designationId + "/" + branchId + "/" + regionId + "/" + this.state.selected_type.name + "/" + moment(this.state.selected_month).format('YYYY-MM') + "/" +'1' ) 
+      .then(res => { if (res.ok) {return res.json()} else { return res.text} })
       .then(list => {
         if (this.state.selected_type.value === 1){
         this.setState({
-            coData:[list],
+            coData:[list] || [],
             fxData:[],
             table_type:1,
             loading:false
         });} else { 
           this.setState({
-            fxData:list,
+            fxData:list || [],
             coData:[],
             table_type:2,
             loading:false
@@ -187,6 +187,9 @@ getRegionList() {
           this.setDataTable(list)
         });
         }
+      })
+      .catch((error)=>{
+        throw(error)
       })
 }
 
