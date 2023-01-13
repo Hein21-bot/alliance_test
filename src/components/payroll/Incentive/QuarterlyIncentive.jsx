@@ -4,6 +4,8 @@ import DatePicker from "react-datetime";
 import Select from "react-select";
 import moment from "moment";
 import { toast, ToastContainer } from "react-toastify";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
+
 const $ = require('jquery');
 
 export default class QuarterlyIncentive extends Component{
@@ -242,45 +244,45 @@ export default class QuarterlyIncentive extends Component{
           }
           };
 
-        setDataTable(data) {
-            var table;
-            if ($.fn.dataTable.isDataTable("#dataTables-Table")) {
-              table = $("#dataTables-Table").dataTable();
-              table.fnClearTable();
-              table.fnDestroy();
-              $("#dataTables-Table").empty();
-            }
-            var l = [];
-            for (var i = 0; i < data.length; i++) {
-              const index = i;
-              const result = data[i];
-              const obj = {
-                no: index + 1,
-                employment_id: data[i].employment_id ? data[i].employment_id : "-",
-                co_count:data[i].request_type == 1 ? "Back Pay Salary" : data[i].request_type ==2 ? "Refund Salary" : "•	Temporary Contract Salary",
-                co_incentive: data[i].fullname ? data[i].fullname : "-",
-                co_incentive_total: data[i].designations ? data[i].designations : "-",
-              };
-              l.push(obj);
-            }
+        // setDataTable(data) {
+        //     var table;
+        //     if ($.fn.dataTable.isDataTable("#dataTables-Table")) {
+        //       table = $("#dataTables-Table").dataTable();
+        //       table.fnClearTable();
+        //       table.fnDestroy();
+        //       $("#dataTables-Table").empty();
+        //     }
+        //     var l = [];
+        //     for (var i = 0; i < data.length; i++) {
+        //       const index = i;
+        //       const result = data[i];
+        //       const obj = {
+        //         no: index + 1,
+        //         employment_id: data[i].employment_id ? data[i].employment_id : "-",
+        //         co_count:data[i].request_type == 1 ? "Back Pay Salary" : data[i].request_type ==2 ? "Refund Salary" : "•	Temporary Contract Salary",
+        //         co_incentive: data[i].fullname ? data[i].fullname : "-",
+        //         co_incentive_total: data[i].designations ? data[i].designations : "-",
+        //       };
+        //       l.push(obj);
+        //     }
         
-            table = $("#dataTables-Table").DataTable({
-              autofill: false,
-              bLengthChange: false,
-              bInfo: false,
-              responsive: true,
-              paging: false,
-              buttons: false,
+        //     table = $("#dataTables-Table").DataTable({
+        //       autofill: false,
+        //       bLengthChange: false,
+        //       bInfo: false,
+        //       responsive: true,
+        //       paging: false,
+        //       buttons: false,
         
-              data: l,
-              columns: [
-                { title: "Employee Id", data: "employment_id" },
-                { title: "CO Count", data: "co_count" },
-                { title: "CO Incentive", data: "co_incentive" },
-                { title :"CO Incentive Total",data:"co_incentive_total"},
-              ],
-            });
-          };
+        //       data: l,
+        //       columns: [
+        //         { title: "Employee Id", data: "employment_id" },
+        //         { title: "CO Count", data: "co_count" },
+        //         { title: "CO Incentive", data: "co_incentive" },
+        //         { title :"CO Incentive Total",data:"co_incentive_total"},
+        //       ],
+        //     });
+        //   };
 
   render(){   
             return(
@@ -378,7 +380,16 @@ export default class QuarterlyIncentive extends Component{
           this.state.dataSource.length > 0 ? (
           
              <div>
-             <table className="table table-bordered" style={{display: "block",
+                  <div className="col-lg-12" style={{padding:0}}>
+             <ReactHTMLTableToExcel 
+             className="btn-excel"
+             table="quarterly_incentive"
+             filename="Quarterly Incentive"
+             buttonText="Excel"
+             sheet="Sheet"
+             />
+             </div>
+             <table id="quarterly_incentive" className="table table-bordered" style={{display: "block",
               overflowX: "Scroll",
               whiteSpace: "nowrap",}}>
               <thead>
@@ -464,6 +475,16 @@ export default class QuarterlyIncentive extends Component{
             </div> ) : ('')
   }
              </div>):(
+              <div>
+                <div className="col-lg-12" style={{padding:0}}>
+             <ReactHTMLTableToExcel 
+             className="btn-excel"
+             table="quarterly_incentive"
+             filename="Quarterly Incentive"
+             buttonText="Excel"
+             sheet="Sheet"
+             />
+             </div>
            <table className="table table-bordered" id="quarterly_incentive" style={{display: "block",
            overflowX: "Scroll",
            whiteSpace: "nowrap",}}>
@@ -497,7 +518,7 @@ export default class QuarterlyIncentive extends Component{
              <td colSpan={18}style={{ textAlign: "center", verticalAlign: "middle",height:35,fontSize:15,borderBottom:'1px solid black' }}>No data available in table</td>
           
            </tbody>
-         </table>
+         </table></div>
            )
                }  
            </div>

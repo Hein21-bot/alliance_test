@@ -434,6 +434,12 @@ getRegionList() {
                   >
                     PAR Deduction Incentive
                   </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                   Grand Total
+                  </th>
                 </tr>
                 <tr>
                   <th style={{ textAlign: "center" }} colSpan={2}>
@@ -503,6 +509,7 @@ getRegionList() {
                         <td>{v.savingIncentive}</td>
                         <td>{v.collectiveRateIncentive}</td>
                         <td>{v.parDeductionRate}</td>
+                        <td>{v.totalIncentive}</td>
                       </tr>
                     </>
                   );
@@ -589,6 +596,12 @@ getRegionList() {
                     >
                       PAR Deduction Incentive
                     </th>
+                    <th
+                  style={{ textAlign: "center", verticalAlign: "middle" }}
+                  rowSpan={3}
+                >
+                  Grand Total
+                </th>
                   </tr>
                   <tr>
                     <th style={{ textAlign: "center" }} colSpan={2}>

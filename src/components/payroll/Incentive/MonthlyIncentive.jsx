@@ -183,7 +183,7 @@ export default class MonthlyIncentive extends Component {
         validate:1
       })
     }
-    if ( (((( this.state.searchData.length > 0 ) && this.state.searchData[0].generate !== 2 ) || (this.state.fxData.length > 0 && this.state.fxData[0].generate !== 2)) && (e == 1 || e == 0))||(e === 2 && this.state.validate === 1)) {
+    if ( ((( this.state.searchData.length > 0  && this.state.searchData[0].generate !== 2 ) || (this.state.fxData.length > 0 && this.state.fxData[0].generate !== 2)) && (e == 1 || e == 0))||(e === 2 && this.state.validate === 1)) {
       let status = 0;
       fetch(
         `${main_url}incentive/monthlyGenerate/${
@@ -709,6 +709,12 @@ export default class MonthlyIncentive extends Component {
                   >
                     PAR Deduction Incentive
                   </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    Grand Total
+                  </th>
                 </tr>
                 <tr>
                   <th style={{ textAlign: "center" }} colSpan={2}>
@@ -778,6 +784,7 @@ export default class MonthlyIncentive extends Component {
                         <td>{v.savingIncentive}</td>
                         <td>{v.collectiveRateIncentive}</td>
                         <td>{v.parDeductionRate}</td>
+                        <td>{v.totalIncentive}</td>
                       </tr>
                     </>
                   );
@@ -907,6 +914,12 @@ export default class MonthlyIncentive extends Component {
                 >
                   PAR Deduction Incentive
                 </th>
+                <th
+                  style={{ textAlign: "center", verticalAlign: "middle" }}
+                  rowSpan={3}
+                >
+                  Grand Total
+                </th>
               </tr>
               <tr>
                 <th style={{ textAlign: "center" }} colSpan={2}>
@@ -956,7 +969,7 @@ export default class MonthlyIncentive extends Component {
             <tbody style={{ textAlign: "center" }}>
               <tr>
                 <td
-                  colSpan={18}
+                  colSpan={19}
                   style={{
                     textAlign: "center",
                     verticalAlign: "middle",
