@@ -14,6 +14,8 @@ import {
 import Select from "react-select";
 import DatePicker from "react-datetime";
 import moment from "moment";
+import ApprovalInformation from "../Common/ApprovalInformation";
+import DocumentStaffLoan from "../Common/DocumentStaffLoan";
 
 var form_validate = true;
 var saveBtn = false;
@@ -23,7 +25,7 @@ class StaffLoanView extends Component {
   constructor() {
     super();
     this.state = {
-      
+      // status_info:[],
       staffInfo: [],
       user_id: getUserId("user_info"),
       staffGuarantorInfo: {
@@ -150,6 +152,8 @@ class StaffLoanView extends Component {
     let requesterNRC=Document.length > 0 && Document.filter(v=>v.fieldName == "requesterNRC")
     let otherDoc= Document.length > 0 && Document.filter(v=>v.fieldName == "otherDOC")
     let staffNRC=Document.length > 0 && Document.filter(v=>v.fieldName == "staffNRC")
+    let approveAttach=Document.length > 0 && Document.filter(v=>v.fieldName == "approveAttach")
+
     let relationFamily=this.state.familyRelation.filter(v=>v.value == Details.relation_family)
       await fetch(`${main_url}staff_loan_new/getGuarantorInfo`)
       .then(res => { if (res.ok) return res.json() })
@@ -160,6 +164,15 @@ class StaffLoanView extends Component {
           selectedGuarantor:list.filter(v=>v.value == Details.staff_guarantor_id).length > 0 &&  list.filter(v=>v.value == Details.staff_guarantor_id)[0]
         })
       })
+      await fetch(`${main_url}staff_loan_new/getOneDetailInfo/${this.props.dataSource.staff_loan_id}`)
+            .then(res => res.json())
+            .then(res => {
+                this.setState({
+                    status_info: res
+                })
+            })
+            .catch(error => console.log(error))
+    
       let filterWithdraw=this.state.WithdrawLocationList.filter(v=>v.value == Details.withdraw_location).length > 0 && this.state.WithdrawLocationList.filter(v=>v.value == Details.withdraw_location)[0]
       this.setState({
         selectedFamilyName:Details.family_guarantor_name,
@@ -193,6 +206,7 @@ class StaffLoanView extends Component {
         verifyComment:Details.approved_comment,
         ApproveAmountInWord:Details.approved_amount_words,
         warningCheck:Details.warning_letter_check,
+        verifyDoc:approveAttach
 
       })
       this.editAddData();
@@ -1618,7 +1632,42 @@ class StaffLoanView extends Component {
                 <h3>Attachment</h3>
               </div>
             </div>
-            <div className="row">
+            <div className="row document-main">
+                            {
+                                this.state.FamilyIncomeDoc!=undefined && this.state.FamilyIncomeDoc.length > 0 ?
+                                    <DocumentStaffLoan title="Family Income Document" doc={this.state.FamilyIncomeDoc} path='staff_loan_new' />
+                                    : ''
+                            }
+                        </div>
+                        <div className="row document-main">
+                            {
+                                this.state.FamilyGuarantorNRCDoc!=undefined && this.state.FamilyGuarantorNRCDoc.length > 0 ?
+                                    <DocumentStaffLoan title="Family Guarantor NRC Document" doc={this.state.FamilyGuarantorNRCDoc} path='staff_loan_new' />
+                                    : ''
+                            }
+                        </div>
+                        <div className="row document-main">
+                            {
+                                this.state.OtherDoc!=undefined && this.state.OtherDoc.length > 0 ?
+                                    <DocumentStaffLoan title="Other Document" doc={this.state.OtherDoc} path='staff_loan_new' />
+                                    : ''
+                            }
+                        </div>
+                        <div className="row document-main">
+                            {
+                                this.state.StaffGuarantorNRCDoc!=undefined && this.state.StaffGuarantorNRCDoc.length > 0 ?
+                                    <DocumentStaffLoan title="Staff Guarantor NRC Document" doc={this.state.StaffGuarantorNRCDoc} path='staff_loan_new' />
+                                    : ''
+                            }
+                        </div>
+                        <div className="row document-main">
+                            {
+                                this.state.RequestNRCDoc!=undefined && this.state.RequestNRCDoc.length > 0 ?
+                                    <DocumentStaffLoan title="Requester NRC Document" doc={this.state.RequestNRCDoc} path='staff_loan_new' />
+                                    : ''
+                            }
+                        </div>
+            {/* <div className="row">
               <div className="form-group col-md-6">
                 <div>
                   <label
@@ -1628,15 +1677,7 @@ class StaffLoanView extends Component {
                     Family Member Income Document
                   </label>
                 </div>
-                {/* <div className="col-sm-10">
-                  <input
-                    className="dropZone "
-                    type="file"
-                    id="family_income_attach_file"
-                    multiple
-                    onChange={this.familyIncomeDoc.bind(this)}
-                  ></input>
-                </div> */}
+                
                 <div>
                   {this.state.FamilyIncomeDoc.length > 0 && this.state.FamilyIncomeDoc.map((data, index) => (
                     <div className="fileuploader-items col-md-6">
@@ -1657,17 +1698,7 @@ class StaffLoanView extends Component {
                             <div className="column-title">
                               <span className="own-text">{data.name}</span>
                             </div>
-                            {/* <div className="column-actions">
-                              <a
-                                className="fileuploader-action fileuploader-action-remove"
-                                onClick={(event) =>
-                                  this.removeFamilyIncomeDoc(index, event)
-                                }
-                              >
-                                {" "}
-                                <i></i>
-                              </a>
-                            </div> */}
+                           
                           </div>
                         </li>
                       </ul>
@@ -1684,15 +1715,7 @@ class StaffLoanView extends Component {
                     Staff Guarantor NRC Document
                   </label>
                 </div>
-                {/* <div className="col-sm-10">
-                  <input
-                    className="dropZone "
-                    type="file"
-                    id="staff_guarantor_nrc_attach_file"
-                    multiple
-                    onChange={this.staffGuarantorNRCDoc.bind(this)}
-                  ></input>
-                </div> */}
+                
                   <div>
                     {this.state.StaffGuarantorNRCDoc.length > 0 && this.state.StaffGuarantorNRCDoc.map((data, index) => (
                       <div className="fileuploader-items col-md-6">
@@ -1713,17 +1736,7 @@ class StaffLoanView extends Component {
                               <div className="column-title">
                                 <span className="own-text">{data.name}</span>
                               </div>
-                              {/* <div className="column-actions">
-                                <a
-                                  className="fileuploader-action fileuploader-action-remove"
-                                  onClick={(event) =>
-                                    this.removeStaffGuarantorNRCDoc(index, event)
-                                  }
-                                >
-                                  {" "}
-                                  <i></i>
-                                </a>
-                              </div> */}
+                              
                             </div>
                           </li>
                         </ul>
@@ -1740,15 +1753,7 @@ class StaffLoanView extends Component {
                     Other Attachment Files
                   </label>
                 </div>
-                {/* <div className="col-sm-10">
-                  <input
-                    className="dropZone "
-                    type="file"
-                    id="other_doc_attach_file"
-                    multiple
-                    onChange={this.OtherDoc.bind(this)}
-                  ></input>
-                </div> */}
+                
                 <div>
                   {this.state.OtherDoc.length > 0 && this.state.OtherDoc.map((data, index) => (
                     <div className="fileuploader-items col-md-6">
@@ -1769,17 +1774,7 @@ class StaffLoanView extends Component {
                             <div className="column-title">
                               <span className="own-text">{data.name}</span>
                             </div>
-                            {/* <div className="column-actions">
-                              <a
-                                className="fileuploader-action fileuploader-action-remove"
-                                onClick={(event) =>
-                                  this.removeOtherDoc(index, event)
-                                }
-                              >
-                                {" "}
-                                <i></i>
-                              </a>
-                            </div> */}
+                            
                           </div>
                         </li>
                       </ul>
@@ -1796,15 +1791,7 @@ class StaffLoanView extends Component {
                     Requester NRC Document
                   </label>
                 </div>
-                {/* <div className="col-sm-10">
-                  <input
-                    className="dropZone "
-                    type="file"
-                    id="requester_nrc_attach_file"
-                    multiple
-                    onChange={this.RequesterNRCDoc.bind(this)}
-                  ></input>
-                </div> */}
+               
                 <div>
                   {this.state.RequestNRCDoc.length > 0 && this.state.RequestNRCDoc.map((data, index) => (
                     <div className="fileuploader-items col-md-6">
@@ -1825,17 +1812,7 @@ class StaffLoanView extends Component {
                             <div className="column-title">
                               <span className="own-text">{data.name}</span>
                             </div>
-                            {/* <div className="column-actions">
-                              <a
-                                className="fileuploader-action fileuploader-action-remove"
-                                onClick={(event) =>
-                                  this.removeRequesterNRCDoc(index, event)
-                                }
-                              >
-                                {" "}
-                                <i></i>
-                              </a>
-                            </div> */}
+                            
                           </div>
                         </li>
                       </ul>
@@ -1852,15 +1829,7 @@ class StaffLoanView extends Component {
                       Family Guarantor NRC Document
                       </label>
                 </div>
-                  {/* <div className="col-sm-10">
-                    <input
-                    className="dropZone "
-                    type="file"
-                    id="family_guarantor_nrc_attach_file"
-                    multiple
-                    onChange={this.familyGuarantorNRCDoc.bind(this)}
-                    ></input>
-                  </div> */}
+                  
                 <div>
                 {this.state.FamilyGuarantorNRCDoc.length > 0 && 
                 this.state.FamilyGuarantorNRCDoc.map((data, index) => (
@@ -1882,17 +1851,7 @@ class StaffLoanView extends Component {
                           <div className="column-title">
                             <span className="own-text">{data.name}</span>
                           </div>
-                          {/* <div className="column-actions">
-                            <a
-                              className="fileuploader-action fileuploader-action-remove"
-                              onClick={(event) =>
-                                this.removeFamilyGuarantorNRCDoc(index, event)
-                              }
-                            >
-                              {" "}
-                              <i></i>
-                            </a>
-                          </div> */}
+                          
                         </div>
                       </li>
                     </ul>
@@ -1900,7 +1859,7 @@ class StaffLoanView extends Component {
                       ))}
                   </div>
                 </div>
-            </div>
+            </div> */}
             <div className="col-md-12" style={{ marginBottom: 10 }}>
               <div
                 className="col-md-12"
@@ -2182,7 +2141,7 @@ class StaffLoanView extends Component {
             </div>
           </form>
         </div>
-        <div className="row save-btn">
+        {/* <div className="row save-btn">
           <div className="float-right">
             <div>
               <button
@@ -2195,7 +2154,15 @@ class StaffLoanView extends Component {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
+        {
+                            !Array.isArray(this.state.status_info) ?
+
+                                <div className="row approval-main margin-top-20">
+                                    <ApprovalInformation status={this.state.status_info} />
+                                </div>
+                                : ''
+                        }
       </div>
     );
   }

@@ -650,7 +650,7 @@ class StaffLoanAddNew extends Component {
   }
 
   render() {
-    console.log("info=======>",this.state.getGuarantorInfo,this.state.selectedGuarantor)
+    console.log("info=======>",this.state.staffInfo,this.state.selectedGuarantor)
     const{staffInfo,getGuarantorInfo}=this.state;
     return (
       <div className="">

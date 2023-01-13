@@ -160,6 +160,8 @@ class StaffLoanEdit extends Component {
     let requesterNRC=Document.length > 0 && Document.filter(v=>v.fieldName == "requesterNRC")
     let otherDoc= Document.length > 0 && Document.filter(v=>v.fieldName == "otherDOC")
     let staffNRC=Document.length > 0 && Document.filter(v=>v.fieldName == "staffNRC")
+    let approveAttach=Document.length > 0 && Document.filter(v=>v.fieldName == "approveAttach")
+
     let relationFamily=this.state.familyRelation.filter(v=>v.value == Details.relation_family)
     // let verifyDoc=Document.length > 0 && Document.filter(v=>v.fieldName == "approveDoc")
 
@@ -210,6 +212,7 @@ class StaffLoanEdit extends Component {
         verifyComment:Details.approved_comment,
         ApproveAmountInWord:Details.approved_amount_words,
         warningCheck:Details.warning_letter_check,
+        verifyDoc:approveAttach
       
       })
       this.editAddData();
@@ -751,9 +754,18 @@ class StaffLoanEdit extends Component {
     })
   }
   handleSelectWaringCheck=(e)=>{
-    this.setState({
-        selectedDisbursementDate:e
-    })
+    // this.setState({
+    //     selectedDisbursementDate:e
+    // })
+    if(e.target.checked == true){
+      this.setState({
+        warningCheck:e.target.value
+      })
+    }else{
+      this.setState({
+        warningCheck:0
+      })
+    }
   }
   verifyAttachment=()=>{
     var files = document.getElementById("attachment").files;
@@ -905,7 +917,7 @@ class StaffLoanEdit extends Component {
           FamilyNRCold.push(tempFamilyNRCOld[i])
           
         }
-        formdata.append("oldFamilyGuaDoc ", JSON.stringify(FamilyNRCold));
+        formdata.append("oldFamilyGuaDoc", JSON.stringify(FamilyNRCold));
         let tempOther=this.state.OtherDoc.length > 0 && this.state.OtherDoc.filter(v=>v.fieldName != "otherDOC")
         var tempOtherLength = tempOther.length;
         for (var i = 0; i < tempOtherLength; i++) {
@@ -1717,7 +1729,9 @@ class StaffLoanEdit extends Component {
                             <div className="column-title">
                               <span className="own-text">{data.name}</span>
                             </div>
-                            <div className="column-actions">
+                            {
+                              this.state.user_info.user_id == Details.user_id ? <>
+                                      <div className="column-actions">
                               <a
                                 className="fileuploader-action fileuploader-action-remove"
                                 onClick={(event) =>
@@ -1728,6 +1742,9 @@ class StaffLoanEdit extends Component {
                                 <i></i>
                               </a>
                             </div>
+                              </> : ''
+                            }
+                            
                           </div>
                         </li>
                       </ul>
@@ -1773,7 +1790,10 @@ class StaffLoanEdit extends Component {
                               <div className="column-title">
                                 <span className="own-text">{data.name}</span>
                               </div>
-                              <div className="column-actions">
+                              {
+                                this.state.user_info.user_id == Details.user_id ? 
+                                <>
+                                          <div className="column-actions">
                                 <a
                                   className="fileuploader-action fileuploader-action-remove"
                                   onClick={(event) =>
@@ -1784,6 +1804,9 @@ class StaffLoanEdit extends Component {
                                   <i></i>
                                 </a>
                               </div>
+                                </> : ''
+                              }
+                              
                             </div>
                           </li>
                         </ul>
@@ -1829,7 +1852,9 @@ class StaffLoanEdit extends Component {
                             <div className="column-title">
                               <span className="own-text">{data.name}</span>
                             </div>
-                            <div className="column-actions">
+                            {
+                              this.state.user_info.user_id ==  Details.user_id ? <>
+                              <div className="column-actions">
                               <a
                                 className="fileuploader-action fileuploader-action-remove"
                                 onClick={(event) =>
@@ -1840,6 +1865,9 @@ class StaffLoanEdit extends Component {
                                 <i></i>
                               </a>
                             </div>
+                              </> : ''
+                            }
+                            
                           </div>
                         </li>
                       </ul>
@@ -1885,7 +1913,9 @@ class StaffLoanEdit extends Component {
                             <div className="column-title">
                               <span className="own-text">{data.name}</span>
                             </div>
-                            <div className="column-actions">
+                            {
+                              this.state.user_info.user_id ==  Details.user_id ? <>
+                               <div className="column-actions">
                               <a
                                 className="fileuploader-action fileuploader-action-remove"
                                 onClick={(event) =>
@@ -1896,6 +1926,9 @@ class StaffLoanEdit extends Component {
                                 <i></i>
                               </a>
                             </div>
+                              </> : ''
+                            }
+                           
                           </div>
                         </li>
                       </ul>
@@ -1942,7 +1975,9 @@ class StaffLoanEdit extends Component {
                           <div className="column-title">
                             <span className="own-text">{data.name}</span>
                           </div>
-                          <div className="column-actions">
+                          {
+                            this.state.user_info.user_id ==  Details.user_id ? <>
+                            <div className="column-actions">
                             <a
                               className="fileuploader-action fileuploader-action-remove"
                               onClick={(event) =>
@@ -1953,6 +1988,9 @@ class StaffLoanEdit extends Component {
                               <i></i>
                             </a>
                           </div>
+                            </> : ''
+                          }
+                          
                         </div>
                       </li>
                     </ul>
@@ -1980,7 +2018,7 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="number" className="form-control" disabled={this.state.work_flow_status!=undefined && (this.state.work_flow_status.verify_by == 1 || this.state.work_flow_status.approve_by == 1)}  value={this.state.targetAchievement}
+                  <input type="number" className="form-control" disabled={this.state.work_flow_status!=undefined && this.state.work_flow_status.verify_by == 0}  value={this.state.targetAchievement}
                   onChange={this.handleTargetAchievement}
                    />
                 </div>
@@ -1992,7 +2030,7 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="number" className="form-control" disabled={this.state.work_flow_status!=undefined && (this.state.work_flow_status.verify_by == 1 || this.state.work_flow_status.approve_by == 1)}   value={this.state.otherLoanInformation} 
+                  <input type="number" className="form-control" disabled={this.state.work_flow_status!=undefined && this.state.work_flow_status.check_by == 0}   value={this.state.otherLoanInformation} 
                   onChange={this.handleOtherLoanInformation}
                   />
                 </div>
@@ -2007,7 +2045,7 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="number" className="form-control" disabled={this.state.work_flow_status!=undefined && (this.state.work_flow_status.verify_by == 1 || this.state.work_flow_status.approve_by == 1)}   value={this.state.performanceRecomm}
+                  <input type="number" className="form-control" disabled={this.state.work_flow_status!=undefined && this.state.work_flow_status.check_by == 0}   value={this.state.performanceRecomm}
                   onChange={this.handlePerformanceRecommendation}
                    />
                 </div>
@@ -2019,7 +2057,7 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="text" className="form-control" disabled={this.state.work_flow_status!=undefined && (this.state.work_flow_status.verify_by == 1 || this.state.work_flow_status.approve_by == 1)}  value={this.state.check_comment} 
+                  <input type="text" className="form-control" disabled={this.state.work_flow_status!=undefined && this.state.work_flow_status.check_by == 0}  value={this.state.check_comment} 
                   onChange={this.handleComment}
                   />
                 </div>
@@ -2048,7 +2086,9 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <textarea type="text" className="form-control" disabled={this.state.work_flow_status!=undefined && this.state.work_flow_status.approve_by == 1}   value={this.state.verify}
+                  <textarea type="text" className="form-control"
+                   disabled={this.state.work_flow_status!=undefined && this.state.work_flow_status.verify_by == 0}  
+                    value={this.state.verify}
                   onChange={this.handleVerify}
                    />
                 </div>
@@ -2081,7 +2121,7 @@ class StaffLoanEdit extends Component {
                   <DatePicker
                     className="checkValidate"
                     timeFormat={false}
-                    value={this.state.selectedDisbursementDate}
+                    value={moment(this.state.selectedDisbursementDate).format('DD/MM/YYYY')}
                     dateFormat="DD/MM/YYYY"
                     onChange={this.handleDisbursementDate}
                   />
@@ -2097,7 +2137,7 @@ class StaffLoanEdit extends Component {
                   <DatePicker
                     className="checkValidate"
                     timeFormat={false}
-                    value={this.state.selectedTermInMonths}
+                    value={moment(this.state.selectedTermInMonths).format('DD/MM/YYYY')}
                     dateFormat="DD/MM/YYYY"
                     onChange={this.handleTermInMonths}
                   />
@@ -2116,7 +2156,7 @@ class StaffLoanEdit extends Component {
                   <DatePicker
                     className="checkValidate"
                     timeFormat={false}
-                    value={this.state.selectedLoanCommitteeDate}
+                    value={moment(this.state.selectedLoanCommitteeDate).format('DD/MM/YYYY')}
                     dateFormat="DD/MM/YYYY"
                     onChange={this.handleLoanCommitteeDate}
                   />
@@ -2179,7 +2219,7 @@ class StaffLoanEdit extends Component {
               <div className="col-md-6">
                 <div>
                   <label htmlFor="repaymentPeriod" className="col-md-12">
-                    Waring letter Check
+                    Warning letter Check
                   </label>
                 </div>
                 <div className="col-md-12">
