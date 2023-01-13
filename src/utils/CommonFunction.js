@@ -669,7 +669,7 @@ function getActionStatus(status, data, createdBy, comment) {
         action.verified_by = createdBy;
         action.verified_date = new Date();
         action.status = 2;
-    }
+    } 
     else if (status === 'approved') {
         action.approved_by = createdBy;
         action.approved_date = new Date();

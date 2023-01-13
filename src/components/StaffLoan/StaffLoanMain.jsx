@@ -12,6 +12,8 @@ import {
 } from "../../utils/CommonFunction";
 import StaffLoanTable from "./StaffLoanTable";
 import StaffLoanAddNew from "./StaffLoanAddNew";
+import StaffLoanView from "./StaffLoanView";
+import StaffLoanEdit from "./StaffLoanEdit";
 
 class StaffLoanMain extends Component {
   constructor() {
@@ -152,48 +154,21 @@ class StaffLoanMain extends Component {
                     this.state.isEdit ? <BenefitChildEdit data={this.state.data} showToast={this.showToast} /> : ''
                 } */}
         {this.state.isTable ? (
-          <div>
-            <div>
-              <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
-                <li className="nav-item">
-                  <a
-                    className="nav-link "
-                    href="#wedding_benefit"
-                    role="tab"
-                    data-toggle="tab"
-                    aria-selected="true"
-                    onClick={() => this.changeTab(1)}
-                  >
-                    My Request
-                  </a>
-                </li>
-                <li className="nav-item1 active">
-                  <a
-                    className="nav-link active"
-                    href="#wedding_benefit"
-                    role="tab"
-                    data-toggle="tab"
-                    onClick={() => this.changeTab(0)}
-                  >
-                    All Request
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <StaffLoanTable
-              goToViewForm={this.goToViewForm}
-              tab={this.state.active_tab}
-              goToEditForm={this.goToEditForm}
-              data={this.state.requestData}
-              requestlist={this.requestlist}
-              permission={this.state.permission_status}
-            />
-          </div>
+          <StaffLoanTable
+          goToViewForm={this.goToViewForm}
+          tab={this.state.active_tab}
+          goToEditForm={this.goToEditForm}
+          data={this.state.requestData}
+          requestlist={this.requestlist}
+          permission={this.state.permission_status}
+        />
         ) : this.state.isAddNew ? (
             <StaffLoanAddNew goToTable={this.goToTable} showToast={this.showToast}/>
-        ) : (
-          ""
-        )}
+        ) : this.state.isView ? (
+          <StaffLoanView view={this.state.isView} dataSource={this.state.data} />
+        ) : this.state.isEdit ? (
+          <StaffLoanEdit edit={this.state.isEdit} dataSource={this.state.data} showToast={this.showToast}/>
+        ) : null }
       </div>
     );
   }
