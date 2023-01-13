@@ -146,11 +146,20 @@ getRegionList() {
   };
 
   getIncentive () {
+    let status = 0;
+    let statusText='';
     fetch(`${main_url}incentive/findDesignation/${moment(this.state.selected_month).format("YYYY-MM")}/${this.state.user_id}`)
     .then((res)=>{
-      if(res.ok) return res.json();
+      status = res.status;
+      statusText=res.statusText;
+     
+      console.log("here ======>?", res)
+      if(res.ok){
+        return res.json()
+      }
     })
     .then((list) =>{
+      if (status===200){
       this.setState({
         dataSource:list
           })
@@ -163,12 +172,20 @@ getRegionList() {
           coData:list,
           selected_type:1
             })
+      }}else if(status===400){
+        this.setState({
+          dataSource:[],
+          coData:[],
+          fxData:[]
+        })
+   toast.error("There is no data for this month!")
       }
     })
     .catch((error)=>{
         this.setState({
           dataSource:[],
           coData:[],
+          fxData:[]
         })
     })
   }
@@ -385,8 +402,8 @@ render(){
                  <p>: </p>
                  </div>
 
-                 <div className=' col-lg-5' style={{ paddingLeft: '90px', paddingTop: '10px' }}><p>{this.state.fxData[0].fullname ? this.state.fxData[0].fullname :'-'}</p>
-                 <p>{this.state.fxData[0].employeeID  ? this.state.fxData[0].employeeID :'-'}</p>
+                 <div className=' col-lg-5' style={{ paddingLeft: '90px', paddingTop: '10px' }}><p>{this.state.fxData[0].employeeID ? this.state.fxData[0].employeeID :'-'}</p>
+                 <p>{this.state.fxData[0].fullname  ? this.state.fxData[0].fullname :'-'}</p>
                  <p>{this.state.fxData[0].deptname ? this.state.fxData[0].deptname :'-'}</p>
                  <p>{this.state.fxData[0].designations ? this.state.fxData[0].designations :'-'}</p>
                  <p>{this.state.fxData[0].location_master_name ? this.state.fxData[0].location_master_name :'-'}</p>

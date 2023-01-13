@@ -3,6 +3,9 @@ import { main_url,getUserId } from "../../../utils/CommonFunction";
 import DatePicker from "react-datetime";
 import Select from "react-select";
 import moment from "moment";
+import { toast,ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
+
 
 export default class QuarterlyIncentivePayslip extends Component{
     constructor(props){
@@ -49,14 +52,22 @@ export default class QuarterlyIncentivePayslip extends Component{
           };
 
         handleSearch(){
+          let status=0
             fetch(`${main_url}incentive/quartelyPayslip/${this.state.selected_quarter.value}/${moment(this.state.selected_month).format("YYYY")}/${this.state.user_id}`)
             .then((res)=>{
+              status = res.status;
               if(res.ok) return res.json();
             })
             .then((list) =>{
+              if (status === 200){
               this.setState({
                 dataSource:list || []
-                  })
+                  })} else if (status === 400){ console.log("dfdfdf");
+                    this.setState({
+                      dataSource:[]
+                        })
+                    toast.error('There is no data for this quarter!')
+                  }
             // .catch((err)=>{
             //   console.log(err)
             // })
@@ -66,6 +77,7 @@ export default class QuarterlyIncentivePayslip extends Component{
         render(){   console.log(this.state.selected_quarter.value);
             return( 
                 <div>
+                   <ToastContainer position={toast.POSITION.TOP_RIGHT} />
                   <h3 style={{margin:'15px 15px 15px 15px'}}>Quarterly Incentive Payslip</h3>
                  <div className='col-lg-2' >
         <label>Select Year</label>

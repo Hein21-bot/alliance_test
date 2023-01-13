@@ -157,28 +157,28 @@ getRegionList() {
     };
 
    handleSearch=(e)=>{
-  // this.setState({
-  //   coData:[],
-  //   fxData:[],
-  //   loading:true
-  // })
+  this.setState({
+    coData:[],
+    fxData:[],
+    loading:true
+  })
   const employee = this.state.selected_employeeID ? this.state.selected_employeeID.value : 0
   const designationId = this.state.selected_designation ? this.state.selected_designation.value : 0
   const branchId = this.state.selected_branch ? this.state.selected_branch.value :0
   const regionId = this.state.selected_region ? this.state.selected_region.value : 0
 
-    fetch(main_url + "salary_report/monthlyReport/" + employee + "/" + designationId + "/" + branchId + "/" + regionId + "/" + this.state.selected_type.name + "/" + moment(this.state.selected_month).format('YYYY-MM') ) 
-      .then(res => { if (res.ok) return res.json() })
+    fetch(main_url + "salary_report/monthlyReport/" + employee + "/" + designationId + "/" + branchId + "/" + regionId + "/" + this.state.selected_type.name + "/" + moment(this.state.selected_month).format('YYYY-MM') + "/" +'1' ) 
+      .then(res => { if (res.ok) {return res.json()} else { return res.text} })
       .then(list => {
         if (this.state.selected_type.value === 1){
         this.setState({
-            coData:[list],
+            coData:[list] || [],
             fxData:[],
             table_type:1,
             loading:false
         });} else { 
           this.setState({
-            fxData:list,
+            fxData:list || [],
             coData:[],
             table_type:2,
             loading:false
@@ -187,6 +187,9 @@ getRegionList() {
           this.setDataTable(list)
         });
         }
+      })
+      .catch((error)=>{
+        throw(error)
       })
 }
 
@@ -350,7 +353,7 @@ getRegionList() {
                         </div>):(<></>)
                         }
             </div>
-            <div className="col-lg-12" style={{padding:'0px 15px 0px 15px',margin:'0px -30px 0px -15px', backgroundColor:'#fff'}}>
+            <div className="col-lg-12" style={{padding:'0px 0px 0px 0px',margin:'0px 0px 0px 0px', backgroundColor:'#fff'}}>
             {  this.state.table_type === 1  && this.state.coData.length > 0 ? (  
                
                        
@@ -431,6 +434,12 @@ getRegionList() {
                   >
                     PAR Deduction Incentive
                   </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                   Grand Total
+                  </th>
                 </tr>
                 <tr>
                   <th style={{ textAlign: "center" }} colSpan={2}>
@@ -500,6 +509,7 @@ getRegionList() {
                         <td>{v.savingIncentive}</td>
                         <td>{v.collectiveRateIncentive}</td>
                         <td>{v.parDeductionRate}</td>
+                        <td>{v.totalIncentive}</td>
                       </tr>
                     </>
                   );
@@ -529,11 +539,29 @@ getRegionList() {
                       Employee ID
                     </th>
                     <th
-                      style={{ textAlign: "center", verticalAlign: "middle" }}
-                      rowSpan={3}
-                    >
-                      Employee Name
-                    </th>
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    FX Name
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    Client Officer Name
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    Branch Name
+                  </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    Product Name
+                  </th>
                     <th style={{ textAlign: "center" }} colSpan={4}>
                       Credit
                     </th>
@@ -568,6 +596,12 @@ getRegionList() {
                     >
                       PAR Deduction Incentive
                     </th>
+                    <th
+                  style={{ textAlign: "center", verticalAlign: "middle" }}
+                  rowSpan={3}
+                >
+                  Grand Total
+                </th>
                   </tr>
                   <tr>
                     <th style={{ textAlign: "center" }} colSpan={2}>
@@ -616,7 +650,7 @@ getRegionList() {
                 </thead>
                 <tbody style={{ textAlign: "center" }}>
                   <tr>
-                  <td colSpan={15}style={{ textAlign: "center", verticalAlign: "middle",height:35,fontSize:15,borderBottom:'1px solid black' }}>No data available in table</td>
+                  <td colSpan={18}style={{ textAlign: "center", verticalAlign: "middle",height:35,fontSize:15,borderBottom:'1px solid black' }}>No data available in table</td>
                   </tr>
                 </tbody>
                 </table>

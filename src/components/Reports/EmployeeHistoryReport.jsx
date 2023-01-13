@@ -170,7 +170,7 @@ class HistoryReport extends Component {
                 this.setState({
                     empProfile: list,
                     salaryData:list[0].history,
-                },()=>{console.log("setdata",this.state.salaryData[0].career_sub_level)})
+                },()=>{console.log("setdata",list)})
                 this._setTableData(this.state.empProfile);
             })
     }
@@ -189,7 +189,7 @@ class HistoryReport extends Component {
                     department: data[i].deptname ? data[i].deptname : "-",
                     level: data[i].history.career_sub_level
                     ? data[i].history.career_sub_level : "-",
-                    employed_date: data[i].effective_date ? moment(data[i].effective_date_).format('YYYY-MM-DD') : "-",
+                    employed_date: data[i].employ_date ? data[i].employ_date : "-",
                     // salary: this.state.salaryPermission.length > 0 ? (data[i].salary ? data[i].salary : this.state.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0] ? this.state.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0].basic_salary: ''
                     // : data[i].career_sub_level > 20 ? 'Not Available' : data[i].salary ? data[i].salary) : this.state.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0].basic_salary,
                     salary:data[i].career_sub_level > 20 ? 'Not Available' :this.state.salaryList.filter(v=>v.career_sub_level==data[i].history.career_sub_level_id) && this.state.salaryList.filter(v=>v.career_sub_level==data[i].history.career_sub_level_id)[0].basic_salary,

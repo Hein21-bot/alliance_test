@@ -5,6 +5,7 @@ import Select from "react-select";
 import moment from "moment";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
 const $ = require("jquery");
 
@@ -176,13 +177,13 @@ export default class MonthlyIncentive extends Component {
       selected_type: event,
     });
   };
-  actionClick = async (e) => { console.log(this.state.newDoc.length);
-    if(e==1){
+  actionClick = async (e) => { 
+    if(e === 1){
       this.setState({
         validate:1
       })
     }
-    if ( (((this.state.searchData.length > 0 && this.state.searchData[0].data[0].generate !== 2 ) || (this.state.fxData.length > 0 && this.state.fxData[0].generate !== 2)) && (e == 1 || e == 0))||(e==2 && this.state.validate === 1)) {
+    if ( ((( this.state.searchData.length > 0  && this.state.searchData[0].generate !== 2 ) || (this.state.fxData.length > 0 && this.state.fxData[0].generate !== 2)) && (e == 1 || e == 0))||(e === 2 && this.state.validate === 1)) {
       let status = 0;
       fetch(
         `${main_url}incentive/monthlyGenerate/${
@@ -242,7 +243,8 @@ export default class MonthlyIncentive extends Component {
     const regionId = this.state.selected_region
       ? this.state.selected_region.value
       : 0;
-
+      let status = 0;
+      let statusText='';
     fetch(
       main_url +
         "salary_report/monthlyReport/" +
@@ -256,15 +258,24 @@ export default class MonthlyIncentive extends Component {
         "/" +
         this.state.selected_type.name +
         "/" +
-        moment(this.state.selected_month).format("YYYY-MM")
+        moment(this.state.selected_month).format("YYYY-MM") +
+        "/" + '0'
     )
       .then((res) => {
-        if (res.ok) return res.json();
-      })
-      .then((list) => {
-        if (this.state.selected_type.value === 1) {
+        status = res.status;
+        statusText=res.statusText;
+        if (res.ok) {return res.json();}
+        else{ 
           this.setState({
-            searchData:[list],
+            searchData:[]
+          })
+          return res.text
+        }
+      })
+      .then((list) => { 
+        if (this.state.selected_type.value === 1) { 
+          this.setState({
+            searchData:list.data || [],
             fxData: [],
             table_type: 1,
             deleteType: false,
@@ -273,7 +284,7 @@ export default class MonthlyIncentive extends Component {
         } else {
           this.setState(
             {
-              fxData: list,
+              fxData: list || [],
               coData: [],
               table_type: 2,
             deleteType: false,
@@ -285,7 +296,13 @@ export default class MonthlyIncentive extends Component {
             }
           );
         }
-      });
+      })
+      .catch((error)=>{ 
+        throw(error)
+      }); console.log('sadasdd',this.state.searchData);
+      this.setState({
+        searchData:[]
+      })
   };
 
   checkFiles(e) {
@@ -326,7 +343,7 @@ export default class MonthlyIncentive extends Component {
           this.setState({
             loading: false,
             newDoc:response,
-            searchData:[response],
+            searchData:response.data,
             deleteType: true,
             table_type: 1,
           });
@@ -397,6 +414,23 @@ export default class MonthlyIncentive extends Component {
       responsive: true,
       paging: false,
       buttons: false,
+      dom: 'Bfrtip',
+
+      buttons:  [
+        // 'copy',
+    // {
+    //         extend: 'csvHtml5',
+    //         title: 'Birthday Fund',
+    // },
+    {
+        extend: 'excelHtml5',
+        title: 'Monthlt Incentive Report(FX)',
+    },
+    // {
+    //     extend: 'pdfHtml5',
+    //     title: 'Birthday Fund',
+    // }
+  ],
 
       data: l,
       columns: [
@@ -408,7 +442,7 @@ export default class MonthlyIncentive extends Component {
     });
   }
 
-  render() { console.log(this.state.fxData.length);
+  render() { console.log('validate',this.state.searchData);
     return (
       <div>
         <ToastContainer />
@@ -588,9 +622,18 @@ export default class MonthlyIncentive extends Component {
               )}
             </div>
           </div>
-        ) : this.state.table_type == 1 && (this.state.searchData.length > 0 && this.state.searchData[0].data.length > 0) ? (
+        ) : this.state.table_type == 1 && (this.state.searchData.length > 0) ? (
           <div>
+            <ReactHTMLTableToExcel 
+                         className="btn-excel"
+                         table="monthly_incentive"
+                         filename={"Monthly Incentive Report "+moment(this.state.selected_month).format('YYYY-MM')}
+                         buttonText="Excel"
+                         sheet="Sheet"
+                        
+                         />
             <table
+              id="monthly_incentive"
               className="table table-bordered"
               style={{ overflow: "Scroll",display:'block',whiteSpace:'nowrap' }}
             >
@@ -666,6 +709,12 @@ export default class MonthlyIncentive extends Component {
                   >
                     PAR Deduction Incentive
                   </th>
+                  <th
+                    style={{ textAlign: "center", verticalAlign: "middle" }}
+                    rowSpan={3}
+                  >
+                    Grand Total
+                  </th>
                 </tr>
                 <tr>
                   <th style={{ textAlign: "center" }} colSpan={2}>
@@ -713,7 +762,7 @@ export default class MonthlyIncentive extends Component {
                 </tr>
               </thead>
               <tbody style={{ textAlign: "center" }}>
-                {this.state.searchData[0].data.map((v, i) => { 
+                {this.state.searchData.map((v, i) => { 
                   return (
                     <>
                       <tr>
@@ -735,13 +784,14 @@ export default class MonthlyIncentive extends Component {
                         <td>{v.savingIncentive}</td>
                         <td>{v.collectiveRateIncentive}</td>
                         <td>{v.parDeductionRate}</td>
+                        <td>{v.totalIncentive}</td>
                       </tr>
                     </>
                   );
                 })}
               </tbody>
             </table>
-         {this.state.searchData[0].data[0].generate === 2 ? ('') :(
+         {this.state.searchData[0].generate === 2 ? ('') :(
             <div style={{ display: "flex", justifyContent: "end" }}>
               <div
                 className="col-lg-1"
@@ -777,7 +827,16 @@ export default class MonthlyIncentive extends Component {
             </div>)
          }
           </div>
-        ) : this.state.table_type == 1 && (this.state.searchData.length == 0  || this.state.searchData[0].data.length == 0) ? (
+        ) : this.state.table_type == 1 && (this.state.searchData.length === 0 ) ? (
+         <div>
+           <ReactHTMLTableToExcel 
+                         className="btn-excel"
+                         table="monthly_incentive"
+                         filename={"Monthly Incentive Report "+moment(this.state.selected_month).format('YYYY-MM')}
+                         buttonText="Excel"
+                         sheet="Sheet"
+                        
+                         />
           <table
             className="table table-bordered"
             id="monthly_incentive"
@@ -855,6 +914,12 @@ export default class MonthlyIncentive extends Component {
                 >
                   PAR Deduction Incentive
                 </th>
+                <th
+                  style={{ textAlign: "center", verticalAlign: "middle" }}
+                  rowSpan={3}
+                >
+                  Grand Total
+                </th>
               </tr>
               <tr>
                 <th style={{ textAlign: "center" }} colSpan={2}>
@@ -904,7 +969,7 @@ export default class MonthlyIncentive extends Component {
             <tbody style={{ textAlign: "center" }}>
               <tr>
                 <td
-                  colSpan={18}
+                  colSpan={19}
                   style={{
                     textAlign: "center",
                     verticalAlign: "middle",
@@ -917,7 +982,7 @@ export default class MonthlyIncentive extends Component {
                 </td>
               </tr>
             </tbody>
-          </table>
+          </table></div>
         ) : (
           ""
         )}
