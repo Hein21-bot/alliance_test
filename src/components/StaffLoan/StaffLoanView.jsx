@@ -2082,79 +2082,19 @@ class StaffLoanView extends Component {
 
             </div>
             <div className="row" style={{ marginBottom: 10 }}>
-              <div className="col-md-6">
-              </div>
-              <div className="col-md-6">
-                <div>
-                  <label htmlFor="repaymentPeriod" className="col-md-12">
-                    Attachment
-                  </label>
-                </div>
-                {/* <div className="col-sm-10">
-                  <input
-                    className="dropZone "
-                    type="file"
-                    id="attachment"
-                    multiple
-                    onChange={this.verifyAttachment.bind(this)}
-                  ></input>
-                </div> */}
-                <div>
-                  {this.state.verifyDoc.map((data, index) => (
-                    <div className="fileuploader-items col-md-6">
-                      <ul className="fileuploader-items-list">
-                        <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
-                          <div className="columns">
-                            <div className="column-thumbnail">
-                              <div className="fileuploader-item-image fileuploader-no-thumbnail">
-                                <div
-                                  className="fileuploader-item-icon"
-                                  style={{ backgroundColor: "#3f4fd3" }}
-                                >
-                                  <i>{data.name.split(".")[1]}</i>
-                                </div>
-                              </div>
-                              <span className="fileuploader-action-popup"></span>
-                            </div>
-                            <div className="column-title">
-                              <span className="own-text">{data.name}</span>
-                            </div>
-                            {/* <div className="column-actions">
-                              <a
-                                className="fileuploader-action fileuploader-action-remove"
-                                onClick={(event) =>
-                                  this.removeVerifyDoc(index, event)
-                                }
-                              >
-                                {" "}
-                                <i></i>
-                              </a>
-                            </div> */}
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              
+              <div className="row document-main">
+                            {
+                                this.state.user_info.user_id != Details.user_id && this.state.verifyDoc!=undefined && this.state.verifyDoc.length > 0 ?
+                                    <DocumentStaffLoan title="Attachment" doc={this.state.verifyDoc} path='staff_loan_new' />
+                                    : ''
+                            }
+                        </div>
 
             </div>
           </form>
         </div>
-        {/* <div className="row save-btn">
-          <div className="float-right">
-            <div>
-              <button
-                className="btn btn-primary"
-                id="saving_button"
-                type="button"
-                onClick={()=>this.save(this.state.RequestNRCDoc)}
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        </div> */}
+       
         {
                             !Array.isArray(this.state.status_info) ?
 
