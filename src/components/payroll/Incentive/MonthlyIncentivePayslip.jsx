@@ -176,6 +176,7 @@ getRegionList() {
         this.setState({
           dataSource:[],
           coData:[],
+          fxData:[]
         })
    toast.error("There is no data for this month!")
       }
@@ -184,6 +185,7 @@ getRegionList() {
         this.setState({
           dataSource:[],
           coData:[],
+          fxData:[]
         })
     })
   }
@@ -400,8 +402,8 @@ render(){
                  <p>: </p>
                  </div>
 
-                 <div className=' col-lg-5' style={{ paddingLeft: '90px', paddingTop: '10px' }}><p>{this.state.fxData[0].fullname ? this.state.fxData[0].fullname :'-'}</p>
-                 <p>{this.state.fxData[0].employeeID  ? this.state.fxData[0].employeeID :'-'}</p>
+                 <div className=' col-lg-5' style={{ paddingLeft: '90px', paddingTop: '10px' }}><p>{this.state.fxData[0].employeeID ? this.state.fxData[0].employeeID :'-'}</p>
+                 <p>{this.state.fxData[0].fullname  ? this.state.fxData[0].fullname :'-'}</p>
                  <p>{this.state.fxData[0].deptname ? this.state.fxData[0].deptname :'-'}</p>
                  <p>{this.state.fxData[0].designations ? this.state.fxData[0].designations :'-'}</p>
                  <p>{this.state.fxData[0].location_master_name ? this.state.fxData[0].location_master_name :'-'}</p>

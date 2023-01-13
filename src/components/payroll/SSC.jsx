@@ -566,6 +566,16 @@ export default class SSC extends Component {
                   <td></td>
                   <td>{this.state.dataSource.reduce((r,c)=>{return r+c.governmentAmount},0)}</td>
                 </tr>
+                <tr>
+                  <th scope="row">SS2Ee Total</th>
+                  <td></td>
+                  <td>{this.state.dataSource.reduce((r,c)=>{return r+c.ss2EeConAmt},0)}</td>
+                </tr>
+                <tr>
+                  <th scope="row">SS2Er Total</th>
+                  <td></td>
+                  <td>{this.state.dataSource.reduce((r,c)=>{return r+c.ss2ErConAmt},0)}</td>
+                </tr>
               </tbody>
             </table>
           </div>
