@@ -359,6 +359,18 @@ export default class Sidebar extends Component {
                   </li>
                   <li
                     className={
+                      pathname === "/departments_master_data" ? "active" : ""
+                    }
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Designations") && sidebarPermission.filter(d => d.permission == "Designations")[0].access == true ? 'block' : 'none') }}
+
+                  >
+                    <a href="/departments_master_data">
+                      {/* <i className="fa fa-id-badge"></i> */}
+                      Departments
+                    </a>
+                  </li>
+                  <li
+                    className={
                       pathname === "/job_title_master_data" ? "active" : ""
                     }
                     style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Job Title") && sidebarPermission.filter(d => d.permission == "Job Title")[0].access == true ? 'block' : 'none') }}

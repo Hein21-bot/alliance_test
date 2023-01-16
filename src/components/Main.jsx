@@ -143,6 +143,7 @@ import PayslipGenerate1 from './payroll/Payroll/PayslipGenerate1';
 import PayrollGenerate from './payroll/Payroll/PayrollGenerate';
 import PayrollCalculated from './payroll/Payroll/PayrollCalculated';
 import StaffLoanMain from './StaffLoan/StaffLoanMain';
+import Department from './MasterData/Departments/Department';
 
 
 const Main = () => (
@@ -203,6 +204,7 @@ const Main = () => (
         <Route path='/career_level_master_data' component={CareerLevel} />
         <Route path='/career_sub_level_master_data' component={CareerSubLevel} />
         <Route path='/designations_master_data' component={Designations} />
+        <Route path='/departments_master_data' component={Department} />
         <Route path='/job_title_master_data' component={JobTitle} />
         <Route path='/leave_category_master_data' component={LeaveCategory} />
         <Route path='/attendance_reason_type_master_data' component={AttendanceReasonType} />
