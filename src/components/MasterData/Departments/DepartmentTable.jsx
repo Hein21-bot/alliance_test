@@ -51,7 +51,7 @@ export default class DepartmentTable extends Component {
                 no: i + 1,
                 department: obj.deptname ?  obj.deptname :'-',
                 remark:obj.remark ? obj.remark : "-",
-                active: obj.active ? obj.active == 0 ? 'Inactive' : 'Active': '-',
+                active: obj.active ? obj.active === 0 ? 'Inactive' : 'Active': 'Inactive',
                 action: '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="View" ><span id="view" class="hidden" >' + JSON.stringify(obj) + '</span>&nbsp;View</button><button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="Edit" ><span id="edit" class="hidden" >' + JSON.stringify(obj) + '</span>&nbsp;Edit</button>',
             }
 
