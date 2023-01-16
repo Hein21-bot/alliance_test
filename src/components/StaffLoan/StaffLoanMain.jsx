@@ -34,7 +34,7 @@ class StaffLoanMain extends Component {
   }
 
   async componentDidMount() {
-    var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Staff Loan', 'Staff Loan');
+    var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Staff Loan','Staff Loan');
     
     this.setState({
         permission_status: permission_status

@@ -678,7 +678,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={staffInfo.length > 0 ? staffInfo[0].customer_code : ''}
+                    value={staffInfo.length > 0 ? staffInfo[0].employment_id : ''}
                   />
                 </div>
               </div>
