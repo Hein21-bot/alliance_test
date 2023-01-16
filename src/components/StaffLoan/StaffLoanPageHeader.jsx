@@ -19,7 +19,7 @@ class StaffLoanPageHeader extends Component {
                             Staff Loan
                         </li>
                         {/* <li className="active">
-                            <a href="#"> {this.props.pageTitle} Benefit</a>
+                            <a href="#"> {this.props.pageTitle}</a>
                         </li> */}
 
                     </ol>
@@ -32,11 +32,10 @@ class StaffLoanPageHeader extends Component {
                             <a href={this.state.pathname}>
                                 <button className="btn btn-primary" >
                                     Back To List</button></a>
-                            // : permission.isAddNew ?
-                            :
+                            : permission.isAddNew ?
                                 <button className="btn btn-primary" onClick={this.props.setupForm}>
                                     Add New</button>
-                                // : ''
+                                : ''
                     }
 
                 </div>
