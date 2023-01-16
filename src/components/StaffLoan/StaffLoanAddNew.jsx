@@ -386,7 +386,7 @@ class StaffLoanAddNew extends Component {
           dataSource: data,
           selectedOtherLoan:null,
           selectedInstitutionName:'',
-          electedOutstandingAmount:0,
+          selectedOutstandingAmount:0,
           selectedInstallmentTerm:0,
           selectedInstallmentAmount:0,
           selectedMaturityDate:new Date(),
