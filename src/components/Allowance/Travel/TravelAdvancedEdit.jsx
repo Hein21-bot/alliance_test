@@ -67,6 +67,7 @@ export default class TravelAdvancedEdit extends Component {
         let branch = await getBranch();
         that.setState({
             branch: branch,
+            
             selected_location: { label: this.props.data.withdraw_location_name, value: this.props.data.withdraw_location }
         })
     }
@@ -88,6 +89,7 @@ export default class TravelAdvancedEdit extends Component {
         let data = this.state.setupData;
         data.withdraw_location = e.value;
         this.setState({
+            selected_location:e,
             selected_branch: e,
             setupData: data
         })
@@ -116,6 +118,7 @@ export default class TravelAdvancedEdit extends Component {
         let comment=encodeURIComponent(this.state.setupData.purpose);
         let startLocation=encodeURIComponent(this.state.setupData.startLoc);
         let destinationEncode=encodeURIComponent(this.state.setupData.destination);
+        console.log("data",data)
         var data = this.state.setupData;
         data['startLoc']=startLocation;
         data['purpose']=comment;
@@ -186,6 +189,7 @@ export default class TravelAdvancedEdit extends Component {
     }
 
     render() {
+        console.log("selected location",this.state.selected_location)
         let { is_main_role } = this.state;
         return (
 
