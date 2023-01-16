@@ -162,12 +162,22 @@ export default class PayrollUpload extends Component {
   };
 
   handleFetchSSCData = () => {
+    let status = 0;
+    let statusText='';
     fetch(
       main_url +
         `payroll/getSSCdata/${moment(this.props.filterDate).format("YYYY-MM")}`
     )
       .then((response) => {
-        if (response.ok) return response.json();
+        status=response.status;
+        statusText=response.statusText;
+        if (response.ok){
+          return response.json()
+        }else{
+          return response.text()
+        }
+         
+         ;
       })
       .then((res) => {
         if (res) {
@@ -175,8 +185,20 @@ export default class PayrollUpload extends Component {
             dataSource: res,
           });
           this._setTableData(res);
-        }else{
-          toast.error(moment(this.props.filterDate).format("YYYY-MM")+"payroll is already calculate!", {
+        }
+        // else if(res.length == 0){
+        //   console.log("data ma shi bu")
+        //   toast.error("There is no data in Excel Sheet", {
+        //     position: "top-right",
+        //     autoClose: 5000,
+        //     hideProgressBar: false,
+        //     closeOnClick: true,
+        //     pauseOnHover: true,
+        //     draggable: true,
+        //   });
+        // }
+        else{
+          toast.error(res, {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -255,7 +277,7 @@ export default class PayrollUpload extends Component {
         status = res.status;
         statusText=res.statusText;
        
-        console.log("here ======>?", res.statusText)
+        // console.log("here ======>?", res.statusText)
         if(res.ok){
           return res.json()
         }else{
@@ -266,12 +288,14 @@ export default class PayrollUpload extends Component {
       .then(async (response) => {
         console.log("response",response);
         if (status == 200) {
-          console.log("ma thi bu chit tal");
+          console.log("status text",statusText);
           this.setState({ dataSource: response, loading: false });
           await this._setTableData(response);
         } else if(status == 400){
-          console.log('error======>')
-          toast.error(moment(this.props.filterDate).format("YYYY-MM")+"payroll is already calculate!", {
+          console.log('error======>',statusText)
+          // toast.error(moment(this.props.filterDate).format("YYYY-MM")+"payroll is already calculate!", {
+          toast.error(response, {
+
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -294,11 +318,11 @@ export default class PayrollUpload extends Component {
       () => console.log("check new doc", this.state.newDoc)
     );
     // document.querySelector("#attachment").value = "";
-    console.log("check", document.getElementById("attachment").files);
+    // console.log("check", document.getElementById("attachment").files);
   }
 
   _setTableData = async (data) => {
-    console.log("set table======>", data);
+    // console.log("set table======>", data);
     var table;
     var l = [];
     var status;
@@ -372,7 +396,7 @@ export default class PayrollUpload extends Component {
 
   render() {
     const { steps, activeStep } = this.state;
-    console.log("datasource",this.state.steps[this.state.activeStep])
+    // console.log("datasource",this.state.steps[this.state.activeStep])
 
     return (
       <div>
