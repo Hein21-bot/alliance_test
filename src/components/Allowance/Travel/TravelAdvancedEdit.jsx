@@ -88,7 +88,7 @@ export default class TravelAdvancedEdit extends Component {
         let data = this.state.setupData;
         data.withdraw_location = e.value;
         this.setState({
-            selected_branch: e,
+            selected_location: e,
             setupData: data
         })
     }

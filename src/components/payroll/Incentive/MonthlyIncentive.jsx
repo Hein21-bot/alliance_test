@@ -48,6 +48,7 @@ export default class MonthlyIncentive extends Component {
     this.getDesignationList();
     // this.getFirstDayOfCurrentWeek();
     await this._setDataTable([]);
+  
   }
 
   showToast = (status, text) => {
@@ -77,6 +78,8 @@ export default class MonthlyIncentive extends Component {
         });
       });
   }
+
+  
 
   getDesignationList() {
     fetch(`${main_url}main/getDesignations`)
@@ -304,7 +307,9 @@ export default class MonthlyIncentive extends Component {
         searchData:[]
       })
   };
-
+ 
+   
+   
   checkFiles(e) {
     
     this.setState({
@@ -313,7 +318,7 @@ export default class MonthlyIncentive extends Component {
       searchData: [],
       coData: [],
     });
-   
+ 
     var files = document.getElementById("attachment").files;
     var newDoc = this.state.newDoc;
     for (let i = 0; i < files.length; i++) {
@@ -380,7 +385,17 @@ export default class MonthlyIncentive extends Component {
         })
       })
   }
+searchTable(){ 
+  var $rows = $('#monthly_incentive tr');
+$('#search').keyup(function() {
+  var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
 
+  $rows.show().filter(function() {
+    var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+    return !~text.indexOf(val);
+  }).hide();
+});
+}
   async _setDataTable(data) {
     var table;
     var l = [];
@@ -580,6 +595,7 @@ export default class MonthlyIncentive extends Component {
           </div>
         ) : this.state.table_type == 2 ? (
           <div>
+
             <div className="col-md-12">
               <table
                 width="99%"
@@ -624,6 +640,8 @@ export default class MonthlyIncentive extends Component {
           </div>
         ) : this.state.table_type == 1 && (this.state.searchData.length > 0) ? (
           <div>
+            <div style={{display:'flex',justifyContent:'space-between',paddingRight:17}}>
+              <div>
             <ReactHTMLTableToExcel 
                          className="btn-excel"
                          table="monthly_incentive"
@@ -631,7 +649,9 @@ export default class MonthlyIncentive extends Component {
                          buttonText="Excel"
                          sheet="Sheet"
                         
-                         />
+                         /></div><div className="col-lg-2 col-md-3" style={{padding:0,display:"flex",justifyContent:'space-between',alignItems:'center'}}> <div className="col-lg-4" style={{padding:0}}>Search</div>
+            <div className="row col-lg-10" style={{padding:0}}><input className="form-control col-lg-12" style={{padding:0,borderRadius:5}} type="text" id="search" onKeyUp={this.searchTable}/></div></div>
+             </div>
             <table
               id="monthly_incentive"
               className="table table-bordered"
