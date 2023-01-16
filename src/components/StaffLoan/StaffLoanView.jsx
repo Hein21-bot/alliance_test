@@ -1860,7 +1860,9 @@ class StaffLoanView extends Component {
                   </div>
                 </div>
             </div> */}
-            <div className="col-md-12" style={{ marginBottom: 10 }}>
+            {
+              (Details.status== 1 || Details.status==2 || Details.status == 3) ? <>
+                      <div className="col-md-12" style={{ marginBottom: 10 }}>
               <div
                 className="col-md-12"
                 style={{ backgroundColor: "#27568A", color: "white", paddingTop: 5 }}
@@ -1922,7 +1924,11 @@ class StaffLoanView extends Component {
               </div>
 
             </div>
-            <div className="col-md-12" style={{ marginBottom: 10 }}>
+              </> : '' 
+            }
+            {
+              (Details.status == 2 || Details.status == 3 ) ? <>
+              <div className="col-md-12" style={{ marginBottom: 10 }}>
               <div
                 className="col-md-12"
                 style={{ backgroundColor: "#27568A", color: "white", paddingTop: 5 }}
@@ -1946,7 +1952,11 @@ class StaffLoanView extends Component {
               
 
             </div>
-            <div className="col-md-12" style={{ marginBottom: 10 }}>
+              </> : ''
+            }
+            {
+              Details.status == 3 ? <>
+              <div className="col-md-12" style={{ marginBottom: 10 }}>
               <div
                 className="col-md-12"
                 style={{ backgroundColor: "#27568A", color: "white", paddingTop: 5 }}
@@ -2081,11 +2091,15 @@ class StaffLoanView extends Component {
               </div>
 
             </div>
+              </> : ''
+            }
+            
+            
             <div className="row" style={{ marginBottom: 10 }}>
               
               <div className="row document-main">
                             {
-                                this.state.user_info.user_id != Details.user_id && this.state.verifyDoc!=undefined && this.state.verifyDoc.length > 0 ?
+                                this.state.user_info.user_id != Details.user_id && Details.status == 3 &&  this.state.verifyDoc!=undefined && this.state.verifyDoc.length > 0 ?
                                     <DocumentStaffLoan title="Attachment" doc={this.state.verifyDoc} path='staff_loan_new' />
                                     : ''
                             }
