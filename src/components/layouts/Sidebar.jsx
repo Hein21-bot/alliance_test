@@ -1201,7 +1201,7 @@ export default class Sidebar extends Component {
                 </a>
               </li>
 
-               {/* <li
+               <li
                 className={
                   this.checkPathName() === "/staff_loan" ? "active" : ""
                 }
@@ -1218,7 +1218,7 @@ export default class Sidebar extends Component {
                       <i className="fas fa-clipboard-list"></i>Staff Loan List
                     </a>
                   </li>
-                  <li
+                  {/* <li
                     className={
                       pathname === "/staff_loan_repayment" ? "active" : ""
                     }
@@ -1235,9 +1235,9 @@ export default class Sidebar extends Component {
                     <a href="/staff_loan_settlement">
                       <i className="fa fa-calendar"></i>Settlement Sheet
                     </a>
-                  </li>
+                  </li> */}
                 </ul>
-              </li>  */}
+              </li> 
 
 
 

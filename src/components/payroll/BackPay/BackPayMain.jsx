@@ -34,7 +34,7 @@ class BackPayMain extends Component {
     }
 
     async componentDidMount() {
-        var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'PayrollForBackPay-RefundAndTemporaryContract', 'PayrollForBackPay-RefundAndTemporaryContract');
+        var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'PayrollForBackPay-RefundAndTemporaryContract', 'PayrollForBackPay-RefundAndTemporaryContract');
        
         this.setState({
             permission_status: permission_status

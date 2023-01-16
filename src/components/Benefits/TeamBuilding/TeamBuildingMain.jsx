@@ -26,7 +26,7 @@ class TeamBuildingMain extends Component {
     }
 
     async componentDidMount() {
-        var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Team Building', 'Benefit');
+        var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Team Building', 'Benefit');
         // this._getTeamBuildingBenefit();
         this.setState({
             permission_status: permission_status
