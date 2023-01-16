@@ -16,6 +16,8 @@ import {
   print,
   fno,
   getFirstDayOfPrevMonth,
+  getCookieData,
+  getPermissionStatus
 } from "../../utils/CommonFunction";
 const $ = require("jquery");
 const jzip = require("jzip");
@@ -31,25 +33,44 @@ export default class StaffLoanTable extends Component {
     super(props);
     this.state = {
       user_id: getUserId("user_info"),
+      user_info: getCookieData("user_info"),
       requestData: [],
       selectedRequest: "",
       is_main_role: getMainRole(),
       from_date: getFirstDayOfPrevMonth(),
       to_date: moment(),
+      permission_status:{},
+
       tab: this.props.tab,
     };
   }
-  componentDidMount() {
-    this.getAllBenefits();
+  async componentDidMount() {
+    var permission_status = await getPermissionStatus(this.state.user_info.designations_id,  'Staff Loan', 'Staff Loan');
+    this.setState({
+        permission_status: permission_status
+    })
+    let user_info= await getCookieData("user_info")
+
+    await fetch(`${main_url}staff_loan_new/getStaffLoan/${user_info!=null && user_info.user_id}`)
+      .then(res => { if (res.ok) return res.json() })
+      .then(list => {
+        console.log("table list",list)
+        this._setTableData(list)
+        // this.setState({
+        //   staffInfo: list
+        // })
+      })
+    // this.getAllBenefits();
+
     this.$el = $(this.el);
-    this.setState(
-      {
-        requestData: this.state.requestData,
-      },
-      () => {
-        this._setTableData(this.state.requestData);
-      }
-    );
+    // this.setState(
+    //   {
+    //     requestData: this.state.requestData,
+    //   },
+    //   () => {
+    //     this._setTableData(this.state.requestData);
+    //   }
+    // );
 
     let that = this;
     $("#dataTables-table").on("click", "#toView", function () {
@@ -106,46 +127,6 @@ export default class StaffLoanTable extends Component {
   getReject() {
     this.search(4);
   }
-  getAllBenefits() {
-    // let id = this.state.user_id;
-    // fetch(main_url + "child_benefit/getChildBenefit/" + id)
-    //   // fetch(main_url + "child_benefit/getChildBenefit/" + id + "/" + moment(this.state.from_date).format("YYYY-MM-DD") + "/" + moment(this.state.to_date).format("YYYY-MM-DD"))
-    //   .then((response) => {
-    //     if (response.ok) return response.json();
-    //   })
-    //   .then((res) => {
-    //     if (res) {
-    //       this.setState(
-    //         {
-    //           datasource: res,
-    //           requestData: res.filter((v) => v.createdBy != this.state.user_id),
-    //         },
-    //         () => this._setTableData(this.state.requestData)
-    //       );
-    //     }
-    //   })
-    //   .catch((error) => console.error(`Fetch Error =\n`, error));
-  }
-  getMyBenefits() {
-    // let id = this.state.user_id;
-    // fetch(main_url + "child_benefit/getChildBenefit/" + id)
-    //   // fetch(main_url +"child_benefit/getChildBenefit/" + id  + "/" + moment(this.state.from_date).format("YYYY-MM-DD") + "/" + moment(this.state.to_date).format("YYYY-MM-DD"))
-    //   .then((response) => {
-    //     if (response.ok) return response.json();
-    //   })
-    //   .then((res) => {
-    //     if (res) {
-    //       this.setState(
-    //         {
-    //           datasource: res,
-    //           requestData: res.filter((v) => v.createdBy == this.state.user_id),
-    //         },
-    //         () => this._setTableData(this.state.requestData)
-    //       );
-    //     }
-    //   })
-    //   .catch((error) => console.error(`Fetch Error =\n`, error));
-  }
   handleStartDate = async (event) => {
     this.setState({
       from_date: event,
@@ -156,13 +137,13 @@ export default class StaffLoanTable extends Component {
       to_date: event,
     });
   };
-  filter() {
-    if (this.state.tab == 0) {
-      this.getAllBenefits();
-    } else if (this.state.tab == 1) {
-      this.getMyBenefits();
-    }
-  }
+  // filter() {
+  //   if (this.state.tab == 0) {
+  //     this.getAllBenefits();
+  //   } else if (this.state.tab == 1) {
+  //     this.getMyBenefits();
+  //   }
+  // }
   search(status) {
     let data = this.state.requestData;
     data = data.filter((d) => {
@@ -266,10 +247,11 @@ export default class StaffLoanTable extends Component {
   }
 
   _setTableData = (data) => {
+    console.log("data=====>", data)
     var table;
     var l = [];
     var status;
-    var permission = this.props.permission;
+    var permission = this.state.permission_status;
     var has_action =
       permission.isView === 1 || permission.isEdit === 1 ? true : false;
     for (var i = 0; i < data.length; i++) {
@@ -300,48 +282,44 @@ export default class StaffLoanTable extends Component {
         employee_id: data[i].employment_id,
         employee_name: data[i].fullname,
         position: data[i].designations ? data[i].designations : "-",
-        branch: data[i].branch_name,
-        child_count: data[i].child_count,
+        branch: data[i].location_master_name  ?  data[i].location_master_name : '-',
+        
         date: result.createdAt
           ? moment(result.createdAt).format("DD-MM-YYYY")
           : "-",
         status: status,
       };
+      // obj.action ='<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' +
+      //          JSON.stringify(result) +
+      //       '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>'
+      //       obj.action +='<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' +
+      //          JSON.stringify(result) +
+      //       '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>'
       if (has_action) {
-        if (result.status !== 3) {
-          obj.action =
-            permission.isView === 1
-              ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' +
-                JSON.stringify(result) +
-                '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>'
-              : "";
-          obj.action +=
-            permission.isEdit === 1 ||
-            (result.status == 5 && data[i].createdBy == this.state.user_id)
-              ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' +
-                JSON.stringify(result) +
-                '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>'
-              : "";
-        } else {
-          obj.action =
-            permission.isView === 1
-              ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' +
-                JSON.stringify(result) +
-                '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>'
-              : "";
-
-          if (result.print === 1) {
-            obj.action +=
-              '<button style="margin-right:10px" class="btn btn-info btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-              JSON.stringify(result) +
-              '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
+        console.log("has action",has_action)
+          if (result.status !== 3) {
+      obj.action = this.state.permission_status.isView === 1 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+      obj.action += this.state.permission_status.isEdit === 1 || (result.status == 5 && data[i].createdBy == this.state.user_id) ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' : '';
           } else {
-            obj.action +=
-              '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-              JSON.stringify(result) +
-              '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
+              obj.action = this.state.permission_status.isView === 1 ?
+
+                  '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
+
+              if (result.print === 1) {
+                  obj.action +=
+                      '<button style="margin-right:10px" class="btn btn-info btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                      JSON.stringify(result) +
+                      '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
+              } else {
+                  obj.action +=
+                      '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+                      JSON.stringify(result) +
+                      '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
+              }
           }
-        }
+      }else{
+
+        obj.action=''
       }
 
       l.push(obj);
@@ -361,14 +339,14 @@ export default class StaffLoanTable extends Component {
       { title: "Employee Name", data: "employee_name" },
       { title: "Position", data: "position" },
       { title: "Branch", data: "branch" },
-      { title: "Child Count", data: "child_count" },
+      
       { title: "Date", data: "date" },
       { title: "Status", data: "status" },
     ];
 
-    if (has_action) {
+    // if (has_action) {
       column.push({ title: "Action", data: "action" });
-    }
+    // }
     table = $("#dataTables-table").DataTable({
       autofill: true,
       bLengthChange: false,
@@ -389,7 +367,7 @@ export default class StaffLoanTable extends Component {
         },
         {
           extend: "excelHtml5",
-          title: "Child Benefit",
+          title: "Staff Loan",
         },
         {
           extend: "pdfHtml5",

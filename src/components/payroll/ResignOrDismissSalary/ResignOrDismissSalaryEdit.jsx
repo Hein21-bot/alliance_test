@@ -312,7 +312,7 @@ export default class ResignOrDismissSalaryEdit extends Component {
 
   render() {
     const { dataSource, exitStatusList } = this.state;
-    console.log("dataSource =====>",havePermission(this.state.work_flow_status), this.state.work_flow_status);
+    console.log("dataSource =====>",havePermission(this.state.work_flow_status),this.state.work_flow_status,this.state.is_main_role);
     return (
       <div>
         <div className="row">
