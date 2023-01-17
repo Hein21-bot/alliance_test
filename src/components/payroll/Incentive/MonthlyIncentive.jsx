@@ -386,7 +386,7 @@ export default class MonthlyIncentive extends Component {
       })
   }
 searchTable(){ 
-  var $rows = $('#monthly_incentive tr');
+  var $rows = $('#monthly_incentive tbody tr');
 $('#search').keyup(function() {
   var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
 
@@ -649,8 +649,8 @@ $('#search').keyup(function() {
                          buttonText="Excel"
                          sheet="Sheet"
                         
-                         /></div><div className="col-lg-2 col-md-3" style={{padding:0,display:"flex",justifyContent:'space-between',alignItems:'center'}}> <div className="col-lg-4" style={{padding:0}}>Search</div>
-            <div className="row col-lg-10" style={{padding:0}}><input className="form-control col-lg-12" style={{padding:0,borderRadius:5}} type="text" id="search" onKeyUp={this.searchTable}/></div></div>
+                         /></div><div className="col-lg-2 col-md-3" style={{padding:"0px 0px 4px 0px",display:"flex",justifyContent:'space-between',alignItems:'center'}}> <div className="col-lg-4" style={{padding:0,fontSize:14}}>Search</div>
+            <div className="row col-lg-10" style={{padding:0}}><input className="form-control col-lg-12" style={{padding:0,borderRadius:3,border:"1px solid grey"}} type="text" id="search" onKeyUp={this.searchTable}/></div></div>
              </div>
             <table
               id="monthly_incentive"
@@ -849,14 +849,18 @@ $('#search').keyup(function() {
           </div>
         ) : this.state.table_type == 1 && (this.state.searchData.length === 0 ) ? (
          <div>
-           <ReactHTMLTableToExcel 
+           <div style={{display:'flex',justifyContent:'space-between',paddingRight:17}}>
+              <div>
+            <ReactHTMLTableToExcel 
                          className="btn-excel"
                          table="monthly_incentive"
                          filename={"Monthly Incentive Report "+moment(this.state.selected_month).format('YYYY-MM')}
                          buttonText="Excel"
                          sheet="Sheet"
                         
-                         />
+                         /></div><div className="col-lg-2 col-md-3" style={{padding:"0px 0px 4px 0px",display:"flex",justifyContent:'space-between',alignItems:'center'}}> <div className="col-lg-4" style={{padding:0,fontSize:14}}>Search</div>
+            <div className="row col-lg-10" style={{padding:0}}><input className="form-control col-lg-12" style={{padding:0,borderRadius:3,border:"1px solid grey"}} type="text" id="search" onKeyUp={this.searchTable}/></div></div>
+             </div>
           <table
             className="table table-bordered"
             id="monthly_incentive"
