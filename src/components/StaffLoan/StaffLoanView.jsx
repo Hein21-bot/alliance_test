@@ -2002,7 +2002,7 @@ class StaffLoanView extends Component {
                     dateFormat="DD/MM/YYYY"
                     onChange={this.handleTermInMonths}
                   /> */}
-                  <input type="text" className="form-control" disabled value={moment(this.state.selectedTermInMonths).format('YYYY-MM-DD')} />
+                  <input type="text" className="form-control" disabled value={this.state.selectedTermInMonths} />
                 </div>
               </div>
 

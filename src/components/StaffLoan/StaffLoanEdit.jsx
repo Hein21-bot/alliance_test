@@ -730,7 +730,7 @@ class StaffLoanEdit extends Component {
   }
   handleTermInMonths=(e)=>{
     this.setState({
-        selectedTermInMonths:e
+        selectedTermInMonths:e.target.value
     })
   }
   handleLoanCommitteeDate=(e)=>{
@@ -803,9 +803,16 @@ class StaffLoanEdit extends Component {
   }
  
   approvalStatus = (text, comment) => {
+    let Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
+
     console.log("approval status");
-    this.setState({ status_title: text, comment: comment },
-        () => this.save())
+    this.setState({ status_title: text, comment: comment })
+    if((Details.status == 2 && this.state.selectedTermInMonths != 0 && this.state.selectedVerifyInstallmentAmount != 0 && this.state.ApproveAmount != 0) || Details.status == 0 || Details.status == 1){
+      this.save()
+    }else{
+      toast.error("Some Field Need to fill")
+    }
+   
   }
   
 
@@ -1820,67 +1827,7 @@ class StaffLoanEdit extends Component {
                     ))}
                   </div>
               </div>
-              <div className="form-group col-md-6">
-                <div>
-                  <label
-                    htmlFor="attachment"
-                    className="col-sm-12 custom-file-label"
-                  >
-                    Other Attachment Files
-                  </label>
-                </div>
-                <div className="col-sm-10">
-                  <input
-                    className="dropZone "
-                    type="file"
-                    id="other_doc_attach_file"
-                    multiple
-                    onChange={this.OtherDoc.bind(this)}
-                  ></input>
-                </div>
-                <div>
-                  {this.state.OtherDoc.length > 0 && this.state.OtherDoc.map((data, index) => (
-                    <div className="fileuploader-items col-md-6">
-                      <ul className="fileuploader-items-list">
-                        <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
-                          <div className="columns">
-                            <div className="column-thumbnail">
-                              <div className="fileuploader-item-image fileuploader-no-thumbnail">
-                                <div
-                                  className="fileuploader-item-icon"
-                                  style={{ backgroundColor: "#3f4fd3" }}
-                                >
-                                  <i>{data.name.split(".")[1]}</i>
-                                </div>
-                              </div>
-                              <span className="fileuploader-action-popup"></span>
-                            </div>
-                            <div className="column-title">
-                              <span className="own-text">{data.name}</span>
-                            </div>
-                            {
-                              this.state.user_info.user_id ==  Details.user_id ? <>
-                              <div className="column-actions">
-                              <a
-                                className="fileuploader-action fileuploader-action-remove"
-                                onClick={(event) =>
-                                  this.removeOtherDoc(index, event)
-                                }
-                              >
-                                {" "}
-                                <i></i>
-                              </a>
-                            </div>
-                              </> : ''
-                            }
-                            
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              
               <div className="form-group col-md-6">
                 <div>
                   <label
@@ -2004,6 +1951,67 @@ class StaffLoanEdit extends Component {
                       ))}
                   </div>
                 </div>
+                <div className="form-group col-md-6">
+                <div>
+                  <label
+                    htmlFor="attachment"
+                    className="col-sm-12 custom-file-label"
+                  >
+                    Other Attachment Files
+                  </label>
+                </div>
+                <div className="col-sm-10">
+                  <input
+                    className="dropZone "
+                    type="file"
+                    id="other_doc_attach_file"
+                    multiple
+                    onChange={this.OtherDoc.bind(this)}
+                  ></input>
+                </div>
+                <div>
+                  {this.state.OtherDoc.length > 0 && this.state.OtherDoc.map((data, index) => (
+                    <div className="fileuploader-items col-md-6">
+                      <ul className="fileuploader-items-list">
+                        <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
+                          <div className="columns">
+                            <div className="column-thumbnail">
+                              <div className="fileuploader-item-image fileuploader-no-thumbnail">
+                                <div
+                                  className="fileuploader-item-icon"
+                                  style={{ backgroundColor: "#3f4fd3" }}
+                                >
+                                  <i>{data.name.split(".")[1]}</i>
+                                </div>
+                              </div>
+                              <span className="fileuploader-action-popup"></span>
+                            </div>
+                            <div className="column-title">
+                              <span className="own-text">{data.name}</span>
+                            </div>
+                            {
+                              this.state.user_info.user_id ==  Details.user_id ? <>
+                              <div className="column-actions">
+                              <a
+                                className="fileuploader-action fileuploader-action-remove"
+                                onClick={(event) =>
+                                  this.removeOtherDoc(index, event)
+                                }
+                              >
+                                {" "}
+                                <i></i>
+                              </a>
+                            </div>
+                              </> : ''
+                            }
+                            
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
             {
               this.state.work_flow_status!=undefined && (this.state.work_flow_status.check_by ==1 || this.state.work_flow_status.verify_by == 1 || this.state.work_flow_status.approve_by == 1) ? 
@@ -2146,13 +2154,14 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <DatePicker
+                  <input type="number" className="form-control" value={this.state.selectedTermInMonths} onChange={this.handleTermInMonths}/>
+                  {/* <DatePicker
                     className="checkValidate"
                     timeFormat={false}
                     value={moment(this.state.selectedTermInMonths).format('DD/MM/YYYY')}
-                    // dateFormat="DD/MM/YYYY"
+                    
                     onChange={this.handleTermInMonths}
-                  />
+                  /> */}
                 </div>
               </div>
 
@@ -2329,7 +2338,7 @@ class StaffLoanEdit extends Component {
                             <StaffLoanApprovalForm approvalStatus={this.approvalStatus.bind(this)} status={Details.status} work_flow={this.state.work_flow_status} />
                             :
                             <div className="col-md-12 btn-rightend">
-                                { Details.status == 5 ?
+                                { Details.status == 5 && Details.user_id==this.state.user_info.user_id ?
                                     <div>
                                         <button onClick={()=>this.save()} className="btn btn-primary" id="saving_button" type="button">Confirm</button>
                                     </div>
