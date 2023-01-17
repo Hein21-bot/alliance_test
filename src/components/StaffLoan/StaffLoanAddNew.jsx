@@ -1462,62 +1462,7 @@ class StaffLoanAddNew extends Component {
                     ))}
                   </div>
               </div>
-              <div className="form-group col-md-6">
-                <div>
-                  <label
-                    htmlFor="attachment"
-                    className="col-sm-12 custom-file-label"
-                  >
-                    Other Attachment Files
-                  </label>
-                </div>
-                <div className="col-sm-10">
-                  <input
-                    className="dropZone "
-                    type="file"
-                    id="other_doc_attach_file"
-                    multiple
-                    onChange={this.OtherDoc.bind(this)}
-                  ></input>
-                </div>
-                <div>
-                  {this.state.OtherDoc.map((data, index) => (
-                    <div className="fileuploader-items col-md-6">
-                      <ul className="fileuploader-items-list">
-                        <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
-                          <div className="columns">
-                            <div className="column-thumbnail">
-                              <div className="fileuploader-item-image fileuploader-no-thumbnail">
-                                <div
-                                  className="fileuploader-item-icon"
-                                  style={{ backgroundColor: "#3f4fd3" }}
-                                >
-                                  <i>{data.name.split(".")[1]}</i>
-                                </div>
-                              </div>
-                              <span className="fileuploader-action-popup"></span>
-                            </div>
-                            <div className="column-title">
-                              <span className="own-text">{data.name}</span>
-                            </div>
-                            <div className="column-actions">
-                              <a
-                                className="fileuploader-action fileuploader-action-remove"
-                                onClick={(event) =>
-                                  this.removeOtherDoc(index, event)
-                                }
-                              >
-                                {" "}
-                                <i></i>
-                              </a>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              
               <div className="form-group col-md-6">
                 <div>
                   <label
@@ -1630,6 +1575,62 @@ class StaffLoanAddNew extends Component {
                       ))}
                   </div>
                 </div>
+                <div className="form-group col-md-6">
+                <div>
+                  <label
+                    htmlFor="attachment"
+                    className="col-sm-12 custom-file-label"
+                  >
+                    Other Attachment Files
+                  </label>
+                </div>
+                <div className="col-sm-10">
+                  <input
+                    className="dropZone "
+                    type="file"
+                    id="other_doc_attach_file"
+                    multiple
+                    onChange={this.OtherDoc.bind(this)}
+                  ></input>
+                </div>
+                <div>
+                  {this.state.OtherDoc.map((data, index) => (
+                    <div className="fileuploader-items col-md-6">
+                      <ul className="fileuploader-items-list">
+                        <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
+                          <div className="columns">
+                            <div className="column-thumbnail">
+                              <div className="fileuploader-item-image fileuploader-no-thumbnail">
+                                <div
+                                  className="fileuploader-item-icon"
+                                  style={{ backgroundColor: "#3f4fd3" }}
+                                >
+                                  <i>{data.name.split(".")[1]}</i>
+                                </div>
+                              </div>
+                              <span className="fileuploader-action-popup"></span>
+                            </div>
+                            <div className="column-title">
+                              <span className="own-text">{data.name}</span>
+                            </div>
+                            <div className="column-actions">
+                              <a
+                                className="fileuploader-action fileuploader-action-remove"
+                                onClick={(event) =>
+                                  this.removeOtherDoc(index, event)
+                                }
+                              >
+                                {" "}
+                                <i></i>
+                              </a>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </form>
         </div>
