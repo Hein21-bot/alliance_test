@@ -204,9 +204,9 @@ class StaffLoanEdit extends Component {
         performanceRecomm:Details.performance_recommendation,
         check_comment:Details.checked_comment,
         verify:Details.verified_comment,
-        selectedDisbursementDate:Details.disbursement_date,
-        selectedTermInMonths:Details.term_in_month,
-        selectedLoanCommitteeDate:Details.loan_committee_date,
+        selectedDisbursementDate:Details.disbursement_date == null ? new Date() : Details.disbursement_date,
+        selectedTermInMonths:Details.term_in_month == null ? new Date() : Details.term_in_month,
+        selectedLoanCommitteeDate:Details.loan_committee_date  == null ? new Date() : Details.loan_committee_date,
         selectedVerifyInstallmentAmount:Details.approve_installment_amount,
         ApproveAmount:Details.approved_amount,
         verifyComment:Details.approved_comment,
@@ -541,7 +541,9 @@ class StaffLoanEdit extends Component {
     }
   };
   setDataTable(data) {
-    console.log("data===>",data)
+    let Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
+
+    console.log("data===>",Details.user_id==this.state.user_info.user_id)
     var table;
     if ($.fn.dataTable.isDataTable("#dataTables-Table")) {
       table = $("#dataTables-Table").dataTable();
@@ -566,16 +568,18 @@ class StaffLoanEdit extends Component {
         installment_amount: data[i].installment_amount ? data[i].installment_amount : 0,
         maturity_date:data[i].maturity_date ? moment(data[i].maturity_date).format('YYYY-MM-DD') : '-',
         action:
-          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden">'+
+          `'<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" ${Details.user_id != this.state.user_info.user_id ? "disabled" : ""} id="toEdit"><span id="edit" class="hidden">'`+
           index +
           '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' +
-          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toRemove" ><span id="remove" class="hidden">'+
+          `'<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" ${Details.user_id!= this.state.user_info.user_id ? "disabled" : ""} id="toRemove"><span id="remove" class="hidden">'`+
           index +
           '</span>  <i className="fa fa-cogs"></i>&nbsp;Remove</button>',
+          
       };
       l.push(obj);
     }
     table = $("#dataTables-Table").DataTable({
+
       autofill: false,
       bLengthChange: false,
       bInfo: false,
@@ -591,8 +595,10 @@ class StaffLoanEdit extends Component {
         { title: "Installment Term", data: "installment_term" },
         { title: "Installment Amount",data:"installment_amount"},
         { title: "Maturity Date",data:"maturity_date"},
+        
         { title:'Action',data:'action'}
       ],
+      
     });
   }
 
@@ -989,7 +995,7 @@ class StaffLoanEdit extends Component {
   }
 
   render() {
-    console.log("info=======>",this.state.staffInfoDetails)
+    console.log("info=======>",this.state.selectedDisbursementDate)
     const{staffInfo,getGuarantorInfo}=this.state;
     const Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
     console.log("details=====>",Details)
@@ -1019,7 +1025,7 @@ class StaffLoanEdit extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={staffInfo.length > 0 ? staffInfo[0].customer_code : ''}
+                    value={staffInfo.length > 0 ? staffInfo[0].employment_id : ''}
                   />
                 </div>
               </div>
@@ -2018,7 +2024,7 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="number" className="form-control" disabled={this.state.work_flow_status!=undefined && this.state.work_flow_status.verify_by == 0}  value={this.state.targetAchievement}
+                  <input type="text" className="form-control" disabled={this.state.work_flow_status!=undefined && this.state.work_flow_status.verify_by == 0}  value={this.state.targetAchievement}
                   onChange={this.handleTargetAchievement}
                    />
                 </div>
@@ -2030,7 +2036,7 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="number" className="form-control" disabled={this.state.work_flow_status!=undefined && this.state.work_flow_status.check_by == 0}   value={this.state.otherLoanInformation} 
+                  <input type="text" className="form-control" disabled={this.state.work_flow_status!=undefined && this.state.work_flow_status.check_by == 0}   value={this.state.otherLoanInformation} 
                   onChange={this.handleOtherLoanInformation}
                   />
                 </div>
@@ -2045,7 +2051,7 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="number" className="form-control" disabled={this.state.work_flow_status!=undefined && this.state.work_flow_status.check_by == 0}   value={this.state.performanceRecomm}
+                  <input type="text" className="form-control" disabled={this.state.work_flow_status!=undefined && this.state.work_flow_status.check_by == 0}   value={this.state.performanceRecomm}
                   onChange={this.handlePerformanceRecommendation}
                    />
                 </div>
@@ -2118,13 +2124,19 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <DatePicker
+                <DatePicker
+                  className="checkValidate"
+                  timeFormat={false}
+                  value={moment(this.state.selectedDisbursementDate).format('DD/MM/YYYY')}
+                  onChange={this.handleDisbursementDate}
+                />
+                  {/* <DatePicker
                     className="checkValidate"
                     timeFormat={false}
-                    value={moment(this.state.selectedDisbursementDate).format('DD/MM/YYYY')}
-                    dateFormat="DD/MM/YYYY"
+                    value={this.state.selectedDisbursementDate}
+                    
                     onChange={this.handleDisbursementDate}
-                  />
+                  /> */}
                 </div>
               </div>
               <div className="col-md-6">
@@ -2138,7 +2150,7 @@ class StaffLoanEdit extends Component {
                     className="checkValidate"
                     timeFormat={false}
                     value={moment(this.state.selectedTermInMonths).format('DD/MM/YYYY')}
-                    dateFormat="DD/MM/YYYY"
+                    // dateFormat="DD/MM/YYYY"
                     onChange={this.handleTermInMonths}
                   />
                 </div>
@@ -2157,7 +2169,7 @@ class StaffLoanEdit extends Component {
                     className="checkValidate"
                     timeFormat={false}
                     value={moment(this.state.selectedLoanCommitteeDate).format('DD/MM/YYYY')}
-                    dateFormat="DD/MM/YYYY"
+                    // dateFormat="DD/MM/YYYY"
                     onChange={this.handleLoanCommitteeDate}
                   />
                 </div>

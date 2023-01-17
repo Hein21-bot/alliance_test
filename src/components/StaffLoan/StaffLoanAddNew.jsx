@@ -563,8 +563,8 @@ class StaffLoanAddNew extends Component {
   save() {
     console.log("new doc", this.state.newDoc);
     console.log("doc", this.state.doc);
-    if (this.state.FamilyGuarantorNRCDoc.length == 0 && this.state.FamilyIncomeDoc.length == 0 && this.state.StaffGuarantorNRCDoc.length == 0 && this.state.RequestNRCDoc.length == 0) {
-      toast.error("Please Choose Attachment File!");
+    if (this.state.FamilyGuarantorNRCDoc.length == 0 || this.state.FamilyIncomeDoc.length == 0 || this.state.StaffGuarantorNRCDoc.length == 0 || this.state.RequestNRCDoc.length == 0) {
+      toast.error("Please Choose Attachment File Except Other Document");
     } else {
       if (this.state.FamilyGuarantorNRCDoc.length > 0 && this.state.FamilyIncomeDoc.length > 0 && this.state.StaffGuarantorNRCDoc.length > 0 && this.state.RequestNRCDoc.length > 0) {
         console.log("save new doc", this.state.newDoc);

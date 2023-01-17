@@ -154,15 +154,21 @@ class StaffLoanView extends Component {
     let staffNRC=Document.length > 0 && Document.filter(v=>v.fieldName == "staffNRC")
     let approveAttach=Document.length > 0 && Document.filter(v=>v.fieldName == "approveAttach")
 
-    let relationFamily=this.state.familyRelation.filter(v=>v.value == Details.relation_family)
+    let relationFamily=this.state.familyRelation.filter(v=>v.value == Details.relation_family)[0]
+    console.log("staff gua id=====>",Details.staff_guarantor_id)
       await fetch(`${main_url}staff_loan_new/getGuarantorInfo`)
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
 
         this.setState({
           getGuarantorInfo: list,
-          selectedGuarantor:list.filter(v=>v.value == Details.staff_guarantor_id).length > 0 &&  list.filter(v=>v.value == Details.staff_guarantor_id)[0]
+          // selectedGuarantor:list.filter(v=>v.value == Details.staff_guarantor_id).length > 0 &&  list.filter(v=>v.value == Details.staff_guarantor_id)[0]
         })
+      })
+      let filterStaffGuarantor=this.state.getGuarantorInfo.filter(v=>v.value ==  Details.staff_guarantor_id).length > 0 && this.state.getGuarantorInfo.filter(v=>v.value ==  Details.staff_guarantor_id)[0]
+      console.log("filter staff gua",filterStaffGuarantor)
+      this.setState({
+        selectedGuarantor:filterStaffGuarantor
       })
       await fetch(`${main_url}staff_loan_new/getOneDetailInfo/${this.props.dataSource.staff_loan_id}`)
             .then(res => res.json())
@@ -958,7 +964,7 @@ class StaffLoanView extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={staffInfo.length > 0 ? staffInfo[0].customer_code : ''}
+                    value={staffInfo.length > 0 ? staffInfo[0].employment_id : ''}
                   />
                 </div>
               </div>
