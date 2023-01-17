@@ -998,7 +998,7 @@ class StaffLoanEdit extends Component {
     console.log("info=======>",this.state.selectedDisbursementDate)
     const{staffInfo,getGuarantorInfo}=this.state;
     const Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
-    console.log("details=====>",Details)
+    console.log("details=====>",this.state.staffInfoDetails)
     return (
       <div className="">
         <ToastContainer />
@@ -2024,7 +2024,7 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="text" className="form-control" disabled={this.state.work_flow_status!=undefined && this.state.work_flow_status.verify_by == 0}  value={this.state.targetAchievement}
+                  <input type="text" className="form-control" disabled={this.state.work_flow_status!=undefined && this.state.work_flow_status.check_by == 0}  value={this.state.targetAchievement}
                   onChange={this.handleTargetAchievement}
                    />
                 </div>
