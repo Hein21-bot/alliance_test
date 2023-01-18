@@ -1012,7 +1012,7 @@ class StaffLoanEdit extends Component {
   }
 
   render() {
-    console.log("selected term in months=======>",this.state.selectedTermInMonths)
+    console.log("selected term in months=======>",this.state.selectedWithdrawLocation)
     const{staffInfo,getGuarantorInfo}=this.state;
     const Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
     console.log("details=====>",Details)
@@ -1272,7 +1272,7 @@ class StaffLoanEdit extends Component {
                     className="react-select-container"
                     classNamePrefix="react-select"
                   /> : 
-                  <input type="text" className="form-control" value={this.state.selectedGuarantor.label} disabled/>
+                  <input type="text" className="form-control" value={this.state.selectedGuarantor!=undefined && this.state.selectedGuarantor.label} disabled/>
 
                   }
                   
@@ -1411,7 +1411,7 @@ class StaffLoanEdit extends Component {
                     className="react-select-container"
                     classNamePrefix="react-select"
                   /> : 
-                  <input type="text" className="form-control" value={this.state.selectedFamilyRelation.label} disabled />
+                  <input type="text" className="form-control" value={this.state.selectedFamilyRelation!=undefined && this.state.selectedFamilyRelation.label} disabled />
 
                   }
                   
@@ -1723,7 +1723,7 @@ class StaffLoanEdit extends Component {
                     className="react-select-container"
                     classNamePrefix="react-select"
                   /> : 
-                  <input type="text" className="form-control" disabled value={this.state.selectedWithdrawLocation.label} />
+                  <input type="text" className="form-control" disabled value={this.state.selectedWithdrawLocation!=undefined && this.state.selectedWithdrawLocation!=null && this.state.selectedWithdrawLocation.label} />
 
                   }
                   
