@@ -606,7 +606,7 @@ class StaffLoanAddNew extends Component {
             installmentTerm:v.installment_term,
             installmentAmount:v.installment_amount,
             maturityDate:v.maturity_date,
-            otherLoan:v.other_loan.value,
+            otherLoan:v.other_loan,
             otherLoanCheck:v.other_loan_selectbox
           }
         })

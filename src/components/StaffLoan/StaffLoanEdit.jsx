@@ -471,9 +471,10 @@ class StaffLoanEdit extends Component {
     const { userInfo } = this.state;
     console.log("other loan select box",this.state.OtherLoanSelectBox)
     var data = [...this.state.dataSource];
-    let filterData=data.filter(v=>v.other_loan == this.state.selectedOtherLoan.value)
+    console.log("data=====>",data)
+    let filterData=data.filter(v=>v.other_loan_dropdown == this.state.selectedOtherLoan.value)
     // console.log("data",data)
-    console.log("data======>",data)
+    console.log("filter data======>",filterData)
     let tempData = {};
     if (this.state.OtherLoanSelectBox == 1 && this.state.selectedOtherLoan !=null && this.state.selectedInstitutionName != '' &&
     this.state.selectedOutstandingAmount != 0 && this.state.selectedInstallmentTerm != 0 && this.state.selectedInstallmentAmount!=0
@@ -482,7 +483,7 @@ class StaffLoanEdit extends Component {
     {
       console.log("1")
      
-      tempData.other_loan_dropdown=this.state.selectedOtherLoan;
+      tempData.other_loan_dropdown=this.state.selectedOtherLoan.value;
       tempData.name_of_institution=this.state.selectedInstitutionName;
       tempData.outstanding_amount=this.state.selectedOutstandingAmount;
       tempData.installment_term=this.state.selectedInstallmentTerm;
@@ -510,7 +511,7 @@ class StaffLoanEdit extends Component {
     { console.log("0")
         
         
-        tempData.other_loan_dropdown=this.state.selectedOtherLoan;
+        tempData.other_loan_dropdown=this.state.selectedOtherLoan.value;
         tempData.name_of_institution=this.state.selectedInstitutionName;
         tempData.outstanding_amount=this.state.selectedOutstandingAmount;
         tempData.installment_term=this.state.selectedInstallmentTerm;
@@ -534,8 +535,17 @@ class StaffLoanEdit extends Component {
       form_validate = true;
       this.setDataTable(data);
 
+    }else if(filterData.length > 0){
+      toast.error("Other Loan is already exist", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }else{
-      toast.error("Some Field is Empty", {
+      toast.error("You need to fill your information successfully", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -865,8 +875,11 @@ class StaffLoanEdit extends Component {
           warning_letter_check:this.state.warningCheck,
           updatedBy: this.state.user_info.user_id,
         };
-    let Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
         
+        let Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
+        if(Details.status == 5){
+          data.status =this.state.status
+        }
         if (status_title !== '' && is_main_role) {
           console.log("status title in save",status_title)
             
@@ -891,13 +904,13 @@ class StaffLoanEdit extends Component {
       }
         const temp=this.state.dataSource.length > 0 && this.state.dataSource.map((v)=>{
           return{
-            nameOfInstitution:v.name_of_institution,
-            outstandingAmount:v.outstanding_amount,
-            installmentTerm:v.installment_term,
-            installmentAmount:v.installment_amount,
-            maturityDate:v.maturity_date,
-            otherLoan:v.other_loan_dropdown,
-            otherLoanCheck:v.other_loan_checkbox
+            name_of_institution:v.name_of_institution,
+            outstanding_amount:v.outstanding_amount,
+            installment_term:v.installment_term,
+            installment_amount:v.installment_amount,
+            maturity_date:v.maturity_date,
+            other_loan_dropdown:v.other_loan_dropdown,
+            other_loan_checkbox:v.other_loan_checkbox
           }
         })
 
