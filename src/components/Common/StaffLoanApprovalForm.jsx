@@ -100,10 +100,11 @@ export default class StaffLoanApprovalForm extends Component {
                             </div >
                             :
                             <div className="float-right m-b-10 row" >
-
-                            
-                                     <button className="btn btn-primary m-r-10" onClick={this.show_Refer_Modal.bind(this)} disabled={this.props.status === 3 || this.props.status === 4 || this.props.status === 5   ? true  : permission.check_by == 1 && this.props.status == 1 ? true : permission.verify_by== 1 && this.props.status==2 ? true : permission.approve_by== 1 && this.props.stauts == 3 ? true : false}>
+                                        <button className="btn btn-primary m-r-10" onClick={this.show_Refer_Modal.bind(this)} disabled={this.props.status === 3 || this.props.status === 4 || this.props.status === 5 ? true : permission.check_by > 0 && this.props.status !== 0 ? true : permission.verify_by > 0 && this.props.status !== 1 ? true : permission.approve_by > 0 && this.props.status !== 2 ? true : false}>
                                     <i className="fa fa-check"></i> ReferBack </button>
+                            
+                                     {/* <button className="btn btn-primary m-r-10" onClick={this.show_Refer_Modal.bind(this)} disabled={this.props.status === 3 || this.props.status === 4 || this.props.status === 5   ? true  : permission.check_by == 1 && this.props.status == 1 ? true : permission.verify_by== 1 && this.props.status==2 ? true : permission.approve_by== 1 && this.props.stauts == 3 ? true : false}>
+                                    <i className="fa fa-check"></i> ReferBack </button> */}
                     
                                 
                                 {

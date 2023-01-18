@@ -336,15 +336,17 @@ class StaffLoanAddNew extends Component {
     const { userInfo } = this.state;
     console.log("other loan select box",this.state.OtherLoanSelectBox)
     var data = [...this.state.dataSource];
+    let filterData=data.filter(v=>v.other_loan == this.state.selectedOtherLoan.value)
     console.log("data",data)
     let tempData = {};
     if (this.state.OtherLoanSelectBox == 1 && this.state.selectedOtherLoan !=null && this.state.selectedInstitutionName != '' &&
     this.state.selectedOutstandingAmount != 0 && this.state.selectedInstallmentTerm != 0 && this.state.selectedInstallmentAmount!=0
+    && filterData.length == 0
     ) 
     {
       console.log("1")
      
-      tempData.other_loan=this.state.selectedOtherLoan;
+      tempData.other_loan=this.state.selectedOtherLoan.value;
       tempData.institution_name=this.state.selectedInstitutionName;
       tempData.outstanding_amount=this.state.selectedOutstandingAmount;
       tempData.installment_term=this.state.selectedInstallmentTerm;
@@ -366,13 +368,13 @@ class StaffLoanAddNew extends Component {
       saveBtn = true;
       form_validate = true;
       this.setDataTable(data);
-    }else if (this.state.OtherLoanSelectBox == 0 && (this.state.selectedOtherLoan !=null || this.state.selectedInstitutionName ||
+    }else if (filterData.length == 0 && this.state.OtherLoanSelectBox == 0 && (this.state.selectedOtherLoan !=null || this.state.selectedInstitutionName ||
       this.state.selectedOutstandingAmount != 0 || this.state.selectedInstallmentTerm != 0 || this.state.selectedInstallmentAmount)
       ) 
     { console.log("0")
         
         
-        tempData.other_loan=this.state.selectedOtherLoan;
+        tempData.other_loan=this.state.selectedOtherLoan.value;
         tempData.institution_name=this.state.selectedInstitutionName;
         tempData.outstanding_amount=this.state.selectedOutstandingAmount;
         tempData.installment_term=this.state.selectedInstallmentTerm;
@@ -396,6 +398,15 @@ class StaffLoanAddNew extends Component {
       form_validate = true;
       this.setDataTable(data);
 
+    }else if(filterData.length > 0){
+      toast.error("Other Loan is already exist", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }else{
       toast.error("You need to fill your information successfully", {
         position: "top-right",
@@ -426,7 +437,7 @@ class StaffLoanAddNew extends Component {
         // other_loan: data[i].other_loan != null
         //   ? data[i].other_loan.value == 1 ? "Personal Loan"
         //   : "-",
-        other_loan:data[i].other_loan && data[i].other_loan.value == 1 ? 'Personal Loan' : data[i].other_loan && data[i].other_loan.value == 2 ? 'Collateral Loan' : 'Other Outstanding debts' ,
+        other_loan:data[i].other_loan && data[i].other_loan == 1 ? 'Personal Loan' : data[i].other_loan && data[i].other_loan == 2 ? 'Collateral Loan' : 'Other Outstanding debts' ,
         installment_term: data[i].installment_term ? data[i].installment_term : 0,
         outstanding_amount: data[i].outstanding_amount ? data[i].outstanding_amount : 0,
         institution_name: data[i].institution_name ? data[i].institution_name : "-",

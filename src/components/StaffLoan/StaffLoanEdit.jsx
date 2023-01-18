@@ -471,11 +471,13 @@ class StaffLoanEdit extends Component {
     const { userInfo } = this.state;
     console.log("other loan select box",this.state.OtherLoanSelectBox)
     var data = [...this.state.dataSource];
+    let filterData=data.filter(v=>v.other_loan == this.state.selectedOtherLoan.value)
     // console.log("data",data)
     console.log("data======>",data)
     let tempData = {};
     if (this.state.OtherLoanSelectBox == 1 && this.state.selectedOtherLoan !=null && this.state.selectedInstitutionName != '' &&
     this.state.selectedOutstandingAmount != 0 && this.state.selectedInstallmentTerm != 0 && this.state.selectedInstallmentAmount!=0
+    && filterData.length == 0
     ) 
     {
       console.log("1")
@@ -502,7 +504,7 @@ class StaffLoanEdit extends Component {
       saveBtn = true;
       form_validate = true;
       this.setDataTable(data);
-    }else if (this.state.OtherLoanSelectBox == 0 && (this.state.selectedOtherLoan !=null || this.state.selectedInstitutionName ||
+    }else if (filterData.length == 0 && this.state.OtherLoanSelectBox == 0 && (this.state.selectedOtherLoan !=null || this.state.selectedInstitutionName ||
       this.state.selectedOutstandingAmount != 0 || this.state.selectedInstallmentTerm != 0 || this.state.selectedInstallmentAmount)
       ) 
     { console.log("0")
@@ -811,7 +813,7 @@ class StaffLoanEdit extends Component {
 
     console.log("approval status",Details.status,this.state.selectedTermInMonths,this.state.selectedVerifyInstallmentAmount,this.state.ApproveAmount);
     this.setState({ status_title: text, comment: comment },()=>{
-      if((Details.status == 2 && this.state.selectedTermInMonths != 0 && this.state.selectedVerifyInstallmentAmount != 0 && this.state.ApproveAmount != 0) || Details.status == 0 || Details.status == 1){
+      if((Details.status == 2 && this.state.selectedTermInMonths != 0 && this.state.selectedVerifyInstallmentAmount != 0 && this.state.ApproveAmount != 0) || (Details.status == 0 && this.state.check_comment!='' && this.state.performanceRecomm !='') || (Details.status == 1 && this.state.verify !='')){
         this.save()
         // console.log("save function")
       }else{
@@ -1251,7 +1253,8 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <Select
+                  {
+                    this.state.user_info.user_id ==  Details.user_id ? <Select
                     styles={{
                       container: (base) => ({
                         ...base,
@@ -1268,7 +1271,11 @@ class StaffLoanEdit extends Component {
                     value={this.state.selectedGuarantor}
                     className="react-select-container"
                     classNamePrefix="react-select"
-                  />
+                  /> : 
+                  <input type="text" className="form-control" value={this.state.selectedGuarantor.label} disabled/>
+
+                  }
+                  
                 </div>
               </div>
               <div className="col-md-3">
@@ -1354,7 +1361,7 @@ class StaffLoanEdit extends Component {
                   <input
                     type="text"
                     className="form-control"
-                    // disabled
+                    disabled={this.state.user_info.user_id != Details.user_id}
                     onChange={this.familyName}
                     value={this.state.selectedFamilyName}
                   />
@@ -1370,7 +1377,7 @@ class StaffLoanEdit extends Component {
                   <input
                     type="text"
                     className="form-control"
-                    // disabled
+                    disabled={this.state.user_info.user_id  != Details.user_id}
                     onChange={this.familyNRC}
                     value={this.state.selectedFamilyNRC}
                   />
@@ -1383,7 +1390,8 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <Select
+                  {
+                    this.state.user_info.user_id == Details.user_id ? <Select
                     styles={{
                       container: (base) => ({
                         ...base,
@@ -1402,7 +1410,11 @@ class StaffLoanEdit extends Component {
                     value={this.state.selectedFamilyRelation}
                     className="react-select-container"
                     classNamePrefix="react-select"
-                  />
+                  /> : 
+                  <input type="text" className="form-control" value={this.state.selectedFamilyRelation.label} disabled />
+
+                  }
+                  
                 </div>
               </div>
               <div className="col-md-3">
@@ -1415,7 +1427,8 @@ class StaffLoanEdit extends Component {
                   <input
                     type="text"
                     className="form-control"
-                    // disabled
+                    disabled={this.state.user_info.user_id  != Details.user_id}
+                    
                     onChange={this.familyJob}
                     value={this.state.selectedFamilyJob}
                   />
@@ -1433,7 +1446,7 @@ class StaffLoanEdit extends Component {
                   <textarea
                     type="text"
                     className="form-control"
-                    // disabled
+                    disabled={this.state.user_info.user_id  != Details.user_id}
                     rows={3}
                     onChange={this.familyAddress}
                     value={this.state.selectedFamilyAddress}
@@ -1450,7 +1463,7 @@ class StaffLoanEdit extends Component {
                   <input
                     type="number"
                     className="form-control"
-                    // disabled
+                    disabled={this.state.user_info.user_id  != Details.user_id}
                     onChange={this.familyIncome}
                     onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()}
                     value={this.state.selectedFamilyIncome}
@@ -1467,7 +1480,8 @@ class StaffLoanEdit extends Component {
                   <input
                     type="number"
                     className="form-control"
-                    // disabled
+                    disabled={this.state.user_info.user_id  != Details.user_id}
+
                     onChange={this.familyPhone}
                     onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()}
                     value={this.state.selectedFamilyPhone}
@@ -1595,15 +1609,19 @@ class StaffLoanEdit extends Component {
                   />
                 </div>
               </div>
+              
               <div className="col-md-3" style={{ paddingTop: 20 }}>
-                <button
-                  className="btn btn-primary"
-                  id="add_button"
-                  type="button"
-                  onClick={this.addData}
-                >
-                  Add
-                </button>
+              {
+                this.state.user_info.user_id ==  Details.user_id ? <button
+                className="btn btn-primary"
+                id="add_button"
+                type="button"
+                onClick={this.addData}
+              >
+                Add
+              </button> : ""
+              }
+                
               </div>
               <div className="col-md-12">
                 <table
@@ -1630,7 +1648,9 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="number" className="form-control" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={this.state.selectedRequestAmount}
+                  <input type="number" className="form-control"
+                    disabled={this.state.user_info.user_id  != Details.user_id}
+                   onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={this.state.selectedRequestAmount}
                   onChange={this.handleRequestAmount}
                    />
                 </div>
@@ -1642,7 +1662,10 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="number" className="form-control" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={this.state.selectedRepaymentPeriod} 
+                  <input type="number" className="form-control"
+                    disabled={this.state.user_info.user_id  != Details.user_id}
+
+                   onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={this.state.selectedRepaymentPeriod} 
                   onChange={this.handleRepaymentPeriod}
                   />
                 </div>
@@ -1664,7 +1687,10 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="text" className="form-control" value={this.state.selectedLoanPurpose} onChange={this.handleLoanPurpose} />
+                  <input type="text" className="form-control"
+                    disabled={this.state.user_info.user_id  != Details.user_id}
+
+                   value={this.state.selectedLoanPurpose} onChange={this.handleLoanPurpose} />
                 </div>
               </div>
             </div>
@@ -1676,7 +1702,8 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <Select
+                  {
+                    this.state.user_info.user_id ==  Details.user_id ? <Select
                     styles={{
                       container: (base) => ({
                         ...base,
@@ -1695,7 +1722,11 @@ class StaffLoanEdit extends Component {
                     value={this.state.selectedWithdrawLocation}
                     className="react-select-container"
                     classNamePrefix="react-select"
-                  />
+                  /> : 
+                  <input type="text" className="form-control" disabled value={this.state.selectedWithdrawLocation.label} />
+
+                  }
+                  
                 </div>
 
               </div>
