@@ -64,7 +64,7 @@ export default class StaffLoanApprovalForm extends Component {
 
     render() {
         const permission = this.props.work_flow;
-        console.log("permission",permission,this.props.status,this.props.name == 'foreigner_salary')
+        console.log("br nyar",permission.check_by == 1 && this.props.status == 1, permission.verify_by== 1 && this.props.status==2,permission.approve_by== 1 && this.props.stauts == 3,this.props.status)
         return (
 
             <div>
@@ -81,8 +81,8 @@ export default class StaffLoanApprovalForm extends Component {
                         this.haveAllPermission(permission) ?
                             <div className="float-right m-b-10" >
                                 {permission.check_by > 0 || permission.verify_by > 0 || permission.approve_by > 0 ?
-                                    <button className="btn btn-primary m-r-10" onClick={this.show_Refer_Modal.bind(this)} disabled={this.props.name !== 'foreigner_salary' || this.props.status === 3 || this.props.status === 4 || this.props.status === 5  ? true : false}>
-                                        <i className="fa fa-check"></i> ReferBack </button> : ''}
+                                    <button className="btn btn-primary m-r-10" onClick={this.show_Refer_Modal.bind(this)} disabled={this.props.status === 3 || this.props.status === 4 || this.props.status === 5  ? true : false}>
+                                        <i className="fa fa-check"></i> ReferBack  </button> : ''}
                                 {permission.check_by > 0 ?
                                     <button className="btn btn-primary m-r-10" onClick={() => this.props.approvalStatus('checked', this.state.comment)} disabled={this.props.status === 0 || this.props.status == null ? false : this.props.status === 5 ? true : true}>
                                         <i className="fa fa-check"></i> Check </button> : ''}
@@ -101,11 +101,10 @@ export default class StaffLoanApprovalForm extends Component {
                             :
                             <div className="float-right m-b-10 row" >
 
-                                {
-                                    this.props.name == 'foreigner_salary' ? <button className="btn btn-primary m-r-10" onClick={this.show_Refer_Modal.bind(this)} disabled={this.props.name == 'foreigner_salary' && this.props.status === 0 ? false : true}>
-                                    <i className="fa fa-check"></i> ReferBack </button> : <button className="btn btn-primary m-r-10" onClick={this.show_Refer_Modal.bind(this)} disabled={this.props.status === 3 || this.props.status === 4 || this.props.status === 5   ? true  : permission.check_by > 0 && this.props.status !== 0 ? true : permission.verify_by > 0 && this.props.status !== 1 ? true : permission.approve_by > 0 && this.props.status !== 2 ? true : false}>
+                            
+                                     <button className="btn btn-primary m-r-10" onClick={this.show_Refer_Modal.bind(this)} disabled={this.props.status === 3 || this.props.status === 4 || this.props.status === 5   ? true  : permission.check_by == 1 && this.props.status == 1 ? true : permission.verify_by== 1 && this.props.status==2 ? true : permission.approve_by== 1 && this.props.stauts == 3 ? true : false}>
                                     <i className="fa fa-check"></i> ReferBack </button>
-                                }
+                    
                                 
                                 {
                                     // permission.check_by > 0 || permission.verify_by > 0 || permission.approve_by > 0 ?

@@ -17,6 +17,7 @@ import {
 import Select from "react-select";
 import DatePicker from "react-datetime";
 import moment from "moment";
+import { myanmarNumToWord } from "myanmar-num-to-word";
 import StaffLoanApprovalForm from "../Common/StaffLoanApprovalForm";
 
 var form_validate = true;
@@ -91,7 +92,7 @@ class StaffLoanEdit extends Component {
     verify:'',
     warningCheck:0,
     selectedDisbursementDate:new Date(),
-    selectedTermInMonths:new Date(),
+    selectedTermInMonths:0,
     selectedLoanCommitteeDate:new Date(),
     ApproveAmount:0,
     ApproveAmountInWord:'',
@@ -102,7 +103,9 @@ class StaffLoanEdit extends Component {
     work_flow_status:{
       
     },
-    is_main_role:false
+    is_main_role:false,
+    status_title:'',
+    comment:''
     };
   }
 
@@ -205,10 +208,10 @@ class StaffLoanEdit extends Component {
         check_comment:Details.checked_comment,
         verify:Details.verified_comment,
         selectedDisbursementDate:Details.disbursement_date == null ? new Date() : Details.disbursement_date,
-        selectedTermInMonths:Details.term_in_month == null ? new Date() : Details.term_in_month,
+        selectedTermInMonths:Details.term_in_month == null ? 0 : Details.term_in_month,
         selectedLoanCommitteeDate:Details.loan_committee_date  == null ? new Date() : Details.loan_committee_date,
-        selectedVerifyInstallmentAmount:Details.approve_installment_amount,
-        ApproveAmount:Details.approved_amount,
+        selectedVerifyInstallmentAmount:Details.approve_installment_amount == null ? 0 : Details.approve_installment_amount,
+        ApproveAmount:Details.approved_amount == null ? 0 : Details.approved_amount,
         verifyComment:Details.approved_comment,
         ApproveAmountInWord:Details.approved_amount_words,
         warningCheck:Details.warning_letter_check,
@@ -605,7 +608,7 @@ class StaffLoanEdit extends Component {
   familyIncomeDoc(e) {
     var files = document.getElementById("family_income_attach_file").files;
 
-    if (files.length > 2) {
+    if (files.length > 3) {
       toast.warning("You can only upload a maximum of 2 files!");
     }
 
@@ -625,7 +628,7 @@ class StaffLoanEdit extends Component {
   staffGuarantorNRCDoc(e) {
     var files = document.getElementById("staff_guarantor_nrc_attach_file").files;
 
-    if (files.length > 2) {
+    if (files.length > 3) {
       toast.warning("You can only upload a maximum of 2 files!");
     }
 
@@ -644,7 +647,7 @@ class StaffLoanEdit extends Component {
   OtherDoc(e) {
     var files = document.getElementById("other_doc_attach_file").files;
 
-    if (files.length > 2) {
+    if (files.length > 3) {
       toast.warning("You can only upload a maximum of 2 files!");
     }
 
@@ -663,7 +666,7 @@ class StaffLoanEdit extends Component {
   RequesterNRCDoc(e) {
     var files = document.getElementById("requester_nrc_attach_file").files;
 
-    if (files.length > 2) {
+    if (files.length > 3) {
       toast.warning("You can only upload a maximum of 2 files!");
     }
 
@@ -682,7 +685,7 @@ class StaffLoanEdit extends Component {
   familyGuarantorNRCDoc(e) {
     var files = document.getElementById("family_guarantor_nrc_attach_file").files;
 
-    if (files.length > 2) {
+    if (files.length > 3) {
       toast.warning("You can only upload a maximum of 2 files!");
     }
 
@@ -746,7 +749,8 @@ class StaffLoanEdit extends Component {
  
   handleApproveAmount=(e)=>{
     this.setState({
-        ApproveAmount:e.target.value
+        ApproveAmount:e.target.value,
+        // ApproveAmountInWord:myanmarNumToWord.convertToBurmeseWords(e.target.value,'speech')
     })
   }
   handleVerifyComment=(e)=>{
@@ -754,11 +758,11 @@ class StaffLoanEdit extends Component {
         verifyComment:e.target.value
     })
   }
-  handleApproveAmountInWord=(e)=>{
-    this.setState({
-        ApproveAmountInWord:e.target.value
-    })
-  }
+  // handleApproveAmountInWord=(e)=>{
+  //   this.setState({
+  //       ApproveAmountInWord:e.target.value
+  //   })
+  // }
   handleSelectWaringCheck=(e)=>{
     // this.setState({
     //     selectedDisbursementDate:e
@@ -776,7 +780,7 @@ class StaffLoanEdit extends Component {
   verifyAttachment=()=>{
     var files = document.getElementById("attachment").files;
 
-    if (files.length > 2) {
+    if (files.length > 3) {
       toast.warning("You can only upload a maximum of 2 files!");
     }
 
@@ -805,14 +809,16 @@ class StaffLoanEdit extends Component {
   approvalStatus = (text, comment) => {
     let Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
 
-    console.log("approval status");
-    this.setState({ status_title: text, comment: comment })
-    if((Details.status == 2 && this.state.selectedTermInMonths != 0 && this.state.selectedVerifyInstallmentAmount != 0 && this.state.ApproveAmount != 0) || Details.status == 0 || Details.status == 1){
-      this.save()
-    }else{
-      toast.error("Some Field Need to fill")
-    }
-   
+    console.log("approval status",Details.status,this.state.selectedTermInMonths,this.state.selectedVerifyInstallmentAmount,this.state.ApproveAmount);
+    this.setState({ status_title: text, comment: comment },()=>{
+      if((Details.status == 2 && this.state.selectedTermInMonths != 0 && this.state.selectedVerifyInstallmentAmount != 0 && this.state.ApproveAmount != 0) || Details.status == 0 || Details.status == 1){
+        this.save()
+        // console.log("save function")
+      }else{
+        toast.error("You need to fill your information successfully")
+      }
+    })
+    
   }
   
 
@@ -840,7 +846,7 @@ class StaffLoanEdit extends Component {
           loanRequestInstallmentAmount:this.state.InstallmentAmount,
           loanPurpose:this.state.selectedLoanPurpose,
           withdrawLocation:this.state.selectedWithdrawLocation.value,
-          status: this.state.status,
+          // status: this.state.status,
           // createdBy: this.state.user_info.user_id,
           target_achievement:this.state.targetAchievement,
           other_loan_information:this.state.otherLoanInformation,
@@ -860,8 +866,10 @@ class StaffLoanEdit extends Component {
     let Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
         
         if (status_title !== '' && is_main_role) {
+          console.log("status title in save",status_title)
             
           var action = getActionStatus(status_title, Details, this.state.updatedBy, this.state.comment);
+          console.log("action",action)
           data.referback_by = action.referback_by;
           data.checked_by = action.checked_by;
           data.verified_by = action.verified_by;
@@ -879,7 +887,7 @@ class StaffLoanEdit extends Component {
           data.status = action.status;
   
       }
-        const temp=this.state.dataSource.map((v)=>{
+        const temp=this.state.dataSource.length > 0 && this.state.dataSource.map((v)=>{
           return{
             nameOfInstitution:v.name_of_institution,
             outstandingAmount:v.outstanding_amount,
@@ -1002,10 +1010,10 @@ class StaffLoanEdit extends Component {
   }
 
   render() {
-    console.log("info=======>",this.state.selectedDisbursementDate)
+    console.log("selected term in months=======>",this.state.selectedTermInMonths)
     const{staffInfo,getGuarantorInfo}=this.state;
     const Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
-    console.log("details=====>",this.state.staffInfoDetails)
+    console.log("details=====>",Details)
     return (
       <div className="">
         <ToastContainer />

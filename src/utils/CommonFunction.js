@@ -636,6 +636,7 @@ async function getFXEmployeeList(id) {
 }
 
 function getActionStatus(status, data, createdBy, comment) {
+    console.log("status title",status)
     var action = {
         referback_by: data.referback_by,
         checked_by: data.checked_by,

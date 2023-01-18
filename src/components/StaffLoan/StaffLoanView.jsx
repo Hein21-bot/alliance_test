@@ -96,6 +96,7 @@ class StaffLoanView extends Component {
     verifyComment:'',
     verifyDoc:[],
     staffInfoDetails:[],
+    check_comment:'',
     selectedVerifyInstallmentAmount:0
     };
   }
@@ -934,7 +935,7 @@ class StaffLoanView extends Component {
   }
 
   render() {
-    console.log("info=======>",this.state.staffInfoDetails)
+    console.log("info=======>",this.state.targetAchievement)
     const{staffInfo,getGuarantorInfo}=this.state;
     const Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
     console.log("details=====>",Details)
@@ -1867,7 +1868,7 @@ class StaffLoanView extends Component {
                 </div>
             </div> */}
             {
-              (Details.status== 1 || Details.status==2 || Details.status == 3) ? <>
+              (Details.status== 1 || Details.status==2 || Details.status == 3) && this.state.user_info.user_id != Details.user_id ? <>
                       <div className="col-md-12" style={{ marginBottom: 10 }}>
               <div
                 className="col-md-12"
@@ -1884,8 +1885,8 @@ class StaffLoanView extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="number" className="form-control" disabled  value={this.state.targetAchievement}
-                  onChange={this.handleTargetAchievement}
+                  <input type="text" className="form-control" disabled value={this.state.targetAchievement}
+                  // onChange={this.handleTargetAchievement}
                    />
                 </div>
               </div>
@@ -1896,8 +1897,8 @@ class StaffLoanView extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="number" className="form-control" disabled value={this.state.otherLoanInformation} 
-                  onChange={this.handleOtherLoanInformation}
+                  <input type="text" className="form-control" disabled value={this.state.otherLoanInformation} 
+                  // onChange={this.handleOtherLoanInformation}
                   />
                 </div>
               </div>
@@ -1911,8 +1912,8 @@ class StaffLoanView extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="number" className="form-control" disabled  value={this.state.performanceRecomm}
-                  onChange={this.handlePerformanceRecommendation}
+                  <input type="text" className="form-control" disabled value={this.state.performanceRecomm}
+                  // onChange={this.handlePerformanceRecommendation}
                    />
                 </div>
               </div>
@@ -1923,8 +1924,8 @@ class StaffLoanView extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="text" className="form-control" disabled value={this.state.comment} 
-                  onChange={this.handleComment}
+                  <input type="text" className="form-control" disabled value={this.state.check_comment} 
+                  // onChange={this.handleComment}
                   />
                 </div>
               </div>
@@ -1933,7 +1934,7 @@ class StaffLoanView extends Component {
               </> : '' 
             }
             {
-              (Details.status == 2 || Details.status == 3 ) ? <>
+              (Details.status == 2 || Details.status == 3 ) && this.state.user_info.user_id != Details.user_id ? <>
               <div className="col-md-12" style={{ marginBottom: 10 }}>
               <div
                 className="col-md-12"
@@ -1961,7 +1962,7 @@ class StaffLoanView extends Component {
               </> : ''
             }
             {
-              Details.status == 3 ? <>
+              Details.status == 3 && this.state.user_info.user_id != Details.user_id ? <>
               <div className="col-md-12" style={{ marginBottom: 10 }}>
               <div
                 className="col-md-12"
