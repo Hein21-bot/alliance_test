@@ -42,6 +42,7 @@ export default class StaffLoanTable extends Component {
       permission_status:{},
 
       tab: this.props.tab,
+      dataSource:[]
     };
   }
   async componentDidMount() {
@@ -51,16 +52,23 @@ export default class StaffLoanTable extends Component {
     })
     let user_info= await getCookieData("user_info")
 
-    await fetch(`${main_url}staff_loan_new/getStaffLoan/${user_info!=null && user_info.user_id}`)
-      .then(res => { if (res.ok) return res.json() })
-      .then(list => {
-        console.log("table list",list)
-        this._setTableData(list)
-        // this.setState({
-        //   staffInfo: list
-        // })
-      })
+    // await fetch(`${main_url}staff_loan_new/getStaffLoan/${user_info!=null && user_info.user_id}`)
+    //   .then(res => { if (res.ok) return res.json() })
+    //   .then(list => {
+    //     console.log("table list",list)
+    //     this._setTableData(list)
+    //     this.setState({
+    //       dataSource: list
+    //     })
+    //   })
     // this.getAllBenefits();
+    this.getAllStaffLoan();
+
+        this.setState({
+            requestData: this.state.requestData
+        }, () => {
+            this._setTableData(this.state.requestData)
+        });
 
     this.$el = $(this.el);
     // this.setState(
@@ -101,14 +109,12 @@ export default class StaffLoanTable extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.tab != this.props.tab) {
-      this.setState(
-        {
-          tab: this.props.tab,
-        },
-        () => this.filter()
-      );
+        this.setState({
+            tab: this.props.tab
+        }, () => this.filter())
+
     }
-  }
+}
 
   getRequest() {
     this.search(0);
@@ -137,15 +143,52 @@ export default class StaffLoanTable extends Component {
       to_date: event,
     });
   };
-  // filter() {
-  //   if (this.state.tab == 0) {
-  //     this.getAllBenefits();
-  //   } else if (this.state.tab == 1) {
-  //     this.getMyBenefits();
-  //   }
-  // }
+  filter() {
+    if (this.state.tab == 0) {
+      this.getAllStaffLoan();
+    } else if (this.state.tab == 1) {
+      this.getMyStaffLoan();
+    }
+  }
+  getAllStaffLoan() {
+    let id = this.state.user_id;
+
+    // fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id + "/" + moment(this.state.from_date).format("YYYY-MM-DD") + "/" + moment(this.state.to_date).format("YYYY-MM-DD"))
+    fetch(`${main_url}staff_loan_new/getStaffLoan/${this.state.user_info!=null && this.state.user_info.user_id}`)
+    .then(response => {
+            if (response.ok) return response.json()
+        })
+        .then(res => {
+            if (res) {
+                this.setState({ 
+                    dataSource: res,
+                    requestData:res.filter(v=>v.createdBy != this.state.user_info.user_id),
+                }, () => this._setTableData(this.state.requestData))
+            }
+        })
+        .catch(error => console.error(`Fetch Error =\n`, error));
+
+}
+getMyStaffLoan() {
+    let id = this.state.user_id;
+    // fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id + "/" + moment(this.state.from_date).format("YYYY-MM-DD") + "/" + moment(this.state.to_date).format("YYYY-MM-DD"))
+    fetch(`${main_url}staff_loan_new/getStaffLoan/${this.state.user_info!=null && this.state.user_info.user_id}`)
+        .then(response => {
+            if (response.ok) return response.json()
+        })
+        .then(res => {
+            if (res) {
+                this.setState({ 
+                    datasource: res,
+                    requestData:res.filter(v=>v.createdBy == this.state.user_info.user_id)
+                }, () => this._setTableData(this.state.requestData))
+            }
+        })
+        .catch(error => console.error(`Fetch Error =\n`, error));
+
+}
   search(status) {
-    let data = this.state.requestData;
+    let data = this.state.dataSource;
     data = data.filter((d) => {
       return status === d.status;
     });
@@ -283,6 +326,7 @@ export default class StaffLoanTable extends Component {
         employee_name: data[i].fullname,
         position: data[i].designations ? data[i].designations : "-",
         branch: data[i].location_master_name  ?  data[i].location_master_name : '-',
+        installment_amount:data[i].installment_amount ?  data[i].installment_amount : '-',
         
         date: result.createdAt
           ? moment(result.createdAt).format("DD-MM-YYYY")
@@ -339,7 +383,7 @@ export default class StaffLoanTable extends Component {
       { title: "Employee Name", data: "employee_name" },
       { title: "Position", data: "position" },
       { title: "Branch", data: "branch" },
-      
+      {title : "Installment Amount",data:'installment_amount'},
       { title: "Date", data: "date" },
       { title: "Status", data: "status" },
     ];

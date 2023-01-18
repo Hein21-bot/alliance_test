@@ -336,15 +336,17 @@ class StaffLoanAddNew extends Component {
     const { userInfo } = this.state;
     console.log("other loan select box",this.state.OtherLoanSelectBox)
     var data = [...this.state.dataSource];
+    let filterData=data.filter(v=>v.other_loan == this.state.selectedOtherLoan.value)
     console.log("data",data)
     let tempData = {};
     if (this.state.OtherLoanSelectBox == 1 && this.state.selectedOtherLoan !=null && this.state.selectedInstitutionName != '' &&
     this.state.selectedOutstandingAmount != 0 && this.state.selectedInstallmentTerm != 0 && this.state.selectedInstallmentAmount!=0
+    && filterData.length == 0
     ) 
     {
       console.log("1")
      
-      tempData.other_loan=this.state.selectedOtherLoan;
+      tempData.other_loan=this.state.selectedOtherLoan.value;
       tempData.institution_name=this.state.selectedInstitutionName;
       tempData.outstanding_amount=this.state.selectedOutstandingAmount;
       tempData.installment_term=this.state.selectedInstallmentTerm;
@@ -366,13 +368,13 @@ class StaffLoanAddNew extends Component {
       saveBtn = true;
       form_validate = true;
       this.setDataTable(data);
-    }else if (this.state.OtherLoanSelectBox == 0 && (this.state.selectedOtherLoan !=null || this.state.selectedInstitutionName ||
+    }else if (filterData.length == 0 && this.state.OtherLoanSelectBox == 0 && (this.state.selectedOtherLoan !=null || this.state.selectedInstitutionName ||
       this.state.selectedOutstandingAmount != 0 || this.state.selectedInstallmentTerm != 0 || this.state.selectedInstallmentAmount)
       ) 
     { console.log("0")
         
         
-        tempData.other_loan=this.state.selectedOtherLoan;
+        tempData.other_loan=this.state.selectedOtherLoan.value;
         tempData.institution_name=this.state.selectedInstitutionName;
         tempData.outstanding_amount=this.state.selectedOutstandingAmount;
         tempData.installment_term=this.state.selectedInstallmentTerm;
@@ -396,8 +398,17 @@ class StaffLoanAddNew extends Component {
       form_validate = true;
       this.setDataTable(data);
 
+    }else if(filterData.length > 0){
+      toast.error("Other Loan is already exist", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }else{
-      toast.error("Some Field is Empty", {
+      toast.error("You need to fill your information successfully", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -426,7 +437,7 @@ class StaffLoanAddNew extends Component {
         // other_loan: data[i].other_loan != null
         //   ? data[i].other_loan.value == 1 ? "Personal Loan"
         //   : "-",
-        other_loan:data[i].other_loan && data[i].other_loan.value == 1 ? 'Personal Loan' : data[i].other_loan && data[i].other_loan.value == 2 ? 'Collateral Loan' : 'Other Outstanding debts' ,
+        other_loan:data[i].other_loan && data[i].other_loan == 1 ? 'Personal Loan' : data[i].other_loan && data[i].other_loan == 2 ? 'Collateral Loan' : 'Other Outstanding debts' ,
         installment_term: data[i].installment_term ? data[i].installment_term : 0,
         outstanding_amount: data[i].outstanding_amount ? data[i].outstanding_amount : 0,
         institution_name: data[i].institution_name ? data[i].institution_name : "-",
@@ -466,7 +477,7 @@ class StaffLoanAddNew extends Component {
   familyIncomeDoc(e) {
     var files = document.getElementById("family_income_attach_file").files;
 
-    if (files.length > 2) {
+    if (files.length > 3) {
       toast.warning("You can only upload a maximum of 2 files!");
     }
 
@@ -486,7 +497,7 @@ class StaffLoanAddNew extends Component {
   staffGuarantorNRCDoc(e) {
     var files = document.getElementById("staff_guarantor_nrc_attach_file").files;
 
-    if (files.length > 2) {
+    if (files.length > 3) {
       toast.warning("You can only upload a maximum of 2 files!");
     }
 
@@ -505,7 +516,7 @@ class StaffLoanAddNew extends Component {
   OtherDoc(e) {
     var files = document.getElementById("other_doc_attach_file").files;
 
-    if (files.length > 2) {
+    if (files.length > 3) {
       toast.warning("You can only upload a maximum of 2 files!");
     }
 
@@ -524,7 +535,7 @@ class StaffLoanAddNew extends Component {
   RequesterNRCDoc(e) {
     var files = document.getElementById("requester_nrc_attach_file").files;
 
-    if (files.length > 2) {
+    if (files.length > 3) {
       toast.warning("You can only upload a maximum of 2 files!");
     }
 
@@ -543,7 +554,7 @@ class StaffLoanAddNew extends Component {
   familyGuarantorNRCDoc(e) {
     var files = document.getElementById("family_guarantor_nrc_attach_file").files;
 
-    if (files.length > 2) {
+    if (files.length > 3) {
       toast.warning("You can only upload a maximum of 2 files!");
     }
 
@@ -564,9 +575,9 @@ class StaffLoanAddNew extends Component {
     console.log("new doc", this.state.newDoc);
     console.log("doc", this.state.doc);
     if (this.state.FamilyGuarantorNRCDoc.length == 0 || this.state.FamilyIncomeDoc.length == 0 || this.state.StaffGuarantorNRCDoc.length == 0 || this.state.RequestNRCDoc.length == 0) {
-      toast.error("Please Choose Attachment File Except Other Document");
+      toast.error("Please Choose Attachment File");
     } else {
-      if (this.state.FamilyGuarantorNRCDoc.length > 0 && this.state.FamilyIncomeDoc.length > 0 && this.state.StaffGuarantorNRCDoc.length > 0 && this.state.RequestNRCDoc.length > 0) {
+      if (this.state.FamilyGuarantorNRCDoc.length > 0 && this.state.FamilyIncomeDoc.length > 0 && this.state.StaffGuarantorNRCDoc.length > 0 && this.state.RequestNRCDoc.length > 0 && this.state.selectedFamilyRelation != null && this.state.selectedFamilyName != '' && this.state.selectedFamilyNRC!='' && this.state.selectedFamilyAddress != '' && this.state.selectedFamilyIncome!=0 && this.state.selectedFamilyJob != '' && this.state.selectedFamilyPhone !=0) {
         console.log("save new doc", this.state.newDoc);
         // $("#saving_button").attr("disabled", true);
         var data = {
@@ -595,7 +606,7 @@ class StaffLoanAddNew extends Component {
             installmentTerm:v.installment_term,
             installmentAmount:v.installment_amount,
             maturityDate:v.maturity_date,
-            otherLoan:v.other_loan.value,
+            otherLoan:v.other_loan,
             otherLoanCheck:v.other_loan_selectbox
           }
         })
@@ -995,6 +1006,7 @@ class StaffLoanAddNew extends Component {
                     // disabled
                     onChange={this.familyName}
                     value={this.state.selectedFamilyName}
+                    // required={this.state.selectedFamilyName == '' ? true : false}
                   />
                 </div>
               </div>
@@ -1011,6 +1023,7 @@ class StaffLoanAddNew extends Component {
                     // disabled
                     onChange={this.familyNRC}
                     value={this.state.selectedFamilyNRC}
+                    // required={this.state.selectedFamilyNRC=='' ? true : false}
                   />
                 </div>
               </div>
@@ -1056,6 +1069,7 @@ class StaffLoanAddNew extends Component {
                     // disabled
                     onChange={this.familyJob}
                     value={this.state.selectedFamilyJob}
+                    // required={this.state.selectedFamilyJob == '' ?  true : false}
                   />
                 </div>
               </div>
@@ -1075,6 +1089,7 @@ class StaffLoanAddNew extends Component {
                     rows={3}
                     onChange={this.familyAddress}
                     value={this.state.selectedFamilyAddress}
+                    // required={this.state.selectedFamilyAddress == '' ?  true : false}
                   />
                 </div>
               </div>
@@ -1092,6 +1107,7 @@ class StaffLoanAddNew extends Component {
                     onChange={this.familyIncome}
                     onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()}
                     value={this.state.selectedFamilyIncome}
+                    // required={this.state.selectedFamilyIncome == 0 ? true : false}
                   />
                 </div>
               </div>
@@ -1109,6 +1125,7 @@ class StaffLoanAddNew extends Component {
                     onChange={this.familyPhone}
                     onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()}
                     value={this.state.selectedFamilyPhone}
+                    // required={this.state.selectedFamilyPhone == 0 ? true : false}
                   />
                 </div>
               </div>

@@ -30,6 +30,7 @@
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.34",
     "mssql": "^6.2.3",
+    "myanmar-num-to-word": "^0.0.5",
     "pretty-checkbox": "^3.0.3",
     "react": "^16.14.0",
     "react-calendar": "^3.7.0",
