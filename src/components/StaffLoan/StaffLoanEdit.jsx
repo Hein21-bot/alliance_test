@@ -17,7 +17,7 @@ import {
 import Select from "react-select";
 import DatePicker from "react-datetime";
 import moment from "moment";
-import { myanmarNumToWord } from "myanmar-num-to-word";
+// import { myanmarNumToWord } from "myanmar-num-to-word";
 import StaffLoanApprovalForm from "../Common/StaffLoanApprovalForm";
 
 var form_validate = true;
@@ -760,9 +760,17 @@ class StaffLoanEdit extends Component {
   }
  
   handleApproveAmount=(e)=>{
+    let myanmarNumToWord=require('myanmar-num-to-word')
+    
     this.setState({
         ApproveAmount:e.target.value,
         // ApproveAmountInWord:myanmarNumToWord.convertToBurmeseWords(e.target.value,'speech')
+    },()=>{
+      if(this.state.ApproveAmount != 0 || this.state.ApproveAmount!=''){
+        this.setState({
+          ApproveAmountInWord:myanmarNumToWord.convertToBurmeseWords(this.state.ApproveAmount)
+        })
+      }
     })
   }
   handleVerifyComment=(e)=>{
@@ -2284,8 +2292,8 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="text" className="form-control"  value={this.state.ApproveAmountInWord}
-                  onChange={this.handleApproveAmountInWord}
+                  <input type="text" className="form-control" disabled  value={this.state.ApproveAmountInWord}
+                  // onChange={this.handleApproveAmountInWord}
                    />
                 </div>
               </div>
