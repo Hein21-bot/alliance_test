@@ -17,12 +17,18 @@ class StaffLoanAfterComit extends Component {
     start_date:new Date(),
     end_date:new Date(),
     selected_Branch:'',
-    selected_region:'',
+    selected_department:'',
+    selected_designation:'',
+    selected_employeeId:'',
+    branchlist:[],
+    departmentList:[],
+    designationList:[],
+    employeeIdList:[],
     }
   }
 
   async componentDidMount() {
-    this.getRegionList();
+    this.getDepartmentList();
     this.getBranchList();
     this.getDesignationList();
     this.getEmployeeCodeList();
@@ -58,18 +64,17 @@ class StaffLoanAfterComit extends Component {
       });
   };
 
-  getRegionList() {
-    fetch(`${main_url}benefit/getRegionList`)
+  getDepartmentList() {
+    fetch(`${main_url}main/getDepartment`)
       .then((res) => {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        let lists = list.unshift({ state_id: 0, state_name: "All" });
+        let lists = list.unshift({  value: 0, label: "All"  });
         this.setState({
-          regionList: list.map((v) => ({
+          departmentList: list.map((v) => ({
             ...v,
-            label: v.state_name,
-            value: v.state_id,
+            
           })),
         });
       });
@@ -117,10 +122,10 @@ class StaffLoanAfterComit extends Component {
       })
   };
 
-  handleSelectedRegion = async (event) => {
+  handleSelectedDepartment = async (event) => {
     if (event != null)
       this.setState({
-        selected_region: event
+        selected_department: event
       })
   };
 
@@ -136,12 +141,6 @@ class StaffLoanAfterComit extends Component {
           this.setState({
               fullname:data[0].employee_name
           })
-          // if (data.length > 0) {
-          //   this.getData(this.props.id);
-          //   this.setState({ tableEdit: true, tableView: false });
-
-
-          // }
         });
     }
       this.setState(
@@ -151,25 +150,18 @@ class StaffLoanAfterComit extends Component {
       )
   };
 
-  // handleSearchData = () => {
-  //   // this.setState({
-  //   const branchId = this.state.selected_Branch ? this.state.selected_Branch.value : 0
-  //   const departmentId = this.state.selected_department ? this.state.selected_department.departments_id : 0
-  //   const designationId = this.state.selected_designation ? this.state.selected_designation.value : 0
-  //   const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
-  //   const employee = this.state.selected_employeeId ? this.state.selected_employeeId.value : 0
-  //   // })
+  handleSearchData = () => {
+    fetch(`${main_url}staff_loan_new/staffloanReportAfter/${moment(this.state.start_date).format('YYYY-MM-DD')}/${moment(this.state.end_date).format('YYYY-MM-DD')}/${this.state.selected_designation ? this.state.selected_designation.value : 0}/${this.state.selected_department ? this.state.selected_department.value : 0}/${this.state.selected_Branch ? this.state.selected_Branch.value : 0}/${ this.state.selected_employeeId ? this.state.selected_employeeId.value : 0}`)
+ 
+      .then(res => { if (res.ok) return res.json() })
+      .then(list => {
+        this.setState({
+            dataSource:list
+        })
+      })
+  };
 
-  //   fetch(main_url + "report/employeeReport/" + regionId + "/" + branchId + "/" + designationId + "/" + employee)
-  //     .then(res => { if (res.ok) return res.json() })
-  //     .then(list => {
-  //       this.setState({
-  //           data:list
-  //       })
-  //     })
-  // };
-
-  render() {
+  render() { console.log(this.state.selected_designation);
   
     return (
       <div>
@@ -226,10 +218,10 @@ class StaffLoanAfterComit extends Component {
                 }),
 
               }}
-              placeholder="Region"
-              options={this.state.regionList}
-              onChange={this.handleSelectedRegion}
-              value={this.state.selected_region}
+              placeholder="Department"
+              options={this.state.departmentList}
+              onChange={this.handleSelectedDepartment}
+              value={this.state.selected_department}
               className='react-select-container'
               classNamePrefix="react-select"
             />
@@ -327,38 +319,47 @@ class StaffLoanAfterComit extends Component {
             </thead>
             <tbody>
              {this.state.dataSource.length > 0 ?(
-                <tr>
-                    <td>2</td>
-                    <td>A-13221</td>
-                    <td>Ye Htet</td>
-                    <td>IT</td>
-                    <td>CO,FX</td>
-                    <td>Mdy</td>
-                    <td>Mandalay</td>
-                    <td>20000</td>
-                    <td>30000</td>
-                    <td>40000</td>  
-                    <td>2</td>
-                    <td>A-13221</td>
-                    <td>Ye Htet</td>
-                    <td>IT</td>
-                    <td>CO,FX</td>
-                    <td>Mdy</td>
-                    <td>Mandalay</td>
-                    <td>20000</td>
-                    <td>30000</td>
-                    <td>40000</td> 
-                    <td>A-13221</td>
-                    <td>Ye Htet</td>
-                    <td>IT</td>
-                    <td>CO,FX</td>
-                    <td>Mdy</td>
-                    <td>Mandalay</td>
-                    <td>20000</td>
-                    <td>30000</td>
-                    <td>40000</td>
-                    <td>40000</td>                          
-                </tr>):(
+                this.state.dataSource.map((v, i) => { 
+                  return (
+                    <>
+                    <tr>
+                    <td>{i+1}</td>
+                    <td>{v.createdAt ?  moment(v.createdAt).format('DD-MM-YYYY') :'-' }</td>
+                     <td>{v.month || '-'}</td>
+                     <td>{v.checked_date ? moment(v.checked_date).format('DD-MM-YYYY'):'-' }</td>
+                     <td>{v.approved_date ? moment(v.approved_date).format('DD-MM-YYYY') : '-'}</td>
+                     <td>{v.disbursement_date ? moment(v.disbursement_date).format('DD-MM-YYYY') :'-'}</td>
+                     <td></td>
+                     <td>{v.user_empId || '-'}</td>
+                     <td>{v.user_name || '-'}</td>
+                     <td>{v.user_des || '-'}</td>                    
+                     <td>{v.user_branch || '-'}</td>
+                     <td>{v.user_dep || '-' }</td>
+                     <td>{v.user_region || '-'}</td>
+                     
+                     <td>{v.employment_id || '-'}</td>
+                     <td>{v.fullname || '-'}</td>
+                     <td>{v.designations || '-'}</td>
+                     
+                     <td>{v.location_master_name || '-'}</td>
+                     <td>{v.nrc || '-'}</td>  
+                     <td>{v.family_guarantor_name || '-'}</td>
+                     <td>{v.name || '-'}</td>
+                     <td>{v.family_guarantor_nrc || '-'}</td>
+                     <td>{v.family_guarantor_phone || '-'}</td>
+                     <td>{v.customer_code || '-'}</td>
+                     <td>blank</td>
+                     <td>blank</td>
+                     <td>{v.approved_amount || '-'}</td>
+                     <td>{v.term_in_month || '-'}</td>
+                     <td>{v.approve_installment_amount || '-'}</td>
+                     <td>{v.status || '-'}</td>
+                     <td>{v.approved_comment || '-'}</td>  
+                     
+                           
+                </tr>  </>
+                     )
+                    })):(
                      <tr>
                      <td colSpan={30}style={{ textAlign: "center", verticalAlign: "middle",height:35,fontSize:15,borderBottom:'1px solid black' }}>No data available in table</td>
                      </tr>
