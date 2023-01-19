@@ -37,8 +37,8 @@ export default class StaffLoanTable extends Component {
       requestData: [],
       selectedRequest: "",
       is_main_role: getMainRole(),
-      from_date: getFirstDayOfPrevMonth(),
-      to_date: moment(),
+      from_date: new Date(),
+      to_date: new Date(),
       permission_status:{},
 
       tab: this.props.tab,
@@ -427,12 +427,8 @@ getMyStaffLoan() {
     return (
       <div>
         {" "}
-        <div
-          className=""
-          style={{ display: "flex", justifyContent: "end", marginRight: 33 }}
-        >
-          {/* <div className='row'style={{display:'flex',paddingLeft:20}}>  
-             <div className="col" style={{padding:0,width:150}}>
+        {/* <div className='row'style={{display:'flex',paddingLeft:20,marginTop:10}}>  
+             <div className="col-md-3" style={{padding:0,width:150}}>
                          <div><label className="col"style={{padding:0}}>Start Date</label></div>
                          <div className="col"style={{padding:0}}>
                          <DatePicker
@@ -442,7 +438,7 @@ getMyStaffLoan() {
                             timeFormat={false}/>
                          </div>
              </div>
-             <div className="col"style={{padding:0, marginLeft:10,width:150}}>
+             <div className="col-md-3"style={{padding:0, marginLeft:10,width:150}}>
                          <div><label className="col"style={{padding:0}}>End Date</label></div>
                          <div className="col"style={{padding:0}}>
                          <DatePicker
@@ -452,11 +448,16 @@ getMyStaffLoan() {
                             timeFormat={false}/>
                          </div>
              </div>
-             <div className="col-md-2" style={{padding:0,marginTop:4}}>
+             <div className="col-md-3" style={{padding:0,marginTop:4}}>
                          <div className="col-md-10 margin-top-20 padding-0">
                              <button type="button" className="btn btn-primary" onClick={this.filter.bind(this)}>Search</button>
                          </div>
              </div> </div> */}
+        <div
+          className=""
+          style={{ display: "flex", justifyContent: "end", marginRight: 33 }}
+        >
+          
           <div className="row">
             <div className="row border-bottom white-bg dashboard-header">
               <div className="row">

@@ -204,9 +204,9 @@ class StaffLoanEdit extends Component {
         selectedFamilyRelation:relationFamily,
         targetAchievement:Details.target_achievement,
         otherLoanInformation:Details.other_loan_information,
-        performanceRecomm:Details.performance_recommendation,
-        check_comment:Details.checked_comment,
-        verify:Details.verified_comment,
+        performanceRecomm:Details.performance_recommendation==null ? '' : Details.performance_recommendation,
+        check_comment:Details.checked_comment == null ? '' : Details.checked_comment,
+        verify:Details.verified_comment == null ? '' : Details.verified_comment,
         selectedDisbursementDate:Details.disbursement_date == null ? new Date() : Details.disbursement_date,
         selectedTermInMonths:Details.term_in_month == null ? 0 : Details.term_in_month,
         selectedLoanCommitteeDate:Details.loan_committee_date  == null ? new Date() : Details.loan_committee_date,
@@ -828,12 +828,18 @@ class StaffLoanEdit extends Component {
  
   approvalStatus = (text, comment) => {
     let Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
+    console.log("text and commment",Details.status == 2 && this.state.selectedTermInMonths != 0 && this.state.selectedVerifyInstallmentAmount != 0 && this.state.ApproveAmount != 0,(Details.status == 0 || Details.status !=undefined) && (this.state.check_comment!='' || this.state.check_comment!=null) && (this.state.performanceRecomm !='' || this.state.performanceRecomm!=null),Details.status == 1 && this.state.verify !='')
+    console.log("check======>",Details.stautus,this.state.check_comment,this.state.performanceRecomm)
 
     console.log("approval status",Details.status,this.state.selectedTermInMonths,this.state.selectedVerifyInstallmentAmount,this.state.ApproveAmount);
     this.setState({ status_title: text, comment: comment },()=>{
-      if((Details.status == 2 && this.state.selectedTermInMonths != 0 && this.state.selectedVerifyInstallmentAmount != 0 && this.state.ApproveAmount != 0) || (Details.status == 0 && this.state.check_comment!='' && this.state.performanceRecomm !='') || (Details.status == 1 && this.state.verify !='')){
+      if(text == 'referback'){
         this.save()
-        // console.log("save function")
+        // console.log('refer back save')
+      }
+      else if((Details.status == 2 && this.state.selectedTermInMonths != 0 && this.state.selectedVerifyInstallmentAmount != 0 && this.state.ApproveAmount != 0) || (Details.status == 0  && this.state.check_comment!='' && this.state.performanceRecomm !='' ) || (Details.status == 1 && this.state.verify !='')){
+        this.save()
+        // console.log("save function======>")
       }else{
         toast.error("You need to fill your information successfully")
       }
@@ -2250,7 +2256,7 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="text" className="form-control"  value={this.state.selectedVerifyInstallmentAmount} 
+                  <input type="number" className="form-control" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={this.state.selectedVerifyInstallmentAmount} 
                   onChange={this.handleVerifyInstallmentAmount}
                   />
                 </div>

@@ -9,7 +9,8 @@ import {
   alertText,
   stopSaving,
   startSaving,
-  getBranch
+  getBranch,
+  getWorkFlowStatus
 } from "../../utils/CommonFunction";
 import Select from "react-select";
 import DatePicker from "react-datetime";
@@ -97,7 +98,8 @@ class StaffLoanView extends Component {
     verifyDoc:[],
     staffInfoDetails:[],
     check_comment:'',
-    selectedVerifyInstallmentAmount:0
+    selectedVerifyInstallmentAmount:0,
+    work_flow_status:{}
     };
   }
 
@@ -117,6 +119,8 @@ class StaffLoanView extends Component {
           staffInfo: list
         })
       })
+      
+      
     
       await fetch(`${main_url}staff_loan_new/getStaffLoanDetails/${this.props.dataSource.staff_loan_id}`)
       .then(res => { if (res.ok) return res.json() })
@@ -139,11 +143,16 @@ class StaffLoanView extends Component {
           OtherLoanList: list
         })
       })
+    let Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
+
+      var work_flow = await getWorkFlowStatus(Details.user_id, this.state.updatedBy, 'Staff Loan', 'Staff Loan');
+      this.setState({
+        work_flow_status:work_flow
+      })
       let branch = await getBranch();
       this.setState({
         WithdrawLocationList:branch
       })
-    let Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
     let Document=await (this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.document != undefined && this.state.staffInfoDetails.document.length > 0 && this.state.staffInfoDetails.document)
     let otherLoanDetils=await (this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.detailsData != undefined && this.state.staffInfoDetails.detailsData.length > 0 && this.state.staffInfoDetails.detailsData)
     console.log("otherLoanDetails",otherLoanDetils)
@@ -1868,7 +1877,7 @@ class StaffLoanView extends Component {
                 </div>
             </div> */}
             {
-              (Details.status== 1 || Details.status==2 || Details.status == 3) && this.state.user_info.user_id != Details.user_id ? <>
+              this.state.work_flow_status!=undefined && Details.status != 0 && (this.state.work_flow_status.check_by == 1 || this.state.work_flow_status.verify_by == 1 || this.state.work_flow_status.approve_by == 1) ? <>
                       <div className="col-md-12" style={{ marginBottom: 10 }}>
               <div
                 className="col-md-12"
@@ -1934,7 +1943,7 @@ class StaffLoanView extends Component {
               </> : '' 
             }
             {
-              (Details.status == 2 || Details.status == 3 ) && this.state.user_info.user_id != Details.user_id ? <>
+              this.state.work_flow_status!=undefined && (Details.status == 2 || Details.status == 3) && (this.state.work_flow_status.verify_by == 1 || this.state.work_flow_status.approve_by == 1) ? <>
               <div className="col-md-12" style={{ marginBottom: 10 }}>
               <div
                 className="col-md-12"
@@ -1962,7 +1971,7 @@ class StaffLoanView extends Component {
               </> : ''
             }
             {
-              Details.status == 3 && this.state.user_info.user_id != Details.user_id ? <>
+              this.state.work_flow_status!=undefined && Details.status == 3 && (this.state.work_flow_status.verify_by == 1 || this.state.work_flow_status.approve_by == 1) ? <>
               <div className="col-md-12" style={{ marginBottom: 10 }}>
               <div
                 className="col-md-12"
@@ -2106,7 +2115,7 @@ class StaffLoanView extends Component {
               
               <div className="row document-main">
                             {
-                                this.state.user_info.user_id != Details.user_id && Details.status == 3 &&  this.state.verifyDoc!=undefined && this.state.verifyDoc.length > 0 ?
+                                this.state.work_flow_status!=undefined && (this.state.work_flow_status.verify_by == 1 || this.state.work_flow_status.approve_by == 1) && this.state.verifyDoc.length > 0 ?
                                     <DocumentStaffLoan title="Attachment" doc={this.state.verifyDoc} path='staff_loan_new' />
                                     : ''
                             }
