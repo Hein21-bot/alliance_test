@@ -53,7 +53,7 @@ class StaffLoanAddNew extends Component {
     selectedFamilyName:'',
     selectedFamilyAddress:'',
     selectedFamilyIncome:0,
-    selectedFamilyPhone:null,
+    selectedFamilyPhone:0,
     selectedInstitutionName:'',
     selectedOutstandingAmount:0,
     selectedInstallmentTerm:0,
@@ -171,6 +171,9 @@ class StaffLoanAddNew extends Component {
     //         })
     //     })
   }
+  currencyFormat=(num)=> {
+    return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+ }
 
   handleSelectGuarantor = (event) => {
     console.log('event is ==========>', event)
@@ -249,9 +252,11 @@ class StaffLoanAddNew extends Component {
     })
   }
   familyIncome=(e)=>{
-    this.setState({
-      selectedFamilyIncome:e.target.value
-    })
+    
+      this.setState({
+        selectedFamilyIncome:e.target.value
+      })
+    
   }
   familyJob=(e)=>{
     this.setState({
@@ -299,16 +304,17 @@ class StaffLoanAddNew extends Component {
       const tempAmount= e.target.value / this.state.selectedRepaymentPeriod
       this.setState({
         selectedRequestAmount:e.target.value,
-        InstallmentAmount:tempAmount
+        InstallmentAmount:tempAmount.toFixed(2)
       })
     }
     
   }
+  
   handleRepaymentPeriod=(e)=>{
     const tempAmount=this.state.selectedRequestAmount / e.target.value
     this.setState({
       selectedRepaymentPeriod:e.target.value,
-      InstallmentAmount:tempAmount
+      InstallmentAmount:tempAmount.toFixed(2)
     })
   }
   handleLoanPurpose=(e)=>{
@@ -576,8 +582,11 @@ class StaffLoanAddNew extends Component {
     console.log("doc", this.state.doc);
     if (this.state.FamilyGuarantorNRCDoc.length == 0 || this.state.FamilyIncomeDoc.length == 0 || this.state.StaffGuarantorNRCDoc.length == 0 || this.state.RequestNRCDoc.length == 0) {
       toast.error("Please Choose Attachment File");
-    } else {
-      if (this.state.FamilyGuarantorNRCDoc.length > 0 && this.state.FamilyIncomeDoc.length > 0 && this.state.StaffGuarantorNRCDoc.length > 0 && this.state.RequestNRCDoc.length > 0 && this.state.selectedFamilyRelation != null && this.state.selectedFamilyName != '' && this.state.selectedFamilyNRC!='' && this.state.selectedFamilyAddress != '' && this.state.selectedFamilyIncome!=0 && this.state.selectedFamilyJob != '' && this.state.selectedFamilyPhone !=0) {
+    } else if(this.state.selectedFamilyRelation == null || this.state.selectedFamilyName == '' || this.state.selectedFamilyNRC=='' || this.state.selectedFamilyAddress == '' || this.state.selectedFamilyIncome==0 || this.state.selectedFamilyJob == '' || this.state.selectedFamilyPhone ==0 || this.state.selectedLoanPurpose == '' || this.state.selectedWithdrawLocation ==null || this.state.selectedGuarantor ==null){
+      toast.error("You need to fill your information successfully");
+    }
+    else {
+      if (this.state.FamilyGuarantorNRCDoc.length > 0 && this.state.FamilyIncomeDoc.length > 0 && this.state.StaffGuarantorNRCDoc.length > 0 && this.state.RequestNRCDoc.length > 0 && this.state.selectedFamilyRelation != null && this.state.selectedFamilyName != '' && this.state.selectedFamilyNRC!='' && this.state.selectedFamilyAddress != '' && this.state.selectedFamilyIncome!=0 && this.state.selectedFamilyJob != '' && this.state.selectedFamilyPhone !=0 && this.state.selectedWithdrawLocation !=null && this.state.selectedLoanPurpose != '' && this.state.selectedGuarantor !=null) {
         console.log("save new doc", this.state.newDoc);
         // $("#saving_button").attr("disabled", true);
         var data = {
@@ -661,7 +670,7 @@ class StaffLoanAddNew extends Component {
   }
 
   render() {
-    console.log("info=======>",this.state.staffInfo,this.state.selectedGuarantor)
+    console.log("info=======>",this.currencyFormat(12345))
     const{staffInfo,getGuarantorInfo}=this.state;
     return (
       <div className="">
