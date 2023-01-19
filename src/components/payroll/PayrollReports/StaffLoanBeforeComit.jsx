@@ -13,8 +13,11 @@ class StaffLoanBeforeComit extends Component {
   constructor(props) {
     super(props);
     this.state = {
+    dataSource:[],
     start_date:new Date(),
     end_date:new Date(),
+    selected_Branch:'',
+    selected_region:'',
     }
   }
 
@@ -148,31 +151,23 @@ class StaffLoanBeforeComit extends Component {
       )
   };
 
-  // handleSearchData = () => {
-  //   // this.setState({
-  //   const branchId = this.state.selected_Branch ? this.state.selected_Branch.value : 0
-  //   const departmentId = this.state.selected_department ? this.state.selected_department.departments_id : 0
-  //   const designationId = this.state.selected_designation ? this.state.selected_designation.value : 0
-  //   const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
-  //   const employee = this.state.selected_employeeId ? this.state.selected_employeeId.value : 0
-  //   // })
+  handleSearchData = () => {
+    fetch(main_url + "staff_loan_new/staffloanReportBefore")
+      .then(res => { if (res.ok) return res.json() })
+      .then(list => {
+        this.setState({
+            dataSource:list
+        })
+      })
+  };
 
-  //   fetch(main_url + "report/employeeReport/" + regionId + "/" + branchId + "/" + designationId + "/" + employee)
-  //     .then(res => { if (res.ok) return res.json() })
-  //     .then(list => {
-  //       this.setState({
-  //           data:list
-  //       })
-  //     })
-  // };
-
-  render() {
+  render() { 
   
     return (
       <div>
         <ToastContainer/>
         <div className="row  white-bg dashboard-header">
-        <h3 className="" style={{paddingLeft:"10px"}}>Quarterly Incentive Report </h3>
+        <h3 className="" style={{paddingLeft:"10px"}}>Staff Loan Before Committee Report </h3>
           <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
           <div style={{width: '120px',marginRight:10}}>
           <DatePicker dateFormat="DD/MM/YYYY"
@@ -286,7 +281,16 @@ class StaffLoanBeforeComit extends Component {
           <table className="table table-bordered" id="staff_loan_before"  style={{ overflow: "Scroll",display:'block',whiteSpace:'nowrap' }}>
             <thead>
                 <tr>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Sr No</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>No</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Loan Request Date</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} colSpan={10}>Requested Employee</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Other Credit Facilities and/or Advance Salary currently held;</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} colSpan={3}>Personal Loan</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} colSpan={3}>Collateral Loan</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} colSpan={3}>Other Outstending Debts</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} colSpan={5}>Staff Guarantor</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} colSpan={7}>Family Guarantor</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Customer Code</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Loan Purpose</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Requested Loan Amount</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Proposed Repayment Period</th>
@@ -295,6 +299,37 @@ class StaffLoanBeforeComit extends Component {
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>HR Comment</th>
                 </tr>
                 <tr>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} >Employee ID</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} >Name</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} >Position</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} >Branch</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} >Department</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} >Region</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} >Employee Date</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} >Service Year</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} >Employee Phone No(Personal)</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} >Current Salary(No Other Allowance)</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Institution</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Outstanding Amount</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Materity Date</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Institution</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Outstanding Amount</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Materity Date</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Institution</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Outstanding Amount</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Materity Date</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>ID Code</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Name</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Position</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Branch</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Department</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Name</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Relationship with Staff Loan Requestor</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Occupation</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Mothly Income</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>NRC No</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Ph No</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Address</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}}>Performance Recommendation</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}}>Other Loan Information</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}}>Status(Recommend or Not)</th>
@@ -302,18 +337,63 @@ class StaffLoanBeforeComit extends Component {
                 </tr>
             </thead>
             <tbody>
+            {this.state.dataSource.length > 0 ?(
+              this.state.dataSource.map((v, i) => { 
+                return (
+                  <>
                 <tr>
-                    <td>2</td>
-                    <td>A-13221</td>
-                    <td>Ye Htet</td>
-                    <td>IT</td>
-                    <td>CO,FX</td>
-                    <td>Mdy</td>
-                    <td>Mandalay</td>
-                    <td>20000</td>
-                    <td>30000</td>
-                    <td>40000</td>                  
-                </tr>
+                    <td>{i+1}</td>
+                    <td>{moment(v.loan_requested_date).format('DD-MM-YYYY') || '-'}</td>
+                   <td>{v.emp_id || '-'}</td>
+                   <td>{v.user_name || '-'}</td>
+                   <td>{v.designation || '-'}</td>
+                   <td>{v.branch || '-'}</td>
+                   <td>{v.department || '-'}</td>
+                   <td>{v.state || '-'}</td>
+                   <td>{moment(v.employ_date).format('DD-MM-YYYY') || '-'}</td>
+                   <td>{v.service_year || '-'}</td>
+                   <td>{v.phone || '-'}</td>
+                   <td>{v.salary || '-'}</td>
+                   <td>{v.other_loan_check || '-'}</td>
+                   <td>{v.loan.filter(v=>v.name === 'Personal Loan')[0] ? v.loan.filter(v=>v.name === 'Personal Loan')[0].institution :'-'}</td>  
+                   <td>{v.loan.filter(v=>v.name === 'Personal Loan')[0] ? v.loan.filter(v=>v.name === 'Personal Loan')[0].outstanding_amount :'-'}</td>
+                   <td>{v.loan.filter(v=>v.name === 'Personal Loan')[0] ? moment( v.loan.filter(v=>v.name === 'Personal Loan')[0].maturity_date).format('DD-MM-YYYY') :'-'}</td>
+                   <td>{v.loan.filter(v=>v.name === 'Collateral Loan')[0] ? v.loan.filter(v=>v.name === 'Collateral Loan')[0].institution :'-'}</td>  
+                   <td>{v.loan.filter(v=>v.name === 'Collateral Loan')[0] ? v.loan.filter(v=>v.name === 'Collateral Loan')[0].outstanding_amount :'-'}</td>
+                   <td>{v.loan.filter(v=>v.name === 'Collateral Loan')[0] ? moment( v.loan.filter(v=>v.name === 'Collateral Loan')[0].maturity_date).format('DD-MM-YYYY') :'-'}</td>
+                   <td>{v.loan.filter(v=>v.name === 'Other Outstanding debts')[0] ? v.loan.filter(v=>v.name === 'Other Outstanding debts')[0].institution :'-'}</td>  
+                   <td>{v.loan.filter(v=>v.name === 'Other Outstanding debts')[0] ? v.loan.filter(v=>v.name === 'Other Outstanding debts')[0].outstanding_amount :'-'}</td>
+                   <td>{v.loan.filter(v=>v.name ==='Other Outstanding debts')[0] ? moment( v.loan.filter(v=>v.name === 'Other Outstanding debts')[0].maturity_date).format('DD-MM-YYYY') :'-'}</td>
+                   <td>{v.staff_emp_id || '-'}</td>
+                   <td>{v.staff_name || '-'}</td>
+                   <td>{v.staff_des || '-'}</td>
+                   <td>{v.staff_branch || '-'}</td>
+                   <td>{v.staff_dep || '-'}</td>
+                   <td>{v.guar_name || '-'}</td>
+                   <td>{v.relation_family || '-'}</td>
+                   <td>{v.family_job || '-'}</td>  
+                   <td>{v.family_income || '-'}</td>
+                   <td>{v.family_nrc || '-'}</td>
+                   <td>{v.family_phone || '-'}</td>
+                   <td>{v.family_address || '-'}</td>
+                   <td>{v.customer_code || '-'}</td>
+                   <td>{v.loan_purpose || '-'}</td>
+                   <td>{v.requested_amount || '-'}</td>
+                   <td>{v.repayment_period || '-'}</td>
+                   <td>{this.state.branchlist.filter(c=>c.value === v.withdraw_location)[0].label || '-'}</td>
+                   <td>{v.performance_recommendation || '-'}</td>
+                   <td>{v.other_loan_information || '-'}</td> 
+                   <td>{v.performance_recommendation || '-'}</td>
+                   <td>{v.checked_comment || '-'}</td>
+                   <td>{v.verified_comment || '-'}</td>
+                </tr>   </>
+                     )
+                    })):(
+                     <tr>
+                     <td colSpan={44}style={{ textAlign: "center", verticalAlign: "middle",height:35,fontSize:15,borderBottom:'1px solid black' }}>No data available in table</td>
+                     </tr>
+                )
+            }
             </tbody>
           </table>
         

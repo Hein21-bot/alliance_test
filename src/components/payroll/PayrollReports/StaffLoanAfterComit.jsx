@@ -13,8 +13,11 @@ class StaffLoanAfterComit extends Component {
   constructor(props) {
     super(props);
     this.state = {
+    dataSource:[],
     start_date:new Date(),
     end_date:new Date(),
+    selected_Branch:'',
+    selected_region:'',
     }
   }
 
@@ -172,7 +175,7 @@ class StaffLoanAfterComit extends Component {
       <div>
         <ToastContainer/>
         <div className="row  white-bg dashboard-header">
-        <h3 className="" style={{paddingLeft:"10px"}}>Quarterly Incentive Report </h3>
+        <h3 className="" style={{paddingLeft:"10px"}}>Final Staff Loan Report </h3>
           <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
           <div style={{width: '120px',marginRight:10}}>
           <DatePicker dateFormat="DD/MM/YYYY"
@@ -278,12 +281,12 @@ class StaffLoanAfterComit extends Component {
           </div>
           <ReactHTMLTableToExcel 
                     className="btn-excel"
-                    table="staff_loan_before"
-                    filename={"Staff Loan Before Committee"}
+                    table="staff_loan_after"
+                    filename={"Final Staff Loan Report"}
                     buttonText="Excel"
                     sheet="Sheet"
                     />
-          <table className="table table-bordered" id="staff_loan_before"  style={{ overflow: "Scroll",display:'block',whiteSpace:'nowrap' }}>
+          <table className="table table-bordered" id="staff_loan_after"  style={{ overflow: "Scroll",display:'block',whiteSpace:'nowrap' }}>
             <thead>
                 <tr>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Sr No</th>
@@ -291,33 +294,39 @@ class StaffLoanAfterComit extends Component {
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Loan Requested Month</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>HOD Check Date</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Approve Date</th>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}} colSpan={2}>Disbursement Date</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Disbursement Date</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Disbursement Branch</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Requested Employee Code</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Requested Employee Name</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Position</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Branch</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Department</th>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}} colSpan={2}>Region</th>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={5}>Staff Guarantor</th>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={4}>Family Guarantor</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Region</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} colSpan={5}>Staff Guarantor</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} colSpan={4}>Family Guarantor</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Customer Code</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Staff Loan Account</th>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}} colSpan={2}>Kant Kaw Account</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Kant Kaw Account</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Approve Loan Ammount</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Terms in Month</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Monthly Installment Amount</th>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}} colSpan={2}>Approve or Not Approve</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Approve or Not Approve</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Committee Comment</th>
                 </tr>
                 <tr>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Performance Recommendation</th>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Other Loan Information</th>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Status(Recommend or Not)</th>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Supervisor Comments</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>ID Code</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Nmae</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Position</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Branch</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>NRC No</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Name</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Relationship with Staff Loan Requestor</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>NRC No</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}}>Ph No</th>
                 </tr>
             </thead>
             <tbody>
+             {this.state.dataSource.length > 0 ?(
                 <tr>
                     <td>2</td>
                     <td>A-13221</td>
@@ -328,8 +337,33 @@ class StaffLoanAfterComit extends Component {
                     <td>Mandalay</td>
                     <td>20000</td>
                     <td>30000</td>
-                    <td>40000</td>                  
-                </tr>
+                    <td>40000</td>  
+                    <td>2</td>
+                    <td>A-13221</td>
+                    <td>Ye Htet</td>
+                    <td>IT</td>
+                    <td>CO,FX</td>
+                    <td>Mdy</td>
+                    <td>Mandalay</td>
+                    <td>20000</td>
+                    <td>30000</td>
+                    <td>40000</td> 
+                    <td>A-13221</td>
+                    <td>Ye Htet</td>
+                    <td>IT</td>
+                    <td>CO,FX</td>
+                    <td>Mdy</td>
+                    <td>Mandalay</td>
+                    <td>20000</td>
+                    <td>30000</td>
+                    <td>40000</td>
+                    <td>40000</td>                          
+                </tr>):(
+                     <tr>
+                     <td colSpan={30}style={{ textAlign: "center", verticalAlign: "middle",height:35,fontSize:15,borderBottom:'1px solid black' }}>No data available in table</td>
+                     </tr>
+                )               
+            }
             </tbody>
           </table>
         
