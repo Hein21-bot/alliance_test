@@ -17,6 +17,8 @@ export default class MonthlyIncentive extends Component {
       newDoc: [],
       coData: [],
       fxData: [],
+      roData: [],
+      bmData: [],
       employeeIdList: [],
       EmployeeNameList: [],
       regionList: [],
@@ -26,6 +28,8 @@ export default class MonthlyIncentive extends Component {
       co_fx: [
         { value: 1, label: "CO", name: "co" },
         { value: 2, label: "FX", name: "fx" },
+        // { value: 3, label: "RO", name: "ro" },
+        // { value: 4, label: "BM/DBM", name: "bm" }
       ],
       selected_month: new Date(),
       selected_region: "",
@@ -49,7 +53,7 @@ export default class MonthlyIncentive extends Component {
     // this.getFirstDayOfCurrentWeek();
     await this._setDataTable([]);
   
-  }
+  };
 
   showToast = (status, text) => {
     if (status === 200) {
@@ -77,9 +81,7 @@ export default class MonthlyIncentive extends Component {
           })),
         });
       });
-  }
-
-  
+  };
 
   getDesignationList() {
     fetch(`${main_url}main/getDesignations`)
@@ -92,10 +94,8 @@ export default class MonthlyIncentive extends Component {
           designationList: list,
         });
       });
-  }
-  // getFirstDayOfCurrentWeek(){
+  };
 
-  // }
   getBranchList() {
     fetch(`${main_url}main/getBranch`)
       .then((res) => {
@@ -107,7 +107,7 @@ export default class MonthlyIncentive extends Component {
           branchList: list,
         });
       });
-  }
+  };
 
   getEmployeeCodeList() {
     fetch(`${main_url}employee/getEmployeeCode`)
@@ -123,7 +123,7 @@ export default class MonthlyIncentive extends Component {
           })),
         });
       });
-  }
+  };
 
   getEmployeeName() {
     fetch(`${main_url}report/employeeName`)
@@ -135,7 +135,7 @@ export default class MonthlyIncentive extends Component {
           EmployeeNameList: list,
         });
       });
-  }
+  };
 
   handleSelectedRegion = (event) => {
     if (event !== null)
@@ -180,6 +180,7 @@ export default class MonthlyIncentive extends Component {
       selected_type: event,
     });
   };
+
   actionClick = async (e) => { 
     if(e === 1){
       this.setState({
@@ -280,15 +281,19 @@ export default class MonthlyIncentive extends Component {
           this.setState({
             searchData:list.data || [],
             fxData: [],
+            roData: [],
+            bmData: [],
             table_type: 1,
             deleteType: false,
             loading:false
           });
-        } else {
+        } else if(this.state.selected_type.value === 2){
           this.setState(
             {
               fxData: list || [],
               coData: [],
+              roData: [],
+              bmData: [],
               table_type: 2,
             deleteType: false,
             loading:false
@@ -299,17 +304,45 @@ export default class MonthlyIncentive extends Component {
             }
           );
         }
+        //  else if(this.state.selected_type.value === 3){
+        //   this.setState(
+        //     {
+        //       roData: list || [],
+        //       coData: [],
+        //       fxData: [],
+        //       table_type: 3,
+        //       deleteType: false,
+        //       loading:false
+        //     },
+        //     async () => {
+        //       await this._setDataTableRo(this.state.roData);
+        //     }
+        //   );
+        // } else if(this.state.selected_type.value === 4){
+        //   this.setState(
+        //     {
+        //       bmData: list || [],
+        //       coData: [],
+        //       roData:[],
+        //       fxData: [],
+        //       table_type: 4,
+        //       deleteType: false,
+        //       loading:false
+        //     },
+        //     async () => {
+        //       await this._setDataTableBm(this.state.bmData);
+        //     }
+        //   );
+        // }
       })
       .catch((error)=>{ 
         throw(error)
-      }); console.log('sadasdd',this.state.searchData);
+      });
       this.setState({
         searchData:[]
       })
   };
  
-   
-   
   checkFiles(e) {
     
     this.setState({
@@ -361,7 +394,27 @@ export default class MonthlyIncentive extends Component {
             table_type: 2,
           });
           await this._setDataTable(response);
-        } else {
+        }
+        //  else if (status == 200 && this.state.selected_type.value == 3) {
+        //   this.setState({
+        //     loading: false,
+        //     roData: response,
+        //     newDoc:response,
+        //     deleteType: true,
+        //     table_type: 3,
+        //   });
+        //   await this._setDataTableRo(response);
+        // } else if (status == 200 && this.state.selected_type.value == 4) {
+        //   this.setState({
+        //     loading: false,
+        //     bmData: response,
+        //     newDoc:response,
+        //     deleteType: true,
+        //     table_type: 4,
+        //   });
+        //   await this._setDataTableBm(response);
+        // } 
+        else {
           toast.error("Fail to Save Information", {
             position: "top-right",
             autoClose: 5000,
@@ -384,7 +437,8 @@ export default class MonthlyIncentive extends Component {
 
         })
       })
-  }
+  };
+
 searchTable(){ 
   var $rows = $('#monthly_incentive tbody tr');
 $('#search').keyup(function() {
@@ -395,7 +449,8 @@ $('#search').keyup(function() {
     return !~text.indexOf(val);
   }).hide();
 });
-}
+  };
+
   async _setDataTable(data) {
     var table;
     var l = [];
@@ -415,19 +470,19 @@ $('#search').keyup(function() {
         l.push(obj);
       }
     }
-    if ($.fn.dataTable.isDataTable("#dataTables-Table-One")) {
-      table = $("#dataTables-Table-One").dataTable();
+    if ($.fn.dataTable.isDataTable("#dataTables-Table-Fx")) {
+      table = $("#dataTables-Table-Fx").dataTable();
       table.fnClearTable();
       table.fnDestroy();
-      $("#dataTables-Table-One").empty();
+      $("#dataTables-Table-Fx").empty();
     }
 
-    table = $("#dataTables-Table-One").DataTable({
-      autofill: false,
+    table = $("#dataTables-Table-Fx").DataTable({
+      autofill: true,
       bLengthChange: false,
       bInfo: false,
       responsive: true,
-      paging: false,
+      paging: true,
       buttons: false,
       dom: 'Bfrtip',
 
@@ -439,7 +494,7 @@ $('#search').keyup(function() {
     // },
     {
         extend: 'excelHtml5',
-        title: 'Monthlt Incentive Report(FX)',
+        title: 'Monthly Incentive(FX)',
     },
     // {
     //     extend: 'pdfHtml5',
@@ -449,13 +504,141 @@ $('#search').keyup(function() {
 
       data: l,
       columns: [
+        { title: "No", data: "no" },
         { title: "Employee Id", data: "employment_id" },
         { title: "CO Count", data: "co_count" },
         { title: "CO Incentive Amount", data: "co_incentive" },
         { title: "CO Incentive Total", data: "co_incentive_total" },
       ],
     });
-  }
+  };
+
+  // async _setDataTableRo(data) {
+  //   var table;
+  //   var l = [];
+  //   if (data.length > 0) {
+  //     for (var i = 0; i < data.length; i++) {
+  //       const index = i;
+  //       const result = data[i];
+  //       const obj = {
+  //         no: index + 1,
+  //         employment_id: data[i].employeeID ? data[i].employeeID : "-",
+  //         name: data[i].coCount ? data[i].coCount : "-",
+  //         par_percent: data[i].par_percent ? data[i].par_percent : "-",
+  //         collection_percent :  data[i].collection_percent ? data[i].collection_percent : "-",
+  //         par: data[i].par ? data[i].par : "-",
+  //         collection: data[i].collection ? data[i].collection : "-",
+  //         total: data[i].total ? data[i].total : "-",
+  //         remark: data[i].remark ? data[i].remark : "-",
+  //       };
+  //       l.push(obj);
+  //     }
+  //   }
+  //   if ($.fn.dataTable.isDataTable("#dataTables-Table-Ro")) {
+  //     table = $("#dataTables-Table-Ro").dataTable();
+  //     table.fnClearTable();
+  //     table.fnDestroy();
+  //     $("#dataTables-Table-Ro").empty();
+  //   }
+
+  //   table = $("#dataTables-Table-Ro").DataTable({
+  //     autofill: true,
+  //     bLengthChange: false,
+  //     bInfo: false,
+  //     responsive: true,
+  //     paging: true,
+  //     buttons: false,
+  //     dom: 'Bfrtip',
+
+  //     buttons:  [
+  //       // 'copy',
+  //   // {
+  //   //         extend: 'csvHtml5',
+  //   //         title: 'Birthday Fund',
+  //   // },
+  //   {
+  //       extend: 'excelHtml5',
+  //       title: 'Monthly Incentive(RO)',
+  //   },
+  //   // {
+  //   //     extend: 'pdfHtml5',
+  //   //     title: 'Birthday Fund',
+  //   // }
+  // ],
+
+  //     data: l,
+  //     columns: [
+  //       { title: "No", data: "no" },
+  //       { title: "Employee Id", data: "employment_id" },
+  //       { title: "name", data: "name" },
+  //       { title: "PAR %", data: "par_percent" },
+  //       { title: "Collection %", data: "collection_percent" },
+  //       { title: "PAR", data: "par" },
+  //       { title: "Collection", data: "collection" },
+  //       { title: "Total", data: "total" },
+  //       { title: "Remark", data: "remark" },
+
+  //     ],
+  //   });
+  // };
+
+  // async _setDataTableBm(data) {
+  //   var table;
+  //   var l = [];
+  //   if (data.length > 0) {
+  //     for (var i = 0; i < data.length; i++) {
+  //       const index = i;
+  //       const result = data[i];
+  //       const obj = {
+  //         no: index + 1,
+  //         employment_id: data[i].employeeID ? data[i].employeeID : "-",
+  //         name: data[i].fullname ? data[i].fullname : "-",
+  //         amount: data[i].amount ? data[i].amount : "-",        
+  //       };
+  //       l.push(obj);
+  //     }
+  //   }
+  //   if ($.fn.dataTable.isDataTable("#dataTables-Table-Bm")) {
+  //     table = $("#dataTables-Table-Bm").dataTable();
+  //     table.fnClearTable();
+  //     table.fnDestroy();
+  //     $("#dataTables-Table-Bm").empty();
+  //   }
+
+  //   table = $("#dataTables-Table-Bm").DataTable({
+  //     autofill: true,
+  //     bLengthChange: false,
+  //     bInfo: false,
+  //     responsive: true,
+  //     paging: true,
+  //     buttons: false,
+  //     dom: 'Bfrtip',
+
+  //     buttons:  [
+  //       // 'copy',
+  //   // {
+  //   //         extend: 'csvHtml5',
+  //   //         title: 'Birthday Fund',
+  //   // },
+  //   {
+  //       extend: 'excelHtml5',
+  //       title: 'Monthly Incentive(BM/DBM)',
+  //   },
+  //   // {
+  //   //     extend: 'pdfHtml5',
+  //   //     title: 'Birthday Fund',
+  //   // }
+  // ],
+
+  //     data: l,
+  //     columns: [
+  //       { title: "No", data: "no" },
+  //       { title: "Employee Id", data: "employment_id" },
+  //       { title: "Name", data: "name" },
+  //       { title: "Amount", data: "amount" },
+  //     ],
+  //   });
+  // };
 
   render() { console.log('validate',this.state.searchData);
     return (
@@ -593,14 +776,14 @@ $('#search').keyup(function() {
             <h1>Loading...</h1>
             {/* <span className="loader"></span> */}
           </div>
-        ) : this.state.table_type == 2 ? (
+        ) : this.state.table_type === 2 ? (
           <div>
 
             <div className="col-md-12">
               <table
                 width="99%"
                 className="table table-striped table-bordered table-hover responsive nowrap dt-responsive"
-                id="dataTables-Table-One"
+                id="dataTables-Table-Fx"
               />
               {this.state.fxData.length <= 0 || this.state.fxData[0].generate === 2 ? (''):(
                 <div style={{ display: "flex", justifyContent: "end" }}>
@@ -638,7 +821,101 @@ $('#search').keyup(function() {
               )}
             </div>
           </div>
-        ) : this.state.table_type == 1 && (this.state.searchData.length > 0) ? (
+        ) 
+        // : this.state.table_type === 3 ? (
+        //   <div>
+
+        //   <div className="col-md-12">
+        //     <table
+        //       width="99%"
+        //       className="table table-striped table-bordered table-hover responsive nowrap dt-responsive"
+        //       id="dataTables-Table-Ro"
+        //     />
+        //     {this.state.roData.length <= 0 || this.state.roData[0].generate === 2 ? (''):(
+        //       <div style={{ display: "flex", justifyContent: "end" }}>
+        //         <div
+        //           className="col-lg-2"
+        //           style={{
+        //             marginTop: "22px",
+        //             display: "flex",
+        //             justifyContent: "end",
+        //           }}
+        //         >
+        //           <button
+        //             className="btn-primary btn"
+        //             onClick={() => this.actionClick(0)}
+        //           >
+        //             Delete
+        //           </button>
+        //         </div>
+        //         <div
+        //           className="col-lg-2"
+        //           style={{
+        //             marginTop: "22px",
+        //             display: "flex",
+        //             justifyContent: "start",
+        //           }}
+        //         >
+        //           <button
+        //             className="btn-primary btn"
+        //             onClick={() => this.actionClick(2)}
+        //           >
+        //             Generate
+        //           </button>
+        //         </div>
+        //       </div>
+        //     )}
+        //   </div>
+        // </div>
+        // )
+        // : this.state.table_type === 4 ? (
+        //   <div>
+
+        //   <div className="col-md-12">
+        //     <table
+        //       width="99%"
+        //       className="table table-striped table-bordered table-hover responsive nowrap dt-responsive"
+        //       id="dataTables-Table-Bm"
+        //     />
+        //     {this.state.bmData.length <= 0 || this.state.bmData[0].generate === 2 ? (''):(
+        //       <div style={{ display: "flex", justifyContent: "end" }}>
+        //         <div
+        //           className="col-lg-2"
+        //           style={{
+        //             marginTop: "22px",
+        //             display: "flex",
+        //             justifyContent: "end",
+        //           }}
+        //         >
+        //           <button
+        //             className="btn-primary btn"
+        //             onClick={() => this.actionClick(0)}
+        //           >
+        //             Delete
+        //           </button>
+        //         </div>
+        //         <div
+        //           className="col-lg-2"
+        //           style={{
+        //             marginTop: "22px",
+        //             display: "flex",
+        //             justifyContent: "start",
+        //           }}
+        //         >
+        //           <button
+        //             className="btn-primary btn"
+        //             onClick={() => this.actionClick(2)}
+        //           >
+        //             Generate
+        //           </button>
+        //         </div>
+        //       </div>
+        //     )}
+        //   </div>
+        // </div>
+        // )
+        
+        : this.state.table_type === 1 && (this.state.searchData.length > 0) ? (
           <div>
             <div style={{display:'flex',justifyContent:'space-between',paddingRight:17}}>
               <div>
@@ -847,7 +1124,7 @@ $('#search').keyup(function() {
             </div>)
          }
           </div>
-        ) : this.state.table_type == 1 && (this.state.searchData.length === 0 ) ? (
+        ) : this.state.table_type === 1 && (this.state.searchData.length === 0 ) ? (
          <div>
            <div style={{display:'flex',justifyContent:'space-between',paddingRight:17}}>
               <div>

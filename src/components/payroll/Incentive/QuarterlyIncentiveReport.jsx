@@ -40,13 +40,6 @@ class QuarterlyIncentiveReport extends Component {
         {value:4,month1:'Oct',month2:'Nov',month3:'Dec'},
 
       ],
-      arr:[
-        {scpoe:0,data:"hi"},
-        {scpoe:0,data:"hola"},
-        {scpoe:1,data:"hello"},
-        {scpoe:1,data:"hi"},
-        {scpoe:3,data:"hola"},
-      ]
     }
   }
 
@@ -310,7 +303,7 @@ class QuarterlyIncentiveReport extends Component {
                     <th style={{textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Remark</th>
                 </tr>
                 <tr>
-                <th style={{ textAlign: "center", verticalAlign: "middle" }}>{this.state.quarter_months.filter(v=>v.value==this.state.quarter)[0].month1}</th>
+                  <th style={{ textAlign: "center", verticalAlign: "middle" }}>{this.state.quarter_months.filter(v=>v.value==this.state.quarter)[0].month1}</th>
                   <th style={{ textAlign: "center", verticalAlign: "middle" }}>{this.state.quarter_months.filter(v=>v.value==this.state.quarter)[0].month2}</th>
                   <th style={{ textAlign: "center", verticalAlign: "middle" }}>{this.state.quarter_months.filter(v=>v.value==this.state.quarter)[0].month3}</th>
                 </tr>

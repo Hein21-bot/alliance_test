@@ -26,7 +26,8 @@ constructor(props){
       selected_employeeID: "",
       selected_employee: "",
       selected_type:0,
-      
+      // roData:[],
+      // bmData:[]
     }
 }
 componentDidMount(){
@@ -165,18 +166,20 @@ getRegionList() {
           })
       if (list[0].CoFx === 'FX'){
       this.setState({
-    fxData:list,
-    selected_type:2
+          fxData: list,
+          selected_type: 2
       })}else{
         this.setState({
-          coData:list,
-          selected_type:1
+          coData: list,
+          selected_type: 1
             })
       }}else if(status===400){
         this.setState({
           dataSource:[],
           coData:[],
-          fxData:[]
+          fxData:[],
+           // roData:[],
+          // bmData:[]
         })
    toast.error("There is no data for this month!")
       }
@@ -185,7 +188,9 @@ getRegionList() {
         this.setState({
           dataSource:[],
           coData:[],
-          fxData:[]
+          fxData:[],
+          // roData:[],
+          // bmData:[]
         })
     })
   }
@@ -225,29 +230,6 @@ render(){
 
  <div className="" style={{display:'flex',justifyContent:'center',paddingTop:20}}><h3>Staff Information</h3></div>
 <div className='col-lg-12'>
- {/* <div className='col-lg-6' style={{ paddingLeft: '30px', paddingTop: '10px' }}><p>Staff ID</p>
- <p>Name</p>
- <p>Department</p>
- <p>Designation</p>
- <p>Branch</p>
- <p>Payment Month</p>
- </div>
-
-<div className='col-lg-1' style={{ paddingLeft: '0px', paddingTop: '10px' }} ><p>:</p>
- <p>:</p>
- <p>:</p>
- <p>:</p>
- <p>:</p>
- <p>: </p>
- </div>
-
- <div className=' col-lg-5' style={{  paddingTop: '10px' }}><div className='col-lg-10'><p>{this.state.coData[0].employment_id}</p>
- <p>{this.state.coData[0].fullname ? this.state.coData[0].fullname :'-'}</p>
- <p>{this.state.coData[0].deptname ? this.state.coData[0].deptname :'-'}</p>
- <p>{this.state.coData[0].designations ? this.state.coData[0].designations :'-'}</p>
- <p>{this.state.coData[0].location_master_name ? this.state.coData[0].location_master_name :'-'}</p>
- <p>{this.state.coData[0].monthIncentive ? this.state.coData[0].monthIncentive :'-'}</p>
- </div></div> */}
 <div><div className='col-lg-6'><p>Staff ID</p></div><div className='col-lg-1' style={{padding:0}}><p>:</p></div><div className=' col-lg-5'><p>{this.state.coData[0].employment_id ? this.state.coData[0].employment_id :'-'}</p><div></div></div></div>
 <div><div className='col-lg-6'><p>Name</p></div><div className='col-lg-1'style={{padding:0}}><p>:</p></div><div className=' col-lg-5'><p>{this.state.coData[0].fullname ? this.state.coData[0].fullname :'-'}</p><div></div></div></div>
 <div><div className='col-lg-6'><p>Department</p></div><div className='col-lg-1'style={{padding:0}}><p>:</p></div><div className=' col-lg-5'><p>{this.state.coData[0].deptname ? this.state.coData[0].deptname :'-'}</p><div></div></div></div>
@@ -429,10 +411,104 @@ render(){
                  </div>
                     </div>
                   </div> ):('')
-
 )
 }
         </div>
     )
 }
 }
+
+
+{/* <div className="row" style={{display:'flex',justifyContent:'center'}}>
+<div className='col-lg-7 col-md-8 col-sm-12' style={{ background: 'white',marginTop:30,border:"1px solid grey " }}>
+<div className="" style={{display:'flex',justifyContent:'center', background: '#1872ab',marginTop:20}}><h2 style={{color:"white",marginTop:10,fontSize:18,fontWeight:"bold"}}>Monthly Incentive</h2></div>
+<div className="" style={{display:'flex',justifyContent:'center',paddingTop:20}}><h3>Staff Information</h3></div>
+<div className='col-lg-6' style={{ paddingLeft: '100px', paddingTop: '10px' }}><p>Staff ID</p>
+<p>Name</p>
+<p>Department</p>
+<p>Designation</p>
+<p>Branch</p>
+<p>Payment Month</p>
+</div>
+
+<div className='col-lg-1' style={{ paddingLeft: '0px', paddingTop: '10px' }} ><p>:</p>
+<p>:</p>
+<p>:</p>
+<p>:</p>
+<p>:</p>
+<p>: </p>
+</div>
+
+<div className=' col-lg-5' style={{ paddingLeft: '90px', paddingTop: '10px' }}><p>{this.state.roData[0].employeeID ? this.state.roData[0].employeeID :'-'}</p>
+<p>{this.state.roData[0].fullname  ? this.state.roData[0].fullname :'-'}</p>
+<p>{this.state.roData[0].deptname ? this.state.roData[0].deptname :'-'}</p>
+<p>{this.state.roData[0].designations ? this.state.roData[0].designations :'-'}</p>
+<p>{this.state.roData[0].location_master_name ? this.state.roData[0].location_master_name :'-'}</p>
+<p>{this.state.roData[0].monthIncentive ? this.state.roData[0].monthIncentive : '-'}</p>
+</div>
+
+<div className="row " style={{display:'flex',justifyContent:'center',paddingTop:20}}><h3>Incentive Information</h3>
+</div>
+<div className='col-lg-6' style={{ paddingLeft: '100px', paddingTop: '10px' }}><p>PAR%</p>
+<p>Collection%</p>
+<p>Par</p>
+<p>Collection</p>
+<p>Total</p>
+<p>Remark</p>
+</div>
+
+<div className='col-lg-1' style={{ paddingLeft: '0px', paddingTop: '10px' }} ><p>:</p>
+<p>:</p>
+<p>:</p>
+<p>:</p>
+<p>:</p>
+<p>:</p>
+</div>
+
+
+<div className=' col-lg-5' style={{ paddingLeft: '90px', paddingTop: '10px', marginBottom:20 }}><p>{this.state.roData[0].par_percent}</p>
+<p>{this.state.roData[0].coIncentiveTotal ? this.state.roData[0].coIncentiveTotal :'0'}</p>
+<p>{this.state.roData[0].incentiveAmount ? this.state.roData[0].incentiveAmount :'0'}</p>
+<p>{this.state.roData[0].coIncentiveTotal ? this.state.roData[0].coIncentiveTotal :'0'}</p>
+<p>{this.state.roData[0].incentiveAmount ? this.state.roData[0].incentiveAmount :'0'}</p>
+<p>{this.state.roData[0].incentiveAmount ? this.state.roData[0].incentiveAmount :'0'}</p>
+</div>
+</div>
+</div> */}
+
+//  <div className="row" style={{display:'flex',justifyContent:'center'}}>
+// <div className='col-lg-7 col-md-8 col-sm-12' style={{ background: 'white',marginTop:30,border:"1px solid grey " }}>
+// <div className="" style={{display:'flex',justifyContent:'center', background: '#1872ab',marginTop:20}}><h2 style={{color:"white",marginTop:10,fontSize:18,fontWeight:"bold"}}>Monthly Incentive</h2></div>
+// <div className="" style={{display:'flex',justifyContent:'center',paddingTop:20}}><h3>Staff Information</h3></div>
+// <div className='col-lg-6' style={{ paddingLeft: '100px', paddingTop: '10px' }}><p>Staff ID</p>
+// <p>Name</p>
+// <p>Department</p>
+// <p>Designation</p>
+// <p>Branch</p>
+// <p>Payment Month</p>
+// <p>Incentive Amount</p>
+// <p>Remark</p>
+// </div>
+
+// <div className='col-lg-1' style={{ paddingLeft: '0px', paddingTop: '10px' }} ><p>:</p>
+// <p>:</p>
+// <p>:</p>
+// <p>:</p>
+// <p>:</p>
+// <p>:</p>
+// <p>:</p>
+// <p>:</p>
+// </div>
+
+// <div className=' col-lg-5' style={{ paddingLeft: '90px', paddingTop: '10px' }}><p>{this.state.bmData[0].employeeID ? this.state.bmData[0].employeeID :'-'}</p>
+// <p>{this.state.bmData[0].fullname  ? this.state.bmData[0].fullname :'-'}</p>
+// <p>{this.state.bmData[0].deptname ? this.state.bmData[0].deptname :'-'}</p>
+// <p>{this.state.bmData[0].designations ? this.state.bmData[0].designations :'-'}</p>
+// <p>{this.state.bmData[0].location_master_name ? this.state.bmData[0].location_master_name :'-'}</p>
+// <p>{this.state.bmData[0].monthIncentive ? this.state.bmData[0].monthIncentive : '-'}</p>
+// <p>{this.state.bmData[0].location_master_name ? this.state.bmData[0].location_master_name :'-'}</p>
+// <p>{this.state.bmData[0].monthIncentive ? this.state.bmData[0].monthIncentive : '-'}</p>
+// </div>
+
+// </div>
+// </div> 
