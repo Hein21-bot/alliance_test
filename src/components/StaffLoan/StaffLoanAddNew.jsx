@@ -135,7 +135,7 @@ class StaffLoanAddNew extends Component {
       that.setState(
         {
           dataSource: newData,
-          selectedOtherLoan:editData.other_loan,
+          selectedOtherLoan:that.state.OtherLoanList.filter(v=>v.value == editData.other_loan)[0],
           selectedOutstandingAmount:editData.outstanding_amount,
           selectedInstallmentAmount:editData.installment_amount,    
 
@@ -367,7 +367,7 @@ class StaffLoanAddNew extends Component {
         selectedInstallmentTerm:0,
         selectedInstallmentAmount:0,
         selectedMaturityDate:new Date(),
-        OtherLoanSelectBox:0
+        // OtherLoanSelectBox:0
       });
       saveBtn = true;
       form_validate = true;
@@ -396,7 +396,7 @@ class StaffLoanAddNew extends Component {
           selectedInstallmentTerm:0,
           selectedInstallmentAmount:0,
           selectedMaturityDate:new Date(),
-          OtherLoanSelectBox:0
+          // OtherLoanSelectBox:0
         });
       saveBtn = true;
       form_validate = true;
@@ -578,14 +578,14 @@ class StaffLoanAddNew extends Component {
 
   save() {
     console.log("new doc", this.state.newDoc);
-    console.log("doc", this.state.doc);
+    console.log("doc", this.state.selectedFamilyRelation == null , this.state.selectedFamilyName == '',this.state.selectedFamilyNRC=='', this.state.selectedFamilyAddress == '',this.state.selectedFamilyIncome==0,this.state.selectedFamilyJob == '',this.state.selectedFamilyPhone ==0,this.state.selectedLoanPurpose == '',this.state.selectedWithdrawLocation ==null || this.state.selectedGuarantor ==null,(this.state.OtherLoanSelectBox == 1 && this.state.dataSource.length == 0));
     if (this.state.FamilyGuarantorNRCDoc.length == 0 || this.state.FamilyIncomeDoc.length == 0 || this.state.StaffGuarantorNRCDoc.length == 0 || this.state.RequestNRCDoc.length == 0) {
       toast.error("Please Choose Attachment File");
-    } else if(this.state.selectedFamilyRelation == null || this.state.selectedFamilyName == '' || this.state.selectedFamilyNRC=='' || this.state.selectedFamilyAddress == '' || this.state.selectedFamilyIncome==0 || this.state.selectedFamilyJob == '' || this.state.selectedFamilyPhone ==0 || this.state.selectedLoanPurpose == '' || this.state.selectedWithdrawLocation ==null || this.state.selectedGuarantor ==null || this.state.dataSource.length == 0){
+    } else if(this.state.selectedFamilyRelation == null || this.state.selectedFamilyName == '' || this.state.selectedFamilyNRC=='' || this.state.selectedFamilyAddress == '' || this.state.selectedFamilyIncome==0 || this.state.selectedFamilyJob == '' || this.state.selectedFamilyPhone ==0 || this.state.selectedLoanPurpose == '' || this.state.selectedWithdrawLocation ==null || this.state.selectedGuarantor ==null || (this.state.OtherLoanSelectBox == 1 && this.state.dataSource.length == 0)){
       toast.error("You need to fill your information successfully");
     }
     else {
-      if (this.state.FamilyGuarantorNRCDoc.length > 0 && this.state.FamilyIncomeDoc.length > 0 && this.state.StaffGuarantorNRCDoc.length > 0 && this.state.RequestNRCDoc.length > 0 && this.state.selectedFamilyRelation != null && this.state.selectedFamilyName != '' && this.state.selectedFamilyNRC!='' && this.state.selectedFamilyAddress != '' && this.state.selectedFamilyIncome!=0 && this.state.selectedFamilyJob != '' && this.state.selectedFamilyPhone !=0 && this.state.selectedWithdrawLocation !=null && this.state.selectedLoanPurpose != '' && this.state.selectedGuarantor !=null) {
+      if (this.state.FamilyGuarantorNRCDoc.length > 0 && this.state.FamilyIncomeDoc.length > 0 && this.state.StaffGuarantorNRCDoc.length > 0 && this.state.RequestNRCDoc.length > 0 && this.state.selectedFamilyRelation != null && this.state.selectedFamilyName != '' && this.state.selectedFamilyNRC!='' && this.state.selectedFamilyAddress != '' && this.state.selectedFamilyIncome!=0 && this.state.selectedFamilyJob != '' && this.state.selectedFamilyPhone !=0 && this.state.selectedWithdrawLocation !=null && this.state.selectedLoanPurpose != '' && this.state.selectedGuarantor !=null ) {
         console.log("save new doc", this.state.newDoc);
         // $("#saving_button").attr("disabled", true);
         var data = {
@@ -603,6 +603,7 @@ class StaffLoanAddNew extends Component {
           loanRequestInstallmentAmount:this.state.InstallmentAmount,
           loanPurpose:this.state.selectedLoanPurpose,
           withdrawLocation:this.state.selectedWithdrawLocation.value,
+          otherLoanCheck:this.state.OtherLoanSelectBox,
           status: this.state.status,
           createdBy: this.state.user_info.user_id,
           // updatedBy: this.state.updatedBy,
@@ -615,7 +616,7 @@ class StaffLoanAddNew extends Component {
             installmentAmount:v.installment_amount,
             maturityDate:v.maturity_date,
             otherLoan:v.other_loan,
-            otherLoanCheck:v.other_loan_selectbox
+            
           }
         })
 
@@ -1155,9 +1156,11 @@ class StaffLoanAddNew extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
+                  
                   <input
                     type="checkbox"
                     value='1'
+                    disabled={this.state.dataSource.length > 0}
                     checked={this.state.OtherLoanSelectBox == 1 ? 'checked':''}
                     onChange={this.handleSelectBoxOtherLoan}
                   />

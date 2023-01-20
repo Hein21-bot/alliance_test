@@ -107,8 +107,14 @@ class StaffLoanView extends Component {
     if (!form_validate) validate("check_form");
   }
   currencyFormat=(num)=> {
-    console.log("number====><",typeof(num),num)
-    return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    if(num == 0 || num == '' || num == null){
+      return num
+    }else{
+      let integer=parseInt(num)
+      console.log("number====><",typeof(num),num)
+      return integer.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    }
+    
  }
 
   async componentDidMount() {
@@ -1389,7 +1395,7 @@ class StaffLoanView extends Component {
                 </div>
                 <div className="col-md-12">
                   <input
-                    type="number"
+                    type="float"
                     className="form-control"
                     disabled
                     onChange={this.familyIncome}

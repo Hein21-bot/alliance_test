@@ -146,22 +146,27 @@ class StaffLoanApprove extends Component {
       const result = data[i];
       const obj = {
         no: index + 1,
-        // other_loan: data[i].other_loan != null
-        //   ? data[i].other_loan.value == 1 ? "Personal Loan"
-        //   : "-",
-        other_loan:data[i].other_loan && data[i].other_loan == 1 ? 'Personal Loan' : data[i].other_loan && data[i].other_loan == 2 ? 'Collateral Loan' : 'Other Outstanding debts' ,
-        installment_term: data[i].installment_term ? data[i].installment_term : 0,
-        outstanding_amount: data[i].outstanding_amount ? data[i].outstanding_amount : 0,
-        institution_name: data[i].institution_name ? data[i].institution_name : "-",
-        installment_amount: data[i].installment_amount ? data[i].installment_amount : 0,
-        maturity_date:data[i].maturity_date ? moment(data[i].maturity_date).format('YYYY-MM-DD') : '-',
-        action:
-          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden">'+
-          index +
-          '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' +
-          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toRemove" ><span id="remove" class="hidden">'+
-          index +
-          '</span>  <i className="fa fa-cogs"></i>&nbsp;Remove</button>',
+        form_no:data[i].form_no ? data[i].form_no : '-',
+        employee_name:data[i].fullname ? data[i].fullname : '-',
+        designations:data[i].designations ? data[i].designations : '-',
+        region:data[i].state_name ? data[i].state_name : '-',
+        branch:data[i].location_master_name ? data[i].location_master_name : '-',
+        disbursement_date:data[i].disbursement_date ? moment(data[i].disbursement_date).format('YYYY-MM-DD') : '-',
+        term_in_month:data[i].term_in_month ? data[i].term_in_month : '-',
+        loan_committee_date:data[i].loan_committee_date ? moment(data[i].loan_committee_date).format('YYYY-MM-DD') : '-',
+        installment_amount: data[i].approve_installment_amount ? data[i].approve_installment_amount : 0,
+        approve_amount:data[i].approved_amount ? data[i].approved_amount : '-',
+        comment:data[i].approved_comment ? data[i].approved_comment : '-',
+        approve_amount_word:data[i].approved_amount_words ? data[i].approved_amount_words : '-',
+        warning_letter_check:data[i].warning_letter_check == 0 ? 'No' : 'Yes'
+
+        // action:
+        //   '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden">'+
+        //   index +
+        //   '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' +
+        //   '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toRemove" ><span id="remove" class="hidden">'+
+        //   index +
+        //   '</span>  <i className="fa fa-cogs"></i>&nbsp;Remove</button>',
       };
       l.push(obj);
     }
@@ -175,13 +180,22 @@ class StaffLoanApprove extends Component {
       data: l,
       columns: [
         { title: "No", data: "no" },
-        { title: "Other Loan",data:"other_loan"},
-        { title: "Name of Institution", data: "institution_name" },
-        { title: "Outstanding Amount", data: "outstanding_amount" },
-        { title: "Installment Term", data: "installment_term" },
-        { title: "Installment Amount",data:"installment_amount"},
-        { title: "Maturity Date",data:"maturity_date"},
-        { title:'Action',data:'action'}
+        { title: "Form No", data: "form_no" },
+        { title: "Employee Name",data:"employee_name"},
+        {title:"Designations",data:'designations'},
+        {title:"Region",data:'region'},
+        {title:"Branch",data:'branch'},
+
+        { title: "Disbursement Date", data: "disbursement_date" },
+        { title: "Terms in Month", data: "term_in_month" },
+        // { title: "Installment Term", data: "installment_term" },
+        { title: "Loan Committee Date",data:"loan_committee_date"},
+        // { title: "Maturity Date",data:"maturity_date"},
+        { title:'Installment Amount',data:'installment_amount'},
+        { title:"Approve Amount",data:'approve_amount'},
+        { title:"Comment",data:'comment'},
+        { title:"Approve Amount In Words",data:'approve_amount_word'},
+        { title:"Warning Letter Check",data:'warning_letter_check'}
       ],
     });
   }
