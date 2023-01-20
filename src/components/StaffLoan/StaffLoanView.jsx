@@ -106,6 +106,10 @@ class StaffLoanView extends Component {
   componentDidUpdate() {
     if (!form_validate) validate("check_form");
   }
+  currencyFormat=(num)=> {
+    console.log("number====><",typeof(num),num)
+    return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+ }
 
   async componentDidMount() {
     // let id=this.state.user_info!=undefined && this.state.user_info
@@ -192,14 +196,14 @@ class StaffLoanView extends Component {
       let filterWithdraw=this.state.WithdrawLocationList.filter(v=>v.value == Details.withdraw_location).length > 0 && this.state.WithdrawLocationList.filter(v=>v.value == Details.withdraw_location)[0]
       this.setState({
         selectedFamilyName:Details.family_guarantor_name,
-        selectedFamilyIncome:Details.family_guarantor_income_info,
+        selectedFamilyIncome:this.currencyFormat(Details.family_guarantor_income_info),
         selectedFamilyAddress:Details.family_guarantor_address,
         selectedFamilyJob:Details.family_guarantor_job,
         selectedFamilyNRC:Details.family_guarantor_nrc,
         selectedFamilyPhone:Details.family_guarantor_phone,
-        selectedRequestAmount:Details.requested_amount,
+        selectedRequestAmount:this.currencyFormat(Details.requested_amount),
         selectedRepaymentPeriod:Details.repayment_period,
-        InstallmentAmount:Details.installment_amount,
+        InstallmentAmount:this.currencyFormat(Details.installment_amount),
         selectedWithdrawLocation:filterWithdraw,
         FamilyIncomeDoc:familyDoc,
         StaffGuarantorNRCDoc:staffNRC,
@@ -217,8 +221,8 @@ class StaffLoanView extends Component {
         selectedDisbursementDate:Details.disbursement_date,
         selectedTermInMonths:Details.term_in_month,
         selectedLoanCommitteeDate:Details.loan_committee_date,
-        selectedVerifyInstallmentAmount:Details.approve_installment_amount,
-        ApproveAmount:Details.approved_amount,
+        selectedVerifyInstallmentAmount:this.currencyFormat(Details.approve_installment_amount),
+        ApproveAmount:this.currencyFormat(Details.approved_amount),
         verifyComment:Details.approved_comment,
         ApproveAmountInWord:Details.approved_amount_words,
         warningCheck:Details.warning_letter_check,
@@ -310,6 +314,7 @@ class StaffLoanView extends Component {
     //         })
     //     })
   }
+  
 
   handleSelectGuarantor = (event) => {
     console.log('event is ==========>', event)
@@ -571,9 +576,9 @@ class StaffLoanView extends Component {
         //   ? data[i].other_loan_dropdown.label
         //   : "-",
         installment_term: data[i].installment_term ? data[i].installment_term : 0,
-        outstanding_amount: data[i].outstanding_amount ? data[i].outstanding_amount : 0,
+        outstanding_amount: data[i].outstanding_amount ? this.currencyFormat(data[i].outstanding_amount) : 0,
         institution_name: data[i].name_of_institution ? data[i].name_of_institution : "-",
-        installment_amount: data[i].installment_amount ? data[i].installment_amount : 0,
+        installment_amount: data[i].installment_amount ? this.currencyFormat(data[i].installment_amount) : 0,
         maturity_date:data[i].maturity_date ? moment(data[i].maturity_date).format('YYYY-MM-DD') : '-',
         // action:
         //   '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit" ><span id="edit" class="hidden">'+
@@ -944,7 +949,7 @@ class StaffLoanView extends Component {
   }
 
   render() {
-    console.log("info=======>",this.state.targetAchievement)
+    console.log("info=======>",this.state.selectedFamilyIncome)
     const{staffInfo,getGuarantorInfo}=this.state;
     const Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
     console.log("details=====>",Details)
@@ -1064,10 +1069,10 @@ class StaffLoanView extends Component {
                 </div>
                 <div className="col-md-12">
                   <input
-                    type="text"
+                    type="number"
                     className="form-control"
                     disabled
-                    value={staffInfo.length > 0 ?  staffInfo[0].basic_salary : ''}
+                    value={staffInfo.length > 0 ?  this.currencyFormat(staffInfo[0].basic_salary) : ''}
                   />
                 </div>
               </div>
@@ -1566,7 +1571,7 @@ class StaffLoanView extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="number" className="form-control" disabled onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={this.state.selectedRequestAmount}
+                  <input type="float" className="form-control" disabled onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={this.state.selectedRequestAmount}
                   onChange={this.handleRequestAmount}
                    />
                 </div>
@@ -2057,7 +2062,7 @@ class StaffLoanView extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="number" className="form-control" disabled value={this.state.ApproveAmount}
+                  <input type="float" className="form-control" disabled value={this.state.ApproveAmount}
                   onChange={this.handleApproveAmount}
                    />
                 </div>

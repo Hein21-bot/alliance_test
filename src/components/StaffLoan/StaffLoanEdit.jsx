@@ -112,6 +112,15 @@ class StaffLoanEdit extends Component {
   componentDidUpdate() {
     if (!form_validate) validate("check_form");
   }
+  currencyFormat=(num)=> {
+    if(num == 0 || num == '' || num == null){
+      return num
+    }else{
+      console.log("number====><",typeof(num),num)
+      return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    }
+    
+ }
 
   async componentDidMount() {
     // let id=this.state.user_info!=undefined && this.state.user_info
@@ -185,14 +194,14 @@ class StaffLoanEdit extends Component {
       let filterWithdraw=this.state.WithdrawLocationList.filter(v=>v.value == Details.withdraw_location).length > 0 && this.state.WithdrawLocationList.filter(v=>v.value == Details.withdraw_location)[0]
       this.setState({
         selectedFamilyName:Details.family_guarantor_name,
-        selectedFamilyIncome:Details.family_guarantor_income_info,
+        selectedFamilyIncome:Details.user_id ==  this.state.user_info.user_id ?Details.family_guarantor_income_info : this.currencyFormat(Details.family_guarantor_income_info),
         selectedFamilyAddress:Details.family_guarantor_address,
         selectedFamilyJob:Details.family_guarantor_job,
         selectedFamilyNRC:Details.family_guarantor_nrc,
         selectedFamilyPhone:Details.family_guarantor_phone,
-        selectedRequestAmount:Details.requested_amount,
+        selectedRequestAmount:Details.user_id ==  this.state.user_info.user_id ? Details.requested_amount : this.currencyFormat(Details.requested_amount),
         selectedRepaymentPeriod:Details.repayment_period,
-        InstallmentAmount:Details.installment_amount,
+        InstallmentAmount:Details.user_id == this.state.user_info.user_id ? Details.installment_amount : this.currencyFormat(Details.installment_amount),
         selectedWithdrawLocation:filterWithdraw,
         FamilyIncomeDoc:familyDoc,
         StaffGuarantorNRCDoc:staffNRC,
@@ -578,9 +587,9 @@ class StaffLoanEdit extends Component {
         //   ? data[i].other_loan_dropdown.label
         //   : "-",
         installment_term: data[i].installment_term ? data[i].installment_term : 0,
-        outstanding_amount: data[i].outstanding_amount ? data[i].outstanding_amount : 0,
+        outstanding_amount: data[i].outstanding_amount ? this.currencyFormat(data[i].outstanding_amount) : 0,
         institution_name: data[i].name_of_institution ? data[i].name_of_institution : "-",
-        installment_amount: data[i].installment_amount ? data[i].installment_amount : 0,
+        installment_amount: data[i].installment_amount ? this.currencyFormat(data[i].installment_amount) : 0,
         maturity_date:data[i].maturity_date ? moment(data[i].maturity_date).format('YYYY-MM-DD') : '-',
         action:
           `'<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" ${Details.user_id != this.state.user_info.user_id ? "disabled" : ""} id="toEdit"><span id="edit" class="hidden">'`+
@@ -594,7 +603,7 @@ class StaffLoanEdit extends Component {
       l.push(obj);
     }
     table = $("#dataTables-Table").DataTable({
-
+      searching:false,
       autofill: false,
       bLengthChange: false,
       bInfo: false,
@@ -1039,7 +1048,7 @@ class StaffLoanEdit extends Component {
   }
 
   render() {
-    console.log("selected term in months=======>",this.state.selectedWithdrawLocation)
+    console.log("selected term in months=======>",this.state.selectedFamilyIncome)
     const{staffInfo,getGuarantorInfo}=this.state;
     const Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
     console.log("details=====>",Details)
@@ -1159,10 +1168,10 @@ class StaffLoanEdit extends Component {
                 </div>
                 <div className="col-md-12">
                   <input
-                    type="text"
+                    type="float"
                     className="form-control"
                     disabled
-                    value={staffInfo.length > 0 ?  staffInfo[0].basic_salary : ''}
+                    value={staffInfo.length > 0 ?  this.currencyFormat(staffInfo[0].basic_salary) : ''}
                   />
                 </div>
               </div>
@@ -1488,7 +1497,7 @@ class StaffLoanEdit extends Component {
                 </div>
                 <div className="col-md-12">
                   <input
-                    type="number"
+                    type={Details.user_id ==  this.state.user_info.user_id ? 'number' : 'float'}
                     className="form-control"
                     disabled={this.state.user_info.user_id  != Details.user_id}
                     onChange={this.familyIncome}
@@ -1675,7 +1684,7 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="number" className="form-control"
+                  <input type={this.state.user_info.user_id == Details.user_id ? "number" : "float"} className="form-control"
                     disabled={this.state.user_info.user_id  != Details.user_id}
                    onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={this.state.selectedRequestAmount}
                   onChange={this.handleRequestAmount}
@@ -1704,7 +1713,7 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="text" className="form-control" disabled value={this.state.InstallmentAmount} />
+                  <input type={this.state.user_info.user_id == Details.user_id ? "number" : "float"} className="form-control" disabled value={this.state.InstallmentAmount} />
                 </div>
               </div>
               <div className="col-md-3">

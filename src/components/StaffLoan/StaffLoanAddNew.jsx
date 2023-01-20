@@ -171,9 +171,7 @@ class StaffLoanAddNew extends Component {
     //         })
     //     })
   }
-  currencyFormat=(num)=> {
-    return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
- }
+ 
 
   handleSelectGuarantor = (event) => {
     console.log('event is ==========>', event)
@@ -254,7 +252,7 @@ class StaffLoanAddNew extends Component {
   familyIncome=(e)=>{
     
       this.setState({
-        selectedFamilyIncome:e.target.value
+        selectedFamilyIncome: e.target.value
       })
     
   }
@@ -304,7 +302,7 @@ class StaffLoanAddNew extends Component {
       const tempAmount= e.target.value / this.state.selectedRepaymentPeriod
       this.setState({
         selectedRequestAmount:e.target.value,
-        InstallmentAmount:tempAmount.toFixed(2)
+        InstallmentAmount:tempAmount.toFixed(0)
       })
     }
     
@@ -314,7 +312,7 @@ class StaffLoanAddNew extends Component {
     const tempAmount=this.state.selectedRequestAmount / e.target.value
     this.setState({
       selectedRepaymentPeriod:e.target.value,
-      InstallmentAmount:tempAmount.toFixed(2)
+      InstallmentAmount:tempAmount.toFixed(0)
     })
   }
   handleLoanPurpose=(e)=>{
@@ -460,6 +458,7 @@ class StaffLoanAddNew extends Component {
       l.push(obj);
     }
     table = $("#dataTables-Table").DataTable({
+      searching:false,
       autofill: false,
       bLengthChange: false,
       bInfo: false,
@@ -582,7 +581,7 @@ class StaffLoanAddNew extends Component {
     console.log("doc", this.state.doc);
     if (this.state.FamilyGuarantorNRCDoc.length == 0 || this.state.FamilyIncomeDoc.length == 0 || this.state.StaffGuarantorNRCDoc.length == 0 || this.state.RequestNRCDoc.length == 0) {
       toast.error("Please Choose Attachment File");
-    } else if(this.state.selectedFamilyRelation == null || this.state.selectedFamilyName == '' || this.state.selectedFamilyNRC=='' || this.state.selectedFamilyAddress == '' || this.state.selectedFamilyIncome==0 || this.state.selectedFamilyJob == '' || this.state.selectedFamilyPhone ==0 || this.state.selectedLoanPurpose == '' || this.state.selectedWithdrawLocation ==null || this.state.selectedGuarantor ==null){
+    } else if(this.state.selectedFamilyRelation == null || this.state.selectedFamilyName == '' || this.state.selectedFamilyNRC=='' || this.state.selectedFamilyAddress == '' || this.state.selectedFamilyIncome==0 || this.state.selectedFamilyJob == '' || this.state.selectedFamilyPhone ==0 || this.state.selectedLoanPurpose == '' || this.state.selectedWithdrawLocation ==null || this.state.selectedGuarantor ==null || (this.state.OtherLoanSelectBox == 1 && (this.state.selectedInstitutionName == '' || this.state.selectedOutstandingAmount == 0 || this.state.selectedInstallmentTerm == 0 || this.state.selectedInstallmentAmount == 0 || this.state.selectedOtherLoan == null || this.state.dataSource.length == 0))){
       toast.error("You need to fill your information successfully");
     }
     else {
@@ -670,7 +669,7 @@ class StaffLoanAddNew extends Component {
   }
 
   render() {
-    console.log("info=======>",this.currencyFormat(12345))
+    // console.log("info=======>",this.currencyFormat(12345))
     const{staffInfo,getGuarantorInfo}=this.state;
     return (
       <div className="">
@@ -1110,7 +1109,7 @@ class StaffLoanAddNew extends Component {
                 </div>
                 <div className="col-md-12">
                   <input
-                    type="number"
+                    type="float"
                     className="form-control"
                     // disabled
                     onChange={this.familyIncome}

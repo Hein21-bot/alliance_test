@@ -38,6 +38,91 @@ class StaffLoanApprove extends Component {
   }
 
   
+  
+
+  handleAttach1(e) {
+    var files = document.getElementById("attachment_1").files;
+
+    if (files.length > 1) {
+      toast.warning("You can upload only one file");
+    }else{
+      let newDoc = this.state.attach1;
+      var obj = document.querySelector("#attachment_1").files.length;
+      for (var i = 0; i < obj; i++) {
+        var getfile = document.querySelector("#attachment_1").files[i];
+        newDoc.push(getfile);
+      }
+      document.getElementById("attachment_1").value = "";
+      this.setState({
+        // attachment: attachment
+        attach1: newDoc,
+      });
+    }
+
+    
+  }
+
+  handleAttach2(e) {
+    var files = document.getElementById("attachment_2").files;
+
+    if (files.length > 1) {
+      toast.warning("You can only upload one file");
+    }else{
+      let newDoc = this.state.attach2;
+      var obj = document.querySelector("#attachment_2").files.length;
+      for (var i = 0; i < obj; i++) {
+        var getfile = document.querySelector("#attachment_2").files[i];
+        newDoc.push(getfile);
+      }
+      document.getElementById("attachment_2").value = "";
+      this.setState({
+        // attachment: attachment,
+        attach2: newDoc,
+      });
+    }
+  }
+  removeAttachment1(index, event) {
+    var array = this.state.attach1;
+
+    array.splice(index, 1);
+    this.setState({
+      attach1: array,
+    });
+    console.log("family  income  doc", this.state.attach1);
+  }
+  removeAttachment2(index, event) {
+    var array = this.state.attach2;
+
+    array.splice(index, 1);
+    this.setState({
+      attach2: array,
+    });
+    console.log("other doc", this.state.attach2);
+  }
+
+  submit() { 
+    console.log("submit");
+    const formdata=new FormData()
+    let data = [{data: 'hello'}]
+    formdata.append('data',data);
+    formdata.append('attach',this.state.attach1);
+    formdata.append('img',this.state.attach2);
+    console.log("attachment",this.state.attach1,this.state.attach2)
+    console.log("formdata",formdata)
+    // var options={content:formdata}
+    // fetch(`${main_url}staff_loan_new/approveWithExcel`,{
+    //   method:'POST',
+    //   body:formdata,
+      
+     
+    // })
+    //   .then(res => { if (res.ok) return res.json() })
+    //   .then(list => {
+    //     this.setDataTable(list)
+        
+    //   })
+    
+  }
   setDataTable(data) {
     console.log("data===>",data)
     var table;
@@ -93,72 +178,10 @@ class StaffLoanApprove extends Component {
       ],
     });
   }
-
-  handleAttach1(e) {
-    var files = document.getElementById("attachment_1").files;
-
-    if (files.length > 3) {
-      toast.warning("You can only upload a maximum of 2 files!");
-    }
-
-    let newDoc = this.state.attach1;
-    var obj = document.querySelector("#attachment_1").files.length;
-    for (var i = 0; i < obj; i++) {
-      var getfile = document.querySelector("#attachment_1").files[i];
-      newDoc.push(getfile);
-    }
-    document.getElementById("attachment_1").value = "";
-    this.setState({
-      // attachment: attachment
-      attach1: newDoc,
-    });
-  }
-
-  handleAttach2(e) {
-    var files = document.getElementById("attachment_2").files;
-
-    if (files.length > 3) {
-      toast.warning("You can only upload a maximum of 2 files!");
-    }
-
-    let newDoc = this.state.attach2;
-    var obj = document.querySelector("#attachment_2").files.length;
-    for (var i = 0; i < obj; i++) {
-      var getfile = document.querySelector("#attachment_2").files[i];
-      newDoc.push(getfile);
-    }
-    document.getElementById("attachment_2").value = "";
-    this.setState({
-      // attachment: attachment,
-      attach2: newDoc,
-    });
-  }
-  removeAttachment1(index, event) {
-    var array = this.state.attach1;
-
-    array.splice(index, 1);
-    this.setState({
-      attach1: array,
-    });
-    console.log("family  income  doc", this.state.attach1);
-  }
-  removeAttachment2(index, event) {
-    var array = this.state.attach2;
-
-    array.splice(index, 1);
-    this.setState({
-      attach2: array,
-    });
-    console.log("other doc", this.state.attach2);
-  }
-
-  submit() {
-    console.log("submit");
-    
-  }
+  
 
   render() {
-    console.log("info=======>",this.state.staffInfo,this.state.selectedGuarantor)
+    console.log("info=======>",this.state.attach1,this.state.attach2)
     const{staffInfo,getGuarantorInfo}=this.state;
     return (
       <div className="">
@@ -186,7 +209,7 @@ class StaffLoanApprove extends Component {
                     htmlFor="attachment"
                     className="col-sm-12 custom-file-label"
                   >
-                    Attachment 1
+                    Excel
                   </label>
                 </div>
                 <div className="col-sm-10">
@@ -242,7 +265,7 @@ class StaffLoanApprove extends Component {
                     htmlFor="attachment"
                     className="col-sm-12 custom-file-label"
                   >
-                    Attachment 2
+                    Image
                   </label>
                 </div>
                 <div className="col-sm-10">
@@ -299,7 +322,7 @@ class StaffLoanApprove extends Component {
                 className="btn btn-primary"
                 id="saving_button"
                 type="button"
-                onClick={this.submit.bind(this)}
+                onClick={() => this.submit()}
               >
                 Submit
               </button>
@@ -309,6 +332,13 @@ class StaffLoanApprove extends Component {
             </div>
           </form>
         </div>
+        <div className="col-md-12">
+                <table
+                  width="99%"
+                  className="table table-striped table-bordered table-hover responsive nowrap dt-responsive"
+                  id="dataTables-Table"
+                />
+              </div>
         
       </div>
     );
