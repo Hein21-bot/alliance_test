@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import ReactHTMLTableToExcel from "react-html-table-to-excel"
+
 import $ from "jquery";
 import {
   main_url,
@@ -34,7 +36,7 @@ class StaffLoanApprove extends Component {
   }
 
   async componentDidMount() {
-   
+      this.submit()
   }
 
   
@@ -103,24 +105,29 @@ class StaffLoanApprove extends Component {
   submit() { 
     console.log("submit");
     const formdata=new FormData()
-    let data = [{data: 'hello'}]
-    formdata.append('data',data);
-    formdata.append('attach',this.state.attach1);
-    formdata.append('img',this.state.attach2);
-    console.log("attachment",this.state.attach1,this.state.attach2)
-    console.log("formdata",formdata)
-    // var options={content:formdata}
-    // fetch(`${main_url}staff_loan_new/approveWithExcel`,{
-    //   method:'POST',
-    //   body:formdata,
+    
+    for (var i = 0; i < this.state.attach1.length; i++) {
+      // var imagedata = document.querySelector("#attach_file").files[i];
+      var imagedata = this.state.attach1[i]; // new doc HMH
+      formdata.append("attach", imagedata);
+    }
+    for (var i = 0; i < this.state.attach2.length; i++) {
+      // var imagedata = document.querySelector("#attach_file").files[i];
+      var imagedata = this.state.attach2[i]; // new doc HMH
+      formdata.append('img',imagedata);
+    }
+    
+    fetch(`${main_url}staff_loan_new/approveWithExcel`,{
+      method:'POST',
+      body:formdata,
       
      
-    // })
-    //   .then(res => { if (res.ok) return res.json() })
-    //   .then(list => {
-    //     this.setDataTable(list)
+    })
+      .then(res => { if (res.ok) return res.json() })
+      .then(list => {
+        this.setDataTable(list)
         
-    //   })
+      })
     
   }
   setDataTable(data) {
@@ -186,6 +193,56 @@ class StaffLoanApprove extends Component {
     return (
       <div className="">
         <ToastContainer />
+        <div style={{marginBottom:20}}>
+                    <ReactHTMLTableToExcel 
+                    className="btn-excel"
+                    table="Staff_loan_approve"
+                    filename="Staff Loan Approve"
+                    buttonText="Excel"
+                    sheet="Sheet"
+                    />
+                <table className="table table-bordered" id="Staff_loan_approve" style={{display:'none'}}>
+                    <thead>
+                        
+                        <tr style={{ backgroundColor: 'blue', color: 'white' }}>
+                            <th style={{ width: 200, textAlign: 'center',borderColor:'white'}}>Disbursement Date</th>
+                            <th style={{ width: 200, textAlign: 'center',borderCOlor:'white' }}>Term In Month</th>
+                            <th style={{ width: 200, textAlign: 'center',borderColor:'white' }}>Loan Committee Date</th>
+                            <th style={{ width: 200, textAlign: 'center',borderColor:'white' }}>Installment Amount</th>
+                            <th style={{ width: 200, textAlign: 'center',borderColor:'white' }}>Approve Amount</th>
+                            <th style={{ width: 200, textAlign: 'center',borderColor:'white' }}>Comment</th>
+                            <th style={{ width: 200, textAlign: 'center',borderColor:'white' }}>Approve Amount (In Word)</th>
+                           
+                            <th style={{ width: 200, textAlign: 'center',borderColor:'white' }}>Warning Letter Check</th>
+                            <th style={{ width: 200, textAlign: 'center',borderColor:'white' }}>Form No</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style={{textAlign:'center'}}>14-Mar-2021</td>
+                        <td style={{textAlign:'center'}}>3.00</td>
+                        <td style={{textAlign:'center'}}>14-Mar-2022</td>
+                        <td style={{textAlign:'center'}}>1000</td>
+                        <td style={{textAlign:'center'}}>1000</td>
+                        <td style={{textAlign:'center'}}>Testing 1</td>
+                        <td style={{textAlign:'center'}}>တစ်ထောင်</td>
+                        <td style={{textAlign:'center'}}>TRUE</td>
+                        <td style={{textAlign:'center'}}>52345</td>
+                      </tr>
+                      <tr>
+                        <td style={{textAlign:'center'}}>12-Mar-2020</td>
+                        <td style={{textAlign:'center'}}>2.00</td>
+                        <td style={{textAlign:'center'}}>13-Mar-2021</td>
+                        <td style={{textAlign:'center'}}>5000</td>
+                        <td style={{textAlign:'center'}}>5000</td>
+                        <td style={{textAlign:'center'}}>Testing 2</td>
+                        <td style={{textAlign:'center'}}>ငါးထောင်</td>
+                        <td style={{textAlign:'center'}}>FALSE</td>
+                        <td style={{textAlign:'center'}}>345543</td>
+                      </tr>
+                    </tbody>
+                </table>
+                </div>
         <div className="row">
           <form className="form-group" id="check_form">
            

@@ -581,7 +581,7 @@ class StaffLoanAddNew extends Component {
     console.log("doc", this.state.doc);
     if (this.state.FamilyGuarantorNRCDoc.length == 0 || this.state.FamilyIncomeDoc.length == 0 || this.state.StaffGuarantorNRCDoc.length == 0 || this.state.RequestNRCDoc.length == 0) {
       toast.error("Please Choose Attachment File");
-    } else if(this.state.selectedFamilyRelation == null || this.state.selectedFamilyName == '' || this.state.selectedFamilyNRC=='' || this.state.selectedFamilyAddress == '' || this.state.selectedFamilyIncome==0 || this.state.selectedFamilyJob == '' || this.state.selectedFamilyPhone ==0 || this.state.selectedLoanPurpose == '' || this.state.selectedWithdrawLocation ==null || this.state.selectedGuarantor ==null || (this.state.OtherLoanSelectBox == 1 && (this.state.selectedInstitutionName == '' || this.state.selectedOutstandingAmount == 0 || this.state.selectedInstallmentTerm == 0 || this.state.selectedInstallmentAmount == 0 || this.state.selectedOtherLoan == null || this.state.dataSource.length == 0))){
+    } else if(this.state.selectedFamilyRelation == null || this.state.selectedFamilyName == '' || this.state.selectedFamilyNRC=='' || this.state.selectedFamilyAddress == '' || this.state.selectedFamilyIncome==0 || this.state.selectedFamilyJob == '' || this.state.selectedFamilyPhone ==0 || this.state.selectedLoanPurpose == '' || this.state.selectedWithdrawLocation ==null || this.state.selectedGuarantor ==null || this.state.dataSource.length == 0){
       toast.error("You need to fill your information successfully");
     }
     else {

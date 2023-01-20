@@ -111,7 +111,7 @@ class FRDReport extends Component {
                               this.state.data.map((v1,i)=>{
                                     return(
                                         <>
-                                        <tr style={{ textAlign:'cente'}}>
+                                        <tr style={{ textAlign:'center'}}>
                                             <td style={{textAlign:'center'}}>{i+1}</td>
                                             <td style={{textAlign:'center'}}>{v1.branch_name}</td>
                                             <td style={{textAlign:'center'}}>{v1.region_name}</td>
