@@ -17,16 +17,22 @@ class StaffLoanBeforeComit extends Component {
     start_date:new Date(),
     end_date:new Date(),
     selected_Branch:'',
-    selected_region:'',
+    selected_department:'',
+    selected_designation:'',
+    selected_employeeId:'',
+    branchlist:[],
+    departmentList:[],
+    designationList:[],
+    employeeIdList:[],
     }
   }
 
   async componentDidMount() {
-    this.getRegionList();
+    this.getDepartmentList();
     this.getBranchList();
     this.getDesignationList();
     this.getEmployeeCodeList();
-    // this.handleSearchData(); 
+  
   };
 
   getDesignationList() {
@@ -58,18 +64,17 @@ class StaffLoanBeforeComit extends Component {
       });
   };
 
-  getRegionList() {
-    fetch(`${main_url}benefit/getRegionList`)
+  getDepartmentList() {
+    fetch(`${main_url}main/getDepartment`)
       .then((res) => {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        let lists = list.unshift({ state_id: 0, state_name: "All" });
+        let lists = list.unshift({  value: 0, label: "All"  });
         this.setState({
-          regionList: list.map((v) => ({
+          departmentList: list.map((v) => ({
             ...v,
-            label: v.state_name,
-            value: v.state_id,
+            
           })),
         });
       });
@@ -117,10 +122,10 @@ class StaffLoanBeforeComit extends Component {
       })
   };
 
-  handleSelectedRegion = async (event) => {
+ handleSelectedDepartment = async (event) => {
     if (event != null)
       this.setState({
-        selected_region: event
+        selected_department: event
       })
   };
 
@@ -152,16 +157,22 @@ class StaffLoanBeforeComit extends Component {
   };
 
   handleSearchData = () => {
-    fetch(main_url + "staff_loan_new/staffloanReportBefore")
+    fetch(`${main_url}staff_loan_new/staffloanReportBefore/${moment(this.state.start_date).format('YYYY-MM-DD')}/${moment(this.state.end_date).format('YYYY-MM-DD')}/${this.state.selected_designation ? this.state.selected_designation.value : 0}/${this.state.selected_department ? this.state.selected_department.value : 0}/${this.state.selected_Branch ? this.state.selected_Branch.value : 0}/${ this.state.selected_employeeId ? this.state.selected_employeeId.value : 0}`)
+ 
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
         this.setState({
             dataSource:list
         })
       })
+      .catch((error)=>{
+      
+        
+        
+        this.setState({dataSource:[]},()=>{  console.log("sdsd",this.state.dataSource);})})
   };
 
-  render() { 
+  render() {   console.log(this.state.dataSource);
   
     return (
       <div>
@@ -204,7 +215,7 @@ class StaffLoanBeforeComit extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
-            <Select
+           <Select
               styles={{
                 container: base => ({
                   ...base,
@@ -218,10 +229,10 @@ class StaffLoanBeforeComit extends Component {
                 }),
 
               }}
-              placeholder="Region"
-              options={this.state.regionList}
-              onChange={this.handleSelectedRegion}
-              value={this.state.selected_region}
+              placeholder="Department"
+              options={this.state.departmentList}
+              onChange={this.handleSelectedDepartment}
+              value={this.state.selected_department}
               className='react-select-container'
               classNamePrefix="react-select"
             />
