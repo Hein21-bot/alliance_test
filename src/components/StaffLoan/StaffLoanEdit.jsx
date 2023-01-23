@@ -166,7 +166,7 @@ class StaffLoanEdit extends Component {
     let Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
     let Document=await (this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.document != undefined && this.state.staffInfoDetails.document.length > 0 && this.state.staffInfoDetails.document)
     let otherLoanDetils=await (this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.detailsData != undefined && this.state.staffInfoDetails.detailsData.length > 0 ? this.state.staffInfoDetails.detailsData : [])
-    console.log("otherLoanDetails",otherLoanDetils)
+    console.log("Details",Details)
     let familyDoc=Document.length > 0 && Document.filter(v=>v.fieldName == "familyDOC")
     console.log("family doc in component",familyDoc)
     let familyNRC=Document.length > 0 && Document.filter(v=>v.fieldName == "familyGuaNRC")
@@ -483,8 +483,10 @@ class StaffLoanEdit extends Component {
     console.log("other loan select box",this.state.OtherLoanSelectBox)
     var data = [...otherLoanDetails];
     console.log("data=====>",data)
-    let filterData=data.filter(v=>v.other_loan_dropdown == this.state.selectedOtherLoan.value)
-    // console.log("data",data)
+    let OtherLoanselected=this.state.selectedOtherLoan && this.state.selectedOtherLoan.value;
+    console.log("other loan selected",OtherLoanselected)
+    let filterData=data.filter(v=>v.other_loan_dropdown == OtherLoanselected)
+    console.log("data filter=======>",filterData)
     console.log("filter data======>",this.state.OtherLoanSelectBox == 1 && this.state.selectedOtherLoan !=null && this.state.selectedInstitutionName != '' &&
     this.state.selectedOutstandingAmount != 0 && this.state.selectedInstallmentTerm != 0 && this.state.selectedInstallmentAmount!=0
     && filterData.length == 0,filterData.length == 0 && this.state.OtherLoanSelectBox == 0 && (this.state.selectedOtherLoan !=null || this.state.selectedInstitutionName ||
