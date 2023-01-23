@@ -326,7 +326,7 @@ getMyStaffLoan() {
         employee_name: data[i].fullname,
         position: data[i].designations ? data[i].designations : "-",
         branch: data[i].location_master_name  ?  data[i].location_master_name : '-',
-        installment_amount:data[i].installment_amount ?  data[i].installment_amount : '-',
+        request_amount:data[i].requested_amount ?  data[i].requested_amount : '-',
         
         date: result.createdAt
           ? moment(result.createdAt).format("DD-MM-YYYY")
@@ -383,7 +383,7 @@ getMyStaffLoan() {
       { title: "Employee Name", data: "employee_name" },
       { title: "Position", data: "position" },
       { title: "Branch", data: "branch" },
-      {title : "Installment Amount",data:'installment_amount'},
+      {title : "Request Amount",data:'request_amount'},
       { title: "Date", data: "date" },
       { title: "Status", data: "status" },
     ];

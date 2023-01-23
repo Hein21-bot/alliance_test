@@ -44,7 +44,7 @@ class StaffLoanEdit extends Component {
       RequestNRCDoc:[],
       FamilyGuarantorNRCDoc:[],
 
-      dataSource:[],
+      otherLoanDetails:[],
       familyRelation:[
     ],
     OtherLoanSelectBox:0,
@@ -112,6 +112,16 @@ class StaffLoanEdit extends Component {
   componentDidUpdate() {
     if (!form_validate) validate("check_form");
   }
+  currencyFormat=(num)=> {
+    if(num == 0 || num == '' || num == null){
+      return num
+    }else{
+      let integer=parseInt(num)
+      console.log("number====><",typeof(num),num)
+      return integer.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    }
+    
+ }
 
   async componentDidMount() {
     // let id=this.state.user_info!=undefined && this.state.user_info
@@ -155,7 +165,7 @@ class StaffLoanEdit extends Component {
       })
     let Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
     let Document=await (this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.document != undefined && this.state.staffInfoDetails.document.length > 0 && this.state.staffInfoDetails.document)
-    let otherLoanDetils=await (this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.detailsData != undefined && this.state.staffInfoDetails.detailsData.length > 0 && this.state.staffInfoDetails.detailsData)
+    let otherLoanDetils=await (this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.detailsData != undefined && this.state.staffInfoDetails.detailsData.length > 0 ? this.state.staffInfoDetails.detailsData : [])
     console.log("otherLoanDetails",otherLoanDetils)
     let familyDoc=Document.length > 0 && Document.filter(v=>v.fieldName == "familyDOC")
     console.log("family doc in component",familyDoc)
@@ -185,14 +195,14 @@ class StaffLoanEdit extends Component {
       let filterWithdraw=this.state.WithdrawLocationList.filter(v=>v.value == Details.withdraw_location).length > 0 && this.state.WithdrawLocationList.filter(v=>v.value == Details.withdraw_location)[0]
       this.setState({
         selectedFamilyName:Details.family_guarantor_name,
-        selectedFamilyIncome:Details.family_guarantor_income_info,
+        selectedFamilyIncome:Details.user_id ==  this.state.user_info.user_id ?Details.family_guarantor_income_info : this.currencyFormat(Details.family_guarantor_income_info),
         selectedFamilyAddress:Details.family_guarantor_address,
         selectedFamilyJob:Details.family_guarantor_job,
         selectedFamilyNRC:Details.family_guarantor_nrc,
         selectedFamilyPhone:Details.family_guarantor_phone,
-        selectedRequestAmount:Details.requested_amount,
+        selectedRequestAmount:Details.user_id ==  this.state.user_info.user_id ? Details.requested_amount : this.currencyFormat(Details.requested_amount),
         selectedRepaymentPeriod:Details.repayment_period,
-        InstallmentAmount:Details.installment_amount,
+        InstallmentAmount:Details.user_id == this.state.user_info.user_id ? Details.installment_amount : this.currencyFormat(Details.installment_amount),
         selectedWithdrawLocation:filterWithdraw,
         FamilyIncomeDoc:familyDoc,
         StaffGuarantorNRCDoc:staffNRC,
@@ -200,7 +210,7 @@ class StaffLoanEdit extends Component {
         selectedLoanPurpose:Details.loan_purpose,
         RequestNRCDoc:requesterNRC,
         FamilyGuarantorNRCDoc:familyNRC,
-        dataSource:otherLoanDetils,
+        otherLoanDetails:otherLoanDetils,
         selectedFamilyRelation:relationFamily,
         targetAchievement:Details.target_achievement,
         otherLoanInformation:Details.other_loan_information,
@@ -215,7 +225,8 @@ class StaffLoanEdit extends Component {
         verifyComment:Details.approved_comment,
         ApproveAmountInWord:Details.approved_amount_words,
         warningCheck:Details.warning_letter_check,
-        verifyDoc:approveAttach
+        verifyDoc:approveAttach,
+        OtherLoanSelectBox:Details.other_loan_check
       
       })
       this.editAddData();
@@ -256,17 +267,17 @@ class StaffLoanEdit extends Component {
      $(document).on("click", "#toEdit", function () {
       var data = $(this).find("#edit").text();
       data = $.parseJSON(data);
-      let newData = that.state.dataSource;
+      let newData = that.state.otherLoanDetails;
       let editData = newData[data];
       console.log("edit data===>",editData)
       newData.splice(data, 1);
 
-      let filterOtherLoan=that.state.OtherLoanList.filter(v=>v.value == editData.other_loan_dropdown)
-      // console.log("other loan list",this.state.OtherLoanList)
+      let filterOtherLoan=that.state.OtherLoanList.filter(v=>v.value == editData.other_loan_dropdown)[0]
+      console.log("other loan list",filterOtherLoan)
 
       that.setState(
         {
-          dataSource: newData,
+          otherLoanDetails: newData,
           selectedOtherLoan:filterOtherLoan, 
           selectedOutstandingAmount:editData.outstanding_amount,
           selectedInstallmentAmount:editData.installment_amount,    
@@ -276,7 +287,7 @@ class StaffLoanEdit extends Component {
           selectedMaturityDate:editData.maturity_date,    
 
           selectedInstitutionName:editData.name_of_institution,
-          OtherLoanSelectBox:editData.other_loan_check    
+          // OtherLoanSelectBox:editData.other_loan_check    
 
         },
         () => that.setDataTable(newData)
@@ -286,11 +297,11 @@ class StaffLoanEdit extends Component {
       var data = $(this).find("#remove").text();
       data = $.parseJSON(data);
 
-      let newData = that.state.dataSource;
+      let newData = that.state.otherLoanDetails;
       newData.splice(data, 1);
       that.setState(
         {
-          dataSource: newData,
+          otherLoanDetails: newData,
         },
         () => that.setDataTable(newData)
       );
@@ -465,16 +476,19 @@ class StaffLoanEdit extends Component {
     }
   }
   editAddData=()=>{
-    this.setDataTable(this.state.dataSource)
+    this.setDataTable(this.state.otherLoanDetails)
   }
   addData = (e) => {
-    const { userInfo } = this.state;
+    const { userInfo,otherLoanDetails } = this.state;
     console.log("other loan select box",this.state.OtherLoanSelectBox)
-    var data = [...this.state.dataSource];
+    var data = [...otherLoanDetails];
     console.log("data=====>",data)
     let filterData=data.filter(v=>v.other_loan_dropdown == this.state.selectedOtherLoan.value)
     // console.log("data",data)
-    console.log("filter data======>",filterData)
+    console.log("filter data======>",this.state.OtherLoanSelectBox == 1 && this.state.selectedOtherLoan !=null && this.state.selectedInstitutionName != '' &&
+    this.state.selectedOutstandingAmount != 0 && this.state.selectedInstallmentTerm != 0 && this.state.selectedInstallmentAmount!=0
+    && filterData.length == 0,filterData.length == 0 && this.state.OtherLoanSelectBox == 0 && (this.state.selectedOtherLoan !=null || this.state.selectedInstitutionName ||
+      this.state.selectedOutstandingAmount != 0 || this.state.selectedInstallmentTerm != 0 || this.state.selectedInstallmentAmount))
     let tempData = {};
     if (this.state.OtherLoanSelectBox == 1 && this.state.selectedOtherLoan !=null && this.state.selectedInstitutionName != '' &&
     this.state.selectedOutstandingAmount != 0 && this.state.selectedInstallmentTerm != 0 && this.state.selectedInstallmentAmount!=0
@@ -489,18 +503,18 @@ class StaffLoanEdit extends Component {
       tempData.installment_term=this.state.selectedInstallmentTerm;
       tempData.installment_amount=this.state.selectedInstallmentAmount;
       tempData.maturity_date=this.state.selectedMaturityDate;
-      tempData.other_loan_check=this.state.OtherLoanSelectBox;
+      // tempData.other_loan_check=this.state.OtherLoanSelectBox;
       console.log(' select 1 tempData',tempData)
       data.push(tempData);
       this.setState({
-        dataSource: data,
+        otherLoanDetails: data,
         selectedOtherLoan:null,
         selectedInstitutionName:'',
         selectedOutstandingAmount:0,
         selectedInstallmentTerm:0,
         selectedInstallmentAmount:0,
         selectedMaturityDate:new Date(),
-        OtherLoanSelectBox:0
+        // OtherLoanSelectBox:0
       });
       saveBtn = true;
       form_validate = true;
@@ -517,19 +531,19 @@ class StaffLoanEdit extends Component {
         tempData.installment_term=this.state.selectedInstallmentTerm;
         tempData.installment_amount=this.state.selectedInstallmentAmount;
         tempData.maturity_date=this.state.selectedMaturityDate;
-        tempData.other_loan_checkbox=this.state.OtherLoanSelectBox;
+        // tempData.other_loan_check=this.state.OtherLoanSelectBox;
 
         console.log('select 0 tempData',tempData)
         data.push(tempData);
         this.setState({
-          dataSource: data,
+          otherLoanDetails: data,
           selectedOtherLoan:null,
           selectedInstitutionName:'',
-          electedOutstandingAmount:0,
+          selectedOutstandingAmount:0,
           selectedInstallmentTerm:0,
           selectedInstallmentAmount:0,
           selectedMaturityDate:new Date(),
-          OtherLoanSelectBox:0
+          // OtherLoanSelectBox:0
         });
       saveBtn = true;
       form_validate = true;
@@ -556,9 +570,10 @@ class StaffLoanEdit extends Component {
     }
   };
   setDataTable(data) {
+    console.log("setdataTable",data)
     let Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
 
-    console.log("data===>",Details.user_id==this.state.user_info.user_id)
+    console.log("data===>",Details.user_id==this.state.user_info.user_id ? 'nyi tal' : 'ma nyi bu')
     var table;
     if ($.fn.dataTable.isDataTable("#dataTables-Table")) {
       table = $("#dataTables-Table").dataTable();
@@ -578,23 +593,30 @@ class StaffLoanEdit extends Component {
         //   ? data[i].other_loan_dropdown.label
         //   : "-",
         installment_term: data[i].installment_term ? data[i].installment_term : 0,
-        outstanding_amount: data[i].outstanding_amount ? data[i].outstanding_amount : 0,
+        outstanding_amount: data[i].outstanding_amount ? this.currencyFormat(data[i].outstanding_amount) : 0,
         institution_name: data[i].name_of_institution ? data[i].name_of_institution : "-",
-        installment_amount: data[i].installment_amount ? data[i].installment_amount : 0,
+        installment_amount: data[i].installment_amount ? this.currencyFormat(data[i].installment_amount) : 0,
         maturity_date:data[i].maturity_date ? moment(data[i].maturity_date).format('YYYY-MM-DD') : '-',
-        action:
-          `'<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" ${Details.user_id != this.state.user_info.user_id ? "disabled" : ""} id="toEdit"><span id="edit" class="hidden">'`+
+        action:this.state.user_info.user_id == Details.user_id ? 
+          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toEdit"><span id="edit" class="hidden">'+
           index +
           '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' +
-          `'<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" ${Details.user_id!= this.state.user_info.user_id ? "disabled" : ""} id="toRemove"><span id="remove" class="hidden">'`+
+          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toRemove"><span id="remove" class="hidden">'+
           index +
-          '</span>  <i className="fa fa-cogs"></i>&nbsp;Remove</button>',
+          '</span>  <i className="fa fa-cogs"></i>&nbsp;Remove</button>' : 
+          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" disabled id="toEdit"><span id="edit" class="hidden">'+
+          index +
+          '</span>  <i className="fa fa-cogs"></i>&nbsp;Edit</button>' +
+          '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" disabled id="toRemove"><span id="remove" class="hidden">'+
+          index +
+          '</span>  <i className="fa fa-cogs"></i>&nbsp;Remove</button>'
+          ,
           
       };
       l.push(obj);
     }
     table = $("#dataTables-Table").DataTable({
-
+      searching:false,
       autofill: false,
       bLengthChange: false,
       bInfo: false,
@@ -837,9 +859,9 @@ class StaffLoanEdit extends Component {
         this.save()
         // console.log('refer back save')
       }
-      else if((Details.status == 2 && this.state.selectedTermInMonths != 0 && this.state.selectedVerifyInstallmentAmount != 0 && this.state.ApproveAmount != 0) || (Details.status == 0  && this.state.check_comment!='' && this.state.performanceRecomm !='' ) || (Details.status == 1 && this.state.verify !='')){
-        this.save()
-        // console.log("save function======>")
+      else if((Details.status == 2 && (this.state.selectedTermInMonths != 0 || this.state.selectedTermInMonths !='') && (this.state.selectedVerifyInstallmentAmount != 0 || this.state.selectedVerifyInstallmentAmount !='') && (this.state.ApproveAmount != 0 || this.state.ApproveAmount != '')) || (Details.status == 0  && this.state.check_comment!='') || (Details.status == 1 && this.state.verify !='')){
+        // this.save()
+        console.log("save function======>")
       }else{
         toast.error("You need to fill your information successfully")
       }
@@ -849,200 +871,214 @@ class StaffLoanEdit extends Component {
   
 
   save() {
-    console.log("ma thi bu save pae",this.state.FamilyGuarantorNRCDoc,this.state.FamilyIncomeDoc,this.state.StaffGuarantorNRCDoc,this.state.RequestNRCDoc)
+    console.log("ma thi bu save pae",this.state.selectedFamilyRelation == null,this.state.selectedFamilyName == '', this.state.selectedFamilyNRC=='', this.state.selectedFamilyAddress == '',this.state.selectedFamilyIncome==0, this.state.selectedFamilyJob == '' || this.state.selectedFamilyPhone ==0,this.state.selectedLoanPurpose == '',this.state.selectedWithdrawLocation ==null, this.state.selectedGuarantor ==null ,(this.state.OtherLoanSelectBox == 1 && this.state.otherLoanDetails.length == 0))
+    console.log("br nyar",this.state.otherLoanDetails.length == 0)
     // if (this.state.FamilyGuarantorNRCDoc.length == 0 && this.state.FamilyIncomeDoc.length == 0 && this.state.StaffGuarantorNRCDoc.length == 0 && this.state.RequestNRCDoc.length == 0) {
     //   toast.error("Please Choose Attachment File!");
     // } else {
-      if (this.state.FamilyGuarantorNRCDoc.length > 0 && this.state.FamilyIncomeDoc.length > 0 && this.state.StaffGuarantorNRCDoc.length > 0 && this.state.RequestNRCDoc.length > 0) {
-        console.log("save new doc=====>");
-        var { status_title, is_main_role } = this.state;
-        $("#saving_button").attr("disabled", true);
-        var data = {
-          userId: this.state.user_info.user_id,
-          staffGuarantorUserId:this.state.selectedGuarantor!=null ? this.state.selectedGuarantor.value : '',
-          familyGuarantorName:this.state.selectedFamilyName,
-          familyGuarantorNRC:this.state.selectedFamilyNRC,
-          familyRelation:this.state.selectedFamilyRelation.value,
-          familyGuarantorJob:this.state.selectedFamilyJob,
-          familyGuarantorAddres:this.state.selectedFamilyAddress,
-          familyGuarantorIncome:this.state.selectedFamilyIncome,
-          familyGuarantorPhone:this.state.selectedFamilyPhone,
-          requestAmount:this.state.selectedRequestAmount,
-          repaymentPeriod:this.state.selectedRepaymentPeriod,
-          loanRequestInstallmentAmount:this.state.InstallmentAmount,
-          loanPurpose:this.state.selectedLoanPurpose,
-          withdrawLocation:this.state.selectedWithdrawLocation.value,
-          // status: this.state.status,
-          // createdBy: this.state.user_info.user_id,
-          target_achievement:this.state.targetAchievement,
-          other_loan_information:this.state.otherLoanInformation,
-          performance_recommendation:this.state.performanceRecomm,
-          checked_comment:this.state.check_comment,
-          verified_comment:this.state.verify,
-          disbursement_date:this.state.selectedDisbursementDate,
-          term_in_month:this.state.selectedTermInMonths,
-          loan_committee_date:this.state.selectedLoanCommitteeDate,
-          approve_installment_amount:this.state.selectedVerifyInstallmentAmount,
-          approved_amount:this.state.ApproveAmount,
-          approved_comment:this.state.verifyComment,
-          approved_amount_words:this.state.ApproveAmountInWord,
-          warning_letter_check:this.state.warningCheck,
-          updatedBy: this.state.user_info.user_id,
-        };
-        
-        let Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
-        if(Details.status == 5){
-          data.status =this.state.status
-        }
-        if (status_title !== '' && is_main_role) {
-          console.log("status title in save",status_title)
-            
-          var action = getActionStatus(status_title, Details, this.state.updatedBy, this.state.comment);
-          console.log("action",action)
-          data.referback_by = action.referback_by;
-          data.checked_by = action.checked_by;
-          data.verified_by = action.verified_by;
-          data.approved_by = action.approved_by;
-          data.rejected_by = action.rejected_by;
-          data.referback_date = action.referback_date;
-          data.checked_date = action.checked_date;
-          data.verified_date = action.verified_date;
-          data.approved_date = action.approved_date;
-          data.rejected_date = action.rejected_date;
-          data.referback_comment = action.referback_comment;
-          // data.checked_comment = action.checked_comment;
-          // data.verified_comment = action.verified_comment;
-          // data.approved_comment = action.approved_comment;
-          data.status = action.status;
-  
-      }
-        const temp=this.state.dataSource.length > 0 && this.state.dataSource.map((v)=>{
-          return{
-            name_of_institution:v.name_of_institution,
-            outstanding_amount:v.outstanding_amount,
-            installment_term:v.installment_term,
-            installment_amount:v.installment_amount,
-            maturity_date:v.maturity_date,
-            other_loan_dropdown:v.other_loan_dropdown,
-            other_loan_checkbox:v.other_loan_checkbox
+      if (this.state.FamilyGuarantorNRCDoc.length == 0 || this.state.FamilyIncomeDoc.length == 0 || this.state.StaffGuarantorNRCDoc.length == 0 || this.state.RequestNRCDoc.length == 0) {
+        toast.error("Please Choose Attachment File");
+      } else if(this.state.selectedFamilyRelation == null || this.state.selectedFamilyName == '' || this.state.selectedFamilyNRC=='' || this.state.selectedFamilyAddress == '' || this.state.selectedFamilyIncome==0 || this.state.selectedFamilyJob == '' || this.state.selectedFamilyPhone ==0 || this.state.selectedLoanPurpose == '' || this.state.selectedWithdrawLocation ==null || this.state.selectedGuarantor ==null || (this.state.OtherLoanSelectBox == 1 && this.state.otherLoanDetails.length == 0)){
+        toast.error("You need to fill your information successfully");
+      }else {
+        if (this.state.FamilyGuarantorNRCDoc.length > 0 && this.state.FamilyIncomeDoc.length > 0 && this.state.StaffGuarantorNRCDoc.length > 0 && this.state.RequestNRCDoc.length > 0 && this.state.selectedFamilyRelation != null && this.state.selectedFamilyName != '' && this.state.selectedFamilyNRC!='' && this.state.selectedFamilyAddress != '' && this.state.selectedFamilyIncome!=0 && this.state.selectedFamilyJob != '' && this.state.selectedFamilyPhone !=0 && this.state.selectedWithdrawLocation !=null && this.state.selectedLoanPurpose != '' && this.state.selectedGuarantor !=null ) {
+
+          console.log("save new doc=====>");
+          var { status_title, is_main_role } = this.state;
+          $("#saving_button").attr("disabled", true);
+          var data = {
+            userId: this.state.user_info.user_id,
+            staffGuarantorUserId:this.state.selectedGuarantor!=null ? this.state.selectedGuarantor.value : '',
+            familyGuarantorName:this.state.selectedFamilyName,
+            familyGuarantorNRC:this.state.selectedFamilyNRC,
+            familyRelation:this.state.selectedFamilyRelation.value,
+            familyGuarantorJob:this.state.selectedFamilyJob,
+            familyGuarantorAddres:this.state.selectedFamilyAddress,
+            familyGuarantorIncome:this.state.selectedFamilyIncome,
+            familyGuarantorPhone:this.state.selectedFamilyPhone,
+            requestAmount:this.state.selectedRequestAmount,
+            repaymentPeriod:this.state.selectedRepaymentPeriod,
+            loanRequestInstallmentAmount:this.state.InstallmentAmount,
+            loanPurpose:this.state.selectedLoanPurpose,
+            withdrawLocation:this.state.selectedWithdrawLocation.value,
+            // status: this.state.status,
+            // createdBy: this.state.user_info.user_id,
+            target_achievement:this.state.targetAchievement,
+            other_loan_information:this.state.otherLoanInformation,
+            performance_recommendation:this.state.performanceRecomm,
+            checked_comment:this.state.check_comment,
+            verified_comment:this.state.verify,
+            disbursement_date:this.state.selectedDisbursementDate,
+            term_in_month:this.state.selectedTermInMonths,
+            loan_committee_date:this.state.selectedLoanCommitteeDate,
+            approve_installment_amount:this.state.selectedVerifyInstallmentAmount,
+            approved_amount:this.state.ApproveAmount,
+            approved_comment:this.state.verifyComment,
+            approved_amount_words:this.state.ApproveAmountInWord,
+            warning_letter_check:this.state.warningCheck,
+            other_loan_check:this.state.OtherLoanSelectBox,
+            updatedBy: this.state.user_info.user_id,
+          };
+          
+          let Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
+          if(Details.status == 5){
+            data.status =this.state.status
           }
-        })
-
-        const formdata = new FormData();
-        let approveDoc=this.state.verifyDoc!=undefined && this.state.verifyDoc.length;
-        for (var i = 0; i < approveDoc; i++) {
-          var imagedata = this.state.verifyDoc[i];
-          formdata.append("attach", imagedata);
+          if (status_title !== '' && is_main_role) {
+            console.log("status title in save",status_title)
+              
+            var action = getActionStatus(status_title, Details, this.state.updatedBy, this.state.comment);
+            console.log("action",action)
+            data.referback_by = action.referback_by;
+            data.checked_by = action.checked_by;
+            data.verified_by = action.verified_by;
+            data.approved_by = action.approved_by;
+            data.rejected_by = action.rejected_by;
+            data.referback_date = action.referback_date;
+            data.checked_date = action.checked_date;
+            data.verified_date = action.verified_date;
+            data.approved_date = action.approved_date;
+            data.rejected_date = action.rejected_date;
+            data.referback_comment = action.referback_comment;
+            // data.checked_comment = action.checked_comment;
+            // data.verified_comment = action.verified_comment;
+            // data.approved_comment = action.approved_comment;
+            data.status = action.status;
+    
         }
-
-        let tempFamilIncome=this.state.FamilyIncomeDoc.length > 0 && this.state.FamilyIncomeDoc.filter(v=>v.fieldName != "familyDOC")
-        var tempFamilyIncomeLength = tempFamilIncome.length;
-        for (var i = 0; i < tempFamilyIncomeLength; i++) {
-          var imagedata = tempFamilIncome[i];
-          formdata.append("family", imagedata);
-        }
-
-
-        let tempFamilOld=this.state.FamilyIncomeDoc.length > 0 && this.state.FamilyIncomeDoc.filter(v=>v.fieldName == "familyDOC")
-        var tempFamilyIncomeOldLength = tempFamilOld.length;
-        let familyOldDOC=[]
-        for (var i = 0; i < tempFamilyIncomeOldLength; i++) {
-          // var imagedata = tempFamilOld[i];
-          familyOldDOC.push(tempFamilOld[i]);
-        } 
-        formdata.append("oldFamilyDoc", JSON.stringify(familyOldDOC))
-        console.log("family old doc is ====>", familyOldDOC)
-
-        let tempFamilyGuaNRc=this.state.FamilyGuarantorNRCDoc.length > 0 && this.state.FamilyGuarantorNRCDoc.filter(v=>v.fieldName != "familyGuaNRC")
-        var tempFamilyGuarantorNRCLength = tempFamilyGuaNRc.length;
-        for (var i = 0; i < tempFamilyGuarantorNRCLength; i++) {
-          var imagedata = tempFamilyGuaNRc[i];
-          formdata.append("familyGuaNRC", imagedata);
-        }
-        let FamilyNRCold=[]
-        let tempFamilyNRCOld=this.state.FamilyGuarantorNRCDoc.length > 0 && this.state.FamilyGuarantorNRCDoc.filter(v=>v.fieldName == "familyGuaNRC")
-        var tempFamilyRNCLength = tempFamilyNRCOld.length;
-        for (var i = 0; i < tempFamilyRNCLength; i++) {
-          // var imagedata = tempFamilyNRCOld[i];
-          FamilyNRCold.push(tempFamilyNRCOld[i])
-          
-        }
-        formdata.append("oldFamilyGuaDoc", JSON.stringify(FamilyNRCold));
-        let tempOther=this.state.OtherDoc.length > 0 && this.state.OtherDoc.filter(v=>v.fieldName != "otherDOC")
-        var tempOtherLength = tempOther.length;
-        for (var i = 0; i < tempOtherLength; i++) {
-          var imagedata = tempOther[i];
-          formdata.append("otherDOC", imagedata);
-        }
-        let OtherDocOld=[]
-        let tempOtherDocOld=this.state.OtherDoc.length > 0 && this.state.OtherDoc.filter(v=>v.fieldName == "otherDOC")
-        var tempOtherDocoldength = tempOtherDocOld.length;
-        for (var i = 0; i < tempOtherDocoldength; i++) {
-          // var imagedata = tempOtherDocOld[i];
-          
-          OtherDocOld.push(tempOtherDocOld[i])
-        }
-        formdata.append("oldOtherDoc", JSON.stringify(OtherDocOld));
-
-        let tempStaffGuarantorNRC = this.state.StaffGuarantorNRCDoc.length > 0 && this.state.StaffGuarantorNRCDoc.filter(v=>v.fieldName != "staffNRC");
-        var tempStaffGuarantorNRCLength = tempStaffGuarantorNRC.length;
-        for (var i = 0; i < tempStaffGuarantorNRCLength; i++) {
-          var imagedata = tempStaffGuarantorNRC[i];
-          formdata.append("staffNRC", imagedata);
-        }
-        let StaffNRCold=[]
-        let tempStaffNRCold=this.state.StaffGuarantorNRCDoc.length > 0 && this.state.StaffGuarantorNRCDoc.filter(v=>v.fieldName == "staffNRC")
-        var tempStaffNRColdength = tempStaffNRCold.length;
-        for (var i = 0; i < tempStaffNRColdength; i++) {
-          // var imagedata = tempStaffNRCold[i];
-          StaffNRCold.push(tempStaffNRCold[i])
-          
-        }
-        formdata.append("oldStaffGuaDoc", JSON.stringify(StaffNRCold));
-
-        var tempRequesterNRC = this.state.RequestNRCDoc.length >0 && this.state.RequestNRCDoc.filter(v=>v.fieldName != "requesterNRC");
-        var tempRequesterNRCLength = tempRequesterNRC.length;
-        for (var i = 0; i < tempRequesterNRCLength; i++) {
-          var imagedata = tempRequesterNRC[i];
-          formdata.append("requesterNRC", imagedata);
-        }
-
-        let RequesterNRCold=[]
-        let tempRequesterNrcOld=this.state.RequestNRCDoc.length > 0 && this.state.RequestNRCDoc.filter(v=>v.fieldName == "requesterNRC")
-        var tempRequesterNrcOldLength = tempRequesterNrcOld.length;
-        for (var i = 0; i < tempRequesterNrcOldLength; i++) {
-          // var imagedata = tempRequesterNrcOld[i];
-            RequesterNRCold.push(tempRequesterNrcOld[i])
-        }
-        formdata.append("oldRequesterDoc", JSON.stringify(RequesterNRCold));
-
-        formdata.append("staff_loan_info", JSON.stringify(data));
-        formdata.append('staff_loan_detail',JSON.stringify(temp))
-        console.log("formdata",formdata)
-        let status = 0;
-        fetch(`${main_url}staff_loan_new/editStaffLoan/${this.props.dataSource.staff_loan_id}`, {
-          method: "POST",
-          body: formdata,
-        })
-          .then((res) => {
-            status = res.status;
-            return res.text();
+          const temp=this.state.otherLoanDetails.length > 0 && this.state.otherLoanDetails.map((v)=>{
+            return{
+              name_of_institution:v.name_of_institution,
+              outstanding_amount:v.outstanding_amount,
+              installment_term:v.installment_term,
+              installment_amount:v.installment_amount,
+              maturity_date:v.maturity_date,
+              other_loan_dropdown:v.other_loan_dropdown,
+              // other_loan_check:v.other_loan_check
+            }
           })
-          .then((text) => {
-            this.props.showToast(status, text);
-          });
-      } else {
-        startSaving();
-        form_validate = false;
+  
+          const formdata = new FormData();
+          let approveDoc=this.state.verifyDoc!=undefined && this.state.verifyDoc.length;
+          for (var i = 0; i < approveDoc; i++) {
+            var imagedata = this.state.verifyDoc[i];
+            formdata.append("attach", imagedata);
+          }
+  
+          let tempFamilIncome=this.state.FamilyIncomeDoc.length > 0 && this.state.FamilyIncomeDoc.filter(v=>v.fieldName != "familyDOC")
+          var tempFamilyIncomeLength = tempFamilIncome.length;
+          for (var i = 0; i < tempFamilyIncomeLength; i++) {
+            var imagedata = tempFamilIncome[i];
+            formdata.append("family", imagedata);
+          }
+  
+  
+          let tempFamilOld=this.state.FamilyIncomeDoc.length > 0 && this.state.FamilyIncomeDoc.filter(v=>v.fieldName == "familyDOC")
+          var tempFamilyIncomeOldLength = tempFamilOld.length;
+          let familyOldDOC=[]
+          for (var i = 0; i < tempFamilyIncomeOldLength; i++) {
+            // var imagedata = tempFamilOld[i];
+            familyOldDOC.push(tempFamilOld[i]);
+          } 
+          formdata.append("oldFamilyDoc", JSON.stringify(familyOldDOC))
+          console.log("family old doc is ====>", familyOldDOC)
+  
+          let tempFamilyGuaNRc=this.state.FamilyGuarantorNRCDoc.length > 0 && this.state.FamilyGuarantorNRCDoc.filter(v=>v.fieldName != "familyGuaNRC")
+          var tempFamilyGuarantorNRCLength = tempFamilyGuaNRc.length;
+          for (var i = 0; i < tempFamilyGuarantorNRCLength; i++) {
+            var imagedata = tempFamilyGuaNRc[i];
+            formdata.append("familyGuaNRC", imagedata);
+          }
+          let FamilyNRCold=[]
+          let tempFamilyNRCOld=this.state.FamilyGuarantorNRCDoc.length > 0 && this.state.FamilyGuarantorNRCDoc.filter(v=>v.fieldName == "familyGuaNRC")
+          var tempFamilyRNCLength = tempFamilyNRCOld.length;
+          for (var i = 0; i < tempFamilyRNCLength; i++) {
+            // var imagedata = tempFamilyNRCOld[i];
+            FamilyNRCold.push(tempFamilyNRCOld[i])
+            
+          }
+          formdata.append("oldFamilyGuaDoc", JSON.stringify(FamilyNRCold));
+          let tempOther=this.state.OtherDoc.length > 0 && this.state.OtherDoc.filter(v=>v.fieldName != "otherDOC")
+          var tempOtherLength = tempOther.length;
+          for (var i = 0; i < tempOtherLength; i++) {
+            var imagedata = tempOther[i];
+            formdata.append("otherDOC", imagedata);
+          }
+          let OtherDocOld=[]
+          let tempOtherDocOld=this.state.OtherDoc.length > 0 && this.state.OtherDoc.filter(v=>v.fieldName == "otherDOC")
+          var tempOtherDocoldength = tempOtherDocOld.length;
+          for (var i = 0; i < tempOtherDocoldength; i++) {
+            // var imagedata = tempOtherDocOld[i];
+            
+            OtherDocOld.push(tempOtherDocOld[i])
+          }
+          formdata.append("oldOtherDoc", JSON.stringify(OtherDocOld));
+  
+          let tempStaffGuarantorNRC = this.state.StaffGuarantorNRCDoc.length > 0 && this.state.StaffGuarantorNRCDoc.filter(v=>v.fieldName != "staffNRC");
+          var tempStaffGuarantorNRCLength = tempStaffGuarantorNRC.length;
+          for (var i = 0; i < tempStaffGuarantorNRCLength; i++) {
+            var imagedata = tempStaffGuarantorNRC[i];
+            formdata.append("staffNRC", imagedata);
+          }
+          let StaffNRCold=[]
+          let tempStaffNRCold=this.state.StaffGuarantorNRCDoc.length > 0 && this.state.StaffGuarantorNRCDoc.filter(v=>v.fieldName == "staffNRC")
+          var tempStaffNRColdength = tempStaffNRCold.length;
+          for (var i = 0; i < tempStaffNRColdength; i++) {
+            // var imagedata = tempStaffNRCold[i];
+            StaffNRCold.push(tempStaffNRCold[i])
+            
+          }
+          formdata.append("oldStaffGuaDoc", JSON.stringify(StaffNRCold));
+  
+          var tempRequesterNRC = this.state.RequestNRCDoc.length >0 && this.state.RequestNRCDoc.filter(v=>v.fieldName != "requesterNRC");
+          var tempRequesterNRCLength = tempRequesterNRC.length;
+          for (var i = 0; i < tempRequesterNRCLength; i++) {
+            var imagedata = tempRequesterNRC[i];
+            formdata.append("requesterNRC", imagedata);
+          }
+  
+          let RequesterNRCold=[]
+          let tempRequesterNrcOld=this.state.RequestNRCDoc.length > 0 && this.state.RequestNRCDoc.filter(v=>v.fieldName == "requesterNRC")
+          var tempRequesterNrcOldLength = tempRequesterNrcOld.length;
+          for (var i = 0; i < tempRequesterNrcOldLength; i++) {
+            // var imagedata = tempRequesterNrcOld[i];
+              RequesterNRCold.push(tempRequesterNrcOld[i])
+          }
+          formdata.append("oldRequesterDoc", JSON.stringify(RequesterNRCold));
+  
+          formdata.append("staff_loan_info", JSON.stringify(data));
+          formdata.append('staff_loan_detail',JSON.stringify(temp))
+          console.log("formdata",formdata)
+          let status = 0;
+          fetch(`${main_url}staff_loan_new/editStaffLoan/${this.props.dataSource.staff_loan_id}`, {
+            method: "POST",
+            body: formdata,
+          })
+            .then((res) => {
+              status = res.status;
+              return res.text();
+            })
+            .then((text) => {
+              this.props.showToast(status, text);
+            });
+        } else {
+          startSaving();
+          form_validate = false;
+        }
       }
+      
     // }
   }
 
   render() {
-    console.log("selected term in months=======>",this.state.selectedWithdrawLocation)
+
     const{staffInfo,getGuarantorInfo}=this.state;
     const Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
-    console.log("details=====>",Details)
+    let otherLoanDetils=(this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.detailsData != undefined && this.state.staffInfoDetails.detailsData.length > 0 && this.state.staffInfoDetails.detailsData)
+
+    console.log("details=====>",this.state.staffInfoDetails)
+    console.log(Details.status,this.state.selectedTermInMonths,this.state.selectedVerifyInstallmentAmount,this.state.ApproveAmount)
+
     return (
       <div className="">
         <ToastContainer />
@@ -1159,10 +1195,10 @@ class StaffLoanEdit extends Component {
                 </div>
                 <div className="col-md-12">
                   <input
-                    type="text"
+                    type="float"
                     className="form-control"
                     disabled
-                    value={staffInfo.length > 0 ?  staffInfo[0].basic_salary : ''}
+                    value={staffInfo.length > 0 ?  this.currencyFormat(staffInfo[0].basic_salary) : ''}
                   />
                 </div>
               </div>
@@ -1488,7 +1524,7 @@ class StaffLoanEdit extends Component {
                 </div>
                 <div className="col-md-12">
                   <input
-                    type="number"
+                    type={Details.user_id ==  this.state.user_info.user_id ? 'number' : 'float'}
                     className="form-control"
                     disabled={this.state.user_info.user_id  != Details.user_id}
                     onChange={this.familyIncome}
@@ -1536,6 +1572,7 @@ class StaffLoanEdit extends Component {
                   <input
                     type="checkbox"
                     value='1'
+                    disabled={this.state.otherLoanDetails.length > 0}
                     checked={this.state.OtherLoanSelectBox == 1 ? 'checked':''}
                     onChange={this.handleSelectBoxOtherLoan}
                   />
@@ -1675,7 +1712,7 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="number" className="form-control"
+                  <input type={this.state.user_info.user_id == Details.user_id ? "number" : "float"} className="form-control"
                     disabled={this.state.user_info.user_id  != Details.user_id}
                    onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={this.state.selectedRequestAmount}
                   onChange={this.handleRequestAmount}
@@ -1704,7 +1741,7 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="text" className="form-control" disabled value={this.state.InstallmentAmount} />
+                  <input type={this.state.user_info.user_id == Details.user_id ? "number" : "float"} className="form-control" disabled value={this.state.InstallmentAmount} />
                 </div>
               </div>
               <div className="col-md-3">
@@ -1779,7 +1816,8 @@ class StaffLoanEdit extends Component {
                     Family Member Income Document
                   </label>
                 </div>
-                <div className="col-sm-10">
+                {
+                  Details.user_id == this.state.user_info.user_id ? <div className="col-sm-10">
                   <input
                     className="dropZone "
                     type="file"
@@ -1787,7 +1825,9 @@ class StaffLoanEdit extends Component {
                     multiple
                     onChange={this.familyIncomeDoc.bind(this)}
                   ></input>
-                </div>
+                </div> : ''
+                }
+                
                 <div>
                   {this.state.FamilyIncomeDoc.length > 0 && this.state.FamilyIncomeDoc.map((data, index) => (
                     <div className="fileuploader-items col-md-6">
@@ -1840,7 +1880,8 @@ class StaffLoanEdit extends Component {
                     Staff Guarantor NRC Document
                   </label>
                 </div>
-                <div className="col-sm-10">
+                {
+                  Details.user_id == this.state.user_info.user_id ? <div className="col-sm-10">
                   <input
                     className="dropZone "
                     type="file"
@@ -1848,7 +1889,9 @@ class StaffLoanEdit extends Component {
                     multiple
                     onChange={this.staffGuarantorNRCDoc.bind(this)}
                   ></input>
-                </div>
+                </div> : ''
+                }
+                
                   <div>
                     {this.state.StaffGuarantorNRCDoc.length > 0 && this.state.StaffGuarantorNRCDoc.map((data, index) => (
                       <div className="fileuploader-items col-md-6">
@@ -1903,7 +1946,8 @@ class StaffLoanEdit extends Component {
                     Requester NRC Document
                   </label>
                 </div>
-                <div className="col-sm-10">
+                {
+                  this.state.user_info.user_id == Details.user_id ? <div className="col-sm-10">
                   <input
                     className="dropZone "
                     type="file"
@@ -1911,7 +1955,9 @@ class StaffLoanEdit extends Component {
                     multiple
                     onChange={this.RequesterNRCDoc.bind(this)}
                   ></input>
-                </div>
+                </div> : ''
+                }
+                
                 <div>
                   {this.state.RequestNRCDoc.length > 0 && this.state.RequestNRCDoc.map((data, index) => (
                     <div className="fileuploader-items col-md-6">
@@ -1964,6 +2010,8 @@ class StaffLoanEdit extends Component {
                       Family Guarantor NRC Document
                       </label>
                 </div>
+                {
+                  this.state.user_info.user_id == Details.user_id ? 
                   <div className="col-sm-10">
                     <input
                     className="dropZone "
@@ -1972,7 +2020,9 @@ class StaffLoanEdit extends Component {
                     multiple
                     onChange={this.familyGuarantorNRCDoc.bind(this)}
                     ></input>
-                  </div>
+                  </div> : ''
+                }
+                  
                 <div>
                 {this.state.FamilyGuarantorNRCDoc.length > 0 && 
                 this.state.FamilyGuarantorNRCDoc.map((data, index) => (
@@ -2026,7 +2076,8 @@ class StaffLoanEdit extends Component {
                     Other Attachment Files
                   </label>
                 </div>
-                <div className="col-sm-10">
+                {
+                  Details.user_id == this.state.user_info.user_id ? <div className="col-sm-10">
                   <input
                     className="dropZone "
                     type="file"
@@ -2034,7 +2085,9 @@ class StaffLoanEdit extends Component {
                     multiple
                     onChange={this.OtherDoc.bind(this)}
                   ></input>
-                </div>
+                </div> : ''
+                }
+                
                 <div>
                   {this.state.OtherDoc.length > 0 && this.state.OtherDoc.map((data, index) => (
                     <div className="fileuploader-items col-md-6">
