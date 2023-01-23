@@ -364,16 +364,16 @@ class StaffLoanBeforeComit extends Component {
                    <td>{moment(v.employ_date).format('DD-MM-YYYY') || '-'}</td>
                    <td>{v.service_year || '-'}</td>
                    <td>{v.phone || '-'}</td>
-                   <td>{v.salary || '-'}</td>
+                   <td>{v.salary ? v.salary.toLocaleString() : '-'}</td>
                    <td>{v.other_loan_check || '-'}</td>
                    <td>{v.loan.filter(v=>v.name === 'Personal Loan')[0] ? v.loan.filter(v=>v.name === 'Personal Loan')[0].institution :'-'}</td>  
-                   <td>{v.loan.filter(v=>v.name === 'Personal Loan')[0] ? v.loan.filter(v=>v.name === 'Personal Loan')[0].outstanding_amount :'-'}</td>
+                   <td>{v.loan.filter(v=>v.name === 'Personal Loan')[0] ? v.loan.filter(v=>v.name === 'Personal Loan')[0].outstanding_amount.toLocaleString() :'-'}</td>
                    <td>{v.loan.filter(v=>v.name === 'Personal Loan')[0] ? moment( v.loan.filter(v=>v.name === 'Personal Loan')[0].maturity_date).format('DD-MM-YYYY') :'-'}</td>
                    <td>{v.loan.filter(v=>v.name === 'Collateral Loan')[0] ? v.loan.filter(v=>v.name === 'Collateral Loan')[0].institution :'-'}</td>  
-                   <td>{v.loan.filter(v=>v.name === 'Collateral Loan')[0] ? v.loan.filter(v=>v.name === 'Collateral Loan')[0].outstanding_amount :'-'}</td>
+                   <td>{v.loan.filter(v=>v.name === 'Collateral Loan')[0] ? v.loan.filter(v=>v.name === 'Collateral Loan')[0].outstanding_amount.toLocaleString() :'-'}</td>
                    <td>{v.loan.filter(v=>v.name === 'Collateral Loan')[0] ? moment( v.loan.filter(v=>v.name === 'Collateral Loan')[0].maturity_date).format('DD-MM-YYYY') :'-'}</td>
                    <td>{v.loan.filter(v=>v.name === 'Other Outstanding debts')[0] ? v.loan.filter(v=>v.name === 'Other Outstanding debts')[0].institution :'-'}</td>  
-                   <td>{v.loan.filter(v=>v.name === 'Other Outstanding debts')[0] ? v.loan.filter(v=>v.name === 'Other Outstanding debts')[0].outstanding_amount :'-'}</td>
+                   <td>{v.loan.filter(v=>v.name === 'Other Outstanding debts')[0] ? v.loan.filter(v=>v.name === 'Other Outstanding debts')[0].outstanding_amount.toLocaleString() :'-'}</td>
                    <td>{v.loan.filter(v=>v.name ==='Other Outstanding debts')[0] ? moment( v.loan.filter(v=>v.name === 'Other Outstanding debts')[0].maturity_date).format('DD-MM-YYYY') :'-'}</td>
                    <td>{v.staff_emp_id || '-'}</td>
                    <td>{v.staff_name || '-'}</td>
@@ -383,15 +383,15 @@ class StaffLoanBeforeComit extends Component {
                    <td>{v.guar_name || '-'}</td>
                    <td>{v.relation_family || '-'}</td>
                    <td>{v.family_job || '-'}</td>  
-                   <td>{v.family_income || '-'}</td>
+                   <td>{v.family_income ? v.family_income.toLocaleString() : '-'}</td>
                    <td>{v.family_nrc || '-'}</td>
                    <td>{v.family_phone || '-'}</td>
                    <td>{v.family_address || '-'}</td>
                    <td>{v.customer_code || '-'}</td>
                    <td>{v.loan_purpose || '-'}</td>
-                   <td>{v.requested_amount || '-'}</td>
+                   <td>{v.requested_amount ? v.requested_amount.toLocaleString() :'-'}</td>
                    <td>{v.repayment_period || '-'}</td>
-                   <td>{this.state.branchlist.filter(c=>c.value === v.withdraw_location)[0].label || '-'}</td>
+                   <td>{v.withdraw_location || '-'}</td>
                    <td>{v.performance_recommendation || '-'}</td>
                    <td>{v.other_loan_information || '-'}</td> 
                    <td>{v.performance_recommendation || '-'}</td>

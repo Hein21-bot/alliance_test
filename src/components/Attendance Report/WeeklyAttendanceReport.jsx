@@ -154,7 +154,6 @@ class WeeklyAttendanceReport extends Component {
           for(let i=0; i<=dateList_one.length; i++){
             const index = R.findIndex(v=> v.name === c.name);
             const isExistIndex = c.array.findIndex(v=> moment(v.start_time).format("MM/DD/YYYY") === dateList_one[i]);
-            console.log("dsfd",isExistIndex)
             if(isExistIndex > -1){
               if(index > -1){
                 R[index][dateList_one[i]+'_in'] = moment(c.array[isExistIndex].start_time).format("HH:mm:ss A")
@@ -169,8 +168,7 @@ class WeeklyAttendanceReport extends Component {
                   [dateList_one[i]+'_out']: moment(c.array[isExistIndex].end_time).format("HH:mm:ss A"),
                 })
               }
-            }
-            
+            } 
           }
           return R
         }, [])
@@ -179,7 +177,7 @@ class WeeklyAttendanceReport extends Component {
         })
       });
   };
-  render() {
+  render() { console.log(this.state.dataSource);
    
     return (
       <div>
