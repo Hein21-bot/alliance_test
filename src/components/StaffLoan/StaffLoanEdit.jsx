@@ -860,8 +860,8 @@ class StaffLoanEdit extends Component {
         // console.log('refer back save')
       }
       else if((Details.status == 2 && (this.state.selectedTermInMonths != 0 || this.state.selectedTermInMonths !='') && (this.state.selectedVerifyInstallmentAmount != 0 || this.state.selectedVerifyInstallmentAmount !='') && (this.state.ApproveAmount != 0 || this.state.ApproveAmount != '')) || (Details.status == 0  && this.state.check_comment!='') || (Details.status == 1 && this.state.verify !='')){
-        // this.save()
-        console.log("save function======>")
+        this.save()
+        // console.log("save function======>")
       }else{
         toast.error("You need to fill your information successfully")
       }
