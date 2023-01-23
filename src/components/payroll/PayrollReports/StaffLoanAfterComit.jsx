@@ -336,11 +336,9 @@ class StaffLoanAfterComit extends Component {
                      <td>{v.user_branch || '-'}</td>
                      <td>{v.user_dep || '-' }</td>
                      <td>{v.user_region || '-'}</td>
-                     
                      <td>{v.employment_id || '-'}</td>
                      <td>{v.fullname || '-'}</td>
                      <td>{v.designations || '-'}</td>
-                     
                      <td>{v.location_master_name || '-'}</td>
                      <td>{v.nrc || '-'}</td>  
                      <td>{v.family_guarantor_name || '-'}</td>
@@ -350,13 +348,11 @@ class StaffLoanAfterComit extends Component {
                      <td>{v.customer_code || '-'}</td>
                      <td>blank</td>
                      <td>blank</td>
-                     <td>{v.approved_amount || '-'}</td>
+                     <td>{v.approved_amount ? v.approved_amount.toLocaleString() :'-'}</td>
                      <td>{v.term_in_month || '-'}</td>
-                     <td>{v.approve_installment_amount || '-'}</td>
+                     <td>{v.approve_installment_amount ? v.approve_installment_amount.toLocaleString() : '-'}</td>
                      <td>{v.status || '-'}</td>
-                     <td>{v.approved_comment || '-'}</td>  
-                     
-                           
+                     <td>{v.approved_comment || '-'}</td>    
                 </tr>  </>
                      )
                     })):(

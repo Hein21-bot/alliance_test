@@ -462,10 +462,8 @@ $('#search').keyup(function() {
           no: index + 1,
           employment_id: data[i].employeeID ? data[i].employeeID : "-",
           co_count: data[i].coCount ? data[i].coCount : "-",
-          co_incentive: data[i].incentiveAmount ? data[i].incentiveAmount : "-",
-          co_incentive_total: data[i].coIncentiveTotal
-            ? data[i].coIncentiveTotal
-            : "-",
+          co_incentive: data[i].incentiveAmount ? data[i].incentiveAmount.toLocaleString() : "-",
+          co_incentive_total: data[i].coIncentiveTotal? data[i].coIncentiveTotal.toLocaleString() : "-",
         };
         l.push(obj);
       }
@@ -1063,25 +1061,25 @@ $('#search').keyup(function() {
                   return (
                     <>
                       <tr>
-                        <td>{v.employeeID}</td>
-                        <td>{v.fx_name}</td>
-                        <td>{v.co_name}</td>
-                        <td>{v.branch_name}</td>
-                        <td>{v.product_name}</td>
-                        <td>{v.creditDisbursementNo}</td>
-                        <td>{v.creditDisbursementAmount}</td>
-                        <td>{v.creditPortfolioNo}</td>
-                        <td>{v.creditPortfolOutstanding}</td>
-                        <td>{v.savingOutstanding}</td>
-                        <td>{v.collectionRateDemand}</td>
-                        <td>{v.collectionActual}</td>
-                        <td>{v.parNo}</td>
-                        <td>{v.parAmount}</td>
-                        <td>{v.creditIncentive}</td>
-                        <td>{v.savingIncentive}</td>
-                        <td>{v.collectiveRateIncentive}</td>
-                        <td>{v.parDeductionRate}</td>
-                        <td>{v.totalIncentive}</td>
+                        <td>{v.employeeID || '-'}</td>
+                        <td>{v.fx_name  || '-'}</td>
+                        <td>{v.co_name  || '-'}</td>
+                        <td>{v.branch_name  || '-'}</td>
+                        <td>{v.product_name  || '-'}</td>
+                        <td>{v.creditDisbursementNo  || '-'}</td>
+                        <td>{v.creditDisbursementAmount ? v.creditDisbursementAmount.toLocaleString('en-US',{maximumFractionDigits:2}) :'-'}</td>
+                        <td>{v.creditPortfolioNo|| '-'}</td>
+                        <td>{v.creditPortfolOutstanding ? v.creditPortfolOutstanding.toLocaleString('en-US',{maximumFractionDigits:2}) :'-'}</td>
+                        <td>{v.savingOutstanding ? v.savingOutstanding.toLocaleString('en-US',{maximumFractionDigits:2}) :'-'}</td>
+                        <td>{v.collectionRateDemand ? v.collectionRateDemand.toLocaleString('en-US',{maximumFractionDigits:2}) :'-'}</td>
+                        <td>{v.collectionActual ? v.collectionActual.toLocaleString('en-US',{maximumFractionDigits:2}) :'-'}</td>
+                        <td>{v.parNo|| '-'}</td>
+                        <td>{v.parAmount ? v.parAmount.toLocaleString('en-US',{maximumFractionDigits:2}) :'-'}</td>
+                        <td>{v.creditIncentive ? v.creditIncentive.toLocaleString('en-US',{maximumFractionDigits:2}) :'-'}</td>
+                        <td>{v.savingIncentive ? v.savingIncentive.toLocaleString('en-US',{maximumFractionDigits:2}) :'-'}</td>
+                        <td>{v.collectiveRateIncentive ? v.collectiveRateIncentive.toLocaleString('en-US',{maximumFractionDigits:2}) :'-'}</td>
+                        <td>{v.parDeductionRate ? v.parDeductionRate.toLocaleString('en-US',{maximumFractionDigits:2}) :'-'}</td>
+                        <td>{v.totalIncentive ? v.totalIncentive.toLocaleString('en-US',{maximumFractionDigits:2}) :'-'}</td>
                       </tr>
                     </>
                   );

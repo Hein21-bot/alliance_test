@@ -187,6 +187,15 @@ const getHolidayAttRequest = (userId, setData) => {
     }).catch((error) => {
         console.log("error staff complain ===>", error);
     })
+} 
+const getStaffLoanRequest = (userId, setData) => {
+    fetch(main_url + `dashboard/staffLoanRequest/${userId}`).then(response => {
+        return response.json();
+    }).then(data => {
+        setData(data);
+    }).catch((error) => {
+        console.log("error staff complain ===>", error);
+    })
 }
 const getStaffComplainRequest  = (userId, setData) => {
     fetch(main_url + `dashboard/staffComplainRequest`).then(response => {
@@ -228,5 +237,6 @@ export const thingsToDoController = {
     getPetrolRequest,
     getHelpDeskRequest,
     getAttRequest,
-    getHolidayAttRequest
+    getHolidayAttRequest,
+    getStaffLoanRequest
 }
