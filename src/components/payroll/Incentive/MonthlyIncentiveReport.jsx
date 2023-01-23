@@ -197,33 +197,7 @@ getRegionList() {
         },()=>{
           this.setDataTable(list)
         });
-        }
-        // else if (this.state.selected_type.value === 3) { 
-        //   this.setState({
-        //     roData:list || [],
-        //     bmData:[],
-        //     fxData: [],
-        //     coData: [],
-        //     table_type:3,
-        //     loading:false
-
-        // },()=>{
-        //   this.setDataTableRo(list)
-        // });
-        // }
-        // else if (this.state.selected_type.value === 4) { 
-        //   this.setState({
-        //     bmData:list || [],
-        //     coData:[],
-        //     fxData: [],
-        //     roData: [],
-        //     table_type:4,
-        //     loading:false
-
-        // },()=>{
-        //   this.setDataTableBm(list)
-        // });
-        // }
+        }   
       })
       .catch((error)=>{
         throw(error)

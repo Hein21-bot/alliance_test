@@ -130,7 +130,6 @@ class StaffLoanAfterComit extends Component {
   };
 
   handleSelectedEmpId = async (event) => {
-    console.log("event",event)
     if (event != null)
     if (event) {
       fetch(`${main_url}employee/getDetailUser/${event.user_id}`)
@@ -151,23 +150,31 @@ class StaffLoanAfterComit extends Component {
   };
 
   handleSearchData = () => {
+    let status=0
     fetch(`${main_url}staff_loan_new/staffloanReportAfter/${moment(this.state.start_date).format('YYYY-MM-DD')}/${moment(this.state.end_date).format('YYYY-MM-DD')}/${this.state.selected_designation ? this.state.selected_designation.value : 0}/${this.state.selected_department ? this.state.selected_department.value : 0}/${this.state.selected_Branch ? this.state.selected_Branch.value : 0}/${ this.state.selected_employeeId ? this.state.selected_employeeId.value : 0}`)
- 
-      .then(res => { if (res.ok) return res.json() })
-      .then(list => {
+    .then((res)=>{
+      status = res.status;
+      if(res.ok) return res.json();
+    })
+      .then(list => { 
+        if (status === 200){
         this.setState({
             dataSource:list
+        })}else{
+          this.setState({
+            dataSource:[]
         })
+        }
       })
   };
 
-  render() { console.log(this.state.selected_designation);
+  render() { 
   
     return (
       <div>
         <ToastContainer/>
         <div className="row  white-bg dashboard-header">
-        <h3 className="" style={{paddingLeft:"10px"}}>Final Staff Loan Report </h3>
+        <h3 className="" style={{paddingLeft:"10px"}}> Staff Loan After Committee Report</h3>
           <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
           <div style={{width: '120px',marginRight:10}}>
           <DatePicker dateFormat="DD/MM/YYYY"
