@@ -107,6 +107,7 @@ class StaffLoanView extends Component {
     if (!form_validate) validate("check_form");
   }
   currencyFormat=(num)=> {
+    console.log("number",num,typeof(num))
     if(num == 0 || num == '' || num == null){
       return num
     }else{
@@ -1075,7 +1076,7 @@ class StaffLoanView extends Component {
                 </div>
                 <div className="col-md-12">
                   <input
-                    type="number"
+                    type="float"
                     className="form-control"
                     disabled
                     value={staffInfo.length > 0 ?  this.currencyFormat(staffInfo[0].basic_salary) : ''}
@@ -1982,7 +1983,7 @@ class StaffLoanView extends Component {
               </> : ''
             }
             {
-              this.state.work_flow_status!=undefined && Details.status == 3 && (this.state.work_flow_status.verify_by == 1 || this.state.work_flow_status.approve_by == 1) ? <>
+              this.state.work_flow_status!=undefined && Details.status == 3 && (this.state.work_flow_status.verify_by == 1 || this.state.work_flow_status.approve_by == 1 || this.state.user_info.user_id == Details.user_id) ? <>
               <div className="col-md-12" style={{ marginBottom: 10 }}>
               <div
                 className="col-md-12"
