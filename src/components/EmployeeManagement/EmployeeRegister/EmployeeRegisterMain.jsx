@@ -213,7 +213,7 @@ class EmployeeRegisterMain extends Component {
             employeeDesignation: employeeDesignation ? employeeDesignation.value : '',
             jobTitle: jobTitle,
             carrerLevel: carrerLevel ? carrerLevel.value : '',
-            careerSubLevel: careerSubLevel ? careerSubLevel.value : '',
+            careerSubLevel: careerSubLevel ? careerSubLevel.value : '-',
             employeeDetailBranch: employeeDetailBranch ? employeeDetailBranch.value : '',
             employedDate: employedDate,
             disConStatus: disConStatus ? disConStatus.value : 'False',

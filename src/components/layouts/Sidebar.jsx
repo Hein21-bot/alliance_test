@@ -1203,7 +1203,7 @@ export default class Sidebar extends Component {
 
                <li
                 className={
-                  this.checkPathName() === "/staff_loan" ? "active" : ""
+                  this.checkPathName() === "/staff_loan" || "/staff_loan_before_committee" || '/staff_loan_after_committee' ? "active" : ""
                 }
                 style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Staff Loan") && sidebarPermission.filter(d => d.permission == "Staff Loan")[0].access == true ? 'block' : 'none') }}
 
@@ -1216,6 +1216,18 @@ export default class Sidebar extends Component {
                   <li className={pathname === "/staff_loan" ? "active" : ""}>
                     <a href="/staff_loan">
                       <i className="fas fa-clipboard-list"></i>Staff Loan List
+                    </a>
+                  </li>
+                  <li className={pathname === "/staff_loan_before_committee" ? "active" : ""}>
+                    <a href="/staff_loan_before_committee">
+                      {/* <i className="fas fa-clipboard-list"></i> */}
+                      Staff Loan Before Committee Report
+                    </a>
+                  </li>
+                  <li className={pathname === "/staff_loan_after_committee" ? "active" : ""}>
+                    <a href="/staff_loan_after_committee">
+                      {/* <i className="fas fa-clipboard-list"></i> */}
+                      Staff Loan After Committee Report
                     </a>
                   </li>
                   {/* <li

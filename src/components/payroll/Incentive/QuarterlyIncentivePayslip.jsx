@@ -62,19 +62,16 @@ export default class QuarterlyIncentivePayslip extends Component{
               if (status === 200){
               this.setState({
                 dataSource:list || []
-                  })} else if (status === 400){ console.log("dfdfdf");
+                  })} else if (status === 400){ 
                     this.setState({
                       dataSource:[]
                         })
                     toast.error('There is no data for this quarter!')
-                  }
-            // .catch((err)=>{
-            //   console.log(err)
-            // })
+                  }          
         })
     }
 
-        render(){   console.log(this.state.selected_quarter.value);
+        render(){
             return( 
                 <div>
                    <ToastContainer position={toast.POSITION.TOP_RIGHT} />

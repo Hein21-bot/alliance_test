@@ -214,7 +214,7 @@ class EmployeeListView extends Component {
 
 
 
-    render() { 
+    render() {   console.log('dataList',this.state.careerSubLevel);
 
         const { tabIndex, userImage, userImageUrl, addedDegreeData, addedQualitificationData, workExpData, nrc_number, period, designation, workExpChecked, organization, sameWithCtPerson, bankList, selected_bank, trainingCode, partTimeCode, customerCode, ThaPaYaAccount, SSCCardNo,
             fatherName, degreeList, qualificationList, selected_qualification, selected_degree, motherName, guarantor, guarantorPhone, attachmentUrl, selected_gran_NRC_Id,

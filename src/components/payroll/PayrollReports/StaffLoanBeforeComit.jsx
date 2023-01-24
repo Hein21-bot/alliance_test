@@ -130,7 +130,6 @@ class StaffLoanBeforeComit extends Component {
   };
 
   handleSelectedEmpId = async (event) => {
-    console.log("event",event)
     if (event != null)
     if (event) {
       fetch(`${main_url}employee/getDetailUser/${event.user_id}`)
@@ -157,22 +156,25 @@ class StaffLoanBeforeComit extends Component {
   };
 
   handleSearchData = () => {
+    let status= 0
     fetch(`${main_url}staff_loan_new/staffloanReportBefore/${moment(this.state.start_date).format('YYYY-MM-DD')}/${moment(this.state.end_date).format('YYYY-MM-DD')}/${this.state.selected_designation ? this.state.selected_designation.value : 0}/${this.state.selected_department ? this.state.selected_department.value : 0}/${this.state.selected_Branch ? this.state.selected_Branch.value : 0}/${ this.state.selected_employeeId ? this.state.selected_employeeId.value : 0}`)
- 
-      .then(res => { if (res.ok) return res.json() })
-      .then(list => {
+    .then((res)=>{
+      status = res.status;
+      if(res.ok) return res.json();
+    })
+      .then(list => { 
+        if (status === 200){
         this.setState({
             dataSource:list
+        })}else{
+          this.setState({
+            dataSource:[]
         })
+        }
       })
-      .catch((error)=>{
-      
-        
-        
-        this.setState({dataSource:[]},()=>{  console.log("sdsd",this.state.dataSource);})})
   };
 
-  render() {   console.log(this.state.dataSource);
+  render() { 
   
     return (
       <div>

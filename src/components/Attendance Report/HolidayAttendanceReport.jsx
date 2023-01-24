@@ -30,7 +30,18 @@ class HolidayAttendanceReport extends Component {
             departmentId:null,
             from_date:moment(),
             to_date:moment(),
-            statusList:[],
+            statusList: [{
+              value: 0,
+              label: 'All'
+          },{
+              value: 1,
+              label: 'Approve'
+          },
+          {
+              value: 2,
+              label: 'Reject'
+          },
+         ],
             selectedStatus:null
         }
     }
@@ -97,7 +108,7 @@ class HolidayAttendanceReport extends Component {
         })
     }
     handleSearchData = () => {
-        fetch(`${main_url}report/extensionReport/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.selectedStatus ? this.state.selectedStatus.value : 0}/${this.state.regionId ? this.state.regionId.value :  0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}`)
+        fetch(`${main_url}attendance/holidayAttendanceReport/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${this.state.regionId ? this.state.regionId.value :  0}/${this.state.selectedStatus ? this.state.selectedStatus.value : 0}`)
           .then(res => { if (res.ok) return res.json() })
           .then(list => { 
             this._setTableData(list);
@@ -110,22 +121,26 @@ class HolidayAttendanceReport extends Component {
         if (data){
         for (var i = 0; i < data.length; i++) {
             let result = data[i];
+            let  application_status = '';
+            if (result.check_out_status === 1) {
+              application_status = '<small class="label label-warning" style="background-color:#f60e2f">Reject</small>'
+            } else{
+              application_status = '<small class="label label-warning" style="background-color:#29a50a">Approve</small>'
+            }
             let obj = [];
                 obj = {
                 no: i + 1,
+                date : data[i].check_in_time ? moment(data[i].check_in_time).utc().format('DD-MM-YYYY') : "-",
                 employee_id:data[i].employment_id ? data[i].employment_id :"-",
                 employee_name:data[i].fullname ? data[i].fullname : "-",
-                branch: data[i].branch_name ? data[i].branch_name: "-",
-                designation:data[i].designations ? data[i].designations : "-",
-                level:data[i].career_level ? data[i].career_level : "-",
-                department:data[i].deptname ? data[i].deptname : "-",
-                region:data[i].region_name ? data[i].region_name : '-',
-                pa_score:data[i].performance_score ? data[i].performance_score : '-',
-                target_achievement:data[i].target_achievement ? data[i].target_achievement : '-',
-                overall_performance:data[i].comment_overall_performance ? data[i].comment_overall_performance : '-',
-                extension_period:data[i].extension_period ? data[i].extension_period : '-'
+                branch: data[i].location_master_name ? data[i].location_master_name: "-",
+                position:data[i].designations ? data[i].designations : "-",
+                check_in:data[i].check_in_time ? moment(data[i].check_in_time).utc().format('DD-MM-YYYY hh:mm:ss A') : "-",
+                check_out:data[i].check_out_time ? moment(data[i].check_out_time).utc().format('DD-MM-YYYY hh:mm:ss A') : "-",
+                working_hour:data[i].working_hour ? data[i].working_hour : '-',
+                reason:data[i].holiday_des ? data[i].holiday_des : '-',
+                status:application_status,
             }
-            
             l.push(obj)
         }
         }
@@ -137,16 +152,16 @@ class HolidayAttendanceReport extends Component {
         }
         var column = [
             { title: " Sr No", data: "no" },
-            {title :"Date",data:"date"},
+            { title:"Date",data:"date"},
             { title: "Employee Id", data: "employee_id" },
             { title: "Employee Name", data: "employee_name" },
-            { title: "Position", data: "designation" },
-            { title: "Branch", data: "level" },
-            { title: "Check In", data: "department" },
-            { title: "Check Out", data: "branch" },
-            { title: "Working Hour", data: "region" },
-            { title: "Reason", data: "pa_score" },
-            { title: "Status", data: "target_achievement" },
+            { title: "Position", data: "position" },
+            { title: "Branch", data: "branch" },
+            { title: "Check In", data: "check_in" },
+            { title: "Check Out", data: "check_out" },
+            { title: "Working Hour", data: "working_hour" },
+            { title: "Reason", data: "reason" },
+            { title: "Status", data: "status" },
            
         ]
         table = $("#dataTables-table").DataTable({
@@ -221,27 +236,6 @@ class HolidayAttendanceReport extends Component {
                 }),
 
               }}
-              placeholder="Branch"
-              options={this.state.branch}
-              onChange={this.handleSelectedBranch}
-              value={this.state.branchId}
-              className='react-select-container'
-              classNamePrefix="react-select"
-            />
-            <Select
-              styles={{
-                container: base => ({
-                  ...base,
-                  //   flex: 1
-                  width: 150,
-                  marginRight:10
-                }),
-                control: base => ({
-                  ...base,
-                  minHeight: '18px'
-                }),
-
-              }}
               placeholder="Region"
               options={this.state.region}
               onChange={this.handleSelectedRegion}
@@ -263,20 +257,21 @@ class HolidayAttendanceReport extends Component {
                 }),
 
               }}
-              placeholder="Status"
-              options={this.state.statusList}
-              onChange={this.handleSelectedStatus}
-              value={this.state.selectedStatus}
+              placeholder="Branch"
+              options={this.state.branch}
+              onChange={this.handleSelectedBranch}
+              value={this.state.branchId}
               className='react-select-container'
               classNamePrefix="react-select"
-            /> 
+            />
            
             <Select
               styles={{
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150
+                  width: 150,
+                  marginRight:10
                 }),
                 control: base => ({
                   ...base,
@@ -291,6 +286,27 @@ class HolidayAttendanceReport extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
+             <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 150,
+                  marginRight:10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Status"
+              options={this.state.statusList}
+              onChange={this.handleSelectedStatus}
+              value={this.state.selectedStatus}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            /> 
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
             </div>
            

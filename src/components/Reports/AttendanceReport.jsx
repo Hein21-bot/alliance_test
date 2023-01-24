@@ -230,7 +230,7 @@ class AttendanceReport extends Component {
     }
         render(){
           
-        return (
+        return ( 
             <div>
             <div className="row  white-bg dashboard-header">
            
