@@ -292,12 +292,12 @@ export default class PayrollCalculated extends Component {
         obj["branch"] = result.branch ? result.branch : "-";
         obj["region"] = result.region ? result.region : "-";
         obj["netSalary"] = result.detail_amount ? result.detail_amount : "-";
-        obj['basic_salary']=result.basic_salary ? result.basic_salary : '-'
+        obj['basic_salary']=result.basic_salary ? result.basic_salary.toLocaleString('en-US',{maximumFractionDigits:2}) : '-'
         this.state.steps.map((v, index) => {
           obj[v.replace(/\s/g, "").toLowerCase()] = result.labels.filter(
             (a) => a.label == v
           )[0]
-            ? result.labels.filter((a) => a.label == v)[0].value
+            ? result.labels.filter((a) => a.label == v)[0].value.toLocaleString('en-US',{maximumFractionDigits:2})
             : "-";
         });
         j.push(obj);

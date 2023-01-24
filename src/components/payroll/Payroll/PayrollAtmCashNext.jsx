@@ -170,13 +170,13 @@ class EmployeeReport extends Component {
         obj["branch"] = result.branch ? result.branch : "-";
         obj["region"] = result.region ? result.region : "-";
         obj['atmorcash']=result.cash_or_atm == 1? "ATM":result.cash_or_atm == 2 ? "Cash": '-'
-        obj["basic_salary"] = result.detail_amount ? result.detail_amount : "-";
+        obj["basic_salary"] = result.detail_amount ? result.detail_amount.toLocaleString('en-US',{maximumFractionDigits:2}) : "-";
         this.state.steps.map((v, index) => {
           console.log("v====>",v)
           obj[v.replace(/\s/g, "").toLowerCase()] = result.labels.filter(
             (a) => a.label == v
           )[0]
-            ? result.labels.filter((a) => a.label == v)[0].value
+            ? result.labels.filter((a) => a.label == v)[0].value.toLocaleString('en-US',{maximumFractionDigits:2})
             : "-";
         });
         l.push(obj)

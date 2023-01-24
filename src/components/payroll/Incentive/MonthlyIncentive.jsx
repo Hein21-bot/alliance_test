@@ -930,7 +930,7 @@ $('#search').keyup(function() {
             <table
               id="monthly_incentive"
               className="table table-bordered"
-              style={{ overflow: "Scroll",display:'block',whiteSpace:'nowrap' }}
+              style={{ overflow: "Scroll",display:'block',whiteSpace:'nowrap',marginBottom:0 }}
             >
               <thead>
                 <tr
@@ -1086,8 +1086,19 @@ $('#search').keyup(function() {
                 })}
               </tbody>
             </table>
+            <div style={{width:"100%",display:'flex',justifyContent:'end'}}>
+              <div className='col-lg-4'>
+<table className="table "style={{overflow:'scroll',  border:'1px solid #c1c1c1'}}>
+<thead>
+<tr style={{overflow:'scroll',border:'1px solid #c1c1c1' }}>
+            <td style={{textAlign:'center',width:100,border:'1px solid #c1c1c1',fontWeight:'bold'}} colSpan={2}>Grand Total</td>
+            <td style={{textAlign:'center',width:100,border:'1px solid #c1c1c1'}} colSpan={2}>hjjkj</td>       
+</tr>
+</thead>
+</table></div>
+ </div >
          {this.state.searchData[0].generate === 2 ? ('') :(
-            <div style={{ display: "flex", justifyContent: "end" }}>
+            <div className="" style={{ display: "flex", justifyContent: "end" }}>
               <div
                 className="col-lg-1"
                 style={{
