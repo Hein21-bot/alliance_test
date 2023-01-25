@@ -109,31 +109,32 @@ class EditEmployeeListForm extends Component {
     }
 
 
-    componentDidMount() {
-        this.getCareerSubLevelOptions();
-        this.getEmployeeDetailsData();
+   async componentDidMount() {
+        
+      await  this.getEmployeeDetailsData();
     }
 
-    componentDidUpdate(prevProps) {
+   async componentDidUpdate(prevProps) {
         if (prevProps.selectedEmployeeData !== this.props.selectedEmployeeData) {
-            this.getEmployeeDetailsData()
+         await   this.getEmployeeDetailsData()
         }
     }
-    getCareerSubLevelOptions () {
-        fetch(`${main_url}allowLevel/getCareerSubLevel`)
+  async  getCareerSubLevelOptions () {
+     await   fetch(`${main_url}allowLevel/getCareerSubLevel`)
         .then((res) => {
             if (res.ok) return res.json();
           })
-        .then((res) => {
+        .then(async(res) => {
             if (res) {
-              this.setState({ career_sublevel: res });
+              this.setState({ career_sublevel:await res });
             }
           })
           .catch((error) => console.error(`Fetch Error =\n`, error));
       };
 
-    getEmployeeDetailsData() {
+   async getEmployeeDetailsData() {
         // confirmation/getOneDetail/:user_id
+    await    this.getCareerSubLevelOptions();
         const { selectedEmployeeData, level_options, nrcList, granDistrictCodeList, districtCodeList, branchlist } = this.props
         const { disConstatusList } = this.state
         fetch(`${main_url}confirmation/getOneDetail/${this.props.selectedEmployeeData.user_id}`)

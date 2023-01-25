@@ -115,42 +115,46 @@ class EmployeeListView extends Component {
         })
     }
 
-    componentDidMount() {
-        this.getEmployeeDetailsData()
-        this.getCareerSubLevelOptions();
+    async componentDidMount() {
+       await this.getEmployeeDetailsData()
+        // this.getCareerSubLevelOptions();
 
     }
 
     handlePreviousClick = () => {
         this.setState({ tabIndex: this.state.tabIndex - 1 })
     }
-    getCareerSubLevelOptions () {
-        fetch(`${main_url}allowLevel/getCareerSubLevel`)
+    async getCareerSubLevelOptions () {
+        await fetch(`${main_url}allowLevel/getCareerSubLevel`)
         .then((res) => {
             if (res.ok) return res.json();
           })
-        .then((res) => {
+        .then(async(res) => {
             if (res) {
-              this.setState({ career_sublevel: res });
+                this.setState({ career_sublevel: await res });
             }
           })
           .catch((error) => console.error(`Fetch Error =\n`, error));
       };
 
-    getEmployeeDetailsData() {
+    async getEmployeeDetailsData() {
+        await this.getCareerSubLevelOptions();
         // confirmation/getOneDetail/:user_id
         const { selectedEmployeeData, level_options, nrcList, granDistrictCodeList, districtCodeList, branchlist } = this.props
         const { disConstatusList } = this.state
-        fetch(`${main_url}confirmation/getOneDetail/${selectedEmployeeData.user_id}`)
+        
+        await fetch(`${main_url}confirmation/getOneDetail/${selectedEmployeeData.user_id}`)
 
             .then(response => {
                 if (response.ok) return response.json()
             })
-            .then(res => {
+            .then(async res => {
                 let fullnrc = res[0].nrc;
                 let fullnrcNumber = fullnrc.split(' ');
+                
                 if (res) {
-                    console.log('res contact phone is ====>', res[0].career_sub_level)
+                    console.log('res is ====>', res[0].career_sub_level, this.state.career_sublevel
+                    )
                     this.setState({
                         userImage: res[0].avatar,
                         userImageUrl: res[0].avatar,
@@ -189,7 +193,7 @@ class EmployeeListView extends Component {
                         employeeStatus: this.state.employeeStatusList.find(c => c.value == res[0].employee_status),
                         employeeDesignation: this.props.designationList.find(c => c.value == res[0].designations_id),
                         jobTitle: res[0].job_title,
-                        careerSubLevel : res[0].career_sub_level ? this.state.career_sublevel.filter(v=>v.career_sub_level_id == res[0].career_sub_level)[0].career_sub_level : '-',
+                        careerSubLevel : await res[0].career_sub_level ? this.state.career_sublevel.filter(v=>v.career_sub_level_id == res[0].career_sub_level)[0].career_sub_level : '-',
                         carrerLevel: level_options && level_options.find(c => c.value == res[0].career_level_id) ? level_options.find(c => c.value == res[0].career_level_id) : null,
                         employeeDetailBranch: branchlist && branchlist.find(c => c.value == res[0].branch_name) ? branchlist.find(c => c.value == res[0].branch_name) : null,
                         employedDate: res[0].employ_date,

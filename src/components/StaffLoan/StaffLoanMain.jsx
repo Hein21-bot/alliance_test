@@ -69,9 +69,9 @@ class StaffLoanMain extends Component {
     let id = this.state.user_id;
     let status = 0;
         fetch(main_url + "staff_loan_new/staffloanCondition/" + id)
-        .then(res => {
-          status = res.status;
-          return res.text()
+        .then(async res => {
+          status =  res.status;
+           return status == 400 ?  res.text() : res.json()
       })
       .then(text => {
         if (status === 200 ){
@@ -80,13 +80,7 @@ class StaffLoanMain extends Component {
             isEdit: false,
             isTable: false,
             isView: false,
-          });
-        }else if (status === 200 ){
-          this.setState({
-            isAddNew: false,
-            isEdit: false,
-            isTable: true,
-            isView: false,
+            isNew: text.is_new
           });
         }
           else {
@@ -201,10 +195,10 @@ class StaffLoanMain extends Component {
         />
           </>
           
-        ) : this.state.isAddNew ? (
+        ) : this.state.isAddNew ? ( console.log("addNew"),
             <StaffLoanAddNew goToTable={this.goToTable} showToast={this.showToast}/>
         ) : this.state.isView ? (
-          <StaffLoanView view={this.state.isView} dataSource={this.state.data} />
+          <StaffLoanView view={this.state.isView} dataSource={this.state.data} isNew={this.state.isNew} />
         ) : this.state.isEdit ? (
           <StaffLoanEdit edit={this.state.isEdit} dataSource={this.state.data} showToast={this.showToast}/>
         ) : null }

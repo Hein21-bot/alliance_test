@@ -25,7 +25,7 @@ class StaffLoanAddNew extends Component {
   constructor() {
     super();
     this.state = {
-      
+     
       staffInfo: [],
       user_id: getUserId("user_info"),
       staffGuarantorInfo: {
@@ -678,10 +678,11 @@ class StaffLoanAddNew extends Component {
   }
 
   render() {
-    // console.log("info=======>",this.currencyFormat(12345))
+    console.log("info=======>",this.state.isNew)
     const{staffInfo,getGuarantorInfo}=this.state;
     return (
       <div className="">
+        { this.props.isNew ? 
         <div style={{display:'flex',justifyContetn:'center',alignItems:'center'}}>
         <Rodal width={300} height={200} visible={this.state.visible} onClose={this.hide.bind(this)} >
                     <div className="col-md-12 "><h4>Staff Loan Terms and Condition</h4>
@@ -709,7 +710,7 @@ class StaffLoanAddNew extends Component {
                         </div> */}
                     </div>
                 </Rodal>
-        </div>
+        </div> :''}
         
         <ToastContainer />
         {
