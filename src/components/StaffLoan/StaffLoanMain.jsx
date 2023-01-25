@@ -30,6 +30,7 @@ class StaffLoanMain extends Component {
       permission_status: {},
       requestData: [],
       active_tab: 0,
+      isNew:null
     };
   }
 
@@ -65,12 +66,34 @@ class StaffLoanMain extends Component {
   }
 
   setupForm = () => {
-    this.setState({
-      isAddNew: true,
-      isEdit: false,
-      isTable: false,
-      isView: false,
-    });
+    let id = this.state.user_id;
+    let status = 0;
+        fetch(main_url + "staff_loan_new/staffloanCondition/" + id)
+        .then(res => {
+          status = res.status;
+          return res.text()
+      })
+      .then(text => {
+        if (status === 200 ){
+          this.setState({
+            isAddNew: true,
+            isEdit: false,
+            isTable: false,
+            isView: false,
+          });
+        }else if (status === 200 ){
+          this.setState({
+            isAddNew: false,
+            isEdit: false,
+            isTable: true,
+            isView: false,
+          });
+        }
+          else {
+            toast.error(text)
+          }
+      })
+
   };
 
   goToTable = () => {

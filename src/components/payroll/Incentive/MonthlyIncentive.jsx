@@ -1088,11 +1088,11 @@ $('#search').keyup(function() {
             </table>
             <div style={{width:"100%",display:'flex',justifyContent:'end'}}>
               <div className='col-lg-4'>
-<table className="table "style={{overflow:'scroll',  border:'1px solid #c1c1c1'}}>
+<table className="table "style={{overflow:'scroll',  border:'1px solid #c1c1c1',marginBottom:0}}>
 <thead>
 <tr style={{overflow:'scroll',border:'1px solid #c1c1c1' }}>
             <td style={{textAlign:'center',width:100,border:'1px solid #c1c1c1',fontWeight:'bold'}} colSpan={2}>Grand Total</td>
-            <td style={{textAlign:'center',width:100,border:'1px solid #c1c1c1'}} colSpan={2}>hjjkj</td>       
+            <td style={{textAlign:'center',width:100,border:'1px solid #c1c1c1'}} colSpan={2}>{this.state.searchData ? this.state.searchData.reduce((a,c)=>{return a+c.totalIncentive},0).toLocaleString('en-US',{maximumFractionDigits:2}) : '-'}</td>       
 </tr>
 </thead>
 </table></div>
