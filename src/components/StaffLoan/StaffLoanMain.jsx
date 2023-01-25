@@ -30,6 +30,7 @@ class StaffLoanMain extends Component {
       permission_status: {},
       requestData: [],
       active_tab: 0,
+      isNew:null
     };
   }
 
