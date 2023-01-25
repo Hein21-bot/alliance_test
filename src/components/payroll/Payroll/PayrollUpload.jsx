@@ -343,9 +343,9 @@ export default class PayrollUpload extends Component {
           : "-",
         state_name: data[i].state_name ? data[i].state_name : "-",
         deduction_amount: data[i].deduction_amount
-          ? data[i].deduction_amount
+          ? data[i].deduction_amount.toLocaleString('en-US',{maximumFractionDigits:2})
           : data[i].allowance_amount
-          ? data[i].allowance_amount
+          ? data[i].allowance_amount.toLocaleString('en-US',{maximumFractionDigits:2})
           : "-",
       };
       l.push(obj);

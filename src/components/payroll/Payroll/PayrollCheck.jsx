@@ -87,13 +87,13 @@ export default class PayrollCheck extends Component {
         obj["department"] = result.department ? result.department : "-";
         obj["branch"] = result.branch ? result.branch : "-";
         obj["region"] = result.region ? result.region : "-";
-        obj['salary']=result.basic_salary ? result.basic_salary : '-';
+        obj['salary']=result.basic_salary ? result.basic_salary.toLocaleString('en-US',{maximumFractionDigits:2}) : '-';
         obj['level']=result.level ? result.level : '-';
         this.state.steps.map((v, index) => {
           obj[v.replace(/\s/g, "").toLowerCase()] = result.labels.filter(
             (a) => a.label == v
           )[0]
-            ? result.labels.filter((a) => a.label == v)[0].value
+            ? result.labels.filter((a) => a.label == v)[0].value.toLocaleString('en-US',{maximumFractionDigits:2})
             : "-";
         });
         j.push(obj);

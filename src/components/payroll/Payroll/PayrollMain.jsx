@@ -625,7 +625,7 @@ handleSelectedName = async (event) => {
             ? result.location_master_name
             : "-",
           state_name: result.state_name ? result.state_name : "-",
-          basic_salary: result.basic_salary ? result.basic_salary : "-",
+          basic_salary: result.basic_salary ? result.basic_salary.toLocaleString('en-US',{maximumFractionDigits:2}) : "-",
         };
         j.push(obj);
       }

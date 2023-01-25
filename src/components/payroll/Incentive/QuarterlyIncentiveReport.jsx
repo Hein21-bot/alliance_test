@@ -321,12 +321,12 @@ class QuarterlyIncentiveReport extends Component {
                     <td>CO/FX</td>
                     <td>{v.branch ? v.branch :'-'}</td>
                     <td>{v.location_master_code ? v.location_master_code :'-'}</td>
-                    <td>{v.month1 ? v.month1:'-'}</td>
-                    <td>{v.month2 ? v.month2:'-'}</td>
-                    <td>{v.month3 ? v.month3:'-'}</td>
-                    <td>{v.average_salary ? v.average_salary:'-'}</td>
+                    <td>{v.month1 ? v.month1.toLocaleString('en-US',{maximumFractionDigits:2}):'-'}</td>
+                    <td>{v.month2 ? v.month2.toLocaleString('en-US',{maximumFractionDigits:2}):'-'}</td>
+                    <td>{v.month3 ? v.month3.toLocaleString('en-US',{maximumFractionDigits:2}):'-'}</td>
+                    <td>{v.average_salary ? v.average_salary.toLocaleString('en-US',{maximumFractionDigits:2}):'-'}</td>
                     <td>{v.BSC ? (v.BSC * 100).toFixed(2) + "%":'-'}</td>
-                    <td>{v.total_incentive ? v.total_incentive:'-'}</td>
+                    <td>{v.total_incentive ? v.total_incentive.toLocaleString('en-US',{maximumFractionDigits:2}):'-'}</td>
                     <td>{v.remark ? v.remark :'-'}</td>
                   </tr>
                   </>  )

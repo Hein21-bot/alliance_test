@@ -476,12 +476,12 @@ export default class PayrollAtmCash extends Component {
                       {this.state.steps.map((v2, i2) => (
                         <td style={{ textAlign: "center" }} key={i2}>
                           {v1.labels.filter((a) => a.label == v2)[0]
-                            ? v1.labels.filter((a) => a.label == v2)[0].value
+                            ? v1.labels.filter((a) => a.label == v2)[0].value.toLocaleString('en-US',{maximumFractionDigits:2})
                             : "-"}
                         </td>
                       ))}
                       <td style={{ textAlign: "center" }}>
-                        {v1.detail_amount}
+                        {v1.detail_amount.toLocaleString('en-US',{maximumFractionDigits:2})}
                       </td>
                     </tr>
                   </>

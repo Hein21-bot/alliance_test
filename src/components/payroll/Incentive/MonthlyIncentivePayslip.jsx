@@ -256,12 +256,12 @@ render(){
  </div>
 
 
- <div className=' col-lg-5' style={{ paddingTop: '10px' }}><div className='col-lg-10' style={{padding:0}}><p>{this.state.coData[0].credit_incentive}</p>
+ <div className=' col-lg-5' style={{ paddingTop: '10px' }}><div className='col-lg-10' style={{padding:0}}><p>{this.state.coData[0].credit_incentive.toLocaleString('en-US',{maximumFractionDigits:2})}</p>
 
- <p>{this.state.coData[0].saving_incentive ? this.state.coData[0].saving_incentive :'0'}</p>
- <p>{this.state.coData[0].collection_rate ? this.state.coData[0].collection_rate :'0'}</p>
+ <p>{this.state.coData[0].saving_incentive ? this.state.coData[0].saving_incentive.toLocaleString('en-US',{maximumFractionDigits:2}) :'0'}</p>
+ <p>{this.state.coData[0].collection_rate ? this.state.coData[0].collection_rate.toLocaleString('en-US',{maximumFractionDigits:2}) :'0'}</p>
  <p>{this.state.coData[0].PAR_deduction}</p>
- <p>{this.state.coData[0].total ? this.state.coData[0].total :'-'}</p>
+ <p>{this.state.coData[0].total ? this.state.coData[0].total.toLocaleString('en-US',{maximumFractionDigits:2}) :'-'}</p>
  </div></div>
   </div>
 
@@ -272,7 +272,7 @@ render(){
 <div style={{padding:50,paddingTop:10,paddingBottom:0}}>
 <div style={{display:'flex',justifyContent:'space-between'}}>
  <div className=""><h3>Credit Incentive</h3></div>
- <div className=""><h3>{this.state.coData[0].detailCalaultaion[0].credit_incentive ? this.state.coData[0].detailCalaultaion[0].credit_incentive :'0'}</h3></div>
+ <div className=""><h3>{this.state.coData[0].detailCalaultaion[0].credit_incentive ? this.state.coData[0].detailCalaultaion[0].credit_incentive.toLocaleString('en-US',{maximumFractionDigits:2}) :'0'}</h3></div>
 </div>
 
 <div>
@@ -291,9 +291,9 @@ render(){
 <tbody style={{ textAlign:'center'}}>
  <tr>
  <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].disbursementNo ? this.state.coData[0].detailCalaultaion[0].disbursementNo :'0'}</td>
- <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].disbursementAmount ? this.state.coData[0].detailCalaultaion[0].disbursementAmount :'0'}</td>
+ <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].disbursementAmount ? this.state.coData[0].detailCalaultaion[0].disbursementAmount.toLocaleString('en-US',{maximumFractionDigits:2}) :'0'}</td>
  <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].portfolioNo ? this.state.coData[0].detailCalaultaion[0].portfolioNo :'0'}</td>
- <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].portfolioAmount ? this.state.coData[0].detailCalaultaion[0].portfolioAmount :'0'}</td>
+ <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].portfolioAmount ? this.state.coData[0].detailCalaultaion[0].portfolioAmount.toLocaleString('en-US',{maximumFractionDigits:2}) :'0'}</td>
  </tr>
   </tbody>
 </table>
@@ -301,7 +301,7 @@ render(){
 
 <div style={{display:'flex',justifyContent:'space-between'}}>
  <div className=""><h3>Saving Incentive</h3></div>
- <div className=""><h3>{this.state.coData[0].detailCalaultaion[0].saving_incentive ? this.state.coData[0].detailCalaultaion[0].saving_incentive :'0'}</h3></div>
+ <div className=""><h3>{this.state.coData[0].detailCalaultaion[0].saving_incentive ? this.state.coData[0].detailCalaultaion[0].saving_incentive.toLocaleString('en-US',{maximumFractionDigits:2}) :'0'}</h3></div>
 </div>
 
 <div>
@@ -309,7 +309,7 @@ render(){
 <thead>
 <tr style={{overflow:'scroll',border:'1px solid black' }}>
             <td style={{textAlign:'center',width:100,border:'1px solid black',fontWeight:'bold'}} colSpan={2}>Outstanding</td>
-            <td style={{textAlign:'center',width:100,border:'1px solid black'}} colSpan={2}>{this.state.coData[0].detailCalaultaion[0].savingOutstanding ? this.state.coData[0].detailCalaultaion[0].savingOutstanding :'0'}</td>       
+            <td style={{textAlign:'center',width:100,border:'1px solid black'}} colSpan={2}>{this.state.coData[0].detailCalaultaion[0].savingOutstanding ? this.state.coData[0].detailCalaultaion[0].savingOutstanding.toLocaleString('en-US',{maximumFractionDigits:2}) :'0'}</td>       
 </tr>
 </thead>
 </table>
@@ -317,7 +317,7 @@ render(){
 
  <div style={{display:'flex',justifyContent:'space-between'}}>
  <div className=""><h3>Collection Rate Incentive</h3></div>
- <div className=""><h3>{this.state.coData[0].detailCalaultaion[0].collection_rate ? this.state.coData[0].detailCalaultaion[0].collection_rate :'0'}</h3></div>
+ <div className=""><h3>{this.state.coData[0].detailCalaultaion[0].collection_rate ? this.state.coData[0].detailCalaultaion[0].collection_rate.toLocaleString('en-US',{maximumFractionDigits:2}) :'0'}</h3></div>
 </div>
 
 <div>
@@ -330,8 +330,8 @@ render(){
 </thead>
 <tbody style={{ textAlign:'center'}}>
  <tr>
- <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].collectionRateDemand ? this.state.coData[0].detailCalaultaion[0].collectionRateDemand :'0'}</td>
- <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].collectionActual ? this.state.coData[0].detailCalaultaion[0].collectionActual :'0'}</td>
+ <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].collectionRateDemand ? this.state.coData[0].detailCalaultaion[0].collectionRateDemand.toLocaleString('en-US',{maximumFractionDigits:2}) :'0'}</td>
+ <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].collectionActual ? this.state.coData[0].detailCalaultaion[0].collectionActual.toLocaleString('en-US',{maximumFractionDigits:2}) :'0'}</td>
  </tr>
   </tbody>
 </table>
@@ -339,7 +339,7 @@ render(){
 
 <div style={{display:'flex',justifyContent:'space-between'}}>
  <div className=""><h3>PAR Deduction</h3></div>
- <div className=""><h3>{this.state.coData[0].detailCalaultaion[0].PAR ? this.state.coData[0].detailCalaultaion[0].PAR :'0'}</h3></div>
+ <div className=""><h3>{this.state.coData[0].detailCalaultaion[0].PAR ? this.state.coData[0].detailCalaultaion[0].PAR.toLocaleString('en-US',{maximumFractionDigits:2}) :'0'}</h3></div>
 </div>
 
 <div>
@@ -353,7 +353,7 @@ render(){
 <tbody style={{ textAlign:'center'}}>
  <tr>
  <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].parNo ? this.state.coData[0].detailCalaultaion[0].parNo :'0'}</td>
- <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].parAmount ? this.state.coData[0].detailCalaultaion[0].parAmount :'0'}</td>
+ <td style={{ border:'1px solid black' }}>{this.state.coData[0].detailCalaultaion[0].parAmount ? this.state.coData[0].detailCalaultaion[0].parAmount.toLocaleString('en-US',{maximumFractionDigits:2}) :'0'}</td>
  </tr>
   </tbody>
 </table>
@@ -406,8 +406,8 @@ render(){
 
                 
                  <div className=' col-lg-5' style={{ paddingLeft: '90px', paddingTop: '10px', marginBottom:20 }}><p>{this.state.fxData[0].coCount}</p>
-                 <p>{this.state.fxData[0].coIncentiveTotal ? this.state.fxData[0].coIncentiveTotal :'0'}</p>
-                 <p>{this.state.fxData[0].incentiveAmount ? this.state.fxData[0].incentiveAmount :'0'}</p>
+                 <p>{this.state.fxData[0].coIncentiveTotal ? this.state.fxData[0].coIncentiveTotal.toLocaleString('en-US',{maximumFractionDigits:2}) :'0'}</p>
+                 <p>{this.state.fxData[0].incentiveAmount ? this.state.fxData[0].incentiveAmount.toLocaleString('en-US',{maximumFractionDigits:2}) :'0'}</p>
                  </div>
                     </div>
                   </div> ):('')

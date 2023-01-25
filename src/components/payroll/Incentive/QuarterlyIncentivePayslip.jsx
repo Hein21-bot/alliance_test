@@ -149,9 +149,9 @@ export default class QuarterlyIncentivePayslip extends Component{
               <p>:</p>
             </div>
             <div className='col-lg-5'style={{ paddingLeft: '90px', paddingTop: '10px'}}>
-              <p>{this.state.dataSource ? this.state.dataSource[0].month1 : '-'}</p>
-              <p>{this.state.dataSource ? this.state.dataSource[0].month2 : '-'}</p>
-              <p>{this.state.dataSource ? this.state.dataSource[0].month3 : '-'}</p>
+              <p>{this.state.dataSource ? this.state.dataSource[0].month1.toLocaleString('en-US',{maximumFractionDigits:2}) : '-'}</p>
+              <p>{this.state.dataSource ? this.state.dataSource[0].month2.toLocaleString('en-US',{maximumFractionDigits:2}) : '-'}</p>
+              <p>{this.state.dataSource ? this.state.dataSource[0].month3.toLocaleString('en-US',{maximumFractionDigits:2}) : '-'}</p>
             </div>
             </div>
              <div className='col-lg-6' style={{ paddingLeft: '100px' }}><p>Average salary</p>
@@ -173,14 +173,14 @@ export default class QuarterlyIncentivePayslip extends Component{
              <p>:</p>
              </div>
             
-             <div className=' col-lg-5' style={{ paddingLeft: '90px', marginBottom:20 }}><p>{this.state.dataSource[0].average_salary ? this.state.dataSource[0].average_salary : '-'}</p>
+             <div className=' col-lg-5' style={{ paddingLeft: '90px', marginBottom:20 }}><p>{this.state.dataSource[0].average_salary ? this.state.dataSource[0].average_salary.toLocaleString('en-US',{maximumFractionDigits:2}) : '-'}</p>
              <p>{this.state.dataSource[0].BSC ? (this.state.dataSource[0].BSC * 100).toFixed(2): '-'}%</p>
-             <p>{this.state.dataSource[0].total_incentive ? this.state.dataSource[0].total_incentive : '-'}</p>
+             <p>{this.state.dataSource[0].total_incentive ? this.state.dataSource[0].total_incentive.toLocaleString('en-US',{maximumFractionDigits:2}) : '-'}</p>
              <p>{this.state.dataSource[0].branch_score ? this.state.dataSource[0].branch_score : '-'}</p>
              <p>{this.state.dataSource[0].cash_team_score ? this.state.dataSource[0].cash_team_score : '-'}</p>
              <p>{this.state.dataSource[0].incentive ? (this.state.dataSource[0].incentive * 100).toFixed(2)+'%' : '-'}</p>
-             <p>{this.state.dataSource[0].additional_amount ? this.state.dataSource[0].additional_amount : '-'}</p>
-             <p style={{fontWeight:'bold'}}>{this.state.dataSource[0].total ? this.state.dataSource[0].total : '-'}</p>
+             <p>{this.state.dataSource[0].additional_amount ? this.state.dataSource[0].additional_amount.toLocaleString('en-US',{maximumFractionDigits:2}) : '-'}</p>
+             <p style={{fontWeight:'bold'}}>{this.state.dataSource[0].total ? this.state.dataSource[0].total.toLocaleString('en-US',{maximumFractionDigits:2}) : '-'}</p>
              </div> 
 
              <div style={{marginBottom:30}}><span>Remark:{this.state.dataSource[0].remark ? this.state.dataSource[0].remark: '-'}</span></div>

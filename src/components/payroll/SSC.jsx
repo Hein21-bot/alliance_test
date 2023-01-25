@@ -315,19 +315,19 @@ export default class SSC extends Component {
         erName: data[i].ErName ? data[i].ErName : "Alliance",
         eeSSN: data[i].ErrssN ? data[i].ErrssN : "-",
         eeName: data[i].fullname ? data[i].fullname : "-",
-        salaryAmount: data[i].salaryAmount ? data[i].salaryAmount : 0,
+        salaryAmount: data[i].salaryAmount ? data[i].salaryAmount.toLocaleString('en-US',{maximumFractionDigits:2}) : 0,
         governmentAmount: data[i].governmentAmount
-          ? data[i].governmentAmount
+          ? data[i].governmentAmount.toLocaleString('en-US',{maximumFractionDigits:2})
           : 0,
         ss1Ee: data[i].ss1Ee ? data[i].ss1Ee : 0,
         ss1Er: data[i].ss1Er ? data[i].ss1Er : 0,
-        ss1EeConAmt: data[i].ss1EeConAmt,
-        ss1ErConAmt: data[i].ss1ErConAmt ? data[i].ss1ErConAmt : 0,
+        ss1EeConAmt: data[i].ss1EeConAmt ? data[i].ss1EeConAmt.toLocaleString('en-US',{maximumFractionDigits:2}) :0,
+        ss1ErConAmt: data[i].ss1ErConAmt ? data[i].ss1ErConAmt.toLocaleString('en-US',{maximumFractionDigits:2}) : 0,
         ss2Ee: data[i].ss2Ee ? data[i].ss2Ee : 0,
         ss2Er: data[i].ss2Er ? data[i].ss2Er : 0,
-        ss2EeConAmt: data[i].ss2EeConAmt ? data[i].ss2EeConAmt : 0,
-        ss2ErConAmt: data[i].ss2ErConAmt ? data[i].ss2ErConAmt : 0,
-        totalConAmt: data[i].totalComAmt ? data[i].totalComAmt : 0,
+        ss2EeConAmt: data[i].ss2EeConAmt ? data[i].ss2EeConAmt.toLocaleString('en-US',{maximumFractionDigits:2}) : 0,
+        ss2ErConAmt: data[i].ss2ErConAmt ? data[i].ss2ErConAmt.toLocaleString('en-US',{maximumFractionDigits:2}) : 0,
+        totalConAmt: data[i].totalComAmt ? data[i].totalComAmt.toLocaleString('en-US',{maximumFractionDigits:2}) : 0,
         remark: "-",
       };
       l.push(obj);
@@ -564,17 +564,17 @@ export default class SSC extends Component {
                 <tr>
                   <th scope="row">SSC Total</th>
                   <td></td>
-                  <td>{this.state.dataSource.reduce((r,c)=>{return r+c.governmentAmount},0)}</td>
+                  <td>{this.state.dataSource.reduce((r,c)=>{return r+c.governmentAmount},0).toLocaleString('en-US',{maximumFractionDigits:2})}</td>
                 </tr>
                 <tr>
                   <th scope="row">SS2Ee Total</th>
                   <td></td>
-                  <td>{this.state.dataSource.reduce((r,c)=>{return r+c.ss2EeConAmt},0)}</td>
+                  <td>{this.state.dataSource.reduce((r,c)=>{return r+c.ss2EeConAmt},0).toLocaleString('en-US',{maximumFractionDigits:2})}</td>
                 </tr>
                 <tr>
                   <th scope="row">SS2Er Total</th>
                   <td></td>
-                  <td>{this.state.dataSource.reduce((r,c)=>{return r+c.ss2ErConAmt},0)}</td>
+                  <td>{this.state.dataSource.reduce((r,c)=>{return r+c.ss2ErConAmt},0).toLocaleString('en-US',{maximumFractionDigits:2})}</td>
                 </tr>
               </tbody>
             </table>
