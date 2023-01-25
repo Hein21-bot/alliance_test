@@ -211,14 +211,29 @@ export default class PayrollUpload extends Component {
   };
 
   handleFetchClick = () => {
-    toast.error("There is no data to fetch!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
+    fetch(`${main_url}pay_roll/getStaffLoan/${this.state.user_info!=null && this.state.user_info.user_id}`)
+    .then(response => {
+        if (response.ok) return response.json()
+    })
+    .then(res => {
+        if (res) {
+            this.setState({ 
+              dataSource: res,
+                
+            }, () => this._setTableData(this.state.requestData))
+        }else{
+          toast.error("There is no data to fetch!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+        }
+    })
+    .catch(error => console.error(`Fetch Error =\n`, error));
+    
   };
 
   handleReset = () => {

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import $ from "jquery";
+import Rodal from 'rodal';
+
 import {
   main_url,
   getCookieData,
@@ -79,7 +81,9 @@ class StaffLoanAddNew extends Component {
       getGuarantorInfo: [],
       selectedGuarantor: null,
       familyDropdown: [],
-    user_info:getCookieData("user_info")
+    user_info:getCookieData("user_info"),
+    visible:true,
+    staff_loan_visible:false
     };
   }
 
@@ -179,6 +183,10 @@ class StaffLoanAddNew extends Component {
       selectedGuarantor: event
     })
   };
+  hide() {
+    this.setState({ visible: false });
+    window.location.reload()
+}
   removeFamilyGuarantorNRCDoc(index, event) {
     var array = this.state.FamilyGuarantorNRCDoc;
 
@@ -674,8 +682,39 @@ class StaffLoanAddNew extends Component {
     const{staffInfo,getGuarantorInfo}=this.state;
     return (
       <div className="">
+        <div style={{display:'flex',justifyContetn:'center',alignItems:'center'}}>
+        <Rodal width={300} height={200} visible={this.state.visible} onClose={this.hide.bind(this)} >
+                    <div className="col-md-12 "><h4>Staff Loan Terms and Condition</h4>
+                    </div>
+                    <div className="col-md-12" style={{ marginTop: 30 }}>
+                      <p>Do want to agree staff loan terms and condition?</p>
+                      <div className="col-md-6">
+                      <button className="btn btn-danger" onClick={() => window.location.reload()}><span>No</span> </button>
+                      </div>
+                      <div className="col-md-6">
+                      <div className="col-md-12">
+                      <button className="btn btn-primary" onClick={() => this.setState({
+                          staff_loan_visible:true,visible:false
+                      })}><span>Yes</span> </button>
+                      </div>
+                      </div>
+                        {/* <div className="col-md-3">Comment </div>
+                        <div className="col-md-7">
+                            <input type="text" className="full_width" onChange={(e) => this.setState({ rejected_comment: e.target.value })}></input>
+                        </div>
+                        <div className="col-md-2 btn-rightend" >
+
+                            <button className="btn btn-primary" onClick={() => this.props.approvalStatus('rejected', this.state.rejected_comment)}><span>Submit</span> </button>
+
+                        </div> */}
+                    </div>
+                </Rodal>
+        </div>
+        
         <ToastContainer />
-        <div className="row">
+        {
+          this.state.staff_loan_visible ? <>
+                  <div className="row">
           <form className="form-group" id="check_form">
            
             <div className="col-md-12" style={{ marginBottom: 10 }}>
@@ -1676,6 +1715,9 @@ class StaffLoanAddNew extends Component {
             </div>
           </div>
         </div>
+          </> : ''
+        }
+        
       </div>
     );
   }
