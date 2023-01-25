@@ -75,7 +75,8 @@ const fno = {
     fno_team: 'TB',
     fno_other: 'OB',
     fno_hospital: 'HP',
-    fno_cycle: 'CI'
+    fno_cycle: 'CI',
+    fno_staff_loan:'SL'
 }
 
 async function calculationWorkingExp(startDate, endDate) {

@@ -210,7 +210,7 @@ getMyStaffLoan() {
     doc.text("HR_0021 V3", 150, 15);
     doc.text("Benefit Request Form", 150, 25);
     doc.text("Generate Date: " + today, 13, 40);
-    doc.text("Voucher No: " + fno.fno_child + data.form_no, 150, 40);
+    doc.text("Voucher No: " + fno.fno_staff_loan + data.form_no, 150, 40);
 
     doc.autoTable(col, rows, { startY: 55 });
     if (doc.previousAutoTable.finalY > 220) {
@@ -321,7 +321,7 @@ getMyStaffLoan() {
       }
       obj = {
         no: i + 1,
-        form_no: fno.fno_child + data[i].form_no,
+        form_no: fno.fno_staff_loan + data[i].form_no,
         employee_id: data[i].employment_id,
         employee_name: data[i].fullname,
         position: data[i].designations ? data[i].designations : "-",
