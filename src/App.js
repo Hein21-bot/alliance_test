@@ -12,7 +12,7 @@ function App() {
       <Navigation user_id={id}/>
     </div>
     // </MuiThemeProvider>
-  );
+  ); 
 }
 
 export default App;
