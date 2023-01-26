@@ -26,7 +26,8 @@ class StaffLoanApprove extends Component {
     super();
     this.state = {
       attach1:[],
-      attach2:[]
+      attach2:[],
+      dataSource:[]
       
     };
   }
@@ -36,7 +37,7 @@ class StaffLoanApprove extends Component {
   }
 
   async componentDidMount() {
-      this.submit()
+      // this.submit()
   }
 
   
@@ -104,30 +105,69 @@ class StaffLoanApprove extends Component {
 
   submit() { 
     console.log("submit");
-    const formdata=new FormData()
+    let status =0;
+    let statusText = ''
+    if(this.state.attach1.length > 0 && this.state.attach2.length > 0){
+      const formdata=new FormData()
     
-    for (var i = 0; i < this.state.attach1.length; i++) {
-      // var imagedata = document.querySelector("#attach_file").files[i];
-      var imagedata = this.state.attach1[i]; // new doc HMH
-      formdata.append("attach", imagedata);
-    }
-    for (var i = 0; i < this.state.attach2.length; i++) {
-      // var imagedata = document.querySelector("#attach_file").files[i];
-      var imagedata = this.state.attach2[i]; // new doc HMH
-      formdata.append('img',imagedata);
-    }
-    
-    fetch(`${main_url}staff_loan_new/approveWithExcel`,{
-      method:'POST',
-      body:formdata,
+      for (var i = 0; i < this.state.attach1.length; i++) {
+        // var imagedata = document.querySelector("#attach_file").files[i];
+        var imagedata = this.state.attach1[i]; // new doc HMH
+        formdata.append("attach", imagedata);
+      }
+      for (var i = 0; i < this.state.attach2.length; i++) {
+        // var imagedata = document.querySelector("#attach_file").files[i];
+        var imagedata = this.state.attach2[i]; // new doc HMH
+        formdata.append('img',imagedata);
+      }
       
-     
-    })
-      .then(res => { if (res.ok) return res.json() })
-      .then(list => {
-        this.setDataTable(list)
+      fetch(`${main_url}staff_loan_new/approveWithExcel`,{
+        method:'POST',
+        body:formdata,
         
+       
       })
+        .then(res => { 
+          status = res.status;
+        statusText=res.statusText;
+          if (res.ok){
+            return res.json()
+          }else{
+            return res.text()
+          }
+           
+           })
+        .then(list => {
+          if(status == 200){
+            this.setState({
+              dataSource:list
+            },()=>this.setDataTable(list))
+          }else{
+            console.log("list",list)
+            toast.error(list, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+            });
+          }
+          
+          
+          
+        })
+    }else{
+      toast.error("Please Choose Attachment Files", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+    
     
   }
   setDataTable(data) {
@@ -393,7 +433,7 @@ class StaffLoanApprove extends Component {
                 className="btn btn-primary"
                 id="saving_button"
                 type="button"
-                onClick={() => this.submit()}
+                onClick={this.submit.bind(this)}
               >
                 Submit
               </button>
