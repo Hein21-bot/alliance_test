@@ -2494,7 +2494,7 @@ class StaffLoanEdit extends Component {
                             <StaffLoanApprovalForm approvalStatus={this.approvalStatus.bind(this)} status={Details.status} work_flow={this.state.work_flow_status} />
                             :
                             <div className="col-md-12 btn-rightend">
-                                { Details.status == 5 && Details.user_id==this.state.user_info.user_id ?
+                                { Details.status == 5 && Details.user_id == this.state.user_info.user_id ?
                                     <div>
                                         <button onClick={()=>this.save()} className="btn btn-primary" id="saving_button" type="button">Confirm</button>
                                     </div>

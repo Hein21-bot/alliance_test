@@ -678,12 +678,12 @@ class StaffLoanAddNew extends Component {
   }
 
   render() {
-    console.log("info=======>",this.state.isNew)
+    console.log("info=======>",this.state.staffInfo)
     const{staffInfo,getGuarantorInfo}=this.state;
     return (
       <div className="">
-        { this.props.isNew ? 
-        <div style={{display:'flex',justifyContetn:'center',alignItems:'center'}}>
+        { this.props.isNew == 'true' ? 
+        <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
         <Rodal width={300} height={200} visible={this.state.visible} onClose={this.hide.bind(this)} >
                     <div className="col-md-12 "><h4>Staff Loan Terms and Condition</h4>
                     </div>
@@ -710,7 +710,1024 @@ class StaffLoanAddNew extends Component {
                         </div> */}
                     </div>
                 </Rodal>
-        </div> :''}
+        </div> :<>
+        <div className="row">
+          <form className="form-group" id="check_form">
+           
+            <div className="col-md-12" style={{ marginBottom: 10 }}>
+              <div
+                className="col-md-12"
+                style={{ backgroundColor: "#27568A", color: "white", paddingTop: 5 }}
+              >
+                <h3>Staff Information</h3>
+              </div>
+            </div>
+            <div className="row" style={{ marginBottom: 10 }}>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="employeeId" className="col-md-12">
+                    Employee ID
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled
+                    value={staffInfo.length > 0 ? staffInfo[0].employment_id : ''}
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="employeeName" className="col-md-12">
+                    Employee Name
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled
+                    value={staffInfo.length > 0 ? staffInfo[0].fullname :""}
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="nrc" className="col-md-12">
+                    NRC
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled
+                    value={staffInfo.length > 0 ? staffInfo[0].nrc : ''}
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="backAccount" className="col-md-12">
+                    Bank Account
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled
+                    value={staffInfo.length > 0 ? staffInfo[0].account_no : ''}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="row" style={{ marginBottom: 10 }}>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="dateOfBirth" className="col-md-12">
+                    Date of Birth
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled
+                    value={staffInfo.length > 0 ? staffInfo[0].dob : ''}
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="employedDate" className="col-md-12">
+                    Employed Date
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled
+                    value={staffInfo.length > 0 ? staffInfo[0].employ_date : ''}
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="applicantCurrentSalary" className="col-md-12">
+                    Applicant's Current Salary
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled
+                    value={staffInfo.length > 0 ?  staffInfo[0].basic_salary : ''}
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="region" className="col-md-12">
+                    Region
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled
+                    value={staffInfo.length > 0 ? staffInfo[0].state_name : ''}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="row" style={{ marginBottom: 10 }}>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="branch" className="col-md-12">
+                    Branch
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled
+                    value={staffInfo.length > 0 ?  staffInfo[0].location_master_name : ''}
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="designation" className="col-md-12">
+                    Designation
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled
+                    value={staffInfo.length > 0 ?  staffInfo[0].designations : ''}
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="officePhone" className="col-md-12">
+                    Office Phone
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled
+                    value={staffInfo.length > 0 ? staffInfo[0].office_phone : ''}
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="personalPhone" className="col-md-12">
+                    Personal Phone
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled
+                    value={staffInfo.length > 0 ? staffInfo[0].personal_phone : ''}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="row" style={{ marginBottom: 10 }}>
+              <div className="col-md-9">
+                <div>
+                  <label htmlFor="personalPhone" className="col-md-12">
+                    Address
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <textarea
+                    type="text"
+                    className="form-control"
+                    disabled
+                    rows={3}
+                    value={staffInfo.length > 0 ? staffInfo[0].address : ''}
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+              <div>
+                  <label htmlFor="personalPhone" className="col-md-12">
+                    Customer Code
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled
+                    value={staffInfo.length > 0 ? staffInfo[0].customer_code : ''}
+                  />
+                </div>
+              </div>
+            </div>
+            
+            <div className="col-md-12" style={{ marginBottom: 10 }}>
+              <div
+                className="col-md-12"
+                style={{ backgroundColor: "#27568A", color: "white", paddingTop: 5 }}
+              >
+                <h3>Staff Guarantor Information</h3>
+              </div>
+            </div>
+            <div className="row" style={{ marginBottom: 10 }}>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="staffGuarantorId" className="col-md-12">
+                    Staff Guarantor ID
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <Select
+                    styles={{
+                      container: (base) => ({
+                        ...base,
+                       
+                      }),
+                      control: (base) => ({
+                        ...base,
+                        minHeight: "18px",
+                      }),
+                    }}
+                    placeholder="Staff Guarantor ID"
+                    options={this.state.getGuarantorInfo}
+                    onChange={this.handleSelectGuarantor.bind(this)}
+                    value={this.state.selectedGuarantor}
+                    className="react-select-container"
+                    classNamePrefix="react-select"
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="staffGuarantorName" className="col-md-12">
+                    Staff Guarantor Name
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled
+                    value={this.state.selectedGuarantor !=null ? this.state.selectedGuarantor.fullname : ''}
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="staffGuarantorNRC" className="col-md-12">
+                    Staff Guarantor NRC
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled
+                    value={this.state.selectedGuarantor!=null ? this.state.selectedGuarantor.nrc : ''}
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="staffGuarantorPosition" className="col-md-12">
+                    Staff Guarantor Position
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled
+                    value={this.state.selectedGuarantor !=null ?  this.state.selectedGuarantor.designations : ''}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="row" style={{ marginBottom: 10 }}>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="staffGuarantorBranch" className="col-md-12">
+                    Staff Guarantor Branch
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled
+                    value={this.state.selectedGuarantor!=null ? this.state.selectedGuarantor.location_master_name : ''}
+                  />
+                </div>
+              </div>
+            </div>
+            
+            <div className="col-md-12" style={{ marginBottom: 10 }}>
+              <div
+                className="col-md-12"
+                style={{ backgroundColor: "#27568A", color: "white", paddingTop: 5 }}
+              >
+                <h3>Family Guarantor Information</h3>
+              </div>
+            </div>
+            <div className="row" style={{ marginBottom: 10 }}>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="familyGuarantorName" className="col-md-12">
+                    Family Guarantor Name
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    // disabled
+                    onChange={this.familyName}
+                    value={this.state.selectedFamilyName}
+                    // required={this.state.selectedFamilyName == '' ? true : false}
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="familyGuarantorNRC" className="col-md-12">
+                    Family Guarantor NRC
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    // disabled
+                    onChange={this.familyNRC}
+                    value={this.state.selectedFamilyNRC}
+                    // required={this.state.selectedFamilyNRC=='' ? true : false}
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="relationWithFamily" className="col-md-12">
+                    Ralation with Family
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <Select
+                    styles={{
+                      container: (base) => ({
+                        ...base,
+                        //   flex: 1
+                        // width: 150,
+                        // marginRight:10
+                      }),
+                      control: (base) => ({
+                        ...base,
+                        minHeight: "18px",
+                      }),
+                    }}
+                    placeholder="Ralation with Family"
+                    options={this.state.familyRelation}
+                    onChange={this.handleSelectedFamilyRelation}
+                    value={this.state.selectedFamilyRelation}
+                    className="react-select-container"
+                    classNamePrefix="react-select"
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="familyGuarantorJob" className="col-md-12">
+                    Family Guarantor Job
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    // disabled
+                    onChange={this.familyJob}
+                    value={this.state.selectedFamilyJob}
+                    // required={this.state.selectedFamilyJob == '' ?  true : false}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="row" style={{ marginBottom: 10 }}>
+              <div className="col-md-6">
+                <div>
+                  <label htmlFor="familyGuarantorAddress" className="col-md-12">
+                    Family Guarantor Address
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <textarea
+                    type="text"
+                    className="form-control"
+                    // disabled
+                    rows={3}
+                    onChange={this.familyAddress}
+                    value={this.state.selectedFamilyAddress}
+                    // required={this.state.selectedFamilyAddress == '' ?  true : false}
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="familyGuarantorIncome" className="col-md-12">
+                    Family Guarantor Income
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="float"
+                    className="form-control"
+                    // disabled
+                    onChange={this.familyIncome}
+                    onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()}
+                    value={this.state.selectedFamilyIncome}
+                    // required={this.state.selectedFamilyIncome == 0 ? true : false}
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="familyGuarantorPhone" className="col-md-12">
+                    Family Guarantor Phone
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="number"
+                    className="form-control"
+                    // disabled
+                    onChange={this.familyPhone}
+                    onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()}
+                    value={this.state.selectedFamilyPhone}
+                    // required={this.state.selectedFamilyPhone == 0 ? true : false}
+                  />
+                </div>
+              </div>
+            </div>
+            
+            <div className="col-md-12" style={{ marginBottom: 10 }}>
+              <div
+                className="col-md-12"
+                style={{ backgroundColor: "#27568A", color: "white", paddingTop: 5 }}
+              >
+                <h3>Other Loan Information</h3>
+              </div>
+            </div>
+            <div className="row" style={{ marginBottom: 10 }}>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="otherLoan" className="col-md-12">
+                    Other Loan
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  
+                  <input
+                    type="checkbox"
+                    value='1'
+                    disabled={this.state.dataSource.length > 0}
+                    checked={this.state.OtherLoanSelectBox == 1 ? 'checked':''}
+                    onChange={this.handleSelectBoxOtherLoan}
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="otherLoanDropdown" className="col-md-12">
+                    Other Loan
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <Select
+                    styles={{
+                      container: (base) => ({
+                        ...base,
+                        //   flex: 1
+                        // width: 150,
+                        // marginRight:10
+                      }),
+                      control: (base) => ({
+                        ...base,
+                        minHeight: "18px",
+                      }),
+                    }}
+                    placeholder="Other Loan"
+                    options={this.state.OtherLoanList}
+                    onChange={this.handleOtherLoan}
+                    value={this.state.selectedOtherLoan}
+                    className="react-select-container"
+                    classNamePrefix="react-select"
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="nameOfInstitution" className="col-md-12">
+                    Name of Institution
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input type="text" className='form-control' value={this.state.selectedInstitutionName}
+                  onChange={this.handelInstitutionName}
+                   />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="outstandingAmount" className="col-md-12">
+                    Outstanding Amount
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input type="number" className="form-control" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={this.state.selectedOutstandingAmount}
+                  onChange={this.handleOutstandingAmount}
+                   />
+                </div>
+              </div>
+            </div>
+            <div className="row" style={{ marginBottom: 10 }}>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="installmentterm" className="col-md-12">
+                    Installment Term
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input type="number" className="form-control" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={this.state.selectedInstallmentTerm}
+                  onChange={this.handleInstallmentTerm}
+                   />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="installmentAmount" className="col-md-12">
+                    Installment Amount
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input type="number" className="form-control" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={this.state.selectedInstallmentAmount} 
+                  onChange={this.handleInstallmentAmount}
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="maturityDate" className="col-md-12">
+                    Maturity Date
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <DatePicker
+                    className="checkValidate"
+                    timeFormat={false}
+                    value={this.state.selectedMaturityDate}
+                    dateFormat="DD/MM/YYYY"
+                    onChange={this.handleMaturityDate}
+                  />
+                </div>
+              </div>
+              <div className="col-md-3" style={{ paddingTop: 20 }}>
+                <button
+                  className="btn btn-primary"
+                  id="add_button"
+                  type="button"
+                  onClick={this.addData}
+                >
+                  Add
+                </button>
+              </div>
+              <div className="col-md-12">
+                <table
+                  width="99%"
+                  className="table table-striped table-bordered table-hover responsive nowrap dt-responsive"
+                  id="dataTables-Table"
+                />
+              </div>
+            </div>
+            
+            <div className="col-md-12" style={{ marginBottom: 10 }}>
+              <div
+                className="col-md-12"
+                style={{ backgroundColor: "#27568A", color: "white", paddingTop: 5 }}
+              >
+                <h3>Loan Request Information</h3>
+              </div>
+            </div>
+            <div className="row" style={{ marginBottom: 10 }}>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="requestAmount" className="col-md-12">
+                    Request Amount
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input type="number" className="form-control" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={this.state.selectedRequestAmount}
+                  onChange={this.handleRequestAmount}
+                   />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="repaymentPeriod" className="col-md-12">
+                    Repayment Period
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input type="number" className="form-control" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={this.state.selectedRepaymentPeriod} 
+                  onChange={this.handleRepaymentPeriod}
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="installmentterm" className="col-md-12">
+                    Installment Amount
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input type="text" className="form-control" disabled value={this.state.InstallmentAmount} />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="loanPurpose" className="col-md-12">
+                    Loan Purpose
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input type="text" className="form-control" value={this.state.selectedLoanPurpose} onChange={this.handleLoanPurpose} />
+                </div>
+              </div>
+            </div>
+            <div className="row" style={{ marginBottom: 10 }}>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="withdrawLocation" className="col-md-12">
+                    Withdraw Location
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <Select
+                    styles={{
+                      container: (base) => ({
+                        ...base,
+                        //   flex: 1
+                        // width: 150,
+                        // marginRight:10
+                      }),
+                      control: (base) => ({
+                        ...base,
+                        minHeight: "18px",
+                      }),
+                    }}
+                    placeholder="Withdraw Location"
+                    options={this.state.WithdrawLocationList}
+                    onChange={this.handleWithdrawLocation}
+                    value={this.state.selectedWithdrawLocation}
+                    className="react-select-container"
+                    classNamePrefix="react-select"
+                  />
+                </div>
+
+              </div>
+            </div>
+
+           
+
+            <div className="col-md-12" style={{ marginBottom: 10 }}>
+              <div
+                className="col-md-12"
+                style={{ backgroundColor: "#27568A", color: "white", paddingTop: 5 }}
+              >
+                <h3>Attachment</h3>
+              </div>
+            </div>
+            <div className="row">
+              <div className="form-group col-md-6">
+                <div>
+                  <label
+                    htmlFor="attachment"
+                    className="col-sm-12 custom-file-label"
+                  >
+                    Family Member Income Document
+                  </label>
+                </div>
+                <div className="col-sm-10">
+                  <input
+                    className="dropZone "
+                    type="file"
+                    id="family_income_attach_file"
+                    multiple
+                    onChange={this.familyIncomeDoc.bind(this)}
+                  ></input>
+                </div>
+                <div>
+                  {this.state.FamilyIncomeDoc.map((data, index) => (
+                    <div className="fileuploader-items col-md-6">
+                      <ul className="fileuploader-items-list">
+                        <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
+                          <div className="columns">
+                            <div className="column-thumbnail">
+                              <div className="fileuploader-item-image fileuploader-no-thumbnail">
+                                <div
+                                  className="fileuploader-item-icon"
+                                  style={{ backgroundColor: "#3f4fd3" }}
+                                >
+                                  <i>{data.name.split(".")[1]}</i>
+                                </div>
+                              </div>
+                              <span className="fileuploader-action-popup"></span>
+                            </div>
+                            <div className="column-title">
+                              <span className="own-text">{data.name}</span>
+                            </div>
+                            <div className="column-actions">
+                              <a
+                                className="fileuploader-action fileuploader-action-remove"
+                                onClick={(event) =>
+                                  this.removeFamilyIncomeDoc(index, event)
+                                }
+                              >
+                                {" "}
+                                <i></i>
+                              </a>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="form-group col-md-6">
+                <div>
+                  <label
+                    htmlFor="attachment"
+                    className="col-sm-12 custom-file-label"
+                  >
+                    Staff Guarantor NRC Document
+                  </label>
+                </div>
+                <div className="col-sm-10">
+                  <input
+                    className="dropZone "
+                    type="file"
+                    id="staff_guarantor_nrc_attach_file"
+                    multiple
+                    onChange={this.staffGuarantorNRCDoc.bind(this)}
+                  ></input>
+                </div>
+                  <div>
+                    {this.state.StaffGuarantorNRCDoc.map((data, index) => (
+                      <div className="fileuploader-items col-md-6">
+                        <ul className="fileuploader-items-list">
+                          <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
+                            <div className="columns">
+                              <div className="column-thumbnail">
+                                <div className="fileuploader-item-image fileuploader-no-thumbnail">
+                                  <div
+                                    className="fileuploader-item-icon"
+                                    style={{ backgroundColor: "#3f4fd3" }}
+                                  >
+                                    <i>{data.name.split(".")[1]}</i>
+                                  </div>
+                                </div>
+                                <span className="fileuploader-action-popup"></span>
+                              </div>
+                              <div className="column-title">
+                                <span className="own-text">{data.name}</span>
+                              </div>
+                              <div className="column-actions">
+                                <a
+                                  className="fileuploader-action fileuploader-action-remove"
+                                  onClick={(event) =>
+                                    this.removeStaffGuarantorNRCDoc(index, event)
+                                  }
+                                >
+                                  {" "}
+                                  <i></i>
+                                </a>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+              </div>
+              
+              <div className="form-group col-md-6">
+                <div>
+                  <label
+                    htmlFor="attachment"
+                    className="col-sm-12 custom-file-label"
+                  >
+                    Requester NRC Document
+                  </label>
+                </div>
+                <div className="col-sm-10">
+                  <input
+                    className="dropZone "
+                    type="file"
+                    id="requester_nrc_attach_file"
+                    multiple
+                    onChange={this.RequesterNRCDoc.bind(this)}
+                  ></input>
+                </div>
+                <div>
+                  {this.state.RequestNRCDoc.map((data, index) => (
+                    <div className="fileuploader-items col-md-6">
+                      <ul className="fileuploader-items-list">
+                        <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
+                          <div className="columns">
+                            <div className="column-thumbnail">
+                              <div className="fileuploader-item-image fileuploader-no-thumbnail">
+                                <div
+                                  className="fileuploader-item-icon"
+                                  style={{ backgroundColor: "#3f4fd3" }}
+                                >
+                                  <i>{data.name.split(".")[1]}</i>
+                                </div>
+                              </div>
+                              <span className="fileuploader-action-popup"></span>
+                            </div>
+                            <div className="column-title">
+                              <span className="own-text">{data.name}</span>
+                            </div>
+                            <div className="column-actions">
+                              <a
+                                className="fileuploader-action fileuploader-action-remove"
+                                onClick={(event) =>
+                                  this.removeRequesterNRCDoc(index, event)
+                                }
+                              >
+                                {" "}
+                                <i></i>
+                              </a>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="form-group col-md-6">
+                  <div>
+                      <label
+                      htmlFor="attachment"
+                      className="col-sm-12 custom-file-label"
+                      >
+                      Family Guarantor NRC Document
+                      </label>
+                </div>
+                  <div className="col-sm-10">
+                    <input
+                    className="dropZone "
+                    type="file"
+                    id="family_guarantor_nrc_attach_file"
+                    multiple
+                    onChange={this.familyGuarantorNRCDoc.bind(this)}
+                    ></input>
+                  </div>
+                <div>
+                {this.state.FamilyGuarantorNRCDoc.map((data, index) => (
+                  <div className="fileuploader-items col-md-6">
+                    <ul className="fileuploader-items-list">
+                      <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
+                        <div className="columns">
+                          <div className="column-thumbnail">
+                            <div className="fileuploader-item-image fileuploader-no-thumbnail">
+                              <div
+                                className="fileuploader-item-icon"
+                                style={{ backgroundColor: "#3f4fd3" }}
+                              >
+                                <i>{data.name.split(".")[1]}</i>
+                              </div>
+                            </div>
+                            <span className="fileuploader-action-popup"></span>
+                          </div>
+                          <div className="column-title">
+                            <span className="own-text">{data.name}</span>
+                          </div>
+                          <div className="column-actions">
+                            <a
+                              className="fileuploader-action fileuploader-action-remove"
+                              onClick={(event) =>
+                                this.removeFamilyGuarantorNRCDoc(index, event)
+                              }
+                            >
+                              {" "}
+                              <i></i>
+                            </a>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                      ))}
+                  </div>
+                </div>
+                <div className="form-group col-md-6">
+                <div>
+                  <label
+                    htmlFor="attachment"
+                    className="col-sm-12 custom-file-label"
+                  >
+                    Other Attachment Files
+                  </label>
+                </div>
+                <div className="col-sm-10">
+                  <input
+                    className="dropZone "
+                    type="file"
+                    id="other_doc_attach_file"
+                    multiple
+                    onChange={this.OtherDoc.bind(this)}
+                  ></input>
+                </div>
+                <div>
+                  {this.state.OtherDoc.map((data, index) => (
+                    <div className="fileuploader-items col-md-6">
+                      <ul className="fileuploader-items-list">
+                        <li className="fileuploader-item file-has-popup file-type-application file-ext-odt">
+                          <div className="columns">
+                            <div className="column-thumbnail">
+                              <div className="fileuploader-item-image fileuploader-no-thumbnail">
+                                <div
+                                  className="fileuploader-item-icon"
+                                  style={{ backgroundColor: "#3f4fd3" }}
+                                >
+                                  <i>{data.name.split(".")[1]}</i>
+                                </div>
+                              </div>
+                              <span className="fileuploader-action-popup"></span>
+                            </div>
+                            <div className="column-title">
+                              <span className="own-text">{data.name}</span>
+                            </div>
+                            <div className="column-actions">
+                              <a
+                                className="fileuploader-action fileuploader-action-remove"
+                                onClick={(event) =>
+                                  this.removeOtherDoc(index, event)
+                                }
+                              >
+                                {" "}
+                                <i></i>
+                              </a>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div className="row save-btn">
+          <div className="float-right">
+            <div>
+              <button
+                className="btn btn-primary"
+                id="saving_button"
+                type="button"
+                onClick={this.save.bind(this)}
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+        </>}
         
         <ToastContainer />
         {
@@ -928,6 +1945,21 @@ class StaffLoanAddNew extends Component {
                     disabled
                     rows={3}
                     value={staffInfo.length > 0 ? staffInfo[0].address : ''}
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+              <div>
+                  <label htmlFor="personalPhone" className="col-md-12">
+                    Customer Code
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled
+                    value={staffInfo.length > 0 ? staffInfo[0].customer_code : ''}
                   />
                 </div>
               </div>

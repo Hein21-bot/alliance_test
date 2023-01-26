@@ -148,7 +148,7 @@ class StaffLoanMain extends Component {
   };
 
   render() {
-    console.log("role-id",this.state.user_info.role_id)
+    console.log("role-id",this.state.isNew)
     return (
       <div className="border-bottom white-bg dashboard-header">
         <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -196,7 +196,7 @@ class StaffLoanMain extends Component {
           </>
           
         ) : this.state.isAddNew ? ( console.log("addNew"),
-            <StaffLoanAddNew goToTable={this.goToTable} showToast={this.showToast}/>
+            <StaffLoanAddNew goToTable={this.goToTable} showToast={this.showToast} isNew={this.state.isNew}/>
         ) : this.state.isView ? (
           <StaffLoanView view={this.state.isView} dataSource={this.state.data} isNew={this.state.isNew} />
         ) : this.state.isEdit ? (
