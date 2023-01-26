@@ -80,6 +80,16 @@ export default class PayrollUpload extends Component {
       })
       .catch((error) => console.error(`Fetch Error =\n`, error));
   };
+  currencyFormat=(num)=> {
+    if(num == 0 || num == '' || num == null){
+      return num
+    }else{
+      let integer=parseInt(num)
+      console.log("number====><",typeof(num),num)
+      return integer.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    }
+    
+ }
 
   handleNextSSC = () => {
     this._setTableData([]);
@@ -211,28 +221,32 @@ export default class PayrollUpload extends Component {
   };
 
   handleFetchClick = () => {
-    fetch(`${main_url}pay_roll/getStaffLoan/${this.state.user_info!=null && this.state.user_info.user_id}`)
-    .then(response => {
-        if (response.ok) return response.json()
-    })
-    .then(res => {
-        if (res) {
-            this.setState({ 
-              dataSource: res,
-                
-            }, () => this._setTableData(this.state.requestData))
-        }else{
-          toast.error("There is no data to fetch!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-          });
-        }
-    })
-    .catch(error => console.error(`Fetch Error =\n`, error));
+    if(this.state.steps[this.state.activeStep] == "Leave Without Pay"){
+      fetch(`${main_url}payroll/getLeaveWithoutPay/${moment(this.props.filterDate).format("YYYY-MM")}`)
+      .then(response => {
+          if (response.ok) return response.json()
+      })
+      .then(res => {
+          if (res) {
+              this.setState({ 
+                dataSource: res,
+                  
+              }, () => this._setTableData(res))
+          }else{
+            toast.error("There is no data to fetch!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+            });
+          }
+      })
+      .catch(error => console.error(`Fetch Error =\n`, error));
+    }
+    
+    
     
   };
 
@@ -358,9 +372,11 @@ export default class PayrollUpload extends Component {
           : "-",
         state_name: data[i].state_name ? data[i].state_name : "-",
         deduction_amount: data[i].deduction_amount
-          ? data[i].deduction_amount.toLocaleString('en-US',{maximumFractionDigits:2})
+          // ? data[i].deduction_amount.toLocaleString('en-US',{maximumFractionDigits:2})
+          ? this.currencyFormat(data[i].deduction_amount)
+
           : data[i].allowance_amount
-          ? data[i].allowance_amount.toLocaleString('en-US',{maximumFractionDigits:2})
+          ? this.currencyFormat(data[i].allowance_amount)
           : "-",
       };
       l.push(obj);
@@ -411,6 +427,8 @@ export default class PayrollUpload extends Component {
 
   render() {
     const { steps, activeStep } = this.state;
+    let Deduction_total= this.state.dataSource.reduce((p,c)=>{return p+c.deduction_amount},0)
+    let Allowance_total=this.state.dataSource.reduce((p,c)=>{return p+c.allowance_amount},0)
     // console.log("datasource",this.state.steps[this.state.activeStep])
 
     return (
@@ -596,8 +614,8 @@ export default class PayrollUpload extends Component {
                 <div className="col-md-2">
                   <label htmlFor="" style={{textAlign:'right'}}>Total</label>
                   {
-                    this.state.dataSource[0].deduction_amount ?  <input type="text" className="form-control" value={this.state.dataSource.reduce((p,c)=>{return p+c.deduction_amount},0)} disabled />: 
-                    <input type="text" className="form-control" value={this.state.dataSource.reduce((p,c)=>{return p+c.allowance_amount},0)} disabled />
+                    this.state.dataSource[0].deduction_amount ?  <input type="float" className="form-control" value={this.currencyFormat(Deduction_total)} disabled />: 
+                    <input type="float" className="form-control" value={this.currencyFormat(Allowance_total)} disabled />
                   }
                  
                 </div>
