@@ -120,7 +120,7 @@ class EditEmployeeListForm extends Component {
         }
     }
   async  getCareerSubLevelOptions () {
-     await   fetch(`${main_url}allowLevel/getCareerSubLevel`)
+     await  fetch(`${main_url}allowLevel/getCareerSubLevel`)
         .then((res) => {
             if (res.ok) return res.json();
           })
@@ -134,17 +134,19 @@ class EditEmployeeListForm extends Component {
 
    async getEmployeeDetailsData() {
         // confirmation/getOneDetail/:user_id
-    await    this.getCareerSubLevelOptions();
+    await  this.getCareerSubLevelOptions();
         const { selectedEmployeeData, level_options, nrcList, granDistrictCodeList, districtCodeList, branchlist } = this.props
         const { disConstatusList } = this.state
-        fetch(`${main_url}confirmation/getOneDetail/${this.props.selectedEmployeeData.user_id}`)
+        await fetch(`${main_url}confirmation/getOneDetail/${this.props.selectedEmployeeData.user_id}`)
 
             .then(response => {
                 if (response.ok) return response.json()
             })
             .then(res => {
 
-                if (res) {
+                if (res.length > 0) {
+                    let filterCarrersubLevel=this.state.career_sublevel.filter(v=>v.career_sub_level == res[0].career_sub_level).length > 0 ? this.state.career_sublevel.filter(v=>v.career_sub_level == res[0].career_sub_level)[0].career_sub_level : '-'
+
                     this.setState({
                         userImage: res[0].avatar,
                         userImageUrl: res[0].avatar,
@@ -184,7 +186,8 @@ class EditEmployeeListForm extends Component {
                         employeeStatus: this.state.employeeStatusList.find(c => c.value == res[0].employee_status),
                         employeeDesignation: this.props.designationList.find(c => c.value == res[0].designations_id),
                         jobTitle: res[0].job_title,
-                        careerSubLevel : res[0].career_sub_level ? this.state.career_sublevel.filter(v=>v.career_sub_level_id == res[0].career_sub_level)[0].career_sub_level : '-',
+                        // careerSubLevel : res[0].career_sub_level ? this.state.career_sublevel.filter(v=>v.career_sub_level_id == res[0].career_sub_level)[0].career_sub_level : '-',
+                        careerSubLevel : filterCarrersubLevel,
                         carrerLevel: level_options && level_options.find(c => c.value == res[0].career_level_id) ? level_options.find(c => c.value == res[0].career_level_id) : null,
                         employeeDetailBranch: branchlist && branchlist.find(c => c.value == res[0].branch_name) ? branchlist.find(c => c.value == res[0].branch_name) : null,
                         employedDate: res[0].employ_date,
