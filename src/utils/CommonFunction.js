@@ -14,7 +14,7 @@ const CryptoJS = require('crypto-js');
 //  const main_url = "http://192.168.:8087/";  
 // server 
 
-// const main_url = "http://192.168.100.38:8082/" // local
+const main_url = "http://192.168.100.38:8082/" // local
 // const main_url = "http://localhost:8082/"
 
 
@@ -25,7 +25,7 @@ const CryptoJS = require('crypto-js');
 
 
 
-const main_url = "http://103.29.91.26:8032/";  // live server
+// const main_url = "http://103.29.91.26:8032/";  // live server
 // const main_url = "http://192.168.100.21/";  // kyaw gyi
 
 
