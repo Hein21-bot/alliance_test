@@ -688,7 +688,7 @@ class StaffLoanAddNew extends Component {
                     <div className="col-md-12 "><h4>Staff Loan Terms and Condition</h4>
                     </div>
                     <div className="col-md-12" style={{ marginTop: 30 }}>
-                      <p>Do want to agree staff loan terms and condition?</p>
+                      <p>Do you want to agree staff loan terms and condition?</p>
                       <div className="col-md-6">
                       <button className="btn btn-danger" onClick={() => window.location.reload()}><span>No</span> </button>
                       </div>
