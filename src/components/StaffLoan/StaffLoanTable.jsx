@@ -87,18 +87,24 @@ export default class StaffLoanTable extends Component {
       that.props.goToViewForm(data);
     });
 
-    $("#dataTables-table").on("click", "#toPrint", function () {
-      fetch(`${main_url}child_benefit/getChildAvailableAmount`)
-        .then((res) => {
-          if (res.ok) return res.json();
-        })
-        .then((list) => {
-          var data = $(this).find("#print").text();
-          data = $.parseJSON(data);
-
-          that.getPrintData(data, list.amount);
-        });
+    $("#dataTables-table").on("click", "#toReport", function () {
+      var data = $(this).find("#report").text();
+      data = $.parseJSON(data);
+      that.props.goToReportForm(data);
     });
+
+    // $("#dataTables-table").on("click", "#toPrint", function () {
+    //   fetch(`${main_url}child_benefit/getChildAvailableAmount`)
+    //     .then((res) => {
+    //       if (res.ok) return res.json();
+    //     })
+    //     .then((list) => {
+    //       var data = $(this).find("#print").text();
+    //       data = $.parseJSON(data);
+
+    //       that.getPrintData(data, list.amount);
+    //     });
+    // });
 
     $("#dataTables-table").on("click", "#toEdit", function () {
       var data = $(this).find("#edit").text();
@@ -349,17 +355,23 @@ getMyStaffLoan() {
 
                   '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' : '';
 
-              if (result.print === 1) {
-                  obj.action +=
-                      '<button style="margin-right:10px" class="btn btn-info btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-                      JSON.stringify(result) +
-                      '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
-              } else {
-                  obj.action +=
-                      '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
-                      JSON.stringify(result) +
-                      '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
-              }
+                  if (result.status === 3){
+                    obj.action +=
+                     '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toReport" ><span id="report" class="hidden" >' +
+                     JSON.stringify(result) +
+                     '</span>  <i className="fa fa-cogs"></i>&nbsp;Loan Settlement</button>';
+                  }
+              // if (result.print === 1) {
+              //     obj.action +=
+              //         '<button style="margin-right:10px" class="btn btn-info btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+              //         JSON.stringify(result) +
+              //         '</span>  <i className="fa fa-cogs"></i>&nbsp;Printed</button>';
+              // } else {
+              //     obj.action +=
+              //         '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toPrint" ><span id="print" class="hidden" >' +
+              //         JSON.stringify(result) +
+              //         '</span>  <i className="fa fa-cogs"></i>&nbsp;Print</button>';
+              // }
           }
       }else{
 

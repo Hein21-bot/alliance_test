@@ -14,6 +14,7 @@ import StaffLoanTable from "./StaffLoanTable";
 import StaffLoanAddNew from "./StaffLoanAddNew";
 import StaffLoanView from "./StaffLoanView";
 import StaffLoanEdit from "./StaffLoanEdit";
+import LoanSettlement from "./LoanSettlement";
 
 class StaffLoanMain extends Component {
   constructor() {
@@ -26,6 +27,7 @@ class StaffLoanMain extends Component {
       isTable: true,
       isView: false,
       isEdit: false,
+      isReport: false,
       data: [],
       permission_status: {},
       requestData: [],
@@ -71,7 +73,7 @@ class StaffLoanMain extends Component {
         fetch(main_url + "staff_loan_new/staffloanCondition/" + id)
         .then(async res => {
           status =  res.status;
-           return status == 400 ?  res.text() : res.json()
+           return status == 200 ? res.json() : res.text()
       })
       .then(text => {
         if (status === 200 ){
@@ -80,7 +82,8 @@ class StaffLoanMain extends Component {
             isEdit: false,
             isTable: false,
             isView: false,
-            isNew: text.is_new
+            isNew: text.is_new,
+            isReport: false
           });
         }
           else {
@@ -96,6 +99,7 @@ class StaffLoanMain extends Component {
       isEdit: false,
       isTable: true,
       isView: false,
+      isReport: false
     });
     window.location.reload();
   };
@@ -107,6 +111,7 @@ class StaffLoanMain extends Component {
       isEdit: false,
       isView: true,
       isTable: false,
+      isReport: false
     });
   };
 
@@ -117,6 +122,17 @@ class StaffLoanMain extends Component {
       isEdit: true,
       isView: false,
       isTable: false,
+      isReport: false
+    });
+  };
+  goToReportForm = (data) => {
+    this.setState({
+      data: data,
+      isAddNew: false,
+      isEdit: false,
+      isView: false,
+      isTable: false,
+      isReport: true
     });
   };
 
@@ -157,6 +173,7 @@ class StaffLoanMain extends Component {
           isAddNew={this.state.isAddNew}
           isView={this.state.isView}
           isEdit={this.state.isEdit}
+          isReport={this.state.isReport}
           permission={this.state.permission_status}
         />
 
@@ -191,7 +208,7 @@ class StaffLoanMain extends Component {
           data={this.state.requestData}
           requestlist={this.requestlist}
           permission={this.state.permission_status}
-          
+          goToReportForm={this.goToReportForm}
         />
           </>
           
@@ -201,6 +218,9 @@ class StaffLoanMain extends Component {
           <StaffLoanView view={this.state.isView} dataSource={this.state.data} isNew={this.state.isNew} />
         ) : this.state.isEdit ? (
           <StaffLoanEdit edit={this.state.isEdit} dataSource={this.state.data} showToast={this.showToast}/>
+        ): this.state.isReport ? (
+          // <div edit={this.state.isEdit} dataSource={this.state.data} showToast={this.showToast}/>
+          <LoanSettlement report={this.state.isReport} dataSource={this.state.data}/>
         ) : null }
       </div>
     );

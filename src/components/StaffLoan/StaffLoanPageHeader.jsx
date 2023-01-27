@@ -28,7 +28,7 @@ class StaffLoanPageHeader extends Component {
                 <div className="col-lg-2">
                     {
 
-                        this.props.isAddNew || this.props.isView || this.props.isEdit ?
+                        this.props.isAddNew || this.props.isView || this.props.isEdit || this.props.isReport ?
                             <a href={this.state.pathname}>
                                 <button className="btn btn-primary" >
                                     Back To List</button></a>
