@@ -871,8 +871,10 @@ function havePermissionForAmount(status, user_id) {
 }
 
 function havePermission(status, user_id) {
+    console.log("have permission",status,user_id)
     let user_info = getCookieData("user_info");
     if (user_id && user_id == user_info.user_id) {
+        console.log('if condition')
         return false
     } else {
         if (status.check_by > 0 || status.verify_by > 0 || status.approve_by > 0
