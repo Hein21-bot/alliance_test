@@ -1075,12 +1075,14 @@ class StaffLoanEdit extends Component {
   }
 
   render() {
-
     const{staffInfo,getGuarantorInfo}=this.state;
     const Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
+    
+    console.log("details",havePermission(this.state.work_flow_status,Details.user_id) && Details.status !=5,this.state.work_flow_status,Details.user_id)
+
     let otherLoanDetils=(this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.detailsData != undefined && this.state.staffInfoDetails.detailsData.length > 0 && this.state.staffInfoDetails.detailsData)
 
-    console.log("details=====>",this.state.selectedFamilyRelation)
+    // console.log("details=====>",this.state.selectedFamilyRelation)
     console.log(Details.status,this.state.selectedTermInMonths,this.state.selectedVerifyInstallmentAmount,this.state.ApproveAmount)
 
     return (
@@ -2489,7 +2491,7 @@ class StaffLoanEdit extends Component {
           </div>
         </div> */}
         <div className="row save-btn">
-                    {
+                    {/* {
                         havePermission(this.state.work_flow_status) && Details.status !=5 ?
                             <StaffLoanApprovalForm approvalStatus={this.approvalStatus.bind(this)} status={Details.status} work_flow={this.state.work_flow_status} />
                             :
@@ -2501,9 +2503,25 @@ class StaffLoanEdit extends Component {
                                     :
                                     ''
                                 }
-                                {/* <button onClick={this.save.bind(this)} id="saving_button" className="btn btn-primary"><span>Save</span> </button> */}
+                                
                             </div>
-                    }
+                    } */}
+                    
+                      
+                      { Details.status == 5 && Details.user_id == this.state.user_info.user_id ?
+                        <div className="col-md-12 btn-rightend">
+                          <div>
+                              <button onClick={()=>this.save()} className="btn btn-primary" id="saving_button" type="button">Confirm</button>
+                          </div>
+                          </div>
+                          :
+                          havePermission(this.state.work_flow_status,Details.user_id) && Details.status !=5 ?
+                            <StaffLoanApprovalForm approvalStatus={this.approvalStatus.bind(this)} status={Details.status} work_flow={this.state.work_flow_status} />
+                            : ''
+                      }
+                      
+                  
+                    
                 </div>
       </div>
     );
