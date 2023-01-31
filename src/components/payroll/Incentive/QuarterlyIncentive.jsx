@@ -154,7 +154,6 @@ export default class QuarterlyIncentive extends Component{
             for(let i = 0; i < files.length; i++) {
               var getfile = document.querySelector("#attachment").files[i];
               newFile.push(getfile)
-              console.log('kkkkk',newFile);
            this.setState({
               newDoc:newFile})
             };
@@ -226,8 +225,8 @@ export default class QuarterlyIncentive extends Component{
             .then( (response) => { 
               
              this.setState({ 
-               dataSource:response,
-               quarter:response[0] ? response[0].quarter : this.state.selected_quarter.value,
+               dataSource:response.data,
+               quarter:response.data[0] ? response.data[0].quarter : this.state.selected_quarter.value,
                loading:false,
                newDoc:[],
                viewButton:true

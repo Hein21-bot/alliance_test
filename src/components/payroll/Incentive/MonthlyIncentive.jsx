@@ -388,12 +388,12 @@ export default class MonthlyIncentive extends Component {
         } else if (status == 200 && this.state.selected_type.value == 2) {
           this.setState({
             loading: false,
-            fxData: response,
+            fxData: response.data,
             newDoc:response,
             deleteType: true,
             table_type: 2,
           });
-          await this._setDataTable(response);
+          await this._setDataTable(response.data);
         }
         //  else if (status == 200 && this.state.selected_type.value == 3) {
         //   this.setState({
