@@ -145,7 +145,14 @@ class EditEmployeeListForm extends Component {
             .then(res => {
 
                 if (res.length > 0) {
+                    let CarrerSubLevelFilter={}
+                    if(typeof(res[0].career_sub_level) == 'number'){
+                    let filterCarrersubLevel=this.state.career_sublevel.filter(v=>v.career_sub_level_id == res[0].career_sub_level).length > 0 ? this.state.career_sublevel.filter(v=>v.career_sub_level_id == res[0].career_sub_level)[0].career_sub_level : '-'
+                       CarrerSubLevelFilter=filterCarrersubLevel 
+                    }else{
                     let filterCarrersubLevel=this.state.career_sublevel.filter(v=>v.career_sub_level == res[0].career_sub_level).length > 0 ? this.state.career_sublevel.filter(v=>v.career_sub_level == res[0].career_sub_level)[0].career_sub_level : '-'
+                        CarrerSubLevelFilter=filterCarrersubLevel
+                    }
 
                     this.setState({
                         userImage: res[0].avatar,
@@ -187,7 +194,7 @@ class EditEmployeeListForm extends Component {
                         employeeDesignation: this.props.designationList.find(c => c.value == res[0].designations_id),
                         jobTitle: res[0].job_title,
                         // careerSubLevel : res[0].career_sub_level ? this.state.career_sublevel.filter(v=>v.career_sub_level_id == res[0].career_sub_level)[0].career_sub_level : '-',
-                        careerSubLevel : filterCarrersubLevel,
+                        careerSubLevel : CarrerSubLevelFilter,
                         carrerLevel: level_options && level_options.find(c => c.value == res[0].career_level_id) ? level_options.find(c => c.value == res[0].career_level_id) : null,
                         employeeDetailBranch: branchlist && branchlist.find(c => c.value == res[0].branch_name) ? branchlist.find(c => c.value == res[0].branch_name) : null,
                         employedDate: res[0].employ_date,
