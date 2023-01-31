@@ -32,7 +32,8 @@ class StaffLoanMain extends Component {
       permission_status: {},
       requestData: [],
       active_tab: 0,
-      isNew:null
+      isNew:null,
+      settlmentData:''
     };
   }
 
@@ -126,14 +127,21 @@ class StaffLoanMain extends Component {
     });
   };
   goToReportForm = (data) => {
+    fetch(main_url + "staff_loan_new/settleMentSheet/17")
+    .then(res => {
+       return  res.json()
+  })
+  .then(res => {
     this.setState({
-      data: data,
+      settlmentData: res,
       isAddNew: false,
       isEdit: false,
       isView: false,
       isTable: false,
       isReport: true
     });
+  })
+   
   };
 
   showToast = (status, text) => {
@@ -220,7 +228,7 @@ class StaffLoanMain extends Component {
           <StaffLoanEdit edit={this.state.isEdit} dataSource={this.state.data} showToast={this.showToast}/>
         ): this.state.isReport ? (
           // <div edit={this.state.isEdit} dataSource={this.state.data} showToast={this.showToast}/>
-          <LoanSettlement report={this.state.isReport} dataSource={this.state.data}/>
+          <LoanSettlement report={this.state.isReport} dataSource={this.state.settlmentData}/>
         ) : null }
       </div>
     );

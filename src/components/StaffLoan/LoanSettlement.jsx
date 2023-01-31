@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from "moment";
 const $ = require("jquery");
 const jzip = require("jzip");
 window.JSZip = jzip;
@@ -21,11 +22,10 @@ class LoanSettlement extends Component {
     this.setState({
         data:this.props.dataSource
     },()=>{
-        this._setTableData(this.state.data)
+        this._setTableData(this.state.data[0].data)
     })
 }
         _setTableData = (data) => {
-            console.log("data=====>", data)
             var table;
             var l = [];
             var status;
@@ -36,8 +36,8 @@ class LoanSettlement extends Component {
               obj = {
                 no: i + 1,
                 month: data[i].month ? data[i].month :'-',
-                month: data[i].month ? data[i].month :'-',
-                month: data[i].month ? data[i].month :'-',
+                monthlyinstall: data[i].monthly_installment ? data[i].monthly_installment :'-',
+                loanbalance: data[i].loanBalance ? data[i].loanBalance :'-',
               };
               l.push(obj);}
               
@@ -51,8 +51,8 @@ class LoanSettlement extends Component {
             var column = [
               { title: "No", data: "no" },
               { title: "Month", data: "month" },
-              { title: "Employee Id", data: "employee_id" },
-              { title: "Employee Name", data: "employee_name" },
+              { title: "Monthly Installment", data: "monthlyinstall" },
+              { title: "Loan Balance", data: "loanbalance" },
             
             ];
             table = $("#dataTables-table").DataTable({
@@ -88,7 +88,7 @@ class LoanSettlement extends Component {
             });
           };
     
-    render(){ console.log(this.props.dataSource);
+    render(){ console.log(this.props.dataSource[0]);
         return(
             <div style={{display:'flex',justifyContent:'center'}}>
             <div className='col-lg-6 col-md-8 col-sm-12' style={{ background: 'white',marginTop:30,border:"1px solid grey " }}>
@@ -96,11 +96,11 @@ class LoanSettlement extends Component {
             <div className="" style={{display:'flex',justifyContent:'center', background: '#1872ab',marginTop:20}}><h2 style={{color:"white",marginTop:10,fontSize:18,fontWeight:"bold"}}>Loan Settlement</h2>
             </div>
            <div className='col-lg-12' style={{paddingTop:'20px'}}>
-           <div><div className='col-lg-6 col-md-6'><p>Requester Name</p></div><div className='col-lg-1 col-md-1' style={{padding:0}}><p>:</p></div><div className=' col-lg-5 col-md-5'><p>{this.state.data.fullname ? this.state.data.fullname :'-'}</p><div></div></div></div>
-           <div><div className='col-lg-6 col-md-6'><p>Loan Disbrusement Date</p></div><div className='col-lg-1 col-md-1'style={{padding:0}}><p>:</p></div><div className=' col-lg-5 col-md-5'><p>{this.state.data.disbursement_date ? this.state.data.disbursement_date :'-'}</p><div></div></div></div>
-           <div><div className='col-lg-6 col-md-6'><p>Loan Approve Amount</p></div><div className='col-lg-1 col-md-1'style={{padding:0}}><p>:</p></div><div className=' col-lg-5 col-md-5'><p>{this.state.data.approved_amount ? this.state.data.approved_amount :'-'}</p><div></div></div></div>
-           <div><div className='col-lg-6 col-md-6'><p>Term in Month</p></div><div className='col-lg-1 col-md-1'style={{padding:0}}><p>:</p></div><div className=' col-lg-5 col-md-5'><p>{this.state.data.term_in_month ? this.state.data.term_in_month :'-'}</p><div></div></div></div>
-           <div><div className='col-lg-6 col-md-6'><p>Monthly Installment Amount</p></div><div className='col-lg-1 col-md-1'style={{padding:0}}><p>:</p></div><div className=' col-lg-5 col-md-5'><p>{this.state.data.term_in_month ? this.state.data.term_in_month :'-'}</p><div></div></div></div>
+           <div><div className='col-lg-6 col-md-6'><p>Requester Name</p></div><div className='col-lg-1 col-md-1' style={{padding:0}}><p>:</p></div><div className=' col-lg-5 col-md-5'><p>{this.props.dataSource[0].name ? this.props.dataSource[0].name :'-'}</p><div></div></div></div>
+           <div><div className='col-lg-6 col-md-6'><p>Loan Disbrusement Date</p></div><div className='col-lg-1 col-md-1'style={{padding:0}}><p>:</p></div><div className=' col-lg-5 col-md-5'><p>{this.props.dataSource[0].disbursement_date ? moment(this.props.dataSource[0].disbursement_date).format('DD-MM-YYYY') :'-'}</p><div></div></div></div>
+           <div><div className='col-lg-6 col-md-6'><p>Loan Approve Amount</p></div><div className='col-lg-1 col-md-1'style={{padding:0}}><p>:</p></div><div className=' col-lg-5 col-md-5'><p>{this.props.dataSource[0].approved_amount ? this.props.dataSource[0].approved_amount :'-'}</p><div></div></div></div>
+           <div><div className='col-lg-6 col-md-6'><p>Term in Month</p></div><div className='col-lg-1 col-md-1'style={{padding:0}}><p>:</p></div><div className=' col-lg-5 col-md-5'><p>{this.props.dataSource[0].term_in_month ? this.props.dataSource[0].term_in_month :'-'}</p><div></div></div></div>
+           <div><div className='col-lg-6 col-md-6'><p>Monthly Installment Amount</p></div><div className='col-lg-1 col-md-1'style={{padding:0}}><p>:</p></div><div className=' col-lg-5 col-md-5'><p>{this.props.dataSource[0].installment_amount ? this.props.dataSource[0].installment_amount :'-'}</p><div></div></div></div>
            </div>
            <table
           width="99%"
