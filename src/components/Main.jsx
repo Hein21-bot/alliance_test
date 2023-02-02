@@ -117,6 +117,7 @@ import AttendanceType from './Attendance/AttendanceType'
 import AttendanceHistory from './Attendance/AttendanceHistory'
 import HolidayAttendance from './Attendance/HolidayAttendance'
 import AttendanceReportMonthly from './Attendance/AttendanceReport'
+import AttendanceAdd from './Attendance/AttendanceAdd';
 
 import SSC from './payroll/SSC';
 
@@ -220,7 +221,7 @@ const Main = () => (
         <Route path='/hospitalization_type_master_data' component={HospitalizationType} />
 
         <Route path='/attendance_leave_report' component={AttendanceAndLeaveReport} />
-
+        
         <Route path='/leave_management' component={LeaveManagementMain} />
 
         <Route path="/employee_management" component={EmployeeListMain}></Route>
@@ -271,6 +272,7 @@ const Main = () => (
         <Route path='/attendance_history' component={AttendanceHistory}></Route>
         <Route path='/holiday_attendance' component={HolidayAttendance}></Route>
         <Route path='/attendance_report_monthly' component={AttendanceReportMonthly}></Route>
+        <Route path='/attendance_add' component={AttendanceAdd}></Route>
 
         <Route path={'/payroll_main'} component={PayrollMain}></Route>
         <Route path={'/payroll_upload'} component={PayrollUpload}/>
