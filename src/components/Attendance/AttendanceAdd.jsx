@@ -23,7 +23,7 @@ export default class AttendanceAdd extends Component{
             type:'',
             fieldLocation:'',
             reasonList:[],
-            // fieldReason:''
+            missAtt:false
            
         }
     }
@@ -267,26 +267,101 @@ this.setState({
         console.log(err)
       )
     }else if (this.state.type === '4' || this.state.type === '5' || this.state.type === '6' ){   console.log("api");
-      fetch(`${main_url}attendance/editAttendance`,{
+    let status = 0;
+    fetch(`${main_url}attendance/editAttendance`,{
         method:'POST',
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+        body:JSON.stringify(obj)
+      })
+      .then(response => { 
+        status=response.status
+        return response.text();
+      })
+      .then(text =>{
+        
+        if(status === 400){
+        this.setState({ 
+          modal:true,
+          message:text,
+          missAtt:true
+        })
+      }else if (status === 200){
+        window.location.reload()
+         toast(text)
+      }
+      })
+      .catch(err =>
+        console.log(err)
+      )
+      
+    }
+   }
+   show(){
+    if (this.state.missAtt){
+      var typeOne = this.state.type
+switch (typeOne){
+  case '4' :
+    var obj = {
+      data: {
+        userId:this.state.user_id,
+        latitude:this.state.latti,
+        longtitude:this.state.longi,
+        holidayCheckOut: true,
+      }
+    };
+    break;
+  case '5' :
+    var obj = {
+      data: {
+        userId:this.state.user_id,
+        latitude:this.state.latti,
+        longtitude:this.state.longi,
+        fieldCheckOut: true,
+        fieldCheckOutLocation:this.state.fieldLocation,
+        fieldCheckOutReason:this.state.reason.value,
+        fieldCheckOutRemark:this.state.fieldRemark,
+      }
+    };
+    break;
+  case '6' :
+    var obj = {
+      data: {
+        userId:this.state.user_id,
+        latitude:this.state.latti,
+        longtitude:this.state.longi,
+        earlyCheckOut: true,
+        earlyCheckOutReason:this.state.reason,
+      }
+    };  
+    break;  
+    default:  
+    var obj = {
+      data: ''
+    }; 
+    }
+      fetch(`${main_url}attendance/addAttendancePolicyNoCheckInData`,{
+        method:'POST',
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
         body:JSON.stringify(obj)
       })
       .then(response => {
         return response.text();
       })
       .then(text =>{
+        this.setState({ modal: false,latti:'',longi:'',showReason:false,missAtt:false });
         toast(text)
       })
-      .catch(err =>
-        console.log(err)
-      )
-    }
-   }
-   show(){
+      .catch(err => toast(err))
+
+    } else {
     this.setState({
      showReason:true,
      modal:false
-    })
+    })}
    }
 
    hide(e) {
@@ -308,12 +383,12 @@ this.setState({
       return response.text();
     })
     .then(text =>{
-      this.setState({ modal: false,latti:'',longi:'',showReason:false });
+      this.setState({ modal: false,latti:'',longi:'',showReason:false,missAtt:false });
       toast(text)
     })
     .catch(err => console.log(err))
   } else {
-this.setState({ modal: false,latti:'',longi:'',showReason:false });
+this.setState({ modal: false,latti:'',longi:'',showReason:false,missAtt:false });
   }
 }
 //    getGeolocation(){
@@ -334,7 +409,7 @@ this.setState({ modal: false,latti:'',longi:'',showReason:false });
 //     }
 //    }
 
-    render(){ console.log(this.state.fieldReason,this.state.reason);
+    render(){ 
         return(
 
         <div>
