@@ -70,7 +70,7 @@ class EmployeeDetailMain extends Component {
       selected_disCon_status: null,
       disConStatusList: [
         { value: 1, label: "True" },
-        { value: 2, label: "False" },
+        { value: 0, label: "False" },
       ],
       employmentDataForSingleUser: null,
       salaryList: [],
@@ -318,7 +318,8 @@ class EmployeeDetailMain extends Component {
             effectiveDate: data[0].last_promotion_date,
             actualDate: data[0].last_promotion_date,
             discontinute_date: data[0].discontinued_date ? moment(data[0].discontinued_date).format("YYYY-MM-DD") : null,
-            selected_disCon_status: this.state.disConStatusList.find((v) => v.value === parseInt(data[0].discontinued_status)) ? this.state.disConStatusList.find((v) => v.value === parseInt(data[0].discontinued_status)) : [{ value: 0, label: "False" }],
+            selected_disCon_status: this.state.disConStatusList.find((v) => v.value === parseInt(data[0].discontinued_status)) ? this.state.disConStatusList.find((v) => v.value === parseInt(data[0].discontinued_status)) : { value: 0, label: "False" },
+            // selected_disCon_status:{value:0,label:'br nyar'},
             salary: data[0].basic_salary,
             resignReason: data[0].resign_reason,
             selected_job: this.state.jobList.find((v) => v.label == data[0].job_title),
@@ -620,7 +621,8 @@ class EmployeeDetailMain extends Component {
         ? this.state.disConStatusList.find(
           (v) => v.value == parseInt(data.discontinute_status)
         )
-        : [{ value: 2, label: "False" }],
+        : { value: 0, label: "False" },
+      // selected_disCon_status:{value:234,label:'san ml'},
       salary: data.salary,
       resignReason: data.resign_reason,
       selected_job: this.state.jobList.find(
@@ -692,7 +694,7 @@ class EmployeeDetailMain extends Component {
         ? this.state.disConStatusList.find(
           (v) => v.value == parseInt(data.discontinute_status)
         )
-        : [{ value: 2, label: "False" }],
+        : [{ value: 0, label: "False" }],
       salary: data.salary,
       resignReason: data.resign_reason,
       selected_job: this.state.jobList.find(
@@ -761,6 +763,7 @@ class EmployeeDetailMain extends Component {
       date: actualDate ? moment(actualDate).format("YYYY-MM-DD") : null,
       salary: salary ? salary : "",
       job_title: selected_job ? selected_job.id : null,
+      
       discontinute_status: selected_disCon_status
         ? selected_disCon_status.value
         : null,
@@ -769,6 +772,13 @@ class EmployeeDetailMain extends Component {
         : null,
       resign_reason: resignReason ? resignReason : "",
     };
+    // if(typeof(selected_disCon_status)=='array'){
+    //   data.discontinute_status =selected_disCon_status.length > 0 ? selected_disCon_status.value : null
+    // }else{
+    //   data.discontinute_status=selected_disCon_status
+    //   ? selected_disCon_status.value
+    //   : null,
+    // }
     let status = 0;
     fetch(
       `${main_url}employee/updateEmploymentDetail/${selectedEmploymentData.id == undefined ? this.props.id : selectedEmploymentData.id}`,
@@ -881,6 +891,8 @@ class EmployeeDetailMain extends Component {
     this.getEmployeeList({ regionId, depId, branchId, designId, statusId });
   };
   render() {
+
+    console.log("discon status",this.state.selected_disCon_status)
     // console.log(this.state.selected_department !=null ? this.state.jobList.filter(v=>v.department_id == this.state.selected_department.departments_id) : this.state.selected_department.departments_id ==0 ? this.state.jobList : this.state.jobList.filter(v=>v.department_id == this.state.selected_department.departments_id))
     console.log(this.state.selected_department != null ? this.state.selected_department.department_id == 0 ? this.state.jobList : this.state.jobList.filter(v=>v.department_id == this.state.selected_department.departments_id) : this.state.jobList)
     const {
