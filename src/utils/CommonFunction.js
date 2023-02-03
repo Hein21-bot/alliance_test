@@ -14,14 +14,14 @@ const CryptoJS = require('crypto-js');
 //  const main_url = "http://192.168.:8087/";  
 // server 
 
-// const main_url = "http://192.168.100.38:8082/" // local
+const main_url = "http://192.168.100.38:8082/" // local
 // const main_url = "http://localhost:8082/"
 
 
 // const main_url = "http://103.29.91.26:50092/"; // test server
 
 
-const main_url = "http://103.29.91.26:50092/"; // test server
+// const main_url = "http://103.29.91.26:50092/"; // test server
 
 
 
@@ -635,6 +635,11 @@ async function getFXEmployeeList(id) {
     if (res.ok) return res.json();
     else return [];
 }
+async function getAttendanceReason() {
+    var res = await fetch(`${main_url}attendance/fieldAttendanceReason`);
+    if (res.ok) return res.json();
+    else return [];
+}
 
 function getActionStatus(status, data, createdBy, comment) {
     console.log("status title",status)
@@ -981,6 +986,6 @@ export {
     getInformation, checkAmount, setPrintedStatus, removeCookieData, getLoginUser,
     print, stopSaving, startSaving, fno, getFirstDayOfMonth, getFirstDayOfYear, checkLimitAmount,
     checkHRManager, checkHRAssistant, checkApprovalStatus, isApprover, havePermissionForAmount,
-    calculationDate, isRequestedUser, atten_report, approveAmount, calculationDate1, getAttendancePolicy,
+    calculationDate, isRequestedUser, atten_report, approveAmount, calculationDate1, getAttendancePolicy,getAttendanceReason,
     getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError,getFirstDayOfPrevMonth,getFirstDayOfNextMonth,getMonth,getFirstDayOfCurrentWeek
 }
