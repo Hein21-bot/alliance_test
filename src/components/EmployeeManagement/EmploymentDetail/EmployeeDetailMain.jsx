@@ -58,7 +58,7 @@ class EmployeeDetailMain extends Component {
       disconDate: "",
       resignReason: "",
       selectedEmploymentData: null,
-      selectedEmployeeId: "",
+      selectedEmployeeId: null,
       edit: false,
       view: false,
       level_options: null,
@@ -299,7 +299,7 @@ class EmployeeDetailMain extends Component {
         if (res.ok) return res.json();
       })
       .then((data) => {
-        console.log("data====>",data)
+        console.log("get data====>",data)
         if (data.length > 0) {
           this.setState({
             selectedEmploymentData: data[0],
@@ -307,7 +307,8 @@ class EmployeeDetailMain extends Component {
             view: false,
             addNew: true,
             date: moment(new Date()).format("YYYY-MM-DD"),
-            selectedEmployeeId: data.map((v) => ({ user_id: v.user_id, label: v.employment_id, value: v.employment_id }))[0],
+            // selectedEmployeeId:[{label:'23442',user_id:1,value:1}],
+            // selectedEmployeeId: data.map((v) => ({ user_id: v.user_id, label: v.employment_id, value: v.employment_id }))[0],
             employeeName: data[0].employee_name,
             selected_designation: this.state.designationList.find((c) => c.value == data[0].designations_id),//
             selected_branch: this.state.branchlist.find((c) => parseInt(c.value) === (data[0].branch_name ? parseInt(data[0].branch_name) : data[0].branch_name)),
@@ -585,7 +586,7 @@ class EmployeeDetailMain extends Component {
 
   goToEditForm = (data) => {
     console.log("branch list",this.state.branchlist)
-    console.log("data",data)
+    console.log("go to edit data====>",this.state.employeeIdList.filter((v) => v.user_id == data.user_id),data,this.state.employeeIdList)
     console.log("selected branch=================>",this.state.branchlist.find((v)=>v.label==data.branch_name))
     this.setState({
       selectedEmploymentData: data,
@@ -594,9 +595,12 @@ class EmployeeDetailMain extends Component {
       view: false,
 
       user_id: data.user_id,
-      selectedEmployeeId: this.state.employeeIdList.find(
-        (v) => v.user_id == data.user_id
-      ),
+      // selectedEmployeeId: this.state.employeeIdList.filter(
+      //   (v) => v.value == data.user_id
+      // ).length > 0 ? this.state.employeeIdList.filter(
+      //   (v) => v.value == data.user_id
+      // )[0] : null,
+      selectedEmployeeId:data.emp_id,
       employeeName: data.fullname,
       selected_designation: this.state.designationList.find(
         (c) => c.label == data.designation_name
@@ -668,7 +672,7 @@ class EmployeeDetailMain extends Component {
 
       user_id: data.user_id,
       selectedEmployeeId: this.state.employeeIdList.find(
-        (v) => v.user_id == data.user_id
+        (v) => v.value == data.user_id
       ),
       employeeName: data.fullname,
       selected_designation: this.state.designationList.find(
@@ -741,9 +745,9 @@ class EmployeeDetailMain extends Component {
       user_id: user_id,
       employed_status: selected_status ? selected_status.value : null,
       employee_name: employeeName ? employeeName.toUpperCase : '',
-      employee_code: selectedEmployeeId
-        ? selectedEmployeeId.label.trim()
-        : null,
+      employee_code: selectedEmployeeId.trim(),
+        // ? selectedEmployeeId.label.trim()
+        // : null,
       designation: selected_designation ? selected_designation.value : null,
       branch: selected_branch ? parseInt(selected_branch.value) : null,
       deparment: selected_department
@@ -892,7 +896,7 @@ class EmployeeDetailMain extends Component {
   };
   render() {
 
-    console.log("discon status",this.state.selected_disCon_status)
+    console.log("discon status",this.state.selectedEmployeeId,this.state.employeeIdList)
     // console.log(this.state.selected_department !=null ? this.state.jobList.filter(v=>v.department_id == this.state.selected_department.departments_id) : this.state.selected_department.departments_id ==0 ? this.state.jobList : this.state.jobList.filter(v=>v.department_id == this.state.selected_department.departments_id))
     console.log(this.state.selected_department != null ? this.state.selected_department.department_id == 0 ? this.state.jobList : this.state.jobList.filter(v=>v.department_id == this.state.selected_department.departments_id) : this.state.jobList)
     const {

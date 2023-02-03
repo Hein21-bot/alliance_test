@@ -31,14 +31,20 @@ const EmploymentForm = props => {
                                 Employee Code
                             </div>
                             <div className='col-lg-7 col-md-5'>
-                                <Select
+                                {
+                                    (view || edit) ?  
+                                <input type="text" className='form-control' value={selectedEmployeeId} disabled />
+                                : 
+                                    <Select
                                     options={employeeIdList}
                                     value={selectedEmployeeId}
                                     onChange={handleSelectedEmployeeId}
                                     className="react-select-container checkValidate"
                                     classNamePrefix="react-select"
                                     isDisabled={view ? true : edit ? true : false}
-                                />
+                                /> 
+                                }
+                                
                             </div>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
