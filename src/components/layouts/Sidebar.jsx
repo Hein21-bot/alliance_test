@@ -641,6 +641,17 @@ export default class Sidebar extends Component {
                   <span className="sideText">Attendance</span>
                 </a>
                 <ul className="nav nav-second-level collapse">
+
+                <li
+                    className={
+                      pathname === "/attendance_add" ? "active" : " "
+                    }
+                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Incomplete And Missing Report") && sidebarPermission.filter(d => d.permission == "Incomplete And Missing Report")[0].access == true ? 'block' : 'none') }}
+
+                  >
+                    <a href="/attendance_add">Attendance</a>
+                  </li>
+
                   <li
                     className={
                       pathname === "/incomplete_and_missing_report" ? "active" : " "
@@ -650,6 +661,7 @@ export default class Sidebar extends Component {
                   >
                     <a href="/incomplete_and_missing_report">Incomplete And Missing Report</a>
                   </li>
+
                   <li
                     className={
                       pathname === "/holiday_attendance" ? "active" : " "
