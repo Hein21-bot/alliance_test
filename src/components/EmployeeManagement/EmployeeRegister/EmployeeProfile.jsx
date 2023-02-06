@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 const EmployeeProfile = props => {
     const { userImage, handleClick, hiddenFileInput, districtCodeList, fullNRC, nrcList, handleProfileSave, nrc_number, handleChange, handleSelectedDistrictCode, handleSelectedNRCId,NrcFilterData, selected_DistrictCode, selected_NRC_Id, employeeId, region, address, joinDate, nationality, personalPhone, officePhone, dateOfBirth, handleInputChange, onGenderChange, employeeNameEng, employeeNameMyan, gender } = props
     const { onCancelClick, viewForm, editForm } = props
+    console.log("gender=====>",gender.toLowerCase())
 
 
     const imgUrl = userImage ? (userImage.includes('103.29.91.26') ? userImage : main_url + 'confirmation/getProfile/' + userImage) : ''
@@ -145,11 +146,11 @@ const EmployeeProfile = props => {
                         </div>
                         <div className='col-lg-7 col-md-6' style={{ display: 'flex', justifyContent: 'space-around' }}>
                             <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <input type="radio" value="male" name='gender' required={(viewForm) ? false : true} checked={gender === "male"} onChange={onGenderChange} /><div style={{ paddingLeft: 10 }}>Male</div>
+                                <input type="radio" value="male" name='gender' required={(viewForm) ? false : true} checked={gender.toLowerCase() === "male"} onChange={onGenderChange} /><div style={{ paddingLeft: 10 }}>Male</div>
 
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <input type="radio" value="female" name='gender' required={(viewForm) ? false : true} checked={gender === "female"} onChange={onGenderChange} /><div style={{ paddingLeft: 10 }}>Female</div>
+                                <input type="radio" value="female" name='gender' required={(viewForm) ? false : true} checked={gender.toLowerCase() === "female"} onChange={onGenderChange} /><div style={{ paddingLeft: 10 }}>Female</div>
 
                             </div>
                         </div>
