@@ -64,7 +64,8 @@ export default class StaffLoanApprovalForm extends Component {
 
     render() {
         const permission = this.props.work_flow;
-        console.log("br nyar",permission.check_by == 1 && this.props.status == 1, permission.verify_by== 1 && this.props.status==2,permission.approve_by== 1 && this.props.stauts == 3,this.props.status)
+        // console.log("br nyar",permission.check_by == 1 && this.props.status == 1, permission.verify_by== 1 && this.props.status==2,permission.approve_by== 1 && this.props.stauts == 3,this.props.status)
+        console.log("condition",this.props.status === 3,this.props.status === 4 ,this.props.status === 5,permission.check_by > 0 && this.props.status !== 0 ,permission.verify_by > 0 && this.props.status !== 1 ,permission.approve_by > 0 && this.props.status !== 2)
         return (
 
             <div>

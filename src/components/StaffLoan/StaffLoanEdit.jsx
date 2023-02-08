@@ -2170,7 +2170,7 @@ class StaffLoanEdit extends Component {
               
             </div>
             {
-              this.state.work_flow_status!=undefined && (this.state.work_flow_status.check_by ==1 || this.state.work_flow_status.verify_by == 1 || this.state.work_flow_status.approve_by == 1) ? 
+              this.state.work_flow_status!=undefined && (this.state.work_flow_status.check_by ==1 || this.state.work_flow_status.verify_by == 1 || this.state.work_flow_status.approve_by == 1)  ? 
               <>
                     <div className="col-md-12" style={{ marginBottom: 10 }}>
               <div
@@ -2239,7 +2239,7 @@ class StaffLoanEdit extends Component {
               </> : ''
             }
             {
-              this.state.work_flow_status !=undefined && (this.state.work_flow_status.verify_by == 1 || this.state.work_flow_status.approve_by == 1)
+              this.state.work_flow_status !=undefined && (this.state.work_flow_status.verify_by == 1 || this.state.work_flow_status.approve_by == 1) 
                ? 
                <>
                   <div className="col-md-12" style={{ marginBottom: 10 }}>
@@ -2290,12 +2290,17 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                <DatePicker
+                  {
+                    Details.status == 2 ? <DatePicker
                   className="checkValidate"
                   timeFormat={false}
+                 
                   value={moment(this.state.selectedDisbursementDate).format('DD/MM/YYYY')}
                   onChange={this.handleDisbursementDate}
-                />
+                /> :
+                <input type="text" className="form-control" value={moment(this.state.selectedDisbursementDate).format('DD/MM/YYYY')} disabled />
+                  }
+                
                   {/* <DatePicker
                     className="checkValidate"
                     timeFormat={false}
@@ -2312,7 +2317,7 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="number" className="form-control" value={this.state.selectedTermInMonths} onChange={this.handleTermInMonths}/>
+                  <input type="number" className="form-control"  value={this.state.selectedTermInMonths} disabled={Details.status != 2} onChange={this.handleTermInMonths}/>
                   {/* <DatePicker
                     className="checkValidate"
                     timeFormat={false}
@@ -2332,13 +2337,19 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <DatePicker
+                  {
+                    Details.status == 2 ? 
+                    <DatePicker
                     className="checkValidate"
                     timeFormat={false}
                     value={moment(this.state.selectedLoanCommitteeDate).format('DD/MM/YYYY')}
+                   
                     // dateFormat="DD/MM/YYYY"
                     onChange={this.handleLoanCommitteeDate}
-                  />
+                  /> : 
+                  <input type="text" className="form-control" value={moment(this.state.selectedLoanCommitteeDate).format('DD/MM/YYYY')} disabled/>
+                  }
+                  
                 </div>
               </div>
               <div className="col-md-6">
@@ -2348,7 +2359,7 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="number" className="form-control" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={this.state.selectedVerifyInstallmentAmount} 
+                  <input type="number" className="form-control" disabled={Details.status !=2} onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={this.state.selectedVerifyInstallmentAmount} 
                   onChange={this.handleVerifyInstallmentAmount}
                   />
                 </div>
@@ -2363,7 +2374,7 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="number" className="form-control" value={this.state.ApproveAmount}
+                  <input type="number" className="form-control" disabled={Details.status !=2 } value={this.state.ApproveAmount}
                   onChange={this.handleApproveAmount}
                    />
                 </div>
@@ -2375,7 +2386,7 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type="text" className="form-control" value={this.state.verifyComment} 
+                  <input type="text" className="form-control" disabled={Details.status !=2} value={this.state.verifyComment} 
                   onChange={this.handleVerifyComment}
                   />
                 </div>
@@ -2406,6 +2417,7 @@ class StaffLoanEdit extends Component {
                     type="checkbox"
                     value='1'
                     checked={this.state.warningCheck == 1 ? 'checked':''}
+                    disabled={Details.status !=2}
                     onChange={this.handleSelectWaringCheck}
                   />
                 </div>
@@ -2427,6 +2439,7 @@ class StaffLoanEdit extends Component {
                     type="file"
                     id="attachment"
                     multiple
+                    disabled={Details.status !=2}
                     onChange={this.verifyAttachment.bind(this)}
                   ></input>
                 </div>
