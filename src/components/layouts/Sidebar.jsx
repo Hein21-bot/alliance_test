@@ -766,7 +766,7 @@ export default class Sidebar extends Component {
                 </ul>
               </li>
               
-              <li
+              {/* <li
                 className={this.checkPathName() === "/payroll" || this.checkPathName()==='/incentive' || this.checkPathName() === 'payroll_calculation' || this.checkPathName() === '/payroll_reports'|| this.checkPathName()==='/pay_slip' || pathname === '/payslip_generate' || pathname === '/ssc' || pathname === "/payroll_main" || pathname === '/foreigner_salary' || pathname === "/resign_or_dismiss_salary" || pathname === '/backpay' || pathname === '/payroll_generate' || pathname ==='/payroll_pay_slip'|| pathname== '/monthly_incentive'|| pathname == "/quarterly_incentive_payslip" || pathname == "/monthly_incentive_payslip" || pathname == "/quarterly_incentive" ||  pathname == '/employee_salary_report' || pathname === '/monthly_report'|| pathname === '/quarterly_report' || pathname == '/ssc_report' ? "active" : ""}
                style={{display:PayRoll ? 'block': 'none'}}
              >
@@ -977,7 +977,7 @@ export default class Sidebar extends Component {
                 </ul>
                   </li>
                 </ul>
-              </li>
+              </li> */}
 
 
 
@@ -1213,7 +1213,7 @@ export default class Sidebar extends Component {
                 </a>
               </li>
 
-               <li
+               {/* <li
                 className={
                   this.checkPathName() === "/staff_loan" || "/staff_loan_before_committee" || '/staff_loan_approve' || '/staff_loan_after_committee' ? "active" : ""
                 }
@@ -1237,36 +1237,19 @@ export default class Sidebar extends Component {
                   </li>
                   <li className={pathname === "/staff_loan_before_committee" ? "active" : ""}>
                     <a href="/staff_loan_before_committee">
-                      {/* <i className="fas fa-clipboard-list"></i> */}
+                     
                       Staff Loan Before Committee Report
                     </a>
                   </li>
                   <li className={pathname === "/staff_loan_after_committee" ? "active" : ""}>
                     <a href="/staff_loan_after_committee">
-                      {/* <i className="fas fa-clipboard-list"></i> */}
+                     
                       Staff Loan After Committee Report
                     </a>
                   </li>
-                  {/* <li
-                    className={
-                      pathname === "/staff_loan_repayment" ? "active" : ""
-                    }
-                  >
-                    <a href="/staff_loan_repayment">
-                      <i className="fa fa-credit-card"></i>Repayment Schedule
-                    </a>
-                  </li>
-                  <li
-                    className={
-                      pathname === "/staff_loan_settlement" ? "active" : ""
-                    }
-                  >
-                    <a href="/staff_loan_settlement">
-                      <i className="fa fa-calendar"></i>Settlement Sheet
-                    </a>
-                  </li> */}
+                  
                 </ul>
-              </li> 
+              </li>  */}
 
 
 
