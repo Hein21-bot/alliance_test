@@ -327,6 +327,7 @@ class StaffLoanAfterComit extends Component {
             <tbody>
              {this.state.dataSource.length > 0 ?(
                 this.state.dataSource.map((v, i) => { 
+                  console.log("v====>",v)
                   return (
                     <>
                     <tr>
@@ -353,12 +354,12 @@ class StaffLoanAfterComit extends Component {
                      <td>{v.family_guarantor_nrc || '-'}</td>
                      <td>{v.family_guarantor_phone || '-'}</td>
                      <td>{v.customer_code || '-'}</td>
-                     <td>blank</td>
-                     <td>blank</td>
+                     <td></td>
+                     <td></td>
                      <td>{v.approved_amount ? v.approved_amount.toLocaleString() :'-'}</td>
                      <td>{v.term_in_month || '-'}</td>
                      <td>{v.approve_installment_amount ? v.approve_installment_amount.toLocaleString() : '-'}</td>
-                     <td>{v.status || '-'}</td>
+                     <td>{v.status == 1 ? "Check" : v.status == 2 ? 'Verify' : v.status == 3 ? 'Approve' : v.status == 4 ? "Referback" : "Reject" || '-'}</td>
                      <td>{v.approved_comment || '-'}</td>    
                 </tr>  </>
                      )

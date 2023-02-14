@@ -283,7 +283,7 @@ class BenefitWeddingAddNew extends Component {
         formdata.append("oldDoc", JSON.stringify(this.state.doc));
         formdata.append("wedding_benefit", JSON.stringify(data));
 
-        fetch(`${main_url}wedding_benefitfasfsad/${path}`, {
+        fetch(`${main_url}wedding_benefit/${path}`, {
           method: "POST",
           body: formdata,
         })

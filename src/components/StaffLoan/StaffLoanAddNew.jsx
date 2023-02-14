@@ -105,8 +105,10 @@ class StaffLoanAddNew extends Component {
     await fetch(`${main_url}staff_loan_new/getGuarantorInfo`)
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
+        let filterGuarantor=list.filter(v=>v.value != this.state.user_info.user_id)
+        console.log("filter guarantor",filterGuarantor)
         this.setState({
-          getGuarantorInfo: list
+          getGuarantorInfo: filterGuarantor
         })
       })
     await fetch(`${main_url}staff_loan_new/familyDropDown`)
@@ -348,7 +350,7 @@ class StaffLoanAddNew extends Component {
     const { userInfo } = this.state;
     console.log("other loan select box",this.state.OtherLoanSelectBox)
     var data = [...this.state.dataSource];
-    let filterData=data.filter(v=>v.other_loan == this.state.selectedOtherLoan.value)
+    let filterData=data.filter(v=>v.other_loan == this.state.selectedOtherLoan!=undefined && this.state.selectedOtherLoan!=null && this.state.selectedOtherLoan.value)
     console.log("data",data)
     let tempData = {};
     if (this.state.OtherLoanSelectBox == 1 && this.state.selectedOtherLoan !=null && this.state.selectedInstitutionName != '' &&
@@ -678,7 +680,7 @@ class StaffLoanAddNew extends Component {
   }
 
   render() {
-    console.log("info=======>",this.state.staffInfo)
+    console.log("info=======>",this.state.getGuarantorInfo)
     const{staffInfo,getGuarantorInfo}=this.state;
     return (
       <div className="">
@@ -786,10 +788,10 @@ class StaffLoanAddNew extends Component {
             </div>
 
             <div className="row" style={{ marginBottom: 10 }}>
-              <div className="col-md-3">
-                <div>
-                  <label htmlFor="dateOfBirth" className="col-md-12">
-                    Date of Birth
+            <div className="col-md-3">
+              <div>
+                  <label htmlFor="personalPhone" className="col-md-12">
+                    Customer Code
                   </label>
                 </div>
                 <div className="col-md-12">
@@ -797,7 +799,7 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={staffInfo.length > 0 ? staffInfo[0].dob : ''}
+                    value={staffInfo.length > 0 ? staffInfo[0].customer_code : ''}
                   />
                 </div>
               </div>
@@ -928,9 +930,9 @@ class StaffLoanAddNew extends Component {
                 </div>
               </div>
               <div className="col-md-3">
-              <div>
-                  <label htmlFor="personalPhone" className="col-md-12">
-                    Customer Code
+                <div>
+                  <label htmlFor="dateOfBirth" className="col-md-12">
+                    Date of Birth
                   </label>
                 </div>
                 <div className="col-md-12">
@@ -938,10 +940,11 @@ class StaffLoanAddNew extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={staffInfo.length > 0 ? staffInfo[0].customer_code : ''}
+                    value={staffInfo.length > 0 ? staffInfo[0].dob : ''}
                   />
                 </div>
               </div>
+              
             </div>
             
             <div className="col-md-12" style={{ marginBottom: 10 }}>
@@ -1161,7 +1164,7 @@ class StaffLoanAddNew extends Component {
                 </div>
                 <div className="col-md-12">
                   <input
-                    type="float"
+                    type="number"
                     className="form-control"
                     // disabled
                     onChange={this.familyIncome}
@@ -1179,11 +1182,11 @@ class StaffLoanAddNew extends Component {
                 </div>
                 <div className="col-md-12">
                   <input
-                    type="number"
+                    type="text"
                     className="form-control"
                     // disabled
                     onChange={this.familyPhone}
-                    onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()}
+                    // onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()}
                     value={this.state.selectedFamilyPhone}
                     // required={this.state.selectedFamilyPhone == 0 ? true : false}
                   />
@@ -1217,7 +1220,8 @@ class StaffLoanAddNew extends Component {
                   />
                 </div>
               </div>
-              <div className="col-md-3">
+              {
+                this.state.OtherLoanSelectBox == 1 ? <div className="col-md-3">
                 <div>
                   <label htmlFor="otherLoanDropdown" className="col-md-12">
                     Other Loan
@@ -1245,8 +1249,10 @@ class StaffLoanAddNew extends Component {
                     classNamePrefix="react-select"
                   />
                 </div>
-              </div>
-              <div className="col-md-3">
+              </div> : <></>
+              }
+              {
+                this.state.OtherLoanSelectBox == 1 ? <div className="col-md-3">
                 <div>
                   <label htmlFor="nameOfInstitution" className="col-md-12">
                     Name of Institution
@@ -1257,8 +1263,10 @@ class StaffLoanAddNew extends Component {
                   onChange={this.handelInstitutionName}
                    />
                 </div>
-              </div>
-              <div className="col-md-3">
+              </div> : <></>
+              }
+              {
+                this.state.OtherLoanSelectBox == 1 ? <div className="col-md-3">
                 <div>
                   <label htmlFor="outstandingAmount" className="col-md-12">
                     Outstanding Amount
@@ -1269,9 +1277,13 @@ class StaffLoanAddNew extends Component {
                   onChange={this.handleOutstandingAmount}
                    />
                 </div>
-              </div>
+              </div> : <></>
+              }
+              
+              
             </div>
-            <div className="row" style={{ marginBottom: 10 }}>
+            {
+              this.state.OtherLoanSelectBox == 1 ? <div className="row" style={{ marginBottom: 10 }}>
               <div className="col-md-3">
                 <div>
                   <label htmlFor="installmentterm" className="col-md-12">
@@ -1329,8 +1341,12 @@ class StaffLoanAddNew extends Component {
                   id="dataTables-Table"
                 />
               </div>
-            </div>
+            </div> : <></>
+            }
             
+            
+
+
             <div className="col-md-12" style={{ marginBottom: 10 }}>
               <div
                 className="col-md-12"
@@ -2238,7 +2254,8 @@ class StaffLoanAddNew extends Component {
                   />
                 </div>
               </div>
-              <div className="col-md-3">
+              {
+                this.state.OtherLoanSelectBox == 1 ? <div className="col-md-3">
                 <div>
                   <label htmlFor="otherLoanDropdown" className="col-md-12">
                     Other Loan
@@ -2266,8 +2283,10 @@ class StaffLoanAddNew extends Component {
                     classNamePrefix="react-select"
                   />
                 </div>
-              </div>
-              <div className="col-md-3">
+              </div> : <></>
+              }
+              {
+                this.state.OtherLoanSelectBox == 1 ? <div className="col-md-3">
                 <div>
                   <label htmlFor="nameOfInstitution" className="col-md-12">
                     Name of Institution
@@ -2278,8 +2297,10 @@ class StaffLoanAddNew extends Component {
                   onChange={this.handelInstitutionName}
                    />
                 </div>
-              </div>
-              <div className="col-md-3">
+              </div> : <></>
+              }
+              {
+                this.state.OtherLoanSelectBox == 1 ? <div className="col-md-3">
                 <div>
                   <label htmlFor="outstandingAmount" className="col-md-12">
                     Outstanding Amount
@@ -2290,9 +2311,13 @@ class StaffLoanAddNew extends Component {
                   onChange={this.handleOutstandingAmount}
                    />
                 </div>
-              </div>
+              </div> : <></>
+              }
+              
+              
             </div>
-            <div className="row" style={{ marginBottom: 10 }}>
+            {
+              this.state.OtherLoanSelectBox == 1 ? <div className="row" style={{ marginBottom: 10 }}>
               <div className="col-md-3">
                 <div>
                   <label htmlFor="installmentterm" className="col-md-12">
@@ -2350,8 +2375,12 @@ class StaffLoanAddNew extends Component {
                   id="dataTables-Table"
                 />
               </div>
-            </div>
+            </div> : <></>
+            }
             
+
+
+
             <div className="col-md-12" style={{ marginBottom: 10 }}>
               <div
                 className="col-md-12"

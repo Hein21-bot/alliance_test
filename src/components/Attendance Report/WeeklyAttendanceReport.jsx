@@ -149,32 +149,35 @@ class WeeklyAttendanceReport extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        const data_source = list.reduce((r,c)=> {
-          const R=[...r];
-          for(let i=0; i<=dateList_one.length; i++){
-            const index = R.findIndex(v=> v.name === c.name);
-            const isExistIndex = c.array.findIndex(v=> moment(v.start_time).format("MM/DD/YYYY") === dateList_one[i]);
-            if(isExistIndex > -1){
-              if(index > -1){
-                R[index][dateList_one[i]+'_in'] = moment(c.array[isExistIndex].start_time).format("HH:mm:ss A")
-                R[index][dateList_one[i]+'_out'] = moment(c.array[isExistIndex].end_time).format("HH:mm:ss A")
-              }else{
-                R.push({
-                  name: c.name,
-                  position: c.position,
-                  branch: c.branch,
-                  total_working_hours: c.total_hours,
-                  [dateList_one[i]+'_in']:  moment(c.array[isExistIndex].start_time).format("HH:mm:ss A"),
-                  [dateList_one[i]+'_out']: moment(c.array[isExistIndex].end_time).format("HH:mm:ss A"),
-                })
-              }
-            } 
-          }
-          return R
-        }, [])
-        this.setState({
-          dataSource: data_source
-        })
+        if(list!=undefined && list.length > 0){
+          const data_source = list.reduce((r,c)=> {
+            const R=[...r];
+            for(let i=0; i<=dateList_one.length; i++){
+              const index = R.findIndex(v=> v.name === c.name);
+              const isExistIndex = c.array.findIndex(v=> moment(v.start_time).format("MM/DD/YYYY") === dateList_one[i]);
+              if(isExistIndex > -1){
+                if(index > -1){
+                  R[index][dateList_one[i]+'_in'] = moment(c.array[isExistIndex].start_time).format("HH:mm:ss A")
+                  R[index][dateList_one[i]+'_out'] = moment(c.array[isExistIndex].end_time).format("HH:mm:ss A")
+                }else{
+                  R.push({
+                    name: c.name,
+                    position: c.position,
+                    branch: c.branch,
+                    total_working_hours: c.total_hours,
+                    [dateList_one[i]+'_in']:  moment(c.array[isExistIndex].start_time).format("HH:mm:ss A"),
+                    [dateList_one[i]+'_out']: moment(c.array[isExistIndex].end_time).format("HH:mm:ss A"),
+                  })
+                }
+              } 
+            }
+            return R
+          }, [])
+          this.setState({
+            dataSource: data_source
+          })
+        }
+       
       });
   };
   render() { console.log(this.state.dataSource);

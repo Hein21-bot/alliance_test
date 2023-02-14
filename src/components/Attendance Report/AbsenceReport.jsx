@@ -113,9 +113,12 @@ class AbsenceReport extends Component {
         fetch(`${main_url}attendance/absenceReport/${moment(this.state.from_date).format("YYYY-MM-DD")}/${moment(this.state.to_date).format("YYYY-MM-DD")}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.departmentId ? this.state.departmentId.value : 0}/${this.state.regionId ? this.state.regionId.value : 0}/${this.state.selectedEmployeeName ? this.state.selectedEmployeeName.value : 0}`)
           .then(res => { if (res.ok) return res.json() })
           .then(list => { 
-            this.setState({
-              array_one:list[0].absent
-            })
+            if(list !=undefined && list.length > 0){
+              this.setState({
+                array_one:list[0].absent
+              })
+            }
+            
           
             this._setTableData(this.state.array_one);
           })

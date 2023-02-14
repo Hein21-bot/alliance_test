@@ -149,9 +149,11 @@ export default class SalaryAdvanceList extends Component {
         },()=>{console.log(this.state.e_date)})
       }
     request(status) {
+       
         let data = this.state.salary_advance_list;
-        data = data.filter(d => { return status === d.status });
-        this._setTableData(data)
+        let filterData = this.state.requestData.filter(d =>d.status == status);
+        console.log('status',status,filterData)
+        this._setTableData(filterData)
     }
     filter() { console.log("asjhdahsdh",this.state.tab)
         if (this.state.tab == 0) {

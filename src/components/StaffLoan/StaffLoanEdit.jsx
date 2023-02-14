@@ -880,7 +880,9 @@ class StaffLoanEdit extends Component {
     // if (this.state.FamilyGuarantorNRCDoc.length == 0 && this.state.FamilyIncomeDoc.length == 0 && this.state.StaffGuarantorNRCDoc.length == 0 && this.state.RequestNRCDoc.length == 0) {
     //   toast.error("Please Choose Attachment File!");
     // } else {
-      if (this.state.FamilyGuarantorNRCDoc.length == 0 || this.state.FamilyIncomeDoc.length == 0 || this.state.StaffGuarantorNRCDoc.length == 0 || this.state.RequestNRCDoc.length == 0) {
+      let Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
+
+      if (this.state.FamilyGuarantorNRCDoc.length == 0 || this.state.FamilyIncomeDoc.length == 0 || this.state.StaffGuarantorNRCDoc.length == 0 || this.state.RequestNRCDoc.length == 0 || Details.status == 2 && this.state.verifyDoc.length == 0) {
         toast.error("Please Choose Attachment File");
       } else if(this.state.selectedFamilyRelation == null || this.state.selectedFamilyName == '' || this.state.selectedFamilyNRC=='' || this.state.selectedFamilyAddress == '' || this.state.selectedFamilyIncome==0 || this.state.selectedFamilyJob == '' || this.state.selectedFamilyPhone ==0 || this.state.selectedLoanPurpose == '' || this.state.selectedWithdrawLocation ==null || this.state.selectedGuarantor ==null || (this.state.OtherLoanSelectBox == 1 && this.state.otherLoanDetails.length == 0)){
         toast.error("You need to fill your information successfully");
@@ -924,7 +926,7 @@ class StaffLoanEdit extends Component {
             updatedBy: this.state.user_info.user_id,
           };
           
-          let Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
+          // let Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
           if(Details.status == 5){
             data.status =this.state.status
           }
@@ -1163,10 +1165,10 @@ class StaffLoanEdit extends Component {
             </div>
 
             <div className="row" style={{ marginBottom: 10 }}>
-              <div className="col-md-3">
-                <div>
-                  <label htmlFor="dateOfBirth" className="col-md-12">
-                    Date of Birth
+            <div className="col-md-3">
+              <div>
+                  <label htmlFor="personalPhone" className="col-md-12">
+                    Customer Code
                   </label>
                 </div>
                 <div className="col-md-12">
@@ -1174,10 +1176,11 @@ class StaffLoanEdit extends Component {
                     type="text"
                     className="form-control"
                     disabled
-                    value={staffInfo.length > 0 ? staffInfo[0].dob : ''}
+                    value={staffInfo.length > 0 ? staffInfo[0].customer_code : ''}
                   />
                 </div>
               </div>
+              
               <div className="col-md-3">
                 <div>
                   <label htmlFor="employedDate" className="col-md-12">
@@ -1301,6 +1304,21 @@ class StaffLoanEdit extends Component {
                     disabled
                     rows={3}
                     value={staffInfo.length > 0 ? staffInfo[0].address : ''}
+                  />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div>
+                  <label htmlFor="dateOfBirth" className="col-md-12">
+                    Date of Birth
+                  </label>
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled
+                    value={staffInfo.length > 0 ? staffInfo[0].dob : ''}
                   />
                 </div>
               </div>
