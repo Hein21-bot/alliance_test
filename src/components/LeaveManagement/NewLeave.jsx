@@ -150,22 +150,23 @@ export default class NewLeave extends Component {
 
 
     leaveDays(startDate, endDate) {
-        console.log("leave days",startDate,endDate)
-        if (startDate <= endDate) {
+        let start_date = moment(startDate).format('YYYY-MM-DD')
+        let end_date = moment(endDate).format('YYYY-MM-DD')
+        if (start_date <= end_date) {
             if (this.state.selectedCategory.value == 4 || this.state.selectedCategory.value == 1 || this.state.selectedCategory.value == 5) {
 
                 if (this.state.selectedCategory.value == 4) {
                     this.setState({
-                        leave_days1: calculationDate1(startDate, endDate) - parseInt(this.state.holidays)
+                        leave_days1: calculationDate1(start_date, end_date) - parseInt(this.state.holidays)
                     })
                 } else {
                     this.setState({
-                        leave_days1: (calculationDate1(startDate, endDate) - parseInt(this.state.holidays)) > 5 ? calculationDate(startDate, endDate) : (calculationDate1(startDate, endDate) - parseInt(this.state.holidays))
+                        leave_days1: (calculationDate1(start_date, end_date) - parseInt(this.state.holidays)) > 5 ? calculationDate(start_date, end_date) : (calculationDate1(start_date, end_date) - parseInt(this.state.holidays))
                     })
                 }
             } else {
                 this.setState({
-                    leave_days1: calculationDate(startDate, endDate)
+                    leave_days1: calculationDate(start_date, end_date)
                 })
             }
 
