@@ -4,7 +4,7 @@ import HelpDeskRequesterInfo from './HelpDeskRequesterInfo';
 import Select from 'react-select';
 import {
     main_url, validate, getTicketMainCategory, getTicketStatus, getBranch, getDepartment,
-    getPriority, getUserId, getSeverity, startSaving, stopSaving, getTicketCategoryType, getTicketSubCategory
+    getPriority, getUserId, getSeverity, startSaving, stopSaving, getTicketCategoryType, getTicketSubCategory,getUserInfo
 } from '../../utils/CommonFunction';
 
 const user_status = [{ value: 1, label: 'Accept' }, { value: 2, label: 'Reject' }];
@@ -34,6 +34,7 @@ export default class HelpDeskView
             newDoc: [],
             selectedSeverity: [],
             selectedPriority: [],
+            userInfo: null
         }
     }
 
@@ -90,7 +91,8 @@ export default class HelpDeskView
             severity: severity,
             selected_requested_dept: { value: data.requestedDept, label: data.requestedDeptname },
             selectedPriority: { value: data.priority, label: data.priorityName },
-            selectedSeverity: { value: data.severity, label: data.severityName }
+            selectedSeverity: { value: data.severity, label: data.severityName },
+            userInfo: await getUserInfo(this.state.updatedBy)
         }, () => {
             this.setTicketMainCategory();
             this.setTicketSubCategory(data.mainCategoryId)
@@ -437,7 +439,8 @@ export default class HelpDeskView
 
 
     render() {
-        console.log("?>>",this.state.data)
+        let user_depertment = this.state.userInfo != null && this.state.userInfo[0].departments_id
+        console.log("?>>",this.state.data, this.props.data.helpDesk[0].departmentId == user_depertment)
         return (
             <div>
                 <div className="form-horizontal mt20" name="demo-form" id="check_form">
@@ -763,9 +766,9 @@ export default class HelpDeskView
                         <HelpDeskRequesterInfo user_id={this.state.data.createdBy} />
                     </div>
                     <div className="row margin-top-20">
-                        <div className="col-md-12 btn-rightend">
+                        {this.props.data.helpDesk[0].departmentId == user_depertment ? <div className="col-md-12 btn-rightend">
                             <button onClick={this.check.bind(this)} id="saving_button" className="btn btn-primary"><span>Save</span> </button>
-                        </div>
+                        </div> : null}
                     </div>
                 </div>
             </div>
