@@ -302,7 +302,8 @@ class StaffLoanAddNew extends Component {
     })
   }
   handleRequestAmount=(e)=>{
-    if(this.state.selectedRepaymentPeriod == 0){
+    if(this.state.selectedRepaymentPeriod == 0 || this.state.selectedRepaymentPeriod == ''){
+      console.log("if request amount")
       this.setState({
         selectedRequestAmount:e.target.value,
         InstallmentAmount:e.target.value
@@ -310,6 +311,7 @@ class StaffLoanAddNew extends Component {
       })
     }else{
       const tempAmount= e.target.value / this.state.selectedRepaymentPeriod
+      console.log("else request amount")
       this.setState({
         selectedRequestAmount:e.target.value,
         InstallmentAmount:tempAmount.toFixed(0)
@@ -319,7 +321,9 @@ class StaffLoanAddNew extends Component {
   }
   
   handleRepaymentPeriod=(e)=>{
-    const tempAmount=this.state.selectedRequestAmount / e.target.value
+    const tempData=(e.target.value == 0 || e.target.value == '') ? 1 : e.target.value
+    const tempAmount=this.state.selectedRequestAmount / tempData
+    console.log("repayment period")
     this.setState({
       selectedRepaymentPeriod:e.target.value,
       InstallmentAmount:tempAmount.toFixed(0)
@@ -597,7 +601,8 @@ class StaffLoanAddNew extends Component {
     else {
       if (this.state.FamilyGuarantorNRCDoc.length > 0 && this.state.FamilyIncomeDoc.length > 0 && this.state.StaffGuarantorNRCDoc.length > 0 && this.state.RequestNRCDoc.length > 0 && this.state.selectedFamilyRelation != null && this.state.selectedFamilyName != '' && this.state.selectedFamilyNRC!='' && this.state.selectedFamilyAddress != '' && this.state.selectedFamilyIncome!=0 && this.state.selectedFamilyJob != '' && this.state.selectedFamilyPhone !=0 && this.state.selectedWithdrawLocation !=null && this.state.selectedLoanPurpose != '' && this.state.selectedGuarantor !=null ) {
         console.log("save new doc", this.state.newDoc);
-        // $("#saving_button").attr("disabled", true);
+        
+        $("#saving_button").attr("disabled", true);
         var data = {
           userId: this.state.user_info.user_id,
           staffGuarantorUserId:this.state.selectedGuarantor!=null ? this.state.selectedGuarantor.value : '',

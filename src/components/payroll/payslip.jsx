@@ -146,12 +146,12 @@ class PaySlip extends Component {
                     <div className=' col-lg-5' style={{ paddingLeft: '90px', paddingTop: '10px' }}>
                         <p>{this.state.data.length > 0 && this.state.data[0].payment_detail[0].basic_salary}</p>
                         {this.state.data.length > 0 && this.state.data[0].deduction_detail.map(v =>
-                            <p>{v.salary_payment_deduction_value}</p>
+                            <p>{v.salary_payment_deduction_value.toFixed(0)}</p>
                         )}
                         {this.state.data.length > 0 && this.state.data[0].allowance_detail.map(v =>
-                            <p>{v.salary_payment_allowance_value}</p>
+                            <p>{v.salary_payment_allowance_value.toFixed(0)}</p>
                         )}
-                        <p>{this.state.data.length > 0 && this.state.data[0].payment_amount}</p>
+                        <p>{this.state.data.length > 0 && this.state.data[0].payment_amount.toFixed(0)}</p>
                     </div>
                     <div style={{ paddingLeft: '30px', paddingBottom: '10px' }}><h3>Remark : {this.state.data.length > 0 && this.state.data[0].remark ? this.state.data[0].remark :'-'}</h3></div>
                 </div>
