@@ -22,9 +22,9 @@ class PhoneBillParent extends Component {
     }
 
     async componentDidMount() {
-        var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Phone Bill', 'Allowance');
+        //var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Phone Bill', 'Allowance');
 
-        // var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Phone Bill', 'Allowance');
+         var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Phone Bill', 'Allowance');
         this._getPhoneBillRequest();
         this.setState({
             permission_status: permission_status

@@ -95,9 +95,9 @@ class ImcompleteAndMissingReport extends Component {
       user_id,
       selected_checkbox,
     } = this.state;
-    var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Attendance', 'Attendance');
+   // var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Attendance', 'Attendance');
 
-    // var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Attendance', 'Attendance');
+     var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Attendance', 'Attendance');
     let branch = await getBranch();
     branch.unshift({ label: "All", value: 0 });
     let department = await getDepartment();
