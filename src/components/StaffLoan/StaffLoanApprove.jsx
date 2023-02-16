@@ -269,7 +269,7 @@ class StaffLoanApprove extends Component {
     var XLSX = require("xlsx");
     var wb=XLSX.utils.book_new()
     var ws=XLSX.utils.json_to_sheet(data)
-    XLSX.utils.book_append_sheet(wb,ws,"Sheet 1")
+    XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
     XLSX.writeFile(wb,"Staff Loan Approve.xlsx")
 
   }

@@ -67,7 +67,7 @@ class HrStatistics extends Component {
     this.getBranchList();
     this.getDesignationList();
     this.getEmployeeName();
-    // this.handleSearchData();
+    this.handleSearchData();
 
     
   }
@@ -262,21 +262,44 @@ class HrStatistics extends Component {
       });
     
   }
-  // handleSearchData = () => {
+  handleSearchData = () => {
     
-  //   const branchId = this.state.selected_Branch ? this.state.selected_Branch.value : 0
-  //   const departmentId = this.state.selected_department ? this.state.selected_department.departments_id : 0
-  //   const designationId = this.state.selected_designation ? this.state.selected_designation.value : 0
-  //   const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
-  //   const employee = this.state.selected_employee ? this.state.selected_employee.value : 0
+    const branchId = this.state.selected_Branch ? this.state.selected_Branch.value : 0
+    const departmentId = this.state.selected_department ? this.state.selected_department.departments_id : 0
+    const designationId = this.state.selected_designation ? this.state.selected_designation.value : 0
+    const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
+    const employee = this.state.selected_employee ? this.state.selected_employee.value : 0
    
 
-  //   fetch(main_url + "report/employeeReport/" + regionId + "/" + departmentId + "/" + branchId + "/" + designationId + "/" + employee)
-  //     .then(res => { if (res.ok) return res.json() })
-  //     .then(list => {
-  //       this._setTableData(list);
-  //     })
-  // }
+    // fetch(main_url + "report/HRStatisticReport/" + regionId + "/" + departmentId + "/" + branchId + "/" + designationId + "/" + employee)
+    fetch(main_url + "report/HRStatisticReport/2020")
+
+      .then(res => { if (res.ok) return res.json() })
+      .then(list => {
+        console.log("api list",list)
+        let temp=[]
+        let mapList=list.map(v=>v.map(a=>temp.push(a)))
+        console.log("temp data",temp)
+        const combinedData = temp.reduce((acc, obj) => {
+          const year = obj.year;
+          
+          acc[year] = acc[year] || {};
+          Object.assign(acc[year], obj);
+          // console.log("acc year",acc,Object.assign(acc[year],obj))
+          return acc;
+        }, {});
+        const sortedData = Object.values(combinedData).sort((a, b) => {
+          if (a.year < b.year) {
+            return -1;
+          }
+          if (a.year > b.year) {
+            return 1;
+          }
+          return 0;
+        });
+        console.log("combined data",sortedData)
+      })
+  }
   render() {
     const data1 = [
       {"HOCount": 102, "year": "2020-1" },
