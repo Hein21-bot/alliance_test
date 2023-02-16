@@ -27,9 +27,9 @@ class SalaryAdvanceMain extends Component {
     }
 
     async componentDidMount() {
-        //var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Salary Advance', 'Allowance');
+        var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Salary Advance', 'Allowance');
 
-         var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Salary Advance', 'Allowance');
+         //var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Salary Advance', 'Allowance');
         // this.getSalaryAdvanceList();
         this.setState({
             permission_status: permission_status

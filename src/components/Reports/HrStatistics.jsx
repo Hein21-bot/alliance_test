@@ -191,18 +191,21 @@ class HrStatistics extends Component {
         let obj = [];
         obj = {
           no: i + 1,
-          employee_id: data[i].employment_id ? data[i].employment_id : '-',
-          employee_name: data[i].fullname ?data[i].fullname : "-",
-          branch: data[i].branch_name ? data[i].branch_name : "-",
-          phone_no: data[i].phone ? data[i].phone : "-",
-          designation: data[i].designations ? data[i].designations : "-",
-          employee_date:data[i].employ_date == null ? "-": moment(data[i].employ_date).format("YYYY-MM-DD"),
-          region: data[i].region_name ? data[i].region_name : "-",
-          martial_status: data[i].martial_status ? data[i].martial_status : '-',
-          contact_person: data[i].contact_person ? data[i].contact_person : '-',
-          contact_phone: data[i].contact_person_phone ? data[i].contact_person_phone : "-",
-          guarantee_contact_person: data[i].guarantee_person ? data[i].guarantee_person : '-',
-          guarantee_contact_phone: data[i].gurantee_person_phone ? data[i].gurantee_person_phone : "-",
+          branch_count:data[i].BranchCount,
+          ho_count:data[i].HOCount,
+          year:data[i].year
+          // employee_id: data[i].employment_id ? data[i].employment_id : '-',
+          // employee_name: data[i].fullname ?data[i].fullname : "-",
+          // branch: data[i].branch_name ? data[i].branch_name : "-",
+          // phone_no: data[i].phone ? data[i].phone : "-",
+          // designation: data[i].designations ? data[i].designations : "-",
+          // employee_date:data[i].employ_date == null ? "-": moment(data[i].employ_date).format("YYYY-MM-DD"),
+          // region: data[i].region_name ? data[i].region_name : "-",
+          // martial_status: data[i].martial_status ? data[i].martial_status : '-',
+          // contact_person: data[i].contact_person ? data[i].contact_person : '-',
+          // contact_phone: data[i].contact_person_phone ? data[i].contact_person_phone : "-",
+          // guarantee_contact_person: data[i].guarantee_person ? data[i].guarantee_person : '-',
+          // guarantee_contact_phone: data[i].gurantee_person_phone ? data[i].gurantee_person_phone : "-",
         }
         l.push(obj)
 
@@ -216,18 +219,21 @@ class HrStatistics extends Component {
       }
       var column = [
         { title: "No", data: "no" },
-        { title: "Employee Id", data: "employee_id" },
-        { title: "Employee Name", data: "employee_name" },
-        { title: "Designation", data: "designation" },
-        { title: "Employee Date", data: "employee_date" },
-        { title: "Region", data: "region" },
-        { title: "Branch", data: "branch" },
-        { title: "Phone No", data: "phone_no" },
-        { title: "Martial Status", data: "martial_status" },
-        { title: "Contact Person", data: "contact_person" },
-        { title: "Contact Phone", data: "contact_phone" },
-        { title: "Guarantee Contact Person", data: "guarantee_contact_person" },
-        { title: "Guarantee Contact Phone", data: "guarantee_contact_phone" },
+        {title:"Year",data:"year"},
+        { title: "Branch Count", data: "branch_count" },
+        { title: "Ho Count", data: "ho_count" },
+        // { title: "Employee Id", data: "employee_id" },
+        // { title: "Employee Name", data: "employee_name" },
+        // { title: "Designation", data: "designation" },
+        // { title: "Employee Date", data: "employee_date" },
+        // { title: "Region", data: "region" },
+        // { title: "Branch", data: "branch" },
+        // { title: "Phone No", data: "phone_no" },
+        // { title: "Martial Status", data: "martial_status" },
+        // { title: "Contact Person", data: "contact_person" },
+        // { title: "Contact Phone", data: "contact_phone" },
+        // { title: "Guarantee Contact Person", data: "guarantee_contact_person" },
+        // { title: "Guarantee Contact Phone", data: "guarantee_contact_phone" },
       ]
       table = $("#dataTables-table").DataTable({
 
@@ -247,7 +253,7 @@ class HrStatistics extends Component {
           
           {
               extend: 'excelHtml5',
-              title: 'HR Staticts Report',
+              title: 'HR Statistics Report',
           },
          
         ],
@@ -256,23 +262,56 @@ class HrStatistics extends Component {
       });
     
   }
-  handleSearchData = () => {
-    // this.setState({
-    const branchId = this.state.selected_Branch ? this.state.selected_Branch.value : 0
-    const departmentId = this.state.selected_department ? this.state.selected_department.departments_id : 0
-    const designationId = this.state.selected_designation ? this.state.selected_designation.value : 0
-    const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
-    const employee = this.state.selected_employee ? this.state.selected_employee.value : 0
-    // })
+  // handleSearchData = () => {
+    
+  //   const branchId = this.state.selected_Branch ? this.state.selected_Branch.value : 0
+  //   const departmentId = this.state.selected_department ? this.state.selected_department.departments_id : 0
+  //   const designationId = this.state.selected_designation ? this.state.selected_designation.value : 0
+  //   const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
+  //   const employee = this.state.selected_employee ? this.state.selected_employee.value : 0
+   
 
-    fetch(main_url + "report/employeeReport/" + regionId + "/" + departmentId + "/" + branchId + "/" + designationId + "/" + employee)
-      .then(res => { if (res.ok) return res.json() })
-      .then(list => {
-        this._setTableData(list);
-      })
-  }
+  //   fetch(main_url + "report/employeeReport/" + regionId + "/" + departmentId + "/" + branchId + "/" + designationId + "/" + employee)
+  //     .then(res => { if (res.ok) return res.json() })
+  //     .then(list => {
+  //       this._setTableData(list);
+  //     })
+  // }
   render() {
-  
+    const data1 = [
+      {"HOCount": 102, "year": "2020-1" },
+      {"HOCount": 106, "year": "2020-2"},
+    ];
+    
+    const data2 = [
+      {"BranchCount": 1320, "year": "2020-1" },
+      {"BranchCount": 1373, "year": "2020-2"},
+    ];
+    
+    // Combine the objects from the two arrays based on the "year" property
+    const combinedData = [...data1, ...data2].reduce((acc, obj) => {
+      const year = obj.year;
+      
+      acc[year] = acc[year] || {};
+      Object.assign(acc[year], obj);
+      // console.log("acc year",acc,Object.assign(acc[year],obj))
+      return acc;
+    }, {});
+    
+    // Sort the resulting array based on the "year" property
+    const sortedData = Object.values(combinedData).sort((a, b) => {
+      if (a.year < b.year) {
+        return -1;
+      }
+      if (a.year > b.year) {
+        return 1;
+      }
+      return 0;
+    });
+    this._setTableData(sortedData)
+    
+    console.log("sorted data",sortedData);
+    
     return (
       <div>
         <div className="row  white-bg dashboard-header">

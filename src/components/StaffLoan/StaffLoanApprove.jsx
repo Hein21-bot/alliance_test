@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import ReactHTMLTableToExcel from "react-html-table-to-excel"
+import TableExport from 'tableexport'
+import Table2Excel from 'table-to-excel'
+// import XLSX from 'xlsx'
 
 import $ from "jquery";
 import {
@@ -239,6 +242,37 @@ class StaffLoanApprove extends Component {
       ],
     });
   }
+  ExcelExport=()=>{
+    let data=[{
+      "Disbursement Date":"14-Mar-2021",
+      "Term In Month":3.00,
+
+      "Loan Committee Date":"14-Mar-2022",
+
+      "Installment Amount":1000,
+
+
+      "Approve Amount":1000,
+
+      "Comment":"Testing",
+
+      "Approve Amount (In Word)":"တစ်ထောင်",
+
+      "Warning Letter Check":"TRUE",
+
+      "Form No":53454543,
+
+    }]
+    console.log("excel export")
+    // var table2excel = new Table2Excel();
+    // table2excel.export(document.querySelectorAll("table"));
+    var XLSX = require("xlsx");
+    var wb=XLSX.utils.book_new()
+    var ws=XLSX.utils.json_to_sheet(data)
+    XLSX.utils.book_append_sheet(wb,ws,"Sheet 1")
+    XLSX.writeFile(wb,"Staff Loan Approve.xlsx")
+
+  }
   
 
   render() {
@@ -248,13 +282,20 @@ class StaffLoanApprove extends Component {
       <div className="">
         <ToastContainer />
         <div style={{marginBottom:20}}>
-                    <ReactHTMLTableToExcel 
+                    {/* <ReactHTMLTableToExcel 
                     className="btn-excel"
                     table="Staff_loan_approve"
                     filename="Staff Loan Approve"
                     buttonText="Excel"
                     sheet="Sheet"
-                    />
+                    id="test-table-xls-button"
+                    className="download-table-xls-button"
+                    table="Staff_loan_approve"
+                    filename="Staff Loan Approve"
+                    sheet="tablexlsx"
+                    buttonText="Excel Download"
+                    /> */}
+                <button className="btn btn-primary" onClick={this.ExcelExport}>Excel</button>
                 <table className="table table-bordered" id="Staff_loan_approve" style={{display:'none'}}>
                     <thead>
                         

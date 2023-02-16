@@ -38,10 +38,10 @@ class PetrolRequestMain extends Component {
     }
 
     async componentDidMount() {
-        // var permission_bm = await getPermissionStatus(this.state.user_info.designations_id, 'Petrol By BM', 'Allowance');
-        // var permission_staff = await getPermissionStatus(this.state.user_info.designations_id, 'Petrol By Staff', 'Allowance');
-        var permission_bm = await getPermissionStatus(this.state.user_info.role_id, 'Petrol By BM', 'Allowance');
-        var permission_staff = await getPermissionStatus(this.state.user_info.role_id, 'Petrol By Staff', 'Allowance');
+        var permission_bm = await getPermissionStatus(this.state.user_info.designations_id, 'Petrol By BM', 'Allowance');
+         var permission_staff = await getPermissionStatus(this.state.user_info.designations_id, 'Petrol By Staff', 'Allowance');
+        //var permission_bm = await getPermissionStatus(this.state.user_info.role_id, 'Petrol By BM', 'Allowance');
+        //var permission_staff = await getPermissionStatus(this.state.user_info.role_id, 'Petrol By Staff', 'Allowance');
         this.setState({
             permission_status_bm: permission_bm,
             permission_status_staff: permission_staff

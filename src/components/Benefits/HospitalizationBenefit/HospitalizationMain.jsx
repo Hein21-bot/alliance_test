@@ -25,9 +25,9 @@ class HospitalizationMain extends Component {
 
     }
     async componentDidMount() {
-        //var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Hospitalization Benefit', 'Benefit')
+        var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Hospitalization Benefit', 'Benefit')
 
-        var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Hospitalization Benefit', 'Benefit')
+        //var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Hospitalization Benefit', 'Benefit')
         // this._getHospitalizationBenefit();
         
         // this._getEmployeeId();
