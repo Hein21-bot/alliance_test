@@ -46,7 +46,9 @@ class HrStatistics extends Component {
       departmentId: null,
       regionId: null,
       EmployeeNameList: null,
-      selected_employee: null
+      selected_employee: null,
+      titleYear:[],
+      dataSource:[]
     }
   }
 
@@ -277,27 +279,33 @@ class HrStatistics extends Component {
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
         console.log("api list",list)
-        let temp=[]
-        let mapList=list.map(v=>v.map(a=>temp.push(a)))
-        console.log("temp data",temp)
-        const combinedData = temp.reduce((acc, obj) => {
-          const year = obj.year;
+       let Year=list.length > 0 && list[0]
+       console.log("year only",Year.slice(0,-1))
+       this.setState({
+        titleYear:Year.slice(0,-1),
+        dataSource:list
+       })
+        // let temp=[]
+        // let mapList=list.map(v=>v.map(a=>temp.push(a)))
+        // console.log("temp data",temp)
+        // const combinedData = temp.reduce((acc, obj) => {
+        //   const year = obj.year;
           
-          acc[year] = acc[year] || {};
-          Object.assign(acc[year], obj);
-          // console.log("acc year",acc,Object.assign(acc[year],obj))
-          return acc;
-        }, {});
-        const sortedData = Object.values(combinedData).sort((a, b) => {
-          if (a.year < b.year) {
-            return -1;
-          }
-          if (a.year > b.year) {
-            return 1;
-          }
-          return 0;
-        });
-        console.log("combined data",sortedData)
+        //   acc[year] = acc[year] || {};
+        //   Object.assign(acc[year], obj);
+         
+        //   return acc;
+        // }, {});
+        // const sortedData = Object.values(combinedData).sort((a, b) => {
+        //   if (a.year < b.year) {
+        //     return -1;
+        //   }
+        //   if (a.year > b.year) {
+        //     return 1;
+        //   }
+        //   return 0;
+        // });
+        // console.log("combined data",sortedData)
       })
   }
   render() {
@@ -429,10 +437,42 @@ class HrStatistics extends Component {
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
           </div>
         
-        <table width="99%"
+        {/* <table width="99%"
           className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
           id="dataTables-table"
-        />
+        /> */}
+        <table className="table table-bordered">
+          <thead>
+            <tr>
+              
+              {
+                  this.state.titleYear.length > 0 && this.state.titleYear.map(v=>(
+                    <th>{v.year}</th>
+                  ))
+              }
+              <th>Growth</th>
+            </tr>
+          </thead>
+          <tbody>
+         
+            {
+              this.state.dataSource!=undefined && this.state.dataSource.length > 0 && this.state.dataSource.map(v=>(
+                <tr>
+                  {
+                    v.length > 0 && v.map(v1=>(
+                      <td>{v1.HOCount}</td>
+                    ))
+                  }
+                </tr>
+              ))
+            }
+            
+            
+            {/* {
+              this.state.dataSource!=undefined && this.state.dataSource.length > 0 && this.state.dataSource.map(v=>{console.log("v is===>",v)})
+            } */}
+          </tbody>
+        </table>
       </div>
       </div>
     )

@@ -975,6 +975,15 @@ async function getDesignationData() {
     if (res.ok) return res.json();
     else return [];
 }
+async function getMonthName(monthNumber) {
+    console.log("month number",monthNumber)
+    const date = new Date();
+    date.setMonth(monthNumber - 1);
+  
+    return date.toLocaleString('en-US', {
+      month: 'short',
+    });
+  }
 
 export {
     main_url, remote_url, getUserInfo, setCookieData, getCookieData,
@@ -987,5 +996,6 @@ export {
     print, stopSaving, startSaving, fno, getFirstDayOfMonth, getFirstDayOfYear, checkLimitAmount,
     checkHRManager, checkHRAssistant, checkApprovalStatus, isApprover, havePermissionForAmount,
     calculationDate, isRequestedUser, atten_report, approveAmount, calculationDate1, getAttendancePolicy,getAttendanceReason,
-    getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError,getFirstDayOfPrevMonth,getFirstDayOfNextMonth,getMonth,getFirstDayOfCurrentWeek
+    getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError,getFirstDayOfPrevMonth,getFirstDayOfNextMonth,getMonth,getFirstDayOfCurrentWeek,getMonthName
+    
 }

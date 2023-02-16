@@ -685,11 +685,12 @@ class StaffLoanAddNew extends Component {
   }
 
   render() {
-    console.log("info=======>",this.state.getGuarantorInfo)
+    console.log("info=======>",this.props.isNew,this.state.staff_loan_visible)
     const{staffInfo,getGuarantorInfo}=this.state;
     return (
       <div className="">
-        { this.props.isNew == 'true' ? 
+        { this.props.isNew == false ?
+          
         <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
         <Rodal width={300} height={200} visible={this.state.visible} onClose={this.hide.bind(this)} >
                     <div className="col-md-12 "><h4>Staff Loan Terms and Condition</h4>
@@ -717,7 +718,8 @@ class StaffLoanAddNew extends Component {
                         </div> */}
                     </div>
                 </Rodal>
-        </div> :<>
+        </div> 
+        :<>
         <div className="row">
           <form className="form-group" id="check_form">
            
@@ -1753,6 +1755,7 @@ class StaffLoanAddNew extends Component {
         <ToastContainer />
         {
           this.state.staff_loan_visible ? <>
+         
                   <div className="row">
           <form className="form-group" id="check_form">
            

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { main_url} from "../../../utils/CommonFunction";
+import { main_url,getMonthName} from "../../../utils/CommonFunction";
 import DatePicker from "react-datetime";
 import Select from "react-select";
 import moment from "moment";
@@ -24,6 +24,20 @@ class StaffLoanAfterComit extends Component {
     departmentList:[],
     designationList:[],
     employeeIdList:[],
+    month:[
+      {value:1,label:'Jan'},
+      {value:2,label:'Feb'},
+      {value:3,label:'Mar'},
+      {value:4,label:'Apr'},
+      {value:5,label:'May'},
+      {value:6,label:'Jun'},
+      {value:7,label:'Jul'},
+      {value:8,label:'Aug'},
+      {value:9,label:'Sep'},
+      {value:10,label:'Oct'},
+      {value:11,label:'Nov'},
+      {value:12,label:'Dec'},
+    ]
     }
   }
 
@@ -333,7 +347,7 @@ class StaffLoanAfterComit extends Component {
                     <tr>
                     <td>{i+1}</td>
                     <td>{v.createdAt ?  moment(v.createdAt).format('DD-MM-YYYY') :'-' }</td>
-                     <td>{v.month || '-'}</td>
+                     <td>{v.month ? this.state.month.filter(a=>a.value == v.month)[0].label : '-'}</td>
                      <td>{v.checked_date ? moment(v.checked_date).format('DD-MM-YYYY'):'-' }</td>
                      <td>{v.approved_date ? moment(v.approved_date).format('DD-MM-YYYY') : '-'}</td>
                      <td>{v.disbursement_date ? moment(v.disbursement_date).format('DD-MM-YYYY') :'-'}</td>
