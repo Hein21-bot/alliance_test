@@ -178,7 +178,7 @@ class ConfirmationList extends Component {
         .then((list) => {
           this.setState({
             confirmationListData: list,loading:false
-          },()=>{console.log("list>>>>>>",this.state.confirmationListData)});
+          });
         });
     }
   }
@@ -412,15 +412,14 @@ class ConfirmationList extends Component {
       leave_end_date: data.leave_end_date ? data.leave_end_date : '-',
       leave_status: data.leave_status ? data.leave_status : '-',
       checkPerson: tempArray,
-
+      main_level_service_year_month: data.main_level_service_year_month ? data.main_level_service_year_month : '-',
     };
     if (checkedListData_.length === 0) {
       checkedListData_.push(newData);
       this.setState(
         {
           checkedListData: checkedListData_,
-        },
-        () => console.log(checkedListData_)
+        }
       );
     } else if (
       checkedListData_.filter((c) => c.id === data.user_id).length > 0
@@ -467,7 +466,6 @@ class ConfirmationList extends Component {
     await this.getVerifyPersonList();
     await this.getConfirmationList();
     let filterData=this.state.selected_title_list && this.state.selected_title_list.filter(v=>v!= this.state.confirmationMonth)
-            console.log("filterData",filterData)
             this.setState({
                 selected_title_list:filterData
             })
@@ -593,6 +591,7 @@ class ConfirmationList extends Component {
           leave_end_date: v.leave_end_date ? v.leave_end_date : '-',
           leave_status: v.leave_status ? v.leave_status : '-',
           checkPerson: tempArray,
+          main_level_service_year_month: v.main_level_service_year_month ? v.main_level_service_year_month : '-',
         };
         tempCheckListData.push(newData);
       });
@@ -613,14 +612,12 @@ class ConfirmationList extends Component {
   };
   
   render() {
-    console.log("selected title list",this.state.selected_title_list)
     if(this.state.loading==true){
       return <div style={{ display: 'flex', justifyContent: 'center' }}><h2>Loading...</h2></div>
     }
     
     else{
       const { checkboxAll, checkedListData,view, selected_title, titleList, confirmationMonth, verifyPersonList, selected_verifyPerson, date, promotion_date, employee_date, user_info, level_options, sub_level_options, career_level, career_sub_level, confirmationListData, checkPersonList, selected_checkPerson, dropDownOpen, selected_designation, designationList, subLevelList, levelList, selected_branch, selected_department, selected_region, regionList, branchlist, departmentlist, } = this.state;
-    console.log('checkListData ===>', checkedListData)
       return (
         <div className=" border-bottom white-bg dashboard-header">
           <ToastContainer position={toast.POSITION.TOP_RIGHT} />
