@@ -1080,7 +1080,7 @@ class StaffLoanEdit extends Component {
     const{staffInfo,getGuarantorInfo}=this.state;
     const Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
     
-    console.log("details",havePermission(this.state.work_flow_status,Details.user_id) && Details.status !=5,this.state.work_flow_status,Details.user_id)
+    console.log("details",Details)
 
     let otherLoanDetils=(this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.detailsData != undefined && this.state.staffInfoDetails.detailsData.length > 0 && this.state.staffInfoDetails.detailsData)
 
@@ -1602,7 +1602,10 @@ class StaffLoanEdit extends Component {
                   />
                 </div>
               </div>
-              <div className="col-md-3">
+              {
+                this.state.OtherLoanSelectBox  == 1 ? 
+                <>
+                <div className="col-md-3">
                 <div>
                   <label htmlFor="otherLoanDropdown" className="col-md-12">
                     Other Loan
@@ -1655,8 +1658,13 @@ class StaffLoanEdit extends Component {
                    />
                 </div>
               </div>
+                </> : ''
+              }
+              
             </div>
-            <div className="row" style={{ marginBottom: 10 }}>
+            {
+              this.state.OtherLoanSelectBox == 1  ? 
+              <div className="row" style={{ marginBottom: 10 }}>
               <div className="col-md-3">
                 <div>
                   <label htmlFor="installmentterm" className="col-md-12">
@@ -1718,7 +1726,9 @@ class StaffLoanEdit extends Component {
                   id="dataTables-Table"
                 />
               </div>
-            </div>
+            </div> : ''
+            }
+            
             
             <div className="col-md-12" style={{ marginBottom: 10 }}>
               <div
