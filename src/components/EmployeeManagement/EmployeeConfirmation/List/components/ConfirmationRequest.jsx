@@ -67,7 +67,6 @@ export default class ConfirmationRequest extends Component {
           // check_person: this.state.selected_checkPerson.user_id,
           status: 0,
         };
-        console.log("data list ===>", data);
         let status = 0;
         fetch(`${main_url}confirmation/addConfirmation`, {
           method: "POST",
@@ -260,7 +259,6 @@ export default class ConfirmationRequest extends Component {
 
   render() {
     const { dataSource, leaveCategory } = this.state;
-    console.log('leaveCategory ===>', leaveCategory)
     return (
       <div>
         <div
