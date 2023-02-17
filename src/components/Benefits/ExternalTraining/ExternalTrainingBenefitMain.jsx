@@ -27,9 +27,9 @@ class ExternalTrainingBenefitMain extends Component {
     }
 
     async componentDidMount() {
-        var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'External Training Benefit', 'Benefit');
+        //var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'External Training Benefit', 'Benefit');
 
-       //  var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'External Training Benefit', 'Benefit');
+        var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'External Training Benefit', 'Benefit');
         // this._getExternalBenefit();
         this.setState({
             permission_status: permission_status

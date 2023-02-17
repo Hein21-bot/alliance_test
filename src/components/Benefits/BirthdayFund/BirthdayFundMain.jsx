@@ -26,9 +26,9 @@ class BirthdayFundMain extends Component {
     }
 
     async componentDidMount() {
-        var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Birthday Benefit', 'Benefit');
+        //var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Birthday Benefit', 'Benefit');
 
-        // var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Birthday Benefit', 'Benefit');
+         var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Birthday Benefit', 'Benefit');
         // this._getBirthdayBenefit();
         this.setState({
             permission_status: permission_status
