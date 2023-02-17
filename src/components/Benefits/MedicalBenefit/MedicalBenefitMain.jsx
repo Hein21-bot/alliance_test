@@ -24,9 +24,9 @@ class MedicalBenefitMain extends Component {
     }
 
     async componentDidMount() {
-        var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Medical Benefit', 'Benefit');
+        //var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Medical Benefit', 'Benefit');
 
-//        var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Medical Benefit', 'Benefit');
+        var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Medical Benefit', 'Benefit');
         // this._getMedicalBenefit();
         this._getEmployeeId();
         this.setState({

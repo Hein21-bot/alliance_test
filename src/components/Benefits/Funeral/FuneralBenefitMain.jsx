@@ -23,9 +23,9 @@ class FuneralBenefitMain extends Component {
     }
 
     async componentDidMount() {
-        var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Funeral Benefit', 'Benefit');
+        //var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Funeral Benefit', 'Benefit');
 
-         //var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Funeral Benefit', 'Benefit');
+         var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Funeral Benefit', 'Benefit');
         // this.getFunealBenefit();
         this.setState({
             permission_status: permission_status
