@@ -22,9 +22,9 @@ class CycleMain extends Component {
         }
     }  
     async componentDidMount() {
-        //var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Cycle Insurance', 'Benefit')
+        var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Cycle Insurance', 'Benefit')
 
-         var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Cycle Insurance', 'Benefit')
+        //  var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Cycle Insurance', 'Benefit')
         // this._getCycleInsurance();
         // this._getEmployeeId();
         this.setState({

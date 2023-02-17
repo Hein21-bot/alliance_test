@@ -228,7 +228,7 @@ export default class Sidebar extends Component {
 
               </li>
               <li className={((pathname === "/dashboard") || (pathname == `${'/' + user.user_id}`) ? 'active' : '')} id="dashboard"
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Dashboard")  && sidebarPermission.filter(d => d.permission == "Dashboard")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Dashboard")  && sidebarPermission.filter(d => d.permission == "Dashboard")[0].access == true ? 'block' : 'none') }}
 
               >
                 <a href="/dashboard" className="sideList">
@@ -252,7 +252,7 @@ export default class Sidebar extends Component {
                     className={
                       pathname === "/attendance_policy_setting" ? "active" : ""
                     }
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Attendance Policy") && sidebarPermission.filter(d => d.permission == "Attendance Policy")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Attendance Policy") && sidebarPermission.filter(d => d.permission == "Attendance Policy")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/attendance_policy_setting">Attendance Policy</a>
@@ -261,14 +261,14 @@ export default class Sidebar extends Component {
                     className={
                       pathname === "/benefit_setup_setting" ? "active" : ""
                     }
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Benefit") && sidebarPermission.filter(d => d.permission == "Benefit")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Benefit") && sidebarPermission.filter(d => d.permission == "Benefit")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/benefit_setup_setting">Benefit</a>
                   </li>
                   <li
                     className={pathname === "/holiday_setting" ? "active" : ""}
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Holiday") && sidebarPermission.filter(d => d.permission == "Holiday")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Holiday") && sidebarPermission.filter(d => d.permission == "Holiday")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/holiday_setting">Holiday</a>
@@ -277,14 +277,14 @@ export default class Sidebar extends Component {
                     className={
                       pathname === "/salary_template_setting" ? "active" : ""
                     }
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Salary Template") && sidebarPermission.filter(d => d.permission == "Salary Template")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Salary Template") && sidebarPermission.filter(d => d.permission == "Salary Template")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/salary_template_setting">Salary Template</a>
                   </li>
                   <li
                     className={pathname === "/ssb_rate_setting" ? "active" : ""}
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "SSB Rate") && sidebarPermission.filter(d => d.permission == "SSB Rate")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "SSB Rate") && sidebarPermission.filter(d => d.permission == "SSB Rate")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/ssb_rate_setting">SSB Rate</a>
@@ -293,14 +293,14 @@ export default class Sidebar extends Component {
                     className={
                       pathname === "/career_path_setting" ? "active" : ""
                     }
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Career Path") && sidebarPermission.filter(d => d.permission == "Career Path")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Career Path") && sidebarPermission.filter(d => d.permission == "Career Path")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/career_path_setting">Career Path</a>
                   </li>
                   <li
                     className={pathname === "/payroll_setting" ? "active" : ""}
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Payroll") && sidebarPermission.filter(d => d.permission == "Payroll")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Payroll") && sidebarPermission.filter(d => d.permission == "Payroll")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/payroll_setting">Payroll</a>
@@ -323,7 +323,7 @@ export default class Sidebar extends Component {
                     className={
                       pathname === "/career_level_master_data" ? "active" : ""
                     }
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Career Level") && sidebarPermission.filter(d => d.permission == "Career Level")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Career Level") && sidebarPermission.filter(d => d.permission == "Career Level")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/career_level_master_data">
@@ -337,7 +337,7 @@ export default class Sidebar extends Component {
                         ? "active"
                         : ""
                     }
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Career Sub Level") && sidebarPermission.filter(d => d.permission == "Career Sub Level")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Career Sub Level") && sidebarPermission.filter(d => d.permission == "Career Sub Level")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/career_sub_level_master_data">
@@ -349,7 +349,7 @@ export default class Sidebar extends Component {
                     className={
                       pathname === "/designations_master_data" ? "active" : ""
                     }
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Designations") && sidebarPermission.filter(d => d.permission == "Designations")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Designations") && sidebarPermission.filter(d => d.permission == "Designations")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/designations_master_data">
@@ -373,7 +373,7 @@ export default class Sidebar extends Component {
                     className={
                       pathname === "/job_title_master_data" ? "active" : ""
                     }
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Job Title") && sidebarPermission.filter(d => d.permission == "Job Title")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Job Title") && sidebarPermission.filter(d => d.permission == "Job Title")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/job_title_master_data">
@@ -385,7 +385,7 @@ export default class Sidebar extends Component {
                     className={
                       pathname === "/leave_category_master_data" ? "active" : ""
                     }
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Leave Category") && sidebarPermission.filter(d => d.permission == "Leave Category")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Leave Category") && sidebarPermission.filter(d => d.permission == "Leave Category")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/leave_category_master_data">
@@ -399,7 +399,7 @@ export default class Sidebar extends Component {
                         ? "active"
                         : ""
                     }
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Attendance Reason Type") && sidebarPermission.filter(d => d.permission == "Attendance Reason Type")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Attendance Reason Type") && sidebarPermission.filter(d => d.permission == "Attendance Reason Type")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/attendance_reason_type_master_data">
@@ -413,7 +413,7 @@ export default class Sidebar extends Component {
                         ? "active"
                         : ""
                     }
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Hospitalization Type") && sidebarPermission.filter(d => d.permission == "Hospitalization Type")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Hospitalization Type") && sidebarPermission.filter(d => d.permission == "Hospitalization Type")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/hospitalization_type_master_data">
@@ -427,7 +427,7 @@ export default class Sidebar extends Component {
                         ? "active"
                         : ""
                     }
-                    style={{ display: (sidebarPermission.length > 0 &&  sidebarPermission.filter(d => d.permission == "Ticket Main Category") &&sidebarPermission.filter(d => d.permission == "Ticket Main Category")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 &&  sidebarPermission.filter(d => d.permission == "Ticket Main Category") &&sidebarPermission.filter(d => d.permission == "Ticket Main Category")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/ticket_main_category_master_data">
@@ -441,7 +441,7 @@ export default class Sidebar extends Component {
                         ? "active"
                         : ""
                     }
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Ticket Sub Category") && sidebarPermission.filter(d => d.permission == "Ticket Sub Category")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Ticket Sub Category") && sidebarPermission.filter(d => d.permission == "Ticket Sub Category")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/ticket_sub_category_master_data">
@@ -453,7 +453,7 @@ export default class Sidebar extends Component {
                     className={
                       pathname === "/tax_rage_master_data" ? "active" : ""
                     }
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Tax Rage") && sidebarPermission.filter(d => d.permission == "Tax Rage")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Tax Rage") && sidebarPermission.filter(d => d.permission == "Tax Rage")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/tax_rage_master_data">
@@ -465,7 +465,7 @@ export default class Sidebar extends Component {
                     className={
                       pathname === "/tax_relief_master_data" ? "active" : ""
                     }
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Tax Relif") && sidebarPermission.filter(d => d.permission == "Tax Relif")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Tax Relif") && sidebarPermission.filter(d => d.permission == "Tax Relif")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/tax_relief_master_data">
@@ -482,7 +482,9 @@ export default class Sidebar extends Component {
                     ? "active"
                     : " "
                 }
-                style={{ display: employeeManagement ? 'block' : "none" }}
+                // style={{ display: employeeManagement ? 'block' : "none" }}
+                style={{ display: (isHR || this.state.user.user_id == 1110 || this.state.user.user_id == 1467) ? 'block' : "none" }}
+              
               >
                 <a href="/employee_list" className="sideList">
                   <i className="fas fa-user-cog" style={{ color: 'white' }}></i>
@@ -491,7 +493,7 @@ export default class Sidebar extends Component {
                 <ul className="nav nav-second-level collapse">
                   <li 
                   className={pathname === "/employee_list" ? "active" : " "}
-                  style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Employee Lists") && sidebarPermission.filter(d => d.permission == "Employee Lists")[0].access == true ? 'block' : 'none') }}
+                  // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Employee Lists") && sidebarPermission.filter(d => d.permission == "Employee Lists")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/employee_list">Employee Lists</a>
@@ -500,19 +502,19 @@ export default class Sidebar extends Component {
                     className={
                       pathname === "/employment_details" ? "active" : " "
                     }
-                  style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Employment Details") && sidebarPermission.filter(d => d.permission == "Employment Details")[0].access == true ? 'block' : 'none') }}
+                  // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Employment Details") && sidebarPermission.filter(d => d.permission == "Employment Details")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/employment_details">Employment Details</a>
                   </li>
                   <li className={this.checkPathName() === "/reports" || pathname == "/EmployeeDirectory" || pathname === "/ResignStaffReport" || pathname === "/RegionStaffReport" || pathname === "/BranchStaffReport" || pathname === "/HoStaffReport" || pathname === "/EmployeeReport" || pathname === "/ReportbyServiceYear" || pathname === "/HistoryReport" || pathname === "/FRDReport" || pathname === "/ExtensionReport" || pathname === "/RegionWiseStaffReportCount" || pathname === "/report_confirm" ? "active" : " "}
-                  style={{display : employeeReports ? 'block' : 'none'}}
+                  // style={{display : employeeReports ? 'block' : 'none'}}
                   >
                     <a href="/reports" className="sideText">Employee Related Reports</a>
                     <ul className="nav nav-third-level collapse">
                       <li
                         className={pathname === "/EmployeeReport" ? "active" : ""}
-                  style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Employee Report") && sidebarPermission.filter(d => d.permission == "Employee Report")[0].access == true ? 'block' : 'none') }}
+                  // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Employee Report") && sidebarPermission.filter(d => d.permission == "Employee Report")[0].access == true ? 'block' : 'none') }}
 
                         
                       >
@@ -520,40 +522,39 @@ export default class Sidebar extends Component {
                       </li>
                       <li
                         className={pathname === "/ReportbyServiceYear" ? "active" : ""}
-                        style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Report By Serivce Year") && sidebarPermission.filter(d => d.permission == "Report By Serivce Year"
-                        )[0].access == true ? 'block' : 'none') }}
+                        // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Report By Serivce Year") && sidebarPermission.filter(d => d.permission == "Report By Serivce Year")[0].access == true ? 'block' : 'none') }}
 
                       >
                         <a href="/ReportbyServiceYear">Employee Report by Service Year</a>
                       </li>
                       <li
                         className={pathname === "/HistoryReport" ? "active" : ""}
-                        style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "History Report") && sidebarPermission.filter(d => d.permission == "History Report")[0].access == true ? 'block' : 'none') }}
+                        // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "History Report") && sidebarPermission.filter(d => d.permission == "History Report")[0].access == true ? 'block' : 'none') }}
                       >
                         <a href="/HistoryReport"> Employee History Report</a>
                       </li>
                       <li
                         className={pathname === "/EmployeeDirectory" ? "active" : ""}
-                        style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Employee Directory") && sidebarPermission.filter(d => d.permission == "Employee Directory")[0].access == true ? 'block' : 'none') }}
+                        // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Employee Directory") && sidebarPermission.filter(d => d.permission == "Employee Directory")[0].access == true ? 'block' : 'none') }}
 
                       >
                         <a href="/EmployeeDirectory">Employee Directory Reoprt</a>
                       </li>
                       <li 
                       className={pathname === "/HoStaffReport" ? "active" : ""}
-                      style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "HO staff Report") && sidebarPermission.filter(d => d.permission == "HO staff Report")[0].access == true ? 'block' : 'none') }}
+                      // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "HO staff Report") && sidebarPermission.filter(d => d.permission == "HO staff Report")[0].access == true ? 'block' : 'none') }}
 
                       >
                         <a href="/HoStaffReport">Ho Staff Report</a>
                       </li>
                       <li className={pathname === "/BranchStaffReport" ? "active" : ""}
-                      style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Branch Staff Report") && sidebarPermission.filter(d => d.permission == "Branch Staff Report")[0].access == true ? 'block' : 'none') }}
+                      // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Branch Staff Report") && sidebarPermission.filter(d => d.permission == "Branch Staff Report")[0].access == true ? 'block' : 'none') }}
 
                       >
                         <a href="/BranchStaffReport">Branch Staff Report</a>
                       </li>
                       <li className={pathname === "/RegionStaffReport" ? "active" : ""}
-                      style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Regional Staff Report") && sidebarPermission.filter(d => d.permission == "Regional Staff Report")[0].access == true ? 'block' : 'none') }}
+                      // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Regional Staff Report") && sidebarPermission.filter(d => d.permission == "Regional Staff Report")[0].access == true ? 'block' : 'none') }}
 
                       >
                         <a href="/RegionStaffReport">Regional Staff Report</a>
@@ -561,13 +562,13 @@ export default class Sidebar extends Component {
                       <li
                         className={pathname === "/FRDReport" ? "active" : ""
                       }
-                      style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "FRD Report") && sidebarPermission.filter(d => d.permission == "FRD Report")[0].access == true ? 'block' : 'none') }}
+                      // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "FRD Report") && sidebarPermission.filter(d => d.permission == "FRD Report")[0].access == true ? 'block' : 'none') }}
 
                       >
                         <a href="/FRDReport">FRD Report</a>
                       </li>
                       <li className={pathname === "/ResignStaffReport" ? "active" : ""}
-                      style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Resign Staff Report") && sidebarPermission.filter(d => d.permission == "Resign Staff Report")[0].access == true ? 'block' : 'none') }}
+                      // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Resign Staff Report") && sidebarPermission.filter(d => d.permission == "Resign Staff Report")[0].access == true ? 'block' : 'none') }}
 
                       >
                         <a href="/ResignStaffReport">Resign Staff Report</a>
@@ -575,21 +576,21 @@ export default class Sidebar extends Component {
                       <li
                         className={pathname === "/ExtensionReport" ? "active" : ""
                       }
-                      style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Extension Report") && sidebarPermission.filter(d => d.permission == "Extension Report")[0].access == true ? 'block' : 'none') }}
+                      // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Extension Report") && sidebarPermission.filter(d => d.permission == "Extension Report")[0].access == true ? 'block' : 'none') }}
 
                       >
                         <a href="/ExtensionReport">Extension Report</a>
                       </li>
                       <li
                         className={pathname === "/report_confirm" ? "active" : ""}
-                      style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Confirmation Report") && sidebarPermission.filter(d => d.permission == "Confirmation Report")[0].access == true ? 'block' : 'none') }}
+                      // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Confirmation Report") && sidebarPermission.filter(d => d.permission == "Confirmation Report")[0].access == true ? 'block' : 'none') }}
 
                       >
                         <a href="/report_confirm">Confirmation Report</a>
                       </li>
                       <li
                         className={pathname === "/RegionWiseStaffReportCount" ? "active" : ""}
-                      style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Region Wise Staff Count Report") && sidebarPermission.filter(d => d.permission == "Region Wise Staff Count Report")[0].access == true ? 'block' : 'none') }}
+                      // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Region Wise Staff Count Report") && sidebarPermission.filter(d => d.permission == "Region Wise Staff Count Report")[0].access == true ? 'block' : 'none') }}
 
                       >
                         <a href="/RegionWiseStaffReportCount">Region Wise Staff Count Report</a>
@@ -602,7 +603,9 @@ export default class Sidebar extends Component {
               {/* style={{ display: (this.state.confirmRequestPermission && this.state.confirmRequestPermission.length > 0 || this.state.confirmHR1 && this.state.confirmHR1.length > 0 || this.state.user.user_id == 1110 || this.state.user.user_id == 1467 ? 'block' : 'none') }} */}
               <li
                 className={this.checkPathName() === "/confirmation" ? "active" : ""}
-                    style={{display:confirmation ? 'block':'none'}}
+                    // style={{display:confirmation ? 'block':'none'}}
+              style={{ display: (this.state.confirmRequestPermission && this.state.confirmRequestPermission.length > 0 || this.state.confirmHR1 && this.state.confirmHR1.length > 0 || this.state.user.user_id == 1110 || this.state.user.user_id == 1467 ? 'block' : 'none') }}
+
               >
                 <a href="/confirmation_check" className="sideList">
                   <i className="fas fa-user-check" style={{ color: 'white' }}></i>
@@ -610,19 +613,19 @@ export default class Sidebar extends Component {
                 </a>
                 <ul className="nav nav-second-level collapse">
                   <li className={pathname === "/confirmation_list" ? "active" : " "}
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Comfirmation Prepare List") && sidebarPermission.filter(d => d.permission == "Comfirmation Prepare List")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Comfirmation Prepare List") && sidebarPermission.filter(d => d.permission == "Comfirmation Prepare List")[0].access == true ? 'block' : 'none') }}
                   >
                     <a href="/confirmation_list">Confirmation Prepare List</a>
                   </li>
 
                   <li className={pathname === "/confirmation_check" ? "active" : " "}
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Confirm List") && sidebarPermission.filter(d => d.permission == "Confirm List")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Confirm List") && sidebarPermission.filter(d => d.permission == "Confirm List")[0].access == true ? 'block' : 'none') }}
                   >
                     <a href="/confirmation_check">Confirmation Request List</a>
                   </li>
 
                   <li className={pathname === "/confirmation_approve_list" ? "active" : ""}
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Approve List") && sidebarPermission.filter(d => d.permission == "Approve List")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Approve List") && sidebarPermission.filter(d => d.permission == "Approve List")[0].access == true ? 'block' : 'none') }}
                   >
                     <a href="/confirmation_approve_list">Approve List</a>
                   </li>
@@ -633,7 +636,8 @@ export default class Sidebar extends Component {
 
               <li
                 className={this.checkPathName() === "/attendance" || pathname === '/incomplete_and_missing_report' || pathname === '/holiday_attendance' || pathname === '/attendance_report_monthly' || pathname === "/attendance_type" || pathname === "/attendance_history" || pathname === "/late_reportby_employee" || pathname === "/late_checkin_report" || pathname === "/early_checkout_report" || pathname === "/absence_report" || pathname === "/weekly_attendance_report" || pathname === "/holiday_attendance_report" ? "active" : ""}
-              style={{ display: attendance  ? 'block' : "none" }} 
+              // style={{ display: attendance  ? 'block' : "none" }} 
+              //  style={{ display: isHR ? 'block' : "none" }}
               >
                 <a href="/incomplete_and_missing_report" className="sideList">
                   <i class="fa fa-address-book" style={{ color: 'white' }}></i>
@@ -642,7 +646,7 @@ export default class Sidebar extends Component {
                 </a>
                 <ul className="nav nav-second-level collapse">
 
-                <li
+                {/* <li
                     className={
                       pathname === "/attendance_add" ? "active" : " "
                     }
@@ -650,19 +654,19 @@ export default class Sidebar extends Component {
 
                   >
                     <a href="/attendance_add">Attendance</a>
-                  </li>
+                  </li> */}
 
                   <li
                     className={
                       pathname === "/incomplete_and_missing_report" ? "active" : " "
                     }
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Incomplete And Missing Report") && sidebarPermission.filter(d => d.permission == "Incomplete And Missing Report")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Incomplete And Missing Report") && sidebarPermission.filter(d => d.permission == "Incomplete And Missing Report")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/incomplete_and_missing_report">Incomplete And Missing Report</a>
                   </li>
 
-                  <li
+                  {/* <li
                     className={
                       pathname === "/holiday_attendance" ? "active" : " "
                     }
@@ -670,12 +674,12 @@ export default class Sidebar extends Component {
 
                   >
                     <a href="/holiday_attendance">Holiday Attendance</a>
-                  </li>
+                  </li> */}
                   <li
                     className={
                       pathname === "/attendance_report_monthly" ? "active" : " "
                     }
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Attendance Report") && sidebarPermission.filter(d => d.permission == "Attendance Report")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Attendance Report") && sidebarPermission.filter(d => d.permission == "Attendance Report")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/attendance_report_monthly">Attendance Report</a>
@@ -684,7 +688,7 @@ export default class Sidebar extends Component {
                     className={
                       pathname === "/attendance_type" ? "active" : " "
                     }
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Attendance Request") && sidebarPermission.filter(d => d.permission == "Attendance Request")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Attendance Request") && sidebarPermission.filter(d => d.permission == "Attendance Request")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/attendance_type">Attendance Request</a>
@@ -695,12 +699,12 @@ export default class Sidebar extends Component {
                         ? "active"
                         : ""
                     }
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Attendance History") && sidebarPermission.filter(d => d.permission == "Attendance History")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Attendance History") && sidebarPermission.filter(d => d.permission == "Attendance History")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/attendance_history">Attendance History</a>
                   </li>
-                  <li
+                  {/* <li
                     className={
                       pathname === "/late_reportby_employee"
                         ? "active"
@@ -710,8 +714,8 @@ export default class Sidebar extends Component {
 
                   >
                     <a href="/late_reportby_employee">Late Report By Employee</a>
-                  </li>
-                  <li
+                  </li> */}
+                  {/* <li
                     className={
                       pathname === "/late_checkin_report"
                         ? "active"
@@ -721,8 +725,8 @@ export default class Sidebar extends Component {
 
                   >
                     <a href="/late_checkin_report">Late Check In Report</a>
-                  </li>
-                  <li
+                  </li> */}
+                  {/* <li
                     className={
                       pathname === "/early_checkout_report"
                         ? "active"
@@ -732,7 +736,7 @@ export default class Sidebar extends Component {
 
                   >
                     <a href="/early_checkout_report">Early Check Out Report</a>
-                  </li>
+                  </li> */}
                   <li
                     className={
                       pathname === "/absence_report"
@@ -742,7 +746,7 @@ export default class Sidebar extends Component {
                   >
                     <a href="/absence_report">Absence Report</a>
                   </li>
-                  <li
+                  {/* <li
                     className={
                       pathname === "/weekly_attendance_report"
                         ? "active"
@@ -750,18 +754,18 @@ export default class Sidebar extends Component {
                     }
                   >
                     <a href="/weekly_attendance_report">Weekly Attendance Report</a>
-                  </li>
-                  <li
+                  </li> */}
+                  {/* <li
                     className={
                       pathname === "/holiday_attendance_report"
                         ? "active"
                         : ""
                     }
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Holiday Attendance Report") && sidebarPermission.filter(d => d.permission == "Holiday Attendance Report")[0].access == true ? 'block' : 'none') }}
+                     style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Holiday Attendance Report") && sidebarPermission.filter(d => d.permission == "Holiday Attendance Report")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/holiday_attendance_report">Holiday Attendance Report</a>
-                  </li>
+                  </li> */}
 
                 </ul>
               </li>
@@ -1005,7 +1009,7 @@ export default class Sidebar extends Component {
                 className={
                   this.checkPathName() === "/leavemanagement" || pathname === '/leave_management' || pathname === '/leave_report' || pathname === '/earned_leave_opening_balance' || pathname === '/attendance_leave_report' ? "active" : ""
                 }
-                style={{display: Leave ? 'block':'none'}}
+                // style={{display: Leave ? 'block':'none'}}
               >
                 <a href="/leave_management" className="sideList">
 
@@ -1014,7 +1018,7 @@ export default class Sidebar extends Component {
                 </a>
                 <ul className="nav nav-second-level collapse">
                   <li className={pathname === "/leave_management" ? "active" : ""}
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Leave Request") && sidebarPermission.filter(d => d.permission == "Leave Request")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Leave Request") && sidebarPermission.filter(d => d.permission == "Leave Request")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/leave_management">Leave Request</a>
@@ -1026,21 +1030,21 @@ export default class Sidebar extends Component {
                   </li> */}
                   <li
                     className={pathname === "/leave_report" ? "active" : ""}
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Leave Report") && sidebarPermission.filter(d => d.permission == "Leave Report")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Leave Report") && sidebarPermission.filter(d => d.permission == "Leave Report")[0].access == true ? 'block' : 'none') }}
 
                   >
                     <a href="/leave_report">Leave Report</a>
                   </li>
                   <li
                     className={pathname === "/earned_leave_opening_balance" ? "active" : ""}
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Earned Leave Opening Balance") && sidebarPermission.filter(d => d.permission == "Earned Leave Opening Balance")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Earned Leave Opening Balance") && sidebarPermission.filter(d => d.permission == "Earned Leave Opening Balance")[0].access == true ? 'block' : 'none') }}
 
 
                   >
                     <a href="/earned_leave_opening_balance">Earned Leave Opening Balance</a>
                   </li>
                   <li className={pathname === "/attendance_leave_report" ? "active" : ""}
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Attendance and Leave") && sidebarPermission.filter(d => d.permission == "Attendance and Leave")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Attendance and Leave") && sidebarPermission.filter(d => d.permission == "Attendance and Leave")[0].access == true ? 'block' : 'none') }}
                   >
                     <a href="/attendance_leave_report">Attendance Leave </a>
                   </li>
@@ -1051,7 +1055,7 @@ export default class Sidebar extends Component {
 
               <li
                 className={this.checkPathName() === "/benefit" ? "active" : ""}
-                style={{display:benefits ? 'block':'none'}}
+                // style={{display:benefits ? 'block':'none'}}
               >
                 <a href="/wedding_benefit" className="sideList">
                   <img src="assets/icons/Benefit.svg" width="20" height="20" alt="" style={{ marginRight: 5 }} />
@@ -1060,67 +1064,59 @@ export default class Sidebar extends Component {
                 <ul className="nav nav-second-level collapse">
                   <li
                     className={pathname === "/wedding_benefit" ? "active" : ""}
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Wedding Benefit") && sidebarPermission.filter(d => d.permission == "Wedding Benefit")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Wedding Benefit") && sidebarPermission.filter(d => d.permission == "Wedding Benefit")[0].access == true ? 'block' : 'none') }}
                   >
                     <a href="/wedding_benefit">Wedding Benefits</a>
                   </li>
                   <li className={pathname === "/child_benefit" ? "active" : ""}
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Child Benefit") && sidebarPermission.filter(d => d.permission == "Child Benefit")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Child Benefit") && sidebarPermission.filter(d => d.permission == "Child Benefit")[0].access == true ? 'block' : 'none') }}
                   >
                     <a href="/child_benefit">Child Benefit</a>
                   </li>
                   <li
                     className={pathname === "/funeral_benefit" ? "active" : ""}
-                    style={{
-                      display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Funeral Benefit") && sidebarPermission.filter(d => d.permission == "Funeral Benefit")[0].access == true ? 'block' : 'none')
-                    }}
+                    // style={{display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Funeral Benefit") && sidebarPermission.filter(d => d.permission == "Funeral Benefit")[0].access == true ? 'block' : 'none')}}
                   >
                     <a href="/funeral_benefit">Funeral Benefit</a>
                   </li>
                   <li
                     className={pathname === "/external_training_benefit" ? "active" : ""}
-                    style={{
-                      display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "External Training Benefit") && sidebarPermission.filter(d => d.permission == "External Training Benefit"
-                      )[0].access == true ? 'block' : 'none')
-                    }}
+                    // style={{display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "External Training Benefit") && sidebarPermission.filter(d => d.permission == "External Training Benefit")[0].access == true ? 'block' : 'none')}}
                   >
                     <a href="/external_training_benefit">External Training</a>
                   </li>
                   <li
                     className={pathname === "/medical_benefit" ? "active" : ""}
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Medical Benefit") && sidebarPermission.filter(d => d.permission == "Medical Benefit")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Medical Benefit") && sidebarPermission.filter(d => d.permission == "Medical Benefit")[0].access == true ? 'block' : 'none') }}
                   >
                     <a href="/medical_benefit">Medical Benefit</a>
                   </li>
                   <li
                     className={pathname === "/birthday_fund_benefit" ? "active" : ""}
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Birthday Benefit") && sidebarPermission.filter(d => d.permission == "Birthday Benefit")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Birthday Benefit") && sidebarPermission.filter(d => d.permission == "Birthday Benefit")[0].access == true ? 'block' : 'none') }}
                   >
                     <a href="/birthday_fund_benefit">Birthday Fund</a>
                   </li>
                   <li
                     className={pathname === "/team_building_benefit" ? "active" : ""}
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Team Building") && sidebarPermission.filter(d => d.permission == "Team Building")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Team Building") && sidebarPermission.filter(d => d.permission == "Team Building")[0].access == true ? 'block' : 'none') }}
                   >
                     <a href="/team_building_benefit">Team Building</a>
                   </li>
                   <li
                     className={pathname === "/hospitalization_benefit" ? "active" : ""}
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Hospitalization Benefit") && sidebarPermission.filter(d => d.permission == "Hospitalization Benefit")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Hospitalization Benefit") && sidebarPermission.filter(d => d.permission == "Hospitalization Benefit")[0].access == true ? 'block' : 'none') }}
                   >
                     <a href="/hospitalization_benefit">Hospitalization</a>
                   </li>
                   <li
                     className={pathname === "/cycle_insurance_benefit" ? "active" : ""}
-                    style={{
-                      display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Cycle Insurance") && sidebarPermission.filter(d => d.permission == "Cycle Insurance"
-                      )[0].access == true ? 'block' : 'none')
-                    }}
+                    // style={{display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Cycle Insurance") && sidebarPermission.filter(d => d.permission == "Cycle Insurance")[0].access == true ? 'block' : 'none')}}
                   >
                     <a href="/cycle_insurance_benefit">Cycle Insurance</a>
                   </li>
                   <li className={pathname === "/other_benefit" ? "active" : ""}
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Other Benefit") && sidebarPermission.filter(d => d.permission == "Other Benefit")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Other Benefit") && sidebarPermission.filter(d => d.permission == "Other Benefit")[0].access == true ? 'block' : 'none') }}
                   >
                     <a href="/other_benefit">Other Benefit</a>
                   </li>
@@ -1132,7 +1128,7 @@ export default class Sidebar extends Component {
                 className={
                   this.checkPathName() === "/allowance" || pathname === '/travelRequest' || pathname === '/trainingRequest' || pathname === '/salary_advance' || pathname === '/phonebillrequest' || pathname === '/petrolRequest' ? "active" : ""
                 }
-                style={{display:allowance ? 'block': 'none'}}
+                // style={{display:allowance ? 'block': 'none'}}
               >
                 <a href="/travelRequest" className="sideList">
                   <img src="assets/icons/Allowance (1).svg" alt="" width="20" height="20" style={{ marginRight: 5 }} />
@@ -1141,7 +1137,8 @@ export default class Sidebar extends Component {
 
                 <ul className="nav nav-second-level collapse">
                   <li className={pathname === "/travelRequest" ? "active" : ""}
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == 'Travel Allowance') && sidebarPermission.filter(d => d.permission == 'Travel Allowance')[0].access == true ? 'block' : 'none') }}>
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == 'Travel Allowance') && sidebarPermission.filter(d => d.permission == 'Travel Allowance')[0].access == true ? 'block' : 'none') }}
+                    >
 
                     <a href="/travelRequest">Travel Request</a>
                   </li>
@@ -1153,7 +1150,7 @@ export default class Sidebar extends Component {
                   </li> */}
                   <li
                     className={pathname === "/salary_advance" ? "active" : ""}
-                    style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Salary Advance") && sidebarPermission.filter(d => d.permission == "Salary Advance")[0].access == true ? 'block' : 'none') }}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Salary Advance") && sidebarPermission.filter(d => d.permission == "Salary Advance")[0].access == true ? 'block' : 'none') }}
                   >
                     <a href="/salary_advance">Salary Advance</a>
                   </li>
@@ -1174,7 +1171,7 @@ export default class Sidebar extends Component {
               </li>
               <li
                 className={this.checkPathName() === "/helpDesk" ? "active" : ""}
-                style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Help Desk") && sidebarPermission.filter(d => d.permission == "Help Desk")[0].access == true ? 'block' : 'none') }}
+                // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Help Desk") && sidebarPermission.filter(d => d.permission == "Help Desk")[0].access == true ? 'block' : 'none') }}
 
               >
                 <a href="/helpDesk" className="sideList" refresh="true">
@@ -1204,7 +1201,7 @@ export default class Sidebar extends Component {
                 className={
                   this.checkPathName() === "/staffComplain" ? "active" : ""
                 }
-                style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Staff Complain Box") && sidebarPermission.filter(d => d.permission == "Staff Complain Box")[0].access == true ? 'block' : 'none') }}
+                // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Staff Complain Box") && sidebarPermission.filter(d => d.permission == "Staff Complain Box")[0].access == true ? 'block' : 'none') }}
 
               >
                 <a href="/staffComplain" className="sideList" refresh="true">
@@ -1213,7 +1210,7 @@ export default class Sidebar extends Component {
                 </a>
               </li>
 
-               <li
+               {/* <li
                 className={
                   this.checkPathName() === "/staff_loan" || "/staff_loan_before_committee" || '/staff_loan_approve' || '/staff_loan_after_committee' ? "active" : ""
                 }
@@ -1249,7 +1246,7 @@ export default class Sidebar extends Component {
                   </li>
                   
                 </ul>
-              </li> 
+              </li>  */}
 
 
 
