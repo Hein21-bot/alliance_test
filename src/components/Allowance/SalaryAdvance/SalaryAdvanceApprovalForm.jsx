@@ -3,6 +3,8 @@ import ApprovalForm from '../../Common/ApprovalForm';
 import { main_url, getUserId, getActionStatus, validate, stopSaving, startSaving } from '../../../utils/CommonFunction';
 import moment from 'moment';
 import DocumentList from '../../Common/DocumentList';
+import { ToastContainer, toast } from "react-toastify";
+import DatePicker from "react-datetime";
 
 var form_validate = true;
 export default class SalaryAdvanceApprovalForm extends Component {
@@ -28,7 +30,9 @@ export default class SalaryAdvanceApprovalForm extends Component {
             created_user: getUserId("user_info"),
             status_title: '',
             comment: '',
-            doc: []
+            doc: [],
+            repayment_date:new Date(),
+            issue_date:new Date()
         }
     }
 
@@ -63,6 +67,7 @@ export default class SalaryAdvanceApprovalForm extends Component {
             .then(res => res.json())
             .then(list => {
                 var one = list.detail[0];
+                console.log("one====>",one)
 
                 this.setState({
                     one_advance: one,
@@ -109,67 +114,124 @@ export default class SalaryAdvanceApprovalForm extends Component {
     approvalStatus = (text, comment) => {
         this.setState({ status_title: text, comment: comment }, () => this.save())
     }
+   
 
     save() {
-       
-        if (this.state.one_advance.status != 2) {
-            let updatedBy = this.state.created_user;
-            let one_advance = this.state.one_advance;
-            let { status_title } = this.state;
-            const formdata = new FormData()
-            let path = 'saveSalaryAdvance';
-            if (!Array.isArray(one_advance)) {
-                path = `editSalaryAdvance/${one_advance.salary_advance_id}`
-            }
-            var data = {
-                user_id: one_advance.user_id,
-                requested_amount: this.state.requested_amount,
-                purpose: this.state.purpose,
-                duration: parseInt(this.state.duration),
-                issue_date: this.state.issue_date,
-                repayment_date: this.state.repayment_date,
-                monthly_installment: this.monthlyInstallment(),
-                // this.state.monthly_installment,
-                approved_amount: parseInt(this.state.approved_amount),
-                comment: this.state.verifier_comment,
-                updatedBy: updatedBy,
-
-            };
-
-            if (status_title !== '') {
-                var action = getActionStatus(status_title, this.state.one_advance, updatedBy, this.state.comment);
-                data.referback_by = action.referback_by;
-                data.checked_by = action.checked_by;
-                data.verified_by = action.verified_by;
-                data.approved_by = action.approved_by;
-                data.rejected_by = action.rejected_by;
-                data.referback_date = action.referback_date;
-                data.checked_date = action.checked_date;
-                data.verified_date = action.verified_date;
-                data.approved_date = action.approved_date;
-                data.rejected_date = action.rejected_date;
-                data.referback_comment = action.referback_comment;
-                data.checked_comment = action.checked_comment;
-                data.verified_comment = action.verified_comment;
-                data.approved_comment = action.approved_comment;
-                data.status = action.status;
-            }
-            formdata.append('advance', JSON.stringify(data))
-            formdata.append('oldDoc', JSON.stringify(this.state.doc))
-            let status = 0;
-            fetch(`${main_url}salary_advance/${path}`, {
-                method: 'POST',
-                body: formdata
-            })
-                .then(res => {
-                    status = res.status;
-                    return res.text()
-                })
-                .then(text => {
-                    this.props.showToast(status, text);
-                })
+       if(this.state.one_advance.status == 1 && (this.state.approved_amount !=0 || this.state.approved_amount!='') && (this.state.duration!=0 || this.state.duration != '') && this.state.repayment_date!=null && this.state.issue_date!=null){
+        let updatedBy = this.state.created_user;
+        let one_advance = this.state.one_advance;
+        let { status_title } = this.state;
+        const formdata = new FormData()
+        let path = 'saveSalaryAdvance';
+        if (!Array.isArray(one_advance)) {
+            path = `editSalaryAdvance/${one_advance.salary_advance_id}`
         }
-        else if (validate('check_form')) {
+        var data = {
+            user_id: one_advance.user_id,
+            requested_amount: this.state.requested_amount,
+            purpose: this.state.purpose,
+            duration: parseInt(this.state.duration),
+            issue_date: this.state.issue_date,
+            repayment_date: this.state.repayment_date,
+            monthly_installment: this.monthlyInstallment(),
+            // this.state.monthly_installment,
+            approved_amount: parseInt(this.state.approved_amount),
+            comment: this.state.verifier_comment,
+            updatedBy: updatedBy,
+
+        };
+
+        if (status_title !== '') {
+            var action = getActionStatus(status_title, this.state.one_advance, updatedBy, this.state.comment);
+            data.referback_by = action.referback_by;
+            data.checked_by = action.checked_by;
+            data.verified_by = action.verified_by;
+            data.approved_by = action.approved_by;
+            data.rejected_by = action.rejected_by;
+            data.referback_date = action.referback_date;
+            data.checked_date = action.checked_date;
+            data.verified_date = action.verified_date;
+            data.approved_date = action.approved_date;
+            data.rejected_date = action.rejected_date;
+            data.referback_comment = action.referback_comment;
+            data.checked_comment = action.checked_comment;
+            data.verified_comment = action.verified_comment;
+            data.approved_comment = action.approved_comment;
+            data.status = action.status;
+        }
+        formdata.append('advance', JSON.stringify(data))
+        formdata.append('oldDoc', JSON.stringify(this.state.doc))
+        let status = 0;
+        fetch(`${main_url}salary_advance/${path}`, {
+            method: 'POST',
+            body: formdata
+        })
+            .then(res => {
+                status = res.status;
+                return res.text()
+            })
+            .then(text => {
+                this.props.showToast(status, text);
+            })
+       }
+        // else if (this.state.one_advance.status != 2) {
+        //     let updatedBy = this.state.created_user;
+        //     let one_advance = this.state.one_advance;
+        //     let { status_title } = this.state;
+        //     const formdata = new FormData()
+        //     let path = 'saveSalaryAdvance';
+        //     if (!Array.isArray(one_advance)) {
+        //         path = `editSalaryAdvance/${one_advance.salary_advance_id}`
+        //     }
+        //     var data = {
+        //         user_id: one_advance.user_id,
+        //         requested_amount: this.state.requested_amount,
+        //         purpose: this.state.purpose,
+        //         duration: parseInt(this.state.duration),
+        //         issue_date: this.state.issue_date,
+        //         repayment_date: this.state.repayment_date,
+        //         monthly_installment: this.monthlyInstallment(),
+        //         // this.state.monthly_installment,
+        //         approved_amount: parseInt(this.state.approved_amount),
+        //         comment: this.state.verifier_comment,
+        //         updatedBy: updatedBy,
+
+        //     };
+
+        //     if (status_title !== '') {
+        //         var action = getActionStatus(status_title, this.state.one_advance, updatedBy, this.state.comment);
+        //         data.referback_by = action.referback_by;
+        //         data.checked_by = action.checked_by;
+        //         data.verified_by = action.verified_by;
+        //         data.approved_by = action.approved_by;
+        //         data.rejected_by = action.rejected_by;
+        //         data.referback_date = action.referback_date;
+        //         data.checked_date = action.checked_date;
+        //         data.verified_date = action.verified_date;
+        //         data.approved_date = action.approved_date;
+        //         data.rejected_date = action.rejected_date;
+        //         data.referback_comment = action.referback_comment;
+        //         data.checked_comment = action.checked_comment;
+        //         data.verified_comment = action.verified_comment;
+        //         data.approved_comment = action.approved_comment;
+        //         data.status = action.status;
+        //     }
+        //     formdata.append('advance', JSON.stringify(data))
+        //     formdata.append('oldDoc', JSON.stringify(this.state.doc))
+        //     let status = 0;
+        //     fetch(`${main_url}salary_advancefadsfdsa/${path}`, {
+        //         method: 'POST',
+        //         body: formdata
+        //     })
+        //         .then(res => {
+        //             status = res.status;
+        //             return res.text()
+        //         })
+        //         .then(text => {
+        //             this.props.showToast(status, text);
+        //         })
+        // }
+        else if (this.state.one_advance.status !=1) {
             let updatedBy = this.state.created_user;
             let one_advance = this.state.one_advance;
             let { status_title } = this.state;
@@ -227,13 +289,16 @@ export default class SalaryAdvanceApprovalForm extends Component {
                 })
         }
         else {
-            startSaving();
-            form_validate = false;
+            console.log("br nyar")
+            toast.error("Please fill informatin successfully")
+            // form_validate = false;
+            // startSaving();
+            
         }
     }
 
     render() {
-
+        console.log("render",moment(this.state.issue_date).format('YYYY/MM/DD'))
         return (
             <div>
                 <div className='wrapper wrapper-content'>
@@ -299,12 +364,26 @@ export default class SalaryAdvanceApprovalForm extends Component {
                                         <div className="row margin-top-20">
                                             <div className="col-12 col-sm-6 col-lg-6 col-xl-6">
                                                 <label className="col-sm-12">Issue Date</label>
-                                                <div className="col-sm-10"><input className="form-control checkValidate input-md" type="date" value={this.state.issue_date} onChange={(e) => this.setState({ issue_date: e.target.value })}></input>
+                                                <div className="col-sm-10">
+                                                <DatePicker
+                                                        dateFormat="YYYY/MM/DD"
+                                                        value={this.state.issue_date ? moment(this.state.issue_date).format('YYYY/MM/DD') : ''}
+                                                        timeFormat={false}
+                                                        onChange={(e) => this.setState({ issue_date: e })}
+                                                    />
+                                                {/* <div className="col-sm-10"><input className="form-control checkValidate input-md" type="date" value={this.state.issue_date ? moment(this.state.issue_date).format('YYYY/MM/DD') : 'dd/mm/yy'} onChange={(e) => this.setState({ issue_date: e.target.value })}></input> */}
                                                 </div>
                                             </div>
                                             <div className="col-12 col-sm-6 col-lg-6 col-xl-6">
                                                 <label className="col-sm-12">Repayment Date</label>
-                                                <div className="col-sm-10"><input className="form-control checkValidate input-md" min={this.state.issue_date} type="date" value={this.state.repayment_date} onChange={(e) => this.setState({ repayment_date: e.target.value })}></input>
+                                                <div className="col-sm-10">
+                                                <DatePicker
+                                                        dateFormat="YYYY/MM/DD"
+                                                        value={this.state.repayment_date ? moment(this.state.repayment_date).format('YYYY/MM/DD') : ''}
+                                                        timeFormat={false}
+                                                        onChange={(e) => this.setState({ repayment_date: e })}
+                                                    />
+                                                    {/* <input className="form-control checkValidate input-md" min={this.state.repayment_date} type="date" value={this.state.repayment_date} onChange={(e) => this.setState({ repayment_date: e.target.value })}></input> */}
                                                 </div>
                                             </div>
                                         </div>
