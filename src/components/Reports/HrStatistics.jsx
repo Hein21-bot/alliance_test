@@ -6,7 +6,10 @@ import 'datatables.net-dt/css/jquery.dataTables.css'
 import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 import 'jspdf-autotable';
 import Select from 'react-select';
+import DatePicker from "react-datetime";
 import moment from "moment";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
+
 const $ = require('jquery');
 const jzip = require('jzip');
 window.JSZip = jzip;
@@ -15,6 +18,8 @@ $.DataTable = require('datatables.net-responsive-bs4');
 $.DataTable = require('datatables.net');
 require('datatables.net-buttons/js/dataTables.buttons.min');
 require('datatables.net-buttons/js/buttons.html5.min');
+
+
 class HrStatistics extends Component {
   constructor(props) {
     super(props);
@@ -48,7 +53,8 @@ class HrStatistics extends Component {
       EmployeeNameList: null,
       selected_employee: null,
       titleYear:[],
-      dataSource:[]
+      dataSource:[],
+      date:new Date()
     }
   }
 
@@ -264,17 +270,22 @@ class HrStatistics extends Component {
       });
     
   }
+  handleDate=(e)=>{
+    this.setState({
+      date:e
+    })
+  }
   handleSearchData = () => {
     
-    const branchId = this.state.selected_Branch ? this.state.selected_Branch.value : 0
-    const departmentId = this.state.selected_department ? this.state.selected_department.departments_id : 0
-    const designationId = this.state.selected_designation ? this.state.selected_designation.value : 0
-    const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
-    const employee = this.state.selected_employee ? this.state.selected_employee.value : 0
+    // const branchId = this.state.selected_Branch ? this.state.selected_Branch.value : 0
+    // const departmentId = this.state.selected_department ? this.state.selected_department.departments_id : 0
+    // const designationId = this.state.selected_designation ? this.state.selected_designation.value : 0
+    // const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
+    // const employee = this.state.selected_employee ? this.state.selected_employee.value : 0
    
 
     // fetch(main_url + "report/HRStatisticReport/" + regionId + "/" + departmentId + "/" + branchId + "/" + designationId + "/" + employee)
-    fetch(main_url + "report/HRStatisticReport/2020")
+    fetch(main_url + "report/HRStatisticReport/"+moment(this.state.date).format('YYYY'))
 
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
@@ -346,9 +357,9 @@ class HrStatistics extends Component {
     return (
       <div>
         <div className="row  white-bg dashboard-header">
-        <h3 className="" style={{paddingLeft:"10px"}}>HR Statistic Report</h3>
-          <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
-          <Select
+        <h3 className="">HR Statistic Report</h3>
+          <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 0px' }}>
+          {/* <Select
               styles={{
                 container: base => ({
                   ...base,
@@ -431,23 +442,45 @@ class HrStatistics extends Component {
               value={this.state.selected_designation}
               className='react-select-container'
               classNamePrefix="react-select"
-            />
+            /> */}
+            <DatePicker
+                        dateFormat='YYYY'
+                        // disabled={this.state.dataSource && this.state.dataSource.length > 0 ? true : false}
+                        value={this.state.date}
+                        timeFormat={false}
+                        onChange={this.handleDate.bind(this)}
+                      />
             
             
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
           </div>
+          <div style={{marginBottom:'10px'}}>
+          <ReactHTMLTableToExcel 
+                    className="btn-excel"
+                    table="hr_statistic"
+                    filename="Hr Statistic Report"
+                    buttonText="Excel"
+                    sheet="Sheet"
+                    style={{margintBottom:'10px'}}
+                    />
+          </div>
+          
+         
+          
         
         {/* <table width="99%"
           className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
           id="dataTables-table"
         /> */}
-        <table className="table table-bordered">
+        {
+          this.state.dataSource!=undefined && this.state.dataSource.length > 0 ? 
+          <table className="table table-bordered mt-2" id='hr_statistic'>
           <thead>
             <tr>
               
               {
                   this.state.titleYear.length > 0 && this.state.titleYear.map(v=>(
-                    <th>{v.year}</th>
+                    <th style={{width:'90px !important'}}>{v.year}</th>
                   ))
               }
               <th>Growth</th>
@@ -460,7 +493,7 @@ class HrStatistics extends Component {
                 <tr>
                   {
                     v.length > 0 && v.map(v1=>(
-                      <td>{v1.HOCount}</td>
+                      <td>{(v1.HOCount == 'NaN%' || v1.HOCount == "Infinity%") ? '0%' : v1.HOCount}</td>
                     ))
                   }
                 </tr>
@@ -473,6 +506,9 @@ class HrStatistics extends Component {
             } */}
           </tbody>
         </table>
+           : <h3 className="text-center">Loading....</h3>
+        }
+       
       </div>
       </div>
     )

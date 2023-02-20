@@ -593,7 +593,8 @@ export default class BackPayAddNew extends Component {
                   <div className="col-md-3">
                       <label>Request Month</label>
                       {
-                        this.state.dataSource.length > 0 ? <input type="text" className="form-control" value={moment(this.state.dataSource[0].request_month).format('YYYY-MM')} disabled/> : <DatePicker
+                        this.state.dataSource.length > 0 ? <input type="text" className="form-control" value={moment(this.state.dataSource[0].request_month).format('YYYY-MM')} disabled/> : 
+                        <DatePicker
                         dateFormat='YYYY-MM'
                         // disabled={this.state.dataSource && this.state.dataSource.length > 0 ? true : false}
                         value={addNewData.requestMonth}
