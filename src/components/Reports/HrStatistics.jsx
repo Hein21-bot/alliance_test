@@ -54,7 +54,8 @@ class HrStatistics extends Component {
       selected_employee: null,
       titleYear:[],
       dataSource:[],
-      date:new Date()
+      date:new Date(),
+      loading:false
     }
   }
 
@@ -283,7 +284,10 @@ class HrStatistics extends Component {
     // const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
     // const employee = this.state.selected_employee ? this.state.selected_employee.value : 0
    
-
+    this.setState({
+      loading:true,
+      dataSource:[]
+    })
     // fetch(main_url + "report/HRStatisticReport/" + regionId + "/" + departmentId + "/" + branchId + "/" + designationId + "/" + employee)
     fetch(main_url + "report/HRStatisticReport/"+moment(this.state.date).format('YYYY'))
 
@@ -294,7 +298,8 @@ class HrStatistics extends Component {
        console.log("year only",Year.slice(0,-1))
        this.setState({
         titleYear:Year.slice(0,-1),
-        dataSource:list
+        dataSource:list,
+        loading:false
        })
         // let temp=[]
         // let mapList=list.map(v=>v.map(a=>temp.push(a)))
@@ -506,7 +511,10 @@ class HrStatistics extends Component {
             } */}
           </tbody>
         </table>
-           : <h3 className="text-center">Loading....</h3>
+           : <></>
+        }
+        {
+          this.state.loading ? <h3 className="text-center">Loading....</h3> : ''
         }
        
       </div>

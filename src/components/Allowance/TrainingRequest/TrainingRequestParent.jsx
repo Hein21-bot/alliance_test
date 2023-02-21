@@ -33,9 +33,9 @@ export default class TravelRequestParent extends Component {
     }
 
     async componentDidMount() {
-       var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Training Allowance', 'Allowance');
+    //    var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Training Allowance', 'Allowance');
 
-        // var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Training Allowance', 'Allowance');
+        var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Training Allowance', 'Allowance');
         this._getTrainingRequest();
         this.setState({
             permission_status: permission_status

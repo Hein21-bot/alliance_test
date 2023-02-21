@@ -303,7 +303,7 @@ const Main = () => (
         <Route path='/staff_loan_before_committee' component={StaffLoanBeforeComit} ></Route>
         <Route path='/staff_loan_after_committee' component={StaffLoanAfterComit} ></Route>
         <Route path='/staff_loan_approve' component={StaffLoanApprove} ></Route>
-        <Route path='/hr_staticts' component={HrStatistics} ></Route>
+        <Route path='/hr_statistic' component={HrStatistics} ></Route>
 
         
 
