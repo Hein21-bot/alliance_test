@@ -25,7 +25,7 @@ class AttendanceReportMonthly extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            s_date: moment(),
+            s_date: moment(getFirstDayOfMonth()),
             e_date: moment(),
             region: 0,
             branch: 0,

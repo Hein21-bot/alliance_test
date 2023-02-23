@@ -429,7 +429,7 @@ export default class PayrollUpload extends Component {
     const { steps, activeStep } = this.state;
     let Deduction_total= this.state.dataSource.reduce((p,c)=>{return p+c.deduction_amount},0)
     let Allowance_total=this.state.dataSource.reduce((p,c)=>{return p+c.allowance_amount},0)
-    // console.log("datasource",this.state.steps[this.state.activeStep])
+    console.log("total=====>",Deduction_total,Allowance_total)
 
     return (
       <div>

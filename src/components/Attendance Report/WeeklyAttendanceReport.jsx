@@ -383,6 +383,7 @@ class WeeklyAttendanceReport extends Component {
             <tbody style={{ textAlign: "center" }}>
              
               {this.state.dataSource.map((v, i) => {
+                console.log("v===>",v)
                 return (
                   <>
                     <tr>
@@ -391,6 +392,7 @@ class WeeklyAttendanceReport extends Component {
                       <td style={{ borderColor: "white" ,verticalAlign:'middle'}}>{v.branch}</td>
                       {this.state.dateList
                   ? this.state.dateList.map((v1, i1) => {
+                    console.log("br gyi lae",v[v1],v,v1)
                       return (
                        <>
                        <td style={{ borderColor: "white",verticalAlign:'middle' }}>{v[v1+'_in'] || '-'}</td>

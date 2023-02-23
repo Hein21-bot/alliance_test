@@ -295,9 +295,11 @@ class HrStatistics extends Component {
       .then(list => {
         console.log("api list",list)
        let Year=list.length > 0 && list[0]
-       console.log("year only",Year.slice(0,-1))
+       let sliceLastIndex=Year.slice(0,-1)
+      //  let finalYear=sliceLastIndex.slice(0,0)
+       console.log("year only",sliceLastIndex.shift())
        this.setState({
-        titleYear:Year.slice(0,-1),
+        titleYear:sliceLastIndex,
         dataSource:list,
         loading:false
        })
@@ -481,8 +483,9 @@ class HrStatistics extends Component {
           this.state.dataSource!=undefined && this.state.dataSource.length > 0 ? 
           <table className="table table-bordered mt-2" id='hr_statistic'>
           <thead>
+            
             <tr>
-              
+            <th>Branches</th>
               {
                   this.state.titleYear.length > 0 && this.state.titleYear.map(v=>(
                     <th style={{width:'90px !important'}}>{v.year}</th>

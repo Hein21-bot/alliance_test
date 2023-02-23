@@ -564,7 +564,7 @@ export default class SSC extends Component {
                 <tr>
                   <th scope="row">SSC Total</th>
                   <td></td>
-                  <td>{this.state.dataSource.reduce((r,c)=>{return r+c.governmentAmount},0).toLocaleString('en-US',{maximumFractionDigits:2})}</td>
+                  <td>{this.state.dataSource.reduce((r,c)=>{return r+c.ss1EeConAmt},0).toLocaleString('en-US',{maximumFractionDigits:2})}</td>
                 </tr>
                 <tr>
                   <th scope="row">SS2Ee Total</th>
