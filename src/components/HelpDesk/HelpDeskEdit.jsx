@@ -440,7 +440,8 @@ export default class HelpDeskView
 
     render() {
         let user_depertment = this.state.userInfo != null && this.state.userInfo[0].departments_id
-        console.log("?>>",this.state.data, this.props.data.helpDesk[0].departmentId == user_depertment)
+        let user_id=this.state.userInfo !=null && this.state.userInfo[0].user_id
+        console.log("?>>",this.state.data,this.props.data.helpDesk[0],user_depertment, this.props.data.helpDesk[0].departmentId == user_depertment,user_id)
         return (
             <div>
                 <div className="form-horizontal mt20" name="demo-form" id="check_form">
@@ -766,7 +767,7 @@ export default class HelpDeskView
                         <HelpDeskRequesterInfo user_id={this.state.data.createdBy} />
                     </div>
                     <div className="row margin-top-20">
-                        {this.props.data.helpDesk[0].departmentId == user_depertment ? <div className="col-md-12 btn-rightend">
+                        {(this.props.data.helpDesk[0].departmentId == user_depertment || this.props.data.helpDesk[0].user_id==user_id) ? <div className="col-md-12 btn-rightend">
                             <button onClick={this.check.bind(this)} id="saving_button" className="btn btn-primary"><span>Save</span> </button>
                         </div> : null}
                     </div>
