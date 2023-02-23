@@ -649,7 +649,7 @@ export default class Sidebar extends Component {
                 </a>
                 <ul className="nav nav-second-level collapse">
 
-                <li
+                {/* <li
                     className={
                       pathname === "/attendance_add" ? "active" : " "
                     }
@@ -657,7 +657,7 @@ export default class Sidebar extends Component {
 
                   >
                     <a href="/attendance_add">Attendance</a>
-                  </li>
+                  </li> */}
 
                   <li
                     className={
