@@ -85,7 +85,8 @@ class StaffLoanMain extends Component {
             isEdit: false,
             isTable: false,
             isView: false,
-            isNew: text.is_new,
+            // isNew: text.is_new,
+            isNew:true,
             isReport: false
           });
         }

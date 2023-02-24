@@ -689,7 +689,7 @@ class StaffLoanAddNew extends Component {
     const{staffInfo,getGuarantorInfo}=this.state;
     return (
       <div className="">
-        { this.props.isNew == false ?
+        { this.props.isNew == true ?
           
         <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
         <Rodal width={300} height={200} visible={this.state.visible} onClose={this.hide.bind(this)} >
