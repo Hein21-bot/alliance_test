@@ -209,6 +209,7 @@ export default class QuarterlyIncentive extends Component{
           this.setState({
             loading:true
           })
+          console.log('br nyar')
         const formdata = new FormData();
         var imagedata = this.state.newDoc[0];
         console.log(imagedata);

@@ -356,6 +356,7 @@ export default class MonthlyIncentive extends Component {
     var newDoc = this.state.newDoc;
     for (let i = 0; i < files.length; i++) {
       var getfile = document.querySelector("#attachment").files[i];
+      console.log("file",getfile)
       newDoc.push(getfile);
     }
 
@@ -386,14 +387,15 @@ export default class MonthlyIncentive extends Component {
             table_type: 1,
           });
         } else if (status == 200 && this.state.selected_type.value == 2) {
+          console.log('aung tl',response)
           this.setState({
             loading: false,
-            fxData: response.data,
+            fxData: response,
             newDoc:response,
             deleteType: true,
             table_type: 2,
           });
-          await this._setDataTable(response.data);
+          await this._setDataTable(response);
         }
         //  else if (status == 200 && this.state.selected_type.value == 3) {
         //   this.setState({
@@ -638,7 +640,7 @@ $('#search').keyup(function() {
   //   });
   // };
 
-  render() { console.log('validate',this.state.searchData);
+  render() { console.log('validate',this.state.fxData);
     return (
       <div>
         <ToastContainer />

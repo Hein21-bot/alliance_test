@@ -780,6 +780,11 @@ export default class Sidebar extends Component {
               <li
                 className={this.checkPathName() === "/payroll" || this.checkPathName()==='/incentive' || this.checkPathName() === 'payroll_calculation' || this.checkPathName() === '/payroll_reports'|| this.checkPathName()==='/pay_slip' || pathname === '/payslip_generate' || pathname === '/ssc' || pathname === "/payroll_main" || pathname === '/foreigner_salary' || pathname === "/resign_or_dismiss_salary" || pathname === '/backpay' || pathname === '/payroll_generate' || pathname ==='/payroll_pay_slip'|| pathname== '/monthly_incentive'|| pathname == "/quarterly_incentive_payslip" || pathname == "/monthly_incentive_payslip" || pathname == "/quarterly_incentive" ||  pathname == '/employee_salary_report' || pathname === '/monthly_report'|| pathname === '/quarterly_report' || pathname == '/ssc_report' ? "active" : ""}
               //  style={{display:PayRoll ? 'block': 'none'}}
+              style={{
+                display: (isHR || this.state.user.user_id == 1110 || this.state.user.user_id == 1467
+                  
+                   ) ? 'block' : "none"
+              }}
              >
                 <a href="/ssc" className="sideList">
                 <i class="fa fa-address-book" style={{color:'white'}}></i>
