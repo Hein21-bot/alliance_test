@@ -122,6 +122,7 @@ export default class PayrollAtmCash extends Component {
       id: v.id,
       payment_type: v.payment_type
     }))
+    console.log("post Data====>",postData)
     let status = 0;
     fetch(main_url + `payroll/paymentTypeUpdate/`+moment(this.props.filterDate).format('YYYY-MM'), {
       method: "POST",

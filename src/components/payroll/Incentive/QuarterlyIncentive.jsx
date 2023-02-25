@@ -204,6 +204,7 @@ export default class QuarterlyIncentive extends Component{
            toast.error("Please Choose Quarter!")
          }
            else if (this.state.newDoc.length == 0 )  { 
+            
             toast.error("Please Choose Attachment File!")
         } else {
           this.setState({
@@ -285,6 +286,7 @@ export default class QuarterlyIncentive extends Component{
         //   };
 
   render(){   
+    console.log("new doc===<",this.state.newDoc)
             return(
         <div>
           <ToastContainer/>

@@ -35,73 +35,73 @@ class ThingsTodoTable extends Component {
     };
   }
 
-  componentDidMount() {
-    const id = localStorage.getItem("user_id");
-    thingsToDoController.getBirthdayRequest(id, (data) => {
+  async componentDidMount() {
+    const id =  localStorage.getItem("user_id");
+    await thingsToDoController.getBirthdayRequest(id, (data) => {
       this.setState({ birthdayCount: data.count })
     });
-    thingsToDoController.getChildRequest(id, (data) => {
+    await thingsToDoController.getChildRequest(id, (data) => {
       this.setState({ childCount: data.count })
     });
-    thingsToDoController.getExternalRequest(id, (data) => {
+    await thingsToDoController.getExternalRequest(id, (data) => {
       this.setState({ externalCount: data.count })
     });
-    thingsToDoController.getLeaveRequest(id, data => {
+    await thingsToDoController.getLeaveRequest(id, data => {
       this.setState({ leaveCount: data.count })
     });
-    thingsToDoController.getMedicalRequest(id, data => {
+    await thingsToDoController.getMedicalRequest(id, data => {
       this.setState({ medicalCount: data.count })
     });
-    thingsToDoController.getSalaryRequest(id, data => {
+    await thingsToDoController.getSalaryRequest(id, data => {
       this.setState({ salaryCount: data.count })
     });
-    thingsToDoController.getTravelRequest(id, data => {
+    await thingsToDoController.getTravelRequest(id, data => {
       this.setState({ travelCount: data.count })
     });
-    thingsToDoController.getWeddingRequest(id, data => {
+    await thingsToDoController.getWeddingRequest(id, data => {
       this.setState({ weddingCount: data.count })
     });
-    thingsToDoController.getConfirmationRequest(id, data => {
+    await thingsToDoController.getConfirmationRequest(id, data => {
       this.setState({ confirmationCount: data.count })
     })
-    thingsToDoController.getFuneralRequest(id, data => {
+    await thingsToDoController.getFuneralRequest(id, data => {
       this.setState({ funeralCount: data.count })
     })
-    thingsToDoController.getTeamBulidingRequest(id, data => {
+    await thingsToDoController.getTeamBulidingRequest(id, data => {
       this.setState({ teamBuildingCount: data.count })
     })
-    thingsToDoController.getHospitalRequest(id, data => {
+    await thingsToDoController.getHospitalRequest(id, data => {
       this.setState({ hospitalCount: data.count })
     })
-    thingsToDoController.getCycleRequest(id, data => {
+    await thingsToDoController.getCycleRequest(id, data => {
       this.setState({ cycleCount: data.count })
     })
-    thingsToDoController.getOtherRequest(id, data => {
+    await thingsToDoController.getOtherRequest(id, data => {
       this.setState({ otherCount: data.count })
     })
-    thingsToDoController.getTrainingRequest(id, data => {
+    await thingsToDoController.getTrainingRequest(id, data => {
       this.setState({ trainingCount: data.count })
     })
-    // thingsToDoController.getPhoneRequest(id, data => {
+    // await thingsToDoController.getPhoneRequest(id, data => {
     //   this.setState({ phoneCount: data[0].count })
     // })
-    // thingsToDoController.getPetrolRequest(id, data => {
+    // await thingsToDoController.getPetrolRequest(id, data => {
     //   this.setState({ petrolCount: data[0].count })
     // })
-    thingsToDoController.getStaffComplainRequest(id, data => {
+    await thingsToDoController.getStaffComplainRequest(id, data => {
       this.setState({ staffComplainCount: data[0].count })
     })
-    thingsToDoController.getHelpDeskRequest(id, data => {
+    await thingsToDoController.getHelpDeskRequest(id, data => {
       // console.log('helpdesk count ===>', data)
       this.setState({ helpDeskCount: data[0].count })
     })
-    thingsToDoController.getAttRequest(id, data => {
-      this.setState({ attResCount: data.count },()=>{console.log("att data==>",data)})
+    await thingsToDoController.getAttRequest(id, data => {
+      this.setState({ attResCount: data.count })
     })
-    thingsToDoController.getHolidayAttRequest(id, data => {
-      this.setState({ holidayAttResCount: data.count },()=>{console.log("att data==>",data)})
+    await thingsToDoController.getHolidayAttRequest(id, data => {
+      this.setState({ holidayAttResCount: data.count })
     })
-    thingsToDoController.getStaffLoanRequest(id, data => {
+    await thingsToDoController.getStaffLoanRequest(id, data => {
       this.setState({staffLoanCount: data.count })
     })
   }

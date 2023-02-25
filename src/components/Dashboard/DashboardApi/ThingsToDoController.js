@@ -1,7 +1,7 @@
 import { main_url } from "../../../utils/CommonFunction"
 
-const getLeaveRequest = (userId, setData) => {
-    fetch(main_url + `dashboard/leaveRequest/${userId}`).then(response => {
+const getLeaveRequest = async (userId, setData) => {
+    await fetch(main_url + `dashboard/leaveRequest/${userId}`).then(response => {
         return response.json();
     }).then(data => {
         setData(data);
@@ -9,18 +9,8 @@ const getLeaveRequest = (userId, setData) => {
         console.log("error leave ===>", error);
     })
 }
-const getFuneralRequest = (userId, setData) => {
-    fetch(main_url + `dashboard/funeralRequest/${userId}`).then(response => {
-        return response.json();
-    }).then(data => {
-        setData(data);
-    }).catch((error) => {
-        console.log("error leave ===>", error);
-    })
-}
-
-const getTeamBulidingRequest = (userId, setData) => {
-    fetch(main_url + `dashboard/teamBuildingRequest/${userId}`).then(response => {
+const getFuneralRequest =async (userId, setData) => {
+    await fetch(main_url + `dashboard/funeralRequest/${userId}`).then(response => {
         return response.json();
     }).then(data => {
         setData(data);
@@ -29,8 +19,8 @@ const getTeamBulidingRequest = (userId, setData) => {
     })
 }
 
-const getHospitalRequest = (userId, setData) => {
-    fetch(main_url + `dashboard/hospitalRequest/${userId}`).then(response => {
+const getTeamBulidingRequest =async (userId, setData) => {
+    await fetch(main_url + `dashboard/teamBuildingRequest/${userId}`).then(response => {
         return response.json();
     }).then(data => {
         setData(data);
@@ -39,8 +29,18 @@ const getHospitalRequest = (userId, setData) => {
     })
 }
 
-const getTravelRequest = (userId, setData) => {
-    fetch(main_url + `dashboard/travelRequest/${userId}`).then(response => {
+const getHospitalRequest =async (userId, setData) => {
+    await fetch(main_url + `dashboard/hospitalRequest/${userId}`).then(response => {
+        return response.json();
+    }).then(data => {
+        setData(data);
+    }).catch((error) => {
+        console.log("error leave ===>", error);
+    })
+}
+
+const getTravelRequest =async (userId, setData) => {
+    await fetch(main_url + `dashboard/travelRequest/${userId}`).then(response => {
         return response.json();
     }).then(data => {
         setData(data);
@@ -49,8 +49,8 @@ const getTravelRequest = (userId, setData) => {
     })
 }
 
-const getMedicalRequest = (userId, setData) => {
-    fetch(main_url + `dashboard/medicalRequest/${userId}`).then(response => {
+const getMedicalRequest =async (userId, setData) => {
+    await fetch(main_url + `dashboard/medicalRequest/${userId}`).then(response => {
         return response.json();
     }).then(data => {
         setData(data);
@@ -59,8 +59,8 @@ const getMedicalRequest = (userId, setData) => {
     })
 }
 
-const getExternalRequest = (userId, setData) => {
-    fetch(main_url + `dashboard/externalRequest/${userId}`).then(response => {
+const getExternalRequest =async (userId, setData) => {
+    await fetch(main_url + `dashboard/externalRequest/${userId}`).then(response => {
         return response.json();
     }).then(data => {
         setData(data);
@@ -69,8 +69,8 @@ const getExternalRequest = (userId, setData) => {
     })
 }
 
-const getWeddingRequest = (userId, setData) => {
-    fetch(main_url + `dashboard/weddingRequest/${userId}`).then(response => {
+const getWeddingRequest =async (userId, setData) => {
+    await fetch(main_url + `dashboard/weddingRequest/${userId}`).then(response => {
         return response.json();
     }).then(data => {
         setData(data);
@@ -79,8 +79,8 @@ const getWeddingRequest = (userId, setData) => {
     })
 }
 
-const getChildRequest = (userId, setData) => {
-    fetch(main_url + `dashboard/childRequest/${userId}`).then(response => {
+const getChildRequest = async (userId, setData) => {
+    await fetch(main_url + `dashboard/childRequest/${userId}`).then(response => {
         return response.json();
     }).then(data => {
         setData(data);
@@ -89,8 +89,8 @@ const getChildRequest = (userId, setData) => {
     })
 }
 
-const getSalaryRequest = (userId, setData) => {
-    fetch(main_url + `dashboard/salaryRequest/${userId}`).then(response => {
+const getSalaryRequest =async (userId, setData) => {
+    await fetch(main_url + `dashboard/salaryRequest/${userId}`).then(response => {
         return response.json();
     }).then(data => {
         setData(data);
@@ -99,8 +99,8 @@ const getSalaryRequest = (userId, setData) => {
     })
 }
 
-const getBirthdayRequest = (userId, setData) => {
-    fetch(main_url + `dashboard/birthdayRequest/${userId}`).then(response => {
+const getBirthdayRequest = async (userId, setData) => {
+    await fetch(main_url + `dashboard/birthdayRequest/${userId}`).then(response => {
         return response.json();
     }).then(data => {
         setData(data);
@@ -109,8 +109,8 @@ const getBirthdayRequest = (userId, setData) => {
     })
 }
 
-const getConfirmationRequest = (userId, setData) => {
-    fetch(main_url + `dashboard/confirmationRequest/${userId}`).then(response => {
+const getConfirmationRequest =async (userId, setData) => {
+    await fetch(main_url + `dashboard/confirmationRequest/${userId}`).then(response => {
         return response.json();
     }).then(data => {
         setData(data);
@@ -121,8 +121,8 @@ const getConfirmationRequest = (userId, setData) => {
 
 
 
-const getCycleRequest = (userId, setData) => {
-    fetch(main_url + `dashboard/cycleRequest/${userId}`).then(response => {
+const getCycleRequest =async (userId, setData) => {
+    await fetch(main_url + `dashboard/cycleRequest/${userId}`).then(response => {
         return response.json();
     }).then(data => {
         setData(data);
@@ -131,8 +131,8 @@ const getCycleRequest = (userId, setData) => {
     })
 }
 
-const getOtherRequest = (userId, setData) => {
-    fetch(main_url + `dashboard/otherRequest/${userId}`).then(response => {
+const getOtherRequest =async (userId, setData) => {
+    await fetch(main_url + `dashboard/otherRequest/${userId}`).then(response => {
         return response.json();
     }).then(data => {
         setData(data);
@@ -141,8 +141,8 @@ const getOtherRequest = (userId, setData) => {
     })
 }
 
-const getTrainingRequest = (userId, setData) => {
-    fetch(main_url + `dashboard/trainingRequest/${userId}`).then(response => {
+const getTrainingRequest =async (userId, setData) => {
+    await fetch(main_url + `dashboard/trainingRequest/${userId}`).then(response => {
         return response.json();
     }).then(data => {
         setData(data);
@@ -151,8 +151,8 @@ const getTrainingRequest = (userId, setData) => {
     })
 }
 
-const getPhoneRequest = (userId, setData) => {
-    fetch(main_url + `dashboard/phoneRequest/${userId}`).then(response => {
+const getPhoneRequest =async (userId, setData) => {
+    await fetch(main_url + `dashboard/phoneRequest/${userId}`).then(response => {
         return response.json();
     }).then(data => {
         setData(data);
@@ -161,8 +161,8 @@ const getPhoneRequest = (userId, setData) => {
     })
 }
 
-const getPetrolRequest = (userId, setData) => {
-    fetch(main_url + `dashboard/petrolRequest/${userId}`).then(response => {
+const getPetrolRequest =async (userId, setData) => {
+    await fetch(main_url + `dashboard/petrolRequest/${userId}`).then(response => {
         return response.json();
     }).then(data => {
         setData(data);
@@ -170,8 +170,8 @@ const getPetrolRequest = (userId, setData) => {
         console.log("error staff complain ===>", error);
     })
 }
-const getAttRequest = (userId, setData) => {
-    fetch(main_url + `dashboard/attendance/${userId}`).then(response => {
+const getAttRequest =async (userId, setData) => {
+    await fetch(main_url + `dashboard/attendance/${userId}`).then(response => {
         return response.json();
     }).then(data => {
         setData(data);
@@ -179,8 +179,8 @@ const getAttRequest = (userId, setData) => {
         console.log("error staff complain ===>", error);
     })
 }
-const getHolidayAttRequest = (userId, setData) => {
-    fetch(main_url + `dashboard/holiday/${userId}`).then(response => {
+const getHolidayAttRequest =async (userId, setData) => {
+    await fetch(main_url + `dashboard/holiday/${userId}`).then(response => {
         return response.json();
     }).then(data => {
         setData(data);
@@ -188,8 +188,8 @@ const getHolidayAttRequest = (userId, setData) => {
         console.log("error staff complain ===>", error);
     })
 } 
-const getStaffLoanRequest = (userId, setData) => {
-    fetch(main_url + `dashboard/staffLoanRequest/${userId}`).then(response => {
+const getStaffLoanRequest = async (userId, setData) => {
+    await fetch(main_url + `dashboard/staffLoanRequest/${userId}`).then(response => {
         return response.json();
     }).then(data => {
         setData(data);
@@ -197,8 +197,8 @@ const getStaffLoanRequest = (userId, setData) => {
         console.log("error staff complain ===>", error);
     })
 }
-const getStaffComplainRequest  = (userId, setData) => {
-    fetch(main_url + `dashboard/staffComplainRequest`).then(response => {
+const getStaffComplainRequest  = async (userId, setData) => {
+    await fetch(main_url + `dashboard/staffComplainRequest`).then(response => {
         return response.json();
     }).then(data => {
         setData(data);
@@ -207,8 +207,8 @@ const getStaffComplainRequest  = (userId, setData) => {
     })
 }
 
-const getHelpDeskRequest = (userId, setData) => {
-    fetch(main_url + `dashboard/helpDeskRequest/${userId}`).then(response => {
+const getHelpDeskRequest =async (userId, setData) => {
+    await fetch(main_url + `dashboard/helpDeskRequest/${userId}`).then(response => {
         return response.json();
     }).then(data => {
         setData(data);
