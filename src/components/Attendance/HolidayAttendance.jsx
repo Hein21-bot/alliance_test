@@ -119,10 +119,11 @@ class HolidayAttendance extends Component {
                         '<small class="label label-warning" style="background-color:#509aed"> Request </small>';
                 } else if (result.status === 1) {
                     status =
-                        '<small class="label label-warning" style="background-color:#29a50a"> Approve </small>';
+                        '<small class="label label-warning" style="background-color:#f60e2f"> Reject </small>';
                 } else if (result.status === 2) {
                     status =
-                        '<small class="label label-warning" style="background-color:#f60e2f"> Reject </small>';
+                        '<small class="label label-warning" style="background-color:#29a50a"> Approve </small>';
+                    
                 }
                 obj = {
                     no: i + 1,
