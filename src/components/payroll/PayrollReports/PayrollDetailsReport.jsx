@@ -326,6 +326,7 @@ handleSelectedEmpId = async (event) => {
       this.getPayrollReportHeader();
   }
   render() {
+    
     let filterData =
       this.state.ReportHeader &&
       this.state.ReportHeader.filter(
@@ -335,6 +336,9 @@ handleSelectedEmpId = async (event) => {
       this.state.dataSource != undefined && this.state.dataSource.length > 0
         ? this.state.dataSource
         : [];
+        console.log("gross salary",finalDatasource.reduce((p, c) => {
+          return Number(p) + Number(c.gross_salary);
+        }, 0))
     let filterIncomeTax = finalDatasource.map(
       (d) =>
         d.deduction.length > 0 &&
@@ -804,42 +808,42 @@ handleSelectedEmpId = async (event) => {
                 <td colSpan={9} style={{textAlign:'center',fontWeight:'bold'}}>All Total</td>
                 <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
-                    return p + c.gross_salary;
+                    return Number(p) + Number(c.gross_salary);
                   }, 0)}
                 </td>
                 <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
-                    return p + c.deduction_addition_data;
+                    return Number(p) + Number(c.deduction_addition_data);
                   }, 0)}
                 </td>
                 <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
-                    return p + c.after_deduction_or_addition;
+                    return Number(p) + Number(c.after_deduction_or_addition);
                   }, 0)}
                 </td>
                 <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
-                    return p + (c.ssc.length > 0  ? c.ssc[0].Employee_3 : 0);
+                    return Number(p) + Number(c.ssc.length > 0  ? c.ssc[0].Employee_3 : 0);
                   }, 0)}
                 </td>
                 <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
-                    return p + (c.ssc.length> 0 ? c.ssc[0].Employer_2 : 0);
+                    return Number(p)+ Number(c.ssc.length> 0 ? c.ssc[0].Employer_2 : 0);
                   }, 0)}
                 </td>
                 <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {NextFilterIncomeTax.reduce((p, c) => {
-                    return p + c[0].salary_payment_deduction_value;
+                    return Number(p) + Number(c[0].salary_payment_deduction_value);
                   }, 0)}
                 </td>
                 <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
-                    return p + c.net_salary;
+                    return Number(p) + Number(c.net_salary);
                   }, 0)}
                 </td>
                 <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
-                    return p + c.total_gross_salary;
+                    return Number(p) + Number(c.total_gross_salary);
                   }, 0)}
                 </td>
                 {
@@ -858,7 +862,7 @@ handleSelectedEmpId = async (event) => {
                 }
                 <td style={{textAlign:'center',fontWeight:'bold'}}>
                   {finalDatasource.reduce((p, c) => {
-                    return p + c.total;
+                    return Number(p) + Number(c.total);
                   }, 0)}
                 <td></td>
                 </td>
