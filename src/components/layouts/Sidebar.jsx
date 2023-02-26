@@ -104,13 +104,11 @@ export default class Sidebar extends Component {
   }
 
   async componentDidMount() {
-    console.log("hr here =============>")
     const id = localStorage.getItem("user_id");
-    console.log("hr is =============>", id)
     await this.checkHR(id)
     await this.confirmHR1(id)
     await this.confirmRequest(id)
-    // await this.sidebarPermission(id)
+    await this.sidebarPermission(id)
   }
   confirmRequest = async (id) => {
     await fetch(`${main_url}dashboard/confirmRequestPermission/${id}`)
@@ -136,7 +134,8 @@ export default class Sidebar extends Component {
       .then(res => res.json())
       .then(data => {
         if (Object.keys(data).length > 0) {
-          const checkHRVal = data[0].deptname == "HR" || data[0].designations == 'Senior Internal Audit Manager';
+          const checkHRVal = data[0].deptname == "HR" ;
+          // || data[0].designations == 'Senior Internal Audit Manager'
           this.setState({
             isHR: checkHRVal,
           });
@@ -491,6 +490,8 @@ export default class Sidebar extends Component {
                     : " "
                 }
                 // style={{ display: employeeManagement ? 'block' : "none" }}
+
+                style={{ display: isHR || this.state.user.user_id == 1467 ? 'block' : "none" }}
               >
                 <a href="/employee_list" className="sideList">
                   <i className="fas fa-user-cog" style={{ color: 'white' }}></i>
@@ -500,6 +501,8 @@ export default class Sidebar extends Component {
                   <li 
                   className={pathname === "/employee_list" ? "active" : " "}
                   // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Employee Lists") && sidebarPermission.filter(d => d.permission == "Employee Lists")[0].access == true ? 'block' : 'none') }}
+
+                  // style={{display : isHR ? 'block' : 'none'}}
 
                   >
                     <a href="/employee_list">Employee Lists</a>
