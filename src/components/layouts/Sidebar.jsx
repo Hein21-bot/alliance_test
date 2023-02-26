@@ -622,6 +622,7 @@ export default class Sidebar extends Component {
               <li
                 className={this.checkPathName() === "/confirmation" ? "active" : ""}
                     // style={{display:confirmation ? 'block':'none'}}
+                    style={{display:this.state.isHR ? 'block':'none'}}
               >
                 <a href="/confirmation_check" className="sideList">
                   <i className="fas fa-user-check" style={{ color: 'white' }}></i>
@@ -636,7 +637,9 @@ export default class Sidebar extends Component {
 
                   <li className={pathname === "/confirmation_check" ? "active" : " "}
                     // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Confirm List") && sidebarPermission.filter(d => d.permission == "Confirm List")[0].access == true ? 'block' : 'none') }}
+                    style={{display:this.state.confirmRequestPermission ? 'block':'none'}}
                   >
+
                     <a href="/confirmation_check">Confirmation Request List</a>
                   </li>
 
@@ -1301,7 +1304,7 @@ export default class Sidebar extends Component {
                     </a>
                   </li>
                   <li
-               style={{ display: (this.state.confirmRequestPermission && this.state.confirmRequestPermission.length > 0 || this.state.confirmHR1 && this.state.confirmHR1.length > 0 || this.state.user.user_id == 1110 || this.state.user.user_id == 1467 ? 'block' : 'none') }}
+               style={{ display: (this.state.isHR ||  this.state.user.user_id == 1467 ? 'block' : 'none') }}
 
                     className={pathname === "/staff_loan_approve" ? "active" : ""}>
                     <a href="/staff_loan_approve">
@@ -1310,7 +1313,7 @@ export default class Sidebar extends Component {
                     </a>
                   </li>
                   <li
-               style={{ display: (this.state.confirmRequestPermission && this.state.confirmRequestPermission.length > 0 || this.state.confirmHR1 && this.state.confirmHR1.length > 0 || this.state.user.user_id == 1110 || this.state.user.user_id == 1467 ? 'block' : 'none') }}
+               style={{ display: (this.state.isHR  || this.state.user.user_id == 1467 ? 'block' : 'none') }}
 
                    className={pathname === "/staff_loan_before_committee" ? "active" : ""}>
                     <a href="/staff_loan_before_committee">
@@ -1319,7 +1322,7 @@ export default class Sidebar extends Component {
                     </a>
                   </li>
                   <li
-               style={{ display: (this.state.confirmRequestPermission && this.state.confirmRequestPermission.length > 0 || this.state.confirmHR1 && this.state.confirmHR1.length > 0 || this.state.user.user_id == 1110 || this.state.user.user_id == 1467 ? 'block' : 'none') }}
+               style={{ display: (this.state.isHR || this.state.user.user_id == 1467 ? 'block' : 'none') }}
 
                    className={pathname === "/staff_loan_after_committee" ? "active" : ""}>
                     <a href="/staff_loan_after_committee">
