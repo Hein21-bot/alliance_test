@@ -624,7 +624,7 @@ export default class Sidebar extends Component {
                     // style={{display:confirmation ? 'block':'none'}}
                     style={{display:this.state.isHR ? 'block':'none'}}
               >
-                <a href="/confirmation_check" className="sideList">
+                <a href="/confirmation_list" className="sideList">
                   <i className="fas fa-user-check" style={{ color: 'white' }}></i>
                   <span className="sideText">Confirmation</span>
                 </a>
@@ -637,7 +637,7 @@ export default class Sidebar extends Component {
 
                   <li className={pathname === "/confirmation_check" ? "active" : " "}
                     // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Confirm List") && sidebarPermission.filter(d => d.permission == "Confirm List")[0].access == true ? 'block' : 'none') }}
-                    style={{display:this.state.confirmRequestPermission ? 'block':'none'}}
+                    style={{display:this.state.confirmRequestPermission && this.state.confirmRequestPermission.length > 0 ? 'block':'none'}}
                   >
 
                     <a href="/confirmation_check">Confirmation Request List</a>
