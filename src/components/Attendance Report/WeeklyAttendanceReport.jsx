@@ -157,16 +157,16 @@ class WeeklyAttendanceReport extends Component {
               const isExistIndex = c.array.findIndex(v=> moment(v.start_time).format("MM/DD/YYYY") === dateList_one[i]);
               if(isExistIndex > -1){
                 if(index > -1){
-                  R[index][dateList_one[i]+'_in'] = moment(c.array[isExistIndex].start_time).format("HH:mm:ss A")
-                  R[index][dateList_one[i]+'_out'] = moment(c.array[isExistIndex].end_time).format("HH:mm:ss A")
+                  R[index][dateList_one[i]+'_in'] = moment(c.array[isExistIndex].start_time).format("hh:mm:ss A")
+                  R[index][dateList_one[i]+'_out'] = moment(c.array[isExistIndex].end_time).format("hh:mm:ss A")
                 }else{
                   R.push({
                     name: c.name,
                     position: c.position,
                     branch: c.branch,
                     total_working_hours: c.total_hours,
-                    [dateList_one[i]+'_in']:  moment(c.array[isExistIndex].start_time).format("HH:mm:ss A"),
-                    [dateList_one[i]+'_out']: moment(c.array[isExistIndex].end_time).format("HH:mm:ss A"),
+                    [dateList_one[i]+'_in']:  moment(c.array[isExistIndex].start_time).format("hh:mm:ss A"),
+                    [dateList_one[i]+'_out']: moment(c.array[isExistIndex].end_time).format("hh:mm:ss A"),
                   })
                 }
               } 
@@ -383,7 +383,6 @@ class WeeklyAttendanceReport extends Component {
             <tbody style={{ textAlign: "center" }}>
              
               {this.state.dataSource.map((v, i) => {
-                console.log("v===>",v)
                 return (
                   <>
                     <tr>
@@ -392,7 +391,6 @@ class WeeklyAttendanceReport extends Component {
                       <td style={{ borderColor: "white" ,verticalAlign:'middle'}}>{v.branch}</td>
                       {this.state.dateList
                   ? this.state.dateList.map((v1, i1) => {
-                    console.log("br gyi lae",v[v1],v,v1)
                       return (
                        <>
                        <td style={{ borderColor: "white",verticalAlign:'middle' }}>{v[v1+'_in'] || '-'}</td>
