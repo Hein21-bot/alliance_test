@@ -489,7 +489,7 @@ export default class Sidebar extends Component {
                     ? "active"
                     : " "
                 }
-                style={{display:isHR ? 'block':'none'}}
+                // style={{display:isHR ? 'block':'none'}}
                 // style={{ display: employeeManagement ? 'block' : "none" }}
 
                 style={{ display: isHR || this.state.user.user_id == 1467 ? 'block' : "none" }}
