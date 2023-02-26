@@ -157,7 +157,7 @@ export default class Sidebar extends Component {
   render() {
    
     const { pathname, user, isHR, sidebarPermission } = this.state;
-    console.log("hr======>",isHR)
+    console.log("hr======>",isHR,this.state.confirmRequestPermission,this.state.confirmHR1)
     // const setting=sidebarPermission.length > 0 && ((sidebarPermission.filter(d => d.permission == "Holiday") && sidebarPermission.filter(d => d.permission == "Holiday")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Attendance Policy") && sidebarPermission.filter(d => d.permission == "Attendance Policy")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Benefit") && sidebarPermission.filter(d => d.permission == "Benefit")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Salary Template") && sidebarPermission.filter(d => d.permission == "Salary Template")[0].access == true) || (sidebarPermission.filter(d => d.permission == "SSB Rate") && sidebarPermission.filter(d => d.permission == "SSB Rate")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Career Path") && sidebarPermission.filter(d => d.permission == "Career Path")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Payroll") && sidebarPermission.filter(d => d.permission == "Payroll")[0].access == true))
     // const masterData=sidebarPermission.length > 0 && ((sidebarPermission.filter(d=>d.permission == 'Career Level') && sidebarPermission.filter(d=>d.permission=='Career Level')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Career Sub Level') && sidebarPermission.filter(d=>d.permission=='Career Sub Level')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Designations') && sidebarPermission.filter(d=>d.permission=='Designations')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Job Title') && sidebarPermission.filter(d=>d.permission=='Job Title')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Leave Category') && sidebarPermission.filter(d=>d.permission=='Leave Category')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Attendance Reason Type') && sidebarPermission.filter(d=>d.permission=='Attendance Reason Type')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Hospitalization Type') && sidebarPermission.filter(d=>d.permission=='Hospitalization Type')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Ticket Main Category') && sidebarPermission.filter(d=>d.permission=='Ticket Main Category')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Ticket Sub Category') && sidebarPermission.filter(d=>d.permission=='Ticket Sub Category')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Tax Range') && sidebarPermission.filter(d=>d.permission=='Tax Range')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Tax Relief') && sidebarPermission.filter(d=>d.permission=='Tax Relief')[0].access == true))
     // const employeeReports=sidebarPermission.length > 0 && ((sidebarPermission.filter(d=>d.permission == 'Employee Report') && sidebarPermission.filter(d=>d.permission=='Employee Report')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Report By Serivce Year') && sidebarPermission.filter(d=>d.permission=='Report By Serivce Year')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Employee History Report') && sidebarPermission.filter(d=>d.permission=='Employee History Report')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Employee Directory Report') && sidebarPermission.filter(d=>d.permission=='Employee Directory Report')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'HO Staff Report') && sidebarPermission.filter(d=>d.permission=='HO Staff Report')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Branch Staff Report') && sidebarPermission.filter(d=>d.permission=='Branch Staff Report')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Regional Staff Report') && sidebarPermission.filter(d=>d.permission=='Regional Staff Report')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'FRD Report') && sidebarPermission.filter(d=>d.permission=='FRD Report')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Resign Staff Report') && sidebarPermission.filter(d=>d.permission=='Resign Staff Report')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Extension Report') && sidebarPermission.filter(d=>d.permission=='Extension Report')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Confirmation Report') && sidebarPermission.filter(d=>d.permission=='Confirmation Report')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Region Wise Staff Count Report') && sidebarPermission.filter(d=>d.permission=='Region Wise Staff Count Report')[0].access == true))
@@ -490,6 +490,7 @@ export default class Sidebar extends Component {
                     ? "active"
                     : " "
                 }
+                style={{display:isHR ? 'block':'none'}}
                 // style={{ display: employeeManagement ? 'block' : "none" }}
               >
                 <a href="/employee_list" className="sideList">
@@ -650,7 +651,7 @@ export default class Sidebar extends Component {
                 className={this.checkPathName() === "/attendance" || pathname === '/incomplete_and_missing_report' || pathname === '/holiday_attendance' || pathname === '/attendance_report_monthly' || pathname === "/attendance_type" || pathname === "/attendance_history" || pathname === "/late_reportby_employee" || pathname === "/late_checkin_report" || pathname === "/early_checkout_report" || pathname === "/absence_report" || pathname === "/weekly_attendance_report" || pathname === "/holiday_attendance_report" ? "active" : ""}
               // style={{ display: attendance  ? 'block' : "none" }} 
               >
-                <a href="/incomplete_and_missing_report" className="sideList">
+                <a href="/attendance_type" className="sideList">
                   <i class="fa fa-address-book" style={{ color: 'white' }}></i>
 
                   <span className="sideText">Attendance</span>
@@ -687,7 +688,7 @@ export default class Sidebar extends Component {
                     <a href="/attendance_history">Attendance History</a>
                   </li>
                   {
-                    (this.state.confirmRequestPermission || this.state.isHR) ? <>
+                    ((this.state.confirmRequestPermission && this.state.confirmRequestPermission.length > 0)  || this.state.isHR) ? <>
                               <li
                     className={
                       pathname === "/incomplete_and_missing_report" ? "active" : " "
