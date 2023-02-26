@@ -36,6 +36,7 @@ class BenefitOtherEdit extends Component {
     async componentDidMount() {
         let branch = await getBranch();
         let selected_location = this.getSelectedLocation(branch, this.props.data.withdraw_location);
+        console.log("selected_location",selected_location)
         this.setState({
             branch: branch,
             selected_location: selected_location
@@ -133,7 +134,7 @@ class BenefitOtherEdit extends Component {
                 amount: this.state.data.amount,
                 description: this.state.data.description,
                 status: this.state.data.status == 5 ? 0 : this.state.data.status,
-                withdraw_location: this.state.withdraw_location
+                withdraw_location: this.state.selected_location && this.state.selected_location[0].value
             }
             const formdata = new FormData();
 
