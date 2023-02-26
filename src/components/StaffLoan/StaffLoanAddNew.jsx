@@ -688,23 +688,27 @@ class StaffLoanAddNew extends Component {
     console.log("info=======>",this.props.isNew,this.state.staff_loan_visible)
     const{staffInfo,getGuarantorInfo}=this.state;
     return (
-      <div className="">
+      <div className="row">
         { this.props.isNew == true ?
           
         <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
-        <Rodal width={300} height={200} visible={this.state.visible} onClose={this.hide.bind(this)} >
+        <Rodal width={500} height={400} visible={this.state.visible} onClose={this.hide.bind(this)} >
                     <div className="col-md-12 "><h4>Staff Loan Terms and Condition</h4>
                     </div>
-                    <div className="col-md-12" style={{ marginTop: 30 }}>
-                      <p>Do you want to agree staff loan terms and condition?</p>
+                    <div className="col-md-12" style={{ marginTop: 30,maxHeight: 300, overflowY: "scroll"}}>
+                      <p>1.	ဝန်ထမ်းချေးငွေရယူမည့် အလိုင်းရင့်စ်ဝန်ထမ်းသည် ပြီးခဲ့သည့် (၆)လအတွင်း စာဖြင့်သတိပေးခြင်း ခံထားရပါက ဝန်ထမ်းချေးငွေလျောက်ထား၍ မရနိုင်ကြောင်းကို သိရှိနားလည်ပြီးဖြစ်ပါသည်။
+<br></br>2.	အာမခံသူ နှစ်ဦးစလုံးသည် ဝန်ထမ်းမှ ချေးငွေပြန်လည်ပေးဆပ်နိုင်ခြင်းမရှိပါက အားမခံထားသူနှစ်ဦးစလုံးမှ အပြည့်အဝပြန်လည်ပေးဆပ်ရမည်ကို ဝန်ထမ်းချေးငွေလျောက်ထားမည့်သူမှ အာမခံပေးမည်သူ နှစ်ဦးစလုံးအား သေချာစွာ ရှင်းပြပြီးကြောင်းနှင့် အာမခံပြုလုပ်ရန်အတွက် သဘောတူညီမှု ရယူထားပြီးဖြစ်ပါသည်။ 
+<br></br>3.	ဝန်ထမ်းချေးငွေရယူထားသည့်ဝန်ထမ်း နှုတ်ထွက်/ရပ်စဲ ခံရခြင်းများဖြစ်ပါက ပြန်လည်ပေးဆပ်ရမည့် ချေးငွေလက်ကျန်ပမာဏနှင့် ကျသင့်သည့်အတိုးကို အလိုင်းရင့်စ်ဝန်ထမ်းအဖြစ် နောက်ဆုံးတာဝန်ထမ်းဆောင်သည့်ရက်တွင် အပြေအကျေပေးဆပ်ရမည်ကိုလည်း သိရှိနားလည်ပြီးဖြစ်ပါသည်။
+<br></br>4.	ချေးငွေလက်ကျန်ငွေနှင့်ကျသင့်အတိုးတို့ကို သတ်မှတ်ရက်ထက်စော၍ အပြေအကျေပေးဆပ်လိုပါက သက်ဆိုင်ရာဒေသအလိုက် ဝန်ထမ်းရေးရာဌာန၏အရာရှိထံသို့ အ‌ကြောင်းကြားရမည်ကိုလည်း သိရှိနားလည်ပြီးဖြစ်ပါသည်။
+<br></br>5.	ဝန်ထမ်းချေးငွေနှင့်ပတ်သက်သည့် ဆုံးဖြတ်ချက်မှန်သမျှသည် ဝန်ထမ်းချေးငွေကော်မတီ၏ ဆုံးဖြတ်ချက်သာ နောက်ဆုံးအတည်ဖြစ်သည်။</p>
                       <div className="col-md-6">
-                      <button className="btn btn-danger" onClick={() => window.location.reload()}><span>No</span> </button>
+                      <button className="btn btn-danger" onClick={() => window.location.reload()}><span>Cancel</span> </button>
                       </div>
                       <div className="col-md-6">
                       <div className="col-md-12">
                       <button className="btn btn-primary" onClick={() => this.setState({
                           staff_loan_visible:true,visible:false
-                      })}><span>Yes</span> </button>
+                      })}><span>Accept</span> </button>
                       </div>
                       </div>
                         {/* <div className="col-md-3">Comment </div>

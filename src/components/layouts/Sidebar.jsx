@@ -666,8 +666,29 @@ export default class Sidebar extends Component {
                   >
                     <a href="/attendance_add">Attendance</a>
                   </li> */}
-
                   <li
+                    className={
+                      pathname === "/attendance_type" ? "active" : " "
+                    }
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Attendance Request") && sidebarPermission.filter(d => d.permission == "Attendance Request")[0].access == true ? 'block' : 'none') }}
+
+                  >
+                    <a href="/attendance_type">Attendance Request</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/attendance_history"
+                        ? "active"
+                        : ""
+                    }
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Attendance History") && sidebarPermission.filter(d => d.permission == "Attendance History")[0].access == true ? 'block' : 'none') }}
+
+                  >
+                    <a href="/attendance_history">Attendance History</a>
+                  </li>
+                  {
+                    (this.state.confirmRequestPermission || this.state.isHR) ? <>
+                              <li
                     className={
                       pathname === "/incomplete_and_missing_report" ? "active" : " "
                     }
@@ -695,26 +716,7 @@ export default class Sidebar extends Component {
                   >
                     <a href="/attendance_report_monthly">Attendance Report</a>
                   </li>
-                  <li
-                    className={
-                      pathname === "/attendance_type" ? "active" : " "
-                    }
-                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Attendance Request") && sidebarPermission.filter(d => d.permission == "Attendance Request")[0].access == true ? 'block' : 'none') }}
-
-                  >
-                    <a href="/attendance_type">Attendance Request</a>
-                  </li>
-                  <li
-                    className={
-                      pathname === "/attendance_history"
-                        ? "active"
-                        : ""
-                    }
-                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Attendance History") && sidebarPermission.filter(d => d.permission == "Attendance History")[0].access == true ? 'block' : 'none') }}
-
-                  >
-                    <a href="/attendance_history">Attendance History</a>
-                  </li>
+                 
                   <li
                     className={
                       pathname === "/late_reportby_employee"
@@ -777,18 +779,22 @@ export default class Sidebar extends Component {
                   >
                     <a href="/holiday_attendance_report">Holiday Attendance Report</a>
                   </li>
+                    </>: ''
+                  }
+                   
+                  
 
                 </ul>
               </li>
-              
-              <li
+              {
+                this.state.isHR ? <li
                 className={this.checkPathName() === "/payroll" || this.checkPathName()==='/incentive' || this.checkPathName() === 'payroll_calculation' || this.checkPathName() === '/payroll_reports'|| this.checkPathName()==='/pay_slip' || pathname === '/payslip_generate' || pathname === '/ssc' || pathname === "/payroll_main" || pathname === '/foreigner_salary' || pathname === "/resign_or_dismiss_salary" || pathname === '/backpay' || pathname === '/payroll_generate' || pathname ==='/payroll_pay_slip'|| pathname== '/monthly_incentive'|| pathname == "/quarterly_incentive_payslip" || pathname == "/monthly_incentive_payslip" || pathname == "/quarterly_incentive" ||  pathname == '/employee_salary_report' || pathname === '/monthly_report'|| pathname === '/quarterly_report' || pathname == '/ssc_report' ? "active" : ""}
               //  style={{display:PayRoll ? 'block': 'none'}}
-              style={{
-                display: (isHR || this.state.user.user_id == 1110 || this.state.user.user_id == 1467
+              // style={{
+              //   display: (isHR || this.state.user.user_id == 1110 || this.state.user.user_id == 1467
                   
-                   ) ? 'block' : "none"
-              }}
+              //      ) ? 'block' : "none"
+              // }}
              >
                 <a href="/ssc" className="sideList">
                 <i class="fa fa-address-book" style={{color:'white'}}></i>
@@ -997,7 +1003,58 @@ export default class Sidebar extends Component {
                 </ul>
                   </li>
                 </ul>
-              </li>
+              </li> : 
+              <li
+              className={this.checkPathName() === "/payroll" || this.checkPathName()==='/incentive' || this.checkPathName() === 'payroll_calculation' || this.checkPathName() === '/payroll_reports'|| this.checkPathName()==='/pay_slip' || pathname === '/payslip_generate' || pathname === '/ssc' || pathname === "/payroll_main" || pathname === '/foreigner_salary' || pathname === "/resign_or_dismiss_salary" || pathname === '/backpay' || pathname === '/payroll_generate' || pathname ==='/payroll_pay_slip'|| pathname== '/monthly_incentive'|| pathname == "/quarterly_incentive_payslip" || pathname == "/monthly_incentive_payslip" || pathname == "/quarterly_incentive" ||  pathname == '/employee_salary_report' || pathname === '/monthly_report'|| pathname === '/quarterly_report' || pathname == '/ssc_report' ? "active" : ""}
+            //  style={{display:PayRoll ? 'block': 'none'}}
+            // style={{
+            //   display: (isHR || this.state.user.user_id == 1110 || this.state.user.user_id == 1467
+                
+            //      ) ? 'block' : "none"
+            // }}
+           >
+              <a href="/ssc" className="sideList">
+              <i class="fa fa-address-book" style={{color:'white'}}></i>
+               
+                <span className="sideText">Payroll</span>
+              </a>
+              <ul className="nav nav-second-level collapse">
+                <li className={this.checkPathName() ==="/pay_slip" || pathname =="/payroll_pay_slip"||pathname =="/payslip_monthly_incentive"|| pathname == "/payslip_quarterly_incentive"   ? "active" : " "}>
+                  <a href="/pay_slip" className="sideText">Pay Slip</a>
+                  <ul className="nav nav-third-level collapse">
+                  <li className={pathname === "/payroll_pay_slip" ? "active" : ""}
+                  // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "PayRoll Pay Slip") && sidebarPermission.filter(d => d.permission == "PayRoll Pay Slip")[0].access == true ? 'block' : 'none') }}
+
+                  >
+                  <a href="/payroll_pay_slip">PayRoll Pay Slip</a>
+                </li>
+                <li
+                  className={
+                    pathname === "/payslip_monthly_incentive" ? "active" : " "
+                  }
+                  // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Monthly Incentive Pay Slip") && sidebarPermission.filter(d => d.permission == "Monthly Incentive Pay Slip")[0].access == true ? 'block' : 'none') }}
+
+                >
+                  <a href="/payslip_monthly_incentive">Monthly Incentive Pay Slip</a>
+                </li>
+                <li
+                  className={
+                    pathname === "/payslip_quarterly_incentive" ? "active" : " "
+                  }
+                  // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Quarterly Incentive Pay Slip") && sidebarPermission.filter(d => d.permission == "Quarterly Incentive Pay Slip")[0].access == true ? 'block' : 'none') }}
+                  
+                >
+                  <a href="/payslip_quarterly_incentive">Quarterly Incentive Pay Slip</a>
+                </li>
+                
+                 
+              </ul>
+                </li>
+              </ul>
+            </li>
+              }
+              
+              
 
 
 
