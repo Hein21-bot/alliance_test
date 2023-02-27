@@ -311,6 +311,7 @@ class BenefitWeddingAddNew extends Component {
 
   render() {
     let { one_benefit, is_main_role } = this.state;
+    console.log("employee name",this.state.employee_name,this.state.spouseName,this.state.employeeName)
     return (
       <div className="container">
         <div className="row">
@@ -390,7 +391,8 @@ class BenefitWeddingAddNew extends Component {
                       type="text"
                       // placeholder="Please Provide The Designation"
                       className="form-control"
-                      value={this.state.spouseName}
+                      value={this.state.employeeName.filter(v=>v.value == this.state.spouseName).length > 0 && this.state.employeeName.filter(v=>v.value == this.state.spouseName)[0].fullname}
+                      // value={this.state.spouseName}
                       disabled
                     />
                   ) : this.state.spouseCompanyOption === 1 ? (

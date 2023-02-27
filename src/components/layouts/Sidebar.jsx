@@ -104,13 +104,11 @@ export default class Sidebar extends Component {
   }
 
   async componentDidMount() {
-    console.log("hr here =============>")
     const id = localStorage.getItem("user_id");
-    console.log("hr is =============>", id)
     await this.checkHR(id)
     await this.confirmHR1(id)
     await this.confirmRequest(id)
-    // await this.sidebarPermission(id)
+    await this.sidebarPermission(id)
   }
   confirmRequest = async (id) => {
     await fetch(`${main_url}dashboard/confirmRequestPermission/${id}`)
@@ -136,7 +134,8 @@ export default class Sidebar extends Component {
       .then(res => res.json())
       .then(data => {
         if (Object.keys(data).length > 0) {
-          const checkHRVal = data[0].deptname == "HR" || data[0].designations == 'Senior Internal Audit Manager';
+          const checkHRVal = data[0].deptname == "HR" ;
+          // || data[0].designations == 'Senior Internal Audit Manager'
           this.setState({
             isHR: checkHRVal,
           });
@@ -157,7 +156,7 @@ export default class Sidebar extends Component {
   render() {
    
     const { pathname, user, isHR, sidebarPermission } = this.state;
-    console.log("hr======>",isHR)
+    console.log("hr======>",isHR,this.state.confirmRequestPermission,this.state.confirmHR1)
     // const setting=sidebarPermission.length > 0 && ((sidebarPermission.filter(d => d.permission == "Holiday") && sidebarPermission.filter(d => d.permission == "Holiday")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Attendance Policy") && sidebarPermission.filter(d => d.permission == "Attendance Policy")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Benefit") && sidebarPermission.filter(d => d.permission == "Benefit")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Salary Template") && sidebarPermission.filter(d => d.permission == "Salary Template")[0].access == true) || (sidebarPermission.filter(d => d.permission == "SSB Rate") && sidebarPermission.filter(d => d.permission == "SSB Rate")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Career Path") && sidebarPermission.filter(d => d.permission == "Career Path")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Payroll") && sidebarPermission.filter(d => d.permission == "Payroll")[0].access == true))
     // const masterData=sidebarPermission.length > 0 && ((sidebarPermission.filter(d=>d.permission == 'Career Level') && sidebarPermission.filter(d=>d.permission=='Career Level')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Career Sub Level') && sidebarPermission.filter(d=>d.permission=='Career Sub Level')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Designations') && sidebarPermission.filter(d=>d.permission=='Designations')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Job Title') && sidebarPermission.filter(d=>d.permission=='Job Title')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Leave Category') && sidebarPermission.filter(d=>d.permission=='Leave Category')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Attendance Reason Type') && sidebarPermission.filter(d=>d.permission=='Attendance Reason Type')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Hospitalization Type') && sidebarPermission.filter(d=>d.permission=='Hospitalization Type')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Ticket Main Category') && sidebarPermission.filter(d=>d.permission=='Ticket Main Category')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Ticket Sub Category') && sidebarPermission.filter(d=>d.permission=='Ticket Sub Category')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Tax Range') && sidebarPermission.filter(d=>d.permission=='Tax Range')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Tax Relief') && sidebarPermission.filter(d=>d.permission=='Tax Relief')[0].access == true))
     // const employeeReports=sidebarPermission.length > 0 && ((sidebarPermission.filter(d=>d.permission == 'Employee Report') && sidebarPermission.filter(d=>d.permission=='Employee Report')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Report By Serivce Year') && sidebarPermission.filter(d=>d.permission=='Report By Serivce Year')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Employee History Report') && sidebarPermission.filter(d=>d.permission=='Employee History Report')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Employee Directory Report') && sidebarPermission.filter(d=>d.permission=='Employee Directory Report')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'HO Staff Report') && sidebarPermission.filter(d=>d.permission=='HO Staff Report')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Branch Staff Report') && sidebarPermission.filter(d=>d.permission=='Branch Staff Report')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Regional Staff Report') && sidebarPermission.filter(d=>d.permission=='Regional Staff Report')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'FRD Report') && sidebarPermission.filter(d=>d.permission=='FRD Report')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Resign Staff Report') && sidebarPermission.filter(d=>d.permission=='Resign Staff Report')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Extension Report') && sidebarPermission.filter(d=>d.permission=='Extension Report')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Confirmation Report') && sidebarPermission.filter(d=>d.permission=='Confirmation Report')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Region Wise Staff Count Report') && sidebarPermission.filter(d=>d.permission=='Region Wise Staff Count Report')[0].access == true))
@@ -490,7 +489,10 @@ export default class Sidebar extends Component {
                     ? "active"
                     : " "
                 }
+                // style={{display:isHR ? 'block':'none'}}
                 // style={{ display: employeeManagement ? 'block' : "none" }}
+
+                style={{ display: isHR || this.state.user.user_id == 1467 ? 'block' : "none" }}
               >
                 <a href="/employee_list" className="sideList">
                   <i className="fas fa-user-cog" style={{ color: 'white' }}></i>
@@ -500,6 +502,8 @@ export default class Sidebar extends Component {
                   <li 
                   className={pathname === "/employee_list" ? "active" : " "}
                   // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Employee Lists") && sidebarPermission.filter(d => d.permission == "Employee Lists")[0].access == true ? 'block' : 'none') }}
+
+                  // style={{display : isHR ? 'block' : 'none'}}
 
                   >
                     <a href="/employee_list">Employee Lists</a>
@@ -618,8 +622,9 @@ export default class Sidebar extends Component {
               <li
                 className={this.checkPathName() === "/confirmation" ? "active" : ""}
                     // style={{display:confirmation ? 'block':'none'}}
+                    style={{display:this.state.isHR ? 'block':'none'}}
               >
-                <a href="/confirmation_check" className="sideList">
+                <a href="/confirmation_list" className="sideList">
                   <i className="fas fa-user-check" style={{ color: 'white' }}></i>
                   <span className="sideText">Confirmation</span>
                 </a>
@@ -632,7 +637,9 @@ export default class Sidebar extends Component {
 
                   <li className={pathname === "/confirmation_check" ? "active" : " "}
                     // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Confirm List") && sidebarPermission.filter(d => d.permission == "Confirm List")[0].access == true ? 'block' : 'none') }}
+                    style={{display:this.state.confirmRequestPermission && this.state.confirmRequestPermission.length > 0 ? 'block':'none'}}
                   >
+
                     <a href="/confirmation_check">Confirmation Request List</a>
                   </li>
 
@@ -650,7 +657,7 @@ export default class Sidebar extends Component {
                 className={this.checkPathName() === "/attendance" || pathname === '/incomplete_and_missing_report' || pathname === '/holiday_attendance' || pathname === '/attendance_report_monthly' || pathname === "/attendance_type" || pathname === "/attendance_history" || pathname === "/late_reportby_employee" || pathname === "/late_checkin_report" || pathname === "/early_checkout_report" || pathname === "/absence_report" || pathname === "/weekly_attendance_report" || pathname === "/holiday_attendance_report" ? "active" : ""}
               // style={{ display: attendance  ? 'block' : "none" }} 
               >
-                <a href="/incomplete_and_missing_report" className="sideList">
+                <a href="/attendance_type" className="sideList">
                   <i class="fa fa-address-book" style={{ color: 'white' }}></i>
 
                   <span className="sideText">Attendance</span>
@@ -666,8 +673,29 @@ export default class Sidebar extends Component {
                   >
                     <a href="/attendance_add">Attendance</a>
                   </li> */}
-
                   <li
+                    className={
+                      pathname === "/attendance_type" ? "active" : " "
+                    }
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Attendance Request") && sidebarPermission.filter(d => d.permission == "Attendance Request")[0].access == true ? 'block' : 'none') }}
+
+                  >
+                    <a href="/attendance_type">Attendance Request</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/attendance_history"
+                        ? "active"
+                        : ""
+                    }
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Attendance History") && sidebarPermission.filter(d => d.permission == "Attendance History")[0].access == true ? 'block' : 'none') }}
+
+                  >
+                    <a href="/attendance_history">Attendance History</a>
+                  </li>
+                  {
+                    ((this.state.confirmRequestPermission && this.state.confirmRequestPermission.length > 0)  || this.state.isHR || this.state.user.user_id == 1467) ? <>
+                              <li
                     className={
                       pathname === "/incomplete_and_missing_report" ? "active" : " "
                     }
@@ -695,26 +723,7 @@ export default class Sidebar extends Component {
                   >
                     <a href="/attendance_report_monthly">Attendance Report</a>
                   </li>
-                  <li
-                    className={
-                      pathname === "/attendance_type" ? "active" : " "
-                    }
-                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Attendance Request") && sidebarPermission.filter(d => d.permission == "Attendance Request")[0].access == true ? 'block' : 'none') }}
-
-                  >
-                    <a href="/attendance_type">Attendance Request</a>
-                  </li>
-                  <li
-                    className={
-                      pathname === "/attendance_history"
-                        ? "active"
-                        : ""
-                    }
-                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Attendance History") && sidebarPermission.filter(d => d.permission == "Attendance History")[0].access == true ? 'block' : 'none') }}
-
-                  >
-                    <a href="/attendance_history">Attendance History</a>
-                  </li>
+                 
                   <li
                     className={
                       pathname === "/late_reportby_employee"
@@ -777,18 +786,22 @@ export default class Sidebar extends Component {
                   >
                     <a href="/holiday_attendance_report">Holiday Attendance Report</a>
                   </li>
+                    </>: ''
+                  }
+                   
+                  
 
                 </ul>
               </li>
-              
-              <li
+             <li
                 className={this.checkPathName() === "/payroll" || this.checkPathName()==='/incentive' || this.checkPathName() === 'payroll_calculation' || this.checkPathName() === '/payroll_reports'|| this.checkPathName()==='/pay_slip' || pathname === '/payslip_generate' || pathname === '/ssc' || pathname === "/payroll_main" || pathname === '/foreigner_salary' || pathname === "/resign_or_dismiss_salary" || pathname === '/backpay' || pathname === '/payroll_generate' || pathname ==='/payroll_pay_slip'|| pathname== '/monthly_incentive'|| pathname == "/quarterly_incentive_payslip" || pathname == "/monthly_incentive_payslip" || pathname == "/quarterly_incentive" ||  pathname == '/employee_salary_report' || pathname === '/monthly_report'|| pathname === '/quarterly_report' || pathname == '/ssc_report' ? "active" : ""}
               //  style={{display:PayRoll ? 'block': 'none'}}
-              style={{
-                display: (isHR || this.state.user.user_id == 1110 || this.state.user.user_id == 1467
+              // style={{
+              //   display: (isHR || this.state.user.user_id == 1110 || this.state.user.user_id == 1467
                   
-                   ) ? 'block' : "none"
-              }}
+              //      ) ? 'block' : "none"
+              // }}
+              style={{display:(this.state.isHR || this.state.user.user_id == 1467) ? 'block' : 'none'}}
              >
                 <a href="/ssc" className="sideList">
                 <i class="fa fa-address-book" style={{color:'white'}}></i>
@@ -965,7 +978,7 @@ export default class Sidebar extends Component {
                 </ul>
                   </li>
 
-                  <li className={this.checkPathName() ==="/pay_slip" || pathname =="/payroll_pay_slip"||pathname =="/payslip_monthly_incentive"|| pathname == "/payslip_quarterly_incentive"   ? "active" : " "}>
+                  {/* <li className={this.checkPathName() ==="/pay_slip" || pathname =="/payroll_pay_slip"||pathname =="/payslip_monthly_incentive"|| pathname == "/payslip_quarterly_incentive"   ? "active" : " "}>
                     <a href="/pay_slip" className="sideText">Pay Slip</a>
                     <ul className="nav nav-third-level collapse">
                     <li className={pathname === "/payroll_pay_slip" ? "active" : ""}
@@ -995,9 +1008,44 @@ export default class Sidebar extends Component {
                   
                    
                 </ul>
-                  </li>
+                  </li> */}
                 </ul>
-              </li>
+              </li> 
+               <li className={this.checkPathName() ==="/pay_slip" || pathname =="/payroll_pay_slip"||pathname =="/payslip_monthly_incentive"|| pathname == "/payslip_quarterly_incentive"   ? "active" : " "}>
+               
+                    <a href="/pay_slip" className="sideText"><i class="fa fa-credit-card-alt" style={{color:'white'}} aria-hidden="true"></i>Pay Slip</a>
+                    <ul className="nav nav-third-level collapse">
+                    <li className={pathname === "/payroll_pay_slip" ? "active" : ""}
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "PayRoll Pay Slip") && sidebarPermission.filter(d => d.permission == "PayRoll Pay Slip")[0].access == true ? 'block' : 'none') }}
+
+                    >
+                    <a href="/payroll_pay_slip">PayRoll Pay Slip</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/payslip_monthly_incentive" ? "active" : " "
+                    }
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Monthly Incentive Pay Slip") && sidebarPermission.filter(d => d.permission == "Monthly Incentive Pay Slip")[0].access == true ? 'block' : 'none') }}
+
+                  >
+                    <a href="/payslip_monthly_incentive">Monthly Incentive Pay Slip</a>
+                  </li>
+                  <li
+                    className={
+                      pathname === "/payslip_quarterly_incentive" ? "active" : " "
+                    }
+                    // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Quarterly Incentive Pay Slip") && sidebarPermission.filter(d => d.permission == "Quarterly Incentive Pay Slip")[0].access == true ? 'block' : 'none') }}
+                    
+                  >
+                    <a href="/payslip_quarterly_incentive">Quarterly Incentive Pay Slip</a>
+                  </li>
+                  
+                   
+                </ul>
+                  </li>
+
+              
+              
 
 
 
@@ -1254,7 +1302,7 @@ export default class Sidebar extends Component {
                     </a>
                   </li>
                   <li
-               style={{ display: (this.state.confirmRequestPermission && this.state.confirmRequestPermission.length > 0 || this.state.confirmHR1 && this.state.confirmHR1.length > 0 || this.state.user.user_id == 1110 || this.state.user.user_id == 1467 ? 'block' : 'none') }}
+               style={{ display: (this.state.isHR ||  this.state.user.user_id == 1467 ? 'block' : 'none') }}
 
                     className={pathname === "/staff_loan_approve" ? "active" : ""}>
                     <a href="/staff_loan_approve">
@@ -1263,7 +1311,7 @@ export default class Sidebar extends Component {
                     </a>
                   </li>
                   <li
-               style={{ display: (this.state.confirmRequestPermission && this.state.confirmRequestPermission.length > 0 || this.state.confirmHR1 && this.state.confirmHR1.length > 0 || this.state.user.user_id == 1110 || this.state.user.user_id == 1467 ? 'block' : 'none') }}
+               style={{ display: (this.state.isHR  || this.state.user.user_id == 1467 ? 'block' : 'none') }}
 
                    className={pathname === "/staff_loan_before_committee" ? "active" : ""}>
                     <a href="/staff_loan_before_committee">
@@ -1272,7 +1320,7 @@ export default class Sidebar extends Component {
                     </a>
                   </li>
                   <li
-               style={{ display: (this.state.confirmRequestPermission && this.state.confirmRequestPermission.length > 0 || this.state.confirmHR1 && this.state.confirmHR1.length > 0 || this.state.user.user_id == 1110 || this.state.user.user_id == 1467 ? 'block' : 'none') }}
+               style={{ display: (this.state.isHR || this.state.user.user_id == 1467 ? 'block' : 'none') }}
 
                    className={pathname === "/staff_loan_after_committee" ? "active" : ""}>
                     <a href="/staff_loan_after_committee">
