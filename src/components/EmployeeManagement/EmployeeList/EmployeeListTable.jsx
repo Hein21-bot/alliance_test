@@ -205,10 +205,10 @@ export default class BenefitChildTable extends Component {
                 //         extend: 'csvHtml5',
                 //         title: 'Child Benefit',
                 // },
-                // {
-                //     extend: 'excelHtml5',
-                //     title: 'Child Benefit',
-                // },
+                {
+                    extend: 'excelHtml5',
+                    title: 'Employee List',
+                },
                 // {
                 //     extend: 'pdfHtml5',
                 //     title: 'Child Benefit',

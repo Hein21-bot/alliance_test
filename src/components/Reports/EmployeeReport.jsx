@@ -46,13 +46,20 @@ class EmployeeReport extends Component {
       departmentId: null,
       regionId: null,
       EmployeeNameList: null,
-      selected_employee: null
+      selected_employee: null,
+      statusList:[],
+      selected_status:null,
+      exitList: [{ label: 'Active', value: 0 }, { label: 'Exit', value: 1 }],
+      selected_exit_status:null,
+      JobTitleList:[],
+      selected_jobTitleList:null
+
     }
   }
 
   async componentDidMount() {
     this.$el = $(this.el);
-    this.setState(
+    await this.setState(
       {
         dataSource: this.props.data,
 
@@ -62,12 +69,15 @@ class EmployeeReport extends Component {
       }
 
     );
-    this.getRegionList();
-    this.getDepartmentList();
-    this.getBranchList();
-    this.getDesignationList();
-    this.getEmployeeName();
-    this.handleSearchData();
+    await this.getRegionList();
+    await this.getDepartmentList();
+    await this.getBranchList();
+    await this.getDesignationList();
+    await this.getEmployeeName();
+    await this.getStatusList()
+    await  this.getJobTitleList()
+    await this.handleSearchData();
+    
 
     
   }
@@ -80,6 +90,18 @@ class EmployeeReport extends Component {
         let lists = list.unshift({ value: 0, label: "All" });
         this.setState({
           designationList: list
+        });
+      });
+  }
+  getJobTitleList() {
+    fetch(`${main_url}main/getJobLabel`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        let lists = list.unshift({ value: 0, label: "All" });
+        this.setState({
+          JobTitleList: list, //list.map(v => ({ ...v, label: v.region_name, value: v.region_id }))
         });
       });
   }
@@ -115,6 +137,17 @@ class EmployeeReport extends Component {
         });
       });
   }
+  getStatusList() {
+    fetch(`${main_url}benefit/getStatusList`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        this.setState({
+          statusList: list,
+        });
+      });
+  }
 
   getRegionList() {
     fetch(`${main_url}benefit/getRegionList`)
@@ -145,6 +178,24 @@ class EmployeeReport extends Component {
           }))
         })
       })
+  }
+  handleSelectedstatus = (event) => {
+    if (event !== null)
+      this.setState({
+        selected_status: event
+      });
+  };
+  handleSelectedJobTitle = (event) => {
+    if (event !== null)
+      this.setState({
+        selected_jobTitleList: event,
+      });
+  }
+  handleSelectedExitStatus = (event) => {
+    if (event !== null)
+      this.setState({
+        selected_exit_status: event,
+      });
   }
   handleSelectedBranch = async (event) => {
     if (event != null)
@@ -203,7 +254,22 @@ class EmployeeReport extends Component {
           contact_phone: data[i].contact_person_phone ? data[i].contact_person_phone : "-",
           guarantee_contact_person: data[i].guarantee_person ? data[i].guarantee_person : '-',
           guarantee_contact_phone: data[i].gurantee_person_phone ? data[i].gurantee_person_phone : "-",
-        }
+          Job_title:data[i].job_title ? data[i].job_title  : '-',
+          carrer_sub_level:data[i].career_sub_level ? data[i].career_sub_level : '-',
+          gender:data[i].gender ? data[i].gender : '-',
+          nrc:data[i].nrc ? data[i].nrc : '-',
+          dob:data[i].dob ?  data[i].dob : '-',
+          nationality:data[i].nationality ? data[i].nationality : '-',
+          mother_name:data[i].mother_name ?  data[i].mother_name : '-',
+          father_name:data[i].father_name ?  data[i].father_name : '-',
+          religion:data[i].religion ?  data[i].religion : '-',
+          address:data[i].address ?  data[i].address : '-',
+          join_date:data[i].joining_date ?  data[i].joining_date : '-',
+          parent_count:data[i].parent_count ?  data[i].parent_count : '-',
+          customer_code:data[i].customer_code ?  data[i].customer_code : '-',
+          thapyay_account:data[i].thapyay_account ?  data[i].thapyay_account : '-',
+          ssc_card_no:data[i].SSC_card_no ?  data[i].SSC_card_no : '-',
+       }
         l.push(obj)
 
       }
@@ -228,6 +294,32 @@ class EmployeeReport extends Component {
         { title: "Contact Phone", data: "contact_phone" },
         { title: "Guarantee Contact Person", data: "guarantee_contact_person" },
         { title: "Guarantee Contact Phone", data: "guarantee_contact_phone" },
+        { title: "Job Title", data: "Job_title" },
+        { title: "Carrer Sub Level", data: "carrer_sub_level" },
+        { title: "Father Name", data: "father_name" },
+        
+        { title: "Mother Name", data: "mother_name" },
+
+        { title: "Gender", data: "gender" },
+
+        { title: "NRC", data: "nrc" },
+
+        { title: "Date Of Birth", data: "dob" },
+
+        { title: "Nationality", data: "nationality" },
+
+        { title: "Religion", data: "religion" },
+
+        { title: "Address", data: "address" },
+
+        { title: "Join Date", data: "join_date" },
+
+        { title: "Parent Count", data: "parent_count" },
+
+        { title: "CBS Customer Code", data: "customer_code" },
+
+        { title: "Thapyay Account", data: "thapyay_account" },
+        { title: "SSC Card No", data: "ssc_card_no" },
       ]
       table = $("#dataTables-table").DataTable({
 
@@ -263,9 +355,12 @@ class EmployeeReport extends Component {
     const designationId = this.state.selected_designation ? this.state.selected_designation.value : 0
     const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
     const employee = this.state.selected_employee ? this.state.selected_employee.value : 0
+    const jobTitle=this.state.selected_jobTitleList ? this.state.selected_jobTitleList.value : 0
+    const exitStatus=this.state.selected_exit_status ?  this.state.selected_exit_status.value : -1
+    const status=this.state.selected_status ?  this.state.selected_status.value : 0
     // })
 
-    fetch(main_url + "report/employeeReport/" + regionId + "/" + departmentId + "/" + branchId + "/" + designationId + "/" + employee)
+    fetch(main_url + "report/employeeReport/" + regionId + "/" + departmentId + "/" + branchId + "/" + designationId + "/" + employee + '/' + jobTitle+ '/'+exitStatus+'/'+status)
       .then(res => { if (res.ok) return res.json() })
       .then(list => {
         this._setTableData(list);
@@ -277,14 +372,18 @@ class EmployeeReport extends Component {
       <div>
         <div className="row  white-bg dashboard-header">
         <h3 className="" style={{paddingLeft:"10px"}}>Employee Report</h3>
-          <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}>
-          <Select
+          {/* <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 10px' }}> */}
+          <div className="col-md-12" style={{display:'flex',alignItems:'end',marginBottom:10}}>
+            <div className="col-md-2">
+              <label htmlFor="">Branch</label>
+              <Select
+
               styles={{
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150,
-                  marginRight:10
+                  // width: 150,
+                  // marginRight:10
                 }),
                 control: base => ({
                   ...base,
@@ -299,13 +398,16 @@ class EmployeeReport extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
-            <Select
+            </div>
+            <div className="col-md-2">
+              <label htmlFor="">Region</label>
+              <Select
               styles={{
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150,
-                  marginRight:10
+                  // width: 150,
+                  // marginRight:10
                 }),
                 control: base => ({
                   ...base,
@@ -320,7 +422,10 @@ class EmployeeReport extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
-            <Select
+            </div>
+            <div className="col-md-2">
+              <label htmlFor="">Department</label>
+              <Select
               styles={{
                 container: base => ({
                   ...base,
@@ -341,7 +446,10 @@ class EmployeeReport extends Component {
               className="react-select-container"
               classNamePrefix="react-select"
             />
-            <Select
+            </div>
+            <div className="col-md-2">
+              <label htmlFor="">Designation</label>
+              <Select
               styles={{
                 container: base => ({
                   ...base,
@@ -362,8 +470,10 @@ class EmployeeReport extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
-            
-            <Select
+            </div>
+            <div className="col-md-2">
+              <label htmlFor="">Employee Name</label>
+              <Select
               styles={{
                 container: base => ({
                   ...base,
@@ -383,8 +493,64 @@ class EmployeeReport extends Component {
               className='react-select-container'
               classNamePrefix="react-select"
             />
+            </div>
+            <div className="col-md-2">
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
+
+            </div>
           </div>
+          <div className="col-md-12" style={{marginBottom:10}}>
+          <div
+                  className="col-lg-2 col-md-3 col-sm-12"
+                  // style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
+                >
+                  <label htmlFor="">Status</label>
+                  <Select
+                    options={this.state.statusList}
+                    value={this.state.selected_status}
+                    onChange={this.handleSelectedstatus.bind(this)}
+                    className="react-select-container checkValidate"
+                    classNamePrefix="react-select"
+                  />
+                </div>
+               
+                <div
+                  className="col-lg-2 col-md-3 col-sm-12"
+                  // style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
+                >
+                  <label>Job Title</label>
+
+                  <Select
+                    options={this.state.JobTitleList}
+                    value={this.state.selected_jobTitleList}
+                    onChange={this.handleSelectedJobTitle.bind(this)}
+                    className="react-select-container checkValidate"
+                    classNamePrefix="react-select"
+                  />
+                </div>
+                <div
+                  className="col-lg-2 col-md-3 col-sm-12"
+                  // style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
+                >
+                  <label>Exit Status</label>
+
+                  <Select
+                    options={this.state.exitList}
+                    value={this.state.selected_exit_status}
+                    onChange={this.handleSelectedExitStatus.bind(this)}
+                    className="react-select-container checkValidate"
+                    classNamePrefix="react-select"
+                  />
+                </div>
+          </div>
+          
+            
+            
+            
+            
+           
+           
+          {/* </div> */}
         
         <table width="99%"
           className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
