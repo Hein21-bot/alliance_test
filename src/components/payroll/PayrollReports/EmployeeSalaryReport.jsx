@@ -7,6 +7,7 @@ import "datatables.net-buttons-dt/css/buttons.dataTables.css";
 import "jspdf-autotable";
 import Select from "react-select";
 import moment from "moment";
+import DatePicker from 'react-datetime'
 const $ = require("jquery");
 const jzip = require("jzip");
 window.JSZip = jzip;
@@ -28,11 +29,12 @@ class EmployeeSalaryReport extends Component {
       guarantee_contact_phone: null,
       phone_no: null,
       employee_id: null,
+      date:new Date(),
       employee_date: moment().format("YYYY-MM-DD"),
       selected_Branch: { label: "All", value: 0 },
       selected_department: { label: "All", value: 0 },
       selected_region: { label: "All", value: 0 },
-      designationList: null,
+      
       branchlist: null,
       departmentlist: null,
       branchId: null,
@@ -40,38 +42,51 @@ class EmployeeSalaryReport extends Component {
       departmentId: null,
       regionId: null,
       EmployeeNameList: null,
+      levelList:[],
+      designationList: [],
       selected_employee: { label: "All", value: 0 },
+      selected_designation:{label:'All',value:0},
+      selected_level:{label:'All',value:0}
+
     };
   }
 
   async componentDidMount() {
     this.$el = $(this.el);
-    this.getRegionList();
-    this.getDepartmentList();
-    this.getBranchList();
-    // this.getDesignationList();
-    this.getEmployeeName();
+    await this.getRegionList();
+    await this.getDepartmentList();
+    await this.getBranchList();
+    await this.getDesignationList();
+    await this.getEmployeeName();
     // this.handleSearchData();
-    this.getEmployeeSalaryReport();
+    await this.getLevel()
+    await this.getEmployeeSalaryReport();
   }
 
   //salary_report/empSalaryReport/region/branch/department/userid
-  getEmployeeSalaryReport() {
+  async getEmployeeSalaryReport() {
     const {
       selected_Branch,
       selected_department,
       selected_region,
       selected_employee,
+      selected_designation,
+      selected_level,
+      date
     } = this.state;
     let regionId = selected_region == null ? 0 : selected_region.value;
     let branchId = selected_Branch == null ? 0 : selected_Branch.value;
     let departmentId =
       selected_department == null ? 0 : selected_department.value;
     let employeeId = selected_employee == null ? 0 : selected_employee.value;
+    let designationID=selected_designation == null ? 0 : selected_designation.value;
+    let level=selected_level == null ? 0 : selected_level.value
+    let month=date ==null ? moment(new Date()).format('YYYY-MM') :  moment(date).format('YYYY-MM')
+    
     // console.log('search ====>', regionId, branchId, departmentId, employeeId);
-    fetch(
+   await fetch(
       main_url +
-        `salary_report/empSalaryReport/${regionId}/${branchId}/${departmentId}/${employeeId}`
+        `salary_report/empSalaryReport/${month}/${regionId}/${branchId}/${departmentId}/${employeeId}/${level}/${designationID}`
     )
       .then((response) => {
         if (response.ok) {
@@ -90,20 +105,37 @@ class EmployeeSalaryReport extends Component {
       });
   }
 
-  getDesignationList() {
-    fetch(`${main_url}main/getDesignations`)
+  async getDesignationList() {
+    await fetch(`${main_url}main/getDesignations`)
       .then((res) => {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        let lists = list.unshift({ label: "All", value: 0 });
+        var array = [];
+        list.map((v) => {
+          var obj = {};
+          obj["label"] = v.label;
+          obj["value"] = v.value;
+          array.push(obj);
+        });
+        array.unshift({ label: "All", value: 0 });
         this.setState({
-          designationList: lists,
+          designationList: array,
         });
       });
+    // await fetch(`${main_url}main/getDesignations`)
+    //   .then((res) => {
+    //     if (res.ok) return res.json();
+    //   })
+    //   .then((list) => {
+    //     let lists = list.unshift({ label: "All", value: 0 });
+    //     this.setState({
+    //       designationList: lists,
+    //     });
+    //   });
   }
-  getBranchList() {
-    fetch(`${main_url}benefit/getBranchList`)
+  async getBranchList() {
+    await fetch(`${main_url}benefit/getBranchList`)
       .then((res) => {
         if (res.ok) return res.json();
       })
@@ -115,8 +147,8 @@ class EmployeeSalaryReport extends Component {
       });
   }
 
-  getDepartmentList() {
-    fetch(`${main_url}benefit/getDepartmentList`)
+  async getDepartmentList() {
+    await fetch(`${main_url}benefit/getDepartmentList`)
       .then((res) => {
         if (res.ok) return res.json();
       })
@@ -134,9 +166,28 @@ class EmployeeSalaryReport extends Component {
         });
       });
   }
+  async getLevel(){
+    await fetch(`${main_url}allowLevel/getCareerSubLevel`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        var array = [];
+        list.map((v) => {
+          var obj = {};
+          obj["label"] = v.career_sub_level;
+          obj["value"] = v.career_sub_level_id;
+          array.push(obj);
+        });
+        array.unshift({ label: "All", value: 0 });
+        this.setState({
+          levelList: array,
+        });
+      });
+  }
 
-  getRegionList() {
-    fetch(`${main_url}benefit/getRegionList`)
+  async getRegionList() {
+    await fetch(`${main_url}benefit/getRegionList`)
       .then((res) => {
         if (res.ok) return res.json();
       })
@@ -154,8 +205,8 @@ class EmployeeSalaryReport extends Component {
         });
       });
   }
-  getEmployeeName() {
-    fetch(`${main_url}report/employeeName`)
+  async getEmployeeName() {
+    await fetch(`${main_url}report/employeeName`)
       .then((res) => {
         if (res.ok) return res.json();
       })
@@ -196,6 +247,19 @@ class EmployeeSalaryReport extends Component {
         selected_employee: event,
       });
   };
+  handleSelectedLevel=async(event)=>{
+    if (event != null)
+      this.setState({
+        selected_level: event,
+      });
+  }
+  handleSelectedDate=async (event)=>{
+    if(event !=null){
+      this.setState({
+        date:event
+      })
+    }
+  }
 
   _setTableData = (data) => {
     var table;
@@ -233,6 +297,7 @@ class EmployeeSalaryReport extends Component {
             ? data[i].last_promotion_date
             : "-",
           current_salary: data[i].basic_salary ? data[i].basic_salary : "-",
+          payment_month:data[i].payment_month ?  data[i].payment_month : '-'
         };
         l.push(obj);
       }
@@ -245,6 +310,7 @@ class EmployeeSalaryReport extends Component {
     }
     var column = [
       { title: "No", data: "no" },
+      { title: 'Payment Month',data:'payment_month'},
       { title: "Employee Id", data: "employee_id" },
       { title: "Name", data: "employee_name" },
       { title: "Position", data: "designation" },
@@ -284,22 +350,34 @@ class EmployeeSalaryReport extends Component {
   };
 
   render() {
+    console.log("designation list",this.state.designationList)
     return (
       <div>
         <div className="row  white-bg dashboard-header">
           <h3 className="">
             Employee Salary Report
           </h3>
-          <div
-            className="flex-row"
-            style={{
-              display: "flex",
-              justifyContent: "left",
-              alignItems: "center",
-              marginBottom:10,padding:0,marginLeft:0
-            }}
-          >
-            <div className="col-md-2" style={{paddingLeft:0}}>
+          <div className="row" style={{marginBottom:10}}>
+            <div className="col-md-12" style={{marginBottom:10,display:'flex',alignItems:'end'}}>
+              <div className="col-md-2" style={{paddingLeft:0}}>
+                <label htmlFor="">Month</label>
+              <DatePicker
+              dateFormat="YYYY-MM"
+              value={this.state.date}
+              onChange={this.handleSelectedDate}
+              timeFormat={false}
+            />
+              </div>
+              {/* <div className="col-md-2">
+                <label htmlFor="">Date</label>
+                <DatePicker
+              dateFormat="YYYY-MM"
+              value={this.state.date}
+              onChange={this.handleSelectedStartDate}
+              timeFormat={false}
+            />
+              </div> */}
+            <div className="col-md-2" >
               <label htmlFor="">Branch</label>
               <Select
                 styles={{
@@ -371,14 +449,15 @@ class EmployeeSalaryReport extends Component {
                 classNamePrefix="react-select"
               />
             </div>
-
-            {/* <Select
+          <div className="col-md-2">
+            <label htmlFor="">Designation</label>
+            <Select
               styles={{
                 container: base => ({
                   ...base,
                   //   flex: 1
-                  width: 150,
-                  marginRight:10
+                  // width: 150,
+                  // marginRight:10
                 }),
                 control: base => ({
                   ...base,
@@ -392,8 +471,28 @@ class EmployeeSalaryReport extends Component {
               value={this.state.selected_designation}
               className='react-select-container'
               classNamePrefix="react-select"
-            /> */}
+            />
+          </div>
+            
+            <div className="col-md-2 btn-leftend">
+              <button
+                className="btn btn-primary text-center"
+                style={{
+                  marginLeft: 10,
+                  height: 30,
+                  padding: "0px 5px 0px 5px",
+                  marginTop: 20,
+                }}
+                onClick={() => this.getEmployeeSalaryReport()}
+              >
+                Search
+              </button>
+            </div>
+            
 
+            
+            </div>
+            <div className="col-12">
             <div className="col-md-2">
               <label htmlFor="">Employee Name</label>
               <Select
@@ -416,22 +515,45 @@ class EmployeeSalaryReport extends Component {
                 classNamePrefix="react-select"
               />
             </div>
+            <div className="col-md-2">
+              <label htmlFor="">Level</label>
+              <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  // width: 150,
+                  // marginRight:10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
 
-            <div className="col-md-2 btn-leftend">
-              <button
-                className="btn btn-primary text-center"
-                style={{
-                  marginLeft: 10,
-                  height: 30,
-                  padding: "0px 5px 0px 5px",
-                  marginTop: 20,
-                }}
-                onClick={() => this.getEmployeeSalaryReport()}
-              >
-                Search
-              </button>
+              }}
+              placeholder="Level"
+              options={this.state.levelList}
+              onChange={this.handleSelectedLevel}
+              value={this.state.selected_level}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+            </div>
             </div>
           </div>
+          {/* <div
+            className="flex-row"
+            style={{
+              display: "flex",
+              justifyContent: "left",
+              alignItems: "center",
+              marginBottom:10,padding:0,marginLeft:0
+            }}
+          >
+            
+
+            
+          </div> */}
 
           <table
             width="99%"

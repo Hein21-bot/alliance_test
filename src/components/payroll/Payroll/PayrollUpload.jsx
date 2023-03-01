@@ -432,7 +432,9 @@ export default class PayrollUpload extends Component {
     console.log("total=====>",Deduction_total,Allowance_total)
 
     return (
+
       <div>
+        
         <div className="stepperStyle col-md-12">
           <Box>
             <Stepper
