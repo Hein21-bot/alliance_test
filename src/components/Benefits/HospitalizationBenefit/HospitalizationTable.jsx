@@ -176,7 +176,7 @@ class HospitalizationTable extends Component {
           .then(res => { if (res.ok) return res.json() })
           .then(list => {
             console.log("list====>",list)
-            if(list && list.length > 0){
+            
                 if (this.state.pending_approve == 'myrequest') {
                     console.log('my request')
                   this.setState({ dataList: list, data: list.filter(v => v.user_id == this.state.user_id) }, () => { this._setTableData(this.state.data) });
@@ -185,7 +185,7 @@ class HospitalizationTable extends Component {
                   this.setState({ dataList: list, data: list.filter(v => v.user_id != this.state.user_id) }, () => { this._setTableData(this.state.data) });
         
                 }
-            }
+            
             
     
           })
