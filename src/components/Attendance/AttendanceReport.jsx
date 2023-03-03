@@ -279,7 +279,12 @@ class AttendanceReportMonthly extends Component {
                 let status = "";
                 let check_out_status = "";
                 let obj = [];
-                if (result.status === 0) {
+                if(result.status == 0 && result.late_checkin == 1 && result.late_checkin_reason == null){
+                    console.log('not request',i)
+                    status='<small class="label label-warning" style="background-color:#509aed"> Not Request </small>';
+                }
+                else if (result.status === 0) {
+                    console.log('check in request',i)
                     status =
                         '<small class="label label-warning" style="background-color:#509aed"> Request </small>';
                 } else if (result.status === 1) {
@@ -312,7 +317,7 @@ class AttendanceReportMonthly extends Component {
                     check_in_time: result.check_in_time ? moment(result.check_in_time).utc().format('HH:mm A') : "-",
                     check_in_att_status: result.late_checkin == 1 ? 'Late Check In' : result.field_checkin == 1 ? 'Field Check In' : result.holiday_checkin == 1 ? 'Holiday Check In' : result.check_in_time ? 'Normal Check In' : '-',
                     check_in_att_reason: result.late_checkin_reason ? result.late_checkin_reason : result.visit_reason ? result.visit_reason : result.holiday_des ? result.holiday_des : '-',
-                    check_in_status: result.late_checkin == 1 ||  result.field_checkin == 1 || result.holiday_checkin == 1 ? status : '-',
+                    check_in_status: (result.late_checkin == 1 && result.late_checkin_reason) || result.late_checkin == 1 ||  result.field_checkin == 1 || result.holiday_checkin == 1 ? status : '-',
                     check_in_lat : result.check_in_lat ? result.check_in_lat : "-",
                     check_in_lng : result.check_in_lng ? result.check_in_lng : "-",
                     check_out_time: result.check_out_time ?  moment(result.check_out_time).utc().format('HH:mm A') : "-",

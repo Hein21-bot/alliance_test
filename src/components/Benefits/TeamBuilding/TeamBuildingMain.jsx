@@ -5,7 +5,9 @@ import TeamBuildingAddNew from './TeamBuildingAddNew';
 import TeamBuildingEdit from './TeamBuildingEdit';
 import TeamBuildingView from './TeamBuildingView';
 import { ToastContainer, toast } from 'react-toastify';
-import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, getPermissionStatus, startSaving } from "../../../utils/CommonFunction";
+import moment from 'moment'
+import  DatePicker  from 'react-datetime';
+import { main_url, getUserId, getMainRole, getWorkFlowStatus, getCookieData, getPermissionStatus, startSaving, getFirstDayOfMonth } from "../../../utils/CommonFunction";
 
 class TeamBuildingMain extends Component {
     constructor() {
@@ -22,13 +24,15 @@ class TeamBuildingMain extends Component {
             permission_status: {},
             requestData:[],
             active_tab: 0,
+            start_date:new Date(getFirstDayOfMonth()),
+            end_date:new Date()
         }
     }
 
     async componentDidMount() {
-        var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Team Building', 'Benefit');
+        // var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Team Building', 'Benefit');
 
-        // var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Team Building', 'Benefit');
+        var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Team Building', 'Benefit');
         // this._getTeamBuildingBenefit();
         this.setState({
             permission_status: permission_status
@@ -100,6 +104,61 @@ class TeamBuildingMain extends Component {
             toast.error(text);
         }
     }
+    getAllBenefits() {
+        let id = this.state.user_id;
+        fetch(main_url + "team_building/getTeamBuildingBenefit/" + id+'/'+moment(this.state.start_date).format('YYYY-MM-DD')+"/"+moment(this.state.end_date).format('YYYY-MM-DD'))
+        // fetch(main_url + "birthday_benefit/getBirthdayBenefit/" + id + "/" + moment(this.state.s_date).format("YYYY-MM-DD") + "/" + moment(this.state.e_date).format("YYYY-MM-DD"))
+            .then(response => {
+                if (response.ok) return response.json()
+            })
+            .then(res => {
+                if (res) {
+                    this.setState({ 
+                        data: res,
+                        requestData:res.filter(v=>v.createdBy != this.state.user_id),
+                    }, () => this._setTableData(this.state.requestData))
+                }
+            })
+            .catch(error => console.error(`Fetch Error =\n`, error));
+
+    }
+    getMyBenefits() {
+        let id = this.state.user_id;
+        // fetch(main_url + "birthday_benefit/getBirthdayBenefit/" + id)
+        fetch(main_url + "team_building/getTeamBuildingBenefit/"+ id + "/" + moment(this.state.start_date).format("YYYY-MM-DD") + "/" + moment(this.state.end_date).format("YYYY-MM-DD"))
+            .then(response => {
+                if (response.ok) return response.json()
+            })
+            .then(res => {
+                if (res) {
+                    this.setState({ 
+                        requestData: res,
+                        requestData:res.filter(v=>v.createdBy == this.state.user_id)
+                    }, () => this._setTableData(this.state.requestData))
+                }
+            })
+            .catch(error => console.error(`Fetch Error =\n`, error));
+
+    }
+    handleSelectedFromdate = async (event) => {
+        this.setState({
+           start_date : event
+        })
+    }
+    
+     handleSelectedTodate = async (event) => {
+        this.setState({
+           end_date : event
+        })
+    }
+    handleSearchData=()=>{
+        console.log("search")
+        if (this.state.active_tab == 0) {
+            this.getAllBenefits();
+        } else if (this.state.active_tab == 1) {
+            this.getMyBenefits();
+        }
+    }
     // requestlist = async (data) => {
     //     if (data == 'myrequest') {
     //       this.setState({
@@ -140,18 +199,8 @@ class TeamBuildingMain extends Component {
                 {
                     this.state.isTable ?
                     <div>
-                    <div>
-                     <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
-                    <li className="nav-item">
-                     <a className="nav-link " href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(1)}>My Request</a>
-                    </li>
-                    <li className="nav-item1 active">
-                    <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.changeTab(0)}>All Request</a>
-                    </li>
-                    </ul>
-
-                    </div>
-                        <TeamBuildingTable tab={this.state.active_tab}  goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status} /></div> : ''
+                    
+                        <TeamBuildingTable start_date={this.state.start_date} end_date={this.state.end_date} tab={this.state.active_tab}  goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status} /></div> : ''
 
                 }
                 {

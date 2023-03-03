@@ -4,7 +4,10 @@ import BirthdayFundTable from './BirthdayFundTable';
 import BirthdayFundAddNew from './BirthdayFundAddNew';
 import BirthdayFundView from './BirthdayFundView'
 import BirthdayFundEdit from './BirthdayFundEdit';
-import { main_url, getCookieData, getUserId, getMainRole, getPermissionStatus, startSaving } from "../../../utils/CommonFunction";
+import DatePicker from 'react-datetime';
+import moment from 'moment'
+
+import { main_url, getCookieData, getUserId, getMainRole, getPermissionStatus, startSaving, getFirstDayOfMonth } from "../../../utils/CommonFunction";
 import { ToastContainer, toast } from 'react-toastify';
 
 class BirthdayFundMain extends Component {
@@ -19,6 +22,8 @@ class BirthdayFundMain extends Component {
             isView: false,
             isEdit: false,
             data: [],
+            start_date:new Date(getFirstDayOfMonth()),
+            end_date:new Date(),
             permission_status: {},
             requestData:[],
             active_tab: 0,
@@ -26,9 +31,9 @@ class BirthdayFundMain extends Component {
     }
 
     async componentDidMount() {
-        var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Birthday Benefit', 'Benefit');
+        // var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Birthday Benefit', 'Benefit');
 
-        //  var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Birthday Benefit', 'Benefit');
+         var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Birthday Benefit', 'Benefit');
         // this._getBirthdayBenefit();
         this.setState({
             permission_status: permission_status
@@ -104,23 +109,85 @@ class BirthdayFundMain extends Component {
             toast.error(text);
         }
     }
-    requestlist = async (data) => {
-        if (data == 'myrequest') {
-          this.setState({
-            requestData: this.state.data.filter(v => v.createdBy==this.state.user_id),
-            requestType:"myrequest"
+    // requestlist = async (data) => {
+    //     if (data == 'myrequest') {
+    //       this.setState({
+    //         requestData: this.state.data.filter(v => v.createdBy==this.state.user_id),
+    //         requestType:"myrequest"
             
-          })
-        } else if (data == 'allrequest') {
-          this.setState({
-            requestData: this.state.data.filter(v => v.createdBy !=this.state.user_id),
-            requestType:"allrequest"
+    //       })
+    //     } else if (data == 'allrequest') {
+    //       this.setState({
+    //         requestData: this.state.data.filter(v => v.createdBy !=this.state.user_id),
+    //         requestType:"allrequest"
             
-          })
-        }
-      }
+    //       })
+    //     }
+    //   }
+      
+    // getAllBenefits() {
+    //     console.log('all benefit')
+    //     let id = this.state.user_id;
+    //     fetch(main_url + "birthday_benefit/getBirthdayBenefit/" + id+'/'+moment(this.state.start_date).format('YYYY-MM-DD')+"/"+moment(this.state.end_date).format('YYYY-MM-DD'))
+    //     // fetch(main_url + "birthday_benefit/getBirthdayBenefit/" + id + "/" + moment(this.state.s_date).format("YYYY-MM-DD") + "/" + moment(this.state.e_date).format("YYYY-MM-DD"))
+    //         .then(response => {
+    //             if (response.ok) return response.json()
+    //         })
+    //         .then(res => {
+    //             if (res) {
+    //                 this.setState({ 
+    //                     data: res,
+    //                     requestData:res.filter(v=>v.createdBy != this.state.user_id),
+    //                 }
+    //                 // , () => this._setTableData(this.state.requestData)
+    //                 )
+    //             }
+    //         })
+    //         .catch(error => console.error(`Fetch Error =\n`, error));
+
+    // }
+    // getMyBenefits() {
+    //     console.log('mybenefit')
+    //     let id = this.state.user_id;
+    //     // fetch(main_url + "birthday_benefit/getBirthdayBenefit/" + id)
+    //     fetch(main_url + "birthday_benefit/getBirthdayBenefit/"+ id + "/" + moment(this.state.start_date).format("YYYY-MM-DD") + "/" + moment(this.state.end_date).format("YYYY-MM-DD"))
+    //         .then(response => {
+    //             if (response.ok) return response.json()
+    //         })
+    //         .then(res => {
+    //             if (res) {
+    //                 this.setState({ 
+    //                     requestData: res,
+    //                     requestData:res.filter(v=>v.createdBy == this.state.user_id)
+    //                 }
+    //                 // , () => this._setTableData(this.state.requestData)
+    //                 )
+    //             }
+    //         })
+    //         .catch(error => console.error(`Fetch Error =\n`, error));
+
+    // }
+    // handleSelectedFromdate = async (event) => {
+    //     this.setState({
+    //        start_date : event
+    //     })
+    // }
+    // handleSearchData=()=>{
+    //     console.log("search")
+    //     if (this.state.active_tab == 0) {
+    //         this.getAllBenefits();
+    //     } else if (this.state.active_tab == 1) {
+    //         this.getMyBenefits();
+    //     }
+    // }
+    //  handleSelectedTodate = async (event) => {
+    //     this.setState({
+    //        end_date : event
+    //     })
+    // }
 
     render() {
+        console.log('main=====>',this.state.start_date)
         return (
             <div className="wedding-benefit border-bottom white-bg dashboard-header">
                 <ToastContainer position={toast.POSITION.TOP_RIGHT} />
@@ -135,18 +202,9 @@ class BirthdayFundMain extends Component {
                 {
                     this.state.isTable ?
                     <div>
-                    <div>
-                     <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
-                    <li className="nav-item">
-                     <a className="nav-link " href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(1)}>My Request</a>
-                    </li>
-                    <li className="nav-item1 active">
-                    <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.changeTab(0)}>All Request</a>
-                    </li>
-                    </ul>
- 
-                    </div>
-                        <BirthdayFundTable data={this.state.requestData} tab={this.state.active_tab} requestlist={this.requestlist} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} requestType={this.state.requestType} permission={this.state.permission_status} /> </div>: ''
+                    
+                
+                        <BirthdayFundTable data={this.state.requestData} tab={this.state.active_tab} requestlist={this.requestlist} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} requestType={this.state.requestType} start_date={this.state.start_date} end_date={this.state.end_date} permission={this.state.permission_status} /> </div>: ''
 
                 }
                 {

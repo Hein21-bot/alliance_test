@@ -8,7 +8,7 @@ import moment from 'moment'
 import DatePicker from 'react-datetime';
 import { imgData } from '../../../utils/Global';
 import * as jsPDF from 'jspdf';
-import { main_url, getMainRole,getFirstDayOfPrevMonth, getInformation, getUserId, setPrintedStatus, print, fno } from "../../../utils/CommonFunction";
+import { main_url, getMainRole,getFirstDayOfPrevMonth, getInformation, getUserId, setPrintedStatus, print, fno, getFirstDayOfMonth } from "../../../utils/CommonFunction";
 const $ = require('jquery');
 const jzip = require('jzip');
 window.JSZip = jzip;
@@ -25,24 +25,33 @@ export default class WeddingBenefitTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            requestData:this.props.request_data,
             user_id: getUserId("user_info"),
-            requestData: [],
+            // user_id: getUserId("user_info"),
+
+            // requestData: [],
             selectedRequest: '',
             is_main_role: getMainRole(),
             to_date: moment() ,
             from_date:getFirstDayOfPrevMonth(),
             tab:this.props.tab,
+            start_date:new Date(getFirstDayOfPrevMonth()),
+            end_date:new Date(),
+            dataList:[],
+            pending_approve:'allrequest'
         }
     }
     componentDidMount() {
-        this. getAllBenefits();
-        this.$el = $(this.el);
+        // this. getAllBenefits();
+        // this.$el = $(this.el);
 
         this.setState({
-            requestData: this.state.requestData
+            requestData: this.props.request_data
         }, () => {
-            this._setTableData(this.state.requestData)
+            console.log('go to table')
+           
         });
+        this._setTableData(this.state.dataList)
 
         let that = this;
         $("#dataTables-table").on('click', '#toView', function () {
@@ -77,13 +86,16 @@ export default class WeddingBenefitTable extends Component {
         });
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps,prevState) {
         if (prevProps.tab != this.props.tab) {
             this.setState({
                 tab: this.props.tab
             }, () => this.filter())
 
         }
+        // if(prevState.requestData != this.state.requestData){
+        //     this._setTableData(this.state.requestData)
+        // }
     }
 
     getRequest() {
@@ -102,53 +114,44 @@ export default class WeddingBenefitTable extends Component {
     getReject() {
         this.search(4);
     }
-    getAllBenefits() {
-        let id = this.state.user_id;
+    // getAllBenefits() {
+    //     let id = this.state.user_id;
 
-        // fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id + "/" + moment(this.state.from_date).format("YYYY-MM-DD") + "/" + moment(this.state.to_date).format("YYYY-MM-DD"))
-        fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id )
-        .then(response => {
-                if (response.ok) return response.json()
-            })
-            .then(res => {
-                if (res) {
-                    this.setState({ 
-                        data: res,
-                        requestData:res.filter(v=>v.createdBy != this.state.user_id),
-                    }, () => this._setTableData(this.state.requestData))
-                }
-            })
-            .catch(error => console.error(`Fetch Error =\n`, error));
+    //     fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id + "/" + moment(this.props.start_date).format("YYYY-MM-DD") + "/" + moment(this.props.end_date).format("YYYY-MM-DD"))
+    //     // fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id )
+    //     .then(response => {
+    //             if (response.ok) return response.json()
+    //         })
+    //         .then(res => {
+    //             if (res) {
+    //                 this.setState({ 
+    //                     data: res,
+    //                     requestData:res.filter(v=>v.createdBy != this.state.user_id),
+    //                 }, () => this._setTableData(this.state.requestData))
+    //             }
+    //         })
+    //         .catch(error => console.error(`Fetch Error =\n`, error));
 
-    }
-    getMyBenefits() {
-        let id = this.state.user_id;
-        // fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id + "/" + moment(this.state.from_date).format("YYYY-MM-DD") + "/" + moment(this.state.to_date).format("YYYY-MM-DD"))
-        fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id)
-            .then(response => {
-                if (response.ok) return response.json()
-            })
-            .then(res => {
-                if (res) {
-                    this.setState({ 
-                        datasource: res,
-                        requestData:res.filter(v=>v.createdBy == this.state.user_id)
-                    }, () => this._setTableData(this.state.requestData))
-                }
-            })
-            .catch(error => console.error(`Fetch Error =\n`, error));
+    // }
+    // getMyBenefits() {
+    //     let id = this.state.user_id;
+    //     fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id + "/" + moment(this.props.start_date).format("YYYY-MM-DD") + "/" + moment(this.props.end_date).format("YYYY-MM-DD"))
+    //     // fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id)
+    //         .then(response => {
+    //             if (response.ok) return response.json()
+    //         })
+    //         .then(res => {
+    //             if (res) {
+    //                 this.setState({ 
+    //                     datasource: res,
+    //                     requestData:res.filter(v=>v.createdBy == this.state.user_id)
+    //                 }, () => this._setTableData(this.state.requestData))
+    //             }
+    //         })
+    //         .catch(error => console.error(`Fetch Error =\n`, error));
 
-    }
-    handleStartDate = async (event) => {
-        this.setState({
-          from_date:event
-        },()=>{console.log(this.state.s_date)})
-      }
-      handleEndDate = async (event) => {
-        this.setState({
-          to_date:event
-        },()=>{console.log(this.state.e_date)})
-      }
+    // }
+    
       filter() {
         if (this.state.tab == 0) {
             this.getAllBenefits();
@@ -156,11 +159,60 @@ export default class WeddingBenefitTable extends Component {
             this.getMyBenefits();
         }
     }
+    handleStartDate = async (event) => {
+        this.setState({
+          start_date:event
+        },()=>{console.log(this.state.start_date)})
+      }
+      handleEndDate = async (event) => {
+        this.setState({
+          end_date:event
+        },()=>{console.log(this.state.end_date)})
+      }
     search(status) {
-        let data = this.state.requestData;
+        let data = this.state.dataList;
         data = data.filter(d => { return status === d.status });
         this._setTableData(data)
     }
+    approvedlist = async (data) => {
+        console.log('data is =====>', data)
+        if (data == 'myrequest') {
+          this.setState({
+            data: this.state.dataList.filter(v => v.user_id == this.state.user_id),
+            pending_approve: 'myrequest',
+    
+          }, () => {
+            this._setTableData(this.state.data)
+          })
+        } else {
+          this.setState({
+            data: this.state.dataList.filter(v => v.user_id != this.state.user_id),
+            pending_approve: 'allrequest'
+          }, () => { this._setTableData(this.state.data) })
+        }
+      }
+    handleSearchData = async () => {
+        let id = this.state.user_id;
+
+        
+        fetch(main_url + "wedding_benefit/getWeddingBenefit/" + id + "/" + moment(this.state.start_date).format("YYYY-MM-DD") + "/" + moment(this.state.end_date).format("YYYY-MM-DD"))
+
+          .then(res => { if (res.ok) return res.json() })
+          .then(list => {
+            if(list && list.length > 0){
+              if (this.state.pending_approve == 'myrequest') {
+                console.log('my request')
+              this.setState({ dataList: list, data: list.filter(v => v.user_id == this.state.user_id) }, () => { this._setTableData(this.state.data) });
+            } else if (this.state.pending_approve == 'allrequest') {
+                console.log('all request')
+              this.setState({ dataList: list, data: list.filter(v => v.user_id != this.state.user_id) }, () => { this._setTableData(this.state.data) });
+    
+            }
+            }
+            
+    
+          })
+      }
     async getPrintData(data, amount) {
 
         var info = await getInformation('wedding_benefit', data.benefit_id)
@@ -218,6 +270,7 @@ export default class WeddingBenefitTable extends Component {
     }
 
     _setTableData = (data) => {
+        console.log("data========>",data)
         var table;
         var l = [];
         var status;
@@ -342,51 +395,87 @@ export default class WeddingBenefitTable extends Component {
         });
     }
 
-    render() { console.log("tab==>",this.state.requestData)
+    render() { console.log("request data in table",this.state.dataList)
         return (
             
-            <div>   
-                <div className=''style={{display:'flex',justifyContent:'end',marginRight:33}}>          
-                       {/* <div className='row'style={{display:'flex',paddingLeft:20}}>  
-                        <div className="col" style={{padding:0,width:150}}>
-                                    <div><label className="col"style={{padding:0}}>Start Date</label></div>
-                                    <div className="col"style={{padding:0}}>
-                                    <DatePicker
-                                       dateFormat="DD/MM/YYYY"
-                                       value={this.state.from_date}
-                                       onChange={this.handleStartDate}
-                                       timeFormat={false}/>
-                                    </div>
-                        </div>
-                        <div className="col"style={{padding:0, marginLeft:10,width:150}}>
-                                    <div><label className="col"style={{padding:0}}>End Date</label></div>
-                                    <div className="col"style={{padding:0}}>
-                                    <DatePicker
-                                       dateFormat="DD/MM/YYYY"
-                                       value={this.state.to_date}
-                                       onChange={this.handleEndDate}
-                                       timeFormat={false}/>
-                                    </div>
-                        </div>
-                        <div className="col-md-2" style={{padding:0,marginTop:4}}>
-                                    <div className="col-md-10 margin-top-20 padding-0">
-                                        <button type="button" className="btn btn-primary" onClick={this.filter.bind(this)}>Search</button>
-                                    </div>
-                        </div> </div> */}
-                    <div className='row'>                 
-                        <div className="row border-bottom white-bg dashboard-header" >
-                    <div className="row">
-                        <div class="btn-group-g ">
-                            <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
-                            <button type="button" class=" btn label-check g" onClick={this.getCheck.bind(this)}>Check</button>
-                            <button type="button" class="btn label-verified g" onClick={this.getVerified.bind(this)}>Verify</button>
-                            <button type="button" class="btn label-approve g" onClick={this.getApprove.bind(this)}>Approve</button>
-                            <button type="button" class="btn label-reject g" onClick={this.getReject.bind(this)}>Reject</button>
-                        </div>
-                    </div>
-                        </div>
-                    </div>    
-                        </div>
+            <div> 
+               <div>
+                            <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
+                           <li className="nav-item">
+                            <a className="nav-link " href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.approvedlist('myrequest')}>My Request</a>
+                           </li>
+                           <li className="nav-item1 active">
+                           <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.approvedlist('allrequest')}>All Request</a>
+                           </li>
+                           </ul>
+
+                           </div>
+                           <div className="row mt-2" style={{display:'flex',alignItems:'end'}}>
+                         <div className="col-md-2">
+                             <label htmlFor="">Start Date</label>
+                             <DatePicker
+                   dateFormat="DD/MM/YYYY"
+                   value={this.state.start_date}
+                   onChange={this.handleStartDate}
+                   timeFormat={false}
+                 />
+                         </div>
+                         <div className="col-md-2">
+                             <label htmlFor="">End Date</label>
+                             <DatePicker
+                   dateFormat="DD/MM/YYYY"
+                   value={this.state.end_date}
+                   onChange={this.handleEndDate}
+                   timeFormat={false}
+                 />
+                         </div>
+                         <div className="col-md-2">
+             <button className='btn btn-primary text-center' 
+             style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }}
+              onClick={() => this.handleSearchData()}>Search</button>
+
+                         </div>
+                     </div>
+                     <br />
+                     <div className="row">
+            <div class="btn-group-g ">
+              <button
+                type="button"
+                class="btn label-request g"
+                onClick={this.getRequest.bind(this)}
+              >
+                Request
+              </button>
+              <button
+                type="button"
+                class=" btn label-check g"
+                onClick={this.getCheck.bind(this)}
+              >
+                Check
+              </button>
+              <button
+                type="button"
+                class="btn label-verified g"
+                onClick={this.getVerified.bind(this)}
+              >
+                Verify
+              </button>
+              <button
+                type="button"
+                class="btn label-approve g"
+                onClick={this.getApprove.bind(this)}
+              >
+                Approve
+              </button>
+              <button
+                type="button"
+                class="btn label-reject g"
+                onClick={this.getReject.bind(this)}
+              >
+                Reject
+              </button>
+            </div>
+          </div>
                         <table width="99%"
                     className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
                     id="dataTables-table"
