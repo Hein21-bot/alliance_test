@@ -23,29 +23,32 @@ export default class BirthdayFundTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // dataSource: props.data,
+            dataSource: props.data,
             selectedRequest: '',
             user_id: getUserId("user_info"),
             is_main_role: getMainRole(),
             branch_id: '',
             selected_branch: [],
-            s_date: moment(getFirstDayOfPrevMonth()),
-            e_date: moment(),
-            tab : this.props.tab
+            start_date: new Date(getFirstDayOfPrevMonth()),
+            end_date: new Date(),
+            tab : this.props.tab,
+            pending_approve:'allrequest',
+            dataList:[]
         }
     }
     async componentDidMount() {
+        this.handleSearchData()
         let branch = await getBranch();
-        this.filter();
+        // this.filter();
         this.$el = $(this.el);
 
-        this.setState({
-            branch: branch,
-            dataSource: this.props.data
-        }, () => {
-            this._setTableData(this.state.dataSource)
-        });
-        this._setTableData(this.state.dataSource)
+        // this.setState({
+        //     branch: branch,
+        //     dataSource: this.props.data
+        // }, () => {
+        //     this._setTableData(this.state.dataList)
+        // });
+        // this._setTableData(this.state.dataList)
         // this.getTravelRequestAllowance(this.state.user_id)
         let that = this;
         $("#dataTables-table").on('click', '#toView', function () {
@@ -103,7 +106,7 @@ export default class BirthdayFundTable extends Component {
     // }
     getAllBenefits() {
         let id = this.state.user_id;
-        fetch(main_url + "birthday_benefit/getBirthdayBenefit/" + id)
+        fetch(main_url + "birthday_benefit/getBirthdayBenefit/" + id+'/'+moment(this.props.start_date).format('YYYY-MM-DD')+"/"+moment(this.props.end_date).format('YYYY-MM-DD'))
         // fetch(main_url + "birthday_benefit/getBirthdayBenefit/" + id + "/" + moment(this.state.s_date).format("YYYY-MM-DD") + "/" + moment(this.state.e_date).format("YYYY-MM-DD"))
             .then(response => {
                 if (response.ok) return response.json()
@@ -119,24 +122,24 @@ export default class BirthdayFundTable extends Component {
             .catch(error => console.error(`Fetch Error =\n`, error));
 
     }
-    getMyBenefits() {
-        let id = this.state.user_id;
-        fetch(main_url + "birthday_benefit/getBirthdayBenefit/" + id)
-        // fetch(main_url + "birthday_benefit/getBirthdayBenefit/"+ id + "/" + moment(this.state.s_date).format("YYYY-MM-DD") + "/" + moment(this.e_date).format("YYYY-MM-DD"))
-            .then(response => {
-                if (response.ok) return response.json()
-            })
-            .then(res => {
-                if (res) {
-                    this.setState({ 
-                        requestData: res,
-                        requestData:res.filter(v=>v.createdBy == this.state.user_id)
-                    }, () => this._setTableData(this.state.requestData))
-                }
-            })
-            .catch(error => console.error(`Fetch Error =\n`, error));
+    // getMyBenefits() {
+    //     let id = this.state.user_id;
+    //     // fetch(main_url + "birthday_benefit/getBirthdayBenefit/" + id)
+    //     fetch(main_url + "birthday_benefit/getBirthdayBenefit/"+ id + "/" + moment(this.props.start_date).format("YYYY-MM-DD") + "/" + moment(this.props.end_date).format("YYYY-MM-DD"))
+    //         .then(response => {
+    //             if (response.ok) return response.json()
+    //         })
+    //         .then(res => {
+    //             if (res) {
+    //                 this.setState({ 
+    //                     requestData: res,
+    //                     requestData:res.filter(v=>v.createdBy == this.state.user_id)
+    //                 }, () => this._setTableData(this.state.requestData))
+    //             }
+    //         })
+    //         .catch(error => console.error(`Fetch Error =\n`, error));
 
-    }
+    // }
     // componentDidUpdate(prevProps) {
     //     if (prevProps.data !== this.props.data) {
     //         this.setState({
@@ -164,18 +167,68 @@ export default class BirthdayFundTable extends Component {
         this.search(4);
     }
 
+    handleStartDate = async (event) => {
+        this.setState({
+          start_date:event
+        },()=>{console.log(this.state.start_date)})
+      }
+      handleEndDate = async (event) => {
+        this.setState({
+          end_date:event
+        },()=>{console.log(this.state.end_date)})
+      }
     search(status) {
-        let data = this.state.dataSource;
+        let data = this.state.dataList;
         data = data.filter(d => { return status === d.status });
         this._setTableData(data)
     }
-    filter() {   console.log(this.state.tab)
-        if (this.props.tab == 0) {
-            this.getAllBenefits();
-        } else if (this.props.tab == 1) {
-            this.getMyBenefits();
+    approvedlist = async (data) => {
+        console.log('data is =====>', data)
+        if (data == 'myrequest') {
+          this.setState({
+            data: this.state.dataList.filter(v => v.user_id == this.state.user_id),
+            pending_approve: 'myrequest',
+    
+          }, () => {
+            this._setTableData(this.state.data)
+          })
+        } else {
+          this.setState({
+            data: this.state.dataList.filter(v => v.user_id != this.state.user_id),
+            pending_approve: 'allrequest'
+          }, () => { this._setTableData(this.state.data) })
         }
-    }
+      }
+    handleSearchData = async () => {
+        let id = this.state.user_id;
+
+        
+        fetch(main_url + "birthday_benefit/getBirthdayBenefit/"+ id + "/" + moment(this.state.start_date).format("YYYY-MM-DD") + "/" + moment(this.state.end_date).format("YYYY-MM-DD"))
+
+
+          .then(res => { if (res.ok) return res.json() })
+          .then(list => {
+            
+              if (this.state.pending_approve == 'myrequest') {
+                console.log('my request')
+              this.setState({ dataList: list, data: list.filter(v => v.user_id == this.state.user_id) }, () => { this._setTableData(this.state.data) });
+            } else if (this.state.pending_approve == 'allrequest') {
+                console.log('all request')
+              this.setState({ dataList: list, data: list.filter(v => v.user_id != this.state.user_id) }, () => { this._setTableData(this.state.data) });
+    
+            }
+            
+            
+    
+          })
+      }
+    // filter() {   console.log(this.state.tab)
+    //     if (this.props.tab == 0) {
+    //         this.getAllBenefits();
+    //     } else if (this.props.tab == 1) {
+    //         this.getMyBenefits();
+    //     }
+    // }
 
     handleBranch = (event) => {
         this.setState({
@@ -183,17 +236,7 @@ export default class BirthdayFundTable extends Component {
         })
     }
 
-    handleStartDate = (event) => {
-        this.setState({
-            s_date: event
-        })
-    }
-
-    handleEndDate = (event) => {
-        this.setState({
-            e_date: event
-        })
-    }
+    
 
     async getPrintData(data) {
 
@@ -379,73 +422,89 @@ export default class BirthdayFundTable extends Component {
 
 
     render() {
+        console.log("table====>",this.props.start_date)
         return (
 
             <div>
-                 {/* <div>
-          <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
-            <li className="nav-item">
-              <a className="nav-link" href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.props.requestlist('myrequest')}>My Request</a>
-            </li>
-            <li className="nav-item1 active">
-              <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.props.requestlist('allrequest')}>All Request</a>
-            </li>
-          </ul>
-        </div>         */}
+                 
         <div>   
-                <div className=''style={{display:'flex',justifyContent:'end',marginRight:33}}>          
-                       {/* <div className='row'style={{display:'flex',paddingLeft:20}}>  
-                        <div className="col" style={{padding:0,width:150}}>
-                                    <div><label className="col"style={{padding:0}}>Start Date</label></div>
-                                    <div className="col"style={{padding:0}}>
-                                    <DatePicker
-                                       dateFormat="DD/MM/YYYY"
-                                       value={this.state.s_date}
-                                       onChange={this.handleStartDate}
-                                       timeFormat={false}/>
-                                    </div>
-                        </div>
-                        <div className="col"style={{padding:0, marginLeft:10,width:150}}>
-                                    <div><label className="col"style={{padding:0}}>End Date</label></div>
-                                    <div className="col"style={{padding:0}}>
-                                    <DatePicker
-                                       dateFormat="DD/MM/YYYY"
-                                       value={this.state.e_date}
-                                       onChange={this.handleEndDate}
-                                       timeFormat={false}/>
-                                    </div>
-                        </div> */}
-                        {/* <div className="col"style={{padding:0, marginLeft:10,width:150}}>
-                            <div><label className="col-sm-12">Branch</label></div>
-                            <div className="col-md-10">
-                                <Select
-                                    options={this.state.branch}
-                                    value={this.state.selected_branch}
-                                    onChange={this.handleBranch}
-                                    className='react-select-container checkValidat'
-                                    classNamePrefix="react-select"
-                                />
-                            </div>
-                        </div> */}
-                        {/* <div className="col-md-2" style={{padding:0,marginTop:4}}>
-                                    <div className="col-md-10 margin-top-20 padding-0">
-                                        <button type="button" className="btn btn-primary" onClick={this.filter.bind(this)}>Search</button>
-                                    </div>
-                        </div> </div> */}
-                    <div className='row'>                 
-                        <div className="row border-bottom white-bg dashboard-header" >
-                    <div className="row">
-                        <div class="btn-group-g ">
-                            <button type="button" class="btn label-request g" onClick={this.getRequest.bind(this)}>Request</button>
-                            <button type="button" class=" btn label-check g" onClick={this.getCheck.bind(this)}>Check</button>
-                            <button type="button" class="btn label-verified g" onClick={this.getVerified.bind(this)}>Verify</button>
-                            <button type="button" class="btn label-approve g" onClick={this.getApprove.bind(this)}>Approve</button>
-                            <button type="button" class="btn label-reject g" onClick={this.getReject.bind(this)}>Reject</button>
-                        </div>
-                    </div>
-                        </div>
-                    </div>    
-                        </div>
+        <div>
+                            <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
+                           <li className="nav-item">
+                            <a className="nav-link " href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.approvedlist('myrequest')}>My Request</a>
+                           </li>
+                           <li className="nav-item1 active">
+                           <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.approvedlist('allrequest')}>All Request</a>
+                           </li>
+                           </ul>
+
+                           </div>
+                           <div className="row mt-2" style={{display:'flex',alignItems:'end'}}>
+                         <div className="col-md-2">
+                             <label htmlFor="">Start Date</label>
+                             <DatePicker
+                   dateFormat="DD/MM/YYYY"
+                   value={this.state.start_date}
+                   onChange={this.handleStartDate}
+                   timeFormat={false}
+                 />
+                         </div>
+                         <div className="col-md-2">
+                             <label htmlFor="">End Date</label>
+                             <DatePicker
+                   dateFormat="DD/MM/YYYY"
+                   value={this.state.end_date}
+                   onChange={this.handleEndDate}
+                   timeFormat={false}
+                 />
+                         </div>
+                         <div className="col-md-2">
+             <button className='btn btn-primary text-center' 
+             style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }}
+              onClick={() => this.handleSearchData()}>Search</button>
+
+                         </div>
+                     </div>
+                     <br />
+                     <div className="row">
+            <div class="btn-group-g ">
+              <button
+                type="button"
+                class="btn label-request g"
+                onClick={this.getRequest.bind(this)}
+              >
+                Request
+              </button>
+              <button
+                type="button"
+                class=" btn label-check g"
+                onClick={this.getCheck.bind(this)}
+              >
+                Check
+              </button>
+              <button
+                type="button"
+                class="btn label-verified g"
+                onClick={this.getVerified.bind(this)}
+              >
+                Verify
+              </button>
+              <button
+                type="button"
+                class="btn label-approve g"
+                onClick={this.getApprove.bind(this)}
+              >
+                Approve
+              </button>
+              <button
+                type="button"
+                class="btn label-reject g"
+                onClick={this.getReject.bind(this)}
+              >
+                Reject
+              </button>
+            </div>
+          </div>
                         <table width="99%"
                     className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
                     id="dataTables-table"

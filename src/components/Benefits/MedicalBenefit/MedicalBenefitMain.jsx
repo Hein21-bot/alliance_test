@@ -4,7 +4,9 @@ import BenefitMedicalTable from './BenefitMedicalTable';
 import BenefitMedicalAddNew from './BenefitMedicalAddNew';
 import BenefitMedicalView from './MedicalBenefitView';
 import { ToastContainer, toast } from 'react-toastify';
-import { getUserId, getCookieData, getPermissionStatus, main_url, startSaving, getEmployeeId } from "../../../utils/CommonFunction";
+import  DatePicker from 'react-datetime';
+import moment from 'moment';
+import { getUserId, getCookieData, getPermissionStatus, main_url, startSaving, getEmployeeId, getFirstDayOfMonth } from "../../../utils/CommonFunction";
 class MedicalBenefitMain extends Component {
     constructor() {
         super();
@@ -19,14 +21,16 @@ class MedicalBenefitMain extends Component {
             permission_status: {},
            
             active_tab: 0,
+            start_date:new Date(getFirstDayOfMonth()),
+            end_date:new Date()
 
         }
     }
 
     async componentDidMount() {
-        var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Medical Benefit', 'Benefit');
+        // var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Medical Benefit', 'Benefit');
 
-        // var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Medical Benefit', 'Benefit');
+        var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Medical Benefit', 'Benefit');
         // this._getMedicalBenefit();
         this._getEmployeeId();
         this.setState({
@@ -125,6 +129,61 @@ class MedicalBenefitMain extends Component {
     //     }
     //   }
 
+    getAllBenefits() {
+        let id = this.state.user_id;
+        fetch(main_url + "medical_benefit/getMedicalBenefit/" + id+'/'+moment(this.state.start_date).format('YYYY-MM-DD')+"/"+moment(this.state.end_date).format('YYYY-MM-DD'))
+        // fetch(main_url + "birthday_benefit/getBirthdayBenefit/" + id + "/" + moment(this.state.s_date).format("YYYY-MM-DD") + "/" + moment(this.state.e_date).format("YYYY-MM-DD"))
+            .then(response => {
+                if (response.ok) return response.json()
+            })
+            .then(res => {
+                if (res) {
+                    this.setState({ 
+                        data: res,
+                        requestData:res.filter(v=>v.createdBy != this.state.user_id),
+                    }, () => this._setTableData(this.state.requestData))
+                }
+            })
+            .catch(error => console.error(`Fetch Error =\n`, error));
+
+    }
+    getMyBenefits() {
+        let id = this.state.user_id;
+        // fetch(main_url + "birthday_benefit/getBirthdayBenefit/" + id)
+        fetch(main_url + "medical_benefit/getMedicalBenefit/"+ id + "/" + moment(this.state.start_date).format("YYYY-MM-DD") + "/" + moment(this.state.end_date).format("YYYY-MM-DD"))
+            .then(response => {
+                if (response.ok) return response.json()
+            })
+            .then(res => {
+                if (res) {
+                    this.setState({ 
+                        requestData: res,
+                        requestData:res.filter(v=>v.createdBy == this.state.user_id)
+                    }, () => this._setTableData(this.state.requestData))
+                }
+            })
+            .catch(error => console.error(`Fetch Error =\n`, error));
+
+    }
+    handleSelectedFromdate = async (event) => {
+        this.setState({
+           start_date : event
+        })
+    }
+    
+     handleSelectedTodate = async (event) => {
+        this.setState({
+           end_date : event
+        })
+    }
+    handleSearchData=()=>{
+        console.log("search")
+        if (this.state.active_tab == 0) {
+            this.getAllBenefits();
+        } else if (this.state.active_tab == 1) {
+            this.getMyBenefits();
+        }
+    }
     render() {
         return (
             <div className="wedding-benefit border-bottom white-bg dashboard-header">
@@ -141,18 +200,8 @@ class MedicalBenefitMain extends Component {
                 {
                     this.state.isTable ?
                     <div>
-                    <div>
-                     <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
-                    <li className="nav-item">
-                     <a className="nav-link " href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(1)}>My Request</a>
-                    </li>
-                    <li className="nav-item1 active">
-                    <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.changeTab(0)}>All Request</a>
-                    </li>
-                    </ul>
-
-                    </div>
-                        <BenefitMedicalTable tab={this.state.active_tab} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status} /></div> : ''
+                    
+                        <BenefitMedicalTable start_date={this.state.start_date} end_date={this.state.end_date} tab={this.state.active_tab} goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status} /></div> : ''
                 }
                 {
                     this.state.isView ?

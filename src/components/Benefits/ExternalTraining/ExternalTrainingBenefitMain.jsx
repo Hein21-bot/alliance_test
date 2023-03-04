@@ -5,8 +5,10 @@ import BenefitExternalTrainingTable from './BenefitExternalTrainingTable';
 import BenefitExternalTrainingAddNew from './BenefitExternalTrainingAddNew';
 import BenefitExternalTrainingView from './BenefitExternalTrainingView';
 import BenefitExternalTrainingEdit from './BenefitExternalTrainingEdit';
+import DatePicker from 'react-datetime'
+import moment from 'moment'
 //import { timingSafeEqual } from 'crypto';
-import { main_url, getMainRole, getUserId, getCookieData, getPermissionStatus, startSaving } from "../../../utils/CommonFunction";
+import { main_url, getMainRole, getUserId, getCookieData, getPermissionStatus, startSaving, getFirstDayOfMonth } from "../../../utils/CommonFunction";
 class ExternalTrainingBenefitMain extends Component {
     constructor() {
         super();
@@ -22,14 +24,16 @@ class ExternalTrainingBenefitMain extends Component {
             permission_status: {},
             requestData:[],
             active_tab: 0,
+            start_date:new Date(getFirstDayOfMonth()),
+            end_date:new Date()
             
         }
     }
 
     async componentDidMount() {
-        var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'External Training Benefit', 'Benefit');
+        // var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'External Training Benefit', 'Benefit');
 
-        // var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'External Training Benefit', 'Benefit');
+        var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'External Training Benefit', 'Benefit');
         // this._getExternalBenefit();
         this.setState({
             permission_status: permission_status
@@ -105,6 +109,61 @@ class ExternalTrainingBenefitMain extends Component {
         }
 
     }
+    getAllBenefits() {
+        let id = this.state.user_id;
+        fetch(main_url + "external_benefit/getExternalBenefit/" + id+'/'+moment(this.state.start_date).format('YYYY-MM-DD')+"/"+moment(this.state.end_date).format('YYYY-MM-DD'))
+        // fetch(main_url + "birthday_benefit/getBirthdayBenefit/" + id + "/" + moment(this.state.s_date).format("YYYY-MM-DD") + "/" + moment(this.state.e_date).format("YYYY-MM-DD"))
+            .then(response => {
+                if (response.ok) return response.json()
+            })
+            .then(res => {
+                if (res) {
+                    this.setState({ 
+                        data: res,
+                        requestData:res.filter(v=>v.createdBy != this.state.user_id),
+                    }, () => this._setTableData(this.state.requestData))
+                }
+            })
+            .catch(error => console.error(`Fetch Error =\n`, error));
+
+    }
+    getMyBenefits() {
+        let id = this.state.user_id;
+        // fetch(main_url + "birthday_benefit/getBirthdayBenefit/" + id)
+        fetch(main_url + "external_benefit/getExternalBenefit/"+ id + "/" + moment(this.state.start_date).format("YYYY-MM-DD") + "/" + moment(this.state.end_date).format("YYYY-MM-DD"))
+            .then(response => {
+                if (response.ok) return response.json()
+            })
+            .then(res => {
+                if (res) {
+                    this.setState({ 
+                        requestData: res,
+                        requestData:res.filter(v=>v.createdBy == this.state.user_id)
+                    }, () => this._setTableData(this.state.requestData))
+                }
+            })
+            .catch(error => console.error(`Fetch Error =\n`, error));
+
+    }
+    handleSelectedFromdate = async (event) => {
+        this.setState({
+           start_date : event
+        })
+    }
+    
+     handleSelectedTodate = async (event) => {
+        this.setState({
+           end_date : event
+        })
+    }
+    handleSearchData=()=>{
+        console.log("search")
+        if (this.state.active_tab == 0) {
+            this.getAllBenefits();
+        } else if (this.state.active_tab == 1) {
+            this.getMyBenefits();
+        }
+    }
     // requestlist = async (data) => {
     //     if (data == 'allrequest') {
     //         this.setState({
@@ -141,18 +200,8 @@ class ExternalTrainingBenefitMain extends Component {
                 {
                     this.state.isTable ?
                     <div>
-                    <div>
-                     <ul className="nav nav-tabs tab" role="tablist" id="tab-pane">
-                    <li className="nav-item">
-                     <a className="nav-link " href="#wedding_benefit" role="tab" data-toggle="tab" aria-selected="true" onClick={() => this.changeTab(1)}>My Request</a>
-                    </li>
-                    <li className="nav-item1 active">
-                    <a className="nav-link active" href="#wedding_benefit" role="tab" data-toggle="tab" onClick={() => this.changeTab(0)}>All Request</a>
-                    </li>
-                    </ul>
-
-                    </div>
-                        <BenefitExternalTrainingTable tab={this.state.active_tab}  goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status} /></div> : ' '
+                    
+                        <BenefitExternalTrainingTable start_date={this.state.start_date} end_date={this.state.end_date} tab={this.state.active_tab}  goToViewForm={this.goToViewForm} goToEditForm={this.goToEditForm} permission={this.state.permission_status} /></div> : ' '
                 }
                 {
                     this.state.isView ?

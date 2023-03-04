@@ -311,7 +311,7 @@ class HospitalizationAddNew extends Component {
         if (this.state.newDoc.length == 0 && this.state.doc.length == 0) {
             toast.error("Please Choose Attachment File!")
         } else {
-            if (validate('check_form') && (this.state.attachment.length > 0 || !Array.isArray(this.state.one_benefit))) {
+            if (validate('check_form') && (this.state.attachment.length > 0 || !Array.isArray(this.state.one_benefit)) && this.state.start_date !=null && this.state.end_date !=null && this.state.withdraw_location !=null) {
                 $('#saving_button').attr('disabled', true);
                 var data = {
                     employee_id: this.state.one_benefit.employee_id ? this.state.one_benefit.employee_id : this.state.user_id,

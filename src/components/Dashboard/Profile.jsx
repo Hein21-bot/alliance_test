@@ -31,7 +31,8 @@ class Profile extends Component {
 
   async componentDidMount() {
     const id = localStorage.getItem("user_id");
-    fetch(main_url + `main/getUserInfo/${id}`)
+     
+    await fetch(main_url + `main/getUserInfo/${id}`)
       .then((response) => {
         if (response.ok) return response.json();
         else return null;
@@ -39,27 +40,37 @@ class Profile extends Component {
       .then((res) => {
         this.setState({
           userInfo: res[0],
+        },async ()=>{
+          this.state.userInfo!=null && this.state.userInfo.avatar !=null  ? await this.getProfile() : 
+          this.setState({
+            userPhoto:'/assets/img/SeekPng.com_profile-icon-png_9665493.png'
+          })
         });
-        //  this.getProfile() 
+       
       });
+      
+      
   }
-  // getProfile(){
-  //   fetch(main_url + `dashboard/getProfile`)
-  // .then((response) => {
-  //   if (response.ok){
-  //     this.setState({
-  //       userPhoto:response
-  //     })
-  //   }
-  //   else{
-  //     this.setState({
-  //       userPhoto:'/assets/img/SeekPng.com_profile-icon-png_9665493.png'
-  //     })
-  //   } ;
-  // })
-  // }
+  getProfile(){
+    console.log('asdfdasfdsaf')
+    fetch(main_url + `dashboard/getProfile/${this.state.userInfo.avatar}`)
+  .then((response) => {
+    console.log("response=====>",response)
+    if (response.ok){
+      this.setState({
+        userPhoto:response.url
+      })
+    }
+    // else{
+    //   this.setState({
+    //     userPhoto:'/assets/img/SeekPng.com_profile-icon-png_9665493.png'
+    //   })
+    // } ;
+  })
+  }
 
   render() {
+    console.log("user info=====>",this.state.userInfo!=null && this.state.userInfo.avatar!=null  ? 'true' : 'false',this.state.userPhoto)
     const btn = {
       // backgroundColor:this.state.tapButtonTitle == "title" ? "green" : "blue",
       padding: 5,
@@ -98,7 +109,7 @@ class Profile extends Component {
             >
               <img
                 onError={imageError}
-                src={'assets/img/SeekPng.com_profile-icon-png_9665493.png'}
+                src={this.state.userPhoto}
                 // src={this.state.userInfo.avatar ? main_url + `dashboard/getProfile/` + this.state.userInfo.avatar : 'assets/img/SeekPng.com_profile-icon-png_9665493.png'}
                 style={{ width: 90, height: 90, borderRadius: 45, objectFit: "cover", border: "5px solid #23c6c8" }}
               />

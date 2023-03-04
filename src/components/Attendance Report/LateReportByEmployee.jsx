@@ -30,7 +30,7 @@ class LateReportByEmployee extends Component {
             branchId:null,
             regionId:null,
             departmentId:null,
-            from_date:moment(),
+            from_date:moment(getFirstDayOfMonth()),
             to_date:moment(),
             EmployeeNameList:[],
             selectedEmployeeName:null,

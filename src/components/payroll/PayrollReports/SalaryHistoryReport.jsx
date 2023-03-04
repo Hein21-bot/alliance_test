@@ -13,11 +13,13 @@ class SalaryHistoryReport extends Component {
       end_date: new Date(),
       EmployeeNameList: [],
       selected_employee: null,
+      selected_employee_id:null,
       salaryHistoryLabel: [],
       columnHeader: [],
       basicSalaryData: [],
       netSalaryData: [],
       employeeInfo: null,
+      EmployeeIdList:[]
     };
   }
   async componentDidMount() {
@@ -29,6 +31,7 @@ class SalaryHistoryReport extends Component {
       start_date: previousMonth,
     });
     await this.getEmployeeName();
+    await this.getEmployeeId();
     await this.getSalaryHistory();
     await this.getSalaryHistoryLabel();
   }
@@ -46,10 +49,41 @@ class SalaryHistoryReport extends Component {
         });
       });
   }
+  async getEmployeeId() {
+    await fetch(`${main_url}employee/getEmployeeCode`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then(async (list) => {
+        var array=[];
+        list.map(v=>{
+          var obj={}
+          obj['label']=v.employee_code;
+          obj['value']=v.user_id
+          array.push(obj)
+        })
+        array.shift({label:'All',value:0})
+        let userId = getUserId("user_info");
+        var selected_employee_id = array.filter((a) => a.value == userId);
+        this.setState({
+          EmployeeIdList: array,
+          selected_employee_id,
+        });
+      });
+  }
+  
   handleSelectedEmpName = async (event) => {
     if (event != null)
       this.setState({
         selected_employee: event,
+        selected_employee_id:this.state.EmployeeIdList.filter(v=>v.value == event.value)
+      });
+  };
+  handleSelectedEmpId = async (event) => {
+    if (event != null)
+      this.setState({
+        selected_employee:this.state.EmployeeNameList.filter(v=>v.value == event.value),
+        selected_employee_id: event,
       });
   };
   handleSelectedStartDate = async (event) => {
@@ -274,6 +308,28 @@ class SalaryHistoryReport extends Component {
               options={this.state.EmployeeNameList}
               onChange={this.handleSelectedEmpName}
               value={this.state.selected_employee}
+              className="react-select-container"
+              classNamePrefix="react-select"
+            />
+          </div>
+          <div style={{marginLeft:10}}>
+            <label htmlFor="">Employee Id</label>
+            <Select
+              styles={{
+                container: (base) => ({
+                  ...base,
+                  //   flex: 1
+                  width: 180,
+                }),
+                control: (base) => ({
+                  ...base,
+                  minHeight: "18px",
+                }),
+              }}
+              placeholder="Employee Id"
+              options={this.state.EmployeeIdList}
+              onChange={this.handleSelectedEmpId}
+              value={this.state.selected_employee_id}
               className="react-select-container"
               classNamePrefix="react-select"
             />
