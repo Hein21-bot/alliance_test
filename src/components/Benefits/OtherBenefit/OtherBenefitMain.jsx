@@ -28,9 +28,9 @@ class OtherBenefitMain extends Component {
     }
 
     async componentDidMount() {
-        // var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Other Benefit', 'Benefit');
+        var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Other Benefit', 'Benefit');
 
-       var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Other Benefit', 'Benefit');
+    //    var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Other Benefit', 'Benefit');
         // this.getOtherBenefit();
         this.setState({
             permission_status: permission_status

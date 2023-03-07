@@ -129,7 +129,7 @@ class HolidayAttendance extends Component {
                     no: i + 1,
                     employee_name: result.fullname ? result.fullname : '',
                     designation: result.designations ? result.designations : '',
-                    attendance_date: moment(result.createdAt).format('DD/MM/YYYY'),
+                    attendance_date: moment(result.createdAt).utc().format('DD/MM/YYYY'),
                     check_in_time: result.check_in_time ? moment(result.check_in_time).utc().format('hh:mm A') : '',
                     check_out_time: result.check_out_time ? moment(result.check_out_time).utc().format('hh:mm A') : '',
                     working_hour: result.WorkingHour ? result.WorkingHour : '',
