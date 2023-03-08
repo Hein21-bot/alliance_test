@@ -61,7 +61,7 @@ const EmployeeProfile = props => {
                                 Employee ID
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
-                                <input type='text' placeholder='' required={(viewForm) ? false : true} name="employeeId" value={employeeId} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
+                                <input type='text' placeholder='' required={(viewForm) ? false : true} name="employeeId" tabIndex={1} value={employeeId} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
                             </div>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
@@ -69,7 +69,7 @@ const EmployeeProfile = props => {
                                 Employee Name (Eng)
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
-                                <input type='text' placeholder='' required={(viewForm) ? false : true} name="employeeNameEng" value={employeeNameEng.toUpperCase()} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
+                                <input type='text' placeholder='' required={(viewForm) ? false : true} name="employeeNameEng" tabIndex={2} value={employeeNameEng.toUpperCase()} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
 
                             </div>
                         </div>
@@ -87,6 +87,7 @@ const EmployeeProfile = props => {
                                             value={selected_NRC_Id}
                                             onChange={viewForm ? null : handleSelectedNRCId}
                                             className="react-select-container checkValidate"
+                                            tabIndex={8}
                                             classNamePrefix="react-select"
                                         />
                                     </div>
@@ -96,15 +97,16 @@ const EmployeeProfile = props => {
                                             value={selected_DistrictCode}
                                             onChange={viewForm ? null : handleSelectedDistrictCode}
                                             className="react-select-container checkValidate"
+                                            tabIndex={9}
                                             classNamePrefix="react-select"
                                         />
                                     </div>
                                     <div className='col-lg-6 col-md-6 col-sm-6' style={{ paddingRight: 0, paddingLeft: 0 }}>
-                                        <input type='number' placeholder='' required={(viewForm) ? false : true} name="nrc_number" value={nrc_number} onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
+                                        <input type='number' placeholder='' required={(viewForm) ? false : true} name="nrc_number"  tabIndex={10} value={nrc_number} onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
 
                                     </div>
                                 </div>
-                                <input type='text' placeholder='' name="" required={(viewForm) ? false : true} value={fullNRCNO} onChange={() => null} style={{ minWidth: '100%', height: 40 }} />
+                                <input type='text' placeholder='' name=""  tabIndex={11} required={(viewForm) ? false : true} value={fullNRCNO} onChange={() => null} style={{ minWidth: '100%', height: 40 }} />
 
 
                             </div>
@@ -119,7 +121,7 @@ const EmployeeProfile = props => {
                                 Employee Name (Myan)
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
-                                <input type='text' placeholder='' required={(viewForm) ? false : true} name="employeeNameMyan" value={employeeNameMyan} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
+                                <input type='text' placeholder='' required={(viewForm) ? false : true} name="employeeNameMyan" tabIndex={3} value={employeeNameMyan} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
 
 
                             </div>
@@ -132,7 +134,7 @@ const EmployeeProfile = props => {
                                 Date Of Birth
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
-                                <input type='date' placeholder='' required={(viewForm) ? false : true} name="dateOfBirth" value={dateOfBirth} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
+                                <input type='date' placeholder='' required={(viewForm) ? false : true} name="dateOfBirth" tabIndex={12}  value={dateOfBirth} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
                             </div>
                         </div>
                     </div>
@@ -146,11 +148,11 @@ const EmployeeProfile = props => {
                         </div>
                         <div className='col-lg-7 col-md-6' style={{ display: 'flex', justifyContent: 'space-around' }}>
                             <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <input type="radio" value="male" name='gender' required={(viewForm) ? false : true} checked={gender.toLowerCase() === "male"} onChange={onGenderChange} /><div style={{ paddingLeft: 10 }}>Male</div>
+                                <input type="radio" value="male" name='gender' tabIndex={4} required={(viewForm) ? false : true} checked={gender.toLowerCase() === "male"} onChange={onGenderChange} /><div style={{ paddingLeft: 10 }}>Male</div>
 
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <input type="radio" value="female" name='gender' required={(viewForm) ? false : true} checked={gender.toLowerCase() === "female"} onChange={onGenderChange} /><div style={{ paddingLeft: 10 }}>Female</div>
+                                <input type="radio" value="female" name='gender' tabIndex={5} required={(viewForm) ? false : true} checked={gender.toLowerCase() === "female"} onChange={onGenderChange} /><div style={{ paddingLeft: 10 }}>Female</div>
 
                             </div>
                         </div>
@@ -161,7 +163,7 @@ const EmployeeProfile = props => {
                                 Nationality
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
-                                <input type='text' placeholder='' required={(viewForm) ? false : true} name="nationality" value={nationality} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
+                                <input type='text' placeholder='' required={(viewForm) ? false : true} name="nationality"  tabIndex={13}  value={nationality} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
                             </div>
                         </div>
                     </div>
@@ -174,7 +176,7 @@ const EmployeeProfile = props => {
                                 Personal Phone
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
-                                <input type='number' placeholder='' required={(viewForm) ? false : true} name="personalPhone" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={personalPhone} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
+                                <input type='number' placeholder='' required={(viewForm) ? false : true} name="personalPhone" tabIndex={6} onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={personalPhone} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
 
 
                             </div>
@@ -187,7 +189,7 @@ const EmployeeProfile = props => {
                                 Religion
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
-                                <input type='text' placeholder='' required={(viewForm) ? false : true} name="region" value={region} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
+                                <input type='text' placeholder='' required={(viewForm) ? false : true} name="region" tabIndex={14}  value={region} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
                             </div>
                         </div>
                     </div>
@@ -200,7 +202,7 @@ const EmployeeProfile = props => {
                                 Office Phone
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
-                                <input type='number' placeholder='' required={(viewForm) ? false : true} name="officePhone" onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={officePhone} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
+                                <input type='number' placeholder='' required={(viewForm) ? false : true} name="officePhone" tabIndex={7}  onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={officePhone} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
 
 
                             </div>
@@ -213,7 +215,7 @@ const EmployeeProfile = props => {
                                 Address
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
-                                <input type='text' placeholder='' required={(viewForm) ? false : true} name="address" value={address} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
+                                <input type='text' placeholder='' required={(viewForm) ? false : true} name="address" tabIndex={15}  value={address} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
                             </div>
                         </div>
                     </div>
@@ -228,7 +230,7 @@ const EmployeeProfile = props => {
                                 Join Date
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
-                                <input type='date' placeholder='' required={(viewForm) ? false : true} name="joinDate" value={joinDate} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
+                                <input type='date' placeholder='' required={(viewForm) ? false : true} name="joinDate"  tabIndex={16}  value={joinDate} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
                             </div>
                         </div>
                     </div>

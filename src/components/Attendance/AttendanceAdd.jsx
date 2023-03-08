@@ -174,7 +174,10 @@ this.setState({
    }
    handleComfirm(){
   var typeOne = this.state.type
-  
+  if(this.state.user_id != getUserId("user_info")){
+    toast('User Id is not the same !')
+    return;
+  }
    switch (typeOne){  
     case '1' :
       var obj = {
@@ -253,15 +256,29 @@ this.setState({
     if ((this.state.reason === '' )){ console.log(this.state.fieldReason,this.state.reason)
       toast('Please Fill Reason First!')
     } else if(this.state.type === '1' || this.state.type === '2' || this.state.type === '3' ){
+      let status = 0;
       fetch(`${main_url}attendance/addAttendance`,{
         method:'POST',
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
         body:JSON.stringify(obj)
       })
       .then(response => {
+        status=response.status
         return response.text();
       })
       .then(text =>{
-        toast(text)
+        if(status === 400){
+          this.setState({
+            modal:true,
+            message:text,
+            missAtt:true
+          })
+        }else if (status === 200){
+          window.location.reload()
+           toast(text)
+        }
       })
       .catch(err =>
         console.log(err)
@@ -365,14 +382,15 @@ switch (typeOne){
    }
 
    hide(e) {
-    if (this.state.type === '2' && e === 1){
+    if (this.state.type === '3' && e === 1){
       var obj = {
         data: {
           userId:this.state.user_id,
           latitude:this.state.latti,
           longtitude:this.state.longi,
+          lateCheckIn: true,
     }}
-    fetch(`${main_url}attendance/editAttendance`,{
+    fetch(`${main_url}attendance/addAttendance`,{
       method:'POST',
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
