@@ -74,7 +74,7 @@ class WeddingBenefitMain extends Component {
             isEdit: false,
             isTable: true
         })
-        // window.location.reload();
+        window.location.reload();
     }
 
     goToViewForm = (data) => {
@@ -101,7 +101,7 @@ class WeddingBenefitMain extends Component {
 
         if (status === 200) {
             toast.success(text);
-            // window.location.reload();
+            window.location.reload();
         }
         else {
             startSaving();
