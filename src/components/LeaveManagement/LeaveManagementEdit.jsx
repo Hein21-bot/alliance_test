@@ -32,6 +32,8 @@ class LeaveManagementEdit extends Component {
             max_days: 0,
             leave_days1: null,
             halfDay: this.props.data.leave_days,
+            halfTime: this.props.data.half_time,
+            showRadio: this.props.data.leave_days === 0.5 ? true : false,
             childDeliveryDate: '',
             holidays: 0
         }
@@ -254,9 +256,27 @@ class LeaveManagementEdit extends Component {
     }
 
     onChangeWork(event) {
+        const data = event.target.value;
+        if(data === "0.5" || data === "AM" || data === "PM"){
+            this.setState({
+                halfDay: data,
+                showRadio: true,
+                halfTime: "AM"
+            });
+            return;
+        }
+        this.setState({
+            halfDay: data,
+            showRadio: false,
+            halfTime: ''
+        });
         this.setState({
             halfDay: event.target.value
         });
+    }
+
+    onChangeRadio(event) {
+        this.setState({ halfTime: event.target.value });
     }
 
     leaveDays(startDate, endDate) {
@@ -539,10 +559,12 @@ class LeaveManagementEdit extends Component {
         let leave_left = this.state.leaveDetail != null && this.state.leaveDetail[0].leave.filter(v => v.leave_category_id == parseInt(this.state.selectedCategory.value == undefined ? this.props.data.leave_category_id : this.state.selectedCategory.value))
         this.state.max_days = leave_left.length != 0 && leave_left[0] != undefined && leave_left[0].leave_quota - leave_left[0].leave_count
         return (
-            <div className="nl" style={{ display: 'flex', justifyContent: 'center' }}>
-                <ToastContainer />
+            <div className="nl" style={{ display: 'flex', justifyContent: 'center', height:'400px', overflowY: 'scroll' }}>
                 <div className="col-sm-12 white-bg mt20">
-                    <div className="form-horizontal" id="check_form">
+                    <div>
+                        <h2>Leave Management</h2>
+                    </div>
+                    <div className="form-horizontal" id="check_form" style={{ marginTop: 17 }}>
                         <div className="form-group"  >
                             <div><label className="col-sm-3" >Employee Name<span className="text-danger">*</span></label></div>
                             <div className="col-sm-8">
@@ -687,6 +709,15 @@ class LeaveManagementEdit extends Component {
                                     </div>
                                 </div> : ''
                         }
+                        {this.state.showRadio && (
+                                <div className="form-group">
+                                    <div><label className="col-sm-4">AM or PM<span className="text-danger">*</span></label> </div>
+                                    <div onChange={this.onChangeRadio.bind(this)} className="col-sm-8">
+                                        <input type="radio" value={"AM"} defaultChecked={this.state.halfTime == "AM" ? true : false}  name="halfDay" /> AM 
+                                        <input type="radio" value={"PM"} defaultChecked={this.state.halfTime == "PM" ? true : false} style={{marginLeft: 10}} name="halfDay" /> PM <br />
+                                    </div>
+                                </div>
+                        )}
                         <div className="form-group">
                             <div><label className="col-sm-4">Reason</label></div>
                             <div className="col-sm-8">

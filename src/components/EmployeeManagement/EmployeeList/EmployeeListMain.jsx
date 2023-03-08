@@ -36,10 +36,12 @@ class EmployeeListMain extends Component {
       selected_branch: null,
       selected_department: null,
       selected_designation: null,
+      selected_employee_name:null,
       selected_jobTitleList: null,
       selected_exit_status: null,
       branchlist: null,
       JobTitleList: null,
+      EmployeeNameList:[],
       // exitList: null,
       region: null,
       districtCodeList: null,
@@ -73,6 +75,7 @@ class EmployeeListMain extends Component {
     this.getDegreeList();
     this.getStatusList();
     this.getJobTitleList();
+    this.getEmployeeName();
     // this.getExitStatus();
     // this.getEmployeeList();
   }
@@ -281,6 +284,20 @@ class EmployeeListMain extends Component {
         });
       });
   }
+  getEmployeeName() {
+    fetch(`${main_url}report/employeeName`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        let lists = list.unshift({ value: 0, label: "All" });
+        this.setState({
+          EmployeeNameList: list.map((v) => ({
+            ...v
+          }))
+        })
+      })
+  }
   // getExitStatus(){
   //   fetch(`${main_url}main/`)
   //     .then((res) => {
@@ -330,6 +347,12 @@ class EmployeeListMain extends Component {
         selected_designation: event,
       });
   };
+  handleSelectedEmployeeName = (event) => {
+    if (event !== null)
+    this.setState({
+      selected_employee_name: event,
+    });
+  };
   handleSelectedstatus = (event) => {
     if (event !== null)
       this.setState({
@@ -363,13 +386,15 @@ class EmployeeListMain extends Component {
           ? this.state.selected_branch.value
           : 0}/${this.state.selected_designation
             ? this.state.selected_designation.value
-            : 0}/${this.state.selected_status
-              ? this.state.selected_status.value
-              : -1}/${this.state.selected_jobTitleList
-                ? this.state.selected_jobTitleList.value
-                : 0}/${this.state.selected_exit_status
-                  ? this.state.selected_exit_status.value
-                  : 0}`
+                : 0}/${this.state.selected_status
+                  ? this.state.selected_status.value
+                  : -1}/${this.state.selected_jobTitleList
+                    ? this.state.selected_jobTitleList.value
+                    : 0}/${this.state.selected_exit_status
+                      ? this.state.selected_exit_status.value
+                      : 0}/${this.state.selected_employee_name
+                        ? this.state.selected_employee_name.value
+                          : 0}`
     )
       .then((response) => {
         if (response.ok) return response.json();
@@ -407,10 +432,13 @@ class EmployeeListMain extends Component {
     const designId = this.state.selected_designation
       ? this.state.selected_designation.value
       : 0;
+    const employeeId = this.state.selected_employee_name
+      ? this.state.selected_employee_name.value
+      : 0;
     const statusId = this.state.selected_status
       ? this.state.selected_status.value
       : -1;
-    this.getEmployeeList(regionId, depId, branchId, designId, statusId);
+    this.getEmployeeList(regionId, depId, branchId, designId,employeeId, statusId);
   };
 
   goToViewForm = (data) => {
@@ -568,6 +596,20 @@ class EmployeeListMain extends Component {
                     classNamePrefix="react-select"
                   />
                 </div>
+                <div
+                    className="col-lg-2 col-md-3 col-sm-12"
+                    style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}
+                    >
+                        <div style={{ paddingBottom: 10 }}>Employee Name</div>
+
+                        <Select
+                            options={this.state.EmployeeNameList}
+                            value={this.state.selected_employee_name}
+                            onChange={this.handleSelectedEmployeeName.bind(this)}
+                            className="react-select-container checkValidate"
+                            classNamePrefix="react-select"
+                        />
+                    </div>
                 <div
                   className="col-lg-2 col-md-3 col-sm-12"
                   style={{ marginBottom: 10, paddingLeft: 20, paddingRight: 20 }}

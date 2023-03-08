@@ -5,9 +5,11 @@ import LeaveManagementView from './LeaveManagementView';
 import LeaveManagementEdit from './LeaveManagementEdit';
 import CancelLeaveEdit from './CancelLeaveEdit';
 import NewLeave from './NewLeave';
+import Rodal from "rodal";
 import LeaveReport from './LeaveReport';
 import LeaveBalance from './LeaveBalance';
 import CalculateEarnLeave from './CalculateEarnLeave'
+import { ToastContainer, toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 // import {LeaveView} from './LeaveView';
 const $ = require('jquery');
@@ -21,7 +23,6 @@ export default class LeaveManagementMain extends Component {
             leaveCategory: [],
             verifyBy: [],
             approvedBy: [],
-            isTable: true,
             // data: [],
             active_tab: 2, // 0 for myleave list, 1 for newmyleave, 2 for allleave list, 3 for new allleave, 4 for leave reprot, 5 for leave balance
             isHR: '',
@@ -71,7 +72,6 @@ export default class LeaveManagementMain extends Component {
             isAddNew: false,
             isEdit: false,
             isView: true,
-            isTable: false,
             isCancel: false
         })
     }
@@ -82,7 +82,6 @@ export default class LeaveManagementMain extends Component {
             isAddNew: false,
             isEdit: true,
             isView: false,
-            isTable: false,
             isCancel: false
         })
     }
@@ -93,9 +92,14 @@ export default class LeaveManagementMain extends Component {
             isAddNew: false,
             isEdit: false,
             isView: false,
-            isTable: false,
             isCancel: true
         })
+    }
+    hideEdit() {
+        this.setState({ isEdit: false});
+    }
+    hideView() {
+        this.setState({ isView: false});
     }
 
 
@@ -104,7 +108,7 @@ export default class LeaveManagementMain extends Component {
         let { active_tab } = this.state;
         return (
             <div>
-                {this.state.isTable ?
+                  <ToastContainer />
                     <div className="row wrapper border-bottom white-bg page-heading">
                         <div className="col-lg-10">
                             
@@ -114,18 +118,7 @@ export default class LeaveManagementMain extends Component {
                                 }</li>
                             </ol>
                         </div>
-                    </div> :
-                    <div className="row wrapper border-bottom white-bg page-heading">
-                        <div className="col-lg-10">
-                            <h2>HR Management System</h2>
-                            <ol className="breadcrumb">
-                                <li>Leave Management</li>
-                            </ol>
-                        </div>
-                        <div className="col-lg-2" style={{ marginTop: '2%' }}>
-                            <a href={window.location.pathname} className="btn btn-primary" >Back To List</a>
-                        </div>
-                    </div>}
+                    </div>
                 <div className="row mt20">
                     
                     <div className="col-sm-12" style={{ paddingRight: '20px' }}>
@@ -152,11 +145,26 @@ export default class LeaveManagementMain extends Component {
                                         </ul> : active_tab === 5 ? '' : active_tab === 6 ? ''  : '')
                             }
                             {
-                                this.state.isView ? <LeaveManagementView data={this.state.data} /> : ''
+                                this.state.isView ?
+                                <Rodal
+                                width={800}
+                                height={500}
+                                visible={this.state.isView}
+                                onClose={this.hideView.bind(this)}>
+                                    <LeaveManagementView data={this.state.data} />
+                                </Rodal>: ''
                             }
 
                             {
-                                this.state.isEdit ? <LeaveManagementEdit data={this.state.data} /> : ''
+                                this.state.isEdit ?
+                                <Rodal
+                                width={800}
+                                height={500}
+                                visible={this.state.isEdit}
+                                onClose={this.hideEdit.bind(this)}
+                              >
+                                    <LeaveManagementEdit data={this.state.data}/>
+                                </Rodal>: ''
                             }
 
                             {

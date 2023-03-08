@@ -30,6 +30,8 @@ export default class NewLeave extends Component {
             reason: '',
             attachment: '',
             halfDay: 1.0,
+            halfTime: '',
+            showRadio: false,
             leaveDetail: null,
             user_id: getUserId("user_info"),
             leave_days1: 0,
@@ -258,9 +260,24 @@ export default class NewLeave extends Component {
         })
     }
     onChangeWork(event) {
+        const data = event.target.value;
+        if(data === "0.5" || data === "AM" || data === "PM"){
+            this.setState({
+                halfDay: data,
+                showRadio: true,
+                halfTime: "AM"
+            });
+            return;
+        }
         this.setState({
-            halfDay: event.target.value
+            halfDay: data,
+            showRadio: false,
+            halfTime: ''
         });
+    }
+
+    onChangeRadio(event) {
+        this.setState({ halfTime: event.target.value });
     }
 
     save() {
@@ -290,6 +307,7 @@ export default class NewLeave extends Component {
                         leave_end_date: this.state.endDate,
                         leave_category_id: this.state.selectedCategory.value,
                         leave_days: moment.utc(this.state.startDate).format("YYYY-MM-DD") === moment.utc(this.state.endDate).format("YYYY-MM-DD") ? this.state.halfDay : this.state.leave_days1,
+                        halfTime: this.state.halfTime,
                         reason: this.state.reason,
                         verifyBy: this.state.selectedVerifyBy.value,
                         approvedBy: this.state.selectedApproveBy.value,
@@ -462,6 +480,15 @@ export default class NewLeave extends Component {
                                     </div>
                                 </div> : ''
                         }
+                        {this.state.showRadio && (
+                                <div className="form-group">
+                                    <div><label className="col-sm-4">AM or PM<span className="text-danger">*</span></label> </div>
+                                    <div onChange={this.onChangeRadio.bind(this)} className="col-sm-8">
+                                        <input type="radio" value={"AM"} defaultChecked={true}  name="halfDay" /> AM 
+                                        <input type="radio" value={"PM"} style={{marginLeft: 10}} name="halfDay" /> PM <br />
+                                    </div>
+                                </div>
+                        )}
                         <div className="form-group"  >
                             <div><label className="col-sm-4" >Leave Days<span className="text-danger">*</span></label></div>
                             <div className="col-sm-8">

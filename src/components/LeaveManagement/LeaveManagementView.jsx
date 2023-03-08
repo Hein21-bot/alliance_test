@@ -72,9 +72,12 @@ class LeaveManagementView extends Component {
         let leave_left = this.state.leaveDetail != null && this.state.leaveDetail[0].leave.filter(v => v.leave_category_id == this.props.data.leave_category_id)
         this.state.max_days = leave_left.length != 0 && leave_left[0] != undefined && leave_left[0].leave_quota - leave_left[0].leave_count
         return (
-            <div className="white-bg" style={{ display: 'flex', justifyContent: 'center' }}>
-                <ToastContainer />
+            <div className="white-bg" style={{ display: 'flex', justifyContent: 'center',height:'400px', overflowY: 'scroll' }}>
+                {/* <ToastContainer /> */}
                 <div className="col-sm-8 white-bg mt20">
+                    <div>
+                        <h2>Leave Management View</h2>
+                    </div>
                     <div className="form-horizontal white-bg" id="check_form">
                         <div className="form-group"  >
                             <div><label className="col-sm-4" >Employee Name<span className="text-danger">*</span></label></div>
@@ -170,6 +173,14 @@ class LeaveManagementView extends Component {
                                 <input type='text' className='form-control' value={this.props.data.leave_days} disabled />
                             </div>
                         </div>
+                        {this.props.data.leave_days === 0.5 ?
+                            <div className="form-group">
+                                <div><label className="col-sm-4">AM or PM<span className="text-danger">*</span></label> </div>
+                                <div className="col-sm-8 ">
+                                    <input type='text' className='form-control' value={this.props.data.half_time} disabled />
+                                </div>
+                            </div> : " "
+                        }
                         <div className="form-group">
                             <div><label className="col-sm-4">Reason</label></div>
                             <div className="col-sm-8">
