@@ -500,6 +500,13 @@ class LeaveManagementEdit extends Component {
         }
     }
 
+    disableAction(){
+        if(this.state.data.user_id == this.state.user_info.user_id && (this.state.startDate != '' ? moment.utc(this.state.startDate).format("YYYY-MM-DD") == moment.utc(this.state.endDate).format("YYYY-MM-DD") : this.props.data.leave_start_date == this.props.data.leave_end_date)){
+            return false;
+        }
+        return true;
+    }
+
     save() {
         let user_id = 0;
 
@@ -713,8 +720,8 @@ class LeaveManagementEdit extends Component {
                                 <div className="form-group">
                                     <div><label className="col-sm-4">AM or PM<span className="text-danger">*</span></label> </div>
                                     <div onChange={this.onChangeRadio.bind(this)} className="col-sm-8">
-                                        <input type="radio" value={"AM"} defaultChecked={this.state.halfTime == "AM" ? true : false}  name="halfDay" /> AM 
-                                        <input type="radio" value={"PM"} defaultChecked={this.state.halfTime == "PM" ? true : false} style={{marginLeft: 10}} name="halfDay" /> PM <br />
+                                        <input type="radio" value={"AM"} defaultChecked={this.state.halfTime == "AM" ? true : false}  name="halfDay" disabled={this.disableAction()} /> AM
+                                        <input type="radio" value={"PM"} defaultChecked={this.state.halfTime == "PM" ? true : false} style={{marginLeft: 10}} name="halfDay" disabled={this.disableAction()} /> PM <br />
                                     </div>
                                 </div>
                         )}
