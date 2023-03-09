@@ -173,7 +173,7 @@ class LeaveManagementView extends Component {
                                 <input type='text' className='form-control' value={this.props.data.leave_days} disabled />
                             </div>
                         </div>
-                        {this.props.data.leave_days === 0.5 ?
+                        {this.props.data.leave_days === 0.5 && this.props.data.half_time ?
                             <div className="form-group">
                                 <div><label className="col-sm-4">AM or PM<span className="text-danger">*</span></label> </div>
                                 <div className="col-sm-8 ">
