@@ -29,6 +29,7 @@ class LoanSettlement extends Component {
             var table;
             var l = [];
             var status;
+            if(data != undefined){
             for (var i = 0; i < data.length; i++) {
               let result = data[i];
               let obj = [];
@@ -40,6 +41,7 @@ class LoanSettlement extends Component {
                 loanbalance: data[i].loanBalance ? data[i].loanBalance :'-',
               };
               l.push(obj);}
+            }
               
             if ($.fn.dataTable.isDataTable("#dataTables-table")) {
               table = $("#dataTables-table").dataTable();
@@ -91,7 +93,7 @@ class LoanSettlement extends Component {
     render(){ console.log(this.props.dataSource[0]);
         return(
             <div style={{display:'flex',justifyContent:'center'}}>
-            <div className='col-lg-6 col-md-8 col-sm-12' style={{ background: 'white',marginTop:30,border:"1px solid grey " }}>
+            <div className='col-lg-6 col-md-8 col-sm-12' style={{ background: 'white',marginTop:30,border:"1px solid grey ",marginBottom: "90px" }}>
    
             <div className="" style={{display:'flex',justifyContent:'center', background: '#1872ab',marginTop:20}}><h2 style={{color:"white",marginTop:10,fontSize:18,fontWeight:"bold"}}>Loan Settlement</h2>
             </div>

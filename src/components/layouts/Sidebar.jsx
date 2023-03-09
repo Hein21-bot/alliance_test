@@ -1297,7 +1297,7 @@ export default class Sidebar extends Component {
                 <ul className="nav nav-second-level collapse">
                   <li className={pathname === "/staff_loan" ? "active" : ""}>
                     <a href="/staff_loan">
-                      <i className="fas fa-clipboard-list"></i>
+                      {/* <i className="fas fa-clipboard-list"></i> */}
                       Staff Loan List
                     </a>
                   </li>
@@ -1306,8 +1306,8 @@ export default class Sidebar extends Component {
 
                     className={pathname === "/staff_loan_approve" ? "active" : ""}>
                     <a href="/staff_loan_approve">
-                      <i className="fas fa-clipboard-list"></i>
-                      Staff Loan Apporve
+                      {/* <i className="fas fa-clipboard-list"></i>s */}
+                      Staff Loan Approve
                     </a>
                   </li>
                   <li
@@ -1328,6 +1328,14 @@ export default class Sidebar extends Component {
                       Staff Loan After Committee Report
                     </a>
                   </li>
+                  {/* <li
+               style={{ display: (this.state.isHR || this.state.user.user_id == 1467 ? 'block' : 'none') }}
+
+                   className={pathname === "/staff_loan_summary_report" ? "active" : ""}>
+                    <a href="/staff_loan_summary_report">
+                      Staff Loan Summary Report
+                    </a>
+                  </li> */}
                   
                 </ul>
               </li> 
