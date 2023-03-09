@@ -520,6 +520,7 @@ class LeaveManagementEdit extends Component {
                 leave_end_date: this.state.endDate == '' ? this.props.data.leave_end_date : moment(this.state.endDate).format('YYYY-MM-DD'),
                 leave_category_id: this.state.selectedCategory.value == undefined ? this.props.data.leave_category_id : this.state.selectedCategory.value,
                 leave_days: leave_days == 1 || leave_days == 0 ? this.state.halfDay : (this.state.leave_days1 == null ? parseFloat(this.props.data.leave_days) : (this.state.leave_days1 == 0 ? this.state.halfDay : this.state.leave_days1 - this.state.holidays)),
+                half_time: this.state.halfTime,
                 reason: this.state.reason == '' ? this.state.data.reason : this.state.reason,
                 verifyBy: this.state.selectedVerifyBy.length == 0 ? this.state.data.verifyBy : this.state.selectedVerifyBy.value,
                 approvedBy: this.state.selectedApproveBy.length == 0 ? this.state.data.approve_by : this.state.selectedApproveBy.value,
@@ -720,8 +721,8 @@ class LeaveManagementEdit extends Component {
                                 <div className="form-group">
                                     <div><label className="col-sm-4">AM or PM<span className="text-danger">*</span></label> </div>
                                     <div onChange={this.onChangeRadio.bind(this)} className="col-sm-8">
-                                        <input type="radio" value={"AM"} defaultChecked={this.state.halfTime == "AM" ? true : false}  name="halfDay" disabled={this.disableAction()} /> AM
-                                        <input type="radio" value={"PM"} defaultChecked={this.state.halfTime == "PM" ? true : false} style={{marginLeft: 10}} name="halfDay" disabled={this.disableAction()} /> PM <br />
+                                        <input type="radio" value={"AM"} defaultChecked={this.state.halfTime == "AM" ? true : false}  name="halfDay" disabled={this.disableAction()} /> AM <br/>
+                                        <input type="radio" value={"PM"} defaultChecked={this.state.halfTime == "PM" ? true : false}  name="halfDay" disabled={this.disableAction()} /> PM
                                     </div>
                                 </div>
                         )}
