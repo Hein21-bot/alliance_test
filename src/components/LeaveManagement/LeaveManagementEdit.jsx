@@ -567,14 +567,14 @@ class LeaveManagementEdit extends Component {
         let leave_left = this.state.leaveDetail != null && this.state.leaveDetail[0].leave.filter(v => v.leave_category_id == parseInt(this.state.selectedCategory.value == undefined ? this.props.data.leave_category_id : this.state.selectedCategory.value))
         this.state.max_days = leave_left.length != 0 && leave_left[0] != undefined && leave_left[0].leave_quota - leave_left[0].leave_count
         return (
-            <div className="nl" style={{ display: 'flex', justifyContent: 'center', height:'400px', overflowY: 'scroll' }}>
+            <div className="nl" style={{ display: 'flex', justifyContent: 'center', height:'500px', overflowY: 'scroll' }}>
                 <div className="col-sm-12 white-bg mt20">
-                    <div>
-                        <h2>Leave Management</h2>
+                    <div className="bg-primary" style={{padding: '5px', marginBottom:'20px'}}>
+                        <p style={{fontSize:'20px',fontWeight:'bold'}}>Leave Request</p>
                     </div>
-                    <div className="form-horizontal" id="check_form" style={{ marginTop: 17 }}>
+                    <div className="form-horizontal" id="check_form" style={{ marginTop: 17 ,paddingLeft:'20px',paddingRight:'20px'}}>
                         <div className="form-group"  >
-                            <div><label className="col-sm-3" >Employee Name<span className="text-danger">*</span></label></div>
+                            <div><label className="col-sm-4" >Employee Name<span className="text-danger">*</span></label></div>
                             <div className="col-sm-8">
                                 {
                                     <input type='text' className='form-control' value={this.props.data.fullname} disabled />

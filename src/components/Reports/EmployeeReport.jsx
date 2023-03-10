@@ -249,7 +249,7 @@ class EmployeeReport extends Component {
           designation: data[i].designations ? data[i].designations : "-",
           employee_date:data[i].employ_date == null ? "-": moment(data[i].employ_date).format("YYYY-MM-DD"),
           region: data[i].region_name ? data[i].region_name : "-",
-          martial_status: data[i].martial_status ? data[i].martial_status : '-',
+          martial_status: data[i].maratial_status ? data[i].maratial_status : '-',
           contact_person: data[i].contact_person ? data[i].contact_person : '-',
           contact_phone: data[i].contact_person_phone ? data[i].contact_person_phone : "-",
           guarantee_contact_person: data[i].guarantee_person ? data[i].guarantee_person : '-',

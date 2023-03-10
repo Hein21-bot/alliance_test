@@ -1328,14 +1328,14 @@ export default class Sidebar extends Component {
                       Staff Loan After Committee Report
                     </a>
                   </li>
-                  {/* <li
+                  <li
                style={{ display: (this.state.isHR || this.state.user.user_id == 1467 ? 'block' : 'none') }}
 
                    className={pathname === "/staff_loan_summary_report" ? "active" : ""}>
                     <a href="/staff_loan_summary_report">
                       Staff Loan Summary Report
                     </a>
-                  </li> */}
+                  </li>
                   
                 </ul>
               </li> 
