@@ -34,9 +34,9 @@ class AttendanceReportMonthly extends Component {
             attendance_type: 0,
             attendance_status: 0,
             attendance_att_type: 0,
-            attendance_reason:'',
             status: 0,
             EmployeeNameList:[],
+            AttendanceReasonList:[],
             regionList: [],
             departmentlist: [],
             branchlist: [],
@@ -59,6 +59,7 @@ class AttendanceReportMonthly extends Component {
             }],
             selected_region: null,
             selected_department: null,
+            selected_attendance_reason:null,
             selected_branch: null,
             selected_att_type: null,
             selected_att_status: null,
@@ -74,6 +75,7 @@ class AttendanceReportMonthly extends Component {
         this.getBranchList()
         this.getAttendanceTypeList()
         this.getAttendanceStatusList()
+        this.getAttendanceReasonList()
         this.handleSearchData()
         this.getEmployeeName();
 
@@ -167,6 +169,22 @@ class AttendanceReportMonthly extends Component {
             });
     }
 
+    getAttendanceReasonList() {
+        fetch(`${main_url}attendance/fieldAttendanceReason`)
+            .then((res) => {
+                if (res.ok) return res.json();
+            })
+            .then((list) => {
+                let lists = list.unshift({ value: 0, label: 'All' })
+                this.setState({
+                    AttendanceReasonList: list.map((v) => ({
+                        ...v,
+
+                    })),
+                },()=>{console.log("att Reason list",this.state.AttendanceReasonList)});
+            });
+    }
+
     handleSelectedRegion = (event) => {
         if (event !== null)
             this.setState({
@@ -226,13 +244,11 @@ class AttendanceReportMonthly extends Component {
                 selected_status: event,
             });
     };
-    handleRAttReason=(event)=>{
-        if(event !=null){
-            this.setState({
-                attendance_reason:event.target.value
-            })
-        }
-    }
+    handleSelectedAttendanceReason=async(event)=>{
+        this.setState({
+          selected_attendance_reason:event
+        })
+      }
 
     // async attendanceReport() {
     //     let start_date = moment(this.state.s_date).format('YYYY-MM-DD')
@@ -257,7 +273,7 @@ class AttendanceReportMonthly extends Component {
         let attendance_status = this.state.selected_att_status ? this.state.selected_att_status.value : 0
         let attendance_att_type =  this.state.selected_att_type ? this.state.selected_att_type.value :0
         let status = this.state.selected_status ? this.state.selected_status.value : -1
-        let attendance_reason=this.state.attendance_reason ? this.state.attendance_reason : 0
+        let attendance_reason= this.state.selected_attendance_reason ? this.state.selected_attendance_reason.value : 0
          fetch(`${main_url}attendance/attendanceReport/${this.state.user_id}/${region}/${branch}/${department}/${user_id}/${attendance_att_type}/${attendance_status}/${attendance_reason}/${status}/${start_date}/${end_date}`)
         .then((res) => {
             if (res.ok) return res.json();
@@ -533,7 +549,13 @@ class AttendanceReportMonthly extends Component {
                         <div style={{ paddingBottom: 10 }}>
                             Attendance Reason
                         </div>
-                        <input type="text" className="form-control" onChange={this.handleRAttReason.bind(this)} value={this.state.attendance_reason}/>
+                        <Select
+                            options={this.state.AttendanceReasonList}
+                            onChange={this.handleSelectedAttendanceReason}
+                            value={this.state.selected_attendance_reason}
+                            className="react-select-container checkValidate"
+                            classNamePrefix="react-select"
+                        />
                     </div>
                     
 

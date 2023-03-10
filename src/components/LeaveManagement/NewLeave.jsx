@@ -484,8 +484,8 @@ export default class NewLeave extends Component {
                                 <div className="form-group">
                                     <div><label className="col-sm-4">AM or PM<span className="text-danger">*</span></label> </div>
                                     <div onChange={this.onChangeRadio.bind(this)} className="col-sm-8">
-                                        <input type="radio" value={"AM"} defaultChecked={true}  name="halfDay" /> AM 
-                                        <input type="radio" value={"PM"} style={{marginLeft: 10}} name="halfDay" /> PM <br />
+                                        <input type="radio" value={"AM"} defaultChecked={true}  name="halfDay" /> AM <br />
+                                        <input type="radio" value={"PM"}  name="halfDay" /> PM
                                     </div>
                                 </div>
                         )}

@@ -148,10 +148,18 @@ export default class LeaveManagementMain extends Component {
                                 this.state.isView ?
                                 <Rodal
                                 width={800}
-                                height={500}
+                                height={613}
                                 visible={this.state.isView}
                                 onClose={this.hideView.bind(this)}>
                                     <LeaveManagementView data={this.state.data} />
+                                    <div style={{float: 'right', paddingRight: '14px', paddingTop:'10px'}}>
+                                        <button
+                                        className="btn btn-danger"
+                                        onClick={() => this.hideView()}
+                                        >
+                                        <span>Cancel</span>{" "}
+                                        </button>
+                                    </div>
                                 </Rodal>: ''
                             }
 
@@ -159,7 +167,7 @@ export default class LeaveManagementMain extends Component {
                                 this.state.isEdit ?
                                 <Rodal
                                 width={800}
-                                height={500}
+                                height={613}
                                 visible={this.state.isEdit}
                                 onClose={this.hideEdit.bind(this)}
                               >

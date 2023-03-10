@@ -148,6 +148,7 @@ import Department from './MasterData/Departments/Department';
 import StaffLoanBeforeComit from './payroll/PayrollReports/StaffLoanBeforeComit';
 import StaffLoanAfterComit from './payroll/PayrollReports/StaffLoanAfterComit';
 import StaffLoanApprove from './StaffLoan/StaffLoanApprove';
+import StaffLoanSummaryReport from './StaffLoan Report/StaffLoanSummaryReport';
 import HrStatistics from './Reports/HrStatistics';
 
 
@@ -303,6 +304,7 @@ const Main = () => (
         <Route path='/staff_loan_before_committee' component={StaffLoanBeforeComit} ></Route>
         <Route path='/staff_loan_after_committee' component={StaffLoanAfterComit} ></Route>
         <Route path='/staff_loan_approve' component={StaffLoanApprove} ></Route>
+        <Route path='/staff_loan_summary_report' component={StaffLoanSummaryReport} ></Route>
         <Route path='/hr_statistic' component={HrStatistics} ></Route>
 
         

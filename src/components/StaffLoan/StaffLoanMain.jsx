@@ -130,7 +130,7 @@ class StaffLoanMain extends Component {
     });
   };
   goToReportForm = (data) => {
-    fetch(main_url + "staff_loan_new/settleMentSheet/17")
+    fetch(main_url + `staff_loan_new/settleMentSheet/${data.staff_loan_id}`)
     .then(res => {
        return  res.json()
   })

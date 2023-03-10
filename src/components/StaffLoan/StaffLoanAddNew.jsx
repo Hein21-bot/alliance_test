@@ -2225,7 +2225,7 @@ class StaffLoanAddNew extends Component {
                 </div>
                 <div className="col-md-12">
                   <input
-                    type="float"
+                    type="number"
                     className="form-control"
                     // disabled
                     onChange={this.familyIncome}
@@ -2243,7 +2243,7 @@ class StaffLoanAddNew extends Component {
                 </div>
                 <div className="col-md-12">
                   <input
-                    type="number"
+                    type="text"
                     className="form-control"
                     // disabled
                     onChange={this.familyPhone}
