@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { main_url,getMonthName} from "../../../utils/CommonFunction";
+import { main_url,getMonthName,getFirstDayOfMonth} from "../../../utils/CommonFunction";
 import DatePicker from "react-datetime";
 import Select from "react-select";
 import moment from "moment";
@@ -14,8 +14,8 @@ class StaffLoanAfterComit extends Component {
     super(props);
     this.state = {
     dataSource:[],
-    start_date:new Date(),
-    end_date:new Date(),
+    start_date: moment(getFirstDayOfMonth()),
+    end_date: moment(),
     selected_Branch:'',
     selected_department:'',
     selected_designation:'',
