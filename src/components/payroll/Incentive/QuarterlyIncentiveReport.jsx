@@ -333,7 +333,20 @@ class QuarterlyIncentiveReport extends Component {
                     })
                 }  
             </tbody>
-          </table></div></div>):(
+          </table>
+          <div style={{width:"100%",display:'flex',justifyContent:'end'}}>
+              <div className='col-lg-4'>
+                <table className="table "style={{overflow:'scroll',  border:'1px solid #c1c1c1',marginBottom:0}}>
+                  <thead>
+                    <tr style={{overflow:'scroll',border:'1px solid #c1c1c1' }}>
+                                <td style={{textAlign:'center',width:100,border:'1px solid #c1c1c1',fontWeight:'bold'}} colSpan={2}> Total</td>
+                                <td style={{textAlign:'center',width:100,border:'1px solid #c1c1c1'}} colSpan={2}>{this.state.data ? this.state.data.reduce((a,c)=>{return a+c.total_incentive},0).toLocaleString('en-US',{maximumFractionDigits:2}) : '-'}</td>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div >
+          </div></div>):(
              <div>
              <div >
              <ReactHTMLTableToExcel 
