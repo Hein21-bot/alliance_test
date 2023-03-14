@@ -610,7 +610,7 @@ class HospitalizationAddNew extends Component {
                                 <div className="col-sm-10">
                                     <input className="form-control checkValidate"
                                         type="number" value={this.state.request_amount}
-                                        onChange={this.handleRequest} disabled={this.state.status == 2 || this.state.status == -1 ? false : true} />
+                                        onChange={this.handleRequest} disabled={this.state.status == 2 || this.state.status == -1 || this.state.status == 5 ? false : true} />
                                 </div>
                             </div>
 
