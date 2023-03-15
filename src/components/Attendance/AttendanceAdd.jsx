@@ -212,7 +212,7 @@ this.setState({
         longtitude:this.state.longi,
         fieldCheckIn: true,
         fieldLocation:this.state.fieldLocation,
-        fieldReason:this.state.reason.value,
+        fieldReason:this.state.reason.label,
         fieldRemark:this.state.fieldRemark,
       }
     };
@@ -246,7 +246,7 @@ this.setState({
           longtitude:this.state.longi,
           fieldCheckOut: true,
           fieldCheckOutLocation:this.state.fieldLocation,
-          fieldCheckOutReason:this.state.reason.value,
+          fieldCheckOutReason:this.state.reason.label,
           fieldCheckOutRemark:this.state.fieldRemark,
         }
       };
@@ -351,7 +351,7 @@ switch (typeOne){
         longtitude:this.state.longi,
         fieldCheckOut: true,
         fieldCheckOutLocation:this.state.fieldLocation,
-        fieldCheckOutReason:this.state.reason.value,
+        fieldCheckOutReason:this.state.reason.label,
         fieldCheckOutRemark:this.state.fieldRemark,
       }
     };
@@ -448,18 +448,16 @@ this.setState({ modal: false,latti:'',longi:'',showReason:false,missAtt:false })
           <ToastContainer/>
            { this.state.modal ? 
         <div>
-        <Rodal width={300} height={200} visible={this.state.modal} onClose={this.hide.bind(this)} padding={20}>
-                    <div className="col-md-12 "><h4>Attendance</h4>
+        <Rodal width={400} height={255} visible={this.state.modal} onClose={this.hide.bind(this)} padding={20}>
+                  <div className="col-md-12 bg-primary mt20" style={{padding: '5px', marginBottom:'20px'}}>
+                        <p style={{fontSize:'20px',fontWeight:'bold'}}>Attendance</p>
                     </div>
-                    <div className="col-md-12" style={{ marginTop: 30 }}>
+                    <div className="col-md-12">
                       <p>{this.state.message}</p>
-                      <div className="col-lg-6 col-md-6 col-sm-6 " style={{display:'flex',justifyContent:'center'}}>
-                      <button className="btn btn-danger" onClick={()=>this.hide(1)}><span>No</span> </button>
-                      </div>
-                      <div className=" col-lg-6 col-md-6 col-sm-6 " style={{display:'flex',justifyContent:'center'}}>
-                     
-                      <button className="btn btn-primary" onClick={this.show.bind(this)}><span>Yes</span> </button>
-                      
+                      <div className="col-lg-12 col-md-12 col-sm-12 " style={{marginTop: '20px'}}>
+                      <button className="col-lg-4 col-md-4 col-sm-4 btn btn-danger" onClick={()=>this.hide(1)}><span>No</span> </button>
+                      <div className="col-lg-4 col-md-4 col-sm-4"></div>
+                      <button className="col-lg-4 col-md-4 col-sm-4 btn btn-primary" onClick={this.show.bind(this)}><span>Yes</span> </button>
                       </div>
                        
                     </div>
