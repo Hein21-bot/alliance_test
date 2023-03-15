@@ -78,9 +78,23 @@ this.setState({
       function error(err) {
         alert(`ERROR(${err.code}): ${err.message}`);
       }
-     
-      navigator.geolocation.getCurrentPosition(this.success.bind(this), error, options);
-   
+      if(window.location.protocol !== 'https:'){
+        console.log('http');
+        navigator.geolocation.getCurrentPosition(this.success.bind(this), error, options);
+      }else{
+        console.log('https');
+        fetch(`http://ip-api.com/json`)
+        .then(response => {
+          return response.json();
+        }).then(res =>{
+          this.setState({
+            latti:res.lat,
+            longi: res.lon
+          })
+        }).catch(err =>{
+          console.log('error',err);
+        })
+      }
    }
    handleChechIn(){
     if(this.state.latti === '' || this.state.longi === ''){
