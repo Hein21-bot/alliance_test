@@ -78,11 +78,11 @@ this.setState({
       function error(err) {
         alert(`ERROR(${err.code}): ${err.message}`);
       }
-      if(window.location.protocol !== 'https:'){
-        console.log('http');
+      if(window.location.protocol !== 'http:'){
+        console.log('https');
         navigator.geolocation.getCurrentPosition(this.success.bind(this), error, options);
       }else{
-        console.log('https');
+        console.log('http');
         fetch(`http://ip-api.com/json`)
         .then(response => {
           return response.json();
