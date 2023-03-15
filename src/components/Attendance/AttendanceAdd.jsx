@@ -448,16 +448,19 @@ this.setState({ modal: false,latti:'',longi:'',showReason:false,missAtt:false })
           <ToastContainer/>
            { this.state.modal ? 
         <div>
-        <Rodal width={400} height={255} visible={this.state.modal} onClose={this.hide.bind(this)} padding={20}>
-                  <div className="col-md-12 bg-primary mt20" style={{padding: '5px', marginBottom:'20px'}}>
-                        <p style={{fontSize:'20px',fontWeight:'bold'}}>Attendance</p>
+        <Rodal width={400} height={223} visible={this.state.modal} onClose={this.hide.bind(this)} padding={20}>
+                  <div className="col-md-12 mt20">
+                        <p style={{fontSize:'20px',fontWeight:'bold',textAlign:'center'}}>Attendance</p>
                     </div>
                     <div className="col-md-12">
                       <p>{this.state.message}</p>
                       <div className="col-lg-12 col-md-12 col-sm-12 " style={{marginTop: '20px'}}>
-                      <button className="col-lg-4 col-md-4 col-sm-4 btn btn-danger" onClick={()=>this.hide(1)}><span>No</span> </button>
-                      <div className="col-lg-4 col-md-4 col-sm-4"></div>
-                      <button className="col-lg-4 col-md-4 col-sm-4 btn btn-primary" onClick={this.show.bind(this)}><span>Yes</span> </button>
+                      <div className="col-lg-2 col-md-2 col-sm-2"></div>
+                      <div className="col-lg-8 col-md-8 col-sm-8" style={{display:'flex',justifyContent:'space-evenly'}}>
+                      <button className="btn btn-danger" onClick={()=>this.hide(1)}><span>Cancel</span> </button>
+                      <button className="btn btn-primary" onClick={this.show.bind(this)}><span>ok</span> </button>
+                      </div>
+                      <div className="col-lg-2 col-md-2 col-sm-2"></div>
                       </div>
                        
                     </div>
