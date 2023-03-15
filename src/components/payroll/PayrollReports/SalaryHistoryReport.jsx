@@ -497,10 +497,9 @@ class SalaryHistoryReport extends Component {
         </table> </div>
         </div>
         )}
+        <div className="table-responsive" style={{ overflowX: 'scroll', width:1000}}>
         <table
             className="table table-bordered"
-           
-            style={{ overflow: "scroll" ,minWidth:600}}
           >
             <thead>
               <tr
@@ -557,6 +556,7 @@ class SalaryHistoryReport extends Component {
               </tr>
             </tbody>
           </table>
+        </div>
 </table>
 
   </div>
