@@ -21,7 +21,9 @@ export default class LeaveReport extends Component {
             selected_department_value: 0,
             selected_location_value: 0,
             selected_region_value: 0,
-            selected_user_value: 0
+            selected_user_value: 0,
+            selected_exit_status: null,
+            exitList: [{ label: 'Active', value: 0 }, { label: 'Exit', value: 1 }]
         }
     }
 
@@ -103,6 +105,13 @@ export default class LeaveReport extends Component {
             })
     };
 
+    handleSelectedExitStatus = (event) => {
+        if (event !== null)
+          this.setState({
+            selected_exit_status: event,
+          });
+      }
+
     componentDidMount() {
         this.getBranchList();
         this.getDepartmentList();
@@ -119,7 +128,7 @@ export default class LeaveReport extends Component {
                 let pagination = this.state.pagination;
                 let all = this.state.all;
                 let report = this.state.report;
-                fetch(`${main_url}leave/getLeaveReport/${year}/${this.state.pagination}/${this.state.selected_location_value}/${this.state.selected_department_value}/${this.state.selected_region_value}/${this.state.selected_user_value}`)
+                fetch(`${main_url}leave/getLeaveReport/${year}/${this.state.pagination}/${this.state.selected_location_value}/${this.state.selected_department_value}/${this.state.selected_region_value}/${this.state.selected_user_value}/${this.state.selected_exit_status.value}`)
                     .then(res => res.json())
                     .then(data => {
 
@@ -327,6 +336,19 @@ export default class LeaveReport extends Component {
                                     placeholder="Please Choose Department"
                                     onChange={this.handleSelectedUser.bind(this)}
                                     value={this.state.selected_user}
+                                    className='react-select-container'
+                                    classNamePrefix="react-select"
+                                />
+                            </div>
+                        </div>
+                        <div className="form-group col-md-6">
+                            <div><label htmlFor="employee-name" className="col-sm-12">Exit Status</label></div>
+                            <div className="col-sm-10">
+                                <Select
+                                    options={this.state.exitList}
+                                    value={this.state.selected_exit_status}
+                                    onChange={this.handleSelectedExitStatus.bind(this)}
+                                    placeholder="Please Choose Department"
                                     className='react-select-container'
                                     classNamePrefix="react-select"
                                 />

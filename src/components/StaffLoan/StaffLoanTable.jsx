@@ -17,7 +17,8 @@ import {
   fno,
   getFirstDayOfPrevMonth,
   getCookieData,
-  getPermissionStatus
+  getPermissionStatus,
+  getNumberWithCommas
 } from "../../utils/CommonFunction";
 const $ = require("jquery");
 const jzip = require("jzip");
@@ -334,7 +335,7 @@ getMyStaffLoan() {
         employee_name: data[i].fullname,
         position: data[i].designations ? data[i].designations : "-",
         branch: data[i].location_master_name  ?  data[i].location_master_name : '-',
-        request_amount:data[i].requested_amount ?  data[i].requested_amount : '-',
+        request_amount:data[i].requested_amount ?  getNumberWithCommas(data[i].requested_amount) : '-',
         
         date: result.createdAt
           ? moment(result.createdAt).format("DD-MM-YYYY")

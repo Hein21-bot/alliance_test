@@ -1281,10 +1281,10 @@ export default class Sidebar extends Component {
                   <span className="sideText">Staff Complain Box</span>
                 </a>
               </li>
-
+              
                <li
                 className={
-                  this.checkPathName() === "/staff_loan" || "/staff_loan_before_committee" || '/staff_loan_approve' || '/staff_loan_after_committee' ? "active" : ""
+                  this.checkPathName() === "/staff_loan" || this.checkPathName() === "/staff_loan_before_committee" || this.checkPathName() === '/staff_loan_approve' || this.checkPathName() === '/staff_loan_after_committee' ? "active" : ""
                 }
                 
                 //  style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Staff Loan") && sidebarPermission.filter(d => d.permission == "Staff Loan")[0].access == true ? 'block' : 'none') }}
