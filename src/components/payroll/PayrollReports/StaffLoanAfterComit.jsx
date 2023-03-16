@@ -320,7 +320,7 @@ class StaffLoanAfterComit extends Component {
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Customer Code</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Staff Loan Account</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Kant Kaw Account</th>
-                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Approve Loan Ammount</th>
+                    <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Approve Loan Amount</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Terms in Month</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Monthly Installment Amount</th>
                     <th style={{textAlign:'center',verticalAlign: "middle"}} rowSpan={2}>Approve or Not Approve</th>

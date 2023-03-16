@@ -502,7 +502,7 @@ this.setState({ modal: false,latti:'',longi:'',showReason:false,missAtt:false })
                 <h5 style={{margin:0}}>{this.state.reasonType} Location</h5>
                 </div>
                 <div className="col-lg-7 col-md-7 col-sm-7">
-                <input placeholder={this.state.fieldLocation} style={{height:35,borderRadius:5,border:'1px solid grey',width:200}} onChange={this.onchangeField.bind(this)}></input>
+                <textarea placeholder={this.state.fieldLocation} style={{height:80,borderRadius:5,border:'1px solid grey',width:200}} onChange={this.onchangeField.bind(this)} />
                 </div>
                 </div>
 
@@ -520,7 +520,7 @@ this.setState({ modal: false,latti:'',longi:'',showReason:false,missAtt:false })
                 <h5 style={{margin:0}}>{this.state.reasonType} Remark</h5>
                 </div>
                 <div className="col-lg-7 col-md-7 col-sm-7">
-                <input placeholder={this.state.fieldRemark} style={{height:35,borderRadius:5,border:'1px solid grey',width:200}} onChange={this.onchangeFieldRemark.bind(this)}></input>
+                <textarea pplaceholder={this.state.fieldRemark} style={{height:80,borderRadius:5,border:'1px solid grey',width:200}} onChange={this.onchangeFieldRemark.bind(this)} />
                 </div>
                 </div>
                 </div> </div>):(
@@ -542,9 +542,9 @@ this.setState({ modal: false,latti:'',longi:'',showReason:false,missAtt:false })
                   </div>
 
                  </div>
-              :  <div className="col-lg-12" style={{display:'flex',justifyContent:'center',marginTop:200,marginBottom:50}}>
-              <div className="col-lg-4 col-md-5 col-sm-7" style={{display:'flex',justifyContent:'space-evenly'}}>
-                 <button style={{height:35,backgroundColor:'#1872ab',border:'none',color:'#fff',borderRadius:5,width:72}} onClick={this.handleChechIn.bind(this)}>Check In</button>         
+              :  <div className="col-lg-12" style={{display:'flex',justifyContent:'right',marginTop:200,marginBottom:50}}>
+              <div className="col-lg-4 col-md-5 col-sm-7">
+                 <button style={{height:35,backgroundColor:'#1872ab',border:'none',color:'#fff',borderRadius:5,width:72, marginRight:10}} onClick={this.handleChechIn.bind(this)}>Check In</button>         
                  <button style={{height:35,backgroundColor:'#1872ab',border:'none',color:'#fff',borderRadius:5}} onClick={this.handleChechOut.bind(this)}>Check Out</button>
                    </div>
              </div>
