@@ -189,7 +189,7 @@ class HistoryReport extends Component {
                     department: data[i].deptname ? data[i].deptname : "-",
                     level: data[i].history.career_sub_level
                     ? data[i].history.career_sub_level : "-",
-                    employed_date: data[i].employ_date ? data[i].employ_date : "-",
+                    effective_date: data[i].effective_date ? moment(data[i].effective_date).format('YYYY-MM-DD') : "-",
                     // salary: this.state.salaryPermission.length > 0 ? (data[i].salary ? data[i].salary : this.state.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0] ? this.state.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0].basic_salary: ''
                     // : data[i].career_sub_level > 20 ? 'Not Available' : data[i].salary ? data[i].salary) : this.state.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0].basic_salary,
                     salary:data[i].career_sub_level > 20 ? 'Not Available' :this.state.salaryList.filter(v=>v.career_sub_level==data[i].history.career_sub_level_id) && this.state.salaryList.filter(v=>v.career_sub_level==data[i].history.career_sub_level_id)[0].basic_salary,
@@ -210,7 +210,7 @@ class HistoryReport extends Component {
             { title: "Location", data: "location" },
             { title: "Department", data: "department" },
             { title: "Level", data: "level" },
-            { title: "Employed Date/Promotion Date", data: "employed_date" },
+            { title: "Effective Date", data: "effective_date" },
             { title: "Salary", data: "salary" },
         ]
         table = $("#dataTables-table").DataTable({
@@ -434,7 +434,7 @@ class HistoryReport extends Component {
                                             <div className='col-lg-2 col-md-2 col-sm-2'>
                                                 :
                                             </div>
-                                            <div className='col-lg-5 col-md-5 col-sm-5'>{this.state.empProfile[0].service_year[0]}</div>
+                                            <div className='col-lg-5 col-md-5 col-sm-5'>{this.state.empProfile[0].service_year}</div>
                                         </div>
                                     </div>
                                     <div className='col-lg-6 col-md-6 col-sm-6' style={{}}>

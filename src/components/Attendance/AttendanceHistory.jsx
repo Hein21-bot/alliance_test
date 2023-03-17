@@ -25,7 +25,7 @@ class AttendanceHistory extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            s_date: moment(),
+            s_date: moment(getFirstDayOfMonth()),
             e_date: moment(),
             user_id: localStorage.getItem("user_id"),
             alternative: 0,
