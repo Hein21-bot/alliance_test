@@ -501,7 +501,7 @@ class HrStatistics extends Component {
                 <tr>
                   {
                     v.length > 0 && v.map(v1=>(
-                      <td>{(v1.HOCount == 'NaN%' || v1.HOCount == "Infinity%") ? '0%' : v1.HOCount}</td>
+                      <td>{(v1.HOCount == 'NaN%' || v1.HOCount == "Infinity%") ? '0' : v1.HOCount}</td>
                     ))
                   }
                 </tr>

@@ -187,7 +187,13 @@ export default class MonthlyIncentive extends Component {
         validate:1
       })
     }
-    if ( ((( this.state.searchData.length > 0  && this.state.searchData[0].generate !== 2 ) || (this.state.fxData.length > 0 && this.state.fxData[0].generate !== 2)) && (e == 1 || e == 0))||(e === 2 && this.state.validate === 1)) {
+    if ( 
+      (
+      (( this.state.searchData.length > 0  && this.state.searchData[0].generate !== 2 ) 
+    || (this.state.fxData.length > 0 && this.state.fxData[0].generate !== 2)) 
+    && (e == 1 || e == 0))
+    ||(e === 2 && this.state.validate === 1)) {
+      console.log("api======>")
       let status = 0;
       fetch(
         `${main_url}incentive/monthlyGenerate/${
@@ -222,9 +228,9 @@ export default class MonthlyIncentive extends Component {
     else if ((this.state.fxData.length === 0 && this.state.searchData.length === 0 ) && e === 1){
       toast.error("Please Choose Attachment File!");
     }
-    else {
-      toast.error("Already Calculated Pay Slip!");
-    }
+    // else {
+    //   toast.error("Already Calculated Pay Slip!");
+    // }
   };
 
   handleSearch = (e) => {
@@ -453,10 +459,12 @@ $('#search').keyup(function() {
 });
   };
 
-  async _setDataTable(data) {
+  async _setDataTable(compData) {
+    console.log("data in datatable",compData)
+    let data=compData.data
     var table;
     var l = [];
-    if (data.length > 0) {
+    if (data!=null && data.length > 0) {
       for (var i = 0; i < data.length; i++) {
         const index = i;
         const result = data[i];
@@ -640,7 +648,7 @@ $('#search').keyup(function() {
   //   });
   // };
 
-  render() { console.log('validate',this.state.fxData);
+  render() { console.log('validate',this.state.fxData.length <= 0 || (this.state.fxData.length > 0 && this.state.fxData[0].generate) === 2 ? 'false':'true');
     return (
       <div>
         <ToastContainer />
@@ -785,7 +793,7 @@ $('#search').keyup(function() {
                 className="table table-striped table-bordered table-hover responsive nowrap dt-responsive"
                 id="dataTables-Table-Fx"
               />
-              {this.state.fxData.length <= 0 || this.state.fxData[0].generate === 2 ? (''):(
+              {this.state.fxData.length <= 0 || (this.state.fxData.length > 0 && this.state.fxData[0].generate === 2) ? (''):(
                 <div style={{ display: "flex", justifyContent: "end" }}>
                   <div
                     className="col-lg-2"
