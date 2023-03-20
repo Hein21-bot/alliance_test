@@ -356,8 +356,8 @@ class EmployeeReport extends Component {
     const regionId = this.state.selected_region ? this.state.selected_region.state_id : 0
     const employee = this.state.selected_employee ? this.state.selected_employee.value : 0
     const jobTitle=this.state.selected_jobTitleList ? this.state.selected_jobTitleList.value : 0
-    const exitStatus=this.state.selected_exit_status ?  this.state.selected_exit_status.value : 0
-    const status=this.state.selected_status ?  this.state.selected_status.value : 0
+    const exitStatus=this.state.selected_exit_status ?  this.state.selected_exit_status.value : -1
+    const status=this.state.selected_status ?  this.state.selected_status.value : -1
     // })
 
     fetch(main_url + "report/employeeReport/" + regionId + "/" + departmentId + "/" + branchId + "/" + designationId + "/" + employee + '/' + jobTitle+ '/'+exitStatus+'/'+status)
