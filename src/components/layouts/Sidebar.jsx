@@ -802,9 +802,9 @@ export default class Sidebar extends Component {
               //      ) ? 'block' : "none"
               // }}
               //test
-              // style={{display:(this.state.isHR || this.state.user.user_id == 1467) ? 'block' : 'none'}}
+              style={{display:(this.state.isHR || this.state.user.user_id == 1467) ? 'block' : 'none'}}
               //live
-              style={{display:(this.state.isHR) ? 'block' : 'none'}}
+              // style={{display:(this.state.isHR) ? 'block' : 'none'}}
 
              >
                 <a href="/ssc" className="sideList">
