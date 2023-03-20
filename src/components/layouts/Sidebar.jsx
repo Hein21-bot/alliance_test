@@ -622,7 +622,7 @@ export default class Sidebar extends Component {
               <li
                 className={this.checkPathName() === "/confirmation" ? "active" : ""}
                     // style={{display:confirmation ? 'block':'none'}}
-                    style={{display:this.state.isHR ? 'block':'none'}}
+                    style={{display:this.state.isHR || this.state.user.user_id == 1467 ? 'block':'none'}}
               >
                 <a href="/confirmation_list" className="sideList">
                   <i className="fas fa-user-check" style={{ color: 'white' }}></i>
@@ -801,7 +801,11 @@ export default class Sidebar extends Component {
                   
               //      ) ? 'block' : "none"
               // }}
-              style={{display:(this.state.isHR || this.state.user.user_id == 1467) ? 'block' : 'none'}}
+              //test
+              // style={{display:(this.state.isHR || this.state.user.user_id == 1467) ? 'block' : 'none'}}
+              //live
+              style={{display:(this.state.isHR) ? 'block' : 'none'}}
+
              >
                 <a href="/ssc" className="sideList">
                 <i class="fa fa-address-book" style={{color:'white'}}></i>
@@ -1273,7 +1277,7 @@ export default class Sidebar extends Component {
                 className={
                   this.checkPathName() === "/staffComplain" ? "active" : ""
                 }
-                 style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Staff Complain Box") && sidebarPermission.filter(d => d.permission == "Staff Complain Box")[0].access == true ? 'block' : 'none') }}
+                //  style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Staff Complain Box") && sidebarPermission.filter(d => d.permission == "Staff Complain Box")[0].access == true ? 'block' : 'none') }}
 
               >
                 <a href="/staffComplain" className="sideList" refresh="true">
