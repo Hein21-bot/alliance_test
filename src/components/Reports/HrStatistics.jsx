@@ -362,7 +362,7 @@ class HrStatistics extends Component {
     console.log("sorted data",sortedData);
     
     return (
-      <div>
+      <div style={{overflowX:'auto',background:'white'}}>
         <div className="row  white-bg dashboard-header">
         <h3 className="">HR Statistic Report</h3>
           <div className='flex-row' style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '10px 10px 10px 0px' }}>
@@ -481,10 +481,10 @@ class HrStatistics extends Component {
         /> */}
         {
           this.state.dataSource!=undefined && this.state.dataSource.length > 0 ? 
-          <table className="table table-bordered mt-2" id='hr_statistic'>
+          <table className="table table-bordered mt-2" id='hr_statistic' style={{overflow:'scroll'}}>
           <thead>
             
-            <tr>
+            <tr style={{overflow:'scroll'}}>
             <th>Branches</th>
               {
                   this.state.titleYear.length > 0 && this.state.titleYear.map(v=>(
