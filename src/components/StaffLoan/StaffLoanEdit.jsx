@@ -902,12 +902,12 @@ class StaffLoanEdit extends Component {
             relation_family:this.state.selectedFamilyRelation.value,
             family_guarantor_job:this.state.selectedFamilyJob,
             family_guarantor_address:this.state.selectedFamilyAddress,
-            family_guarantor_income_info:this.state.selectedFamilyIncome.replace(/,/g,''),
+            family_guarantor_income_info:this.state.user_info.user_id != Details.user_id ? this.state.selectedFamilyIncome!=0 && this.state.selectedFamilyIncome.split(',').join('') : this.state.selectedFamilyIncome,
             family_guarantor_phone:this.state.selectedFamilyPhone,
 
-            requested_amount:this.state.selectedRequestAmount.replace(/,/g,''),
+            requested_amount:this.state.user_info.user_id != Details.user_id ? this.state.selectedRequestAmount!=0 && this.state.selectedRequestAmount.split(',').join('') : this.state.selectedRequestAmount,
             repayment_period:this.state.selectedRepaymentPeriod,
-            installment_amount:this.state.InstallmentAmount.replace(/,/g,''),
+            installment_amount:this.state.user_info.user_id != Details.user_id ? this.state.InstallmentAmount!=0 && this.state.InstallmentAmount.split(',').join('') : this.state.InstallmentAmount,
 
             loan_purpose:this.state.selectedLoanPurpose,
             withdraw_location:this.state.selectedWithdrawLocation.value,
@@ -1081,9 +1081,13 @@ class StaffLoanEdit extends Component {
   }
 
   render() {
+    
     const{staffInfo,getGuarantorInfo}=this.state;
     const Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
-    
+    console.log('trim data=====>',this.state.user_info.user_id != Details.user_id ? this.state.selectedFamilyIncome!=0 
+    && this.state.selectedFamilyIncome
+    .split(',').join('') : this.state.selectedFamilyIncome
+    )
     console.log("details========>",this.state.selectedRequestAmount,this.state.selectedRepaymentPeriod,this.state.InstallmentAmount)
 
     let otherLoanDetils=(this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.detailsData != undefined && this.state.staffInfoDetails.detailsData.length > 0 && this.state.staffInfoDetails.detailsData)
