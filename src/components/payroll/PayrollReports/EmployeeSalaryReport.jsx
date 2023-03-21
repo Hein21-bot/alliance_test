@@ -46,7 +46,10 @@ class EmployeeSalaryReport extends Component {
       designationList: [],
       selected_employee: { label: "All", value: 0 },
       selected_designation:{label:'All',value:0},
-      selected_level:{label:'All',value:0}
+      selected_level:{label:'All',value:0},
+      CareerLevelList:[],
+      selected_carrer_level:{label:'All',value:0},
+      CarrerSubLevelList:[]
 
     };
   }
@@ -61,6 +64,7 @@ class EmployeeSalaryReport extends Component {
     // this.handleSearchData();
     await this.getLevel()
     await this.getEmployeeSalaryReport();
+    await this.getCarrerLevel()
   }
 
   //salary_report/empSalaryReport/region/branch/department/userid
@@ -134,6 +138,22 @@ class EmployeeSalaryReport extends Component {
     //     });
     //   });
   }
+  async getCarrerLevel(){
+    
+    await fetch(`${main_url}allowLevel/getLevel`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((list) => {
+        
+        this.setState({
+        CareerLevelList: list.map(v=>({...v,label:v.career_level,value:v.career_level_id})),
+        // CareerLevelList:list
+        },()=>{
+          this.state.CareerLevelList.unshift({ label: "All", value: 0 });
+        });
+      });
+  }
   async getBranchList() {
     await fetch(`${main_url}benefit/getBranchList`)
       .then((res) => {
@@ -172,17 +192,21 @@ class EmployeeSalaryReport extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        var array = [];
-        list.map((v) => {
-          var obj = {};
-          obj["label"] = v.career_sub_level;
-          obj["value"] = v.career_sub_level_id;
-          array.push(obj);
-        });
-        array.unshift({ label: "All", value: 0 });
+        // var array = [];
+        // list.map((v) => {
+        //   var obj = {};
+        //   obj["label"] = v.career_sub_level;
+        //   obj["value"] = v.career_sub_level_id;
+        //   array.push(obj);
+        // });
+        // array.unshift({ label: "All", value: 0 });
+        // this.setState({
+        //   levelList: array,
+        // });
         this.setState({
-          levelList: array,
-        });
+          levelList:list.map(v=>({...v,label:v.career_sub_level,value:v.career_sub_level_id})),
+          CarrerSubLevelList:list.map(v=>({...v,label:v.career_sub_level,value:v.career_sub_level_id}))
+        })
       });
   }
 
@@ -248,10 +272,30 @@ class EmployeeSalaryReport extends Component {
       });
   };
   handleSelectedLevel=async(event)=>{
+    console.log("carrer sub level handle",event)
     if (event != null)
       this.setState({
         selected_level: event,
       });
+  }
+  handleSelectedCarrerLevel=async(event)=>{
+    console.log("handle carrer level",event.label,this.state.levelList)
+    let LevelList=this.state.levelList
+    let filterCarrerSubLevel=this.state.levelList.filter(v=>v.career_level_id == event.career_level_id)
+    console.log("filter data======>",filterCarrerSubLevel)
+    if(event !=null && event.value == 0){
+      this.setState({
+        selected_carrer_level:event,
+        CarrerSubLevelList:LevelList
+        
+      })
+
+    }else {
+      this.setState({
+        selected_carrer_level:event,
+        CarrerSubLevelList:filterCarrerSubLevel
+      })
+    }
   }
   handleSelectedDate=async (event)=>{
     if(event !=null){
@@ -350,7 +394,7 @@ class EmployeeSalaryReport extends Component {
   };
 
   render() {
-    console.log("designation list",this.state.designationList)
+    console.log("carrer level list",this.state.CareerLevelList,this.state.levelList)
     return (
       <div>
         <div className="row  white-bg dashboard-header">
@@ -532,7 +576,31 @@ class EmployeeSalaryReport extends Component {
 
               }}
               placeholder="Level"
-              options={this.state.levelList}
+              options={this.state.CareerLevelList}
+              onChange={this.handleSelectedCarrerLevel}
+              value={this.state.selected_carrer_level}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+            </div>
+            <div className="col-md-2">
+              <label htmlFor="">Sub level</label>
+              <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  // width: 150,
+                  // marginRight:10
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Level"
+              options={this.state.CarrerSubLevelList}
               onChange={this.handleSelectedLevel}
               value={this.state.selected_level}
               className='react-select-container'
