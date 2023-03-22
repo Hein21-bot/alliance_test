@@ -162,8 +162,10 @@ export default class QuarterlyIncentivePayslip extends Component{
              <p>Additional 2.5%</p>
              <p>Additional Amount(2.5%)</p>
              <p style={{fontWeight:'bold'}}>Incentive Amount</p>
+             <p>Remark</p>
              </div>
              <div className='col-lg-1' style={{ paddingLeft: '0px' }} ><p>:</p>
+             <p>:</p>
              <p>:</p>
              <p>:</p>
              <p>:</p>
@@ -181,9 +183,10 @@ export default class QuarterlyIncentivePayslip extends Component{
              <p>{this.state.dataSource[0].incentive ? (this.state.dataSource[0].incentive * 100).toFixed(2)+'%' : '-'}</p>
              <p>{this.state.dataSource[0].additional_amount ? this.state.dataSource[0].additional_amount.toLocaleString('en-US',{maximumFractionDigits:2}) : '-'}</p>
              <p style={{fontWeight:'bold'}}>{this.state.dataSource[0].total ? this.state.dataSource[0].total.toLocaleString('en-US',{maximumFractionDigits:2}) : '-'}</p>
+             <p>{this.state.dataSource[0].remark ? this.state.dataSource[0].remark: '-'}</p>
              </div> 
 
-             <div style={{marginBottom:30}}><span>Remark:{this.state.dataSource[0].remark ? this.state.dataSource[0].remark: '-'}</span></div>
+             {/* <div style={{marginBottom:30}}><span>Remark:{this.state.dataSource[0].remark ? this.state.dataSource[0].remark: '-'}</span></div> */}
                 </div>
 
               </div>):(<></>)}
