@@ -28,10 +28,11 @@ class StaffLoanBeforeComit extends Component {
   }
 
   async componentDidMount() {
-    this.getDepartmentList();
-    this.getBranchList();
-    this.getDesignationList();
-    this.getEmployeeCodeList();
+    await this.getDepartmentList();
+    await this.getBranchList();
+    await this.getDesignationList();
+    await this.getEmployeeCodeList();
+    await this.handleSearchData();
   
   };
 

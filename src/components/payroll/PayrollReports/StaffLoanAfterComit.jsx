@@ -42,11 +42,11 @@ class StaffLoanAfterComit extends Component {
   }
 
   async componentDidMount() {
-    this.getDepartmentList();
-    this.getBranchList();
-    this.getDesignationList();
-    this.getEmployeeCodeList();
-    // this.handleSearchData(); 
+    await this.getDepartmentList();
+    await this.getBranchList();
+    await this.getDesignationList();
+    await this.getEmployeeCodeList();
+    await this.handleSearchData(); 
   };
 
   getDesignationList() {
