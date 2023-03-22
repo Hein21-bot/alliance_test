@@ -105,6 +105,7 @@ export default class BenefitChildTable extends Component {
 
 
     _setTableData = (data) => {
+        let filterSalary=this.props.salaryList!=null && this.props.salaryList.filter(v=>v.career_level < 7)
         data.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
         var table;
         var l = [];
@@ -128,7 +129,7 @@ export default class BenefitChildTable extends Component {
                 carrer_level: data[i].career_level_name ? data[i].career_level_name : '',
                 carrer_sub_level: data[i].career_sub_level_name ? data[i].career_sub_level_name : '',
                 // salary: data[i].salary ? data[i].salary : '', .length > 0 ? (dta > 20 ? (data ==0 ? ('data is 0") : ("data")) : ()) : ()
-                salary:this.props.salaryList.filter(v=>v.career_sub_level == data[i].career_sub_level) ? this.props.salaryList.filter(v=>v.career_sub_level == data[i].career_sub_level)[0] ? this.props.salaryList.filter(v=>v.career_sub_level == data[i].career_sub_level)[0].basic_salary : 0:0,
+                salary:filterSalary.filter(v=>v.career_sub_level == data[i].career_sub_level) ? filterSalary.filter(v=>v.career_sub_level == data[i].career_sub_level)[0] ? filterSalary.filter(v=>v.career_sub_level == data[i].career_sub_level)[0].basic_salary : '-':'-',
                 promotion_date: data[i].promotion_date ? data[i].promotion_date :'-',
                 // salary: this.props.salaryPermission.length > 0 ? data[i].salary ? data[i].salary : this.props.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0] ? this.props.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0].basic_salary: ''
                 // : data[i].career_sub_level > 20 ? 'Not Available' : data[i].salary ? data[i].salary : this.props.salaryList.filter(v=>v.career_sub_level==data[i].career_sub_level)[0].basic_salary,
@@ -238,7 +239,7 @@ export default class BenefitChildTable extends Component {
     }
 
 
-    render() { console.log(this.props.exitStatusList)
+    render() { console.log("salary list======>",this.props.salaryList!=null && this.props.salaryList.filter(v=>v.career_level < 7),this.props.salaryList)
         return (
             <div>
                 <table width="99%"
