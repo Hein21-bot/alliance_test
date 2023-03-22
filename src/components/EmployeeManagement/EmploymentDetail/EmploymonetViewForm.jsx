@@ -12,6 +12,8 @@ const EmploymentViewForm = props => {
     let department = selected_designation != null && departmentlist.filter(v => v.departments_id == selected_designation.departments_id)[0]
     console.log("seelct",selected_status)
 
+    let filterSalary=salaryList.filter(v=>v.career_level < 7)
+
     let name = employeeName == null ? '' : employeeName
     // let temp_salary = salary == null ? 0 : salary
     return ( 
@@ -199,7 +201,7 @@ const EmploymentViewForm = props => {
                                 />
                             </div>
                         </div>
-                        {salaryPermission.length > 0 ?
+                        {/* {salaryPermission.length > 0 ?
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
                                 <div>
                                     Salary
@@ -215,7 +217,15 @@ const EmploymentViewForm = props => {
                                     <div className='col-lg-7  col-md-5'>
                                         <input type='number' placeholder='' name="salary" isDisabled value={salary == null ? salaryList.filter(v=>v.career_sub_level == career_sub_level.career_sub_level_id)[0].basic_salary : salary} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
                                     </div>
-                                </div>}
+                                </div>} */}
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
+                                <div>
+                                    Salary
+                                </div>
+                                <div className='col-lg-7  col-md-5'>
+                                    <input type='number' placeholder='' required name="salary" disabled value={career_sub_level && filterSalary.filter(v=>v.career_sub_level == career_sub_level.career_sub_level_id) ? filterSalary.filter(v=>v.career_sub_level == career_sub_level.career_sub_level_id)[0] ? filterSalary.filter(v=>v.career_sub_level == career_sub_level.career_sub_level_id)[0].basic_salary : 0:0} onChange={handleAddFormInputChange} style={{ width: '100%', height: 40 }} />
+                                </div>
+                            </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
                             <div>
                                 Discontinuous Status
