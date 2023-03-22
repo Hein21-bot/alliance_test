@@ -154,7 +154,7 @@ export default class Sidebar extends Component {
   }
 
   render() {
-   
+   console.log("userr=======>",(this.state.user.user_id == 640 || this.state.user.designations_id == 53) ? "true" : "false")
     const { pathname, user, isHR, sidebarPermission } = this.state;
     console.log("hr======>",((pathname == `${'/' + user.user_id}`) ? 'true' : 'false'))
     // const setting=sidebarPermission.length > 0 && ((sidebarPermission.filter(d => d.permission == "Holiday") && sidebarPermission.filter(d => d.permission == "Holiday")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Attendance Policy") && sidebarPermission.filter(d => d.permission == "Attendance Policy")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Benefit") && sidebarPermission.filter(d => d.permission == "Benefit")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Salary Template") && sidebarPermission.filter(d => d.permission == "Salary Template")[0].access == true) || (sidebarPermission.filter(d => d.permission == "SSB Rate") && sidebarPermission.filter(d => d.permission == "SSB Rate")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Career Path") && sidebarPermission.filter(d => d.permission == "Career Path")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Payroll") && sidebarPermission.filter(d => d.permission == "Payroll")[0].access == true))
@@ -278,7 +278,8 @@ export default class Sidebar extends Component {
                   >
                     <a href="/holiday_setting">Holiday</a>
                   </li>
-                  <li
+                  {
+                    (this.state.user.user_id == 640 || this.state.user.designations_id == 53) ? <li
                     className={
                       pathname === "/salary_template_setting" ? "active" : ""
                     }
@@ -286,7 +287,9 @@ export default class Sidebar extends Component {
 
                   >
                     <a href="/salary_template_setting">Salary Template</a>
-                  </li>
+                  </li> : ''
+                  }
+                  
                   <li
                     className={pathname === "/ssb_rate_setting" ? "active" : ""}
                     // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "SSB Rate") && sidebarPermission.filter(d => d.permission == "SSB Rate")[0].access == true ? 'block' : 'none') }}
@@ -802,9 +805,9 @@ export default class Sidebar extends Component {
               //      ) ? 'block' : "none"
               // }}
               //test
-              style={{display:(this.state.isHR || this.state.user.user_id == 1467) ? 'block' : 'none'}}
+              // style={{display:(this.state.isHR || this.state.user.user_id == 1467) ? 'block' : 'none'}}
               //live
-              // style={{display:(this.state.isHR) ? 'block' : 'none'}}
+              style={{display:(this.state.isHR) ? 'block' : 'none'}}
 
              >
                 <a href="/ssc" className="sideList">
