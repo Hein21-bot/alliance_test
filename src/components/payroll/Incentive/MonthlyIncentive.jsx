@@ -228,9 +228,9 @@ export default class MonthlyIncentive extends Component {
     else if ((this.state.fxData.length === 0 && this.state.searchData.length === 0 ) && e === 1){
       toast.error("Please Choose Attachment File!");
     }
-    // else {
-    //   toast.error("Already Calculated Pay Slip!");
-    // }
+    else {
+      toast.error("Already Calculated Pay Slip!");
+    }
   };
 
   handleSearch = (e) => {
@@ -396,7 +396,7 @@ export default class MonthlyIncentive extends Component {
           console.log('aung tl',response)
           this.setState({
             loading: false,
-            fxData: response,
+            fxData: response.data,
             newDoc:response,
             deleteType: true,
             table_type: 2,
