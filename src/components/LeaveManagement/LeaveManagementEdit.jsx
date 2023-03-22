@@ -721,8 +721,8 @@ class LeaveManagementEdit extends Component {
                                 <div className="form-group">
                                     <div><label className="col-sm-4">AM or PM<span className="text-danger">*</span></label> </div>
                                     <div onChange={this.onChangeRadio.bind(this)} className="col-sm-8">
-                                        <input type="radio" value={"AM"} defaultChecked={this.state.halfTime == "AM" ? true : false}  name="halfDay" disabled={this.disableAction()} /> AM <br/>
-                                        <input type="radio" value={"PM"} defaultChecked={this.state.halfTime == "PM" ? true : false}  name="halfDay" disabled={this.disableAction()} /> PM
+                                        <input type="radio" value={"AM"} defaultChecked={this.state.halfTime.trim() == "AM" ? true : false}  name="halfDay" disabled={this.disableAction()} /> AM <br/>
+                                        <input type="radio" value={"PM"} defaultChecked={this.state.halfTime.trim() == "PM" ? true : false}  name="halfDay" disabled={this.disableAction()} /> PM
                                     </div>
                                 </div>
                         )}
