@@ -394,6 +394,7 @@ class WeeklyAttendanceReport extends Component {
             <tbody style={{ textAlign: "center" }}>
              
               {this.state.dataSource.map((v, i) => {
+                console.log("v======>",v)
                 return (
                   <>
                     <tr>

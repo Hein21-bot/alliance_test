@@ -66,36 +66,44 @@ this.setState({
   reason:e
 })
    }
-   handleClick(){
-    // this.getGeolocation()
-    const options = {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0
-      };
+  //  handleClick(){
+  //   // this.getGeolocation()
+  //   const options = {
+  //       enableHighAccuracy: true,
+  //       timeout: 5000,
+  //       maximumAge: 0
+  //     };
       
       
-      function error(err) {
-        alert(`ERROR(${err.code}): ${err.message}`);
-      }
-      if(window.location.protocol !== 'http:'){
-        console.log('https');
-        navigator.geolocation.getCurrentPosition(this.success.bind(this), error, options);
-      }else{
-        console.log('http');
-        fetch(`http://ip-api.com/json`)
-        .then(response => {
-          return response.json();
-        }).then(res =>{
-          this.setState({
-            latti:res.lat,
-            longi: res.lon
-          })
-        }).catch(err =>{
-          console.log('error',err);
-        })
-      }
-   }
+  //     function error(err) {
+  //       alert(`ERROR(${err.code}): ${err.message}`);
+  //     }
+  //     if(window.location.protocol !== 'http:'){
+  //       console.log('https');
+  //       navigator.geolocation.getCurrentPosition(this.success.bind(this), error, options);
+  //     }else{
+  //       console.log('http');
+  //       fetch(`http://ip-api.com/json`)
+  //       .then(response => {
+  //         return response.json();
+  //       }).then(res =>{
+  //         this.setState({
+  //           latti:res.lat,
+  //           longi: res.lon
+  //         })
+  //       }).catch(err =>{
+  //         console.log('error',err);
+  //       })
+  //     }
+  //  }
+  handleClick(){
+    console.log("action=======>")
+    // navigator.geolocation.getCurrentPosition(position=>console.log("position======>",position))
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log("position",position)
+      })
+  }
    handleChechIn(){
     if(this.state.latti === '' || this.state.longi === ''){
       toast('Please Fill Your Location First!')
