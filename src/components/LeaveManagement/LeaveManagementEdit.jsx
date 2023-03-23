@@ -566,6 +566,9 @@ class LeaveManagementEdit extends Component {
         console.log('data is ===========>', this.props.data)
         let leave_left = this.state.leaveDetail != null && this.state.leaveDetail[0].leave.filter(v => v.leave_category_id == parseInt(this.state.selectedCategory.value == undefined ? this.props.data.leave_category_id : this.state.selectedCategory.value))
         this.state.max_days = leave_left.length != 0 && leave_left[0] != undefined && leave_left[0].leave_quota - leave_left[0].leave_count
+        let AMChecked= this.state.halfTime !=undefined && this.state.halfTime!=null && this.state.halfTime.trim() == "AM" ? true : false
+        let PMChecked= this.state.halfTime !=undefined && this.state.halfTime!=null && this.state.halfTime.trim() == "PM" ? true : false
+
         return (
             <div className="nl" style={{ display: 'flex', justifyContent: 'center', height:'500px', overflowY: 'scroll' }}>
                 <div className="col-sm-12 white-bg mt20">
@@ -717,15 +720,15 @@ class LeaveManagementEdit extends Component {
                                     </div>
                                 </div> : ''
                         }
-                        {this.state.showRadio && (
+                        {this.state.showRadio && (AMChecked || PMChecked)   ?
                                 <div className="form-group">
                                     <div><label className="col-sm-4">AM or PM<span className="text-danger">*</span></label> </div>
                                     <div onChange={this.onChangeRadio.bind(this)} className="col-sm-8">
-                                        <input type="radio" value={"AM"} defaultChecked={this.state.halfTime.trim() == "AM" ? true : false}  name="halfDay" disabled={this.disableAction()} /> AM <br/>
-                                        <input type="radio" value={"PM"} defaultChecked={this.state.halfTime.trim() == "PM" ? true : false}  name="halfDay" disabled={this.disableAction()} /> PM
+                                        <input type="radio" value={"AM"} defaultChecked={this.state.halfTime !=undefined && this.state.halfTime!=null && this.state.halfTime.trim() == "AM" ? true : false}  name="halfDay" disabled={this.disableAction()} /> AM <br/>
+                                        <input type="radio" value={"PM"} defaultChecked={this.state.halfTime !=undefined && this.state.halfTime!=null && this.state.halfTime.trim() == "PM" ? true : false}  name="halfDay" disabled={this.disableAction()} /> PM
                                     </div>
                                 </div>
-                        )}
+                        : ''}
                         <div className="form-group">
                             <div><label className="col-sm-4">Reason</label></div>
                             <div className="col-sm-8">
