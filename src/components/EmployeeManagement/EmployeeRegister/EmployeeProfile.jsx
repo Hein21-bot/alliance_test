@@ -58,7 +58,7 @@ const EmployeeProfile = props => {
                     <div className='col-lg-6 col-md-12 col-sm-12' style={{}}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
                             <div>
-                                Employee ID
+                                Employee ID*
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
                                 <input type='text' placeholder='' required={(viewForm) ? false : true} name="employeeId" tabIndex={1} value={employeeId} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
@@ -66,7 +66,7 @@ const EmployeeProfile = props => {
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 15 }}>
                             <div>
-                                Employee Name (Eng)
+                                Employee Name (Eng)*
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
                                 <input type='text' placeholder='' required={(viewForm) ? false : true} name="employeeNameEng" tabIndex={2} value={employeeNameEng.toUpperCase()} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
@@ -77,7 +77,7 @@ const EmployeeProfile = props => {
                     <div className='col-lg-6 col-md-12 col-sm-12' style={{ paddingTop: 15, }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <div style={{ alignItems: 'center', paddingTop: 15 }}>
-                                NRC
+                                NRC*
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
                                 <div className='w-100' style={{ display: 'flex', paddingBottom: 15 }}>
@@ -118,7 +118,7 @@ const EmployeeProfile = props => {
                     <div className='col-lg-6 col-md-12 col-sm-12' style={{ paddingTop: 15 }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
                             <div>
-                                Employee Name (Myan)
+                                Employee Name (Myan)*
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
                                 <input type='text' placeholder='' required={(viewForm) ? false : true} name="employeeNameMyan" tabIndex={3} value={employeeNameMyan} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
@@ -131,7 +131,7 @@ const EmployeeProfile = props => {
                     <div className='col-lg-6 col-md-12 col-sm-12' style={{ paddingTop: 15 }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
                             <div>
-                                Date Of Birth
+                                Date Of Birth*
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
                                 <input type='date' placeholder='' required={(viewForm) ? false : true} name="dateOfBirth" tabIndex={12}  value={dateOfBirth} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
@@ -144,7 +144,7 @@ const EmployeeProfile = props => {
                 <div style={{ display: 'flex', paddingTop: 10, flexWrap: 'wrap', justifyContent: 'space-between' }}>
                     <div className='col-lg-6 col-md-12 col-sm-12' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
                         <div>
-                            Gender
+                            Gender*
                         </div>
                         <div className='col-lg-7 col-md-6' style={{ display: 'flex', justifyContent: 'space-around' }}>
                             <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -160,7 +160,7 @@ const EmployeeProfile = props => {
                     <div className='col-lg-6 col-md-12 col-sm-12' style={{ paddingTop: 10 }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
                             <div>
-                                Nationality
+                                Nationality*
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
                                 <input type='text' placeholder='' required={(viewForm) ? false : true} name="nationality"  tabIndex={13}  value={nationality} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
@@ -173,7 +173,7 @@ const EmployeeProfile = props => {
                     <div className='col-lg-6 col-md-12 col-sm-12' style={{ paddingTop: 15 }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
                             <div>
-                                Personal Phone
+                                Personal Phone*
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
                                 <input type='number' placeholder='' required={(viewForm) ? false : true} name="personalPhone" tabIndex={6} onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={personalPhone} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
@@ -186,7 +186,7 @@ const EmployeeProfile = props => {
                     <div className='col-lg-6 col-md-12 col-sm-12' style={{ paddingTop: 15 }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
                             <div>
-                                Religion
+                                Religion*
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
                                 <input type='text' placeholder='' required={(viewForm) ? false : true} name="region" tabIndex={14}  value={region} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
@@ -199,7 +199,7 @@ const EmployeeProfile = props => {
                     <div className='col-lg-6 col-md-12 col-sm-12' style={{ paddingTop: 15 }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
                             <div>
-                                Office Phone
+                                Office Phone*
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
                                 <input type='number' placeholder='' required={(viewForm) ? false : true} name="officePhone" tabIndex={7}  onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={officePhone} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
@@ -212,7 +212,7 @@ const EmployeeProfile = props => {
                     <div className='col-lg-6 col-md-12 col-sm-12' style={{ paddingTop: 15 }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
                             <div>
-                                Address
+                                Address*
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
                                 <input type='text' placeholder='' required={(viewForm) ? false : true} name="address" tabIndex={15}  value={address} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />
@@ -227,7 +227,7 @@ const EmployeeProfile = props => {
                     <div className='col-lg-6 col-md-12 col-sm-12' style={{ paddingTop: 15 }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
                             <div>
-                                Join Date
+                                Join Date*
                             </div>
                             <div className='col-lg-7 col-md-6 col-sm-6'>
                                 <input type='date' placeholder='' required={(viewForm) ? false : true} name="joinDate"  tabIndex={16}  value={joinDate} onChange={handleInputChange} style={{ width: '100%', height: 40 }} />

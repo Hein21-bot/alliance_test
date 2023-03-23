@@ -23,7 +23,7 @@ const ContactDetails = props => {
 
 
                     <div>
-                        Contact Person
+                        Contact Person*
                     </div>
                     <div className='col-lg-6 col-md-6 col-sm-6' style={{}}>
                         <input type='text' placeholder='' required={(viewForm || editForm) ? false : true} name="contactPerson" value={contactPerson} onChange={handleContactDetailInputChange} style={{ width: '100%', height: 40, }} />
@@ -34,7 +34,7 @@ const ContactDetails = props => {
 
 
                     <div>
-                        Contact Phone
+                        Contact Phone*
                     </div>
                     <div className='col-lg-6 col-md-6 col-sm-6' style={{}}>
                         <input type='text' placeholder='' required={(viewForm || editForm) ? false : true} onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} name="contactPhone" value={contactPhone} onChange={handleContactDetailInputChange} style={{ width: '100%', height: 40, }} />
