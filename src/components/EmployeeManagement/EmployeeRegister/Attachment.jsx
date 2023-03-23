@@ -21,7 +21,7 @@ const Attachment = props => {
 
 
                     <div>
-                        Attachment
+                        Attachment*
                     </div>
                     <div className='col-lg-5 col-md-6 col-sm-8' style={{}}>
                         <input type='text' placeholder='' name="attachment" value={attachmentUrl} onChange={handleAttachmentChange} style={{ width: 300, height: 40, paddingLeft: 10 }} />

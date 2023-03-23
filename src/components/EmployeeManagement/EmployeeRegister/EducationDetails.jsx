@@ -19,7 +19,7 @@ const EducationDetails = props => {
             }}>
                 <div className='col-lg-6 col-md-10 col-sm-12' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div style={{}}>
-                        Degree
+                        Degree*
                     </div>
                     <div className='col-lg-8 col-md-8 col-sm-12' style={{ display: 'flex', alignItems: 'center' }}>
                         <div className='col-lg-8 col-md-8 col-sm-8'>
