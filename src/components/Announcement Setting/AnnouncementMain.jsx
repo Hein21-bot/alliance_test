@@ -24,7 +24,7 @@ export default class AnnouncementMain extends Component {
     }
 
     async componentDidMount() {
-       var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Announcement', 'Announcement');
+       var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Announcement Setting', 'Announcement Setting');
 
         //  var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Announcement', 'Announcement');
         this.getAnnouncementData();
