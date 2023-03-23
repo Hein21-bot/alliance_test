@@ -101,6 +101,9 @@ export default class LeaveManagementMain extends Component {
     hideView() {
         this.setState({ isView: false});
     }
+    hideCancel() {
+        this.setState({ isCancel: false});
+    }
 
 
 
@@ -176,7 +179,15 @@ export default class LeaveManagementMain extends Component {
                             }
 
                             {
-                                this.state.isCancel ? <CancelLeaveEdit data={this.state.data} /> : ''
+                                this.state.isCancel ?
+                                <Rodal
+                                width={800}
+                                height={613}
+                                visible={this.state.isCancel}
+                                onClose={this.hideCancel.bind(this)}
+                              >
+                                    <CancelLeaveEdit data={this.state.data} />
+                                </Rodal>: ''
                             }
 
                             {

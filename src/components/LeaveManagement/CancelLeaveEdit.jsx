@@ -350,12 +350,15 @@ class LeaveManagementEdit extends Component {
 
     render() {
         return (
-            <div className="nl" style={{ display: 'flex', justifyContent: 'center' }}>
-                <ToastContainer />
-                <div className="col-sm-8 white-bg mt20">
+            <div className="nl" style={{ display: 'flex', justifyContent: 'center', height:'500px', overflowY: 'scroll' }}>
+                {/* <ToastContainer /> */}
+                <div className="col-sm-12 white-bg mt20">
+                    <div className="bg-primary" style={{padding: '5px', marginBottom:'20px'}}>
+                        <p style={{fontSize:'20px',fontWeight:'bold'}}>Leave Request</p>
+                    </div>
                     <div className="form-horizontal" id="check_form">
                         <div className="form-group"  >
-                            <div><label className="col-sm-3" >Employee Name<span className="text-danger">*</span></label></div>
+                            <div><label className="col-sm-4" >Employee Name<span className="text-danger">*</span></label></div>
                             <div className="col-sm-8">
                                 {
                                     <input type='text' className='form-control' value={this.props.data.fullname} disabled />
@@ -488,14 +491,14 @@ class LeaveManagementEdit extends Component {
                     <div className="mt20">
                         {/* <div className="col-sm-4">Change Status:</div> */}
                         {this.state.data.user_id == this.state.user_info.user_id ?
-                            <div className="row">
+                            <div className="row" style={{display: 'flex', justifyContent:'end'}}>
                                 {(this.props.data.application_status > 5 && this.props.data.application_status < 9) ? "" : <div className="col-sm-4 col-sm-2 btn-rightend ">
                                     {
                                         <button className="btn btn-success" style={{ fontSize: 11, cursor: 'pointer' }} onClick={() => this.save()} ><span><i class="far fa-thumbs-up" style={{ paddingRight: '5px' }} ></i>Submit</span></button>
                                     }
                                 </div>}
                             </div> :
-                            <div className="row">
+                            <div className="row" style={{display: 'flex', justifyContent:'end'}}>
 
                                 <div className="col-xs-4 col-sm-3" style={{ float: 'left' }}>
 
