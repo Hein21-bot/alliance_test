@@ -22,10 +22,10 @@ class StaffLoanMain extends Component {
 
     async componentDidMount() {
         //test
-        var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Staff Loan', 'Staff Loan');
+        // var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Staff Loan', 'Staff Loan');
 
         //live
-        // var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Staff Loan', 'Allowance');
+        var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Staff Loan', 'Allowance');
 
         // var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Staff Loan', 'Allowance');
         this.getStaffLoanList();
