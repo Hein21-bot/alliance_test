@@ -21,7 +21,9 @@ export default class LeaveReport extends Component {
             selected_department_value: 0,
             selected_location_value: 0,
             selected_region_value: 0,
-            selected_user_value: 0
+            selected_user_value: 0,
+            selected_exit_status: null,
+            exitList: [{ label: 'Active', value: 0 }, { label: 'Exit', value: 1 }]
         }
     }
 
@@ -103,23 +105,32 @@ export default class LeaveReport extends Component {
             })
     };
 
-    componentDidMount() {
-        this.getBranchList();
-        this.getDepartmentList();
-        this.getRegionList();
+    handleSelectedExitStatus = (event) => {
+        if (event !== null)
+          this.setState({
+            selected_exit_status: event,
+          });
+      }
+
+    async componentDidMount() {
+        await this.getBranchList();
+        await this.getDepartmentList();
+        await this.getRegionList();
+        
     }
 
 
     getLeaveReport(isNew) {
 
         let year = moment(this.state.year).format('YYYY');
+        let disconId=this.state.selected_exit_status ? this.state.selected_exit_status.value : -1
         this.setState({ loading: true });
         if (isNew) {
             this.setState({ pagination: 0, report: [], all: [] }, () => {
                 let pagination = this.state.pagination;
                 let all = this.state.all;
                 let report = this.state.report;
-                fetch(`${main_url}leave/getLeaveReport/${year}/${this.state.pagination}/${this.state.selected_location_value}/${this.state.selected_department_value}/${this.state.selected_region_value}/${this.state.selected_user_value}`)
+                fetch(`${main_url}leave/getLeaveReport/${year}/${this.state.pagination}/${this.state.selected_location_value}/${this.state.selected_department_value}/${this.state.selected_region_value}/${this.state.selected_user_value}/${disconId}`)
                     .then(res => res.json())
                     .then(data => {
 
@@ -146,7 +157,7 @@ export default class LeaveReport extends Component {
             let all = this.state.all;
             let report = this.state.report;
             let pagination = this.state.pagination + length
-            fetch(`${main_url}leave/getLeaveReport/${year}/${pagination}/${this.state.selected_location_value}/${this.state.selected_department_value}/${this.state.selected_region_value}/${this.state.selected_user_value}`)
+            fetch(`${main_url}leave/getLeaveReport/${year}/${pagination}/${this.state.selected_location_value}/${this.state.selected_department_value}/${this.state.selected_region_value}/${this.state.selected_user_value}/${disconId}`)
                 .then(res => res.json())
                 .then(data => {
 
@@ -324,9 +335,22 @@ export default class LeaveReport extends Component {
                             <div className="col-sm-10">
                                 <Select
                                     options={this.state.userList}
-                                    placeholder="Please Choose Department"
+                                    placeholder="Please Choose Employee Name"
                                     onChange={this.handleSelectedUser.bind(this)}
                                     value={this.state.selected_user}
+                                    className='react-select-container'
+                                    classNamePrefix="react-select"
+                                />
+                            </div>
+                        </div>
+                        <div className="form-group col-md-6">
+                            <div><label htmlFor="employee-name" className="col-sm-12">Exit Status</label></div>
+                            <div className="col-sm-10">
+                                <Select
+                                    options={this.state.exitList}
+                                    value={this.state.selected_exit_status}
+                                    onChange={this.handleSelectedExitStatus.bind(this)}
+                                    placeholder="Please Choose Status"
                                     className='react-select-container'
                                     classNamePrefix="react-select"
                                 />

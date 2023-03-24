@@ -78,9 +78,23 @@ this.setState({
       function error(err) {
         alert(`ERROR(${err.code}): ${err.message}`);
       }
-     
-      navigator.geolocation.getCurrentPosition(this.success.bind(this), error, options);
-   
+      if(window.location.protocol !== 'http:'){
+        console.log('https');
+        navigator.geolocation.getCurrentPosition(this.success.bind(this), error, options);
+      }else{
+        console.log('http');
+        fetch(`http://ip-api.com/json`)
+        .then(response => {
+          return response.json();
+        }).then(res =>{
+          this.setState({
+            latti:res.lat,
+            longi: res.lon
+          })
+        }).catch(err =>{
+          console.log('error',err);
+        })
+      }
    }
    handleChechIn(){
     if(this.state.latti === '' || this.state.longi === ''){
@@ -198,7 +212,7 @@ this.setState({
         longtitude:this.state.longi,
         fieldCheckIn: true,
         fieldLocation:this.state.fieldLocation,
-        fieldReason:this.state.reason.value,
+        fieldReason:this.state.reason.label,
         fieldRemark:this.state.fieldRemark,
       }
     };
@@ -232,7 +246,7 @@ this.setState({
           longtitude:this.state.longi,
           fieldCheckOut: true,
           fieldCheckOutLocation:this.state.fieldLocation,
-          fieldCheckOutReason:this.state.reason.value,
+          fieldCheckOutReason:this.state.reason.label,
           fieldCheckOutRemark:this.state.fieldRemark,
         }
       };
@@ -337,7 +351,7 @@ switch (typeOne){
         longtitude:this.state.longi,
         fieldCheckOut: true,
         fieldCheckOutLocation:this.state.fieldLocation,
-        fieldCheckOutReason:this.state.reason.value,
+        fieldCheckOutReason:this.state.reason.label,
         fieldCheckOutRemark:this.state.fieldRemark,
       }
     };
@@ -434,18 +448,19 @@ this.setState({ modal: false,latti:'',longi:'',showReason:false,missAtt:false })
           <ToastContainer/>
            { this.state.modal ? 
         <div>
-        <Rodal width={300} height={200} visible={this.state.modal} onClose={this.hide.bind(this)} padding={20}>
-                    <div className="col-md-12 "><h4>Attendance</h4>
+        <Rodal width={400} height={223} visible={this.state.modal} onClose={this.hide.bind(this)} padding={20}>
+                  <div className="col-md-12 mt20">
+                        <p style={{fontSize:'20px',fontWeight:'bold',textAlign:'center'}}>Attendance</p>
                     </div>
-                    <div className="col-md-12" style={{ marginTop: 30 }}>
+                    <div className="col-md-12">
                       <p>{this.state.message}</p>
-                      <div className="col-lg-6 col-md-6 col-sm-6 " style={{display:'flex',justifyContent:'center'}}>
-                      <button className="btn btn-danger" onClick={()=>this.hide(1)}><span>No</span> </button>
+                      <div className="col-lg-12 col-md-12 col-sm-12 " style={{marginTop: '20px'}}>
+                      <div className="col-lg-2 col-md-2 col-sm-2"></div>
+                      <div className="col-lg-8 col-md-8 col-sm-8" style={{display:'flex',justifyContent:'space-evenly'}}>
+                      <button className="btn btn-danger" onClick={()=>this.hide(1)}><span>Cancel</span> </button>
+                      <button className="btn btn-primary" onClick={this.show.bind(this)}><span>ok</span> </button>
                       </div>
-                      <div className=" col-lg-6 col-md-6 col-sm-6 " style={{display:'flex',justifyContent:'center'}}>
-                     
-                      <button className="btn btn-primary" onClick={this.show.bind(this)}><span>Yes</span> </button>
-                      
+                      <div className="col-lg-2 col-md-2 col-sm-2"></div>
                       </div>
                        
                     </div>
@@ -487,7 +502,7 @@ this.setState({ modal: false,latti:'',longi:'',showReason:false,missAtt:false })
                 <h5 style={{margin:0}}>{this.state.reasonType} Location</h5>
                 </div>
                 <div className="col-lg-7 col-md-7 col-sm-7">
-                <input placeholder={this.state.fieldLocation} style={{height:35,borderRadius:5,border:'1px solid grey',width:200}} onChange={this.onchangeField.bind(this)}></input>
+                <textarea placeholder={this.state.fieldLocation} style={{height:80,borderRadius:5,border:'1px solid grey',width:200}} onChange={this.onchangeField.bind(this)} />
                 </div>
                 </div>
 
@@ -505,7 +520,7 @@ this.setState({ modal: false,latti:'',longi:'',showReason:false,missAtt:false })
                 <h5 style={{margin:0}}>{this.state.reasonType} Remark</h5>
                 </div>
                 <div className="col-lg-7 col-md-7 col-sm-7">
-                <input placeholder={this.state.fieldRemark} style={{height:35,borderRadius:5,border:'1px solid grey',width:200}} onChange={this.onchangeFieldRemark.bind(this)}></input>
+                <textarea pplaceholder={this.state.fieldRemark} style={{height:80,borderRadius:5,border:'1px solid grey',width:200}} onChange={this.onchangeFieldRemark.bind(this)} />
                 </div>
                 </div>
                 </div> </div>):(
@@ -527,9 +542,9 @@ this.setState({ modal: false,latti:'',longi:'',showReason:false,missAtt:false })
                   </div>
 
                  </div>
-              :  <div className="col-lg-12" style={{display:'flex',justifyContent:'center',marginTop:200,marginBottom:50}}>
-              <div className="col-lg-4 col-md-5 col-sm-7" style={{display:'flex',justifyContent:'space-evenly'}}>
-                 <button style={{height:35,backgroundColor:'#1872ab',border:'none',color:'#fff',borderRadius:5,width:72}} onClick={this.handleChechIn.bind(this)}>Check In</button>         
+              :  <div className="col-lg-12" style={{display:'flex',justifyContent:'right',marginTop:200,marginBottom:50}}>
+              <div className="col-lg-4 col-md-5 col-sm-7">
+                 <button style={{height:35,backgroundColor:'#1872ab',border:'none',color:'#fff',borderRadius:5,width:72, marginRight:10}} onClick={this.handleChechIn.bind(this)}>Check In</button>         
                  <button style={{height:35,backgroundColor:'#1872ab',border:'none',color:'#fff',borderRadius:5}} onClick={this.handleChechOut.bind(this)}>Check Out</button>
                    </div>
              </div>

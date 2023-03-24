@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import moment from "moment";
+import {getNumberWithCommas} from '../../utils/CommonFunction'
 const $ = require("jquery");
 const jzip = require("jzip");
 window.JSZip = jzip;
@@ -37,8 +38,8 @@ class LoanSettlement extends Component {
               obj = {
                 no: i + 1,
                 month: data[i].month ? data[i].month :'-',
-                monthlyinstall: data[i].monthly_installment ? data[i].monthly_installment :'-',
-                loanbalance: data[i].loanBalance ? data[i].loanBalance :'-',
+                monthlyinstall: data[i].monthly_installment ? getNumberWithCommas(data[i].monthly_installment) :'-',
+                loanbalance: data[i].loanBalance ? getNumberWithCommas(data[i].loanBalance) :'-',
               };
               l.push(obj);}
             }
@@ -90,7 +91,13 @@ class LoanSettlement extends Component {
             });
           };
     
-    render(){ console.log(this.props.dataSource[0]);
+    render(){ 
+      let temp=this.props.dataSource!=null && this.props.dataSource.length > 0 && this.props.dataSource[0]
+      let filterKeyName=Object.keys(temp)
+      let filterData=filterKeyName.filter(v=>v == 'data')
+      console.log("filter data====<",filterData)
+      console.log("filter key name",filterKeyName)
+      // console.log("datasource====>",this.props.dataSource!=null && this.props.dataSource.length >0 && this.props.dataSource[0]. );
         return(
             <div style={{display:'flex',justifyContent:'center'}}>
             <div className='col-lg-6 col-md-8 col-sm-12' style={{ background: 'white',marginTop:30,border:"1px solid grey ",marginBottom: "90px" }}>
@@ -100,9 +107,12 @@ class LoanSettlement extends Component {
            <div className='col-lg-12' style={{paddingTop:'20px'}}>
            <div><div className='col-lg-6 col-md-6'><p>Requester Name</p></div><div className='col-lg-1 col-md-1' style={{padding:0}}><p>:</p></div><div className=' col-lg-5 col-md-5'><p>{this.props.dataSource[0].name ? this.props.dataSource[0].name :'-'}</p><div></div></div></div>
            <div><div className='col-lg-6 col-md-6'><p>Loan Disbrusement Date</p></div><div className='col-lg-1 col-md-1'style={{padding:0}}><p>:</p></div><div className=' col-lg-5 col-md-5'><p>{this.props.dataSource[0].disbursement_date ? moment(this.props.dataSource[0].disbursement_date).format('DD-MM-YYYY') :'-'}</p><div></div></div></div>
-           <div><div className='col-lg-6 col-md-6'><p>Loan Approve Amount</p></div><div className='col-lg-1 col-md-1'style={{padding:0}}><p>:</p></div><div className=' col-lg-5 col-md-5'><p>{this.props.dataSource[0].approved_amount ? this.props.dataSource[0].approved_amount :'-'}</p><div></div></div></div>
-           <div><div className='col-lg-6 col-md-6'><p>Term in Month</p></div><div className='col-lg-1 col-md-1'style={{padding:0}}><p>:</p></div><div className=' col-lg-5 col-md-5'><p>{this.props.dataSource[0].term_in_month ? this.props.dataSource[0].term_in_month :'-'}</p><div></div></div></div>
-           <div><div className='col-lg-6 col-md-6'><p>Monthly Installment Amount</p></div><div className='col-lg-1 col-md-1'style={{padding:0}}><p>:</p></div><div className=' col-lg-5 col-md-5'><p>{this.props.dataSource[0].installment_amount ? this.props.dataSource[0].installment_amount :'-'}</p><div></div></div></div>
+           <div><div className='col-lg-6 col-md-6'><p>Loan Approve Amount</p></div><div className='col-lg-1 col-md-1'style={{padding:0}}><p>:</p></div><div className=' col-lg-5 col-md-5'><p>{this.props.dataSource[0].approved_amount ? getNumberWithCommas(this.props.dataSource[0].approved_amount) :'-'}</p><div></div></div></div>
+           <div><div className='col-lg-6 col-md-6'><p>Term in Month</p></div><div className='col-lg-1 col-md-1'style={{padding:0}}><p>:</p></div><div className=' col-lg-5 col-md-5'><p>{this.props.dataSource[0].term_in_month ? this.props.dataSource[0].term_in_month:'-'}</p><div></div></div></div>
+           {
+            filterData.length > 0 ? <div><div className='col-lg-6 col-md-6'><p>Monthly Installment Amount</p></div><div className='col-lg-1 col-md-1'style={{padding:0}}><p>:</p></div><div className=' col-lg-5 col-md-5'><p>{this.props.dataSource[0].data[0].monthly_installment ? getNumberWithCommas(this.props.dataSource[0].data[0].monthly_installment) :'-'}</p><div></div></div></div> : ''
+           }
+           
            </div>
            <table
           width="99%"

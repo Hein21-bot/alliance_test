@@ -875,6 +875,10 @@ function havePermissionForAmount(status, user_id) {
     }
 }
 
+function getNumberWithCommas(data) {
+    return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 function havePermission(status, user_id) {
     console.log("have permission",status,user_id)
     let user_info = getCookieData("user_info");
@@ -991,7 +995,7 @@ export {
     getTrainingVenue, getMainRole, getPermissionStatus, getSeverity, getPersonType,
     getBranchByHelpDesk, getPriority, getTicketStatus, getTicketMainCategory, getTicketSubCategory,
     validate, checkForStaffComplain, getDepartment, getWorkFlowStatus,
-    getCOEmployeeList, getFXEmployeeList, alertText, getLevel, havePermission,
+    getCOEmployeeList, getFXEmployeeList, alertText, getNumberWithCommas , getLevel, havePermission,
     getInformation, checkAmount, setPrintedStatus, removeCookieData, getLoginUser,
     print, stopSaving, startSaving, fno, getFirstDayOfMonth, getFirstDayOfYear, checkLimitAmount,
     checkHRManager, checkHRAssistant, checkApprovalStatus, isApprover, havePermissionForAmount,

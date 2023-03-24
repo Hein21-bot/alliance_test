@@ -24,12 +24,33 @@ class NavBar extends Component {
             count: 0,
             isOpen:true,
             isOpenDashboard: false,
-            isHR:false
+            isHR:false,
+            userPhoto:'',
+            userInfo:null
+            
         }
 
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+    const id = localStorage.getItem("user_id");
+
+        await fetch(main_url + `main/getUserInfo/${id}`)
+      .then((response) => {
+        if (response.ok) return response.json();
+        else return null;
+      })
+      .then((res) => {
+        this.setState({
+          userInfo: res[0],
+        },async ()=>{
+          this.state.userInfo!=null && this.state.userInfo.avatar !=null  ? await this.getProfile() : 
+          this.setState({
+            userPhoto:'/assets/img/SeekPng.com_profile-icon-png_9665493.png'
+          })
+        });
+       
+      });
         
        
         // document.querySelector(".minimalize-styl-2").addEventListener("click",this.afterClick)
@@ -107,6 +128,23 @@ class NavBar extends Component {
             console.log(error);
         }
     }
+    getProfile(){
+        console.log('asdfdasfdsaf')
+        fetch(main_url + `dashboard/getProfile/${this.state.userInfo.avatar}`)
+      .then((response) => {
+        console.log("response=====>",response)
+        if (response.ok){
+          this.setState({
+            userPhoto:response.url
+          })
+        }
+        // else{
+        //   this.setState({
+        //     userPhoto:'/assets/img/SeekPng.com_profile-icon-png_9665493.png'
+        //   })
+        // } ;
+      })
+      }
     
 
     // componentDidUpdate() {
@@ -128,8 +166,8 @@ class NavBar extends Component {
        
     // }
 
-    getNotiCount = () => {
-        fetch(`${main_url}noti/getNotiCountForOneUser/${id}`)
+     getNotiCount = async () => {
+       await fetch(`${main_url}noti/getNotiCountForOneUser/${id}`)
             .then(res => { if (res.ok) return res.json() })
             .then(data => {
                 this.setState({
@@ -141,8 +179,8 @@ class NavBar extends Component {
     // @hmh
     // child_benefit
 
-    getNotiCountForOneUser_child = () => {
-        fetch(`${main_url}noti/getNotiCountForOneUser_child/${id}`)
+    getNotiCountForOneUser_child = async () => {
+       await fetch(`${main_url}noti/getNotiCountForOneUser_child/${id}`)
             .then(res => { if (res.ok) return res.json() })
             .then(data => {
                 this.setState({
@@ -166,8 +204,8 @@ class NavBar extends Component {
     }
 
     //@kpk
-    getNotiCountForOneUser_wedding = () => {
-        fetch(`${main_url}noti/getNotiCountForOneUser_wedding/${id}`)
+    getNotiCountForOneUser_wedding = async () => {
+      await  fetch(`${main_url}noti/getNotiCountForOneUser_wedding/${id}`)
             .then(res => { if (res.ok) return res.json() })
             .then(data => {
                 this.setState({
@@ -177,8 +215,8 @@ class NavBar extends Component {
             })
     }
     //@kpk
-    getBenefitNotiCount_funeral = () => {
-        fetch(`${main_url}noti/getNotiCountForOneUser_funeral/${id}`)
+    getBenefitNotiCount_funeral = async () => {
+      await  fetch(`${main_url}noti/getNotiCountForOneUser_funeral/${id}`)
             .then(res => { if (res.ok) return res.json() })
             .then(data => {
                 this.setState({
@@ -188,8 +226,8 @@ class NavBar extends Component {
             })
     }
     //@kpk
-    getBenefitNotiCount_external = () => {
-        fetch(`${main_url}noti/getNotiCountForOneUser_external/${id}`)
+    getBenefitNotiCount_external = async () => {
+       await  fetch(`${main_url}noti/getNotiCountForOneUser_external/${id}`)
             .then(res => { if (res.ok) return res.json() })
             .then(data => {
                 this.setState({
@@ -199,8 +237,8 @@ class NavBar extends Component {
             })
     }
     //@kpk
-    getBenefitNotiCount_medical = () => {
-        fetch(`${main_url}noti/getNotiCountForOneUser_medical/${id}`)
+    getBenefitNotiCount_medical = async () => {
+      await  fetch(`${main_url}noti/getNotiCountForOneUser_medical/${id}`)
             .then(res => { if (res.ok) return res.json() })
             .then(data => {
                 this.setState({
@@ -211,8 +249,8 @@ class NavBar extends Component {
     }
 
     //@kpk
-    getBenefitNotiCount_teamBuilding = () => {
-        fetch(`${main_url}noti/getNotiCountForOneUser_teamBuilding/${id}`)
+    getBenefitNotiCount_teamBuilding = async () => {
+      await  fetch(`${main_url}noti/getNotiCountForOneUser_teamBuilding/${id}`)
             .then(res => { if (res.ok) return res.json() })
             .then(data => {
                 this.setState({
@@ -222,8 +260,8 @@ class NavBar extends Component {
             })
     }
     //@kpk
-    getBenefitNotiCount_other = () => {
-        fetch(`${main_url}noti/getNotiCountForOneUser_other/${id}`)
+    getBenefitNotiCount_other = async () => {
+        await fetch(`${main_url}noti/getNotiCountForOneUser_other/${id}`)
             .then(res => { if (res.ok) return res.json() })
             .then(data => {
                 this.setState({
@@ -284,6 +322,7 @@ class NavBar extends Component {
     // add.addEventListener('click',afterClick)
 
     render() {
+        console.log("nav condition=========>",this.state.userInfo!=null && this.state.userInfo.avatar !=null ? 'true' : 'false');
         let count = (parseInt(this.state.count) + parseInt(this.state.benefit_allowance_noti_count) + parseInt(this.state.wedding_benefit_count)
             + parseInt(this.state.funeral_benefit_count) + parseInt(this.state.external_benefit_count) + parseInt(this.state.medical_benefit_count)
             + parseInt(this.state.teamBuilding_benefit_count) + parseInt(this.state.other_benefit_count))
@@ -373,11 +412,13 @@ class NavBar extends Component {
                                 }}>
 
                                     <img
-                                        alt="logo"
+                                        // alt="logo"
                                         className="logostyle"
                                         onError={imageError}
                                         // src={this.state.user.avatar ? main_url + `dashboard/getProfile/`+  this.state.user.avatar : 'assets/img/SeekPng.com_profile-icon-png_9665493.png'}
-                                        src={'assets/img/SeekPng.com_profile-icon-png_9665493.png'}
+                                        // src={'assets/img/SeekPng.com_profile-icon-png_9665493.png'}
+                                        src={this.state.userPhoto ? this.state.userPhoto : '/assets/img/SeekPng.com_profile-icon-png_9665493.png' } alt={'profile'}
+
                                         style={{
                                             width: "57px",
                                             height: '57px',

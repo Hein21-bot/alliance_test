@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { main_url, getUserId } from "../../../utils/CommonFunction";
+import { main_url, getUserId, getNumberWithCommas } from "../../../utils/CommonFunction";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import Select from "react-select";
 import moment from "moment";
@@ -258,10 +258,6 @@ class SalaryHistoryReport extends Component {
       });
   };
 
-  NumberWithCommas(data) {
-    return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
-
   render() {
     return (
       <div>
@@ -497,10 +493,9 @@ class SalaryHistoryReport extends Component {
         </table> </div>
         </div>
         )}
+        <div className="table-responsive" style={{ overflowX: 'scroll', width:1000}}>
         <table
             className="table table-bordered"
-           
-            style={{ overflow: "scroll" ,minWidth:600}}
           >
             <thead>
               <tr
@@ -529,7 +524,7 @@ class SalaryHistoryReport extends Component {
                 <td style={{ borderColor: "white" }}>Basic Salary</td>
                 {this.state.basicSalaryData.map((b, i) => (
                   <td style={{ borderColor: "white" }} align={"right"}>
-                    {this.NumberWithCommas(b.basic_salary)}
+                    {getNumberWithCommas(b.basic_salary)}
                   </td>
                 ))}
               </tr>
@@ -540,7 +535,7 @@ class SalaryHistoryReport extends Component {
                     {this.state.data.map((v2, k2) => {
                       return (
                         <td style={{ borderColor: "white" }} align={"right"}>
-                          {v2[v1.label] == undefined ? 0 : this.NumberWithCommas(v2[v1.label])}
+                          {v2[v1.label] == undefined ? 0 : getNumberWithCommas(v2[v1.label])}
                         </td>
                       );
                     })}
@@ -551,12 +546,13 @@ class SalaryHistoryReport extends Component {
                 <td style={{ borderColor: "white" }}>Net Salary</td>
                 {this.state.netSalaryData.map((b, i) => (
                   <td style={{ borderColor: "white" }} align={"right"}>
-                    {this.NumberWithCommas(b.net_salary)}
+                    {getNumberWithCommas(b.net_salary)}
                   </td>
                 ))}
               </tr>
             </tbody>
           </table>
+        </div>
 </table>
 
   </div>

@@ -223,6 +223,7 @@ class BenefitWeddingAddNew extends Component {
         validate("check_form") &&
         (this.state.attachment.length > 0 || editData)
       ) {
+        console.log('wedding if condition');
         $('#saving_button').attr('disabled', true);
         var data = {
           user_id: this.state.one_benefit.user_id
@@ -293,8 +294,10 @@ class BenefitWeddingAddNew extends Component {
           })
           .then((text) => {
             this.props.showToast(status, text);
+            window.location.reload('/wedding_benefit')
           });
       } else {
+        console.log('wedding else condition')
         startSaving();
         toast.error(alertText, {
           position: "top-right",

@@ -46,7 +46,7 @@ class FuneralBenefitView extends Component {
 
         let tot = 0;
         for (let i = 0; i < arr.length; i++) {
-            tot += arr[i].headNo * amount;
+            tot += amount/arr[i].headNo;
         }
         return tot;
     }
@@ -133,7 +133,7 @@ class FuneralBenefitView extends Component {
                                         type="text"
                                         className="form-control"
                                         disabled
-                                        value={this.state.available_amount}
+                                        value={this.getTotalAmount(this.state.datasource.total_amount)}
                                     />
                                 </div>
                             </div>
@@ -144,7 +144,7 @@ class FuneralBenefitView extends Component {
                                         type="text"
                                         className="form-control"
                                         disabled
-                                        value={this.getTotalAmount(this.state.available_amount)}
+                                        value={this.state.datasource.total_amount}
                                     />
                                 </div>
                             </div>

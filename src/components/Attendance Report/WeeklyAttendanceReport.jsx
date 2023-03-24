@@ -38,6 +38,7 @@ class WeeklyAttendanceReport extends Component {
       from_date:moment(getFirstDayOfCurrentWeek()),
       to_date: moment(),
       EmployeeIDList: [],
+      HolidayList: [],
       selectedEmployeeId: "",
       selectedEmployeeID: null,
       selectedEmployeeName: null,
@@ -63,8 +64,18 @@ class WeeklyAttendanceReport extends Component {
         value: v.state_id,
       })),
     });
+    this.getHolidayList();
     this.getEmployeeList();
     this.handleSearchData();
+  }
+  getHolidayList() {
+    fetch(`${main_url}holidaySetup/getAllholiday`)
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({
+          HolidayList: data
+        });
+      });
   }
   getEmployeeList() {
     fetch(`${main_url}main/getEmployeeWithDesignation/0`)
@@ -169,7 +180,7 @@ class WeeklyAttendanceReport extends Component {
                     [dateList_one[i]+'_out']: moment(c.array[isExistIndex].end_time).format("hh:mm:ss A"),
                   })
                 }
-              } 
+              }
             }
             return R
           }, [])
@@ -391,10 +402,20 @@ class WeeklyAttendanceReport extends Component {
                       <td style={{ borderColor: "white" ,verticalAlign:'middle'}}>{v.branch}</td>
                       {this.state.dateList
                   ? this.state.dateList.map((v1, i1) => {
+                    let date = new Date(v1)
+                    let check_date = date.getDay()
+                    let holiday = 0
+                    if(check_date == 6 || check_date == 0){
+                      holiday = 1
+                    }
+                    let holiday_date = this.state.HolidayList.filter(data => moment(data.date).format("YYYY-MM-DD") === moment(v1).format("YYYY-MM-DD"))
+                    if(holiday_date.length>0){
+                      holiday = 1
+                    }
                       return (
                        <>
-                       <td style={{ borderColor: "white",verticalAlign:'middle' }}>{v[v1+'_in'] || '-'}</td>
-                      <td style={{ borderColor: "white",verticalAlign:'middle' }}>{v[v1+'_out'] || '-'}</td>
+                       <td style={{ borderColor: "white",verticalAlign:'middle', background: holiday ? 'gainsboro': 'white' }}>{v[v1+'_in'] || '-'}</td>
+                       <td style={{ borderColor: "white",verticalAlign:'middle',  background: holiday ? 'gainsboro': 'white' }}>{v[v1+'_out'] || '-'}</td>
                 </>
                       );
                     })

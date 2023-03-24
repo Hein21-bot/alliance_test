@@ -10,7 +10,7 @@ class Profile extends Component {
     this.state = {
       userInfo: null,
       // avatar:"",
-      // userPhoto:"",
+      userPhoto:"",
     };
   }
 
@@ -108,8 +108,8 @@ class Profile extends Component {
               }}
             >
               <img
-                onError={imageError}
-                src={this.state.userPhoto}
+                src={this.state.userPhoto ? this.state.userPhoto : '/assets/img/SeekPng.com_profile-icon-png_9665493.png' } alt={'profile'}
+                onError={this.state.userPhoto ? this.state.userPhoto : imageError}
                 // src={this.state.userInfo.avatar ? main_url + `dashboard/getProfile/` + this.state.userInfo.avatar : 'assets/img/SeekPng.com_profile-icon-png_9665493.png'}
                 style={{ width: 90, height: 90, borderRadius: 45, objectFit: "cover", border: "5px solid #23c6c8" }}
               />

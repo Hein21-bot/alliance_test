@@ -24,7 +24,7 @@ class HolidayAttendance extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            s_date: moment(),
+            s_date: moment(getFirstDayOfMonth()),
             e_date: moment(),
             data: [],
             visible: false,

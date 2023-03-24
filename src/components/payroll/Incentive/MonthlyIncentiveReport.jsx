@@ -9,7 +9,7 @@ const $ = require('jquery');
 
 export default class MonthlyIncentiveReport extends Component{
     constructor(props){
-      super(props);{
+      super(props)
         this.state={
       employeeIdList: [],
       EmployeeNameList: [],
@@ -34,7 +34,6 @@ export default class MonthlyIncentiveReport extends Component{
       selected_employee: "",
       selected_type: { value: 1, label: "CO",name:'co' },
       table_type:1
-        }
       }};
 componentDidMount(){
     this.getEmployeeCodeList();
@@ -173,7 +172,7 @@ getRegionList() {
   const branchId = this.state.selected_branch ? this.state.selected_branch.value :0
   const regionId = this.state.selected_region ? this.state.selected_region.value : 0
 
-    fetch(main_url + "salary_report/monthlyReport/" + employee + "/" + designationId + "/" + branchId + "/" + regionId + "/" + this.state.selected_type.name + "/" + moment(this.state.selected_month).format('YYYY-MM') + "/" +'1' ) 
+  fetch(main_url + "salary_report/monthlyReport/" + employee + "/" + designationId + "/" + branchId + "/" + regionId + "/" + this.state.selected_type.name + "/" + moment(this.state.selected_month).format('YYYY-MM') + "/" +'1' ) 
       .then(res => { if (res.ok) {return res.json()} else { return res.text} })
       .then(list => {
         if (this.state.selected_type.value === 1){
@@ -487,9 +486,8 @@ getRegionList() {
                         }
             </div>
             <div className="col-lg-12" style={{padding:'0px 0px 0px 0px',margin:'0px 0px 0px 0px', backgroundColor:'#fff'}}>
-            {  this.state.table_type === 1  && this.state.coData.length > 0 ? (  
-               
-                       
+            {  this.state.table_type === 1  && this.state.coData.length > 0 ? (
+               <>
                <table
                id="monthly_incentive"
               className="table table-bordered"
@@ -649,6 +647,19 @@ getRegionList() {
                 }):''}
               </tbody>
             </table>
+            <div style={{width:"100%",display:'flex',justifyContent:'end'}}>
+              <div className='col-lg-4'>
+                <table className="table "style={{overflow:'scroll',  border:'1px solid #c1c1c1',marginBottom:0}}>
+                  <thead>
+                    <tr style={{overflow:'scroll',border:'1px solid #c1c1c1' }}>
+                                <td style={{textAlign:'center',width:100,border:'1px solid #c1c1c1',fontWeight:'bold'}} colSpan={2}>Grand Total</td>
+                                <td style={{textAlign:'center',width:100,border:'1px solid #c1c1c1'}} colSpan={2}>{this.state.coData[0].data ? this.state.coData[0].data.reduce((a,c)=>{return a+c.totalIncentive},0).toLocaleString('en-US',{maximumFractionDigits:2}) : '-'}</td>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div >
+            </>
                 
             ) : this.state.table_type === 1 && this.state.coData.length === 0 ? (
               

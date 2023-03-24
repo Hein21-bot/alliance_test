@@ -151,7 +151,7 @@ import StaffLoanApprove from './StaffLoan/StaffLoanApprove';
 import StaffLoanSummaryReport from './StaffLoan Report/StaffLoanSummaryReport';
 import HrStatistics from './Reports/HrStatistics';
 
-
+import CalculateEarnLeave from './LeaveManagement/CalculateEarnLeave';
 
 const Main = () => (
     <Switch>
@@ -306,6 +306,9 @@ const Main = () => (
         <Route path='/staff_loan_approve' component={StaffLoanApprove} ></Route>
         <Route path='/staff_loan_summary_report' component={StaffLoanSummaryReport} ></Route>
         <Route path='/hr_statistic' component={HrStatistics} ></Route>
+
+
+        <Route path='/CalculateEarnLeave' component={CalculateEarnLeave}></Route>
 
         
 

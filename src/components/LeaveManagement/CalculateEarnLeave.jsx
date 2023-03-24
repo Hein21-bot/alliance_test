@@ -7,7 +7,7 @@ import $ from 'jquery';
 
 // var pagination = 0;
 const length = 50;
-export default class LeaveReport extends Component {
+export default class CalculateEarnLeave extends Component {
 
     constructor(props) {
         super(props);

@@ -442,18 +442,20 @@ class StaffLoanEdit extends Component {
       })
     }else{
       const tempAmount= e.target.value / this.state.selectedRepaymentPeriod
+      const TrimDecimal=Math.trunc(tempAmount)
       this.setState({
         selectedRequestAmount:e.target.value,
-        InstallmentAmount:tempAmount
+        InstallmentAmount:TrimDecimal
       })
     }
     
   }
   handleRepaymentPeriod=(e)=>{
     const tempAmount=this.state.selectedRequestAmount / e.target.value
+    const TrimDecimal=Math.trunc(tempAmount)
     this.setState({
       selectedRepaymentPeriod:e.target.value,
-      InstallmentAmount:tempAmount
+      InstallmentAmount:TrimDecimal
     })
   }
   handleLoanPurpose=(e)=>{
@@ -889,24 +891,26 @@ class StaffLoanEdit extends Component {
       }else {
         if (this.state.FamilyGuarantorNRCDoc.length > 0 && this.state.FamilyIncomeDoc.length > 0 && this.state.StaffGuarantorNRCDoc.length > 0 && this.state.RequestNRCDoc.length > 0 && this.state.selectedFamilyRelation != null && this.state.selectedFamilyName != '' && this.state.selectedFamilyNRC!='' && this.state.selectedFamilyAddress != '' && this.state.selectedFamilyIncome!=0 && this.state.selectedFamilyJob != '' && this.state.selectedFamilyPhone !=0 && this.state.selectedWithdrawLocation !=null && this.state.selectedLoanPurpose != '' && this.state.selectedGuarantor !=null ) {
 
-          console.log("save new doc=====>");
+          console.log("save new doc=====>",this.state.selectedRequestAmount,this.state.selectedRepaymentPeriod,this.state.InstallmentAmount);
           var { status_title, is_main_role } = this.state;
           $("#saving_button").attr("disabled", true);
           var data = {
-            userId: this.state.user_info.user_id,
-            staffGuarantorUserId:this.state.selectedGuarantor!=null ? this.state.selectedGuarantor.value : '',
-            familyGuarantorName:this.state.selectedFamilyName,
-            familyGuarantorNRC:this.state.selectedFamilyNRC,
-            familyRelation:this.state.selectedFamilyRelation.value,
-            familyGuarantorJob:this.state.selectedFamilyJob,
-            familyGuarantorAddres:this.state.selectedFamilyAddress,
-            familyGuarantorIncome:this.state.selectedFamilyIncome,
-            familyGuarantorPhone:this.state.selectedFamilyPhone,
-            requestAmount:this.state.selectedRequestAmount,
-            repaymentPeriod:this.state.selectedRepaymentPeriod,
-            loanRequestInstallmentAmount:this.state.InstallmentAmount,
-            loanPurpose:this.state.selectedLoanPurpose,
-            withdrawLocation:this.state.selectedWithdrawLocation.value,
+            // user_id: this.state.user_info.user_id,
+            staff_guarantor_id:this.state.selectedGuarantor!=null ? this.state.selectedGuarantor.value : '',
+            family_guarantor_name:this.state.selectedFamilyName,
+            family_guarantor_nrc:this.state.selectedFamilyNRC,
+            relation_family:this.state.selectedFamilyRelation.value,
+            family_guarantor_job:this.state.selectedFamilyJob,
+            family_guarantor_address:this.state.selectedFamilyAddress,
+            family_guarantor_income_info:this.state.user_info.user_id != Details.user_id ? this.state.selectedFamilyIncome!=0 && this.state.selectedFamilyIncome.split(',').join('') : this.state.selectedFamilyIncome,
+            family_guarantor_phone:this.state.selectedFamilyPhone,
+
+            requested_amount:this.state.user_info.user_id != Details.user_id ? this.state.selectedRequestAmount!=0 && this.state.selectedRequestAmount.split(',').join('') : this.state.selectedRequestAmount,
+            repayment_period:this.state.selectedRepaymentPeriod,
+            installment_amount:this.state.user_info.user_id != Details.user_id ? this.state.InstallmentAmount!=0 && this.state.InstallmentAmount.split(',').join('') : this.state.InstallmentAmount,
+
+            loan_purpose:this.state.selectedLoanPurpose,
+            withdraw_location:this.state.selectedWithdrawLocation.value,
             // status: this.state.status,
             // createdBy: this.state.user_info.user_id,
             target_achievement:this.state.targetAchievement,
@@ -1077,10 +1081,14 @@ class StaffLoanEdit extends Component {
   }
 
   render() {
+    
     const{staffInfo,getGuarantorInfo}=this.state;
     const Details=this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.mainData != undefined && this.state.staffInfoDetails.mainData.length > 0 && this.state.staffInfoDetails.mainData[0]
-    
-    console.log("details",Details)
+    console.log('trim data=====>',this.state.user_info.user_id != Details.user_id ? this.state.selectedFamilyIncome!=0 
+    && this.state.selectedFamilyIncome
+    .split(',').join('') : this.state.selectedFamilyIncome
+    )
+    console.log("details========>",this.state.selectedRequestAmount,this.state.selectedRepaymentPeriod,this.state.InstallmentAmount)
 
     let otherLoanDetils=(this.state.staffInfoDetails.length != 0 && this.state.staffInfoDetails.detailsData != undefined && this.state.staffInfoDetails.detailsData.length > 0 && this.state.staffInfoDetails.detailsData)
 
@@ -1746,7 +1754,10 @@ class StaffLoanEdit extends Component {
                   </label>
                 </div>
                 <div className="col-md-12">
-                  <input type={this.state.user_info.user_id == Details.user_id ? "number" : "float"} className="form-control"
+                  <input 
+                  type={this.state.user_info.user_id == Details.user_id ? "number" : "float"}
+                  // type="number"
+                   className="form-control"
                     disabled={this.state.user_info.user_id  != Details.user_id}
                    onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} value={this.state.selectedRequestAmount}
                   onChange={this.handleRequestAmount}
