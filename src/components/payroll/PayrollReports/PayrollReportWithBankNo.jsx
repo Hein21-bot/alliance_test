@@ -40,13 +40,14 @@ class PayrollReportWithBankNo extends Component {
   }
 
   async componentDidMount() {
-    await this.getPayrollReportWithBankNo();
     await this.getEmployeeName();
     await this.getBranchList();
     await this.getDepartmentList();
     await this.getRegionList();
     await this.getEmployeeList();
     await this.getBank();
+    await this.getPayrollReportWithBankNo();
+
 
 
   }
@@ -57,7 +58,7 @@ class PayrollReportWithBankNo extends Component {
     let regionId=this.state.selected_region ? this.state.selected_region.value: 0;
     let employeeId=this.state.empId ? this.state.empId.value: 0;
     let bankId=this.state.selected_bank ?  this.state.selected_bank.value : 0 ;
-    fetch(main_url + `salary_report/payrollWithBankReport/${moment(this.state.date).format('YYYY-MM')}/${branchId}/${regionId}/${deparmentId}/${employeeId}`)
+    fetch(main_url + `salary_report/payrollWithBankReport/${moment(this.state.date).format('YYYY-MM')}/${branchId}/${regionId}/${deparmentId}/${employeeId}/${bankId}`)
     .then(response => {
       if (response.ok){
         return response.json();
@@ -98,6 +99,8 @@ getBank=async ()=> {
           this.setState({
               bankList: data.map(v => ({ ...v, label: v.bank_name, value: v.id, name: v.bank_name })),
               // allEmployeeID: all
+          },()=>{
+            this.state.bankList.unshift({label:'All',value:0})
           })
 
       })
@@ -229,7 +232,8 @@ getBank=async ()=> {
           department:data[i].deptname ? data[i].deptname : '-',
           bank_format_name:data[i].account_name.toUpperCase() ? data[i].account_name.toUpperCase() : '-',
           nrc:data[i].nrc ? data[i].nrc : '-',
-          atm_no:data[i].account_no ? data[i].account_no : '-',
+          bank_name:data[i].bank_name ?  data[i].bank_name : '-',
+          account_no:data[i].account_no ? data[i].account_no : '-',
           total_salary:data[i].payment_amount ? data[i].payment_amount : '-',
         }
         l.push(obj)
@@ -252,7 +256,8 @@ getBank=async ()=> {
         { title : "Department",data:'department'},
         { title: "Bank Format Name", data: "bank_format_name" },
         { title: "NRC", data: "nrc" },
-        { title: "ATM No", data: "atm_no" },
+        {title :"Bank Name",data:'bank_name'},
+        { title: "Account No", data: "account_no" },
         { title: "Total Salary", data: "total_salary" },
       ]
       table = $("#dataTables-table").DataTable({
@@ -440,7 +445,7 @@ getBank=async ()=> {
                 classNamePrefix="react-select"
               />
             </div>
-            {/* <div className="col-md-2">
+            <div className="col-md-2">
               <label htmlFor="">Bank Name</label>
               <Select
                 styles={{
@@ -462,7 +467,7 @@ getBank=async ()=> {
                 className="react-select-container"
                 classNamePrefix="react-select"
               />
-            </div> */}
+            </div>
           </div>
         
         <table width="99%"
