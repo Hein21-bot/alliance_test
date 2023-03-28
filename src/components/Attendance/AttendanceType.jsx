@@ -50,10 +50,10 @@ class AttendanceType extends Component {
 
   async componentDidMount() {
     //test
-  //  var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Attendance Request', 'Attendance');
+   var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Attendance Request', 'Attendance');
 
     //live
-    var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Attendance and Leave', 'Leave');
+    // var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'Attendance and Leave', 'Leave');
     // var permission_status = await getPermissionStatus(this.state.user_info.role_id, 'Attendance', 'Attendance');
     this.setState({
       permission_status:permission_status
