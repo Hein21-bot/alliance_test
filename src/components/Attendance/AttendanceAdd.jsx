@@ -32,18 +32,14 @@ export default class AttendanceAdd extends Component{
     this.setState({
       reasonList:reasonList
     })
-    
-    }
-// getAttendanceReason(){
-//   fetch(`${main_url}attendance/fieldAttendanceReason`)
 
-// }
+    }
 
      success(data) { console.log(data);
         const crd = data.coords;
       this.setState({
-        latti: crd.latitude,
-        longi: crd.longitude
+        latti: crd.latitude.toFixed(7),
+        longi: crd.longitude.toFixed(7)
       })
       }
    onChangeReason(e){
@@ -67,7 +63,7 @@ this.setState({
 })
    }
    handleClick(){
-    // this.getGeolocation()
+     // this.getGeolocation()
     const options = {
         enableHighAccuracy: true,
         timeout: 5000,
@@ -78,32 +74,24 @@ this.setState({
       function error(err) {
         alert(`ERROR(${err.code}): ${err.message}`);
       }
-      if(window.location.protocol !== 'http:'){
-        console.log('https');
         navigator.geolocation.getCurrentPosition(this.success.bind(this), error, options);
-      }else{
-        console.log('http');
-        fetch(`http://ip-api.com/json`)
-        .then(response => {
-          return response.json();
-        }).then(res =>{
-          this.setState({
-            latti:res.lat,
-            longi: res.lon
-          })
-        }).catch(err =>{
-          console.log('error',err);
-        })
-      }
+      // if(window.location.protocol !== 'http:'){
+      //   console.log('https');
+      // }else{
+      //   console.log('http');
+      //   fetch(`http://ip-api.com/json`)
+      //   .then(response => {
+      //     return response.json();
+      //   }).then(res =>{
+      //     this.setState({
+      //       latti:res.lat,
+      //       longi: res.lon
+      //     })
+      //   }).catch(err =>{
+      //     console.log('error',err);
+      //   })
+      // }
    }
-  // handleClick(){
-  //   console.log("action=======>")
-  //   // navigator.geolocation.getCurrentPosition(position=>console.log("position======>",position))
-  //   navigator.geolocation.getCurrentPosition(
-  //     (position) => {
-  //       console.log("position",position)
-  //     })
-  // }
    handleChechIn(){
     if(this.state.latti === '' || this.state.longi === ''){
       toast('Please Fill Your Location First!')
@@ -114,6 +102,9 @@ this.setState({
       };
       fetch(`${main_url}attendance/checkLoginCondition`,{
         method:'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
         body:JSON.stringify(obj)
       })
       .then(response => {
@@ -145,7 +136,14 @@ this.setState({
             type:'3'
           })
           
+        }else{
+          this.setState({
+            type:'7'
+          },()=>{
+            this.handleComfirm();
+            })
         }
+
       })
     }
    }
@@ -165,8 +163,8 @@ this.setState({
       .then(response => {
         return response.json();
       })
-      .then(res => {
-        if (res.holiday1 === true) {
+      .then(res => {         
+          if (res.holiday1 === true) {
           this.setState({
             modal:true,
             message:'You make attendance on Holiday. Do you want to make a Holiday Attendance Request?',
@@ -190,6 +188,12 @@ this.setState({
             type:'6'
           })
           
+        }else{          
+          this.setState({
+            type:'8'
+          },()=>{
+            this.handleComfirm();
+            })
         }
       })
     }
@@ -269,15 +273,35 @@ this.setState({
           earlyCheckOutReason:this.state.reason,
         }
       };  
+      break;
+    case '7':
+      var obj = {
+        data:{
+        userId:this.state.user_id,
+        latitude:this.state.latti,
+        longtitude:this.state.longi,
+        }
+      };
+      break;  
+    case '8':
+      var obj = {
+        data:{
+        userId:this.state.user_id,
+        latitude:this.state.latti,
+        longtitude:this.state.longi,
+        }
+      };
       break;  
       default:  
       var obj = {
         data: ''
       };  
     } 
-    if ((this.state.reason === '' )){ console.log(this.state.fieldReason,this.state.reason)
+    if (this.state.reason === '' && (this.state.type != '7' || this.state.type != '8')){ console.log(this.state.fieldReason,this.state.reason)
       toast('Please Fill Reason First!')
-    } else if(this.state.type === '1' || this.state.type === '2' || this.state.type === '3' ){
+      return;
+    }
+    if(this.state.type === '1' || this.state.type === '2' || this.state.type === '3'  || this.state.type === '7' ){
       let status = 0;
       fetch(`${main_url}attendance/addAttendance`,{
         method:'POST',
@@ -305,7 +329,7 @@ this.setState({
       .catch(err =>
         console.log(err)
       )
-    }else if (this.state.type === '4' || this.state.type === '5' || this.state.type === '6' ){   console.log("api");
+    }else if (this.state.type === '4' || this.state.type === '5' || this.state.type === '6' || this.state.type === '8' ){   console.log("api");
     let status = 0;
     fetch(`${main_url}attendance/editAttendance`,{
         method:'POST',
@@ -450,6 +474,7 @@ this.setState({ modal: false,latti:'',longi:'',showReason:false,missAtt:false })
 //    }
 
     render(){ 
+      console.log('type',this.state.type,'__',this.state.latti,'__',this.state.longi);
         return(
 
         <div>
