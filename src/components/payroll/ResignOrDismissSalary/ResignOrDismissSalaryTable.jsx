@@ -56,9 +56,6 @@ export default class ResignOrDismissSalaryTable extends Component {
     this.getRegionList();
     this.getDepartmentList();
     this.getExitStatus();
-<<<<<<< HEAD
-    var permission_status = await getPermissionStatus(this.state.user_info.designations_id,  'ResignOrDismiss', 'ResignOrDismiss');
-=======
 
     //test
     var permission_status = await getPermissionStatus(this.state.user_info.designations_id,  'Resign Or Dismiss Salary', 'Payroll');
@@ -67,7 +64,6 @@ export default class ResignOrDismissSalaryTable extends Component {
     // var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'ResignOrDismiss', 'ResignOrDismiss');
 
 
->>>>>>> b210afc9c8b6f08ac2bc019ed4435b8eb95088ef
 
   // var permission_status = await getPermissionStatus(this.state.user_info.role_id,  'ResignOrDismiss', 'ResignOrDismiss');
     this.setState({
