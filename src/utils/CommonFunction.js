@@ -15,7 +15,8 @@ const CryptoJS = require('crypto-js');
 // server 
 
 // const main_url = "http://192.168.100.45:8082/" // local
-// const main_url = "http://localhost:8082/"
+// const main_url_test = "http://localhost:8082/"
+const main_url_test = " "
 
 
 // const main_url = "http://103.29.91.26:50092/"; // test server
@@ -990,7 +991,7 @@ async function getMonthName(monthNumber) {
   }
 
 export {
-    main_url, remote_url, getUserInfo, setCookieData, getCookieData,
+    main_url, remote_url,main_url_test, getUserInfo, setCookieData, getCookieData,
     getUserId, getActionStatus, getDesignation, getBranch, getTicketCategoryType, getRegion,
     getTrainingVenue, getMainRole, getPermissionStatus, getSeverity, getPersonType,
     getBranchByHelpDesk, getPriority, getTicketStatus, getTicketMainCategory, getTicketSubCategory,
