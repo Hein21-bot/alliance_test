@@ -49,7 +49,15 @@ export default class ForeignerSalaryTable extends Component {
     };
   }
   async componentDidMount() {
+<<<<<<< HEAD
     var permission_status = await getPermissionStatus(this.state.user_info.designations_id,'Foreigner Salary','Foreigner Salary');
+=======
+  //test
+    var permission_status = await getPermissionStatus(this.state.user_info.designations_id,'Foreigner Salary','Payroll');
+
+    //live
+    // var permission_status = await getPermissionStatus(this.state.user_info.designations_id,'Foreigner Salary','Foreigner Salary');
+>>>>>>> b210afc9c8b6f08ac2bc019ed4435b8eb95088ef
 
     // var permission_status = await getPermissionStatus(this.state.user_info.role_id,'Foreigner Salary','Foreigner Salary');
     this.setState({

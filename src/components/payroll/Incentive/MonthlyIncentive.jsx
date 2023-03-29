@@ -178,6 +178,8 @@ export default class MonthlyIncentive extends Component {
     document.querySelector("#attachment").value = "";
     this.setState({
       selected_type: event,
+      newDoc:[],
+      searchData:[]
     });
   };
 

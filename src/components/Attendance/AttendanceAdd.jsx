@@ -20,7 +20,7 @@ export default class AttendanceAdd extends Component{
             showReason:false,
             reason:'',
             reasonType:'',
-            type:'',
+            type:null,
             fieldLocation:'',
             reasonList:[],
             missAtt:false
@@ -32,18 +32,14 @@ export default class AttendanceAdd extends Component{
     this.setState({
       reasonList:reasonList
     })
-    
-    }
-// getAttendanceReason(){
-//   fetch(`${main_url}attendance/fieldAttendanceReason`)
 
-// }
+    }
 
      success(data) { console.log(data);
         const crd = data.coords;
       this.setState({
-        latti: crd.latitude,
-        longi: crd.longitude
+        latti: crd.latitude.toFixed(7),
+        longi: crd.longitude.toFixed(7)
       })
       }
    onChangeReason(e){
@@ -67,7 +63,7 @@ this.setState({
 })
    }
    handleClick(){
-    // this.getGeolocation()
+     // this.getGeolocation()
     const options = {
         enableHighAccuracy: true,
         timeout: 5000,
@@ -78,23 +74,23 @@ this.setState({
       function error(err) {
         alert(`ERROR(${err.code}): ${err.message}`);
       }
-      if(window.location.protocol !== 'http:'){
-        console.log('https');
         navigator.geolocation.getCurrentPosition(this.success.bind(this), error, options);
-      }else{
-        console.log('http');
-        fetch(`http://ip-api.com/json`)
-        .then(response => {
-          return response.json();
-        }).then(res =>{
-          this.setState({
-            latti:res.lat,
-            longi: res.lon
-          })
-        }).catch(err =>{
-          console.log('error',err);
-        })
-      }
+      // if(window.location.protocol !== 'http:'){
+      //   console.log('https');
+      // }else{
+      //   console.log('http');
+      //   fetch(`http://ip-api.com/json`)
+      //   .then(response => {
+      //     return response.json();
+      //   }).then(res =>{
+      //     this.setState({
+      //       latti:res.lat,
+      //       longi: res.lon
+      //     })
+      //   }).catch(err =>{
+      //     console.log('error',err);
+      //   })
+      // }
    }
    handleChechIn(){
     if(this.state.latti === '' || this.state.longi === ''){
@@ -106,6 +102,9 @@ this.setState({
       };
       fetch(`${main_url}attendance/checkLoginCondition`,{
         method:'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
         body:JSON.stringify(obj)
       })
       .then(response => {
@@ -117,7 +116,7 @@ this.setState({
             modal:true,
             message:'You make attendance on holiday. Do you want to make a Holiday Attendance Request?',
             reasonType:'Holiday Check In',
-            type:'1'
+            type:1
 
           })
          
@@ -126,7 +125,7 @@ this.setState({
             modal:true,
             message:'Your attendance location is out of office, Do you want to make Field Attendance?',
             reasonType:'Field Check In',
-            type:'2'
+            type:2
           })
          
         }else if (res.check_time1 == true) {
@@ -134,10 +133,18 @@ this.setState({
             modal:true,
             message:'Your attendance time is late, Do you want to make Late Attendance Request',
             reasonType:'Late Check In',
-            type:'3'
+            type:3
           })
           
+        }else{
+          this.setState({
+            type:7
+          },()=>{
+            this.handleComfirm();
+            console.log("set state",this.state.type,typeof(this.state.type))
+            })
         }
+
       })
     }
    }
@@ -157,13 +164,13 @@ this.setState({
       .then(response => {
         return response.json();
       })
-      .then(res => {
-        if (res.holiday1 === true) {
+      .then(res => {         
+          if (res.holiday1 === true) {
           this.setState({
             modal:true,
             message:'You make attendance on Holiday. Do you want to make a Holiday Attendance Request?',
             reasonType:'Holiday Check Out',
-            type:'4'
+            type:4
           })
          
         } else if (res.location1 === true) {
@@ -171,7 +178,7 @@ this.setState({
             modal:true,
             message:'Your attendance location is out of office, Do you want to make Field Attendance?',
             reasonType:'Field Check Out',
-            type:'5'
+            type:5
           })
          
         }else if (res.check_out_time1 === true) {
@@ -179,21 +186,28 @@ this.setState({
             modal:true,
             message:'Your attendance time is early, Do you want to make Early Check Out Request?',
             reasonType:'Early Check Out',
-            type:'6'
+            type:6
           })
           
+        }else{          
+          this.setState({
+            type:8
+          },()=>{
+            this.handleComfirm();
+            })
         }
       })
     }
    }
    handleComfirm(){
+    console.log("handle confirm",typeof(this.state.type),this.state.type)
   var typeOne = this.state.type
   if(this.state.user_id != getUserId("user_info")){
     toast('User Id is not the same !')
     return;
   }
    switch (typeOne){  
-    case '1' :
+    case 1 :
       var obj = {
       data: {
           userId:this.state.user_id,
@@ -204,7 +218,7 @@ this.setState({
       }
     };
     break;
-   case '2' :
+   case 2 :
     var obj = {
       data: {
         userId:this.state.user_id,
@@ -217,7 +231,7 @@ this.setState({
       }
     };
     break;
-    case '3' :
+    case 3 :
       var obj = {
         data: {
           userId:this.state.user_id,
@@ -228,7 +242,7 @@ this.setState({
         }
       };
       break;
-    case '4' :
+    case 4 :
       var obj = {
         data: {
           userId:this.state.user_id,
@@ -238,7 +252,7 @@ this.setState({
         }
       };
       break;
-    case '5' :
+    case 5 :
       var obj = {
         data: {
           userId:this.state.user_id,
@@ -251,7 +265,7 @@ this.setState({
         }
       };
       break;
-    case '6' :
+    case 6 :
       var obj = {
         data: {
           userId:this.state.user_id,
@@ -261,15 +275,34 @@ this.setState({
           earlyCheckOutReason:this.state.reason,
         }
       };  
+      break;
+    case 7:
+      var obj = {
+        data:{
+        userId:this.state.user_id,
+        latitude:this.state.latti,
+        longtitude:this.state.longi,
+        }
+      };
+      break;  
+    case 8:
+      var obj = {
+        data:{
+        userId:this.state.user_id,
+        latitude:this.state.latti,
+        longtitude:this.state.longi,
+        }
+      };
       break;  
       default:  
       var obj = {
         data: ''
       };  
     } 
-    if ((this.state.reason === '' )){ console.log(this.state.fieldReason,this.state.reason)
+    if (this.state.reason== '' && (this.state.type == 1 || this.state.type == 2 || this.state.type == 3 || this.state.type == 4 || this.state.type == 5 || this.state.type == 6)){
       toast('Please Fill Reason First!')
-    } else if(this.state.type === '1' || this.state.type === '2' || this.state.type === '3' ){
+    }
+    else if(this.state.type === 1 || this.state.type === 2 || this.state.type === 3  || this.state.type === 7 ){
       let status = 0;
       fetch(`${main_url}attendance/addAttendance`,{
         method:'POST',
@@ -297,7 +330,7 @@ this.setState({
       .catch(err =>
         console.log(err)
       )
-    }else if (this.state.type === '4' || this.state.type === '5' || this.state.type === '6' ){   console.log("api");
+    }else if (this.state.type === 4 || this.state.type === 5 || this.state.type === 6 || this.state.type === 8 ){   console.log("api");
     let status = 0;
     fetch(`${main_url}attendance/editAttendance`,{
         method:'POST',
@@ -396,7 +429,7 @@ switch (typeOne){
    }
 
    hide(e) {
-    if (this.state.type === '3' && e === 1){
+    if (this.state.type === 3 && e === 1){
       var obj = {
         data: {
           userId:this.state.user_id,
@@ -442,6 +475,7 @@ this.setState({ modal: false,latti:'',longi:'',showReason:false,missAtt:false })
 //    }
 
     render(){ 
+      console.log('type',this.state.type,typeof(this.state.type),this.state.type != 7 ?  "no equal" : 'equal','__',this.state.latti,'__',this.state.longi);
         return(
 
         <div>
@@ -495,7 +529,7 @@ this.setState({ modal: false,latti:'',longi:'',showReason:false,missAtt:false })
                </div>
               { this.state.showReason ? 
               <div className="col-lg-12" style={{marginTop:20}}>
-               { this.state.type === '2' || this.state.type === '5' ? (
+               { this.state.type === 2 || this.state.type === 5 ? (
              <div>
              <div className="col-lg-12" style={{marginTop:20}}>
                 <div className="col-lg-5 col-md-5 col-sm-5" style={{height:35,display:'flex',justifyContent:'end',alignItems:'center'}}>
