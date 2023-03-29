@@ -25,7 +25,7 @@ class BenefitOtherEdit extends Component {
             comment: '',
             branch: [],
             selected_location: [],
-            withdraw_location: 0,
+            withdraw_location: this.props.data.withdraw_location,
         }
     }
 
@@ -65,7 +65,8 @@ class BenefitOtherEdit extends Component {
         data.withdraw_location = e.value;
         this.setState({
             selected_location: e,
-            claimData: data
+            claimData: data,
+            withdraw_location: e.value
         })
     }
 
