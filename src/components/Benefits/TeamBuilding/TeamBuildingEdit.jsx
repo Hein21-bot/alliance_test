@@ -24,7 +24,7 @@ class TeamBuildingAddNew extends Component {
             updatedBy: 0,
             user_id: user_info.user_id,
             selected_quater: [],
-            selected_location: [],
+            selected_location: null,
             employee_list: [],
             branchlist: [],
             is_main_role: false,
@@ -41,7 +41,7 @@ class TeamBuildingAddNew extends Component {
             .then(res => { if (res.ok) return res.json() })
             .then(list => {
                 this.setState({
-                    branchlist: list.map(v => ({ ...v, label: v.branch_name, value: v.branch_id }))
+                    branchlist: list
                 })
             })
     }
@@ -67,12 +67,13 @@ class TeamBuildingAddNew extends Component {
     }
 
     async setOneBenefit(data) {
+        // console.log("data===>",data)
         if (!Array.isArray(data) && data !== null) {
             this.getTeamBuildingDetail(data.benefit_id);
             var work_flow = await getWorkFlowStatus(data.createdBy, this.state.user_id, 'Team Building', 'Benefit');
             this.setState({
                 selected_quater: { value: data.quater_id, label: data.quarter_name },
-                selected_location: { value: data.branch_id, label: data.branch_name },
+                selected_location: { value: data.location_id, label: data.branch_name },
                 status: data.status,
                 year: {value: data.year,label:data.year},
                 work_flow_status: work_flow,
@@ -99,6 +100,7 @@ class TeamBuildingAddNew extends Component {
     }
 
     handleSelectedLocation = (event) => {
+        // console.log("event=====>",event)
         if (event !== null) this.getEmployeeListByBranch(event.value);
         this.setState({
             selected_location: event
@@ -242,6 +244,7 @@ class TeamBuildingAddNew extends Component {
     }
 
     render() {
+        // console.log("selected location",this.state.selected_location,this.state.branchlist)
         this.total_amount = 0;
         var { is_main_role } = this.state;
         return (
