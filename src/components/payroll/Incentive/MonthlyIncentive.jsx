@@ -285,6 +285,7 @@ export default class MonthlyIncentive extends Component {
         }
       })
       .then((list) => { 
+        console.log("list=====>",list)
         if (this.state.selected_type.value === 1) { 
           this.setState({
             searchData:list.data || [],
@@ -398,12 +399,12 @@ export default class MonthlyIncentive extends Component {
           console.log('aung tl',response)
           this.setState({
             loading: false,
-            fxData: response,
+            fxData: response.data,
             newDoc:response,
             deleteType: true,
             table_type: 2,
           });
-          await this._setDataTable(response);
+          await this._setDataTable(response.data);
         }
         //  else if (status == 200 && this.state.selected_type.value == 3) {
         //   this.setState({
@@ -462,8 +463,9 @@ $('#search').keyup(function() {
   };
 
   async _setDataTable(compData) {
+
     console.log("data in datatable",compData)
-    let data=compData.data
+    let data=compData
     var table;
     var l = [];
     if (data!=null && data.length > 0) {
@@ -650,7 +652,9 @@ $('#search').keyup(function() {
   //   });
   // };
 
-  render() { console.log('validate',this.state.fxData.length <= 0 || (this.state.fxData.length > 0 && this.state.fxData[0].generate) === 2 ? 'false':'true');
+  render() { 
+    console.log('validate',this.state.fxData.length <= 0 || (this.state.fxData.length > 0 && this.state.fxData[0].generate) === 2 ? 'false':'true');
+    console.log('search data=====>',this.state.searchData,this.state.fxData)
     return (
       <div>
         <ToastContainer />
