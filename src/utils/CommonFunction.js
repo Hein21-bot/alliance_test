@@ -21,11 +21,11 @@ const CryptoJS = require('crypto-js');
 // const main_url = "http://103.29.91.26:50092/"; // test server
 
 
-// const main_url = "http://103.29.91.26:50092/"; // test server
+const main_url = "http://103.29.91.26:50092/"; // test server
 
 
 
-const main_url = "http://103.29.91.26:8032/";  // live server
+// const main_url = "http://103.29.91.26:8032/";  // live server
 // const main_url = "http://192.168.100.21/";  // kyaw gyi
 
 
@@ -39,8 +39,8 @@ const main_url = "http://103.29.91.26:8032/";  // live server
 // const remote_url = "http://103.29.91.26:8032/marter_hrm"; // live server
 
 
-const remote_url = "http://103.29.91.26:50050"; // remote url live server
-// const remote_url = "http://103.29.91.26:50093"; // remote url test server
+// const remote_url = "http://103.29.91.26:50050"; // remote url live server
+const remote_url = "http://103.29.91.26:50093"; // remote url test server
 
 // const remote_url = "http://192.168.1.32:8080/marter_hrm";
 //const remote_url = "http://192.168.100.199:8087/";
@@ -572,7 +572,11 @@ function getCookieData(name) {
     var data = sessionStorage.getItem(name);
     if (data !== null) {
         var decrypt_text = CryptoJS.AES.decrypt(data, 'encrypt');
+        console.log("decrypt text",decrypt_text)
+
         data = JSON.parse(decrypt_text.toString(CryptoJS.enc.Utf8));
+        console.log("json parse data",data)
+
     }
     return data;
 

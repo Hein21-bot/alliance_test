@@ -208,13 +208,13 @@ class ConfirmationList extends Component {
         if (res.ok) return res.json();
       })
       .then((list) => {
-        let lists = list.unshift({ branch_id: 0, branch_name: "All" });
+        // let lists = list.unshift({ branch_id: 0, branch_name: "All" });
 
         this.setState({
           verifyPersonList: list.map((v) => ({
             ...v,
             label: v.fullname,
-            value: v.branch_id,
+            value: v.user_id,
             loading:false
           })),
         });
@@ -349,6 +349,8 @@ class ConfirmationList extends Component {
     if (event !== null)
       this.setState({
         selected_verifyPerson: event,
+      },()=>{
+        console.log('handle event======>',this.state.selected_verifyPerson)
       });
   };
   getConfirmationTitleList() {

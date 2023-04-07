@@ -23,7 +23,7 @@ export default class TicketMainCategory extends Component {
     }
 
     async componentDidMount() {
-        const datasource = await this.getTicketMainCategory();
+        // const datasource = await this.getTicketMainCategory();
         const department_type_option = await this.getDepartmentOption();
         const ticket_type_option = await this.getTicketTypeOption();
 
@@ -35,17 +35,17 @@ export default class TicketMainCategory extends Component {
         //     }
         // ))
         this.setState({
-            datasource,
+            // datasource,
             department_type_option,
             ticket_type_option
         })
     }
 
-    getTicketMainCategory = async () => {
-        var res = await fetch(`${main_url}mainCategory/getMainCategory`);
-        if (res.ok) return res.json();
-        else return [];
-    }
+    // getTicketMainCategory = async () => {
+    //     var res = await fetch(`${main_url}mainCategory/getMainCategory`);
+    //     if (res.ok) return res.json();
+    //     else return [];
+    // }
 
     getDepartmentOption = async () => {
         var res = await fetch(`${main_url}main/getDepartment`);
@@ -124,7 +124,7 @@ export default class TicketMainCategory extends Component {
                 {
                     this.state.isTable ?
                         <TicketMainCategoryTable
-                            data={this.state.datasource}
+                            // data={this.state.datasource}
                             department_type_option={department_type_option}
                             ticket_type_option={ticket_type_option}
                             goToEditForm={this.goToEditForm}

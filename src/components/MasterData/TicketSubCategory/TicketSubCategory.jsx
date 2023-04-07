@@ -25,33 +25,33 @@ export default class TicketSubCategory extends Component {
     }
 
     async componentDidMount() {
-        const datasource = await this.getTicketSubCategory();
+        // const datasource = await this.getTicketSubCategory();
         const department_type_option = await this.getDepartmentOption();
-        const main_category = await this.getTicketMainCategoryOption();
+        // const main_category = await this.getTicketMainCategoryOption();
         const getPriorityOption = await this.getPriorityOption();
         const getSeverityOption = await this.getSeverityOption();
 
-        const main_category_option = main_category.map(v => (
-            {
-                ...v,
-                label: v.category_name,
-                value: v.main_category_id
-            }
-        ))
+        // const main_category_option = main_category.map(v => (
+        //     {
+        //         ...v,
+        //         label: v.category_name,
+        //         value: v.main_category_id
+        //     }
+        // ))
         this.setState({
-            datasource,
+            // datasource,
             department_type_option,
-            main_category_option,
+            // main_category_option,
             getPriorityOption,
             getSeverityOption
         })
     }
 
-    getTicketSubCategory = async () => {
-        var res = await fetch(`${main_url}subCategory/getSubCategory`);
-        if (res.ok) return res.json();
-        else return [];
-    }
+    // getTicketSubCategory = async () => {
+    //     var res = await fetch(`${main_url}subCategory/getSubCategory`);
+    //     if (res.ok) return res.json();
+    //     else return [];
+    // }
 
     getDepartmentOption = async () => {
         var res = await fetch(`${main_url}main/getDepartment`);
@@ -59,11 +59,11 @@ export default class TicketSubCategory extends Component {
         else return [];
     }
 
-    getTicketMainCategoryOption = async () => {
-        var res = await fetch(`${main_url}mainCategory/getMainCategory`);
-        if (res.ok) return res.json();
-        else return [];
-    }
+    // getTicketMainCategoryOption = async () => {
+    //     var res = await fetch(`${main_url}mainCategory/getMainCategory`);
+    //     if (res.ok) return res.json();
+    //     else return [];
+    // }
 
     getPriorityOption = async () => {
         var res = await fetch(`${main_url}helpDesk/getPriority`);
@@ -142,7 +142,7 @@ export default class TicketSubCategory extends Component {
                 {
                     this.state.isTable ?
                         <TicketSubCategoryTable
-                            data={this.state.datasource}
+                            // data={this.state.datasource}
                             department_type_option={department_type_option}
                             main_category_option={main_category_option}
                             getPriorityOption={getPriorityOption}

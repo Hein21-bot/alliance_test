@@ -107,7 +107,7 @@ export default class AttendanceAndLeaveReport extends Component {
     handleFormVisibility = () => {
         this.setState({ formVisible: true });
       }
-    view() {
+    view=async ()=> {
         pagination = 0;
         var branch = this.state.selectedBranch;
         var department = this.state.selectedDept;
@@ -120,8 +120,8 @@ export default class AttendanceAndLeaveReport extends Component {
             employee_list: [],
             not_check_list: [],
         })
-        this.getEmployeeList(year, month, branch_id, dept);
-        this.handleFormVisibility();
+        await this.getEmployeeList(year, month, branch_id, dept);
+        await this.handleFormVisibility();
     }
 
     getEmployeeList(year, month, branch_id, dept) {

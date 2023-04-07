@@ -40,7 +40,17 @@ class ReportbyServiceYear extends Component {
             date:moment().format("YYYY-MM-DD"),
             name:"",
             dataSource:[],
-            regionvalue:null
+            regionvalue:null,
+            exitStatusList:[{
+              label:'Active',
+              value:0
+            },
+            {
+              label:'Exit',
+              value:1
+            }
+          ],
+          selected_exit_status:null
            
         }
     }
@@ -121,8 +131,16 @@ class ReportbyServiceYear extends Component {
            
         })
     }
+    handleSelectedExitStatus = async (event) => {
+      this.setState({
+         selected_exit_status : event,
+         
+      })
+  }
+    
     handleSearchData = (regionId,date,designationId,branchId,empId) => {
-        fetch(`${main_url}report/employeeReportServiceYear/${this.state.regionId  ? this.state.regionId.value : 0}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.designationId ? this.state.designationId.value :0 }/${this.state.empId ?this.state.empId.value :0 }/${this.state.date}`)
+      let exitStatus=this.state.selected_exit_status ? this.state.selected_exit_status.value : -1
+        fetch(`${main_url}report/employeeReportServiceYear/${this.state.regionId  ? this.state.regionId.value : 0}/${this.state.branchId ? this.state.branchId.value : 0}/${this.state.designationId ? this.state.designationId.value :0 }/${this.state.empId ?this.state.empId.value :0 }/${exitStatus}/${this.state.date}`)
         .then(res => { if (res.ok) return res.json() })
           .then(list => {
             let data=list
@@ -307,6 +325,31 @@ class ReportbyServiceYear extends Component {
             
             <button className='btn btn-primary text-center' style={{ marginLeft: 10, height: 30, padding: '0px 5px 0px 5px' }} onClick={() => this.handleSearchData()}>Search</button>
             </div>
+            <div className='flex-row' style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', margin:'10px 10px 10px 10px' }}>
+            <Select
+              styles={{
+                container: base => ({
+                  ...base,
+                  //   flex: 1
+                  width: 140,
+                  // marginRight:10
+                  
+                }),
+                control: base => ({
+                  ...base,
+                  minHeight: '18px'
+                }),
+
+              }}
+              placeholder="Exit Status"
+              options={this.state.exitStatusList}
+              onChange={this.handleSelectedExitStatus}
+              value={this.state.selected_exit_status}
+              className='react-select-container'
+              classNamePrefix="react-select"
+            />
+            </div>
+            
            
             <table width="99%"
                     className="table table-striped table-bordered table-hover table-responsive nowrap dt-responsive"
