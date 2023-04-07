@@ -11,7 +11,8 @@ export default class Sidebar extends Component {
       isHR: false,
       confirmHR1: null,
       confirmRequestPermission: null,
-      sidebarPermission: []
+      sidebarPermission: [],
+      confirmationRequestPermissionSideBar:[]
     };
 
     // this.checkHR = this.checkHR.bind(this)
@@ -105,10 +106,13 @@ export default class Sidebar extends Component {
 
   async componentDidMount() {
     const id = localStorage.getItem("user_id");
+    console.log("id========>",id)
+
     await this.checkHR(id)
     await this.confirmHR1(id)
     await this.confirmRequest(id)
     await this.sidebarPermission(id)
+    await this.confirmationRequestPermissionSideBar(id)
   }
   confirmRequest = async (id) => {
     await fetch(`${main_url}dashboard/confirmRequestPermission/${id}`)
@@ -125,6 +129,16 @@ export default class Sidebar extends Component {
       .then(data => {
         this.setState({
           confirmHR1: data
+        })
+      })
+  }
+  confirmationRequestPermissionSideBar=async(id)=>{
+    await fetch(`${main_url}confirmation/getConfirmationPermission/${id}`)
+      .then(res => res.json())
+      .then(data => {
+        console.log("ma thi bu=====>",data)
+        this.setState({
+          confirmationRequestPermissionSideBar: data
         })
       })
   }
@@ -156,7 +170,13 @@ export default class Sidebar extends Component {
   render() {
    
     const { pathname, user, isHR, sidebarPermission } = this.state;
-    console.log("is hr======>",this.state.isHR);
+    let confirmationRequestSidebar=this.state.confirmationRequestPermissionSideBar.length > 0 && 
+    this.state.confirmationRequestPermissionSideBar[0] &&
+    this.state.confirmationRequestPermissionSideBar[0].role_name
+    console.log("br nyar======>",this.state.confirmationRequestPermissionSideBar.length > 0 && 
+    this.state.confirmationRequestPermissionSideBar[0] && 
+    this.state.confirmationRequestPermissionSideBar[0].role_name)
+    console.log("condition======>",(confirmationRequestSidebar == 'Management Role' || confirmationRequestSidebar == 'RM Role' || confirmationRequestSidebar == 'BM Role' ||  confirmationRequestSidebar == 'HOD Role') ? "mhan tal" : "mhar tal");
     console.log("hr======>",((pathname == `${'/' + user.user_id}`) ? 'true' : 'false'),this.state.user,this.state.confirmRequestPermission)
     // const setting=sidebarPermission.length > 0 && ((sidebarPermission.filter(d => d.permission == "Holiday") && sidebarPermission.filter(d => d.permission == "Holiday")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Attendance Policy") && sidebarPermission.filter(d => d.permission == "Attendance Policy")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Benefit") && sidebarPermission.filter(d => d.permission == "Benefit")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Salary Template") && sidebarPermission.filter(d => d.permission == "Salary Template")[0].access == true) || (sidebarPermission.filter(d => d.permission == "SSB Rate") && sidebarPermission.filter(d => d.permission == "SSB Rate")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Career Path") && sidebarPermission.filter(d => d.permission == "Career Path")[0].access == true) || (sidebarPermission.filter(d => d.permission == "Payroll") && sidebarPermission.filter(d => d.permission == "Payroll")[0].access == true))
     // const masterData=sidebarPermission.length > 0 && ((sidebarPermission.filter(d=>d.permission == 'Career Level') && sidebarPermission.filter(d=>d.permission=='Career Level')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Career Sub Level') && sidebarPermission.filter(d=>d.permission=='Career Sub Level')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Designations') && sidebarPermission.filter(d=>d.permission=='Designations')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Job Title') && sidebarPermission.filter(d=>d.permission=='Job Title')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Leave Category') && sidebarPermission.filter(d=>d.permission=='Leave Category')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Attendance Reason Type') && sidebarPermission.filter(d=>d.permission=='Attendance Reason Type')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Hospitalization Type') && sidebarPermission.filter(d=>d.permission=='Hospitalization Type')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Ticket Main Category') && sidebarPermission.filter(d=>d.permission=='Ticket Main Category')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Ticket Sub Category') && sidebarPermission.filter(d=>d.permission=='Ticket Sub Category')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Tax Range') && sidebarPermission.filter(d=>d.permission=='Tax Range')[0].access == true) || (sidebarPermission.filter(d=>d.permission == 'Tax Relief') && sidebarPermission.filter(d=>d.permission=='Tax Relief')[0].access == true))
@@ -626,14 +646,15 @@ export default class Sidebar extends Component {
               <li
                 className={this.checkPathName() === "/confirmation" ? "active" : ""}
                     // style={{display:confirmation ? 'block':'none'}}
-                    style={{display:this.state.isHR || this.state.user.user_id == 1467 ? 'block':'none'}}
+                    style={{display:((confirmationRequestSidebar == 'Management Role' || confirmationRequestSidebar == 'RM Role' || confirmationRequestSidebar == 'BM Role' ||  confirmationRequestSidebar == 'HOD Role') || this.state.isHR || this.state.user.user_id == 1467) ? 'block':'none'}}
               >
-                <a href="/confirmation_list" className="sideList">
+                <a href={(confirmationRequestSidebar == 'Management Role' || confirmationRequestSidebar == 'RM Role' || confirmationRequestSidebar == 'BM Role' ||  confirmationRequestSidebar == 'HOD Role') ?  "/confirmation_check" : "/confirmation_list"} className="sideList">
                   <i className="fas fa-user-check" style={{ color: 'white' }}></i>
                   <span className="sideText">Confirmation</span>
                 </a>
                 <ul className="nav nav-second-level collapse">
                   <li className={pathname === "/confirmation_list" ? "active" : " "}
+                  style={{display:this.state.isHR || this.state.user.user_id == 1467 ? 'block' : 'none'}}
                     // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Comfirmation Prepare List") && sidebarPermission.filter(d => d.permission == "Comfirmation Prepare List")[0].access == true ? 'block' : 'none') }}
                   >
                     <a href="/confirmation_list">Confirmation Prepare List</a>
@@ -641,13 +662,16 @@ export default class Sidebar extends Component {
 
                   <li className={pathname === "/confirmation_check" ? "active" : " "}
                     // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Confirm List") && sidebarPermission.filter(d => d.permission == "Confirm List")[0].access == true ? 'block' : 'none') }}
-                    style={{display:this.state.confirmRequestPermission && this.state.confirmRequestPermission.length > 0 ? 'block':'none'}}
+                    // style={{display:this.state.confirmRequestPermission && this.state.confirmRequestPermission.length > 0 ? 'block':'none'}}
+                    style={{display:(confirmationRequestSidebar == 'Management Role' || confirmationRequestSidebar == 'RM Role' || confirmationRequestSidebar == 'BM Role' ||  confirmationRequestSidebar == 'HOD Role') ? 'block' : 'none'}}
                   >
 
                     <a href="/confirmation_check">Confirmation Request List</a>
                   </li>
 
                   <li className={pathname === "/confirmation_approve_list" ? "active" : ""}
+                  style={{display:this.state.isHR || this.state.user.user_id == 1467 ? 'block' : 'none'}}
+
                     // style={{ display: (sidebarPermission.length > 0 && sidebarPermission.filter(d => d.permission == "Approve List") && sidebarPermission.filter(d => d.permission == "Approve List")[0].access == true ? 'block' : 'none') }}
                   >
                     <a href="/confirmation_approve_list">Approve List</a>

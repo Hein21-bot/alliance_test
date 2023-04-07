@@ -196,6 +196,7 @@ export default class HelpDeskTable extends Component {
 
                 no: i + 1,
                 user: data[i].fullname,
+                ticket_id:data[i].helpDesk_ticket_id,
                 //ticketCode: data[i].ticketCode,
                 ticket_name: data[i].ticket_name,
                 priority: data[i].priority,
@@ -254,7 +255,11 @@ export default class HelpDeskTable extends Component {
             data: l,
             columns: [
                 { title: "No", data: "no" },
+                {
+                    title:"Ticket ID",data:"ticket_id"
+                },
                 { title: "User", data: "user" },
+                
                 // { title: "Ticket Code", data: "ticketCode" },
                 { title: "Ticket Name", data: "ticket_name" },
                 { title: "Priority", data: "priority" },

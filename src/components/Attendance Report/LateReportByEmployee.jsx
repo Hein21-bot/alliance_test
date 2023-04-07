@@ -144,6 +144,8 @@ class LateReportByEmployee extends Component {
                 early:data[i].late_count[0].early_count ? data[i].late_count[0].early_count : '-',
                 incom:data[i].late_count[0].incom_count ? data[i].late_count[0].incom_count : '-',
                 miss:data[i].late_count[0].missing_count ? data[i].late_count[0].missing_count : '-',
+                leave:data[i].late_count[0].leave_count ? data[i].late_count[0].leave_count: '-',
+                working_days:data[i].late_count[0].working_day_count ? data[i].late_count[0].working_day_count: '-',
                 abscence:data[i].late_count[0].absent_count ? data[i].late_count[0].absent_count : '-',
                 total:data[i].late_count[0] ? Object.values(data[i].late_count[0]).reduce((a,c)=>{return a+c},0) : '-',
                 
@@ -169,6 +171,8 @@ class LateReportByEmployee extends Component {
             { title: "Early Check Out", data: "early" },
             { title: "Incomplete", data: "incom" },
             { title: "Missing Attendance", data: "miss" },
+            { title: "Leave", data: "leave" },
+            { title: "Total Working Days", data: "working_days" },
             { title: "Absence", data: "abscence" },
             { title: "Total", data: "total" },
            
