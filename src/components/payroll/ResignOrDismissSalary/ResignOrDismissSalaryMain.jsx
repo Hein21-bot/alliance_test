@@ -38,10 +38,10 @@ class ResignOrDismissSalaryMain extends Component {
   async componentDidMount() {
     this.getResignOrDismissData();
     //test
-  //  var permission_status = await getPermissionStatus(this.state.user_info.designations_id,  'Resign Or Dismiss Salary', 'Payroll');
+   var permission_status = await getPermissionStatus(this.state.user_info.designations_id,  'Resign Or Dismiss Salary', 'Payroll');
 
     //live
-    var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'ResignOrDismiss', 'ResignOrDismiss');
+    // var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'ResignOrDismiss', 'ResignOrDismiss');
 
 
     // var permission_status = await getPermissionStatus(this.state.user_info.role_id,  'ResignOrDismiss', 'ResignOrDismiss');

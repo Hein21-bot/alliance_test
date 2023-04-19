@@ -48,9 +48,9 @@ export default class BackPayTable extends Component {
     async componentDidMount() {
 
       //test
-      // var permission_status = await getPermissionStatus(this.state.user_info.designations_id,'BackPay','Payroll');
+      var permission_status = await getPermissionStatus(this.state.user_info.designations_id,'BackPay','Payroll');
       //live
-        var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'PayrollForBackPay-RefundAndTemporaryContract', 'PayrollForBackPay-RefundAndTemporaryContract');
+        // var permission_status = await getPermissionStatus(this.state.user_info.designations_id, 'PayrollForBackPay-RefundAndTemporaryContract', 'PayrollForBackPay-RefundAndTemporaryContract');
 
 
       // var permission_status = await getPermissionStatus(this.state.user_info.role_id,'PayrollForBackPay-RefundAndTemporaryContract','PayrollForBackPay-RefundAndTemporaryContract');
