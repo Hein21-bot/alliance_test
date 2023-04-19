@@ -5,9 +5,9 @@ import 'datatables.net-dt/css/jquery.dataTables.css'
 import 'datatables.net-buttons-dt/css/buttons.dataTables.css'
 import DatePicker from 'react-datetime';
 import Select from 'react-select';
-import moment from 'moment';
+import moment, { months } from 'moment';
 // import { main_url, getUserId, getMainRole, getTicketStatus, getFirstDayOfMonth } from '../../utils/CommonFunction';
-import { main_url, getUserId, getMainRole, getTicketStatus, getFirstDayOfMonth, getBranch, getDepartment, calculationDate, getTicketMainCategory } from '../../utils/CommonFunction';
+import { main_url, getUserId, getMainRole, getTicketStatus, getFirstDayOfMonth, getBranch, getDepartment, calculationDate,calculationDate1,calculationDate2, getTicketMainCategory } from '../../utils/CommonFunction';
 import { duration } from 'moment';
 import { format } from 'crypto-js';
 // window.JSZip = jzip;
@@ -32,7 +32,8 @@ export default class HelpDeskTable extends Component {
             s_date: moment(getFirstDayOfMonth()),
             e_date: moment(),
             main_category: [],
-            selected_main_category: []
+            selected_main_category: [],
+            calc_date:null
         }
     }
     async componentDidMount() {
@@ -68,6 +69,49 @@ export default class HelpDeskTable extends Component {
         // })
 
     }
+    // async getDay(date) {
+    //     let today = new Date(date);
+    //     let firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    //     let lastDayOfPreviousMonth = new Date(firstDayOfMonth - 1);
+    //     return moment(lastDayOfPreviousMonth).format('DD')
+    // }
+
+    // async calculationDate(startDate, endDate) {
+    //     const date1 = new Date(startDate);
+    //     const date2 = new Date(endDate);
+    
+    //     const moment1 = moment(date1);
+    //     const moment2 = moment(date2);
+    
+    //     const diffInMs = Math.abs(date2 - date1);
+    //     const noOfDays = diffInMs / (1000 * 60 * 60 * 24)
+    
+    //     const years = moment2.diff(moment1, 'years');
+    //     let months = moment2.diff(moment1, 'months') % 12;
+    //     let days = date2.getDate() - date1.getDate();
+    //     if (days < 0) {
+    //         let dayCon = await this.getDay(date2)
+    //         days = days + parseInt(dayCon)
+    //         months = months - 1
+    //     }
+    
+    
+    //     let formatMonth = Math.ceil(noOfDays / 30)
+    
+    //     let formatYear = years == 0 ? months + ' months ' + days + ' days ' : years + ' years ' + months + ' months ' + days + ' days '
+    //     this.setState({
+    //         calc_date:formatYear
+    //     },()=>{
+    //         console.log("format year=====>",formatYear)
+    //         console.log("return data",this.state.calc_date)
+    //     })
+        
+    //     let returnData = [formatYear, formatMonth]
+        
+        
+    //     // let returnData = [formatYear, years == 0 ? months : formatMonth]
+    //     return formatYear;
+    // }
 
     handleStartDate = (event) => {
         this.setState({
@@ -168,15 +212,50 @@ export default class HelpDeskTable extends Component {
         return result.toString();
     }
 
-    _setTableData = (data) => {
+    _setTableData = async (data) => {
         var table;
         var l = [];
         let ticket_status = '';
         for (var i = 0; i < data.length; i++) {
             let result = data[i]
+            
             let obj = [];
-            var now = result.createdAt
-            var then = result.updatedAt
+            var now = moment(result.createdAt).format('YYYY-MM-DD')
+            var then =result.resolve_time ? moment(result.resolve_time).format('YYYY-MM-DD') : null
+            let date1 = moment(now);
+                let date2 = moment(then);
+
+                let diffDuration = moment.duration(date2.diff(date1));
+
+                let years = diffDuration.years();
+                let months = diffDuration.months();
+                let days = diffDuration.days();
+            
+
+            // console.log(`${years} years, ${months} months, and ${days} days`);
+            console.log("condition",isNaN(days) && isNaN(months) && isNaN(years) ?  '-' : years+'years,'+months+'months, and '+days+'days');
+            if(now !=null && then !=null){
+                
+                // console.log("calculation",now,then,calculationDate2(now,then).then((r)=>console.log("r=======>",r)),this.state.calc_date)
+                // let temp='';
+                // let diffDate=await calculationDate2(now,then)
+                // let diffDate=then - now;
+                // console.log("br nyar",diffDate);
+                
+                this.setState({
+                    calc_date:years+'years, '+months+'months, and '+days+'days'
+                },()=>{
+                    console.log("after state",this.state.calc_date)
+                })
+
+                
+                
+            }else{
+                this.setState({
+                    calc_date:null
+                })
+            }
+            // console.log("calc_date========>",this.state.calc_date)
             var diffTime = moment.utc(moment(then, "DD-MM-YYYY HH:mm:ss").diff(moment(now, "DD-MM-YYYY HH:mm:ss"))).format("HH:mm:ss")
             if (result.ticket_status === 'Open') {
                 ticket_status = '<small class="label label-warning" style="background-color:red"> Open </small>'
@@ -209,7 +288,9 @@ export default class HelpDeskTable extends Component {
                 req_comment: data[i].request_comment,
                 request_date: moment(result.createdAt).utc().format('DD-MM-YYYY hh:mm a'),//moment(result.createdAt).format('YYYY-MM-DD HH:mm:ss'),
                 response_date: moment(result.updatedAt).utc().format('DD-MM-YYYY hh:mm a'),
-                calculation_time: diffTime,
+                resolve_person:result.resolve_user_id ? result.resolve_user_id : '-',
+                resolve_date:result.resolve_time ? moment(result.resolve_time).format('YYYY-MM-DD') : '-',
+                calculation_time: isNaN(days) && isNaN(months) && isNaN(years) ?  '-' : years+'years,'+months+'months, and '+days+'days',
                 ticketStatus: ticket_status,
                 action_status: result.action_status === 1 ? 'Accept' : result.action_status === 2 ? 'Reject' : 'Request',
                 action:result.action_status === 2 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' :
@@ -274,6 +355,8 @@ export default class HelpDeskTable extends Component {
                 { title: "Comment", data: "req_comment" },
                 { title: "Request Date", data: "request_date" },
                 { title: "Response Date", data: "response_date" },
+                { title: "Resolve Person", data: "resolve_person" },
+                { title: "Resolve Date", data: "resolve_date" },
                 { title: "Calculation Time", data: "calculation_time" },
                 { title: "Action", data: "action" },
             ],
@@ -298,6 +381,7 @@ export default class HelpDeskTable extends Component {
     }
 
     render() {
+       console.log("calc_date======>",this.state.calc_date)
         return (
             <div>
                 <div className="row border-bottom white-bg dashboard-header">

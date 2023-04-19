@@ -34,6 +34,7 @@ class BenefitWeddingAddNew extends Component {
       one_benefit: this.props.data,
       employeeName: [],
       spouseName: "",
+      spouse_id:null,
       employee_id: 0,
       spouseCompanyOption: 0,
       check_employee: "",
@@ -74,6 +75,8 @@ class BenefitWeddingAddNew extends Component {
       .then((list) => {
         this.setState({
           employeeName: list,
+        },()=>{
+          console.log("after state",this.state.employeeName);
         });
       });
   }
@@ -112,6 +115,7 @@ class BenefitWeddingAddNew extends Component {
     this.setState({
       work_flow_status: work_flow,
       spouseName: one.spouse_name,
+      spouse_id:one.spouse_id,
       employee_id: one.user_id,
       status: one.status,
       employee_name: one.employee_name,
@@ -314,7 +318,9 @@ class BenefitWeddingAddNew extends Component {
 
   render() {
     let { one_benefit, is_main_role } = this.state;
-    console.log("employee name",this.state.employee_name,this.state.spouseName,this.state.employeeName)
+    console.log("employee name",this.state.employeeName)
+    console.log("br nyar",this.state.employeeName,this.props.data)
+    console.log("testing",this.state.employeeName!=undefined && this.state.employeeName.filter(v=>v.value == 788).length > 0 && this.state.employeeName.filter(v=>v.value == 788)[0]);
     return (
       <div className="container">
         <div className="row">
@@ -394,7 +400,8 @@ class BenefitWeddingAddNew extends Component {
                       type="text"
                       // placeholder="Please Provide The Designation"
                       className="form-control"
-                      value={this.state.employeeName.filter(v=>v.value == this.state.spouseName).length > 0 && this.state.employeeName.filter(v=>v.value == this.state.spouseName)[0].fullname}
+                      value={this.props.data.spouse_name}
+                      // value={this.state.employeeName.filter(v=>v.value == this.state.spouseName).length > 0 && this.state.employeeName.filter(v=>v.value == this.state.spouseName)[0].fullname}
                       // value={this.state.spouseName}
                       disabled
                     />

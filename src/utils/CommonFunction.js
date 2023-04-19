@@ -122,6 +122,7 @@ function calculationDate(startDate, endDate) {
 
     return dayDiff;
 }
+
 function getMonth(date){
     const d = new Date(date);
     d.toLocaleString('en-US', {month: 'short'});
@@ -171,6 +172,41 @@ function calculationDate1(startDate, endDate) {
     }
     console.log('datys is ===========>', days)
     return days;
+}
+
+async function calculationDate2(startDate, endDate) {
+    const date1 = new Date(startDate);
+    const date2 = new Date(endDate);
+
+    const moment1 = moment(date1);
+    const moment2 = moment(date2);
+
+    const diffInMs = Math.abs(date2 - date1);
+    const noOfDays = diffInMs / (1000 * 60 * 60 * 24)
+
+    const years = moment2.diff(moment1, 'years');
+    let months = moment2.diff(moment1, 'months') % 12;
+    let days = date2.getDate() - date1.getDate();
+    if (days < 0) {
+        let dayCon = await getDay(date2)
+        days = days + parseInt(dayCon)
+        // months = months - 1
+    }
+
+
+    let formatMonth = Math.ceil(noOfDays / 30)
+
+    let formatYear = years == 0 ? months + ' months ' + days + ' days ' : years + ' years ' + months + ' months ' + days + ' days '
+    // let returnData = [formatYear, formatMonth]
+    let returnData = [formatYear, years == 0 ? months : formatMonth]
+    return formatYear;
+}
+
+async function getDay(date) {
+    let today = new Date(date);
+    let firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    let lastDayOfPreviousMonth = new Date(firstDayOfMonth - 1);
+    return moment(lastDayOfPreviousMonth).format('DD')
 }
 
 // for approve amount in cycle insurance
@@ -1004,6 +1040,7 @@ export {
     print, stopSaving, startSaving, fno, getFirstDayOfMonth, getFirstDayOfYear, checkLimitAmount,
     checkHRManager, checkHRAssistant, checkApprovalStatus, isApprover, havePermissionForAmount,
     calculationDate, isRequestedUser, atten_report, approveAmount, calculationDate1, getAttendancePolicy,getAttendanceReason,
-    getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError,getFirstDayOfPrevMonth,getFirstDayOfNextMonth,getMonth,getFirstDayOfCurrentWeek,getMonthName
+    getDesignationData, calculationWorkingExp, getLastDayOfMonth, imageError,getFirstDayOfPrevMonth,getFirstDayOfNextMonth,getMonth,getFirstDayOfCurrentWeek,getMonthName,
+    calculationDate2
     
 }

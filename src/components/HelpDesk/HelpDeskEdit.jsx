@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import openSocket from 'socket.io-client';
 import HelpDeskRequesterInfo from './HelpDeskRequesterInfo';
 import Select from 'react-select';
+import moment from 'moment';
 import {
     main_url, validate, getTicketMainCategory, getTicketStatus, getBranch, getDepartment,
     getPriority, getUserId, getSeverity, startSaving, stopSaving, getTicketCategoryType, getTicketSubCategory,getUserInfo
@@ -34,7 +35,10 @@ export default class HelpDeskView
             newDoc: [],
             selectedSeverity: [],
             selectedPriority: [],
-            userInfo: null
+            userInfo: null,
+            resolve_time:null,
+            calc_date:null
+            // resolve_person:
         }
     }
 
@@ -65,6 +69,9 @@ export default class HelpDeskView
     }
 
     async componentDidMount() {
+        var now = this.state.data.createdAt
+        var then = this.state.data.resolve_time
+        await this.calculationDate(now,then)
         this.getAssignPersonByBranchAndDepartment(this.props.data.helpDesk[0].departmentId, this.props.data.helpDesk[0].branchId)
         let mainCategory = await getTicketMainCategory();
         let subCategory = await getTicketSubCategory();
@@ -80,6 +87,7 @@ export default class HelpDeskView
         let dept = await getDepartment();
         var data = this.props.data.helpDesk[0];
         this.setState({
+
             allMainCategory: mainCategory,
             allSubCategory: subCategory,
             ticketStatus: ticketStatus,
@@ -410,6 +418,14 @@ export default class HelpDeskView
 
     check = () => {
         stopSaving();
+        // if(this.state.data.ticket_status_id == 6){
+        //     let data=this.state.data;
+        //     data.resolve_time=new Date()
+        //     this.setState({
+        //         data
+        //     })
+        // }
+        
         if (validate('check_form')) {
             this.props.editHelpDesk(this.state.updatedBy, this.state.data, this.state.document, this.state.newDoc);
         } else {
@@ -436,9 +452,54 @@ export default class HelpDeskView
         if (this.state.updatedBy === this.state.data.createdBy) return true;
         else return false;
     }
+    
+    async getDay(date) {
+        let today = new Date(date);
+        let firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        let lastDayOfPreviousMonth = new Date(firstDayOfMonth - 1);
+        return moment(lastDayOfPreviousMonth).format('DD')
+    }
+
+    async calculationDate(startDate, endDate) {
+        const date1 = new Date(startDate);
+        const date2 = new Date(endDate);
+    
+        const moment1 = moment(date1);
+        const moment2 = moment(date2);
+    
+        const diffInMs = Math.abs(date2 - date1);
+        const noOfDays = diffInMs / (1000 * 60 * 60 * 24)
+    
+        const years = moment2.diff(moment1, 'years');
+        let months = moment2.diff(moment1, 'months') % 12;
+        let days = date2.getDate() - date1.getDate();
+        if (days < 0) {
+            let dayCon = await this.getDay(date2)
+            days = days + parseInt(dayCon)
+            months = months - 1
+        }
+    
+    
+        let formatMonth = Math.ceil(noOfDays / 30)
+    
+        let formatYear = years == 0 ? months + ' months ' + days + ' days ' : years + ' years ' + months + ' months ' + days + ' days '
+        let returnData = [formatYear, formatMonth]
+        this.setState({
+            calc_date:returnData[0]
+        })
+        console.log("return data",returnData)
+        // let returnData = [formatYear, years == 0 ? months : formatMonth]
+        return returnData;
+    }
+    
+    
 
 
     render() {
+        var now = this.state.data.createdAt
+        var then = this.state.data.resolve_time
+        var diffTime = moment.utc(moment(now, "DD-MM-YYYY HH:mm:ss").diff(moment(then, "DD-MM-YYYY HH:mm:ss"))).format("HH:mm:ss")
+        console.log("edit data======>",this.state.calc_date)
         let user_depertment = this.state.userInfo != null && this.state.userInfo[0].departments_id
         let user_id=this.state.userInfo !=null && this.state.userInfo[0].user_id
         console.log("?>>",this.state.data,this.props.data.helpDesk[0],user_depertment, this.props.data.helpDesk[0].departmentId == user_depertment,user_id)
