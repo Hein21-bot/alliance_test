@@ -400,7 +400,7 @@ class BenefitWeddingAddNew extends Component {
                       type="text"
                       // placeholder="Please Provide The Designation"
                       className="form-control"
-                      value={this.props.data.spouse_name}
+                      value={this.props.data.staff_spouse_name}
                       // value={this.state.employeeName.filter(v=>v.value == this.state.spouseName).length > 0 && this.state.employeeName.filter(v=>v.value == this.state.spouseName)[0].fullname}
                       // value={this.state.spouseName}
                       disabled
