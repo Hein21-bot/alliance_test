@@ -55,12 +55,12 @@ export default class ApprovalForm extends Component {
         return check;
     }
 
-    checkLimitAmount() {
-        let check = checkLimitAmount(this.props.total_amount);
+    async checkLimitAmount() {
+        let check =await checkLimitAmount(this.props.total_amount);
         return check;
     }
 
-    render() { console.log("asgfdtyty",this.props.status)
+    render() { console.log("asgfdtyty",this.props.status === 2 && this.checkLimitAmount() ? false : this.props.status === 5 ? true : true)
         const permission = this.props.work_flow;
         return (
 

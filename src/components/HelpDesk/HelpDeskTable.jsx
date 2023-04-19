@@ -64,54 +64,9 @@ export default class HelpDeskTable extends Component {
             that._getHelpDeskEditData(data.helpDesk_ticket_id)
 
         });
-        // that.setState({
-        //     main_category: main_category
-        // })
 
     }
-    // async getDay(date) {
-    //     let today = new Date(date);
-    //     let firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-    //     let lastDayOfPreviousMonth = new Date(firstDayOfMonth - 1);
-    //     return moment(lastDayOfPreviousMonth).format('DD')
-    // }
-
-    // async calculationDate(startDate, endDate) {
-    //     const date1 = new Date(startDate);
-    //     const date2 = new Date(endDate);
     
-    //     const moment1 = moment(date1);
-    //     const moment2 = moment(date2);
-    
-    //     const diffInMs = Math.abs(date2 - date1);
-    //     const noOfDays = diffInMs / (1000 * 60 * 60 * 24)
-    
-    //     const years = moment2.diff(moment1, 'years');
-    //     let months = moment2.diff(moment1, 'months') % 12;
-    //     let days = date2.getDate() - date1.getDate();
-    //     if (days < 0) {
-    //         let dayCon = await this.getDay(date2)
-    //         days = days + parseInt(dayCon)
-    //         months = months - 1
-    //     }
-    
-    
-    //     let formatMonth = Math.ceil(noOfDays / 30)
-    
-    //     let formatYear = years == 0 ? months + ' months ' + days + ' days ' : years + ' years ' + months + ' months ' + days + ' days '
-    //     this.setState({
-    //         calc_date:formatYear
-    //     },()=>{
-    //         console.log("format year=====>",formatYear)
-    //         console.log("return data",this.state.calc_date)
-    //     })
-        
-    //     let returnData = [formatYear, formatMonth]
-        
-        
-    //     // let returnData = [formatYear, years == 0 ? months : formatMonth]
-    //     return formatYear;
-    // }
 
     handleStartDate = (event) => {
         this.setState({
@@ -221,7 +176,10 @@ export default class HelpDeskTable extends Component {
             
             let obj = [];
             var now = moment(result.createdAt).format('YYYY-MM-DD')
+            var calthen=moment(result.updatedAt).format('YYYY-MM-DD')
             var then =result.resolve_time ? moment(result.resolve_time).format('YYYY-MM-DD') : null
+           
+            var diffTime = moment.utc(moment(result.updatedAt, "DD-MM-YYYY HH:mm:ss").diff(moment(result.createdAt, "DD-MM-YYYY HH:mm:ss"))).format("HH:mm:ss")
             let date1 = moment(now);
                 let date2 = moment(then);
 
@@ -230,17 +188,18 @@ export default class HelpDeskTable extends Component {
                 let years = diffDuration.years();
                 let months = diffDuration.months();
                 let days = diffDuration.days();
-            
+                var resolve_time= then !=null && moment.utc(moment(result.resolve_time, "DD-MM-YYYY HH:mm:ss").diff(moment(result.createdAt, "DD-MM-YYYY HH:mm:ss"))).format("HH:mm:ss")
+                var resolve_date= then !=null && moment.utc(moment(result.resolve_time, "DD-MM-YYYY").diff(moment(result.createdAt, "DD-MM-YYYY"))).format("YYYY-MM-DD")
+                
+                let tempDate=diffTime.toString() == 'Invalid date' ? 'ma thi bu' : diffTime
+                let tempDays=isNaN(days) ? 0 : days;
+                let tempMonths=isNaN(months) ? 0 : months;
+                let temmpYears=isNaN(years) ? 0 : years;
+                let TotalDays=tempDays+(30*tempMonths)+(temmpYears*365)
 
-            // console.log(`${years} years, ${months} months, and ${days} days`);
-            console.log("condition",isNaN(days) && isNaN(months) && isNaN(years) ?  '-' : years+'years,'+months+'months, and '+days+'days');
+
             if(now !=null && then !=null){
                 
-                // console.log("calculation",now,then,calculationDate2(now,then).then((r)=>console.log("r=======>",r)),this.state.calc_date)
-                // let temp='';
-                // let diffDate=await calculationDate2(now,then)
-                // let diffDate=then - now;
-                // console.log("br nyar",diffDate);
                 
                 this.setState({
                     calc_date:years+'years, '+months+'months, and '+days+'days'
@@ -255,7 +214,7 @@ export default class HelpDeskTable extends Component {
                     calc_date:null
                 })
             }
-            // console.log("calc_date========>",this.state.calc_date)
+            
             var diffTime = moment.utc(moment(then, "DD-MM-YYYY HH:mm:ss").diff(moment(now, "DD-MM-YYYY HH:mm:ss"))).format("HH:mm:ss")
             if (result.ticket_status === 'Open') {
                 ticket_status = '<small class="label label-warning" style="background-color:red"> Open </small>'
@@ -290,7 +249,8 @@ export default class HelpDeskTable extends Component {
                 response_date: moment(result.updatedAt).utc().format('DD-MM-YYYY hh:mm a'),
                 resolve_person:result.resolve_user_id ? result.resolve_user_id : '-',
                 resolve_date:result.resolve_time ? moment(result.resolve_time).format('YYYY-MM-DD') : '-',
-                calculation_time: isNaN(days) && isNaN(months) && isNaN(years) ?  '-' : years+'years,'+months+'months, and '+days+'days',
+                different_time:tempDate,
+                resolve_calculation_time: isNaN(days) && isNaN(months) && isNaN(years) ?  '-' : TotalDays+' days '+resolve_time,
                 ticketStatus: ticket_status,
                 action_status: result.action_status === 1 ? 'Accept' : result.action_status === 2 ? 'Reject' : 'Request',
                 action:result.action_status === 2 ? '<button style="margin-right:10px" class="btn btn-primary btn-sm own-btn-edit" id="toView" ><span id="view" class="hidden" >' + JSON.stringify(result) + '</span>  <i className="fa fa-cogs"></i>&nbsp;View</button>' :
@@ -357,7 +317,9 @@ export default class HelpDeskTable extends Component {
                 { title: "Response Date", data: "response_date" },
                 { title: "Resolve Person", data: "resolve_person" },
                 { title: "Resolve Date", data: "resolve_date" },
-                { title: "Calculation Time", data: "calculation_time" },
+                { title: "Calculation Time", data: "different_time" },
+                { title: "Resolve Calculation Time", data: "resolve_calculation_time" },
+                
                 { title: "Action", data: "action" },
             ],
         });
@@ -381,7 +343,6 @@ export default class HelpDeskTable extends Component {
     }
 
     render() {
-       console.log("calc_date======>",this.state.calc_date)
         return (
             <div>
                 <div className="row border-bottom white-bg dashboard-header">

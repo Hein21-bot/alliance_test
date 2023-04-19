@@ -414,6 +414,7 @@ class HospitalizationAddNew extends Component {
 
 
     render() {
+        console.log("data====>",this.props.data)
         return (
             <div className="benefits benefit-medical">
                 <div className='row'>

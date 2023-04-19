@@ -45,7 +45,7 @@ const remote_url = "http://103.29.91.26:50093"; // remote url test server
 // const remote_url = "http://192.168.1.32:8080/marter_hrm";
 //const remote_url = "http://192.168.100.199:8087/";
 // const main_url = "http://192.168.100.208:8087/";
-const limit_amount = 800001;
+const limit_amount = 1500001;
 
 const alertText = "Please Add Fully Information!";
 
@@ -108,7 +108,7 @@ function getFirstDayOfNextMonth(a){
 function calculationDate(startDate, endDate) {
     var formatstartDate = new Date(startDate);
     var formatendDate = new Date(endDate)
-    console.log("calculationDate",formatstartDate,formatendDate)
+    // console.log("calculationDate",formatstartDate,formatendDate)
     formatstartDate.setHours(0);
     formatstartDate.setMinutes(0);
     formatstartDate.setSeconds(0);
@@ -170,7 +170,7 @@ function calculationDate1(startDate, endDate) {
     } else {
         days = days + 1
     }
-    console.log('datys is ===========>', days)
+    // console.log('datys is ===========>', days)
     return days;
 }
 
