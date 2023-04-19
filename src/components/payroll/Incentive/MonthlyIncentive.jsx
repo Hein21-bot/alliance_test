@@ -359,18 +359,19 @@ export default class MonthlyIncentive extends Component {
       newDoc: [],
       searchData: [],
       coData: [],
-    });
- 
-    var files = document.getElementById("attachment").files;
+    },()=>{
+      var files = document.getElementById("attachment").files;
     var newDoc = this.state.newDoc;
+    console.log("type of new doc",typeof(newDoc))
     for (let i = 0; i < files.length; i++) {
       var getfile = document.querySelector("#attachment").files[i];
       console.log("file",getfile)
       newDoc.push(getfile);
     }
-
+    console.log("after push new doc",newDoc)
     const formdata = new FormData();
     var imagedata = newDoc[0];
+    console.log("imagedata",imagedata)
     formdata.append("uploadfile", imagedata);
     let status = 0;
     fetch(
@@ -390,7 +391,7 @@ export default class MonthlyIncentive extends Component {
         if (status == 200 && this.state.selected_type.value == 1) {
           this.setState({
             loading: false,
-            newDoc:response,
+            newDoc:response.data,
             searchData:response.data,
             deleteType: true,
             table_type: 1,
@@ -400,7 +401,7 @@ export default class MonthlyIncentive extends Component {
           this.setState({
             loading: false,
             fxData: response.data,
-            newDoc:response,
+            newDoc:response.data,
             deleteType: true,
             table_type: 2,
           });
@@ -448,6 +449,9 @@ export default class MonthlyIncentive extends Component {
 
         })
       })
+    });
+ 
+    
   };
 
 searchTable(){ 
@@ -654,7 +658,8 @@ $('#search').keyup(function() {
 
   render() { 
     console.log('validate',this.state.fxData.length <= 0 || (this.state.fxData.length > 0 && this.state.fxData[0].generate) === 2 ? 'false':'true');
-    console.log('search data=====>',this.state.searchData,this.state.fxData)
+    // console.log('search data=====>',typeof(this.state.searchData),this.state.fxData,typeof(this.state.newDoc))
+    console.log("new doc=====>",typeof(this.state.dataSource),this.state.newDoc.length > 0 && this.state.newDoc)
     return (
       <div>
         <ToastContainer />
