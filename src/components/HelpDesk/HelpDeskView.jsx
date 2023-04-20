@@ -206,7 +206,7 @@ export default class HelpDeskView
                                         className="form-control"
                                         cols="20"
                                         rows="5"
-                                        className="form-control input-md"
+                                        // className="form-control input-md"
                                         disabled
                                         value={this.state.data.ticket_desc}
                                     />

@@ -315,10 +315,11 @@ export default class HelpDeskTable extends Component {
                 { title: "Comment", data: "req_comment" },
                 { title: "Request Date", data: "request_date" },
                 { title: "Response Date", data: "response_date" },
+                { title: "Response Time", data: "different_time" },
                 { title: "Resolve Person", data: "resolve_person" },
                 { title: "Resolve Date", data: "resolve_date" },
-                { title: "Calculation Time", data: "different_time" },
-                { title: "Resolve Calculation Time", data: "resolve_calculation_time" },
+                
+                { title: "Resolve Time", data: "resolve_calculation_time" },
                 
                 { title: "Action", data: "action" },
             ],
